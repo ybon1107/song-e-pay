@@ -1,19 +1,19 @@
 .gitmessage.txt
 
-.DS_Store
-node_modules/
-dist/
-.cache/
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-test/unit/coverage
+FRONTEND/.DS_Store
+FRONTEND/node_modules/
+FRONTEND/dist/
+FRONTEND/.cache/
+FRONTEND/npm-debug.log*
+FRONTEND/yarn-debug.log*
+FRONTEND/yarn-error.log*
+FRONTEND/test/unit/coverage
 
-package-lock.json
+FRONTEND/package-lock.json
 
 # Editor directories and files
-.idea
-*.suo
-*.ntvs*
-*.njsproj
-*.sln
+FRONTEND/.idea
+FRONTEND/*.suo
+FRONTEND/*.ntvs*
+FRONTEND/*.njsproj
+FRONTEND/*.sln
