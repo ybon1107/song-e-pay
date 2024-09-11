@@ -1,59 +1,65 @@
 {
-  "name": "bootstrap-vue-argon-dashboard",
-  "version": "1.0.0",
+  "name": "frontend",
+  "version": "4.0.0",
   "private": true,
+  "author": "Creative Tim",
+  "license": "SEE LICENSE IN <https://www.creative-tim.com/license>",
+  "description": "VueJS version of Argon Dashboard 2 by Creative Tim",
+  "homepage": "https://demos.creative-tim.com/vue-argon-dashboard/",
+  "bugs": {
+    "url": "https://github.com/creativetimofficial/vue-argon-dashboard/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/creativetimofficial/vue-argon-dashboard.git"
+  },
   "scripts": {
-    "serve": "vue-cli-service serve --open",
-    "build": "cross-env NODE_OPTIONS=--openssl-legacy-provider cross-env CI=false vue-cli-service build",
+    "serve": "vue-cli-service serve",
+    "build": "cross-env CI=false; cross-env PUBLIC_URL=/ vue-cli-service build",
     "lint": "vue-cli-service lint",
-    "dev": "npm run serve"
+    "prettify": "prettier --write .",
+    "dev": "vite --host --port 5173",
+    "build-vite": "vite build",
+    "preview-vite": "vite preview"
   },
   "dependencies": {
-    "bootstrap": "4.3.1",
-    "bootstrap-vue": "^2.5.0",
-    "chart.js": "^2.9.3",
-    "d3": "^5.7.0",
-    "datamaps": "^0.5.9",
-    "date-fns": "^1.30.1",
-    "dropzone": "^5.5.1",
-    "element-ui": "2.4.11",
-    "es6-promise": "^4.1.1",
-    "flatpickr": "^4.5.7",
-    "fuse.js": "^3.2.0",
-    "google-maps": "^3.2.1",
-    "nouislider": "^12.1.0",
-    "perfect-scrollbar": "^1.3.0",
-    "quill": "^1.3.6",
-    "sweetalert2": "^9.5.4",
-    "vee-validate": "^3.2.1",
-    "vue": "^2.6.11",
-    "vue-chartjs": "^3.5.0",
-    "vue-clipboard2": "^0.3.0",
-    "vue-flatpickr-component": "^8.1.2",
-    "vue-router": "^3.0.6",
-    "vue2-transitions": "^0.2.3"
+    "@popperjs/core": "2.11.8",
+    "axios": "^1.7.7",
+    "bootstrap": "5.3.3",
+    "chart.js": "4.4.1",
+    "core-js": "3.36.0",
+    "dropzone": "6.0.0-beta.2",
+    "moment": "^2.30.1",
+    "quill": "1.3.7",
+    "vue": "3.4.19",
+    "vue-count-to": "1.0.13",
+    "vue-flatpickr-component": "11.0.4",
+    "vue-router": "4.3.0",
+    "vuex": "4.1.0"
   },
   "devDependencies": {
-    "@vue/cli-plugin-babel": "^3.7.0",
-    "@vue/cli-plugin-eslint": "^3.7.0",
-    "@vue/cli-service": "^3.7.0",
-    "@vue/eslint-config-prettier": "^4.0.1",
-    "babel-plugin-component": "^1.1.0",
-    "node-sass": "^9.0.0",
-    "sass-loader": "^10",
-    "vue-template-compiler": "^2.6.11",
-    "cross-env": "^7.0.3"
+    "@babel/eslint-parser": "7.23.10",
+    "@originjs/vite-plugin-commonjs": "^1.0.1",
+    "@vitejs/plugin-vue": "^2.0.1",
+    "@vitejs/plugin-vue-jsx": "^1.3.2",
+    "@vue/cli-plugin-babel": "5.0.8",
+    "@vue/cli-plugin-eslint": "5.0.8",
+    "@vue/cli-plugin-router": "5.0.8",
+    "@vue/cli-service": "5.0.8",
+    "@vue/compiler-sfc": "3.4.19",
+    "@vue/eslint-config-prettier": "9.0.0",
+    "cross-env": "^7.0.3",
+    "eslint": "8.56.0",
+    "eslint-plugin-prettier": "5.1.3",
+    "eslint-plugin-vue": "9.21.1",
+    "prettier": "3.2.5",
+    "sass": "1.71.1",
+    "sass-loader": "13.3.2",
+    "vite": "^2.7.2",
+    "vite-plugin-env-compatible": "^1.1.1",
+    "vite-plugin-html": "3.2.0"
   },
-  "postcss": {
-    "plugins": {
-      "autoprefixer": {}
-    }
-  },
-  "browserslist": [
-    "> 1%",
-    "last 2 versions",
-    "not ie <= 10"
-  ],
-  "author": "Creative Tim - https://www.creative-tim.com/",
-  "description": "BootstrapVue Argon Dashboard"
+  "engines": {
+    "node": ">=8 <=21"
+  }
 }

@@ -1,19 +1,26 @@
-.gitmessage.txt
-
 FRONTEND/.DS_Store
-FRONTEND/node_modules/
-FRONTEND/dist/
-FRONTEND/.cache/
+FRONTEND/node_modules
+FRONTEND/dist
+
+
+# local env files
+FRONTEND/.env.local
+FRONTEND/.env.*.local
+
+# Log files
 FRONTEND/npm-debug.log*
 FRONTEND/yarn-debug.log*
 FRONTEND/yarn-error.log*
-FRONTEND/test/unit/coverage
-
-FRONTEND/package-lock.json
+FRONTEND/pnpm-debug.log*
 
 # Editor directories and files
 FRONTEND/.idea
+FRONTEND/.vscode
 FRONTEND/*.suo
 FRONTEND/*.ntvs*
 FRONTEND/*.njsproj
 FRONTEND/*.sln
+FRONTEND/*.sw?
+
+FRONTEND/package-lock.json
+FRONTEND/yarn.lock
