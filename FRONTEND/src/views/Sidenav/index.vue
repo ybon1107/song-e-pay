@@ -40,7 +40,7 @@ const darkMode = computed(() => store.state.darkMode);
           alt="main_logo"
         />
 
-        <span class="ms-2 font-weight-bold me-2">Argon Dashboard 2</span>
+        <span class="ms-2 font-weight-bold me-2">song-E-pay</span>
       </router-link>
     </div>
 
