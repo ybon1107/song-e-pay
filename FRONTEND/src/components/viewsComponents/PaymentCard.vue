@@ -1,5 +1,5 @@
 <script setup>
-import ArgonButton from "@/components/ArgonButton.vue";
+import ArgonButton from "@/components/templates/ArgonButton.vue";
 </script>
 <template>
   <div class="card mt-4">
