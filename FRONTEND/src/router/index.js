@@ -35,11 +35,11 @@ const routes = [
     name: "ExchangeRate",
     component: ExchangeRate,
   },
-  // {
-  //   path: "/billing",
-  //   name: "Billing",
-  //   component: Billing,
-  // },
+  {
+    path: "/payments",
+    name: "Payments",
+    component: Payments,
+  },
   // {
   //   path: "/virtual-reality",
   //   name: "Virtual Reality",
