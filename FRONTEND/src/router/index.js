@@ -40,11 +40,11 @@ const routes = [
     name: "Payments",
     component: Payments,
   },
-  // {
-  //   path: "/virtual-reality",
-  //   name: "Virtual Reality",
-  //   component: VirtualReality,
-  // },
+  {
+    path: "/histories",
+    name: "Histories",
+    component: Histories,
+  },
   // {
   //   path: "/rtl-page",
   //   name: "RTL",
