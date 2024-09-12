@@ -1,5 +1,6 @@
 
 <template>
   <div class="py-4 container-fluid">
-    </div>
+    <h2>홈</h2>
+  </div>
 </template>
