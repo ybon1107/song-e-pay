@@ -30,11 +30,11 @@ const routes = [
     name: "MyAccounts",
     component: MyAccounts,
   },
-  // {
-  //   path: "/tables",
-  //   name: "Tables",
-  //   component: Tables,
-  // },
+  {
+    path: "/exchange-rate",
+    name: "ExchangeRate",
+    component: ExchangeRate,
+  },
   // {
   //   path: "/billing",
   //   name: "Billing",
