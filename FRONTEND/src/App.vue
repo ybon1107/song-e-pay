@@ -13,12 +13,12 @@ Coded by www.creative-tim.com
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 -->
 <script setup>
-import { computed } from "vue";
-import { useStore } from "vuex";
-import Sidenav from "./views/Sidenav";
-import Configurator from "@/views/Configurator.vue";
-import Navbar from "@/views/Navbars/Navbar.vue";
-import AppFooter from "@/views/Footer.vue";
+import { computed } from 'vue';
+import { useStore } from 'vuex';
+import Sidenav from './views/Sidenav';
+import Configurator from '@/views/Configurator.vue';
+import Navbar from '@/views/Navbars/Navbar.vue';
+import AppFooter from '@/views/Footer.vue';
 
 const store = useStore();
 const isNavFixed = computed(() => store.state.isNavFixed);
@@ -30,16 +30,16 @@ const showNavbar = computed(() => store.state.showNavbar);
 const showFooter = computed(() => store.state.showFooter);
 const showConfig = computed(() => store.state.showConfig);
 const hideConfigButton = computed(() => store.state.hideConfigButton);
-const toggleConfigurator = () => store.commit("toggleConfigurator");
+const toggleConfigurator = () => store.commit('toggleConfigurator');
 
 const navClasses = computed(() => {
   return {
-    "position-sticky bg-white left-auto top-2 z-index-sticky":
+    'position-sticky bg-white left-auto top-2 z-index-sticky':
       isNavFixed.value && !darkMode.value,
-    "position-sticky bg-default left-auto top-2 z-index-sticky":
+    'position-sticky bg-default left-auto top-2 z-index-sticky':
       isNavFixed.value && darkMode.value,
-    "position-absolute px-4 mx-0 w-100 z-index-2": isAbsolute.value,
-    "px-0 mx-4": !isAbsolute.value,
+    'position-absolute px-4 mx-0 w-100 z-index-2': isAbsolute.value,
+    'px-0 mx-4': !isAbsolute.value,
   };
 });
 </script>
