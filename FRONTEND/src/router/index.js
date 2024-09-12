@@ -45,11 +45,11 @@ const routes = [
     name: "Histories",
     component: Histories,
   },
-  // {
-  //   path: "/rtl-page",
-  //   name: "RTL",
-  //   component: RTL,
-  // },
+  {
+    path: "/maps",
+    name: "Maps",
+    component: Maps,
+  },
   // {
   //   path: "/profile",
   //   name: "Profile",
