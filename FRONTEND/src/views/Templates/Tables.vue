@@ -1,6 +1,6 @@
 <script setup>
-import AuthorsTable from "@/components/AuthorsTable.vue";
-import ProjectsTable from "@/components/ProjectsTable.vue";
+import AuthorsTable from "@/components/viewsComponents/AuthorsTable.vue";
+import ProjectsTable from "@/components/viewsComponents/ProjectsTable.vue";
 </script>
 <template>
   <div class="py-4 container-fluid">

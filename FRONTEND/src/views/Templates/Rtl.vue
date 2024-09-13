@@ -1,14 +1,14 @@
 <script setup>
 import { onBeforeMount, onBeforeUnmount } from "vue";
 import { useStore } from "vuex";
-import MiniStatisticsCard from "@/views/Cards/MiniStatisticsCard.vue";
-import DeveloperCard from "@/components/DeveloperCard.vue";
-import RocketCard from "@/components/RocketCard.vue";
-import ActiveUsersChart from "@/views/Charts/ActiveUsersChart.vue";
-import GradientLineChart from "@/views/Charts/GradientLineChart.vue";
-import TimelineList from "@/views/Cards/TimelineList.vue";
-import TimelineItem from "@/views/Cards/TimelineItem.vue";
-import ProjectCard from "@/components/ProjectCard.vue";
+import MiniStatisticsCard from "@/views/cards/MiniStatisticsCard.vue";
+import DeveloperCard from "@/components/viewsComponents/DeveloperCard.vue";
+import RocketCard from "@/components/viewsComponents/RocketCard.vue";
+import ActiveUsersChart from "@/views/charts/ActiveUsersChart.vue";
+import GradientLineChart from "@/views/charts/GradientLineChart.vue";
+import TimelineList from "@/views/cards/TimelineList.vue";
+import TimelineItem from "@/views/cards/TimelineItem.vue";
+import ProjectCard from "@/components/viewsComponents/ProjectCard.vue";
 
 import logoXD from "@/assets/img/small-logos/logo-xd.svg";
 import logoAtlassian from "@/assets/img/small-logos/logo-atlassian.svg";

@@ -2,11 +2,11 @@
 import { onBeforeUnmount, onBeforeMount } from "vue";
 import { useStore } from "vuex";
 
-import Navbar from "@/views/PageLayout/Navbar.vue";
-import AppFooter from "@/views/PageLayout/Footer.vue";
-import ArgonInput from "@/components/ArgonInput.vue";
-import ArgonCheckbox from "@/components/ArgonCheckbox.vue";
-import ArgonButton from "@/components/ArgonButton.vue";
+import Navbar from "@/views/pageLayout/Navbar.vue";
+import AppFooter from "@/views/pageLayout/Footer.vue";
+import ArgonInput from "@/components/templates/ArgonInput.vue";
+import ArgonCheckbox from "@/components/templates/ArgonCheckbox.vue";
+import ArgonButton from "@/components/templates/ArgonButton.vue";
 const body = document.getElementsByTagName("body")[0];
 
 const store = useStore();
