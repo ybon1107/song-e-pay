@@ -2,7 +2,6 @@
 import { computed, ref } from "vue";
 import { useStore } from "vuex";
 import { useRoute } from "vue-router";
-import Breadcrumbs from "@/views/Breadcrumbs.vue";
 
 const showMenu = ref(false);
 const store = useStore();
@@ -36,11 +35,6 @@ const closeMenu = () => {
     data-scroll="true"
   >
     <div class="px-3 py-1 container-fluid">
-      <breadcrumbs
-        :current-page="currentRouteName"
-        :current-directory="currentDirectory"
-      />
-
       <div
         class="mt-2 collapse navbar-collapse mt-sm-0 me-md-0 me-sm-4"
         :class="isRTL ? 'px-0' : 'me-sm-4'"
@@ -49,18 +43,7 @@ const closeMenu = () => {
         <div
           class="pe-md-3 d-flex align-items-center"
           :class="isRTL ? 'me-md-auto' : 'ms-md-auto'"
-        >
-          <div class="input-group">
-            <span class="input-group-text text-body">
-              <i class="fas fa-search" aria-hidden="true"></i>
-            </span>
-            <input
-              type="text"
-              class="form-control"
-              :placeholder="isRTL ? 'أكتب هنا...' : 'Type here...'"
-            />
-          </div>
-        </div>
+        ></div>
         <ul class="navbar-nav justify-content-end">
           <!-- <li class="nav-item d-flex align-items-center">
             <router-link
