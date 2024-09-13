@@ -1,8 +1,8 @@
 <script setup>
-import MiniStatisticsCard from "@/views/Cards/MiniStatisticsCard.vue";
-import GradientLineChart from "@/views/Charts/GradientLineChart.vue";
-import Carousel from "@/components/Carousel.vue";
-import CategoriesList from "@/components/CategoriesList.vue";
+import MiniStatisticsCard from "@/views/cards/MiniStatisticsCard.vue";
+import GradientLineChart from "@/views/charts/GradientLineChart.vue";
+import Carousel from "@/components/viewsComponents/Carousel.vue";
+import CategoriesList from "@/components/viewsComponents/CategoriesList.vue";
 
 import US from "@/assets/img/icons/flags/US.png";
 import DE from "@/assets/img/icons/flags/DE.png";

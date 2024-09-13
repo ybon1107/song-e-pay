@@ -1,10 +1,10 @@
 <script setup>
 import { onBeforeUnmount, onBeforeMount } from "vue";
 import { useStore } from "vuex";
-import Navbar from "@/views/PageLayout/Navbar.vue";
-import ArgonInput from "@/components/ArgonInput.vue";
-import ArgonSwitch from "@/components/ArgonSwitch.vue";
-import ArgonButton from "@/components/ArgonButton.vue";
+import Navbar from "@/views/pageLayout/Navbar.vue";
+import ArgonInput from "@/components/templates/ArgonInput.vue";
+import ArgonSwitch from "@/components/templates/ArgonSwitch.vue";
+import ArgonButton from "@/components/templates/ArgonButton.vue";
 const body = document.getElementsByTagName("body")[0];
 
 const store = useStore();
