@@ -12,7 +12,7 @@ import Maps from "@/views/Maps/Maps.vue";
 // import RTL from "../views/Rtl.vue";
 // import Profile from "../views/Profile.vue";
 // import Signup from "../views/Signup.vue";
-// import Signin from "../views/Signin.vue";
+import Login from "@/views/Login.vue";
 
 const routes = [
   {
@@ -55,11 +55,11 @@ const routes = [
   //   name: "Profile",
   //   component: Profile,
   // },
-  // {
-  //   path: "/signin",
-  //   name: "Signin",
-  //   component: Signin,
-  // },
+  {
+    path: "/login",
+    name: "Login",
+    component: Login,
+  },
   // {
   //   path: "/signup",
   //   name: "Signup",
