@@ -57,12 +57,19 @@ defineProps({
 </template>
 
 <style scoped>
+.card {
+  width: 300px; /* 카드의 기본 너비 설정 */
+  height: 200px; /* 카드의 기본 높이 설정 */
+  position: relative;
+  border-radius: 10px; /* 카드의 모서리를 둥글게 설정 */
+  overflow: hidden; /* 카드 내용이 카드 영역을 넘지 않도록 설정 */
+}
 .img-container {
   position: absolute;
   top: -25px; /* 제목 아래에 위치하도록 조절 */
   left: 0px; /* 카드의 왼쪽 여백 조절 */
   width: 10vw; /* 뷰포트 너비의 20%로 조절 */
-  max-width: 70px; /* 최대 너비 설정 */
+  max-width: 90px; /* 최대 너비 설정 */
   height: auto; /* 높이는 비율에 맞춰 조절 */
 }
 

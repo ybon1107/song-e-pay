@@ -1,12 +1,38 @@
+<template>
+  <div class="form-group">
+    <div :class="['input-group', hasIcon(icon)]">
+      <span v-if="iconDir === 'left'" class="input-group-text">
+        <i :class="getIcon(icon)"></i>
+      </span>
+      <input
+        :id="id"
+        :type="type"
+        class="form-control"
+        :class="getClasses(size, success, error)"
+        :name="name"
+        :value="formattedValue"
+        :placeholder="placeholder"
+        :required="isRequired"
+        @input="onInput"
+      />
+      <span v-if="iconDir === 'right'" class="input-group-text">
+        <i :class="getIcon(icon)"></i>
+      </span>
+      <span class="input-group-text">USD</span> <!-- 추후 변수 DB의 사용자 국가에 따라 달라지게 변경 -->
+    </div>
+    <p v-if="errorMessage" class="error">{{ errorMessage }}</p> <!-- 에러 메시지 표시 -->
+  </div>
+</template>
+
 <script setup>
-import { computed } from 'vue'; // Import computed from Vue
+import { ref, computed } from 'vue';
+import { defineProps, defineEmits } from 'vue';
 
-const emit = defineEmits(['update:modelValue']);
-
+// Props와 Emit 정의
 const props = defineProps({
   size: {
     type: String,
-    default: 'default',
+    default: "default",
   },
   success: {
     type: Boolean,
@@ -18,31 +44,31 @@ const props = defineProps({
   },
   icon: {
     type: String,
-    default: '',
+    default: "",
   },
   iconDir: {
     type: String,
-    default: '',
+    default: "",
   },
   name: {
     type: String,
-    default: '',
+    default: "",
   },
   id: {
     type: String,
-    default: '',
+    default: "",
   },
   modelValue: {
     type: String,
-    default: '',
+    default: "",
   },
   placeholder: {
     type: String,
-    default: '',
+    default: "",
   },
   type: {
     type: String,
-    default: 'text',
+    default: "text",
   },
   isRequired: {
     type: Boolean,
@@ -50,71 +76,80 @@ const props = defineProps({
   },
 });
 
+const emit = defineEmits(["update:modelValue"]);
+
+const formatNumber = (num) => {
+  return num.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+};
+
+const formattedValue = computed({
+  get() {
+    let val = props.modelValue.replace(/[^\d]/g, ''); // 숫자만 추출
+    return val ? formatNumber(val) : ''; // 천 단위 콤마와 "원" 추가
+  },
+  set(newValue) {
+    const rawValue = newValue.replace(/[^\d]/g, ''); // 숫자만 추출
+    emit('update:modelValue', rawValue); // 부모 컴포넌트로 숫자만 전송
+  }
+});
+
+const errorMessage = ref('');
+
+// input 이벤트 핸들러
+const onInput = (event) => {
+  event.target.value = event.target.value.replace(/[^\d]/g, ''); 
+  let rawValue = event.target.value.replace(/[^\d]/g, ''); // 숫자만 추출
+
+  if (rawValue === '0') {
+    errorMessage.value = '0이 아닌 값을 입력하세요';
+    rawValue = ''; // input 필드 값을 빈 문자열로 초기화
+    event.target.value = ''; // 실제 입력 필드의 값도 초기화
+  } else {
+    errorMessage.value = ''; // 유효한 값일 때 에러 메시지 지움
+  }
+
+  emit('update:modelValue', rawValue); // 부모 컴포넌트로 숫자만 전송
+};
+
 const getClasses = (size, success, error) => {
   let sizeValue, isValidValue;
 
-  sizeValue = size ? `form-control-${size}` : '';
+  sizeValue = size ? `form-control-${size}` : null;
 
   if (error) {
-    isValidValue = 'is-invalid';
+    isValidValue = "is-invalid";
   } else if (success) {
-    isValidValue = 'is-valid';
+    isValidValue = "is-valid";
   } else {
-    isValidValue = '';
+    isValidValue = "";
   }
 
   return `${sizeValue} ${isValidValue}`;
 };
 
 const getIcon = (icon) => (icon ? icon : null);
-
-const hasIcon = (icon) => (icon ? 'input-group' : '');
-
-const formatNumber = (value) => {
-  if (!value) return '';
-  return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-};
-
-const formattedValue = computed({
-  get() {
-    let val = props.modelValue.replace(/[^\d]/g, '');
-    if (val.length > 1 && val[0] === '0') {
-      val = val.slice(1);
-    }
-    return val ? `${formatNumber(val)} 원` : '';
-  },
-  set(newValue) {
-    const rawValue = newValue.replace(/[^\d]/g, '');
-    emit('update:modelValue', rawValue);
-  },
-});
-
-const handleInput = (event) => {
-  const value = event.target.value.replace(/[^\d]/g, '');
-  emit('update:modelValue', value);
-};
+const hasIcon = (icon) => (icon ? 'input-group' : null);
 </script>
 
-<template>
-  <div class="form-group">
-    <div :class="hasIcon(props.icon)">
-      <span v-if="props.iconDir === 'left'" class="input-group-text">
-        <i :class="getIcon(props.icon)"></i>
-      </span>
-      <input
-        :id="props.id"
-        :type="props.type"
-        class="form-control"
-        :class="getClasses(props.size, props.success, props.error)"
-        :name="props.name"
-        :placeholder="props.placeholder"
-        :value="formattedValue"
-        :required="props.isRequired"
-        @input="handleInput"
-      />
-      <span v-if="props.iconDir === 'right'" class="input-group-text">
-        <i :class="getIcon(props.icon)"></i>
-      </span>
-    </div>
-  </div>
-</template>
+<style scoped>
+input {
+  padding: 8px;
+  font-size: 16px;
+  width: calc(100% - 50px); /* "원"을 포함한 레이아웃 고려 */
+  box-sizing: border-box;
+}
+
+.input-group-text {
+  padding: 0.375rem 0.75rem;
+  background-color: #e9ecef;
+  border: 1px solid #ced4da;
+  border-radius: 0.375rem;
+}
+
+.error {
+  color: red;
+  font-size: 14px;
+  margin-top: 4px;
+}
+</style>
+
