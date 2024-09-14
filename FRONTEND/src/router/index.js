@@ -11,7 +11,7 @@ import Maps from "@/views/Maps/Maps.vue";
 // import VirtualReality from "../views/VirtualReality.vue";
 // import RTL from "../views/Rtl.vue";
 // import Profile from "../views/Profile.vue";
-// import Signup from "../views/Signup.vue";
+import Register from "../views/Register.vue";
 import Login from "@/views/Login.vue";
 
 const routes = [
@@ -60,11 +60,11 @@ const routes = [
     name: "Login",
     component: Login,
   },
-  // {
-  //   path: "/signup",
-  //   name: "Signup",
-  //   component: Signup,
-  // },
+  {
+    path: "/register",
+    name: "Register",
+    component: Register,
+  },
 ];
 
 const router = createRouter({
