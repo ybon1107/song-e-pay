@@ -1,5 +1,6 @@
 <script setup>
 import { ref, computed } from 'vue';
+import Modal from './Modal.vue'; // 새로 만든 모달 컴포넌트 가져오기
 
 // 필터 변수들
 const selectedCurrency = ref('');
@@ -13,113 +14,202 @@ const searchQuery = ref('');
 const transactions = ref([
     {
         id: 1,
-        date: '2024-09-03 15:06:22', // 기존 형식 그대로 유지
+        date: '2024-09-03 15:06:22',
         type: '환전',
-        detail: '외화 계좌 → 원화 계좌',
         amount: '120580KRW (90USD)',
+        account: null,
+        exchangeRate: null,
+        detail: '외화 계좌 → 원화 계좌',
+        approvalNumber: null,
         balance: '120,580 USD',
+        balanceAfterExchange: null,
         status: '완료',
+        memo: null,
     },
     {
         id: 2,
-        date: '2024-09-11 15:30:00', // 형식에 맞게 수정
+        date: '2024-09-11 15:30:00',
         type: '결제',
-        detail: 'GS 편의점',
         amount: '3000KRW',
+        account: null,
+        exchangeRate: null,
+        detail: 'GS 편의점',
+        approvalNumber: null,
         balance: '117,580 KRW',
+        balanceAfterExchange: null,
         status: '완료',
+        memo: null,
     },
     {
         id: 3,
-        date: '2024-09-11 17:30:00', // 형식에 맞게 수정
+        date: '2024-09-11 17:30:00',
         type: '송금',
-        detail: 'ABC',
         amount: '100000KRW',
+        account: null,
+        exchangeRate: null,
+        detail: 'ABC',
+        approvalNumber: null,
         balance: '107,580 KRW',
+        balanceAfterExchange: null,
         status: '완료',
+        memo: null,
     },
     {
         id: 4,
-        date: '2024-09-12 09:00:00', // 형식에 맞게 수정
+        date: '2024-09-12 09:00:00',
         type: '환급',
-        detail: '원화 계좌 → 외화 계좌',
         amount: '150000KRW (110USD)',
+        account: null,
+        exchangeRate: null,
+        detail: '원화 계좌 → 외화 계좌',
+        approvalNumber: null,
         balance: '150,000 USD',
+        balanceAfterExchange: null,
         status: '완료',
+        memo: null,
     },
     {
         id: 5,
-        date: '2024-09-12 10:00:00', // 형식에 맞게 수정
+        date: '2024-09-12 10:00:00',
         type: '결제',
-        detail: '스타벅스',
         amount: '5000KRW',
+        account: null,
+        exchangeRate: null,
+        detail: '스타벅스',
+        approvalNumber: null,
         balance: '145,000 KRW',
+        balanceAfterExchange: null,
         status: '완료',
+        memo: null,
     },
     {
         id: 6,
-        date: '2024-09-12 11:30:00', // 형식에 맞게 수정
+        date: '2024-09-12 11:30:00',
         type: '송금',
-        detail: 'DEF',
         amount: '250000KRW',
+        account: null,
+        exchangeRate: null,
+        detail: 'DEF',
+        approvalNumber: null,
         balance: '120,000 KRW',
+        balanceAfterExchange: null,
         status: '처리중',
+        memo: null,
     },
     {
         id: 7,
-        date: '2024-09-13 13:00:00', // 형식에 맞게 수정
+        date: '2024-09-13 13:00:00',
         type: '환전',
-        detail: '외화 계좌 → 원화 계좌',
         amount: '200000KRW (150USD)',
+        account: null,
+        exchangeRate: null,
+        detail: '외화 계좌 → 원화 계좌',
+        approvalNumber: null,
         balance: '150,000 USD',
+        balanceAfterExchange: null,
         status: '완료',
+        memo: null,
     },
     {
         id: 8,
-        date: '2024-09-13 14:15:00', // 형식에 맞게 수정
+        date: '2024-09-13 14:15:00',
         type: '충전',
-        detail: 'ATM 충전',
         amount: '50000KRW',
+        account: null,
+        exchangeRate: null,
+        detail: 'ATM 충전',
+        approvalNumber: null,
         balance: '200,000 KRW',
+        balanceAfterExchange: null,
         status: '완료',
+        memo: null,
     },
     {
         id: 9,
-        date: '2024-09-14 15:30:00', // 형식에 맞게 수정
+        date: '2024-09-14 15:30:00',
         type: '결제',
-        detail: '이마트',
         amount: '15000KRW',
+        account: null,
+        exchangeRate: null,
+        detail: '이마트',
+        approvalNumber: null,
         balance: '185,000 KRW',
+        balanceAfterExchange: null,
         status: '완료',
+        memo: null,
     },
     {
         id: 10,
-        date: '2024-09-14 16:45:00', // 형식에 맞게 수정
+        date: '2024-09-14 16:45:00',
         type: '환급',
-        detail: '외화 계좌 → 원화 계좌',
         amount: '50000KRW (35USD)',
+        account: null,
+        exchangeRate: null,
+        detail: '외화 계좌 → 원화 계좌',
+        approvalNumber: null,
         balance: '185,000 USD',
+        balanceAfterExchange: null,
         status: '완료',
+        memo: null,
     },
     {
         id: 11,
-        date: '2024-09-15 09:00:00', // 형식에 맞게 수정
+        date: '2024-09-15 09:00:00',
         type: '환전',
-        detail: '원화 계좌 → 외화 계좌',
         amount: '30000KRW (22USD)',
+        account: null,
+        exchangeRate: null,
+        detail: '원화 계좌 → 외화 계좌',
+        approvalNumber: null,
         balance: '155,000 USD',
+        balanceAfterExchange: null,
         status: '완료',
+        memo: null,
     },
     {
         id: 12,
-        date: '2024-09-15 10:30:00', // 형식에 맞게 수정
+        date: '2024-09-15 10:30:00',
         type: '환불',
-        detail: '원래 계좌',
         amount: '10000KRW',
+        account: null,
+        exchangeRate: null,
+        detail: '원래 계좌',
+        approvalNumber: null,
         balance: '145,000 KRW',
+        balanceAfterExchange: null,
         status: '완료',
+        memo: null,
+    },
+    {
+        id: 13,
+        date: '2024-09-16 11:00:00',
+        type: '결제',
+        amount: '12000KRW',
+        account: null,
+        exchangeRate: null,
+        detail: 'CGV 영화관',
+        approvalNumber: null,
+        balance: '133,000 KRW',
+        balanceAfterExchange: null,
+        status: '완료',
+        memo: null,
+    },
+    {
+        id: 14,
+        date: '2024-09-17 14:30:00',
+        type: '송금',
+        amount: '50000KRW',
+        account: null,
+        exchangeRate: null,
+        detail: 'GHI',
+        approvalNumber: null,
+        balance: '83,000 KRW',
+        balanceAfterExchange: null,
+        status: '완료',
+        memo: null,
     },
 ]);
+
 
 // 필터링된 거래 내역 계산
 const filteredTransactions = ref([...transactions.value]);
@@ -136,7 +226,7 @@ const applyFilters = () => {
                 ? new Date(endDate.value)
                 : null;
 
-            const dateInRange =
+                const dateInRange =
                 (!startDateFilter || transactionDate >= startDateFilter) &&
                 (!endDateFilter || transactionDate <= endDateFilter);
 
@@ -144,12 +234,9 @@ const applyFilters = () => {
             const KoreaTransaction = ['송금', '환전', '환급', '결제'].includes(
                 transaction.type
             );
-            const ForeignTransaction = [
-                '충전',
-                '환급',
-                '환전',
-                '환불',
-            ].includes(transaction.type);
+            const ForeignTransaction = ['충전','환급','환전','환불',].includes(
+              transaction.type
+            );
 
             // 선택된 계좌에 따른 필터링 로직
             const matchesAccount =
@@ -187,7 +274,7 @@ const applyFilters = () => {
                 amountColor = transaction.type === '환전' ? 'blue' : 'red'; // 환전은 파란색, 나머지는 빨간색
             } else if (selectedCurrency.value === 'Foreign') {
                 // 외화 계좌인 경우
-                amountColor = ['환전', '환급'].includes(transaction.type)
+                amountColor = ['환전', '환불'].includes(transaction.type)
                     ? 'red'
                     : 'blue'; // 환전, 환급은 빨간색, 나머지는 파란색
             }
@@ -210,12 +297,41 @@ const transactionTypes = computed(() => {
     }
     return []; // 전체 선택 시 빈 배열
 });
+
+// 선택된 거래 내역 상태 관리
+const selectedTransaction = ref(null);
+const isModalVisible = ref(false);
+
+// 메모 업데이트 기능
+const updateMemo = (newMemo) => {
+  if (selectedTransaction.value) {
+    // 기존 객체를 복사하고 memo만 수정
+    selectedTransaction.value = {
+      ...selectedTransaction.value,
+      memo: newMemo
+    };
+  }
+};
+
+// 거래 내역을 클릭하면 모달을 열고 해당 거래를 선택
+const openModal = (transaction) => {
+  selectedTransaction.value = transaction;
+  isModalVisible.value = true;
+};
+
+// 모달을 닫는 함수
+const closeModal = () => {
+  isModalVisible.value = false;
+};
+
+
+
 </script>
 
 <template>
     <div class="transaction-history">
         <h2>이용 내역 (Transaction history)</h2>
-
+<br><br><br><br>
         <div class="filters">
             <!--  계좌 종류와 상세 내용 검색 -->
             <div class="filter-row">
@@ -278,6 +394,7 @@ const transactionTypes = computed(() => {
             </div>
         </div>
 
+        <br><br>
         <!-- 이용 내역 테이블 -->
         <table class="table table-striped">
             <thead>
@@ -294,6 +411,7 @@ const transactionTypes = computed(() => {
                 <tr
                     v-for="transaction in filteredTransactions"
                     :key="transaction.id"
+                    @click="openModal(transaction)"          
                     style="cursor: pointer"
                 >
                     <td>{{ transaction.date }}</td>
@@ -309,6 +427,13 @@ const transactionTypes = computed(() => {
             </tbody>
         </table>
     </div>
+    <!-- 모달 컴포넌트  -->
+    <Modal 
+      :transaction="selectedTransaction" 
+      :isVisible="isModalVisible" 
+      @close="closeModal" 
+      @updateMemo="updateMemo" 
+      />
 </template>
 
 <style scoped>
