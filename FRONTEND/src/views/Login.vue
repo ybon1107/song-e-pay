@@ -45,7 +45,7 @@ onBeforeUnmount(() => {
                   <p class="mx-auto text-sm">
                     Don't have Song-E Pay account?
                     <a
-                      href="javascript:;"
+                      href="/register/legal"
                       class="text-success text-gradient font-weight-bold"
                       >Sign up</a
                     >
