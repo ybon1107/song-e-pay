@@ -11,7 +11,8 @@ import Maps from "@/views/Maps/Maps.vue";
 // import VirtualReality from "../views/VirtualReality.vue";
 // import RTL from "../views/Rtl.vue";
 // import Profile from "../views/Profile.vue";
-import Register from "../views/Register.vue";
+import Register from "@/views/Register.vue";
+import Registeremail from "@/views/Registeremail.vue";
 import Login from "@/views/Login.vue";
 
 const routes = [
@@ -61,9 +62,14 @@ const routes = [
     component: Login,
   },
   {
-    path: "/register",
+    path: "/register/legal",
     name: "Register",
     component: Register,
+  },
+  {
+    path: "/register/email",
+    name: "Registeremail",
+    component: Registeremail,
   },
 ];
 
