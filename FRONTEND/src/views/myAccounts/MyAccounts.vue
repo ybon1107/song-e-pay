@@ -140,16 +140,46 @@ const account = ref(''); //기본 계좌
                 </div>
               </div>
             </form>
-          </div>
+            </div>
             <div v-if="activeTab === 'exchange'" id="tabs-exchange" class="tab-pane fade show active">
               <!-- Exchange Content -->
               <p>Exchange Section</p>
-              <ArgonInput v-model="exchangeAmount" placeholder="금액을 입력하세요"/>
+              <form @submit.prevent="handleSubmit('exchange')">
+                <div class="content-container" style="width: 70%; margin: 0 auto;">
+                  <ArgonInput v-model="exchangeAmount" placeholder="금액을 입력하세요" />
+                  <div class="d-flex justify-content-between align-items-center">
+                    <p class="mb-3 mt-3">충전 계좌 :</p>
+                    <p class="mb-3 mt-3">버섯 은행(9910-****)</p>
+                  </div>
+                  <div class="d-flex justify-content-between align-items-center">
+                    <p class="mb-5 mt-2">계좌 잔액 :</p>
+                    <p class="mb-5 mt-2">USD 400.00</p>
+                  </div>
+                  <div class="d-flex justify-content-center align-items-center mt-3">
+                    <argon-button type="submit" color="success" size="lg" class="w-100">충전하기</argon-button>
+                  </div>
+                </div>
+              </form>
             </div>
             <div v-if="activeTab === 'transfer'" id="tabs-transfer" class="tab-pane fade show active">
               <!-- Transfer Content -->
               <p>Transfer Section</p>
-              <ArgonInput v-model="transferAmount" placeholder="금액을 입력하세요"/>
+              <form @submit.prevent="handleSubmit('transfer')">
+                <div class="content-container" style="width: 70%; margin: 0 auto;">
+                  <ArgonInput v-model="transferAmount" placeholder="금액을 입력하세요" />
+                  <div class="d-flex justify-content-between align-items-center">
+                    <p class="mb-3 mt-3">충전 계좌 :</p>
+                    <p class="mb-3 mt-3">버섯 은행(9910-****)</p>
+                  </div>
+                  <div class="d-flex justify-content-between align-items-center">
+                    <p class="mb-5 mt-2">계좌 잔액 :</p>
+                    <p class="mb-5 mt-2">USD 400.00</p>
+                  </div>
+                  <div class="d-flex justify-content-center align-items-center mt-3">
+                    <argon-button type="submit" color="success" size="lg" class="w-100">충전하기</argon-button>
+                  </div>
+                </div>
+              </form>
             </div>
           </div>
         </div>
