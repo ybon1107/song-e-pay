@@ -12,13 +12,14 @@
         :name="name"
         :value="formattedValue"
         :placeholder="placeholder"
+        :unit="unit"
         :required="isRequired"
         @input="onInput"
       />
       <span v-if="iconDir === 'right'" class="input-group-text">
         <i :class="getIcon(icon)"></i>
       </span>
-      <span class="input-group-text">USD</span> <!-- 추후 변수 DB의 사용자 국가에 따라 달라지게 변경 -->
+      <span class="input-group-text">{{ unit }}</span>
     </div>
     <p v-if="errorMessage" class="error">{{ errorMessage }}</p> <!-- 에러 메시지 표시 -->
   </div>
@@ -63,6 +64,10 @@ const props = defineProps({
     default: "",
   },
   placeholder: {
+    type: String,
+    default: "",
+  },
+  unit :{
     type: String,
     default: "",
   },

@@ -1,8 +1,10 @@
 <script setup>
-defineProps({
+import { defineProps, defineEmits } from 'vue';
+
+const props = defineProps({
   icon: {
     type: Object,
-    required: false, // 필수에서 선택으로 변경
+    required: false,
     default: () => ({
       background: 'bg-gradient-success', // 기본값 추가
     }),
@@ -20,7 +22,6 @@ defineProps({
     default: '',
   },
   imgSrc: {
-    // 이미지 소스를 받는 prop 추가
     type: String,
     required: true,
   },
@@ -28,11 +29,26 @@ defineProps({
     type: String,
     required: false,
   },
+  isSelected: {
+    type: Boolean,
+    default: false, // 기본값 설정
+  },
 });
+
+const emit = defineEmits(['click']);
+
+function handleClick() {
+  emit('click');
+}
 </script>
 
 <template>
-  <div class="card position-relative" :style="{ backgroundImage: `url(${imgSrc})`, backgroundSize: 'cover', backgroundPosition: 'center' }">
+  <div
+    class="card position-relative"
+    :class="{ selected: isSelected }"
+    :style="{ backgroundImage: `url(${imgSrc})`, backgroundSize: 'cover', backgroundPosition: 'center' }"
+    @click="handleClick"
+  >
     <!-- 카드 제목 -->
     <div class="position-relative p-3 text-white">
       <h6 class="mb-0">{{ title }}</h6>
@@ -63,12 +79,17 @@ defineProps({
   position: relative;
   border-radius: 10px; /* 카드의 모서리를 둥글게 설정 */
   overflow: hidden; /* 카드 내용이 카드 영역을 넘지 않도록 설정 */
+  cursor: pointer; /* 카드 클릭 가능하도록 설정 */
+}
+.card.selected {
+  border: 2px solid #007bff; /* 선택된 카드를 강조하는 스타일 */
+  background-color: #e7f0ff; /* 선택된 카드 배경색 조정 */
 }
 .img-container {
   position: absolute;
-  top: -25px; /* 제목 아래에 위치하도록 조절 */
-  left: 0px; /* 카드의 왼쪽 여백 조절 */
-  width: 10vw; /* 뷰포트 너비의 20%로 조절 */
+  top: 10px; /* 제목 아래에 위치하도록 조절 */
+  left: 10px; /* 카드의 왼쪽 여백 조절 */
+  width: 10vw; /* 뷰포트 너비의 10%로 조절 */
   max-width: 90px; /* 최대 너비 설정 */
   height: auto; /* 높이는 비율에 맞춰 조절 */
 }
@@ -81,13 +102,13 @@ defineProps({
 /* 미디어 쿼리: 화면이 더 작을 때 이미지 크기 조절 */
 @media (max-width: 768px) {
   .img-container {
-    width: 30vw; /* 화면이 작은 경우 이미지 크기를 더 크게 설정 */
+    width: 20vw; /* 화면이 작은 경우 이미지 크기를 더 크게 설정 */
   }
 }
 
 @media (max-width: 576px) {
   .img-container {
-    width: 40vw; /* 모바일 화면에서는 이미지가 더 크도록 조정 */
+    width: 30vw; /* 모바일 화면에서는 이미지가 더 크도록 조정 */
   }
 }
 </style>
