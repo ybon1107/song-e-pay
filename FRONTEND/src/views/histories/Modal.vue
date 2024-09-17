@@ -11,7 +11,7 @@
           <h4 class="text-end font-weight-bold">{{ transaction.amount }}</h4>
           <h4 class="text-end font-wight-bold" v-if="['환전', '환급'].includes(transaction.type)"><strong>환율:</strong> {{ transaction.exchangeRate }}</h4>
           <p v-if="transaction.type === '충전'"><hr><strong>금액:</strong> {{ transaction.amount }}</p>
-          <p v-if="transaction.type === '충전'"><hr><strong>계좌:</strong> {{ transaction.account }}</p>
+          <p v-if="transaction.type === '충전'"><hr> <strong>계좌:</strong> {{ transaction.account }}</p>
           <p><hr><strong>결제 일시:</strong> {{ transaction.date }}</p>
           <p v-if="['송금', '결제', '환불', '환급', '환전'].includes(transaction.type)"><hr><strong>거래 후 잔액:</strong> {{ transaction.balance }}</p>
           <p v-if="['환전', '환급'].includes(transaction.type)"><hr><strong>환전 후 잔액:</strong> {{ transaction.balanceAfterExchange }}</p>

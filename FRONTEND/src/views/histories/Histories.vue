@@ -1,6 +1,6 @@
 <script setup>
 import { ref, computed } from 'vue';
-import Modal from './Modal.vue'; // 새로 만든 모달 컴포넌트 가져오기
+import Modal from './Modal.vue'; // 모달 창
 
 // 필터 변수들
 const selectedCurrency = ref('');
@@ -219,6 +219,12 @@ const applyFilters = () => {
         .filter((transaction) => {
             // 날짜 필터링
             const transactionDate = new Date(transaction.date);
+
+            // 변환된 날짜 형식을 YYYY-MM-DD로 사용
+            const formattedTransactionDate = transactionDate
+                .toISOString()
+                .slice(0, 10); // YYYY-MM-DD 형식으로 자르기
+
             const startDateFilter = startDate.value
                 ? new Date(startDate.value)
                 : null;
@@ -226,19 +232,18 @@ const applyFilters = () => {
                 ? new Date(endDate.value)
                 : null;
 
-                const dateInRange =
+            const dateInRange =
                 (!startDateFilter || transactionDate >= startDateFilter) &&
                 (!endDateFilter || transactionDate <= endDateFilter);
 
-            // 계좌와 거래 유형 매핑 로직
+            // 필터링 로직 (계좌와 거래 유형 매핑 등)
             const KoreaTransaction = ['송금', '환전', '환급', '결제'].includes(
                 transaction.type
             );
-            const ForeignTransaction = ['충전','환급','환전','환불',].includes(
-              transaction.type
+            const ForeignTransaction = ['충전', '환급', '환전', '환불'].includes(
+                transaction.type
             );
 
-            // 선택된 계좌에 따른 필터링 로직
             const matchesAccount =
                 (selectedCurrency.value === 'Korea' && KoreaTransaction) ||
                 (selectedCurrency.value === 'Foreign' && ForeignTransaction) ||
@@ -257,34 +262,34 @@ const applyFilters = () => {
                 transaction.detail.includes(searchQuery.value);
 
             return (
-                matchesAccount && matchesType && matchesStatus && matchesQuery
+                matchesAccount &&
+                matchesType &&
+                matchesStatus &&
+                matchesQuery &&
+                dateInRange
             );
         })
-
-        // amountColor
+        // amountColor 설정
         .map((transaction) => {
-            // 거래 유형에 따른 amountColor 결정
-            let amountColor = 'black'; // 기본 색상
+            let amountColor = 'black';
 
             if (selectedCurrency.value === '') {
-                // 계좌 종류가 선택되지 않은 경우
-                amountColor = 'black'; // 기본 색상
+                amountColor = 'black';
             } else if (selectedCurrency.value === 'Korea') {
-                // 한국 계좌인 경우
-                amountColor = transaction.type === '환전' ? 'blue' : 'red'; // 환전은 파란색, 나머지는 빨간색
+                amountColor = transaction.type === '환전' ? 'blue' : 'red';
             } else if (selectedCurrency.value === 'Foreign') {
-                // 외화 계좌인 경우
                 amountColor = ['환전', '환불'].includes(transaction.type)
                     ? 'red'
-                    : 'blue'; // 환전, 환급은 빨간색, 나머지는 파란색
+                    : 'blue';
             }
 
-            // 필터링된 거래 반환 (amountColor 추가)
             return {
                 ...transaction,
                 amountColor,
+                date: new Date(transaction.date).toISOString().slice(0, 10), // 날짜 형식 변환
             };
         });
+
     console.log('필터가 적용되었습니다.');
 };
 
@@ -331,11 +336,11 @@ const closeModal = () => {
 <template>
     <div class="transaction-history">
         <h2>이용 내역 (Transaction history)</h2>
-<br><br><br><br>
+        <br><br><br><br>
         <div class="filters">
             <!--  계좌 종류와 상세 내용 검색 -->
             <div class="filter-row">
-                <div class="filter-item">
+                <div class="filter-item filter-account">
                     <label>계좌 종류</label>
                     <select v-model="selectedCurrency">
                         <option value="">전체 내역</option>
@@ -343,10 +348,7 @@ const closeModal = () => {
                         <option value="Foreign">외화 머니 계좌</option>
                     </select>
                 </div>
-                <div class="input-group filter-item">
-                    <span class="input-group-text text-body">
-                        <i class="fas fa-search" aria-hidden="true"></i>
-                    </span>
+                <div class="filter-item filter-search">
                     <input
                         type="text"
                         class="form-control"
@@ -411,7 +413,7 @@ const closeModal = () => {
                 <tr
                     v-for="transaction in filteredTransactions"
                     :key="transaction.id"
-                    @click="openModal(transaction)"          
+                    @click="openModal(transaction)"
                     style="cursor: pointer"
                 >
                     <td>{{ transaction.date }}</td>
@@ -446,6 +448,16 @@ const closeModal = () => {
 .filter-row {
     display: flex; /* 각 행을 가로로 배치 */
     margin-bottom: 10px; /* 두 줄 사이의 간격 */
+    align-items: center; /* 아이템들을 세로 중앙 정렬 */
+}
+
+.filter-item {
+    margin-right: 10px; /* 아이템 간의 간격 */
+}
+
+.filter-item.filter-search {
+    margin-left: auto; /* 오른쪽 끝으로 이동 */
+    max-width: 300px; /* 최대 너비를 설정 */
 }
 
 table {
@@ -472,6 +484,44 @@ button {
     background-color: #f9d71c;
     border: none;
     cursor: pointer;
+}
+
+button:hover {
+    background-color: #e0be14;
+}
+
+.filter-item select,
+.filter-item input[type="date"],
+.filter-item input[type="text"],
+button {
+    padding: 8px 12px;
+    border: 2px solid #ddd;
+    border-radius: 12px; /* 둥글게 */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    outline: none;
+    font-size: 14px;
+    transition: all 0.3s ease;
+}
+
+.filter-item input[type="text"] {
+    max-width: 300px; /* 최대 너비를 300px로 설정 */
+}
+
+.filter-item select:focus,
+.filter-item input[type="date"]:focus,
+.filter-item input[type="text"]:focus,
+button:hover {
+    border-color: #f9d71c;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+button {
+    background-color: #f9d71c;
+    color: white;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
 }
 
 button:hover {
