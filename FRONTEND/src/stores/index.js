@@ -1,4 +1,5 @@
 import { createStore } from "vuex";
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 export default createStore({
   state: {

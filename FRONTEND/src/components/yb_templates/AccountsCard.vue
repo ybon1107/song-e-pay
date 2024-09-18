@@ -74,12 +74,14 @@ function handleClick() {
 
 <style scoped>
 .card {
-  width: 300px; /* 카드의 기본 너비 설정 */
-  height: 200px; /* 카드의 기본 높이 설정 */
+  width: 450px; /* 부모 요소에 맞춰 유동적인 너비 */
+  aspect-ratio: 3 / 2; /* 300px : 200px 비율인 3:2 비율 유지 */
   position: relative;
-  border-radius: 10px; /* 카드의 모서리를 둥글게 설정 */
+  border-radius: 20px; /* 카드의 모서리를 둥글게 설정 */
   overflow: hidden; /* 카드 내용이 카드 영역을 넘지 않도록 설정 */
   cursor: pointer; /* 카드 클릭 가능하도록 설정 */
+  margin-left : 30px;
+  margin-right : 30px;
 }
 .card.selected {
   border: 2px solid #007bff; /* 선택된 카드를 강조하는 스타일 */

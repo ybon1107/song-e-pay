@@ -3,7 +3,7 @@ import ArgonInput from '@/components/templates/ArgonInput.vue';
 import DefaultInfoCard from '@/components/yb_templates/AccountsCard.vue';
 import ArgonAmountInput from '@/components/yb_templates/ArgonAmountInput.vue';
 import ArgonButton from '@/components/templates/ArgonButton.vue';
-import { ref, onMounted, computed  } from 'vue';
+import { ref, onMounted, computed, customRef  } from 'vue';
 import axios from 'axios';
 // 자산 정보와 잔액
 const selectedAsset = ref('Song-E Money'); // 기본적으로 Song-E Money가 선택됨
@@ -13,12 +13,32 @@ const exchangeAmount = ref('');
 const withdrawAmount = ref('');
 const transferAmount = ref('');
 const refundAmount = ref('');
+const customerunit = ref('USD');
 const songEMoneyBalance = ref(0); // Song-E Money의 잔액
 const wonEMoneyBalance = ref(0); // Won-E Money의 잔액
 const withdrawEmail = ref('');
 const withdrawEmailConfirm = ref('');
-const formattedSongEMoneyBalance = computed(() => `USD ${songEMoneyBalance.value.toFixed(2)}`);
+const formattedSongEMoneyBalance = computed(() => `${customerunit.value} ${songEMoneyBalance.value.toFixed(2)}`);
 const formattedWonEMoneyBalance = computed(() => `KRW ${wonEMoneyBalance.value.toLocaleString()}`);
+const exchangeRate = ref(null); // To store the fetched exchange rate
+
+onMounted(() => {
+  const fetchExchangeRate = () => {
+    axios.get(`https://api.manana.kr/exchange/rate/${customerunit.value}/KRW.json`)
+      .then(response => {
+        exchangeRate.value = response.data[0].rate;
+      })
+      .catch(error => {
+        console.error('환율 데이터를 가져오지 못했습니다:', error);
+      });
+  };
+
+  // 최초 환율 가져오기
+  fetchExchangeRate();
+
+  // 1분마다 환율 갱신
+  setInterval(fetchExchangeRate, 60000); // 60000ms = 1분
+});
 
 const formatNumber = (num) => {
   // 입력값이 숫자이면 포맷, 아니면 그대로 반환
@@ -86,12 +106,12 @@ const emailConfirm = () => {
 </script>
 
 <template>
-  <div class="my-assets-container">
+  <div class="container-fluid" style="width: 80%;">
     <div class="assets-list">
       <!-- Song-E Money 카드 -->
       <DefaultInfoCard 
         title="Song-E Money" 
-        :value=formattedSongEMoneyBalance
+        :value="formattedSongEMoneyBalance"
         img-src="/images/song-e-money.png" 
         img="/images/america.png" 
         @click="selectAsset('Song-E Money')"
@@ -101,113 +121,141 @@ const emailConfirm = () => {
       <!-- Won-E Money 카드 -->
       <DefaultInfoCard 
         title="Won-E Money" 
-        :value=formattedWonEMoneyBalance
+        :value="formattedWonEMoneyBalance"
         img-src="images/won-e-money.png" 
         img="/images/korea.png" 
         @click="selectAsset('Won-E Money')"
         :class="{ selected: selectedAsset === 'Won-E Money' }" 
       />
-      
     </div>
 
-    <div class="asset-details" :class="{'song-e-bg': selectedAsset === 'Song-E Money', 'won-e-bg': selectedAsset === 'Won-E Money'}">
-      <div class="tabs">
-        <!-- Song-E Money 선택 시 -->
-        <template v-if="selectedAsset === 'Song-E Money'">
-          <button @click="activeTab = 'charge'" :class="{ active: activeTab === 'charge' }">충전</button>
-          <button @click="activeTab = 'exchange'" :class="{ active: activeTab === 'exchange' }">환전</button>
-          <button @click="activeTab = 'withdraw'" :class="{ active: activeTab === 'withdraw' }">환불</button>
-        </template>
+    <div class="card">
+      <!-- Song-E Money 선택 시 -->
+      <template v-if="selectedAsset === 'Song-E Money'">
+        <nav class="nav flex-column flex-sm-row">
+          <a class="flex-sm-fill text-sm-center nav-link" 
+             :class="{ active: activeTab === 'charge' }" 
+             @click="activeTab = 'charge'" aria-current="page">
+            충전
+          </a>
+          <a class="flex-sm-fill text-sm-center nav-link" 
+             :class="{ active: activeTab === 'exchange' }" 
+             @click="activeTab = 'exchange'">
+            환전
+          </a>
+          <a class="flex-sm-fill text-sm-center nav-link" 
+             :class="{ active: activeTab === 'withdraw' }" 
+             @click="activeTab = 'withdraw'">
+            환불
+          </a>
+        </nav>
+      </template>
 
-        <!-- Won-E Money 선택 시 -->
-        <template v-if="selectedAsset === 'Won-E Money'">
-          <button @click="activeTab = 'transfer'" :class="{ active: activeTab === 'transfer' }">송금</button>
-          <button @click="activeTab = 'refund'" :class="{ active: activeTab === 'refund' }">환급</button>
-        </template>
-      </div>
+      <!-- Won-E Money 선택 시 -->
+      <template v-if="selectedAsset === 'Won-E Money'">
+        <nav class="nav flex-column flex-sm-row">
+          <a class="flex-sm-fill text-sm-center nav-link" 
+             :class="{ active: activeTab === 'transfer' }" 
+             @click="activeTab = 'transfer'" aria-current="page">
+            송금
+          </a>
+          <a class="flex-sm-fill text-sm-center nav-link" 
+             :class="{ active: activeTab === 'refund' }" 
+             @click="activeTab = 'refund'">
+            환급
+          </a>
+        </nav>
+      </template>
 
       <!-- Song-E Money의 탭 내용 -->
-      <div v-if="selectedAsset === 'Song-E Money'">
-        <div v-if="activeTab === 'charge'">
+      <div class="card-body" v-if="selectedAsset === 'Song-E Money'">
+        <div v-if="activeTab === 'charge'" class="tab-pane fade show active">
           <p>충전 금액</p>
-          <ArgonAmountInput v-model="chargeAmount" placeholder="금액을 입력하세요" unit="USD" />
+          <ArgonAmountInput v-model="chargeAmount" placeholder="금액을 입력하세요" :unit="customerunit" />
           <p>충전계좌: {{ selectedAsset === 'Song-E Money' ? '내 계좌' : 'KRW 계좌' }}</p>
-          <p>거래 후 잔액: {{ transactionAfterBalance }} USD</p>
-          <button class="action-btn" @click="charge">충전하기</button>
+          <p>거래 후 잔액: {{ transactionAfterBalance }} {{customerunit}}</p>
+          <argon-button type="submit" color="success" size="lg" class="w-100" @click="charge">충전하기</argon-button>
         </div>
 
         <div v-if="activeTab === 'exchange'">
-          <p>현재 환율</p> 
+          <p>현재 환율</p>
+          <p>1KRW = {{ exchangeRate }} {{ customerunit }}</p>
           <p>보내는 금액</p>
-          <ArgonAmountInput v-model="exchangeAmount" placeholder="얼마를 환전할까요?" unit="USD"/>
+          <ArgonAmountInput v-model="exchangeAmount" placeholder="얼마를 환전할까요?" :unit="customerunit"/>
           <p>받는 금액</p>
           <p>환급계좌: {{ selectedAsset === 'Song-E Money' ? '내 계좌' : 'KRW 계좌' }}</p>
-          <p>거래 후 잔액: {{ transactionAfterBalance }} USD</p>
-          <button class="action-btn" @click="exchange">환전하기</button>
+          <p>거래 후 잔액: {{ transactionAfterBalance }} {{ customerunit }}</p>
+          <argon-button type="submit" color="success" size="lg" class="w-100" @click="exchange">환전하기</argon-button>
         </div>
 
         <div v-if="activeTab === 'withdraw'">
           <p>환불할 금액을 입력하세요</p>
-          <ArgonAmountInput v-model="withdrawAmount" placeholder="얼마를 환불할까요?" unit="USD"/>
+          <ArgonAmountInput v-model="withdrawAmount" placeholder="얼마를 환불할까요?" :unit="customerunit"/>
           <p>환불계좌: {{ selectedAsset === 'Song-E Money' ? '내 계좌' : 'KRW 계좌' }}</p>
-          <p>거래 후 잔액: {{ transactionAfterBalance }} USD</p>
-          <button class="action-btn" @click="withdraw">환불하기</button>
+          <p>거래 후 잔액: {{ transactionAfterBalance }} {{ customerunit }}</p>
+          <argon-button type="submit" color="success" size="lg" class="w-100" @click="withdraw">환불하기</argon-button>
         </div>
       </div>
 
       <!-- Won-E Money의 탭 내용 -->
-      <div v-if="selectedAsset === 'Won-E Money'">
+      <div class="card-body" v-if="selectedAsset === 'Won-E Money'">
         <div v-if="activeTab === 'transfer'">
           <div class="text-btn">
             <p style="margin-top: 1rem; margin-bottom: 1rem;">보낼 이메일</p>
-
             <button class="action-btn2" @click="emailConfirm">이메일 확인하기</button>
           </div>
           <ArgonInput v-model="withdrawEmail" placeholder="받는 분의 이메일을 입력하세요"/>
           <p>이메일 확인</p>
-          <ArgonInput v-model="withdrawEmailConfirm" placeholder="이매일을 다시 입력하세요"/>
-          
+          <ArgonInput v-model="withdrawEmailConfirm" placeholder="이메일을 다시 입력하세요"/>
           <p>송금할 금액을 입력하세요</p>
           <ArgonAmountInput v-model="transferAmount" placeholder="얼마를 송금할까요?" unit="KRW"/>
-          <p>송금 계좌 : </p>
           <p>송금 후 잔액: {{ transactionAfterBalance }} KRW</p>
-          <button class="action-btn" @click="transfer">송금하기</button>
+          <argon-button type="submit" color="success" size="lg" class="w-100" @click="transfer">송금하기</argon-button>
         </div>
+
         <div v-if="activeTab === 'refund'">
           <p>현재 환율</p> 
           <p>보내는 금액</p>
           <ArgonAmountInput v-model="refundAmount" placeholder="얼마를 환급할까요?" unit="KRW" />
-          <p>받는 금액</p>
-          <p>환급계좌: {{ selectedAsset === 'Song-E Money' ? '내 계좌' : 'KRW 계좌' }}</p>
           <p>거래 후 잔액: {{ transactionAfterBalance }} KRW</p>
-          <button class="action-btn" @click="refund">환급하기</button>
+          <argon-button type="submit" color="success" size="lg" class="w-100" @click="refund">환급하기</argon-button>
         </div>
       </div>
     </div>
   </div>
 </template>
 
+
 <style scoped>
-.my-assets-container {
-  display: flex;
-  justify-content: space-between;
-  padding: 75px 50px;
-  background-color: #f7f7f7;
+/* 기본 탭 스타일 */
+.nav-link {
+  cursor: pointer;
+  color: #555;
+  padding: 10px 15px;
+  border-radius: 4px;
+  transition: background-color 0.3s ease;
 }
 
+/* 탭 활성화 스타일 */
+.nav-link.active {
+  background-color: #2CCE89;
+  color: white;
+}
+
+/* 비활성화된 탭 스타일 */
+.nav-link:hover {
+  background-color: #e9ecef;
+}
+
+/* 기타 스타일 */
 .assets-list {
   display: flex;
-  flex-direction: column;
-  width: 20%;
-}
-.assets-list > * {
-  margin-bottom: 10%; /* 카드 간격을 퍼센트 단위로 설정 (예: 5%) */
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%; /* 카드를 가로로 전체 너비에 맞추기 */
+  margin-bottom: 20px; /* 탭과의 간격 설정 */
 }
 
-/* 마지막 카드의 margin-bottom을 제거하여 불필요한 간격이 생기지 않도록 설정 */
-.assets-list > *:last-child {
-  margin-bottom: 0;
-}
 .asset-card {
   border-radius: 15px;
   border: 2px solid #ddd;
@@ -221,162 +269,10 @@ const emailConfirm = () => {
   align-items: center;
 }
 
-.asset-card.selected.song-e-bg {
-  background-color: #D6D6D6;
-}
-
-.asset-card.selected.won-e-bg {
-  background-color: #CECEE1;
-}
-
-.asset-card img {
-  width: 40px;
-  height: 40px;
-}
-
-.balance {
-  font-size: 18px;
-  font-weight: bold;
-}
-
-.asset-details {
-  width: 75%;
-  padding: 20px;
-  background-color: #fff;
-  border-radius: 15px;
-}
-
-.song-e-bg {
-  background-color: #D6D6D6;
-}
-
-.won-e-bg {
-  background-color: #CECEE1;
-}
-
-.tabs {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 20px;
-}
-
-.tabs button {
-  flex: 1;
-  padding: 10px;
-  background-color: #f0f0f0;
-  border: none;
-  border-radius: 10px;
-  margin-right: 10px;
-  font-size: 16px;
-  cursor: pointer;
-  transition: background-color 0.3s;
-}
-
-.tabs button:last-child {
-  margin-right: 0;
-}
-
-.tabs button.active {
-  background-color: #2CCE89;
-}
-
-.action-btn {
-  display: block;
-  width: 100%;
-  padding: 10px;
-  background-color: #2CCE89;
-  border: none;
-  border-radius: 10px;
-  color: white;
-  font-size: 16px;
-  cursor: pointer;
-  margin-top: 20px;
-  transition: background-color 0.3s;
-}
-
-.action-btn:hover .action-btn2:hover {
-  background-color: #2CCE89;
-}
-
-.action-btn2 {
-  display: block;
-  flex-direction: column;
-  width: 20%;
-  padding: 10px;
-  background-color: #2CCE89;
-  border: none;
-  border-radius: 10px;
-  color: white;
-  font-size: 16px;
-  cursor: pointer;
-  margin-top: 1rem;
-  margin-bottom: 1rem;
-  transition: background-color 0.3s;
-}
-
 .text-btn {
   display: flex;
   align-items: center; /* 세로 중앙 정렬 */
   gap: 10px; /* p 태그와 버튼 사이의 간격을 설정 (필요에 따라 조정) */
 }
 
-/* 화면 크기가 1200px 이하일 때 */
-@media (max-width: 1200px) {
-  .my-assets-container {
-    padding: 50px 20px; /* 좌우 패딩 줄이기 */
-  }
-
-  .assets-list {
-    width: 20%;
-  }
-  .asset-details {
-    width: 70%; /* 비율 조정 */
-  }
-}
-
-/* 화면 크기가 992px 이하일 때 */
-@media (max-width: 992px) {
-  .my-assets-container {
-    padding: 30px 10px; /* 좌우 패딩 더 줄이기 */
-    flex-direction: column; /* 세로 방향으로 변경 */
-    align-items: center; /* 중앙 정렬 */
-  }
-
-  .assets-list {
-    display: flex;
-    flex-direction: row;
-    width: 100%;
-  }
-  .assets-list > * {
-    margin-right: 10%; /* 카드 간격을 퍼센트 단위로 설정 (예: 5%) */
-  }
-
-  /* 마지막 카드의 margin-bottom을 제거하여 불필요한 간격이 생기지 않도록 설정 */
-  .assets-list > *:last-child {
-    margin-left: 0;
-  }
-}
-
-
-/* 화면 크기가 768px 이하일 때 */
-@media (max-width: 768px) {
-  .assets-list {
-    display: flex;
-    flex-direction: row;
-    width: 85%;
-  }
-  .assets-list > * {
-    margin-right: 10%; /* 카드 간격을 퍼센트 단위로 설정 (예: 5%) */
-  }
-
-  /* 마지막 카드의 margin-bottom을 제거하여 불필요한 간격이 생기지 않도록 설정 */
-  .assets-list > *:last-child {
-    margin-left: 0;
-  }
-
-  .asset-details {
-    margin-top : 10px;
-    padding: 10px; /* 패딩 줄이기 */
-  }
-}
 </style>
