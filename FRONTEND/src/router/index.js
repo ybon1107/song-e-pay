@@ -1,10 +1,10 @@
 import { createRouter, createWebHistory } from "vue-router";
-import Home from "@/views/Home/Home.vue";
-import MyAccounts from "@/views/MyAccounts/MyAccounts.vue";
-import ExchangeRate from "@/views/ExchangeRate/ExchangeRate.vue";
-import Payments from "@/views/Payments/Payments.vue";
-import Histories from "@/views/Histories/Histories.vue";
-import Maps from "@/views/Maps/Maps.vue";
+import Home from "../views/home/Home.vue";
+import MyAccounts from "../views/MyAccounts/MyAccounts.vue";
+import ExchangeRate from "../views/ExchangeRate/ExchangeRate.vue";
+import Payments from "../views/payments/Payments.vue";
+import Histories from "../views/Histories/Histories.vue";
+import Maps from "../views/Maps/Maps.vue";
 // import Dashboard from "../views/Dashboard.vue";
 // import Tables from "../views/Tables.vue";
 // import Billing from "../views/Billing.vue";
