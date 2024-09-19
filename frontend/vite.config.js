@@ -41,9 +41,13 @@ export default defineConfig({
   server: {
     proxy: {
       "/api": {
+        target: "https://localhost:8080",
+        changeOrigin: true,
+      },
+      "/exchange": {
         target: "https://v6.exchangerate-api.com",
         changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/api/, ""),
+        rewrite: (path) => path.replace(/^\/exchange/, ""),
       },
     },
   },
