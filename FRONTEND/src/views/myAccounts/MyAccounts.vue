@@ -18,8 +18,8 @@ const songEMoneyBalance = ref(0); // Song-E Money의 잔액
 const wonEMoneyBalance = ref(0); // Won-E Money의 잔액
 const withdrawEmail = ref('');
 const withdrawEmailConfirm = ref('');
-const formattedSongEMoneyBalance = computed(() => `${customerunit.value} ${songEMoneyBalance.value.toFixed(2)}`);
-const formattedWonEMoneyBalance = computed(() => `KRW ${wonEMoneyBalance.value.toLocaleString()}`);
+const formattedSongEMoneyBalance = computed(() => `${customerunit.value} ${formatNumber(songEMoneyBalance.value.toFixed(2))}`);
+const formattedWonEMoneyBalance = computed(() => `KRW ${formatNumber(wonEMoneyBalance.value.toFixed(2))}`);
 const exchangeRate = ref(null); // To store the fetched exchange rate
 
 // 환율 가져오기 함수
@@ -33,7 +33,6 @@ const fetchExchangeRate = () => {
   // Won-E Money 선택 시 KRW/USD 환율 API 사용
   else if (selectedAsset.value === 'Won-E Money') {
     apiUrl = `https://api.manana.kr/exchange/rate/KRW/${customerunit.value}.json`;
-    console.log('apiurl 은 refund');
   }
 
   axios
@@ -63,20 +62,40 @@ const formatNumber = (num) => {
   return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 };
 
-const transactionAfterBalance = computed(() => {
+let transactionAfterBalance = computed(() => {
   let balance = 0;
-
   // 충전일 경우 잔액 증가
   if (activeTab.value === 'charge') {
     balance = songEMoneyBalance.value + parseFloat(chargeAmount.value || 0);
   }
-  // 출금일 경우 잔액 감소
+  // 환전일 경우 잔액 감소
+  if (activeTab.value === 'exchange') {
+    balance = songEMoneyBalance.value - parseFloat(exchangeAmount.value || 0);
+  }
+  // 환불일 경우 잔액 감소
   else if (activeTab.value === 'withdraw') {
     balance = songEMoneyBalance.value - parseFloat(withdrawAmount.value || 0);
   }
 
   // 계산된 숫자를 포맷하여 반환
   return formatNumber(balance.toFixed(2)); // 소수점 두 자릿수까지 표시
+});
+
+let transactionAfterWonBalance = computed(() => {
+  let wonBalance = 0;
+
+  // 충전일 경우 잔액 증가
+  if (activeTab.value === 'transfer') {
+    wonBalance = wonEMoneyBalance.value - parseFloat(transferAmount.value || 0);
+  }
+
+  // 환급일 경우 잔액 감소
+  else if (activeTab.value === 'refund') {
+    wonBalance = wonEMoneyBalance.value - parseFloat(refundAmount.value || 0);
+  }
+
+  // 계산된 숫자를 포맷하여 반환
+  return formatNumber(wonBalance.toFixed(2)); // 소수점 두 자릿수까지 표시
 });
 
 // 자산 선택
@@ -90,27 +109,33 @@ const selectAsset = (asset) => {
 const charge = () => {
   songEMoneyBalance.value += parseFloat(chargeAmount.value);
   chargeAmount.value = ''; // 충전 후 입력 초기화
-  transactionAfterBalance = '';
 };
 
 // 환전 처리
-const exchange = () => {};
+const exchange = () => {
+  songEMoneyBalance.value -= parseFloat(exchangeAmount.value);
+  wonEMoneyBalance.value += parseFloat(receivedAmount.value);
+  exchangeAmount.value = ''; // 환전 후 입력 초기화
+};
 
 // 환불 처리
 const withdraw = () => {
   songEMoneyBalance.value -= parseFloat(withdrawAmount.value);
-  withdrawAmount.value = ''; // 충전 후 입력 초기화
-  transactionAfterBalance = '';
+  withdrawAmount.value = ''; // 환불 후 입력 초기화
 };
 
 // 송금 처리
 const transfer = () => {
   wonEMoneyBalance.value -= parseFloat(transferAmount.value);
-  transferAmount.value = ''; // 충전 후 입력 초기화
+  transferAmount.value = ''; // 송금 후 입력 초기화
 };
 
 // 환급 처리
-const refund = () => {};
+const refund = () => {
+  wonEMoneyBalance.value -= parseFloat(refundAmount.value);
+  songEMoneyBalance.value += parseFloat(receivedAmount.value);
+  refundAmount.value = ''; // 환급 후 입력 초기화
+};
 
 const emailConfirm = () => {
   //이메일 확인 버튼 눌렀을 시 회원 이메일 혹은 비회원 이메일 뜨게 하기
@@ -182,7 +207,14 @@ const receivedAmount = computed(() => {
           <p>현재 환율</p>
           <p>1KRW = {{ exchangeRate }} {{ customerunit }}</p>
           <p>보내는 금액</p>
-          <ArgonAmountInput v-model="exchangeAmount" placeholder="얼마를 환전할까요?" :unit="customerunit" />
+          <ArgonAmountInput
+            v-model="exchangeAmount"
+            placeholder="얼마를 환전할까요?"
+            :unit="customerunit"
+            :selectedAsset="selectedAsset"
+            :songEMoneyBalance="songEMoneyBalance"
+            :activeTab="activeTab"
+          />
           <p>받는 금액</p>
           <p>{{ receivedAmount }} KRW</p>
           <p>환급계좌: {{ selectedAsset === 'Song-E Money' ? '내 계좌' : 'KRW 계좌' }}</p>
@@ -192,7 +224,14 @@ const receivedAmount = computed(() => {
 
         <div v-if="activeTab === 'withdraw'">
           <p>환불할 금액을 입력하세요</p>
-          <ArgonAmountInput v-model="withdrawAmount" placeholder="얼마를 환불할까요?" :unit="customerunit" />
+          <ArgonAmountInput
+            v-model="withdrawAmount"
+            placeholder="얼마를 환불할까요?"
+            :unit="customerunit"
+            :selectedAsset="selectedAsset"
+            :songEMoneyBalance="songEMoneyBalance"
+            :activeTab="activeTab"
+          />
           <p>환불계좌: {{ selectedAsset === 'Song-E Money' ? '내 계좌' : 'KRW 계좌' }}</p>
           <p>거래 후 잔액: {{ transactionAfterBalance }} {{ customerunit }}</p>
           <argon-button type="submit" color="success" size="lg" class="w-100" @click="withdraw">환불하기</argon-button>
@@ -210,8 +249,15 @@ const receivedAmount = computed(() => {
           <p>이메일 확인</p>
           <ArgonInput v-model="withdrawEmailConfirm" placeholder="이메일을 다시 입력하세요" />
           <p>송금할 금액을 입력하세요</p>
-          <ArgonAmountInput v-model="transferAmount" placeholder="얼마를 송금할까요?" unit="KRW" />
-          <p>송금 후 잔액: {{ transactionAfterBalance }} KRW</p>
+          <ArgonAmountInput
+            v-model="transferAmount"
+            placeholder="얼마를 송금할까요?"
+            unit="KRW"
+            :selectedAsset="selectedAsset"
+            :wonEMoneyBalance="wonEMoneyBalance"
+            :activeTab="activeTab"
+          />
+          <p>송금 후 잔액: {{ transactionAfterWonBalance }} KRW</p>
           <argon-button type="submit" color="success" size="lg" class="w-100" @click="transfer">송금하기</argon-button>
         </div>
 
@@ -219,9 +265,17 @@ const receivedAmount = computed(() => {
           <p>현재 환율</p>
           <p>1{{ customerunit }} = {{ exchangeRate }} KRW</p>
           <p>보내는 금액</p>
-          <ArgonAmountInput v-model="refundAmount" placeholder="얼마를 환급할까요?" unit="KRW" />
+          <ArgonAmountInput
+            v-model="refundAmount"
+            placeholder="얼마를 환급할까요?"
+            unit="KRW"
+            :selectedAsset="selectedAsset"
+            :wonEMoneyBalance="wonEMoneyBalance"
+            :activeTab="activeTab"
+          />
           <p>받는 금액</p>
-          <p>거래 후 잔액: {{ transactionAfterBalance }} KRW</p>
+          <p>{{ receivedAmount }} USD</p>
+          <p>거래 후 잔액: {{ transactionAfterWonBalance }} KRW</p>
           <argon-button type="submit" color="success" size="lg" class="w-100" @click="refund">환급하기</argon-button>
         </div>
       </div>
