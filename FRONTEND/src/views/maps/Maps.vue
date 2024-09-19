@@ -3,7 +3,7 @@ import { ref, onMounted, watch } from "vue";
 import axios from "axios";
 
 // Kakao 지도 API 키
-const MAP_API_KEY = "33cf94244b357b4aa60393fea33c07ba";
+const MAP_API_KEY = "api 아이디";
 
 // 선택된 은행, 지역 설정
 const selectedBank = ref("전체보기");
@@ -338,7 +338,7 @@ const mapRef = ref();
 onMounted(() => {
   const script = document.createElement("script");
   script.onload = () => kakao.maps.load(() => initMap("init"));
-  script.src = `//dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=33cf94244b357b4aa60393fea33c07ba&libraries=services`;
+  script.src = `//dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey="api 아이디&libraries=services`;
   document.head.appendChild(script);
 });
 
