@@ -24,3 +24,6 @@ frontend/*.sw?
 
 frontend/package-lock.json
 frontend/yarn.lock
+
+backend/src/main/resources/application.properties
+
