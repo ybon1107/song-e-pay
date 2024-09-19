@@ -2,14 +2,15 @@
 import { ref, watch, onBeforeUnmount, onBeforeMount } from "vue";
 import { useStore } from "vuex";
 import { useRouter } from "vue-router";
-import Navbar from "@/components/Navbars/Navbar.vue";
-import ArgonInput from "@/components/templates/ArgonInput.vue";
+// import Navbar from "@/components/Navbars/Navbar.vue";
+// import ArgonInput from "@/components/templates/ArgonInput.vue";
 import ArgonCheckbox from "@/components/templates/ArgonCheckbox.vue";
 import ArgonButton from "@/components/templates/ArgonButton.vue";
 
-const router = useRouter();
 const body = document.getElementsByTagName("body")[0];
 const store = useStore();
+const router = useRouter();
+
 onBeforeMount(() => {
   store.state.hideConfigButton = true;
   store.state.showNavbar = false;
@@ -24,6 +25,7 @@ onBeforeUnmount(() => {
   store.state.showFooter = true;
   body.classList.add("bg-gray-100");
 });
+
 // 동의 체크박스 상태들
 const agreeAll = ref(false);
 const agreeTerms = ref(false);
@@ -44,6 +46,7 @@ watch(agreeAll, (newAgreeAll) => {
   }
 });
 
+// 다음 버튼 클릭 핸들러
 const handleNext = () => {
   if (agreeTerms.value && agreePrivacy.value) {
     router.push("/register/email");
