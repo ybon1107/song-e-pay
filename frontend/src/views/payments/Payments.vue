@@ -9,10 +9,38 @@
           <h4 class="text-center">Our payment system is only available in a mobile environment.</h4>
         </div>
         <div class="d-xl-none">
-          <h2>hi</h2>
+          <div class="text-center mb-3">
+            <img :src="qrCodeUrl" alt="QR Code">
+          </div>
+          <div class="btn btn-sm btn-warning mb-0 mx-4 d-flex justify-content-between">
+            <p class="mb-0">보유잔액</p>
+            <p class="mb-0">10,000원</p>
+          </div>
         </div>
       </div>
     </div>
-    
   </div>
 </template>
+
+<script>
+import { ref, onMounted } from 'vue'
+
+export default {
+  setup() {
+    const qrCodeUrl = ref('')
+
+    const generateQRCode = () => {
+      const url = encodeURIComponent('https://www.google.com/?hl=ko')
+      qrCodeUrl.value = `http://localhost:8888/api/payment/qr?url=${url}`
+    }
+
+    onMounted(() => {
+      generateQRCode()
+    })
+
+    return {
+      qrCodeUrl
+    }
+  }
+}
+</script>
