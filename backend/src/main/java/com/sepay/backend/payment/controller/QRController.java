@@ -1,6 +1,7 @@
 package com.sepay.backend.payment.controller;
 
 import com.google.zxing.WriterException;
+import com.sepay.backend.payment.service.QrService;
 import com.sepay.backend.payment.service.QrServiceImpl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -17,11 +18,11 @@ import java.io.OutputStream;
 @RequiredArgsConstructor
 @RequestMapping("/api/payment")
 public class QRController {
-    private QrServiceImpl qrServiceImpl;
+    private final QrService qrService;
 
     @Autowired
-    public QRController(QrServiceImpl qrServiceImpl) {
-        this.qrServiceImpl = qrServiceImpl;
+    public QRController(QrServiceImpl qrService) {
+        this.qrService = qrService;
     }
 
     @GetMapping("/qr")
@@ -30,7 +31,7 @@ public class QRController {
         String dynamicUrl = url + "?time=" + System.currentTimeMillis();
 
         // QR 코드 이미지 생성
-        byte[] qrBytes = qrServiceImpl.createQR(dynamicUrl);
+        byte[] qrBytes = qrService.createQR(dynamicUrl);
 
         // 응답의 content type을 이미지(PNG)로 설정
         response.setContentType("image/png");
@@ -41,8 +42,11 @@ public class QRController {
         outputStream.close();
     }
 
-//    @PostMapping("/qr")
-//    public void createQR(@RequestParam String url, HttpServletResponse response) throws WriterException, IOException, IOException {
-//
-//    }
+    @GetMapping("/qr-scan")
+    @ResponseBody
+    public void handleQRScan(){
+        //결제 로직 구현
+        System.out.println("입력");
+        return;
+    }
 }
