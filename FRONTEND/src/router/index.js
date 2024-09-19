@@ -1,10 +1,10 @@
-import { createRouter, createWebHistory } from "vue-router";
-import Home from "../views/home/Home.vue";
-import MyAccounts from "../views/MyAccounts/MyAccounts.vue";
-import ExchangeRate from "../views/ExchangeRate/ExchangeRate.vue";
-import Payments from "../views/payments/Payments.vue";
-import Histories from "../views/Histories/Histories.vue";
-import Maps from "../views/Maps/Maps.vue";
+import { createRouter, createWebHistory } from 'vue-router';
+import Home from '../views/home/Home.vue';
+import MyAccounts from '../views/MyAccounts/MyAccounts.vue';
+import ExchangeRate from '../views/ExchangeRate/ExchangeRate.vue';
+import Payments from '../views/payments/Payments.vue';
+import Histories from '../views/Histories/Histories.vue';
+import Maps from '../views/Maps/Maps.vue';
 // import Dashboard from "../views/Dashboard.vue";
 // import Tables from "../views/Tables.vue";
 // import Billing from "../views/Billing.vue";
@@ -16,38 +16,38 @@ import Maps from "../views/Maps/Maps.vue";
 
 const routes = [
   {
-    path: "/",
-    name: "/",
-    redirect: "/home",
+    path: '/',
+    name: '/',
+    redirect: '/home',
   },
   {
-    path: "/home",
-    name: "Home",
+    path: '/home',
+    name: 'Home',
     component: Home,
   },
   {
-    path: "/my-accounts",
-    name: "MyAccounts",
+    path: '/my-accounts',
+    name: 'MyAccounts',
     component: MyAccounts,
   },
   {
-    path: "/exchange-rate",
-    name: "ExchangeRate",
+    path: '/exchange-rate',
+    name: 'ExchangeRate',
     component: ExchangeRate,
   },
   {
-    path: "/payments",
-    name: "Payments",
+    path: '/payments',
+    name: 'Payments',
     component: Payments,
   },
   {
-    path: "/histories",
-    name: "Histories",
+    path: '/histories',
+    name: 'Histories',
     component: Histories,
   },
   {
-    path: "/maps",
-    name: "Maps",
+    path: '/maps',
+    name: 'Maps',
     component: Maps,
   },
   // {
@@ -70,7 +70,7 @@ const routes = [
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes,
-  linkActiveClass: "active",
+  linkActiveClass: 'active',
 });
 
 export default router;
