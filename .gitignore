@@ -1,26 +1,26 @@
-FRONTEND/.DS_Store
-FRONTEND/node_modules
-FRONTEND/dist
+frontend/.DS_Store
+frontend/node_modules
+frontend/dist
 
 
 # local env files
-FRONTEND/.env.local
-FRONTEND/.env.*.local
+frontend/.env.local
+frontend/.env.*.local
 
 # Log files
-FRONTEND/npm-debug.log*
-FRONTEND/yarn-debug.log*
-FRONTEND/yarn-error.log*
-FRONTEND/pnpm-debug.log*
+frontend/npm-debug.log*
+frontend/yarn-debug.log*
+frontend/yarn-error.log*
+frontend/pnpm-debug.log*
 
 # Editor directories and files
-FRONTEND/.idea
-FRONTEND/.vscode
-FRONTEND/*.suo
-FRONTEND/*.ntvs*
-FRONTEND/*.njsproj
-FRONTEND/*.sln
-FRONTEND/*.sw?
+frontend/.idea
+frontend/.vscode
+frontend/*.suo
+frontend/*.ntvs*
+frontend/*.njsproj
+frontend/*.sln
+frontend/*.sw?
 
-FRONTEND/package-lock.json
-FRONTEND/yarn.lock
+frontend/package-lock.json
+frontend/yarn.lock
