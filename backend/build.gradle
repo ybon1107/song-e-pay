@@ -49,6 +49,10 @@ dependencies {
     // xml내 한글 처리
     implementation 'xerces:xercesImpl:2.12.2'
 
+    //qr code 생성 zxing 추가
+    implementation group: 'com.google.zxing', name: 'core', version: '3.5.3'
+    implementation group: 'com.google.zxing', name: 'javase', version: '3.5.3'
+
     // Lombok
     compileOnly "org.projectlombok:lombok:${lombokVersion}"
     annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
