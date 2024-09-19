@@ -6,10 +6,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -29,8 +26,11 @@ public class QRController {
 
     @GetMapping("/qr")
     public void createQR(@RequestParam String url, HttpServletResponse response) throws WriterException, IOException, IOException {
+        // 현재 시간 기반으로 QR 코드 내용 생성
+        String dynamicUrl = url + "?time=" + System.currentTimeMillis();
+
         // QR 코드 이미지 생성
-        byte[] qrBytes = qrServiceImpl.createQR(url);
+        byte[] qrBytes = qrServiceImpl.createQR(dynamicUrl);
 
         // 응답의 content type을 이미지(PNG)로 설정
         response.setContentType("image/png");
@@ -40,4 +40,9 @@ public class QRController {
         outputStream.write(qrBytes);
         outputStream.close();
     }
+
+//    @PostMapping("/qr")
+//    public void createQR(@RequestParam String url, HttpServletResponse response) throws WriterException, IOException, IOException {
+//
+//    }
 }
