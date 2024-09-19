@@ -63,7 +63,7 @@ const formatNumber = (num) => {
   return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 };
 
-const transactionAfterBalance = computed(() => {
+let transactionAfterBalance = computed(() => {
   let balance = 0;
 
   // 충전일 경우 잔액 증가

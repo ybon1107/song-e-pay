@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import Home from '../views/home/Home.vue';
-import MyAccounts from '../views/MyAccounts/MyAccounts.vue';
+import MyAccounts from '../views/myAccounts/MyAccounts.vue';
 import ExchangeRate from '../views/ExchangeRate/ExchangeRate.vue';
 import Payments from '../views/payments/Payments.vue';
 import Histories from '../views/Histories/Histories.vue';
@@ -10,10 +10,11 @@ import Maps from '../views/Maps/Maps.vue';
 // import Billing from "../views/Billing.vue";
 // import VirtualReality from "../views/VirtualReality.vue";
 // import RTL from "../views/Rtl.vue";
-// import Profile from "../views/Profile.vue";
-import Register from "@/views/Register.vue";
-import Registeremail from "@/views/Registeremail.vue";
-import Login from "@/views/Login.vue";
+import Profile from "../views/profile/Profile.vue";
+import ChangePwd from "../views/profile/ChangePassword.vue";
+import Register from "../views/signUp/RegisterLegal.vue";
+import Registeremail from "../views/signUp/Registeremail.vue";
+import Login from "../views/signIn/Login.vue";
 
 const routes = [
   {
@@ -51,11 +52,16 @@ const routes = [
     name: 'Maps',
     component: Maps,
   },
-  // {
-  //   path: "/profile",
-  //   name: "Profile",
-  //   component: Profile,
-  // },
+  {
+    path: "/profile",
+    name: "Profile",
+    component: Profile,
+  },
+  {
+    path: "/change-password",
+    name: "ChangePwd",
+    component: ChangePwd,
+  },
   {
     path: "/login",
     name: "Login",
