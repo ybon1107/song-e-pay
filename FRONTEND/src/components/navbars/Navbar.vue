@@ -35,6 +35,7 @@ const closeMenu = () => {
     data-scroll="true"
   >
     <div class="px-3 py-1 container-fluid">
+      <img src="@/assets/img/songepay_logo.png" />
       <div
         class="mt-2 collapse navbar-collapse mt-sm-0 me-md-0 me-sm-4"
         :class="isRTL ? 'px-0' : 'me-sm-4'"

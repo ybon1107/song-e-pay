@@ -1,4 +1,5 @@
 <script setup>
+import { readonly } from "vue";
 defineProps({
   id: {
     type: String,
@@ -8,9 +9,21 @@ defineProps({
     type: String,
     default: "",
   },
+  value: {
+    type: String,
+    default: "",
+  },
   rows: {
-    type: Number,
-    default: 5,
+    type: String,
+    default: "3",
+  },
+  readonly: {
+    type: Boolean,
+    default: false,
+  },
+  disabled: {
+    type: Boolean,
+    default: false,
   },
 });
 </script>
@@ -21,9 +34,12 @@ defineProps({
     </label>
     <textarea
       :id="id"
-      class="form-control"
+      class="form-control bg-white"
       :rows="rows"
       :placeholder="placeholder"
+      :value="value"
+      :readonly="readonly"
+      :disabled="disabled"
     ></textarea>
   </div>
 </template>
