@@ -10,7 +10,8 @@ import Maps from "@/views/Maps/Maps.vue";
 // import Billing from "../views/Billing.vue";
 // import VirtualReality from "../views/VirtualReality.vue";
 // import RTL from "../views/Rtl.vue";
-// import Profile from "../views/Profile.vue";
+import Profile from "../views/profile/Profile.vue";
+import ChangePwd from "../views/profile/ChangePassword.vue";
 // import Signup from "../views/Signup.vue";
 // import Signin from "../views/Signin.vue";
 
@@ -50,11 +51,16 @@ const routes = [
     name: "Maps",
     component: Maps,
   },
-  // {
-  //   path: "/profile",
-  //   name: "Profile",
-  //   component: Profile,
-  // },
+  {
+    path: "/profile",
+    name: "Profile",
+    component: Profile,
+  },
+  {
+    path: "/change-password",
+    name: "ChangePwd",
+    component: ChangePwd,
+  },
   // {
   //   path: "/signin",
   //   name: "Signin",
