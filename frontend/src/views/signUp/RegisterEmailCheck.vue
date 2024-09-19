@@ -49,7 +49,7 @@ onBeforeUnmount(() => {
           <div class="row justify-content-center">
             <!-- 카드 컨테이너 -->
             <div
-              class="mx-auto col-xl-4 col-lg-6 col-md-8 col-sm-10 d-flex flex-column mx-lg-0"
+              class="mx-auto col-xl-6 col-lg-6 col-md-8 col-sm-10 d-flex flex-column mx-lg-0"
             >
               <div class="card card-plain">
                 <!-- 카드 헤더: 제목 -->
@@ -63,7 +63,8 @@ onBeforeUnmount(() => {
                   <argon-alert color="info" icon="ni ni-send">
                     <span
                       >Follow the link in the email we sent to
-                      <strong class="text-dark">useremail@gmail.com</strong>.
+                      <strong class="text-dark">useremail@gmail.com</strong
+                      >.<br />
                       The email can take up to
                       <strong class="text-dark">1 minute</strong> to
                       arrive.</span
