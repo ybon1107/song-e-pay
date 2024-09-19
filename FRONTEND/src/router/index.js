@@ -1,7 +1,8 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import Home from '../views/home/Home.vue';
 import MyAccounts from '../views/myAccounts/MyAccounts.vue';
-import ExchangeRate from '../views/ExchangeRate/ExchangeRate.vue';
+import ExchangeRate from '../views/exchangeRate/ExchangeRate.vue';
+import SetAlert from "../views/exchangeRate/SetAlert.vue";
 import Payments from '../views/payments/Payments.vue';
 import Histories from '../views/Histories/Histories.vue';
 import Maps from '../views/Maps/Maps.vue';
@@ -36,6 +37,11 @@ const routes = [
     path: '/exchange-rate',
     name: 'ExchangeRate',
     component: ExchangeRate,
+  },
+  {
+    path: "/set-alert",
+    name: "SetAlert",
+    component: SetAlert,
   },
   {
     path: '/payments',
