@@ -5,6 +5,7 @@ import Navbar from "@/components/Navbars/Navbar.vue";
 import ArgonInput from "@/components/templates/ArgonInput.vue";
 import ArgonCheckbox from "@/components/templates/ArgonCheckbox.vue";
 import ArgonButton from "@/components/templates/ArgonButton.vue";
+import ArgonTextarea from "@/components/templates/ArgonTextarea.vue";
 
 const body = document.getElementsByTagName("body")[0];
 const store = useStore();
@@ -50,14 +51,21 @@ onBeforeUnmount(() => {
                   </argon-checkbox>
                   <form role="form">
                     <!-- 이용약관 동의 -->
-                    <div class="mb-3">
-                      <argon-checkbox>
-                        <label class="form-check-label" for="flexCheckDefault">
-                          <span class="text-success">[Required]</span>
-                          I agree the Terms of Service
-                        </label>
-                      </argon-checkbox>
-                      <textarea
+                    <div class="mb-3 form-check">
+                      <label for="terms">
+                        <argon-checkbox id="terms"
+                          ><span class="text-success">[Required]</span> I agree
+                          the Terms of Service</argon-checkbox
+                        >
+                      </label>
+                      <argon-textarea
+                        readonly
+                        disabled
+                        id="terms"
+                        rows="3"
+                        value="약관동의 내용이 들어갑니다. 약관동의 내용이 들어갑니다. 약관동의 내용이 들어갑니다. 약관동의 내용이 들어갑니다. 약관동의 내용이 들어갑니다. 약관동의 내용이 들어갑니다. 약관동의 내용이 들어갑니다. 약관동의 내용이 들어갑니다. 약관동의 내용이 들어갑니다."
+                      ></argon-textarea>
+                      <!-- <textarea
                         readonly
                         disabled
                         key="terms"
@@ -65,7 +73,7 @@ onBeforeUnmount(() => {
                         rows="3"
                         value="약관동의 내용이 들어갑니다. 약관동의 내용이 들어갑니다. 약관동의 내용이 들어갑니다. 약관동의 내용이 들어갑니다. 약관동의 내용이 들어갑니다. 약관동의 내용이 들어갑니다. 약관동의 내용이 들어갑니다. 약관동의 내용이 들어갑니다. 약관동의 내용이 들어갑니다."
                       >
-                      </textarea>
+                      </textarea> -->
                     </div>
                     <!-- 개인정보 보호정책 동의 -->
                     <div class="mb-3">

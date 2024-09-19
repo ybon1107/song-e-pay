@@ -45,13 +45,13 @@ onBeforeUnmount(() => {
                 <p class="mx-auto text-sm">
                   Already have an account?
                   <a
-                    href="javascript:;"
+                    href="/login"
                     class="text-success text-gradient font-weight-bold"
                     >Sign in</a
                   >
                 </p>
               </div>
-              <!-- 카드 본문: 로그인 폼 -->
+              <!-- 카드 본문 -->
               <div class="card-body">
                 <form role="form">
                   <!-- 이메일 입력 필드 -->
