@@ -1,17 +1,17 @@
 <script setup>
-import { computed } from 'vue';
-import { useRoute } from 'vue-router';
-import { useStore } from 'vuex';
+import { computed } from "vue";
+import { useRoute } from "vue-router";
+import { useStore } from "vuex";
 
-import SidenavItem from './SidenavItem.vue';
-import SidenavCard from './SidenavCard.vue';
+import SidenavItem from "./SidenavItem.vue";
+import SidenavCard from "./SidenavCard.vue";
 
 const store = useStore();
 const isRTL = computed(() => store.state.isRTL);
 
 const getRoute = () => {
   const route = useRoute();
-  const routeArr = route.path.split('/');
+  const routeArr = route.path.split("/");
   return routeArr[1];
 };
 </script>
@@ -94,6 +94,7 @@ const getRoute = () => {
           </template>
         </sidenav-item>
       </li>
+
 
       <!-- <li class="mt-3 nav-item">
         <h6
