@@ -1,15 +1,16 @@
 <script setup>
-import { onBeforeUnmount, onBeforeMount } from "vue";
+import { ref, watch, onBeforeUnmount, onBeforeMount } from "vue";
 import { useStore } from "vuex";
-
+import { useRouter } from "vue-router";
 // import Navbar from "@/views/pageLayout/Navbar.vue";
 import AppFooter from "@/views/pageLayout/Footer.vue";
 import ArgonInput from "@/components/templates/ArgonInput.vue";
-import ArgonCheckbox from "@/components/templates/ArgonCheckbox.vue";
 import ArgonButton from "@/components/templates/ArgonButton.vue";
-const body = document.getElementsByTagName("body")[0];
 
+const body = document.getElementsByTagName("body")[0];
 const store = useStore();
+const router = useRouter();
+
 onBeforeMount(() => {
   store.state.hideConfigButton = true;
   store.state.showNavbar = false;
@@ -24,6 +25,33 @@ onBeforeUnmount(() => {
   store.state.showFooter = true;
   body.classList.add("bg-gray-100");
 });
+
+// 전화번호와 국가 코드 상태
+const phoneNumber = ref("");
+const countryCallingCode = ref("+1");
+
+// 전화번호 유효성 검사
+const isPhoneValid = ref(false);
+
+// 전화번호 유효성 검증 함수
+const validatePhoneNumber = () => {
+  const phoneRegex = /^[0-9]{10,15}$/; // 10자리에서 15자리 숫자
+  isPhoneValid.value = phoneRegex.test(phoneNumber.value);
+};
+
+// 전화번호 입력 변경 감지
+watch(phoneNumber, validatePhoneNumber);
+
+// 인증코드 전송 버튼 클릭 핸들러
+const handleSendCode = () => {
+  if (isPhoneValid.value) {
+    router.push("/register/phone/submit");
+    console.log("Sending verification code...");
+    // 추가 로직 (예: API 호출)
+  } else {
+    console.log("Invalid phone number.");
+  }
+};
 </script>
 <template>
   <main class="main-content mt-0">
@@ -58,35 +86,39 @@ onBeforeUnmount(() => {
                   <label for="name" class="form-label">Your phone number</label>
                   <div class="phone-input row g-3">
                     <div class="col-xl-4 col-md-3 col-sm-3">
-                      <!-- <select
+                      <select
                         id="countryCallingCode"
                         class="form-select"
                         aria-label="Country"
+                        v-model="countryCallingCode"
                       >
-                        <option value="united states">&#43;1</option>
-                        <option value="japan">&#43;81</option>
-                        <option value="china">&#43;86</option>
-                        <option value="taiwan">&#43;886</option>
-                      </select> -->
+                        <option value="+1">&#43;1 USA</option>
+                        <option value="+62">&#43;62 IDN</option>
+                        <option value="+81">&#43;81 JPN</option>
+                        <option value="+86">&#43;86 CHN</option>
+                        <option value="+886">&#43;886 TWN</option>
+                      </select>
                     </div>
                     <div class="col-xl col-md col-sm">
                       <argon-input
-                        id="phone"
+                        id="phoneNumber"
                         type="tel"
                         placeholder="Phone number"
                         aria-label="Phone number"
+                        v-model="phoneNumber"
                       />
                     </div>
                   </div>
                   <!-- 다음 버튼 -->
                   <div class="text-center">
                     <argon-button
-                      disabled
+                      :disabled="!isPhoneValid"
                       fullWidth
                       color="success"
                       variant="gradient"
                       class="my-4 mb-2"
-                      >Next</argon-button
+                      @click="handleSendCode"
+                      >Send verification code</argon-button
                     >
                   </div>
                 </form>
