@@ -25,6 +25,12 @@ public class QRController {
         this.qrService = qrService;
     }
 
+    @PostMapping("/check-password")
+    public void checkPassword(@RequestBody String password){
+        System.out.println("password:"+password);
+        return;
+    }
+
     @GetMapping("/qr")
     public void createQR(@RequestParam String url, HttpServletResponse response) throws WriterException, IOException, IOException {
         // 현재 시간 기반으로 QR 코드 내용 생성
