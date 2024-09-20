@@ -195,8 +195,4 @@ button:hover {
   align-items: center;
   color: #aaa;
 }
-
-.targetbox {
-  width: 180px;
-}
 </style>
