@@ -13,7 +13,7 @@ import java.io.IOException;
 
 @Slf4j
 @Service
-public class QrServiceImpl implements QrService {
+public class PaymentServiceImpl implements PaymentService {
     @Override
     public byte[] createQR(String url) throws WriterException, IOException {
         // QR 코드 크기 설정

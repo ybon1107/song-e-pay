@@ -1,12 +1,11 @@
 package com.sepay.backend.payment.controller;
 
 import com.google.zxing.WriterException;
-import com.sepay.backend.payment.service.QrService;
-import com.sepay.backend.payment.service.QrServiceImpl;
+import com.sepay.backend.payment.service.PaymentService;
+import com.sepay.backend.payment.service.PaymentServiceImpl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
@@ -17,12 +16,12 @@ import java.io.OutputStream;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/payment")
-public class QRController {
-    private final QrService qrService;
+public class PaymentController {
+    private final PaymentService paymentService;
 
     @Autowired
-    public QRController(QrServiceImpl qrService) {
-        this.qrService = qrService;
+    public PaymentController(PaymentServiceImpl paymentService) {
+        this.paymentService = paymentService;
     }
 
     @PostMapping("/check-password")
@@ -37,7 +36,7 @@ public class QRController {
         String dynamicUrl = url + "?time=" + System.currentTimeMillis();
 
         // QR 코드 이미지 생성
-        byte[] qrBytes = qrService.createQR(dynamicUrl);
+        byte[] qrBytes = paymentService.createQR(dynamicUrl);
 
         // 응답의 content type을 이미지(PNG)로 설정
         response.setContentType("image/png");
