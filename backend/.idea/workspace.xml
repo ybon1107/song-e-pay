@@ -1,0 +1,781 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="2d94ba48-0118-4f0b-b93f-00771c024fe3" name="변경" comment="">
+      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.gradle/8.7/checksums/checksums.lock" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.gradle/8.7/checksums/md5-checksums.bin" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.gradle/8.7/checksums/sha1-checksums.bin" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.gradle/8.7/executionHistory/executionHistory.bin" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.gradle/8.7/executionHistory/executionHistory.lock" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.gradle/8.7/fileChanges/last-build.bin" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.gradle/8.7/fileHashes/fileHashes.bin" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.gradle/8.7/fileHashes/fileHashes.lock" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.gradle/8.7/fileHashes/resourceHashesCache.bin" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/cache.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.gradle/file-system.probe" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.gradle/vcs-1/gc.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/jarRepositories.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/modules/backend.main.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/build/classes/java/main/com/sepay/backend/common/pagination/Page.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/build/classes/java/main/com/sepay/backend/common/pagination/PageRequest.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/build/classes/java/main/com/sepay/backend/common/util/UploadFileName.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/build/classes/java/main/com/sepay/backend/common/util/UploadFiles.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/build/classes/java/main/com/sepay/backend/config/RootConfig.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/build/classes/java/main/com/sepay/backend/config/ServletConfig.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/build/classes/java/main/com/sepay/backend/config/WebConfig.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/build/classes/java/main/com/sepay/backend/controller/RootController.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/build/classes/java/main/com/sepay/backend/event/controller/EventController.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/build/classes/java/main/com/sepay/backend/event/dto/EventDTO$EventDTOBuilder.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/build/classes/java/main/com/sepay/backend/event/dto/EventDTO.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/build/classes/java/main/com/sepay/backend/event/mapper/EventMapper.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/build/classes/java/main/com/sepay/backend/event/service/EventService.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/build/classes/java/main/com/sepay/backend/event/service/EventServiceImpl.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/build/classes/java/main/com/sepay/backend/exception/CommonExceptionAdvice.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/build/classes/java/main/com/sepay/backend/exchangereservation/controller/ReservationController.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/build/classes/java/main/com/sepay/backend/exchangereservation/dto/ExchangeReservationDTO$ExchangeReservationDTOBuilder.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/build/classes/java/main/com/sepay/backend/exchangereservation/dto/ExchangeReservationDTO.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/build/classes/java/main/com/sepay/backend/exchangereservation/mapper/ExchangeReservationMapper.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/build/classes/java/main/com/sepay/backend/exchangereservation/service/ExchangeReservationService.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/build/classes/java/main/com/sepay/backend/exchangereservation/service/ExchangeReservationServiceImpl.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/build/classes/java/main/com/sepay/backend/history/controller/HistoryController.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/build/classes/java/main/com/sepay/backend/history/dto/HistoryDTO$HistoryDTOBuilder.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/build/classes/java/main/com/sepay/backend/history/dto/HistoryDTO.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/build/classes/java/main/com/sepay/backend/history/mapper/HistoryMapper.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/build/classes/java/main/com/sepay/backend/history/service/HistoryService.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/build/classes/java/main/com/sepay/backend/history/service/HistoryServiceImpl.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/build/classes/java/main/com/sepay/backend/myaccount/controller/MyAccountController.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/build/classes/java/main/com/sepay/backend/myaccount/dto/KrwAccountDTO$KrwAccountDTOBuilder.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/build/classes/java/main/com/sepay/backend/myaccount/dto/KrwAccountDTO.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/build/classes/java/main/com/sepay/backend/myaccount/dto/SongAccountDTO$SongAccountDTOBuilder.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/build/classes/java/main/com/sepay/backend/myaccount/dto/SongAccountDTO.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/build/classes/java/main/com/sepay/backend/myaccount/mapper/MyAccountMapper.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/build/classes/java/main/com/sepay/backend/myaccount/service/MyAccountService.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/build/classes/java/main/com/sepay/backend/myaccount/service/MyAccountServiceImpl.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/build/classes/java/main/com/sepay/backend/notification/controller/NotificationController.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/build/classes/java/main/com/sepay/backend/notification/dto/NotificationDTO$NotificationDTOBuilder.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/build/classes/java/main/com/sepay/backend/notification/dto/NotificationDTO.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/build/classes/java/main/com/sepay/backend/notification/mapper/NotificationMapper.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/build/classes/java/main/com/sepay/backend/notification/service/NotificationService.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/build/classes/java/main/com/sepay/backend/notification/service/NotificationServiceImpl.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/build/classes/java/main/com/sepay/backend/setting/controller/SettingController.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/build/classes/java/main/com/sepay/backend/setting/mapper/SettingMapper.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/build/classes/java/main/com/sepay/backend/setting/service/SettingService.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/build/classes/java/main/com/sepay/backend/setting/service/SettingServiceImpl.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/build/classes/java/main/com/sepay/backend/user/controller/UserController.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/build/classes/java/main/com/sepay/backend/user/dto/SearchItem$SearchItemBuilder.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/build/classes/java/main/com/sepay/backend/user/dto/SearchItem.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/build/classes/java/main/com/sepay/backend/user/dto/UserDTO$UserDTOBuilder.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/build/classes/java/main/com/sepay/backend/user/dto/UserDTO.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/build/classes/java/main/com/sepay/backend/user/mapper/UserMapper.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/build/classes/java/main/com/sepay/backend/user/service/UserService.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/build/classes/java/main/com/sepay/backend/user/service/UserServiceImpl.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/build/libs/backend-1.0-SNAPSHOT.war" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/build/resources/main/application.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/build/resources/main/log4j.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/build/resources/main/log4jdbc.log4j2.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/build/resources/main/mapper/EventMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/build/resources/main/mapper/ExchangeReservationMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/build/resources/main/mapper/HistoryMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/build/resources/main/mapper/MyAccountMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/build/resources/main/mapper/NotificationMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/build/resources/main/mapper/SettingMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/build/resources/main/mapper/UserMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/build/resources/main/mybatis-config.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/build/tmp/compileJava/compileTransaction/stash-dir/UserController.class.uniqueId1" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/build/tmp/compileJava/compileTransaction/stash-dir/UserMapper.class.uniqueId3" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/build/tmp/compileJava/compileTransaction/stash-dir/UserService.class.uniqueId0" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/build/tmp/compileJava/compileTransaction/stash-dir/UserServiceImpl.class.uniqueId2" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/build/tmp/compileJava/previous-compilation-data.bin" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/build/tmp/war/MANIFEST.MF" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/gradlew" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/gradlew.bat" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/settings.gradle" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/sepay/backend/common/pagination/Page.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/sepay/backend/common/pagination/PageRequest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/sepay/backend/common/util/UploadFileName.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/sepay/backend/common/util/UploadFiles.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/sepay/backend/config/RootConfig.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/sepay/backend/config/ServletConfig.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/sepay/backend/config/WebConfig.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/sepay/backend/controller/RootController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/sepay/backend/event/controller/EventController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/sepay/backend/event/dto/EventDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/sepay/backend/event/mapper/EventMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/sepay/backend/event/service/EventService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/sepay/backend/event/service/EventServiceImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/sepay/backend/exception/CommonExceptionAdvice.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/sepay/backend/exchangereservation/controller/ReservationController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/sepay/backend/exchangereservation/dto/ExchangeReservationDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/sepay/backend/exchangereservation/mapper/ExchangeReservationMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/sepay/backend/exchangereservation/service/ExchangeReservationService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/sepay/backend/exchangereservation/service/ExchangeReservationServiceImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/sepay/backend/history/controller/HistoryController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/sepay/backend/history/dto/HistoryDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/sepay/backend/history/mapper/HistoryMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/sepay/backend/history/service/HistoryService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/sepay/backend/history/service/HistoryServiceImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/sepay/backend/myaccount/controller/MyAccountController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/sepay/backend/myaccount/dto/KrwAccountDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/sepay/backend/myaccount/dto/SongAccountDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/sepay/backend/myaccount/mapper/MyAccountMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/sepay/backend/myaccount/service/MyAccountService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/sepay/backend/myaccount/service/MyAccountServiceImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/sepay/backend/notification/controller/NotificationController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/sepay/backend/notification/dto/NotificationDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/sepay/backend/notification/mapper/NotificationMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/sepay/backend/notification/service/NotificationService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/sepay/backend/notification/service/NotificationServiceImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/sepay/backend/payment/controller/QRController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/sepay/backend/payment/service/QrService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/sepay/backend/payment/service/QrServiceImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/sepay/backend/setting/controller/SettingController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/sepay/backend/setting/mapper/SettingMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/sepay/backend/setting/service/SettingService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/sepay/backend/setting/service/SettingServiceImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/sepay/backend/user/controller/UserController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/sepay/backend/user/dto/SearchItem.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/sepay/backend/user/dto/UserDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/sepay/backend/user/mapper/UserMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/sepay/backend/user/service/UserService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/sepay/backend/user/service/UserServiceImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/log4j.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/log4jdbc.log4j2.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/mapper/EventMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/mapper/ExchangeReservationMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/mapper/HistoryMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/mapper/MyAccountMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/mapper/NotificationMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/mapper/SettingMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/mapper/UserMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/mybatis-config.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/src/assets/img/check.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/src/assets/img/send-mail.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/src/assets/img/songepay_logo.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/src/assets/scss/argon-dashboard/custom/_styles.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/src/assets/scss/argon-dashboard/custom/_variables.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/src/main.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/src/stores/exchangeStore.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/src/views/Templates/Profile.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/src/views/exchangeRate/ExchangeRate.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/src/views/exchangeRate/SetAlert.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/src/views/payments/Payments.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/src/views/profile/ChangePassword.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/src/views/profile/Profile.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/src/views/signIn/Login.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/src/views/signUp/RegisterEmail.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/src/views/signUp/RegisterEmailCheck.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/src/views/signUp/RegisterEmailSuccess.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/src/views/signUp/RegisterLegal.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/src/views/signUp/RegisterPhone.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/vite.config.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/../.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/.browserslistrc" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/.browserslistrc" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/.eslintrc.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/.eslintrc.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/.npmrc" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/.npmrc" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/LICENSE" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/LICENSE" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/babel.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/babel.config.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/public/favicon.png" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/public/favicon.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/public/images/america.png" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/public/images/america.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/public/images/arrow.png" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/public/images/arrow.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/public/images/korea.png" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/public/images/korea.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/public/images/song-e-money.png" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/public/images/song-e-money.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/public/images/won-e-money.png" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/public/images/won-e-money.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/public/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/public/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/App.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/App.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/argon-dashboard.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/argon-dashboard.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/css/nucleo-icons.css" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/css/nucleo-icons.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/css/nucleo-svg.css" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/css/nucleo-svg.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/fonts/nucleo-icons.eot" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/fonts/nucleo-icons.eot" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/fonts/nucleo-icons.svg" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/fonts/nucleo-icons.svg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/fonts/nucleo-icons.ttf" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/fonts/nucleo-icons.ttf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/fonts/nucleo-icons.woff" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/fonts/nucleo-icons.woff" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/fonts/nucleo-icons.woff2" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/fonts/nucleo-icons.woff2" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/fonts/nucleo.eot" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/fonts/nucleo.eot" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/fonts/nucleo.ttf" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/fonts/nucleo.ttf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/fonts/nucleo.woff" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/fonts/nucleo.woff" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/fonts/nucleo.woff2" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/fonts/nucleo.woff2" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/img/apple-icon.png" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/img/apple-icon.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/img/bg-profile.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/img/bg-profile.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/img/bruce-mars.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/img/bruce-mars.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/img/carousel-1.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/img/carousel-1.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/img/carousel-2.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/img/carousel-2.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/img/carousel-3.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/img/carousel-3.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/img/down-arrow-dark.svg" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/img/down-arrow-dark.svg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/img/down-arrow-white.svg" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/img/down-arrow-white.svg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/img/down-arrow.svg" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/img/down-arrow.svg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/img/favicon.png" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/img/favicon.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/img/icons/flags/AU.png" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/img/icons/flags/AU.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/img/icons/flags/BR.png" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/img/icons/flags/BR.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/img/icons/flags/DE.png" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/img/icons/flags/DE.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/img/icons/flags/GB.png" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/img/icons/flags/GB.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/img/icons/flags/US.png" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/img/icons/flags/US.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/img/illustrations/icon-documentation.svg" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/img/illustrations/icon-documentation.svg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/img/illustrations/rocket-white.png" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/img/illustrations/rocket-white.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/img/ivancik.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/img/ivancik.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/img/logo-ct-dark.png" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/img/logo-ct-dark.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/img/logo-ct.png" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/img/logo-ct.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/img/logos/github.svg" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/img/logos/github.svg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/img/logos/google.svg" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/img/logos/google.svg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/img/logos/visa.png" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/img/logos/visa.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/img/mushroom.png" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/img/mushroom.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/img/shapes/waves-white.svg" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/img/shapes/waves-white.svg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/img/small-logos/bootstrap.svg" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/img/small-logos/bootstrap.svg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/img/small-logos/icon-bulb.svg" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/img/small-logos/icon-bulb.svg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/img/small-logos/icon-sun-cloud.png" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/img/small-logos/icon-sun-cloud.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/img/small-logos/logo-asana.svg" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/img/small-logos/logo-asana.svg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/img/small-logos/logo-atlassian.svg" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/img/small-logos/logo-atlassian.svg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/img/small-logos/logo-invision.svg" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/img/small-logos/logo-invision.svg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/img/small-logos/logo-jira.svg" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/img/small-logos/logo-jira.svg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/img/small-logos/logo-slack.svg" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/img/small-logos/logo-slack.svg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/img/small-logos/logo-spotify.svg" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/img/small-logos/logo-spotify.svg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/img/small-logos/logo-xd.svg" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/img/small-logos/logo-xd.svg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/img/team-1.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/img/team-1.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/img/team-2.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/img/team-2.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/img/team-3.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/img/team-3.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/img/team-4.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/img/team-4.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/img/team-5.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/img/team-5.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/img/vr-bg.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/img/vr-bg.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/js/dark-mode.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/js/dark-mode.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/js/nav-pills.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/js/nav-pills.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/js/tooltip.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/js/tooltip.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/scss/argon-dashboard.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/scss/argon-dashboard.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/scss/argon-dashboard/_accordion.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/scss/argon-dashboard/_accordion.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/scss/argon-dashboard/_alert.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/scss/argon-dashboard/_alert.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/scss/argon-dashboard/_avatars.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/scss/argon-dashboard/_avatars.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/scss/argon-dashboard/_backgrounds.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/scss/argon-dashboard/_backgrounds.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/scss/argon-dashboard/_badge.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/scss/argon-dashboard/_badge.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/scss/argon-dashboard/_breadcrumbs.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/scss/argon-dashboard/_breadcrumbs.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/scss/argon-dashboard/_buttons.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/scss/argon-dashboard/_buttons.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/scss/argon-dashboard/_cards-extend.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/scss/argon-dashboard/_cards-extend.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/scss/argon-dashboard/_cards.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/scss/argon-dashboard/_cards.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/scss/argon-dashboard/_components.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/scss/argon-dashboard/_components.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/scss/argon-dashboard/_dark-version.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/scss/argon-dashboard/_dark-version.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/scss/argon-dashboard/_dropdown-extend.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/scss/argon-dashboard/_dropdown-extend.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/scss/argon-dashboard/_dropdown.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/scss/argon-dashboard/_dropdown.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/scss/argon-dashboard/_dropup.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/scss/argon-dashboard/_dropup.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/scss/argon-dashboard/_fixed-plugin.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/scss/argon-dashboard/_fixed-plugin.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/scss/argon-dashboard/_floating-elements.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/scss/argon-dashboard/_floating-elements.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/scss/argon-dashboard/_footer.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/scss/argon-dashboard/_footer.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/scss/argon-dashboard/_forms.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/scss/argon-dashboard/_forms.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/scss/argon-dashboard/_gradients.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/scss/argon-dashboard/_gradients.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/scss/argon-dashboard/_header.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/scss/argon-dashboard/_header.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/scss/argon-dashboard/_info-areas.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/scss/argon-dashboard/_info-areas.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/scss/argon-dashboard/_misc-extend.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/scss/argon-dashboard/_misc-extend.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/scss/argon-dashboard/_misc.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/scss/argon-dashboard/_misc.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/scss/argon-dashboard/_nav.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/scss/argon-dashboard/_nav.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/scss/argon-dashboard/_navbar-vertical.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/scss/argon-dashboard/_navbar-vertical.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/scss/argon-dashboard/_navbar.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/scss/argon-dashboard/_navbar.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/scss/argon-dashboard/_pagination.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/scss/argon-dashboard/_pagination.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/scss/argon-dashboard/_popovers.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/scss/argon-dashboard/_popovers.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/scss/argon-dashboard/_progress.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/scss/argon-dashboard/_progress.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/scss/argon-dashboard/_rtl-extend.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/scss/argon-dashboard/_rtl-extend.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/scss/argon-dashboard/_rtl.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/scss/argon-dashboard/_rtl.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/scss/argon-dashboard/_social-buttons.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/scss/argon-dashboard/_social-buttons.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/scss/argon-dashboard/_tables.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/scss/argon-dashboard/_tables.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/scss/argon-dashboard/_tilt.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/scss/argon-dashboard/_tilt.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/scss/argon-dashboard/_timeline.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/scss/argon-dashboard/_timeline.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/scss/argon-dashboard/_tooltips.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/scss/argon-dashboard/_tooltips.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/scss/argon-dashboard/_typography.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/scss/argon-dashboard/_typography.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/scss/argon-dashboard/_utilities-extend.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/scss/argon-dashboard/_utilities-extend.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/scss/argon-dashboard/_utilities.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/scss/argon-dashboard/_utilities.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/scss/argon-dashboard/_variables.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/scss/argon-dashboard/_variables.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/scss/argon-dashboard/badges/_badge-circle.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/scss/argon-dashboard/badges/_badge-circle.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/scss/argon-dashboard/badges/_badge-dot.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/scss/argon-dashboard/badges/_badge-dot.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/scss/argon-dashboard/badges/_badge-floating.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/scss/argon-dashboard/badges/_badge-floating.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/scss/argon-dashboard/badges/_badge.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/scss/argon-dashboard/badges/_badge.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/scss/argon-dashboard/bootstrap/_accordion.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/scss/argon-dashboard/bootstrap/_accordion.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/scss/argon-dashboard/bootstrap/_alert.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/scss/argon-dashboard/bootstrap/_alert.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/scss/argon-dashboard/bootstrap/_badge.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/scss/argon-dashboard/bootstrap/_badge.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/scss/argon-dashboard/bootstrap/_breadcrumb.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/scss/argon-dashboard/bootstrap/_breadcrumb.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/scss/argon-dashboard/bootstrap/_button-group.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/scss/argon-dashboard/bootstrap/_button-group.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/scss/argon-dashboard/bootstrap/_buttons.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/scss/argon-dashboard/bootstrap/_buttons.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/scss/argon-dashboard/bootstrap/_card.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/scss/argon-dashboard/bootstrap/_card.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/scss/argon-dashboard/bootstrap/_carousel.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/scss/argon-dashboard/bootstrap/_carousel.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/scss/argon-dashboard/bootstrap/_close.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/scss/argon-dashboard/bootstrap/_close.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/scss/argon-dashboard/bootstrap/_containers.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/scss/argon-dashboard/bootstrap/_containers.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/scss/argon-dashboard/bootstrap/_dropdown.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/scss/argon-dashboard/bootstrap/_dropdown.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/scss/argon-dashboard/bootstrap/_forms.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/scss/argon-dashboard/bootstrap/_forms.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/scss/argon-dashboard/bootstrap/_functions.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/scss/argon-dashboard/bootstrap/_functions.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/scss/argon-dashboard/bootstrap/_grid.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/scss/argon-dashboard/bootstrap/_grid.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/scss/argon-dashboard/bootstrap/_helpers.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/scss/argon-dashboard/bootstrap/_helpers.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/scss/argon-dashboard/bootstrap/_images.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/scss/argon-dashboard/bootstrap/_images.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/scss/argon-dashboard/bootstrap/_list-group.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/scss/argon-dashboard/bootstrap/_list-group.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/scss/argon-dashboard/bootstrap/_mixins.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/scss/argon-dashboard/bootstrap/_mixins.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/scss/argon-dashboard/bootstrap/_modal.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/scss/argon-dashboard/bootstrap/_modal.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/scss/argon-dashboard/bootstrap/_nav.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/scss/argon-dashboard/bootstrap/_nav.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/scss/argon-dashboard/bootstrap/_navbar.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/scss/argon-dashboard/bootstrap/_navbar.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/scss/argon-dashboard/bootstrap/_offcanvas.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/scss/argon-dashboard/bootstrap/_offcanvas.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/scss/argon-dashboard/bootstrap/_pagination.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/scss/argon-dashboard/bootstrap/_pagination.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/scss/argon-dashboard/bootstrap/_placeholders.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/scss/argon-dashboard/bootstrap/_placeholders.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/scss/argon-dashboard/bootstrap/_popover.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/scss/argon-dashboard/bootstrap/_popover.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/scss/argon-dashboard/bootstrap/_progress.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/scss/argon-dashboard/bootstrap/_progress.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/scss/argon-dashboard/bootstrap/_reboot.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/scss/argon-dashboard/bootstrap/_reboot.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/scss/argon-dashboard/bootstrap/_root.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/scss/argon-dashboard/bootstrap/_root.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/scss/argon-dashboard/bootstrap/_spinners.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/scss/argon-dashboard/bootstrap/_spinners.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/scss/argon-dashboard/bootstrap/_tables.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/scss/argon-dashboard/bootstrap/_tables.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/scss/argon-dashboard/bootstrap/_toasts.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/scss/argon-dashboard/bootstrap/_toasts.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/scss/argon-dashboard/bootstrap/_tooltip.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/scss/argon-dashboard/bootstrap/_tooltip.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/scss/argon-dashboard/bootstrap/_transitions.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/scss/argon-dashboard/bootstrap/_transitions.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/scss/argon-dashboard/bootstrap/_type.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/scss/argon-dashboard/bootstrap/_type.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/scss/argon-dashboard/bootstrap/_utilities.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/scss/argon-dashboard/bootstrap/_utilities.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/scss/argon-dashboard/bootstrap/_variables.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/scss/argon-dashboard/bootstrap/_variables.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/scss/argon-dashboard/bootstrap/bootstrap-grid.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/scss/argon-dashboard/bootstrap/bootstrap-grid.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/scss/argon-dashboard/bootstrap/bootstrap-reboot.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/scss/argon-dashboard/bootstrap/bootstrap-reboot.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/scss/argon-dashboard/bootstrap/bootstrap-utilities.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/scss/argon-dashboard/bootstrap/bootstrap-utilities.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/scss/argon-dashboard/bootstrap/bootstrap.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/scss/argon-dashboard/bootstrap/bootstrap.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/scss/argon-dashboard/bootstrap/forms/_floating-labels.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/scss/argon-dashboard/bootstrap/forms/_floating-labels.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/scss/argon-dashboard/bootstrap/forms/_form-check.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/scss/argon-dashboard/bootstrap/forms/_form-check.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/scss/argon-dashboard/bootstrap/forms/_form-control.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/scss/argon-dashboard/bootstrap/forms/_form-control.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/scss/argon-dashboard/bootstrap/forms/_form-range.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/scss/argon-dashboard/bootstrap/forms/_form-range.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/scss/argon-dashboard/bootstrap/forms/_form-select.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/scss/argon-dashboard/bootstrap/forms/_form-select.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/scss/argon-dashboard/bootstrap/forms/_form-text.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/scss/argon-dashboard/bootstrap/forms/_form-text.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/scss/argon-dashboard/bootstrap/forms/_input-group.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/scss/argon-dashboard/bootstrap/forms/_input-group.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/scss/argon-dashboard/bootstrap/forms/_labels.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/scss/argon-dashboard/bootstrap/forms/_labels.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/scss/argon-dashboard/bootstrap/forms/_validation.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/scss/argon-dashboard/bootstrap/forms/_validation.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/scss/argon-dashboard/bootstrap/helpers/_clearfix.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/scss/argon-dashboard/bootstrap/helpers/_clearfix.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/scss/argon-dashboard/bootstrap/helpers/_colored-links.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/scss/argon-dashboard/bootstrap/helpers/_colored-links.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/scss/argon-dashboard/bootstrap/helpers/_position.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/scss/argon-dashboard/bootstrap/helpers/_position.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/scss/argon-dashboard/bootstrap/helpers/_ratio.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/scss/argon-dashboard/bootstrap/helpers/_ratio.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/scss/argon-dashboard/bootstrap/helpers/_stacks.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/scss/argon-dashboard/bootstrap/helpers/_stacks.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/scss/argon-dashboard/bootstrap/helpers/_stretched-link.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/scss/argon-dashboard/bootstrap/helpers/_stretched-link.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/scss/argon-dashboard/bootstrap/helpers/_text-truncation.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/scss/argon-dashboard/bootstrap/helpers/_text-truncation.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/scss/argon-dashboard/bootstrap/helpers/_visually-hidden.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/scss/argon-dashboard/bootstrap/helpers/_visually-hidden.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/scss/argon-dashboard/bootstrap/helpers/_vr.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/scss/argon-dashboard/bootstrap/helpers/_vr.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/scss/argon-dashboard/bootstrap/mixins/_alert.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/scss/argon-dashboard/bootstrap/mixins/_alert.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/scss/argon-dashboard/bootstrap/mixins/_backdrop.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/scss/argon-dashboard/bootstrap/mixins/_backdrop.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/scss/argon-dashboard/bootstrap/mixins/_border-radius.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/scss/argon-dashboard/bootstrap/mixins/_border-radius.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/scss/argon-dashboard/bootstrap/mixins/_box-shadow.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/scss/argon-dashboard/bootstrap/mixins/_box-shadow.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/scss/argon-dashboard/bootstrap/mixins/_breakpoints.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/scss/argon-dashboard/bootstrap/mixins/_breakpoints.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/scss/argon-dashboard/bootstrap/mixins/_buttons.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/scss/argon-dashboard/bootstrap/mixins/_buttons.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/scss/argon-dashboard/bootstrap/mixins/_caret.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/scss/argon-dashboard/bootstrap/mixins/_caret.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/scss/argon-dashboard/bootstrap/mixins/_clearfix.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/scss/argon-dashboard/bootstrap/mixins/_clearfix.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/scss/argon-dashboard/bootstrap/mixins/_color-scheme.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/scss/argon-dashboard/bootstrap/mixins/_color-scheme.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/scss/argon-dashboard/bootstrap/mixins/_container.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/scss/argon-dashboard/bootstrap/mixins/_container.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/scss/argon-dashboard/bootstrap/mixins/_deprecate.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/scss/argon-dashboard/bootstrap/mixins/_deprecate.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/scss/argon-dashboard/bootstrap/mixins/_forms.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/scss/argon-dashboard/bootstrap/mixins/_forms.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/scss/argon-dashboard/bootstrap/mixins/_gradients.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/scss/argon-dashboard/bootstrap/mixins/_gradients.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/scss/argon-dashboard/bootstrap/mixins/_grid.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/scss/argon-dashboard/bootstrap/mixins/_grid.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/scss/argon-dashboard/bootstrap/mixins/_image.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/scss/argon-dashboard/bootstrap/mixins/_image.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/scss/argon-dashboard/bootstrap/mixins/_list-group.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/scss/argon-dashboard/bootstrap/mixins/_list-group.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/scss/argon-dashboard/bootstrap/mixins/_lists.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/scss/argon-dashboard/bootstrap/mixins/_lists.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/scss/argon-dashboard/bootstrap/mixins/_pagination.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/scss/argon-dashboard/bootstrap/mixins/_pagination.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/scss/argon-dashboard/bootstrap/mixins/_reset-text.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/scss/argon-dashboard/bootstrap/mixins/_reset-text.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/scss/argon-dashboard/bootstrap/mixins/_resize.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/scss/argon-dashboard/bootstrap/mixins/_resize.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/scss/argon-dashboard/bootstrap/mixins/_table-variants.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/scss/argon-dashboard/bootstrap/mixins/_table-variants.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/scss/argon-dashboard/bootstrap/mixins/_text-truncate.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/scss/argon-dashboard/bootstrap/mixins/_text-truncate.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/scss/argon-dashboard/bootstrap/mixins/_transition.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/scss/argon-dashboard/bootstrap/mixins/_transition.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/scss/argon-dashboard/bootstrap/mixins/_utilities.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/scss/argon-dashboard/bootstrap/mixins/_utilities.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/scss/argon-dashboard/bootstrap/mixins/_visually-hidden.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/scss/argon-dashboard/bootstrap/mixins/_visually-hidden.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/scss/argon-dashboard/bootstrap/utilities/_api.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/scss/argon-dashboard/bootstrap/utilities/_api.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/scss/argon-dashboard/bootstrap/vendor/_rfs.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/scss/argon-dashboard/bootstrap/vendor/_rfs.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/scss/argon-dashboard/cards/card-background.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/scss/argon-dashboard/cards/card-background.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/scss/argon-dashboard/cards/card-blog.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/scss/argon-dashboard/cards/card-blog.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/scss/argon-dashboard/cards/card-carousel.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/scss/argon-dashboard/cards/card-carousel.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/scss/argon-dashboard/cards/card-horizontal.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/scss/argon-dashboard/cards/card-horizontal.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/scss/argon-dashboard/cards/card-pricing.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/scss/argon-dashboard/cards/card-pricing.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/scss/argon-dashboard/cards/card-profile.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/scss/argon-dashboard/cards/card-profile.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/scss/argon-dashboard/custom/_styles.scss" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.7/dependencies-accessors/gc.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/scss/argon-dashboard/custom/_variables.scss" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.7/gc.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/scss/argon-dashboard/forms/_form-check.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/scss/argon-dashboard/forms/_form-check.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/scss/argon-dashboard/forms/_form-select.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/scss/argon-dashboard/forms/_form-select.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/scss/argon-dashboard/forms/_form-switch.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/scss/argon-dashboard/forms/_form-switch.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/scss/argon-dashboard/forms/_forms.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/scss/argon-dashboard/forms/_forms.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/scss/argon-dashboard/forms/_input-group.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/scss/argon-dashboard/forms/_input-group.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/scss/argon-dashboard/forms/_inputs.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/scss/argon-dashboard/forms/_inputs.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/scss/argon-dashboard/forms/_labels.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/scss/argon-dashboard/forms/_labels.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/scss/argon-dashboard/mixins/_badge.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/scss/argon-dashboard/mixins/_badge.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/scss/argon-dashboard/mixins/_colored-shadows.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/scss/argon-dashboard/mixins/_colored-shadows.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/scss/argon-dashboard/mixins/_hover.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/scss/argon-dashboard/mixins/_hover.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/scss/argon-dashboard/mixins/_social-buttons.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/scss/argon-dashboard/mixins/_social-buttons.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/scss/argon-dashboard/mixins/mixins.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/scss/argon-dashboard/mixins/mixins.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/scss/argon-dashboard/plugins/free/_flatpickr.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/scss/argon-dashboard/plugins/free/_flatpickr.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/scss/argon-dashboard/plugins/free/_nouislider.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/scss/argon-dashboard/plugins/free/_nouislider.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/scss/argon-dashboard/plugins/free/_perfect-scrollbar.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/scss/argon-dashboard/plugins/free/_perfect-scrollbar.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/scss/argon-dashboard/plugins/free/_prism.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/scss/argon-dashboard/plugins/free/_prism.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/scss/argon-dashboard/plugins/free/plugins.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/scss/argon-dashboard/plugins/free/plugins.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/scss/argon-dashboard/plugins/pro/_carousel-slick.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/scss/argon-dashboard/plugins/pro/_carousel-slick.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/scss/argon-dashboard/plugins/pro/_choices.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/scss/argon-dashboard/plugins/pro/_choices.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/scss/argon-dashboard/plugins/pro/_datatable-extend.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/scss/argon-dashboard/plugins/pro/_datatable-extend.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/scss/argon-dashboard/plugins/pro/_datatable.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/scss/argon-dashboard/plugins/pro/_datatable.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/scss/argon-dashboard/plugins/pro/_dragula.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/scss/argon-dashboard/plugins/pro/_dragula.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/scss/argon-dashboard/plugins/pro/_dropzone.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/scss/argon-dashboard/plugins/pro/_dropzone.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/scss/argon-dashboard/plugins/pro/_fullcalendar-extend.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/scss/argon-dashboard/plugins/pro/_fullcalendar-extend.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/scss/argon-dashboard/plugins/pro/_fullcalendar.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/scss/argon-dashboard/plugins/pro/_fullcalendar.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/scss/argon-dashboard/plugins/pro/_glidejs.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/scss/argon-dashboard/plugins/pro/_glidejs.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/scss/argon-dashboard/plugins/pro/_highlight.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/scss/argon-dashboard/plugins/pro/_highlight.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/scss/argon-dashboard/plugins/pro/_kanban.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/scss/argon-dashboard/plugins/pro/_kanban.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/scss/argon-dashboard/plugins/pro/_leaflet.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/scss/argon-dashboard/plugins/pro/_leaflet.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/scss/argon-dashboard/plugins/pro/_list-check.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/scss/argon-dashboard/plugins/pro/_list-check.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/scss/argon-dashboard/plugins/pro/_photoswipe.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/scss/argon-dashboard/plugins/pro/_photoswipe.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/scss/argon-dashboard/plugins/pro/_quill.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/scss/argon-dashboard/plugins/pro/_quill.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/scss/argon-dashboard/plugins/pro/_rating-widget.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/scss/argon-dashboard/plugins/pro/_rating-widget.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/scss/argon-dashboard/plugins/pro/_sweetalert2-extend.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/scss/argon-dashboard/plugins/pro/_sweetalert2-extend.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/scss/argon-dashboard/plugins/pro/_sweetalert2.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/scss/argon-dashboard/plugins/pro/_sweetalert2.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/scss/argon-dashboard/plugins/pro/multi-step.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/scss/argon-dashboard/plugins/pro/multi-step.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/scss/argon-dashboard/plugins/pro/plugins-extend.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/scss/argon-dashboard/plugins/pro/plugins-extend.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/scss/argon-dashboard/theme-pro.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/scss/argon-dashboard/theme-pro.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/scss/argon-dashboard/theme.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/scss/argon-dashboard/theme.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/scss/argon-dashboard/variables/_animations.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/scss/argon-dashboard/variables/_animations.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/scss/argon-dashboard/variables/_avatars.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/scss/argon-dashboard/variables/_avatars.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/scss/argon-dashboard/variables/_badge.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/scss/argon-dashboard/variables/_badge.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/scss/argon-dashboard/variables/_breadcrumb.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/scss/argon-dashboard/variables/_breadcrumb.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/scss/argon-dashboard/variables/_cards-extend.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/scss/argon-dashboard/variables/_cards-extend.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/scss/argon-dashboard/variables/_cards.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/scss/argon-dashboard/variables/_cards.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/scss/argon-dashboard/variables/_choices.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/scss/argon-dashboard/variables/_choices.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/scss/argon-dashboard/variables/_dark-version.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/scss/argon-dashboard/variables/_dark-version.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/scss/argon-dashboard/variables/_dropdowns.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/scss/argon-dashboard/variables/_dropdowns.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/scss/argon-dashboard/variables/_fixed-plugin.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/scss/argon-dashboard/variables/_fixed-plugin.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/scss/argon-dashboard/variables/_form-switch.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/scss/argon-dashboard/variables/_form-switch.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/scss/argon-dashboard/variables/_full-calendar.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/scss/argon-dashboard/variables/_full-calendar.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/scss/argon-dashboard/variables/_header.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/scss/argon-dashboard/variables/_header.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/scss/argon-dashboard/variables/_info-areas.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/scss/argon-dashboard/variables/_info-areas.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/scss/argon-dashboard/variables/_misc-extend.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/scss/argon-dashboard/variables/_misc-extend.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/scss/argon-dashboard/variables/_misc.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/scss/argon-dashboard/variables/_misc.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/scss/argon-dashboard/variables/_navbar-vertical.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/scss/argon-dashboard/variables/_navbar-vertical.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/scss/argon-dashboard/variables/_navbar.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/scss/argon-dashboard/variables/_navbar.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/scss/argon-dashboard/variables/_pagination.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/scss/argon-dashboard/variables/_pagination.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/scss/argon-dashboard/variables/_rtl.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/scss/argon-dashboard/variables/_rtl.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/scss/argon-dashboard/variables/_social-buttons.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/scss/argon-dashboard/variables/_social-buttons.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/scss/argon-dashboard/variables/_table.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/scss/argon-dashboard/variables/_table.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/scss/argon-dashboard/variables/_timeline.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/scss/argon-dashboard/variables/_timeline.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/scss/argon-dashboard/variables/_utilities-extend.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/scss/argon-dashboard/variables/_utilities-extend.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/scss/argon-dashboard/variables/_utilities.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/scss/argon-dashboard/variables/_utilities.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/assets/scss/argon-dashboard/variables/_virtual-reality.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/assets/scss/argon-dashboard/variables/_virtual-reality.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/components/footer/Footer.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/components/footer/Footer.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/components/navbars/NavPill.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/components/navbars/NavPill.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/components/navbars/Navbar.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/components/navbars/Navbar.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/components/sidenav/SidenavCard.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/components/sidenav/SidenavCard.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/components/sidenav/SidenavItem.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/components/sidenav/SidenavItem.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/components/sidenav/SidenavList.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/components/sidenav/SidenavList.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/components/sidenav/index.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/components/sidenav/index.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/components/templates/ArgonAlert.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/components/templates/ArgonAlert.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/components/templates/ArgonAvatar.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/components/templates/ArgonAvatar.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/components/templates/ArgonBadge.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/components/templates/ArgonBadge.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/components/templates/ArgonButton.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/components/templates/ArgonButton.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/components/templates/ArgonCheckbox.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/components/templates/ArgonCheckbox.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/components/templates/ArgonInput.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/components/templates/ArgonInput.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/components/templates/ArgonPagination.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/components/templates/ArgonPagination.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/components/templates/ArgonPaginationItem.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/components/templates/ArgonPaginationItem.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/components/templates/ArgonProgress.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/components/templates/ArgonProgress.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/components/templates/ArgonRadio.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/components/templates/ArgonRadio.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/components/templates/ArgonSwitch.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/components/templates/ArgonSwitch.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/components/templates/ArgonTextarea.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/components/templates/ArgonTextarea.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/components/viewsComponents/AuthorsTable.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/components/viewsComponents/AuthorsTable.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/components/viewsComponents/BillingCard.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/components/viewsComponents/BillingCard.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/components/viewsComponents/CardCalendar.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/components/viewsComponents/CardCalendar.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/components/viewsComponents/CardEmail.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/components/viewsComponents/CardEmail.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/components/viewsComponents/CardMessage.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/components/viewsComponents/CardMessage.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/components/viewsComponents/CardPlayer.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/components/viewsComponents/CardPlayer.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/components/viewsComponents/CardToDo.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/components/viewsComponents/CardToDo.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/components/viewsComponents/Carousel.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/components/viewsComponents/Carousel.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/components/viewsComponents/CategoriesList.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/components/viewsComponents/CategoriesList.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/components/viewsComponents/CreditCard.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/components/viewsComponents/CreditCard.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/components/viewsComponents/DeveloperCard.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/components/viewsComponents/DeveloperCard.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/components/viewsComponents/InvoiceCard.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/components/viewsComponents/InvoiceCard.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/components/viewsComponents/PaymentCard.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/components/viewsComponents/PaymentCard.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/components/viewsComponents/ProfileCard.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/components/viewsComponents/ProfileCard.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/components/viewsComponents/ProjectCard.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/components/viewsComponents/ProjectCard.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/components/viewsComponents/ProjectsTable.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/components/viewsComponents/ProjectsTable.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/components/viewsComponents/RocketCard.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/components/viewsComponents/RocketCard.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/components/viewsComponents/TodoListCard.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/components/viewsComponents/TodoListCard.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/components/viewsComponents/TransactionCard.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/components/viewsComponents/TransactionCard.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/components/yb_templates/AccountsCard.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/components/yb_templates/AccountsCard.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/components/yb_templates/ArgonAmountInput.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/components/yb_templates/ArgonAmountInput.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/main.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/router/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/router/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/stores/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/stores/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/views/Cards/ComplexStatisticsCard.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/views/Cards/ComplexStatisticsCard.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/views/Cards/DefaultCounterCard.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/views/Cards/DefaultCounterCard.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/views/Cards/DefaultInfoCard.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/views/Cards/DefaultInfoCard.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/views/Cards/MasterCard.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/views/Cards/MasterCard.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/views/Cards/MiniStatisticsCard.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/views/Cards/MiniStatisticsCard.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/views/Cards/TimelineItem.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/views/Cards/TimelineItem.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/views/Cards/TimelineList.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/views/Cards/TimelineList.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/views/Charts/ActiveUsersChart.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/views/Charts/ActiveUsersChart.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/views/Charts/GradientLineChart.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/views/Charts/GradientLineChart.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/views/Configurator.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/views/Configurator.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/views/PageLayout/Footer.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/views/PageLayout/Footer.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/views/PageLayout/Navbar.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/views/PageLayout/Navbar.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/views/PageLayout/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/views/PageLayout/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/views/Templates/Billing.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/views/Templates/Billing.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/views/Templates/Calendar.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/views/Templates/Calendar.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/views/Templates/Dashboard.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/views/Templates/Dashboard.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/views/Templates/Globe.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/views/Templates/Globe.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/views/Templates/Profile.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/views/Templates/Profile copy.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/views/Templates/Rtl.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/views/Templates/Rtl.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/views/Templates/Signin.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/views/Templates/Signin.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/views/Templates/Signup.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/views/Templates/Signup.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/views/Templates/Tables.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/views/Templates/Tables.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/views/exchangeRate/ExchangeRate.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/views/histories/Histories.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/views/histories/Histories.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/views/histories/Modal.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/views/histories/Modal.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/views/home/Home.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/views/home/Home.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/views/maps/Maps.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/views/maps/Maps.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/views/myAccounts/MyAccounts.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/views/myAccounts/MyAccounts.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/views/myAccounts/SecondPassword.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/views/myAccounts/SecondPassword.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/views/payments/Payments.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/vite.config.js" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ExternalProjectsData">
+    <projectState path="$PROJECT_DIR$">
+      <ProjectState />
+    </projectState>
+  </component>
+  <component name="ExternalProjectsManager">
+    <system id="GRADLE">
+      <state>
+        <projects_view>
+          <tree_state>
+            <expand>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="backend" type="f1a62948:ProjectNode" />
+              </path>
+            </expand>
+            <select />
+          </tree_state>
+        </projects_view>
+      </state>
+    </system>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="HTML File" />
+        <option value="Interface" />
+        <option value="spring-beans.schema" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="LogFilters">
+    <option name="FILTER_ERRORS" value="false" />
+    <option name="FILTER_WARNINGS" value="false" />
+    <option name="FILTER_INFO" value="true" />
+    <option name="FILTER_DEBUG" value="true" />
+    <option name="CUSTOM_FILTER" />
+  </component>
+  <component name="MavenImportPreferences">
+    <option name="importingSettings">
+      <MavenImportingSettings>
+        <option name="jdkForImporter" value="#JAVA_HOME" />
+      </MavenImportingSettings>
+    </option>
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 7
+}</component>
+  <component name="ProjectId" id="2lu336XrpFlNf2cCWwRftAKSTgm" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "DefaultHtmlFileTemplate": "HTML File",
+    "Gradle.Build backend.executor": "Run",
+    "Gradle.backend 빌드.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "Tomcat Server.Tomcat 9.0.91.executor": "Run",
+    "Tomcat Server.Tomcat 9.0.911.executor": "Run",
+    "Tomcat 서버.Tomcat 9.0.91.executor": "Run",
+    "Tomcat 서버.Tomcat 9.0.93.executor": "Run",
+    "git-widget-placeholder": "lyb-ver2 병합 중",
+    "ignore.virus.scanning.warn.message": "true",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/KB_project/song-e-pay/backend",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "아티팩트",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.22941971",
+    "settings.editor.selected.configurable": "reference.projectsettings.compiler.annotationProcessors",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\Hwang-C\Desktop\프로젝트\sepay\backend\src\main\resources\mapper" />
+      <recent name="C:\Users\Hwang-C\Desktop\프로젝트\sepay\backend\src\main\java\com\sepay\backend\setting\service" />
+      <recent name="C:\Users\Hwang-C\Desktop\프로젝트\sepay\backend\src\main\java\com\sepay\backend\Notification" />
+      <recent name="C:\Users\Hwang-C\Desktop\프로젝트\sepay\backend\src\main\java\com\sepay\backend\ExchangeReservation" />
+      <recent name="C:\Users\Hwang-C\Desktop\프로젝트\backend\src\main\java\com\sepay\backend\common\pagination" />
+    </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="com.sepay.backend.setting.mapper" />
+      <recent name="com.sepay.backend.event.dto" />
+      <recent name="com.sepay.backend.myaccount.dto" />
+      <recent name="com.sepay.backend.history.dto" />
+    </key>
+  </component>
+  <component name="RunDashboard">
+    <option name="excludedTypes">
+      <set>
+        <option value="#com.intellij.j2ee.web.tomcat.TomcatRunConfigurationFactory" />
+      </set>
+    </option>
+  </component>
+  <component name="RunManager">
+    <configuration name="Tomcat 9.0.911" type="#com.intellij.j2ee.web.tomcat.TomcatRunConfigurationFactory" factoryName="Local" APPLICATION_SERVER_NAME="Tomcat 9.0.911" ALTERNATIVE_JRE_ENABLED="false" nameIsGenerated="true">
+      <option name="UPDATING_POLICY" value="restart-server" />
+      <deployment>
+        <artifact name="Gradle : com.sepay : backend-1.0-SNAPSHOT.war">
+          <settings>
+            <option name="CONTEXT_PATH" value="/" />
+          </settings>
+        </artifact>
+      </deployment>
+      <server-settings>
+        <option name="BASE_DIRECTORY_NAME" value="7791b968-b05f-4699-8a05-98c6b2e19956" />
+      </server-settings>
+      <predefined_log_file enabled="true" id="Tomcat" />
+      <predefined_log_file enabled="true" id="Tomcat Catalina" />
+      <predefined_log_file id="Tomcat Manager" />
+      <predefined_log_file id="Tomcat Host Manager" />
+      <predefined_log_file id="Tomcat Localhost Access" />
+      <RunnerSettings RunnerId="Debug">
+        <option name="DEBUG_PORT" value="59194" />
+      </RunnerSettings>
+      <ConfigurationWrapper VM_VAR="JAVA_OPTS" RunnerId="Cover">
+        <option name="USE_ENV_VARIABLES" value="true" />
+        <STARTUP>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </STARTUP>
+        <SHUTDOWN>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </SHUTDOWN>
+      </ConfigurationWrapper>
+      <ConfigurationWrapper VM_VAR="JAVA_OPTS" RunnerId="Debug">
+        <option name="USE_ENV_VARIABLES" value="true" />
+        <STARTUP>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </STARTUP>
+        <SHUTDOWN>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </SHUTDOWN>
+      </ConfigurationWrapper>
+      <ConfigurationWrapper VM_VAR="JAVA_OPTS" RunnerId="Profile">
+        <option name="USE_ENV_VARIABLES" value="true" />
+        <STARTUP>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </STARTUP>
+        <SHUTDOWN>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </SHUTDOWN>
+      </ConfigurationWrapper>
+      <ConfigurationWrapper VM_VAR="JAVA_OPTS" RunnerId="Run">
+        <option name="USE_ENV_VARIABLES" value="true" />
+        <STARTUP>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </STARTUP>
+        <SHUTDOWN>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </SHUTDOWN>
+      </ConfigurationWrapper>
+      <method v="2">
+        <option name="Make" enabled="true" />
+        <option name="BuildArtifacts" enabled="true">
+          <artifact name="Gradle : com.sepay : backend-1.0-SNAPSHOT.war" />
+        </option>
+      </method>
+    </configuration>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-9f38398b9061-39b83d9b5494-intellij.indexing.shared.core-IU-241.17890.1" />
+        <option value="bundled-js-predefined-1d06a55b98c1-0b3e54e931b4-JavaScript-IU-241.17890.1" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="애플리케이션 수준" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="디폴트 작업">
+      <changelist id="2d94ba48-0118-4f0b-b93f-00771c024fe3" name="변경" comment="" />
+      <created>1726015931627</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1726015931627</updated>
+      <workItem from="1726015932668" duration="8736000" />
+      <workItem from="1726100297207" duration="2307000" />
+      <workItem from="1726102633330" duration="284000" />
+      <workItem from="1726123543750" duration="55000" />
+      <workItem from="1726546137519" duration="254000" />
+      <workItem from="1726546995825" duration="229000" />
+      <workItem from="1726547235857" duration="25000" />
+      <workItem from="1726547267401" duration="42000" />
+      <workItem from="1726547315430" duration="1124000" />
+      <workItem from="1726548462420" duration="47000" />
+      <workItem from="1726548554641" duration="19265000" />
+      <workItem from="1726633409267" duration="3634000" />
+      <workItem from="1726642881270" duration="4095000" />
+      <workItem from="1726705116143" duration="5856000" />
+      <workItem from="1726711045046" duration="107000" />
+      <workItem from="1726711211737" duration="77000" />
+      <workItem from="1726724412420" duration="560000" />
+      <workItem from="1726813836891" duration="57000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
+  </component>
+</project>

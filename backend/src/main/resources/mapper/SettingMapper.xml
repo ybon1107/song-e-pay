@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.sepay.backend.setting.mapper.SettingMapper">
+
+    <update id="updateUser">
+        UPDATE user SET
+            profile_pic = #{profilePic},
+            address = #{address},
+            post_code = #{postCode},
+            country_code = #{coutryCode}
+        WHERE user_no = #{userNo}
+    </update>
+
+    <update id="updateAccount" parameterType="map">
+        UPDATE user SET
+            account_no = #{accountNo}
+        WHERE user_no = #{userNo}
+    </update>
+
+    <update id="deleteAccount">
+        UPDATE user SET
+            account_no = " "
+        WHERE user_no = #{userNo}
+    </update>
+
+    <update id="updatePassword" parameterType="map">
+        UPDATE user SET
+            password = #{password}
+        WHERE user_no = #{userNo}
+    </update>
+
+    <update id="updateSecondPassword" parameterType="map">
+        UPDATE user SET
+            second_pwd = #{secondPwd}
+        WHERE user_no = #{userNo}
+    </update>
+    
+    <delete id="deleteSonge">
+        DELETE FROM song_account
+        WHERE song_no = #{songNo}
+    </delete>
+
+    <delete id="deleteKrw">
+        DELETE FROM krw_account
+        WHERE krw_no = #{krwNo}
+    </delete>
+
+    <delete id="deleteUser">
+        DELETE FROM user
+        WHERE user_no = #{userNo}
+    </delete>
+
+</mapper>
