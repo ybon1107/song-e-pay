@@ -127,10 +127,11 @@
 
 <script setup>
 import { ref, onMounted, watch } from "vue";
+import { useExchangeStore } from "@/stores/exchangeStore";
 
 // API URL과 API 키를 설정합니다.
-// const usdToKrwUrl = "/api/v6/6bbbf78cc42a296d533a9e6b/pair/USD/KRW";
-// const krwToUsdUrl = "/api/v6/6bbbf78cc42a296d533a9e6b/pair/KRW/USD";
+const usdToKrwUrl = "/exchange/v6/6bbbf78cc42a296d533a9e6b/pair/USD/KRW";
+const krwToUsdUrl = "/exchange/v6/6bbbf78cc42a296d533a9e6b/pair/KRW/USD";
 
 // 데이터 변수
 const usdAmount = ref(1); // 초기값을 1로 설정
@@ -139,6 +140,8 @@ const krwAmountReverse = ref(1000); // 초기값을 1로 설정
 const usdAmountReverse = ref(0); // 초기값을 0으로 설정, 계산 후 업데이트
 const currentToKrw = ref(0);
 const currentFromKrw = ref(0);
+
+const store = useExchangeStore();
 
 // 환율 데이터를 가져오는 함수
 const fetchExchangeRates = async () => {
@@ -156,6 +159,8 @@ const fetchExchangeRates = async () => {
     }
     const krwToUsdData = await krwToUsdResponse.json();
     currentFromKrw.value = krwToUsdData.conversion_rate;
+
+    store.setCurrentToKrw(currentToKrw.value);
 
     // 환율 데이터를 가져온 후 계산된 값으로 초기화
     krwAmount.value = (usdAmount.value * currentToKrw.value).toFixed(2);
