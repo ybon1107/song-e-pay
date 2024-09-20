@@ -16,7 +16,8 @@ public class SearchItem {
     Integer userNo;
     String songNo;
     String krwNo;
+    Integer typeCode;
+    Integer stateCode;
     Date beginDate;
     Date endDate;
-
 }
