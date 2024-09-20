@@ -83,8 +83,10 @@ const handleSendCode = () => {
               <div class="card-body">
                 <form role="form">
                   <!-- 전화번호 입력 필드 -->
-                  <label for="name" class="form-label">Your phone number</label>
-                  <div class="phone-input row g-3">
+                  <label for="name" class="form-control-label"
+                    >Your phone number</label
+                  >
+                  <div class="phone-input-group row g-3">
                     <div class="col-xl-4 col-md-3 col-sm-3">
                       <select
                         id="countryCallingCode"
