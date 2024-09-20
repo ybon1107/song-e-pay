@@ -1,6 +1,7 @@
 package com.sepay.backend.payment.controller;
 
 import com.google.zxing.WriterException;
+import com.sepay.backend.payment.dto.PasswordDTO;
 import com.sepay.backend.payment.service.PaymentService;
 import com.sepay.backend.payment.service.PaymentServiceImpl;
 import lombok.RequiredArgsConstructor;
@@ -19,14 +20,16 @@ import java.io.OutputStream;
 public class PaymentController {
     private final PaymentService paymentService;
 
-    @Autowired
-    public PaymentController(PaymentServiceImpl paymentService) {
-        this.paymentService = paymentService;
-    }
+//    @Autowired
+//    public PaymentController(PaymentServiceImpl paymentService) {
+//        this.paymentService = paymentService;
+//    }
 
     @PostMapping("/check-password")
-    public void checkPassword(@RequestBody String password){
-        System.out.println("password:"+password);
+    public void checkPassword(@RequestBody PasswordDTO passwordDTO){
+        System.out.println("password:"+passwordDTO);
+//        boolean result = paymentService.checkPassword(passwordDTO);
+
         return;
     }
 

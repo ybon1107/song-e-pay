@@ -5,6 +5,9 @@ import com.google.zxing.WriterException;
 import com.google.zxing.client.j2se.MatrixToImageWriter;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.QRCodeWriter;
+import com.sepay.backend.payment.dto.PasswordDTO;
+import com.sepay.backend.payment.mapper.PaymentMapper;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -13,7 +16,10 @@ import java.io.IOException;
 
 @Slf4j
 @Service
+@RequiredArgsConstructor
 public class PaymentServiceImpl implements PaymentService {
+    private final PaymentMapper mapper;
+
     @Override
     public byte[] createQR(String url) throws WriterException, IOException {
         // QR 코드 크기 설정
@@ -29,5 +35,13 @@ public class PaymentServiceImpl implements PaymentService {
             MatrixToImageWriter.writeToStream(bitMatrix, "PNG", out);
             return out.toByteArray();
         }
+    }
+
+    @Override
+    public boolean checkPassword(PasswordDTO passwordDTO) {
+        int userPassword = mapper.getPassword(1);
+        System.out.println(passwordDTO.getPassword());
+        System.out.println("??"+userPassword);
+        return false;
     }
 }
