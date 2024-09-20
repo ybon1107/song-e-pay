@@ -9,7 +9,14 @@
           <h4 class="text-center">Our payment system is only available in a mobile environment.</h4>
         </div>
         <div class="d-xl-none">
-          <div class="text-center mb-3">
+          <div class="d-flex justify-content-center">
+            <router-link to="/payments/pw">
+              <button class="btn btn-sm btn-warning mb-0">
+                결제하기
+              </button>
+            </router-link>
+          </div>
+          <!-- <div class="text-center mb-3">
             <form @submit.prevent="handleQRScan">
               <button type="submit" class="btn btn-primary me-3" :disabled="disableSubmit">
                 확인
@@ -23,7 +30,7 @@
           <div class="btn btn-sm btn-warning mb-0 mx-4 d-flex justify-content-between">
             <p class="mb-0">보유잔액</p>
             <p class="mb-0">10,000원</p>
-          </div>
+          </div> -->
         </div>
       </div>
     </div>
@@ -45,8 +52,8 @@ export default {
     let countdownInterval = null; // 인터벌을 저장할 변수
 
     const generateQRCode = () => {
-      const url = encodeURIComponent('http://localhost:8888/api/payment/qr-scan')
-      qrCodeUrl.value = `http://localhost:8888/api/payment/qr?url=${url}&_=${new Date().getTime()}`;
+      const url = encodeURIComponent(`/api/payment/qr-scan`);
+      qrCodeUrl.value = `/api/payment/qr?url=${url}&_=${new Date().getTime()}`;
     };
 
     const startCountdown = () => {

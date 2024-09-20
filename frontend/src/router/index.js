@@ -4,6 +4,7 @@ import MyAccounts from '../views/myAccounts/MyAccounts.vue';
 import ExchangeRate from '../views/exchangeRate/ExchangeRate.vue';
 import SetAlert from "../views/exchangeRate/SetAlert.vue";
 import Payments from '../views/payments/Payments.vue';
+import PassWordInputPage from "../views/payments/PasswordInputPage.vue"; 
 import Histories from '../views/Histories/Histories.vue';
 import Maps from '../views/Maps/Maps.vue';
 // import Dashboard from "../views/Dashboard.vue";
@@ -47,6 +48,11 @@ const routes = [
     path: '/payments',
     name: 'Payments',
     component: Payments,
+  },
+  {
+    path: '/payments/pw',
+    name: 'Password',
+    component: PassWordInputPage,
   },
   {
     path: '/histories',
