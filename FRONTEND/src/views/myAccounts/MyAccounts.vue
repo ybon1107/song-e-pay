@@ -3,9 +3,11 @@ import ArgonInput from '@/components/templates/ArgonInput.vue';
 import DefaultInfoCard from '@/components/yb_templates/AccountsCard.vue';
 import ArgonAmountInput from '@/components/yb_templates/ArgonAmountInput.vue';
 import ArgonButton from '@/components/templates/ArgonButton.vue';
-import { ref, onMounted, computed, customRef, watch } from 'vue';
+import SecondPassword from '@/views/MyAccounts/SecondPassword.vue';
+import { ref, onMounted, computed, nextTick, watch } from 'vue';
 import axios from 'axios';
-// 자산 정보와 잔액
+const emit = defineEmits(['password-verified', 'close']);
+
 const selectedAsset = ref('Song-E Money'); // 기본적으로 Song-E Money가 선택됨
 const activeTab = ref('charge'); // 기본적으로 충전 탭이 선택됨
 const chargeAmount = ref('');
@@ -21,19 +23,46 @@ const withdrawEmailConfirm = ref('');
 const formattedSongEMoneyBalance = computed(() => `${customerunit.value} ${formatNumber(songEMoneyBalance.value.toFixed(2))}`);
 const formattedWonEMoneyBalance = computed(() => `KRW ${formatNumber(wonEMoneyBalance.value.toFixed(2))}`);
 const exchangeRate = ref(null); // To store the fetched exchange rate
+const showModal = ref(false);
+let currentAction = ref('');
+const isValidAmount = (amount) => {
+  return amount && !isNaN(amount) && parseFloat(amount) > 0;
+};
+
+const openModal = () => {
+  showModal.value = true;
+  currentAction.value = activeTab.value;
+};
+
+const closeModal = () => {
+  showModal.value = false;
+};
+
+// 비밀번호가 확인되었을 때 호출되는 함수
+const handlePasswordVerified = () => {
+  showModal.value = false; // 모달 숨김
+  switch (currentAction.value) {
+    case 'charge':
+      charge();
+      break;
+    case 'exchange':
+      exchange();
+      break;
+    case 'withdraw':
+      withdraw();
+      break;
+    case 'transfer':
+      transfer();
+      break;
+    case 'refund':
+      refund();
+      break;
+  }
+};
 
 // 환율 가져오기 함수
 const fetchExchangeRate = () => {
-  let apiUrl = '';
-
-  // Song-E Money 선택 시 USD/KRW 환율 API 사용
-  if (selectedAsset.value === 'Song-E Money') {
-    apiUrl = `https://api.manana.kr/exchange/rate/${customerunit.value}/KRW.json`;
-  }
-  // Won-E Money 선택 시 KRW/USD 환율 API 사용
-  else if (selectedAsset.value === 'Won-E Money') {
-    apiUrl = `https://api.manana.kr/exchange/rate/KRW/${customerunit.value}.json`;
-  }
+  const apiUrl = `https://api.manana.kr/exchange/rate/${selectedAsset.value === 'Song-E Money' ? customerunit.value : 'KRW'}/${selectedAsset.value === 'Song-E Money' ? 'KRW' : customerunit.value}.json`;
 
   axios
     .get(apiUrl)
@@ -48,11 +77,9 @@ const fetchExchangeRate = () => {
 // 컴포넌트가 마운트될 때 환율을 가져오고, 1분마다 갱신
 onMounted(() => {
   fetchExchangeRate();
-
-  // 1분마다 환율 갱신
   setInterval(fetchExchangeRate, 60000); // 60000ms = 1분
 });
-// selectedAsset이 변경될 때마다 fetchExchangeRate 호출
+
 watch(selectedAsset, () => {
   fetchExchangeRate();
   setInterval(fetchExchangeRate, 60000); // 60000ms = 1분
@@ -153,6 +180,7 @@ const receivedAmount = computed(() => {
 
 <template>
   <div class="container-fluid" style="width: 80%">
+    <SecondPassword v-if="showModal" @close="closeModal" @password-verified="handlePasswordVerified" />
     <div class="assets-list">
       <!-- Song-E Money 카드 -->
       <DefaultInfoCard
@@ -200,7 +228,7 @@ const receivedAmount = computed(() => {
           <ArgonAmountInput v-model="chargeAmount" placeholder="금액을 입력하세요" :unit="customerunit" />
           <p>충전계좌: {{ selectedAsset === 'Song-E Money' ? '내 계좌' : 'KRW 계좌' }}</p>
           <p>거래 후 잔액: {{ transactionAfterBalance }} {{ customerunit }}</p>
-          <argon-button type="submit" color="success" size="lg" class="w-100" @click="charge">충전하기</argon-button>
+          <argon-button type="submit" color="success" size="lg" class="w-100" @click="openModal" :disabled="!isValidAmount(chargeAmount)">충전하기</argon-button>
         </div>
 
         <div v-if="activeTab === 'exchange'">
@@ -219,7 +247,7 @@ const receivedAmount = computed(() => {
           <p>{{ receivedAmount }} KRW</p>
           <p>환급계좌: {{ selectedAsset === 'Song-E Money' ? '내 계좌' : 'KRW 계좌' }}</p>
           <p>거래 후 잔액: {{ transactionAfterBalance }} {{ customerunit }}</p>
-          <argon-button type="submit" color="success" size="lg" class="w-100" @click="exchange">환전하기</argon-button>
+          <argon-button type="submit" color="success" size="lg" class="w-100" @click="openModal" :disabled="!isValidAmount(exchangeAmount)">환전하기</argon-button>
         </div>
 
         <div v-if="activeTab === 'withdraw'">
@@ -234,7 +262,7 @@ const receivedAmount = computed(() => {
           />
           <p>환불계좌: {{ selectedAsset === 'Song-E Money' ? '내 계좌' : 'KRW 계좌' }}</p>
           <p>거래 후 잔액: {{ transactionAfterBalance }} {{ customerunit }}</p>
-          <argon-button type="submit" color="success" size="lg" class="w-100" @click="withdraw">환불하기</argon-button>
+          <argon-button type="submit" color="success" size="lg" class="w-100" @click="openModal" :disabled="!isValidAmount(exchangeAmount)">환불하기</argon-button>
         </div>
       </div>
 
@@ -258,7 +286,7 @@ const receivedAmount = computed(() => {
             :activeTab="activeTab"
           />
           <p>송금 후 잔액: {{ transactionAfterWonBalance }} KRW</p>
-          <argon-button type="submit" color="success" size="lg" class="w-100" @click="transfer">송금하기</argon-button>
+          <argon-button type="submit" color="success" size="lg" class="w-100" @click="openModal" :disabled="!isValidAmount(exchangeAmount)">송금하기</argon-button>
         </div>
 
         <div v-if="activeTab === 'refund'">
@@ -276,7 +304,7 @@ const receivedAmount = computed(() => {
           <p>받는 금액</p>
           <p>{{ receivedAmount }} USD</p>
           <p>거래 후 잔액: {{ transactionAfterWonBalance }} KRW</p>
-          <argon-button type="submit" color="success" size="lg" class="w-100" @click="refund">환급하기</argon-button>
+          <argon-button type="submit" color="success" size="lg" class="w-100" @click="openModal" :disabled="!isValidAmount(exchangeAmount)">환급하기</argon-button>
         </div>
       </div>
     </div>
