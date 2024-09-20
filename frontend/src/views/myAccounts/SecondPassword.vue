@@ -103,8 +103,8 @@ const verifyPassword = () => {
   background-color: white;
   padding: 20px;
   border-radius: 8px;
-  width: 300px; /* 기본 크기 */
-  max-width: 80%; /* 화면에 맞게 줄어들도록 설정 */
+  width: 100px; /* 기본 크기 */
+  max-width: 30%; /* 화면에 맞게 줄어들도록 설정 */
   text-align: center;
   z-index: 1001;
 }

@@ -74,12 +74,6 @@ const fetchExchangeRate = () => {
     });
 };
 
-// 컴포넌트가 마운트될 때 환율을 가져오고, 1분마다 갱신
-onMounted(() => {
-  fetchExchangeRate();
-  setInterval(fetchExchangeRate, 60000); // 60000ms = 1분
-});
-
 watch(selectedAsset, () => {
   fetchExchangeRate();
   setInterval(fetchExchangeRate, 60000); // 60000ms = 1분
