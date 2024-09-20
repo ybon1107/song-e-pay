@@ -354,6 +354,7 @@ const initMap = (state = 'current') => {
   mapRef.value = map;
 
   const ps = new kakao.maps.services.Places(map);
+
   if (state !== 'search') {
     ps.categorySearch('국민은행', placesSearchCB, { useMapBounds: true });
   } else {
