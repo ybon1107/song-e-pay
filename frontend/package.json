@@ -38,7 +38,8 @@
     "vue-flatpickr-component": "11.0.4",
     "vue-router": "^4.3.0",
     "vue3-naver-maps": "^4.2.0",
-    "vuex": "^4.1.0"
+    "vuex": "^4.1.0",
+    "xlsx": "^0.18.5"
   },
   "devDependencies": {
     "@babel/eslint-parser": "7.23.10",
