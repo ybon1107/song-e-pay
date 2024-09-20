@@ -67,7 +67,7 @@ function handleClick() {
     <!-- 하단 우측 내용 -->
     <div class="position-absolute bottom-0 end-0 p-3 text-center text-white" style="margin-bottom: -15px; margin-right: 10px">
       <hr class="my-1 horizontal dark" />
-      <text-s>{{ value }}</text-s>
+      <h6 class="text-s">{{ value }}</h6>
     </div>
   </div>
 </template>
