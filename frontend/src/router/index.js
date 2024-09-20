@@ -5,6 +5,7 @@ import ExchangeRate from '../views/exchangeRate/ExchangeRate.vue';
 import SetAlert from "../views/exchangeRate/SetAlert.vue";
 import Payments from '../views/payments/Payments.vue';
 import PassWordInputPage from "../views/payments/PasswordInputPage.vue"; 
+import QrScanPage from "../views/payments/QrScanPage.vue"; 
 import Histories from '../views/Histories/Histories.vue';
 import Maps from '../views/Maps/Maps.vue';
 // import Dashboard from "../views/Dashboard.vue";
@@ -53,6 +54,11 @@ const routes = [
     path: '/payments/pw',
     name: 'Password',
     component: PassWordInputPage,
+  },
+  {
+    path: '/payments/qr',
+    name: 'Qr',
+    component: QrScanPage,
   },
   {
     path: '/histories',
