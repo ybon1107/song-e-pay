@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface HistoryService {
 
-    List<HistoryDTO> getHistory(SearchItem searchItem);
+    List<HistoryDTO> getFilter(SearchItem searchItem);
 
     List<HistoryDTO> getAllHistories(); // 모든 거래 내역을 가져오는 메서드
 }

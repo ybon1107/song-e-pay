@@ -2,15 +2,65 @@
 import { ref, computed, onMounted } from 'vue';
 import Modal from './Modal.vue'; // 모달 창
 import axios from 'axios';
+import moment from 'moment'; // moment.js를 통해 unix timeStamp를 변환 
+
 
 const selectedCurrency = ref('');
-const endDate = ref('');
-const startDate = ref('');
 const transactionType = ref('');
 const transactionStatus = ref('');
+const startDate = ref('');
+const endDate = ref('');
 const searchQuery = ref('');
+//history filter 로직
+const applyFilters = () => {
+    axios
+        .post('/api/histories/filter', {
+            userNo: 1, // 사용자 번호 예시
+            krwNo: null,
+            songNo: null,
+            typeCode: getTransactionTypeCode(transactionType.value) || null,  
+            stateCode: getTransactionStateCode(transactionStatus.value) || null,  
+            beginDate: startDate.value ? new Date(startDate.value).toISOString() : null, // ISO 형식으로 변환
+            endDate: endDate.value ? new Date(endDate.value).toISOString() : null, // ISO 형식으로 변환
+            searchQuery: searchQuery.value || null,
+        })
+        .then((response) => {
+    transactions.value = response.data.map(transaction => ({
+        ...transaction,
+        historyDate: formatUnixTimestamp(transaction.historyDate), // moment.js로 날짜 포맷팅
+        typeCode: convertTransactionType(transaction.typeCode),
+        stateCode: convertTransactionStatus(transaction.stateCode)
+    }));
+})
+        .catch((error) => {
+            console.error('필터링된 거래 내역을 가져오는 중 오류 발생:', error);
+        });
+};
 
-// 거래 내역 데이터 (API로부터 가져올 수 있음)
+// 문자열을 숫자 코드로 변환하는 함수 필터용
+const getTransactionTypeCode = (type) => {
+    const typeCodes = {
+        '결제': 1,
+        '송금': 2,
+        '충전': 3,
+        '환불': 4,
+        '환전': 5,
+        '환급': 6
+    };
+    return typeCodes[type] || null;
+};
+
+const getTransactionStateCode = (status) => {
+    const stateCodes = {
+        '완료': 1,
+        '실패': 2,
+        '취소': 3,
+        '처리중': 4
+    };
+    return stateCodes[status] || null;
+};
+
+
 const transactions = ref([]);
 // 페이지 로드 시 기본 거래 내역 가져오기
 onMounted(() => {
@@ -22,114 +72,58 @@ const getTransactionList = () => {
     axios
         .get('/api/histories/getList') // 기본 리스트를 GET 요청으로 가져옴
         .then((response) => {
-            transactions.value = response.data;
-        })
-        .catch((error) => {
-            console.error('API 호출 중 오류 발생:', error);
-        });
-};
-
-// 필터링된 거래 내역 계산
-const filteredTransactions = ref([...transactions.value]);
-
-const applyFilters = () => {
-    const searchItem = {
-        typeCode: transactionType.value || null,
-        stateCode: transactionStatus.value || null,
-        beginDate: startDate.value || null,
-        endDate: endDate.value || null,
-    };
-
-    axios
-        .post('/api/histories/list', searchItem)
-        .then((response) => {
-            transactions.value = response.data;
-        })
-        .catch((error) => {
-            console.error('API 호출 중 오류 발생:', error);
-        });
-
-    filteredTransactions.value = transactions.value
-        .filter((transaction) => {
-            // 날짜 필터링
-            const transactionDate = new Date(transaction.date);
-
-            const startDateFilter = startDate.value
-                ? new Date(startDate.value)
-                : null;
-            const endDateFilter = endDate.value
-                ? new Date(endDate.value)
-                : null;
-
-            const dateInRange =
-                (!startDateFilter || transactionDate >= startDateFilter) &&
-                (!endDateFilter || transactionDate <= endDateFilter);
-
-            // 필터링 로직 (계좌와 거래 유형 매핑 등)
-            const KoreaTransaction = ['송금', '환전', '환급', '결제'].includes(
-                transaction.type
-            );
-            const ForeignTransaction = [
-                '충전',
-                '환급',
-                '환전',
-                '환불',
-            ].includes(transaction.type);
-
-            const matchesAccount =
-                (selectedCurrency.value === 'Korea' && KoreaTransaction) ||
-                (selectedCurrency.value === 'Foreign' && ForeignTransaction) ||
-                selectedCurrency.value === '';
-
-            const matchesType =
-                transactionType.value === '' ||
-                transaction.type === transactionType.value;
-
-            const matchesStatus =
-                transactionStatus.value === '' ||
-                transaction.status === transactionStatus.value;
-
-            const matchesQuery =
-                searchQuery.value === '' ||
-                transaction.detail.includes(searchQuery.value);
-
-            return (
-                matchesAccount &&
-                matchesType &&
-                matchesStatus &&
-                matchesQuery &&
-                dateInRange
-            );
-        })
-        // amountColor 설정
-        .map((transaction) => {
-            let amountColor = 'black';
-
-            if (selectedCurrency.value === '') {
-                amountColor = 'black';
-            } else if (selectedCurrency.value === 'Korea') {
-                amountColor = transaction.type === '환전' ? 'blue' : 'red';
-            } else if (selectedCurrency.value === 'Foreign') {
-                amountColor = ['환전', '환불'].includes(transaction.type)
-                    ? 'red'
-                    : 'blue';
-            }
-
-            return {
+            // 거래 코드와 상태 코드 변환 후 데이터 저장
+            transactions.value = response.data.map(transaction => ({
                 ...transaction,
-                amountColor,
-                date: new Date(transaction.date).toISOString().slice(0, 10), // 날짜 형식 변환
-            };
+                historyDate: formatUnixTimestamp(transaction.historyDate), // moment.js로 날짜 포맷팅
+                typeCode: convertTransactionType(transaction.typeCode),
+                stateCode: convertTransactionStatus(transaction.stateCode)
+                
+            }));
+        })
+        .catch((error) => {
+            console.error('API 호출 중 오류 발생:', error);
         });
-
-    console.log('필터가 적용되었습니다.');
 };
+
+// Unix Timestamp를 포맷팅하는 함수
+const formatUnixTimestamp = (unixTimestamp) => {
+    if (unixTimestamp) {
+        return moment(unixTimestamp).format('YYYY-MM-DD hh:mm');
+    }
+    return '';
+};
+
+// 상태 코드 변환
+function convertTransactionStatus(code) {
+    const transactionStatuses = {
+        1: '성공',
+        2: '실패',
+        3: '취소',
+        4: '처리중',
+    };
+    return transactionStatuses[code] || '알 수 없는 상태';
+}
+
+// 거래 코드 변환
+function convertTransactionType(code) {
+    const transactionTypes = {
+        1: '결제',
+        2: '송금',
+        3: '충전',
+        4: '환불',
+        5: '환전',
+        6: '환급',
+    };
+    return transactionTypes[code] || '알 수 없는 거래 유형';
+}
+
 
 // 거래 유형 옵션 (계좌 종류에 따라 다르게 설정)
 const transactionTypes = computed(() => {
-    if (selectedCurrency.value === 'Korea') {
+    if (selectedCurrency.value === 'KoreaAccount') {
         return ['송금', '환전', '환급', '결제']; // 한국 계좌 거래 유형
-    } else if (selectedCurrency.value === 'Foreign') {
+    } else if (selectedCurrency.value === 'ForeignAccount') {
         return ['충전', '환전', '환급', '환불']; // 외화 계좌 거래 유형
     }
     return ['충전', '환전', '환급', '결제', '환불', '송금']; // 전체 선택 시 빈 배열
@@ -178,8 +172,8 @@ const openDatePicker = (event) => {
                         <label>계좌 종류</label>
                         <select v-model="selectedCurrency">
                             <option value="">전체 내역</option>
-                            <option value="Korea">원화 머니 계좌</option>
-                            <option value="Foreign">외화 머니 계좌</option>
+                            <option value="KoreaAccount">원화 머니 계좌</option>
+                            <option value="ForeignAccount">외화 머니 계좌</option>
                         </select>
                     </div>
                     <div class="filter-item filter-search">

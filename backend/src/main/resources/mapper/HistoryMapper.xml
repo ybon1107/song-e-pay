@@ -4,31 +4,42 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.sepay.backend.history.mapper.HistoryMapper">
-    <select id="selectByUserNo" parameterType="SearchItem" resultType="HistoryDTO">
+    <select id="getFilter" parameterType="SearchItem" resultType="HistoryDTO">
         SELECT *
         FROM history h
         JOIN song_account sa ON h.song_no = sa.song_no
         JOIN krw_account ka ON h.krw_no = ka.krw_no
         WHERE h.user_no = #{userNo}
+        <!-- 계좌 종류 필터링 -->
+        <if test="currency != null">
+            <if test="currency == 'KoreaAccount'">
+                AND h.krw_no IS NOT NULL
+            </if>
+            <if test="currency == 'ForeignAccount'">
+                AND h.song_no IS NOT NULL
+            </if>
+        </if>
+        <!-- 거래 유형 필터링 -->
         <if test="typeCode != null">
             AND h.type_code = #{typeCode}
         </if>
+        <!-- 거래 상태 필터링 -->
         <if test="stateCode != null">
             AND h.state_code = #{stateCode}
         </if>
+        <!-- 날짜 범위 필터링 -->
         <if test="beginDate != null and endDate != null">
             AND h.history_date BETWEEN #{beginDate} AND #{endDate}
+        </if>
+        <!-- 검색 쿼리 필터링 -->
+        <if test="searchQuery != null and searchQuery != ''">
+            AND (h.history_content LIKE CONCAT('%', #{searchQuery}, '%')
+            OR sa.song_account_name LIKE CONCAT('%', #{searchQuery}, '%')
+            OR ka.krw_account_name LIKE CONCAT('%', #{searchQuery}, '%'))
         </if>
         ORDER BY h.history_date DESC
     </select>
 
-    <!--    <select id="selectAllHistories" resultType="HistoryDTO">-->
-    <!--        SELECT *-->
-    <!--        FROM history h-->
-    <!--                 JOIN song_account sa ON h.song_no = sa.song_no-->
-    <!--                 JOIN krw_account ka ON h.krw_no = ka.krw_no-->
-    <!--        ORDER BY h.history_date DESC-->
-    <!--    </select>-->
 
     <select id="selectAllHistories" resultType="HistoryDTO">
         SELECT * FROM history ORDER BY history_date DESC

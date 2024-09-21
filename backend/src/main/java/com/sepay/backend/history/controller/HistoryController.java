@@ -17,13 +17,16 @@ public class HistoryController {
 
     private final HistoryService historyService;
 
-    @PostMapping("/list")
+    @PostMapping("/filter")
     public List<HistoryDTO> getHistoryList(@RequestBody SearchItem searchItem) {
-        return historyService.getHistory(searchItem);
+        log.info("SearchItem received: {}", searchItem);
+        return historyService.getFilter(searchItem);
     }
+
+
     @GetMapping("/getList")
     public List<HistoryDTO> getAllHistories() {
-        System.out.println("controller에서 ㅁㅇㅁㅇㅁㅇㅁㅇㅁㅇㅁㅇ3443342342히나??????????????");
+        System.out.println("controller 연결");
         return historyService.getAllHistories();
     }
 
