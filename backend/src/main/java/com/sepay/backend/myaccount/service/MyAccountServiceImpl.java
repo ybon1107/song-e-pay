@@ -22,4 +22,10 @@ public class MyAccountServiceImpl implements MyAccountService {
     public SongAccountDTO getSongAccountByUserNo(Integer userNo) {
         return mapper.selectSongAccount(userNo);
     }
+
+    @Override
+    public SongAccountDTO getSongAccountBalance(Integer userNo) {
+        // Songepay 테이블에서 계좌 잔액을 가져옴
+        return mapper.findSongAccountBalance(userNo);
+    }
 }

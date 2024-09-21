@@ -6,4 +6,5 @@ import com.sepay.backend.myaccount.dto.SongAccountDTO;
 public interface MyAccountService {
     KrwAccountDTO getKrwAccountByUserNo(Integer userNo);
     SongAccountDTO getSongAccountByUserNo(Integer userNo);
+    SongAccountDTO getSongAccountBalance(Integer userNo);
 }

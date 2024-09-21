@@ -6,6 +6,11 @@ import ArgonButton from '@/components/templates/ArgonButton.vue';
 import SecondPassword from '@/views/MyAccounts/SecondPassword.vue';
 import { ref, onMounted, computed, nextTick, watch } from 'vue';
 import axios from 'axios';
+
+onMounted(() => {
+  fetchAccountBalance(); // 컴포넌트가 마운트될 때 데이터 가져오기
+});
+
 const emit = defineEmits(['password-verified', 'close']);
 
 const selectedAsset = ref('Song-E Money'); // 기본적으로 Song-E Money가 선택됨
@@ -25,6 +30,17 @@ const formattedWonEMoneyBalance = computed(() => `KRW ${formatNumber(wonEMoneyBa
 const exchangeRate = ref(null); // To store the fetched exchange rate
 const showModal = ref(false);
 let currentAction = ref('');
+const songAccountBalance = ref(null);
+
+const fetchAccountBalance = async () => {
+  try {
+    const userNo = 1; // 예시: 로그인한 사용자의 userNo 값을 지정합니다.
+    const response = await axios.post(`/api/my-accounts/balance?userNo=${userNo}`);
+    songAccountBalance.value = response.data; // 응답 데이터를 songAccountBalance에 저장
+  } catch (error) {
+    console.error('Error fetching account balance:', error);
+  }
+};
 const isValidAmount = (amount) => {
   return amount && !isNaN(amount) && parseFloat(amount) > 0;
 };
@@ -185,6 +201,9 @@ const receivedAmount = computed(() => {
         @click="selectAsset('Song-E Money')"
         :class="{ selected: selectedAsset === 'Song-E Money' }"
       />
+      <p v-if="songAccountBalance && songAccountBalance.balance !== undefined">
+      잔액: {{ songAccountBalance.balance }}
+    </p>
 
       <!-- Won-E Money 카드 -->
       <DefaultInfoCard

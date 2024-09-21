@@ -15,5 +15,11 @@
         from song_account
         where user_no = #{userNo}
     </select>
+    <select id="findSongAccountBalance" parameterType="Integer" resultType="songAccountDTO">
+        SELECT sa.balance
+        FROM song_account sa
+        JOIN user u ON sa.song_no = u.song_no
+        WHERE u.user_no = #{userNo}
+    </select>
 
 </mapper>
