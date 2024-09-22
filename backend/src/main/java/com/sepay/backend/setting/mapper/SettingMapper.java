@@ -7,19 +7,27 @@ import java.util.Map;
 
 public interface SettingMapper {
 
+    // 정보 변경
     UserDTO updateUser(UserDTO user);
 
+    // 계좌 등록
     int updateAccount(Map map);
 
-    int deleteAccount(int userNo);
+    // 계좌 해지
+    int deleteAccount(Integer userNo);
 
-    int updatePassword(int password, int userNo);
+    // 비밀번호 변경
+    int updatePassword(Map map);
 
-    int updateSecondPassword(int secondPwd, int userNo);
+    // 2차 비밀번호 변경
+    int updateSecondPassword(Map map);
 
+    // 송이 계좌 삭제
     int deleteSonge(String songNo);
 
+    // 원화 계좌 삭제
     int deleteKrw(String krwNo);
 
-    int deleteUser(int userNo);
+    // 회원 삭제
+    int deleteUser(Integer userNo);
 }

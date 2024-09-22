@@ -20,7 +20,15 @@ import javax.sql.DataSource;
 
 @Configuration
 @PropertySource({"classpath:/application.properties"})
-@MapperScan(basePackages = "com.sepay.backend")
+@MapperScan(basePackages = {
+        "com.sepay.backend.event.mapper",
+        "com.sepay.backend.exchangereservation.mapper",
+        "com.sepay.backend.history.mapper",
+        "com.sepay.backend.myaccount.mapper",
+        "com.sepay.backend.notification.mapper",
+        "com.sepay.backend.user.mapper",
+        "com.sepay.backend.setting.mapper",
+})
 @Slf4j
 @EnableTransactionManagement
 public class RootConfig {
@@ -58,11 +66,6 @@ public class RootConfig {
     public DataSourceTransactionManager transactionManager(){
         DataSourceTransactionManager manager = new DataSourceTransactionManager(dataSource());
         return manager;
-    }
-
-    @Bean
-    public SqlSessionTemplate sqlSessionTemplate(SqlSessionFactory sqlSessionFactory) {
-        return new SqlSessionTemplate(sqlSessionFactory);
     }
 
 }
