@@ -12,17 +12,41 @@ const startDate = ref('');
 const endDate = ref('');
 const searchQuery = ref('');
 //history filter 로직
+const getTransactionTypeCodes = (types) => {
+    const typeCodes = {
+        '결제': 1,
+        '송금': 2,
+        '충전': 3,
+        '환불': 4,
+        '환전': 5,
+        '환급': 6
+    };
+    return types.map(type => typeCodes[type]).filter(code => code !== undefined);
+};
 const applyFilters = () => {
+  let typeCodesToSend = [];
+   // 거래 유형이 선택되었는지 확인
+      if (transactionType.value) {
+        // 선택된 거래 유형을 코드로 변환하여 배열로 생성
+        typeCodesToSend = getTransactionTypeCodes([transactionType.value]);
+      } else {
+        // 거래 유형이 선택되지 않았으면 계좌 종류에 따라 기본 typeCode 배열 설정
+        if (selectedCurrency.value === 'KoreaAccount') {
+            typeCodesToSend = [1, 2, 5, 6];  // 원화 머니 계좌일 때의 거래 유형 코드
+        } else if (selectedCurrency.value === 'ForeignAccount') {
+            typeCodesToSend = [3, 4, 5, 6];  // 외화 머니 계좌일 때의 거래 유형 코드
+        }
+    }
     axios
-        .post('/api/histories/filter', {
+        .post('/api/histories/filter', {    
             userNo: 1, // 사용자 번호 예시
             krwNo: null,
             songNo: null,
-            typeCode: getTransactionTypeCode(transactionType.value) || null,  
+            typeCode: typeCodesToSend.length > 0 ? typeCodesToSend : null,  // typeCode 배열 전송  
             stateCode: getTransactionStateCode(transactionStatus.value) || null,  
             beginDate: startDate.value ? new Date(startDate.value).toISOString() : null, // ISO 형식으로 변환
             endDate: endDate.value ? new Date(endDate.value).toISOString() : null, // ISO 형식으로 변환
-            searchQuery: searchQuery.value || null,
+            historyContent: searchQuery.value || null,
         })
         .then((response) => {
     transactions.value = response.data.map(transaction => ({
@@ -127,7 +151,7 @@ const transactionTypes = computed(() => {
         return ['충전', '환전', '환급', '환불']; // 외화 계좌 거래 유형
     }
     return ['충전', '환전', '환급', '결제', '환불', '송금']; // 전체 선택 시 빈 배열
-});
+}); 
 
 // 선택된 거래 내역 상태 관리
 const selectedTransaction = ref(null);
