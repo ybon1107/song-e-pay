@@ -8,23 +8,13 @@ import { ref, onMounted, computed, nextTick, watch } from 'vue';
 import axios from 'axios';
 import myaccountApi from '../../api/myaccountApi';
 onMounted(() => {
-  myaccountApi
-    .fetchkrwAccountBalance('1234')
-    .then((balance) => {
-      wonEMoneyBalance.value = balance;
-    })
-    .catch((error) => {
-      console.error('Error fetching KRW account balance:', error);
-    });
+  myaccountApi.fetchkrwAccountBalance('1234').then((balance) => {
+    wonEMoneyBalance.value = balance;
+  });
 
-  myaccountApi
-    .fetchsongeAccountBalance('1234')
-    .then((balance) => {
-      songEMoneyBalance.value = balance;
-    })
-    .catch((error) => {
-      console.error('Error fetching SongE account balance:', error);
-    });
+  myaccountApi.fetchsongeAccountBalance('1234').then((balance) => {
+    songEMoneyBalance.value = balance;
+  });
 });
 
 const emit = defineEmits(['password-verified', 'close']);
@@ -197,6 +187,7 @@ const receivedAmount = computed(() => {
 
 <template>
   <div class="container-fluid" style="width: 80%">
+    <h1>My account</h1>
     <SecondPassword v-if="showModal" @close="closeModal" @password-verified="handlePasswordVerified" />
     <div class="assets-list">
       <!-- Song-E Money 카드 -->
