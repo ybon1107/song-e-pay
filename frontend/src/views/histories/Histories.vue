@@ -1,306 +1,145 @@
 <script setup>
-import { ref, computed } from 'vue';
+import { ref, computed, onMounted } from 'vue';
 import Modal from './Modal.vue'; // 모달 창
+import axios from 'axios';
+import moment from 'moment'; // moment.js를 통해 unix timeStamp를 변환
 
-// 필터 변수들
 const selectedCurrency = ref('');
-const endDate = ref('');
-const startDate = ref('');
 const transactionType = ref('');
 const transactionStatus = ref('');
+const startDate = ref('');
+const endDate = ref('');
 const searchQuery = ref('');
-
-// 거래 내역 데이터 (API로부터 가져올 수 있음)
-const transactions = ref([
-    {
-        id: 1,
-        date: '2024-09-03 15:06:22',
-        type: '환전',
-        amount: '120580KRW (90USD)',
-        account: null,
-        exchangeRate: null,
-        detail: '외화 계좌 → 원화 계좌',
-        approvalNumber: null,
-        balance: '120,580 USD',
-        balanceAfterExchange: null,
-        status: '완료',
-        memo: null,
-    },
-    {
-        id: 2,
-        date: '2024-09-11 15:30:00',
-        type: '결제',
-        amount: '3000KRW',
-        account: null,
-        exchangeRate: null,
-        detail: 'GS 편의점',
-        approvalNumber: null,
-        balance: '117,580 KRW',
-        balanceAfterExchange: null,
-        status: '완료',
-        memo: null,
-    },
-    {
-        id: 3,
-        date: '2024-09-11 17:30:00',
-        type: '송금',
-        amount: '100000KRW',
-        account: null,
-        exchangeRate: null,
-        detail: 'ABC',
-        approvalNumber: null,
-        balance: '107,580 KRW',
-        balanceAfterExchange: null,
-        status: '완료',
-        memo: null,
-    },
-    {
-        id: 4,
-        date: '2024-09-12 09:00:00',
-        type: '환급',
-        amount: '150000KRW (110USD)',
-        account: null,
-        exchangeRate: null,
-        detail: '원화 계좌 → 외화 계좌',
-        approvalNumber: null,
-        balance: '150,000 USD',
-        balanceAfterExchange: null,
-        status: '완료',
-        memo: null,
-    },
-    {
-        id: 5,
-        date: '2024-09-12 10:00:00',
-        type: '결제',
-        amount: '5000KRW',
-        account: null,
-        exchangeRate: null,
-        detail: '스타벅스',
-        approvalNumber: null,
-        balance: '145,000 KRW',
-        balanceAfterExchange: null,
-        status: '완료',
-        memo: null,
-    },
-    {
-        id: 6,
-        date: '2024-09-12 11:30:00',
-        type: '송금',
-        amount: '250000KRW',
-        account: null,
-        exchangeRate: null,
-        detail: 'DEF',
-        approvalNumber: null,
-        balance: '120,000 KRW',
-        balanceAfterExchange: null,
-        status: '처리중',
-        memo: null,
-    },
-    {
-        id: 7,
-        date: '2024-09-13 13:00:00',
-        type: '환전',
-        amount: '200000KRW (150USD)',
-        account: null,
-        exchangeRate: null,
-        detail: '외화 계좌 → 원화 계좌',
-        approvalNumber: null,
-        balance: '150,000 USD',
-        balanceAfterExchange: null,
-        status: '완료',
-        memo: null,
-    },
-    {
-        id: 8,
-        date: '2024-09-13 14:15:00',
-        type: '충전',
-        amount: '50000KRW',
-        account: null,
-        exchangeRate: null,
-        detail: 'ATM 충전',
-        approvalNumber: null,
-        balance: '200,000 KRW',
-        balanceAfterExchange: null,
-        status: '완료',
-        memo: null,
-    },
-    {
-        id: 9,
-        date: '2024-09-14 15:30:00',
-        type: '결제',
-        amount: '15000KRW',
-        account: null,
-        exchangeRate: null,
-        detail: '이마트',
-        approvalNumber: null,
-        balance: '185,000 KRW',
-        balanceAfterExchange: null,
-        status: '완료',
-        memo: null,
-    },
-    {
-        id: 10,
-        date: '2024-09-14 16:45:00',
-        type: '환급',
-        amount: '50000KRW (35USD)',
-        account: null,
-        exchangeRate: null,
-        detail: '외화 계좌 → 원화 계좌',
-        approvalNumber: null,
-        balance: '185,000 USD',
-        balanceAfterExchange: null,
-        status: '완료',
-        memo: null,
-    },
-    {
-        id: 11,
-        date: '2024-09-15 09:00:00',
-        type: '환전',
-        amount: '30000KRW (22USD)',
-        account: null,
-        exchangeRate: null,
-        detail: '원화 계좌 → 외화 계좌',
-        approvalNumber: null,
-        balance: '155,000 USD',
-        balanceAfterExchange: null,
-        status: '완료',
-        memo: null,
-    },
-    {
-        id: 12,
-        date: '2024-09-15 10:30:00',
-        type: '환불',
-        amount: '10000KRW',
-        account: null,
-        exchangeRate: null,
-        detail: '원래 계좌',
-        approvalNumber: null,
-        balance: '145,000 KRW',
-        balanceAfterExchange: null,
-        status: '완료',
-        memo: null,
-    },
-    {
-        id: 13,
-        date: '2024-09-16 11:00:00',
-        type: '결제',
-        amount: '12000KRW',
-        account: null,
-        exchangeRate: null,
-        detail: 'CGV 영화관',
-        approvalNumber: null,
-        balance: '133,000 KRW',
-        balanceAfterExchange: null,
-        status: '완료',
-        memo: null,
-    },
-    {
-        id: 14,
-        date: '2024-09-17 14:30:00',
-        type: '송금',
-        amount: '50000KRW',
-        account: null,
-        exchangeRate: null,
-        detail: 'GHI',
-        approvalNumber: null,
-        balance: '83,000 KRW',
-        balanceAfterExchange: null,
-        status: '완료',
-        memo: null,
-    },
-]);
-
-
-// 필터링된 거래 내역 계산
-const filteredTransactions = ref([...transactions.value]);
-
-const applyFilters = () => {
-    filteredTransactions.value = transactions.value
-        .filter((transaction) => {
-            // 날짜 필터링
-            const transactionDate = new Date(transaction.date);
-
-            // 변환된 날짜 형식을 YYYY-MM-DD로 사용
-            const formattedTransactionDate = transactionDate
-                .toISOString()
-                .slice(0, 10); // YYYY-MM-DD 형식으로 자르기
-
-            const startDateFilter = startDate.value
-                ? new Date(startDate.value)
-                : null;
-            const endDateFilter = endDate.value
-                ? new Date(endDate.value)
-                : null;
-
-            const dateInRange =
-                (!startDateFilter || transactionDate >= startDateFilter) &&
-                (!endDateFilter || transactionDate <= endDateFilter);
-
-            // 필터링 로직 (계좌와 거래 유형 매핑 등)
-            const KoreaTransaction = ['송금', '환전', '환급', '결제'].includes(
-                transaction.type
-            );
-            const ForeignTransaction = ['충전', '환급', '환전', '환불'].includes(
-                transaction.type
-            );
-
-            const matchesAccount =
-                (selectedCurrency.value === 'Korea' && KoreaTransaction) ||
-                (selectedCurrency.value === 'Foreign' && ForeignTransaction) ||
-                selectedCurrency.value === '';
-
-            const matchesType =
-                transactionType.value === '' ||
-                transaction.type === transactionType.value;
-
-            const matchesStatus =
-                transactionStatus.value === '' ||
-                transaction.status === transactionStatus.value;
-
-            const matchesQuery =
-                searchQuery.value === '' ||
-                transaction.detail.includes(searchQuery.value);
-
-            return (
-                matchesAccount &&
-                matchesType &&
-                matchesStatus &&
-                matchesQuery &&
-                dateInRange
-            );
-        })
-        // amountColor 설정
-        .map((transaction) => {
-            let amountColor = 'black';
-
-            if (selectedCurrency.value === '') {
-                amountColor = 'black';
-            } else if (selectedCurrency.value === 'Korea') {
-                amountColor = transaction.type === '환전' ? 'blue' : 'red';
-            } else if (selectedCurrency.value === 'Foreign') {
-                amountColor = ['환전', '환불'].includes(transaction.type)
-                    ? 'red'
-                    : 'blue';
-            }
-
-            return {
-                ...transaction,
-                amountColor,
-                date: new Date(transaction.date).toISOString().slice(0, 10), // 날짜 형식 변환
-            };
-        });
-
-    console.log('필터가 적용되었습니다.');
+//history filter 로직
+const getTransactionTypeCodes = (types) => {
+    const typeCodes = {
+        결제: 1,
+        송금: 2,
+        충전: 3,
+        환불: 4,
+        환전: 5,
+        환급: 6,
+    };
+    return types
+        .map((type) => typeCodes[type])
+        .filter((code) => code !== undefined);
 };
+const applyFilters = () => {
+    let typeCodesToSend = [];
+    // 거래 유형이 선택되었는지 확인
+    if (transactionType.value) {
+        // 선택된 거래 유형을 코드로 변환하여 배열로 생성
+        typeCodesToSend = getTransactionTypeCodes([transactionType.value]);
+    } else {
+        // 거래 유형이 선택되지 않았으면 계좌 종류에 따라 기본 typeCode 배열 설정
+        if (selectedCurrency.value === 'KoreaAccount') {
+            typeCodesToSend = [1, 2, 5, 6]; // 원화 머니 계좌일 때의 거래 유형 코드
+        } else if (selectedCurrency.value === 'ForeignAccount') {
+            typeCodesToSend = [3, 4, 5, 6]; // 외화 머니 계좌일 때의 거래 유형 코드
+        }
+    }
+    axios
+        .post('/api/histories/filter', {
+            userNo: 1, // 사용자 번호 예시
+            krwNo: null,
+            songNo: null,
+            typeCode: typeCodesToSend.length > 0 ? typeCodesToSend : null, // typeCode 배열 전송
+            stateCode: getTransactionStateCode(transactionStatus.value) || null,
+            beginDate: startDate.value
+                ? new Date(startDate.value).toISOString()
+                : null, // ISO 형식으로 변환
+            endDate: endDate.value
+                ? new Date(endDate.value).toISOString()
+                : null, // ISO 형식으로 변환
+            historyContent: searchQuery.value || null,
+        })
+        .then((response) => {
+            transactions.value = response.data.map((transaction) => ({
+                ...transaction,
+                historyDate: formatUnixTimestamp(transaction.historyDate), // moment.js로 날짜 포맷팅
+                typeCode: convertTransactionType(transaction.typeCode),
+                stateCode: convertTransactionStatus(transaction.stateCode),
+            }));
+        })
+        .catch((error) => {
+            console.error('필터링된 거래 내역을 가져오는 중 오류 발생:', error);
+        });
+};
+
+const getTransactionStateCode = (status) => {
+    const stateCodes = {
+        완료: 1,
+        실패: 2,
+        취소: 3,
+        처리중: 4,
+    };
+    return stateCodes[status] || null;
+};
+
+// 페이지 로드 시 기본 거래 내역 가져오기
+const transactions = ref([]);
+onMounted(() => {
+    getTransactionList();
+});
+
+// 기본 거래 내역을 백엔드에서 가져오는 함수
+const getTransactionList = () => {
+    axios
+        .get('/api/histories/getList') // 기본 리스트를 GET 요청으로 가져옴
+        .then((response) => {
+            // 거래 코드와 상태 코드 변환 후 데이터 저장
+            transactions.value = response.data.map((transaction) => ({
+                ...transaction,
+                historyDate: formatUnixTimestamp(transaction.historyDate), // moment.js로 날짜 포맷팅
+                typeCode: convertTransactionType(transaction.typeCode),
+                stateCode: convertTransactionStatus(transaction.stateCode),
+            }));
+        })
+        .catch((error) => {
+            console.error('API 호출 중 오류 발생:', error);
+        });
+};
+
+// Unix Timestamp를 포맷팅하는 함수
+const formatUnixTimestamp = (unixTimestamp) => {
+    if (unixTimestamp) {
+        return moment(unixTimestamp).format('YYYY-MM-DD hh:mm');
+    }
+    return '';
+};
+
+// 상태 코드 변환
+function convertTransactionStatus(code) {
+    const transactionStatuses = {
+        1: '성공',
+        2: '실패',
+        3: '취소',
+        4: '처리중',
+    };
+    return transactionStatuses[code] || '알 수 없는 상태';
+}
+
+// 거래 코드 변환
+function convertTransactionType(code) {
+    const transactionTypes = {
+        1: '결제',
+        2: '송금',
+        3: '충전',
+        4: '환불',
+        5: '환전',
+        6: '환급',
+    };
+    return transactionTypes[code] || '알 수 없는 거래 유형';
+}
 
 // 거래 유형 옵션 (계좌 종류에 따라 다르게 설정)
 const transactionTypes = computed(() => {
-    if (selectedCurrency.value === 'Korea') {
+    if (selectedCurrency.value === 'KoreaAccount') {
         return ['송금', '환전', '환급', '결제']; // 한국 계좌 거래 유형
-    } else if (selectedCurrency.value === 'Foreign') {
+    } else if (selectedCurrency.value === 'ForeignAccount') {
         return ['충전', '환전', '환급', '환불']; // 외화 계좌 거래 유형
     }
-    return ['충전','환전','환급','결제','환불','송금']; // 전체 선택 시 빈 배열
+    return ['충전', '환전', '환급', '결제', '환불', '송금']; // 전체 선택 시 빈 배열
 });
 
 // 선택된 거래 내역 상태 관리
@@ -309,31 +148,40 @@ const isModalVisible = ref(false);
 
 // 메모 업데이트 기능
 const updateMemo = (newMemo) => {
-  if (selectedTransaction.value) {
-    // 기존 객체를 복사하고 memo만 수정
-    selectedTransaction.value = {
-      ...selectedTransaction.value,
-      memo: newMemo
-    };
-  }
+    if (selectedTransaction.value) {
+        // 기존 객체를 복사하고 memo만 수정
+        selectedTransaction.value = {
+            ...selectedTransaction.value,
+            memo: newMemo,
+        };
+    }
 };
 
 // 거래 내역을 클릭하면 모달을 열고 해당 거래를 선택
 const openModal = (transaction) => {
-  selectedTransaction.value = transaction;
-  isModalVisible.value = true;
+    selectedTransaction.value = transaction;
+    isModalVisible.value = true;
 };
 
 // 모달을 닫는 함수
 const closeModal = () => {
-  isModalVisible.value = false;
+    isModalVisible.value = false;
 };
 
 // 날짜 선택 창 열기
 const openDatePicker = (event) => {
-  event.target.showPicker();
+    event.target.showPicker();
 };
 
+// 메모 업데이트 처리 함수
+const MemoUpdate = ({ historyNo, memo }) => {
+    const index = transactions.value.findIndex(
+        (t) => t.historyNo === historyNo
+    );
+    if (index !== -1) {
+        transactions.value[index].memo = memo; // 업데이트된 메모 반영
+    }
+};
 </script>
 
 <template>
@@ -347,8 +195,10 @@ const openDatePicker = (event) => {
                         <label>계좌 종류</label>
                         <select v-model="selectedCurrency">
                             <option value="">전체 내역</option>
-                            <option value="Korea">원화 머니 계좌</option>
-                            <option value="Foreign">외화 머니 계좌</option>
+                            <option value="KoreaAccount">원화 머니 계좌</option>
+                            <option value="ForeignAccount">
+                                외화 머니 계좌
+                            </option>
                         </select>
                     </div>
                     <div class="filter-item filter-search">
@@ -364,14 +214,23 @@ const openDatePicker = (event) => {
 
                 <!-- 두 번째 줄: 시작 날짜, 끝 날짜, 거래 유형, 거래 상태, Apply 버튼 -->
                 <div class="filter-row filter-row-responsive">
-										<div class="filter-item">
-											<label>시작 날짜</label>
-											<input type="date" v-model="startDate" @focus="openDatePicker($event)" @click="openDatePicker($event)" />
-										</div>
-										<div class="filter-item">
-											<label>끝 날짜</label>
-											<input type="date" v-model="endDate" @focus="openDatePicker($event)" @click="openDatePicker($event)" />
-										</div>
+                    <div class="filter-item">
+                        <label>시작 날짜</label>
+                        <input
+                            type="date"
+                            v-model="startDate"
+                            @click="openDatePicker"
+                        />
+                    </div>
+                    <div class="filter-item">
+                        <label>끝 날짜</label>
+                        <input
+                            type="date"
+                            v-model="endDate"
+                            :min="startDate"
+                            @click="openDatePicker"
+                        />
+                    </div>
 
                     <div class="filter-item">
                         <label>거래 유형</label>
@@ -402,44 +261,41 @@ const openDatePicker = (event) => {
                 </div>
             </div>
 
-            <br><br>
+            <br /><br />
             <!-- 이용 내역 테이블 -->
             <table class="table table-striped">
                 <thead>
                     <tr>
                         <th style="width: 120px">날짜/시간</th>
-                        <th style="width: 120px">거래 유형</th>
-                        <th style="width: 200px">거래 상세</th>
+                        <th style="width: 100px">거래 유형</th>
+                        <th style="width: 260px">거래 상세</th>
                         <th style="width: 120px">거래 금액</th>
-                        <th style="width: 120px">잔액</th>
-                        <th style="width: 120px">거래 상태</th>
+                        <th style="width: 80px">거래 상태</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr
-                        v-for="transaction in filteredTransactions"
-                        :key="transaction.id"
+                        v-for="transaction in transactions"
+                        :key="transaction.historyNo"
                         @click="openModal(transaction)"
                         style="cursor: pointer"
                     >
-                    <td>{{ transaction.date.slice(0, 10) }}</td>
-                        <td>{{ transaction.type }}</td>
-                        <td>{{ transaction.detail }}</td>
-                        <td :style="{ color: transaction.amountColor }">
-                            {{ transaction.amount }}
-                        </td>
-                        <td>{{ transaction.balance }}</td>
-                        <td>{{ transaction.status }}</td>
+                        <td>{{ transaction.historyDate }}</td>
+                        <td>{{ transaction.typeCode }}</td>
+                        <td>{{ transaction.historyContent }}</td>
+                        <!-- <td :style="{ color: transaction.amountColor }"></td> -->
+                        <td>{{ transaction.amount }}</td>
+                        <td>{{ transaction.stateCode }}</td>
                     </tr>
                 </tbody>
             </table>
         </div>
         <!-- 모달 컴포넌트  -->
-        <Modal 
-            :transaction="selectedTransaction" 
-            :isVisible="isModalVisible" 
-            @close="closeModal" 
-            @updateMemo="updateMemo" 
+        <Modal
+            :transaction="selectedTransaction"
+            :isVisible="isModalVisible"
+            @close="closeModal"
+            @updateMemo="MemoUpdate"
         />
     </div>
 </template>
@@ -451,7 +307,6 @@ const openDatePicker = (event) => {
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-
 }
 
 .transaction-history {
@@ -514,7 +369,7 @@ const openDatePicker = (event) => {
 .filter-item.filter-apply button {
     padding: 12px 16px; /* Apply 버튼에 동일한 패딩을 적용 */
     line-height: 1.4;
-    background-color: #2DCE89;
+    background-color: #2dce89;
     color: white;
     border: none;
     border-radius: 8px;
@@ -534,6 +389,7 @@ table {
 
 thead {
     background-color: #f4f4f4;
+    text-align: center;
 }
 
 th,
@@ -565,15 +421,11 @@ td {
     th,
     td {
         font-size: 12px;
+        text-align: center;
     }
 
-    /* 특정 테이블 열 숨기기: 모바일 크기에서는 4개의 탭만 보여줌 */
     th:nth-child(3),
-    th:nth-child(6),
-    th:nth-child(7),
-    td:nth-child(3),
-    td:nth-child(6),
-    td:nth-child(7) {
+    td:nth-child(3) {
         display: none; /* 거래 상세, 승인 번호, 상태를 숨김 */
     }
 }
