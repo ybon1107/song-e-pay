@@ -9,7 +9,7 @@ public interface MyAccountMapper {
 
     SongAccountDTO selectSongAccount(String songNo);
 
-    SongAccountDTO findSongAccountBalance(Integer userNo);
+
     Double selectAccountBalance(String account);
 
     Double selectSongBalance(String songNo);

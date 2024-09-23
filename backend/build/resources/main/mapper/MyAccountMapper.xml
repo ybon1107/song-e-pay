@@ -15,12 +15,7 @@
         from song_account
         where song_no = #{songNo}
     </select>
-    <select id="findSongAccountBalance" parameterType="Integer" resultType="songAccountDTO">
-        SELECT sa.balance
-        FROM song_account sa
-        JOIN user u ON sa.song_no = u.song_no
-        WHERE u.user_no = #{userNo}
-    </select>
+
     <!-- 계좌 잔액 확인 -->
     <select id="selectAccountBalance" parameterType="string" resultType="double">
         select balance

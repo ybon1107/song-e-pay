@@ -32,25 +32,6 @@ const exchangeRate = ref(null); // To store the fetched exchange rate
 const showModal = ref(false);
 let currentAction = ref('');
 // API 호출 함수
-const updateSongEMoneyBalanceInDB = async (amount) => {
-  try {
-    // DB에 업데이트하는 API 호출
-    const accountDTO = '1234';
-    const songAccountDTO = '1234';
-    await axios.post('/api/my-accounts/deposit?', { amount, accountDTO, songAccountDTO });
-  } catch (error) {
-    console.error('Error updating song balance in DB:', error);
-  }
-};
-
-const updateWonEMoneyBalanceInDB = async (newBalance) => {
-  try {
-    // DB에 업데이트하는 API 호출
-    await axios.post('/api/update-won-balance', { balance: newBalance });
-  } catch (error) {
-    console.error('Error updating won balance in DB:', error);
-  }
-};
 const fetchkrwAccountBalance = async () => {
   try {
     const krwNo = '1234'; // 로그인한 사용자의 userNo 값
