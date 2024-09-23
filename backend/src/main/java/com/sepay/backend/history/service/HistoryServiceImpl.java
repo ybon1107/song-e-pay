@@ -27,4 +27,10 @@ public class HistoryServiceImpl implements HistoryService{
         // 데이터베이스에서 모든 거래 내역을 가져옵니다.
         return mapper.selectAllHistories();
     }
+
+    @Override
+    public void updateMemo(HistoryDTO historyDTO) {
+        // Mapper를 호출하여 DB의 메모를 업데이트
+        mapper.updateMemo(historyDTO);
+    }
 }

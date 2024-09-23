@@ -10,10 +10,8 @@
           <h4 class="text-end font-weight-bold">{{ transaction.amount }}</h4>
           <h4 class="text-end font-weight-bold" v-if="['환전', '환급'].includes(transaction.typeCode)"><strong>환율:</strong> {{ transaction.exchangeRate }}</h4>
           <!-- <p v-if="transaction.typeCode === '충전'"><hr> <strong>출금 계좌:</strong> {{ transaction.원래 외국 계좌 }}</p> -->
-          <!-- <p v-if="transaction.typeCode === '송금'"><hr> <strong>계좌:</strong> {{ transaction.송금 받을 krwNo}}</p> -->
+          <!-- <p v-if="transaction.typeCode === '송금'"><hr> <strong>계좌:</strong> {{ transaction.송금 받을 이메일}}</p> -->
           <p><hr><strong>결제 일시:</strong> {{ transaction.historyDate }}</p>
-          <!-- <p v-if="['송금', '결제', '환불', '환급', '환전'].includes(transaction.typeCode)"><hr><strong>거래 후 원화:</strong> {{ transaction.한국 계좌 잔액 }}</p> -->
-          <!-- <p v-if="['환전', '환급', '충전', '환불'].includes(transaction.typeCode)"><hr><strong>거래 후 송이 계좌 잔액:</strong> {{ transaction.송이 계좌 잔액 }}</p>>  -->
           <!-- <p v-if="transaction.typeCode === '결제'"><hr><strong>승인 번호:</strong> {{ transaction.결제 승인 번호 ?  }}</p> -->
           <p><hr><strong>거래 상태:</strong> {{  transaction.stateCode }}</p>
           <div class="form-group">
@@ -33,6 +31,7 @@
 
 <script setup>
 import { ref, watch } from 'vue';
+import axios from 'axios';
 
 const props = defineProps({
   transaction: Object,
@@ -47,7 +46,23 @@ watch(() => props.transaction, (newTransaction) => {
 });
 
 const updateMemo = () => {
-  emit('updateMemo', localMemo.value);
+  if (props.transaction) {
+    axios
+      .post('/api/histories/updateMemo', {
+        historyNo: props.transaction.historyNo,
+        memo: localMemo.value
+      })
+      .then(response => {
+        // emit 이벤트로 부모에게 업데이트된 메모를 전송
+        emit('updateMemo', { historyNo: props.transaction.historyNo, memo: localMemo.value });
+        alert('메모가 성공적으로 저장되었습니다.');
+        emit('close'); // 모달을 닫음
+      })
+      .catch(error => {
+        console.error('메모 저장 중 오류 발생:', error);
+        alert('메모 저장에 실패했습니다.');
+      });
+  }
 };
 
 const closeModal = () => {

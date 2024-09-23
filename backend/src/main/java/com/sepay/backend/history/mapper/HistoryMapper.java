@@ -11,4 +11,6 @@ public interface HistoryMapper {
     List<HistoryDTO> getFilter(SearchItem searchItem);
 
     List<HistoryDTO> selectAllHistories();
+
+    void updateMemo(HistoryDTO historyDTO);
 }
