@@ -10,7 +10,7 @@
         </div>
         <div class="d-xl-none">
           <div class="d-flex justify-content-center">
-            <router-link to="/payments/pw">
+            <router-link to="/payment/password">
               <button class="btn btn-sm btn-warning mb-0">
                 결제하기
               </button>

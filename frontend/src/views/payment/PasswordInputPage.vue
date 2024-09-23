@@ -59,7 +59,7 @@ export default {
                     console.log('Password submitted successfully:', response);
 
                     // 성공 시 페이지 이동
-                    router.push('/payments/qr');
+                    router.push('/payment/qr');
                 } catch (error) {
                     // 에러 처리
                     console.error('Error submitting password:', error);

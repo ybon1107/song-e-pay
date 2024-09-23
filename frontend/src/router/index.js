@@ -3,9 +3,9 @@ import Home from '../views/home/Home.vue';
 import MyAccounts from '../views/myAccounts/MyAccounts.vue';
 import ExchangeRate from '../views/exchangeRate/ExchangeRate.vue';
 import SetAlert from "../views/exchangeRate/SetAlert.vue";
-import Payments from '../views/payments/Payments.vue';
-import PassWordInputPage from "../views/payments/PasswordInputPage.vue"; 
-import QrScanPage from "../views/payments/QrScanPage.vue"; 
+import Payment from '../views/payment/Payment.vue';
+import PassWordInputPage from "../views/payment/PasswordInputPage.vue"; 
+import QrScanPage from "../views/payment/QrScanPage.vue"; 
 import Histories from '../views/Histories/Histories.vue';
 import Maps from '../views/Maps/Maps.vue';
 // import Dashboard from "../views/Dashboard.vue";
@@ -46,17 +46,17 @@ const routes = [
     component: SetAlert,
   },
   {
-    path: '/payments',
-    name: 'Payments',
-    component: Payments,
+    path: '/payment',
+    name: 'Payment',
+    component: Payment,
   },
   {
-    path: '/payments/pw',
+    path: '/payment/password',
     name: 'Password',
     component: PassWordInputPage,
   },
   {
-    path: '/payments/qr',
+    path: '/payment/qr',
     name: 'Qr',
     component: QrScanPage,
   },
