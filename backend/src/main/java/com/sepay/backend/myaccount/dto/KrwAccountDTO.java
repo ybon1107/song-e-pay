@@ -12,7 +12,7 @@ import java.util.Date;
 @AllArgsConstructor
 @Builder
 public class KrwAccountDTO {
-    private String songNo;
+    private String krwNo;
     private Double balance;
     private Date createAt;
     private Date updateAt;
