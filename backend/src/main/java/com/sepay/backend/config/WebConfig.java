@@ -38,12 +38,4 @@ public class WebConfig extends AbstractAnnotationConfigDispatcherServletInitiali
 //        return new Filter[] {characterEncodingFilter};
 //    }
 
-
-    @Bean
-    public CommonsMultipartResolver multipartResolver() {
-        CommonsMultipartResolver resolver = new CommonsMultipartResolver();
-        resolver.setMaxUploadSize(10485760); // 10MB
-        return resolver;
-    }
-
 }
