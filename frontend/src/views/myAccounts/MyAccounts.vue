@@ -1,6 +1,6 @@
 <script setup>
 import ArgonInput from '@/components/templates/ArgonInput.vue';
-import DefaultInfoCard from '@/view/Cards/AccountsCard.vue';
+import DefaultInfoCard from '@/views/Cards/AccountsCard.vue';
 import ArgonAmountInput from '@/components/yb_templates/ArgonAmountInput.vue';
 import ArgonButton from '@/components/templates/ArgonButton.vue';
 import SecondPassword from '@/views/MyAccounts/SecondPassword.vue';

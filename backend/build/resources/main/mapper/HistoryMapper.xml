@@ -8,7 +8,6 @@
         SELECT *
         FROM history h
 --         LEFT JOIN song_account sa ON h.song_no = sa.song_no
---         LEFT JOIN krw_account ka ON h.krw_no = ka.krw_no
         WHERE h.user_no = #{userNo}
         <!-- 거래 유형 필터링 -->
         <if test="typeCode != null and typeCode.size > 0">

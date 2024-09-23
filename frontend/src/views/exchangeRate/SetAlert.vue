@@ -4,22 +4,12 @@
     <div class="box">
       <h2>환율 알림 받기</h2>
       <div class="exchange-input">
-        <img
-          src="https://upload.wikimedia.org/wikipedia/commons/a/a4/Flag_of_the_United_States.svg"
-          alt="미국 국기"
-        />
+        <img src="https://upload.wikimedia.org/wikipedia/commons/a/a4/Flag_of_the_United_States.svg" alt="미국 국기" />
         <span>1 USD</span>
         <span>=</span>
-        <input
-          type="number"
-          v-model="alertRate"
-          placeholder="목표 환율을 입력하세요."
-        />
+        <input type="number" v-model="alertRate" placeholder="목표 환율을 입력하세요." />
         <span>KRW</span>
-        <img
-          src="https://upload.wikimedia.org/wikipedia/commons/0/09/Flag_of_South_Korea.svg"
-          alt="한국 국기"
-        />
+        <img src="https://upload.wikimedia.org/wikipedia/commons/0/09/Flag_of_South_Korea.svg" alt="한국 국기" />
       </div>
       <button @click="confirmAlert">확인</button>
       <br />
@@ -27,22 +17,12 @@
       <hr />
       <br />
       <div class="exchange-input">
-        <img
-          src="https://upload.wikimedia.org/wikipedia/commons/0/09/Flag_of_South_Korea.svg"
-          alt="한국 국기"
-        />
+        <img src="https://upload.wikimedia.org/wikipedia/commons/0/09/Flag_of_South_Korea.svg" alt="한국 국기" />
         <span>1 KRW</span>
         <span>=</span>
-        <input
-          type="number"
-          v-model="alertRate2"
-          placeholder="목표 환율을 입력하세요."
-        />
+        <input type="number" v-model="alertRate2" placeholder="목표 환율을 입력하세요." />
         <span>USD</span>
-        <img
-          src="https://upload.wikimedia.org/wikipedia/commons/a/a4/Flag_of_the_United_States.svg"
-          alt="미국 국기"
-        />
+        <img src="https://upload.wikimedia.org/wikipedia/commons/a/a4/Flag_of_the_United_States.svg" alt="미국 국기" />
       </div>
       <button @click="confirmAlert">확인</button>
     </div>
@@ -56,22 +36,12 @@
 
       <!-- 목표 환율 입력 -->
       <div class="exchange-input" style="margin-top: 20px">
-        <img
-          src="https://upload.wikimedia.org/wikipedia/commons/a/a4/Flag_of_the_United_States.svg"
-          alt="미국 국기"
-        />
+        <img src="https://upload.wikimedia.org/wikipedia/commons/a/a4/Flag_of_the_United_States.svg" alt="미국 국기" />
         <span>1 USD</span>
         <span>=</span>
-        <input
-          type="number"
-          v-model="targetRate"
-          placeholder="목표 환율을 입력하세요."
-        />
+        <input type="number" v-model="targetRate" placeholder="목표 환율을 입력하세요." />
         <span>KRW</span>
-        <img
-          src="https://upload.wikimedia.org/wikipedia/commons/0/09/Flag_of_South_Korea.svg"
-          alt="한국 국기"
-        />
+        <img src="https://upload.wikimedia.org/wikipedia/commons/0/09/Flag_of_South_Korea.svg" alt="한국 국기" />
       </div>
 
       <!-- 자동 환전 금액 입력 -->
@@ -80,16 +50,9 @@
           목표 환율: <br />
           {{ targetRate }} KRW 이하
         </div>
-        <input
-          type="number"
-          v-model="targetAmount"
-          placeholder="자동 전환할 금액을 입력하세요."
-        />
+        <input type="number" v-model="targetAmount" placeholder="자동 전환할 금액을 입력하세요." />
         <span>KRW</span>
-        <img
-          src="https://upload.wikimedia.org/wikipedia/commons/0/09/Flag_of_South_Korea.svg"
-          alt="한국 국기"
-        />
+        <img src="https://upload.wikimedia.org/wikipedia/commons/0/09/Flag_of_South_Korea.svg" alt="한국 국기" />
       </div>
       <button @click="confirmAutoExchange">확인</button>
     </div>
@@ -97,8 +60,8 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
-import { useExchangeStore } from "../../stores/exchangeStore";
+import { ref } from 'vue';
+import { useExchangeStore } from '../stores/exchangeStore';
 
 const store = useExchangeStore();
 
@@ -106,10 +69,10 @@ const store = useExchangeStore();
 const currentRate = ref(store.currentToKrw);
 
 // 상태 변수들을 ref로 선언
-const alertRate = ref(""); // 환율 알림 목표 값
-const alertRate2 = ref(""); // 환율 알림 목표 값
-const targetRate = ref(""); // 자동 환전 목표 환율
-const targetAmount = ref(""); // 목표 금액
+const alertRate = ref(''); // 환율 알림 목표 값
+const alertRate2 = ref(''); // 환율 알림 목표 값
+const targetRate = ref(''); // 자동 환전 목표 환율
+const targetAmount = ref(''); // 목표 금액
 
 // 알림 목표 환율을 확인하는 함수
 const confirmAlert = () => {
@@ -118,9 +81,7 @@ const confirmAlert = () => {
 
 // 자동 환전 목표를 확인하는 함수
 const confirmAutoExchange = () => {
-  alert(
-    `목표 환율: 1 USD = ${targetRate.value} KRW \n목표 금액: ${targetAmount.value} KRW 이하`
-  );
+  alert(`목표 환율: 1 USD = ${targetRate.value} KRW \n목표 금액: ${targetAmount.value} KRW 이하`);
 };
 </script>
 
