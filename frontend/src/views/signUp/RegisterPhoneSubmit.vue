@@ -92,7 +92,7 @@ const handleSubmit = () => {
                   <!-- 인증 코드 재전송 링크 -->
                   <p class="text-sm">
                     <a
-                      href="javascript:;"
+                      href="/register/phone/another"
                       class="text-success text-gradient font-weight-bold"
                       >I didn't receive a code</a
                     >
