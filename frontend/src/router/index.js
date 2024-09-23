@@ -1,7 +1,7 @@
-import { createRouter, createWebHistory } from 'vue-router';
-import Home from '../views/home/Home.vue';
-import MyAccounts from '../views/myAccounts/MyAccounts.vue';
-import ExchangeRate from '../views/exchangeRate/ExchangeRate.vue';
+import { createRouter, createWebHistory } from "vue-router";
+import Home from "../views/home/Home.vue";
+import MyAccounts from "../views/myAccounts/MyAccounts.vue";
+import ExchangeRate from "../views/exchangeRate/ExchangeRate.vue";
 import SetAlert from "../views/exchangeRate/SetAlert.vue";
 import Payment from '../views/payment/Payment.vue';
 import PassWordInputPage from "../views/payment/PasswordInputPage.vue"; 
@@ -18,26 +18,27 @@ import ChangePwd from "../views/profile/ChangePassword.vue";
 import Register from "../views/signUp/RegisterLegal.vue";
 import Registeremail from "../views/signUp/Registeremail.vue";
 import Login from "../views/signIn/Login.vue";
+import ExchangeRateChart from "../views/Chart/ExchangeRateChart.vue";
 
 const routes = [
   {
-    path: '/',
-    name: '/',
-    redirect: '/home',
+    path: "/",
+    name: "/",
+    redirect: "/home",
   },
   {
-    path: '/home',
-    name: 'Home',
+    path: "/home",
+    name: "Home",
     component: Home,
   },
   {
-    path: '/my-accounts',
-    name: 'MyAccounts',
+    path: "/my-accounts",
+    name: "MyAccounts",
     component: MyAccounts,
   },
   {
-    path: '/exchange-rate',
-    name: 'ExchangeRate',
+    path: "/exchange-rate",
+    name: "ExchangeRate",
     component: ExchangeRate,
   },
   {
@@ -61,13 +62,13 @@ const routes = [
     component: QrScanPage,
   },
   {
-    path: '/histories',
-    name: 'Histories',
+    path: "/histories",
+    name: "Histories",
     component: Histories,
   },
   {
-    path: '/maps',
-    name: 'Maps',
+    path: "/maps",
+    name: "Maps",
     component: Maps,
   },
   {
@@ -100,7 +101,7 @@ const routes = [
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes,
-  linkActiveClass: 'active',
+  linkActiveClass: "active",
 });
 
 export default router;
