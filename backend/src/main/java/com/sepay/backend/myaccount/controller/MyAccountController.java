@@ -20,6 +20,16 @@ public class MyAccountController {
 
     final MyAccountService myAccountService;
 
+    //송이 계좌 조회
+    @PostMapping("/krwbalance")
+    public ResponseEntity<?> getKrwAccountBalance(@RequestParam String krwNo) {
+        return ResponseEntity.ok(myAccountService.getKrwAccountByUserNo(krwNo));
+    }
+    //원화 계좌 조회
+    @PostMapping("/songebalance")
+    public ResponseEntity<?> getSongAccountBalance(@RequestParam String songNo) {
+        return ResponseEntity.ok(myAccountService.getSongAccountByUserNo(songNo));
+    }
     //송이 계좌 충전
     @PostMapping("/deposit")
     public ResponseEntity<?> deposit(@RequestParam double amount, AccountDTO accountDTO, SongAccountDTO songAccountDTO) {
@@ -49,17 +59,4 @@ public class MyAccountController {
     public ResponseEntity<?> transfer(@RequestParam double amount, KrwAccountDTO myKrwAccount, String target_krwNo) {
         return ResponseEntity.ok(myAccountService.transfer(myKrwAccount, amount, target_krwNo));
     }
-    private final MyAccountService myAccountService;
-   
-    //송이 계좌 조회
-    @PostMapping("/krwbalance")
-    public ResponseEntity<?> getKrwAccountBalance(@RequestParam String krwNo) {
-        return ResponseEntity.ok(myAccountService.getKrwAccountByUserNo(krwNo));
-    }
-    //원화 계좌 조회
-    @PostMapping("/songebalance")
-    public ResponseEntity<?> getSongAccountBalance(@RequestParam String songNo) {
-        return ResponseEntity.ok(myAccountService.getSongAccountByUserNo(songNo));
-    }
-
 }
