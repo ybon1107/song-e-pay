@@ -1,13 +1,16 @@
 <script setup>
-import { onBeforeUnmount, onBeforeMount } from "vue";
+import { ref, computed, onBeforeUnmount, onBeforeMount, onMounted } from "vue";
 import { useStore } from "vuex";
-import Navbar from "@/components/Navbars/Navbar.vue";
+import { useRouter } from "vue-router";
+import axios from "axios";
 import ArgonInput from "@/components/templates/ArgonInput.vue";
 import ArgonSwitch from "@/components/templates/ArgonSwitch.vue";
 import ArgonButton from "@/components/templates/ArgonButton.vue";
-const body = document.getElementsByTagName("body")[0];
 
+const body = document.getElementsByTagName("body")[0];
 const store = useStore();
+const router = useRouter();
+
 onBeforeMount(() => {
   store.state.hideConfigButton = true;
   store.state.showNavbar = false;
@@ -22,6 +25,75 @@ onBeforeUnmount(() => {
   store.state.showFooter = true;
   body.classList.add("bg-gray-100");
 });
+
+// 이메일과 비밀번호 입력 필드 상태
+const email = ref("");
+const password = ref("");
+
+// 이메일 유효성 검사
+const isEmailValid = computed(() => {
+  const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return emailPattern.test(email.value);
+});
+
+// 비밀번호 유효성 검사
+const isPasswordValid = computed(() => {
+  return password.value.length >= 8;
+});
+
+// 에러 상태
+const emailError = ref(false);
+const passwordError = ref(false);
+
+// 폼 유효성 검사
+const isFormValid = computed(() => {
+  return isEmailValid.value && isPasswordValid.value;
+});
+
+// 폼 제출 처리
+const handleSubmit = async () => {
+  emailError.value = !isEmailValid.value;
+  passwordError.value = !isPasswordValid.value;
+
+  if (isFormValid.value) {
+    try {
+      const response = await axios.post("http://localhost:8080/login", {
+        email: email.value,
+        password: password.value,
+      });
+
+      if (response.data.success) {
+        router.push("/login/phone");
+      } else {
+        // 로그인 실패 처리
+        alert("Invalid email or password");
+      }
+    } catch (error) {
+      console.error("Login error:", error);
+      alert("An error occurred during login. Please try again.");
+    }
+  }
+};
+
+// 부트스트랩 유효성 검사 스크립트
+onMounted(() => {
+  const forms = document.querySelectorAll(".needs-validation");
+  Array.prototype.slice.call(forms).forEach(function (form) {
+    form.addEventListener(
+      "submit",
+      function (event) {
+        if (!form.checkValidity()) {
+          event.preventDefault();
+          event.stopPropagation();
+          form.classList.remove("was-validated");
+        } else {
+          form.classList.remove("was-validated");
+        }
+      },
+      false
+    );
+  });
+});
 </script>
 <template>
   <!-- 메인 콘텐츠 섹션 -->
@@ -33,7 +105,7 @@ onBeforeUnmount(() => {
           <div class="row justify-content-center">
             <!-- 로그인 폼을 담고 있는 카드 컨테이너 -->
             <div
-              class="mx-auto col-xl-4 col-lg-5 col-md-7 d-flex flex-column mx-lg-0"
+              class="mx-auto col-xl-4 col-lg-5 col-md-7 col-sm-9 d-flex flex-column mx-lg-0"
             >
               <div class="card card-plain">
                 <!-- 카드 헤더: 제목 -->
@@ -53,7 +125,12 @@ onBeforeUnmount(() => {
                 </div>
                 <!-- 카드 본문: 로그인 폼 -->
                 <div class="card-body">
-                  <form role="form">
+                  <form
+                    @submit.prevent="handleSubmit"
+                    class="needs-validation"
+                    novalidate
+                  >
+                    <!-- <form action="http://localhost:8080/login" method="post"> -->
                     <!-- 이메일 입력 필드 -->
                     <div class="mb-3">
                       <label key="email" for="email" class="form-label"
@@ -65,7 +142,14 @@ onBeforeUnmount(() => {
                         placeholder="Email"
                         name="email"
                         size="lg"
+                        v-model="email"
+                        :class="{ 'is-invalid': emailError }"
+                        :error="email != '' && !isEmailValid"
+                        isRequired
                       />
+                      <div v-if="emailError" class="invalid-feedback text-xs">
+                        Please provide a valid email.
+                      </div>
                     </div>
                     <!-- 비밀번호 입력 필드 -->
                     <div class="mb-3">
@@ -78,7 +162,18 @@ onBeforeUnmount(() => {
                         placeholder="Password"
                         name="password"
                         size="lg"
+                        v-model="password"
+                        :class="{ 'is-invalid': passwordError }"
+                        :error="password != '' && !isPasswordValid"
+                        isRequired
                       />
+                      <div
+                        v-if="passwordError"
+                        class="invalid-feedback text-xs"
+                      >
+                        Please fill in the password field with at least 8
+                        characters.
+                      </div>
                     </div>
                     <!-- "Remember me" 토글 스위치 (일단 주석 처리 해둠) -->
                     <!-- <argon-switch id="rememberMe" name="remember-me"
@@ -92,6 +187,7 @@ onBeforeUnmount(() => {
                         color="success"
                         fullWidth
                         size="lg"
+                        type="submit"
                         >Sign in</argon-button
                       >
                     </div>
@@ -99,7 +195,7 @@ onBeforeUnmount(() => {
                   <!-- 로그인 문제 발생시 안내 링크 -->
                   <p class="mx-auto text-sm pt-3">
                     <a
-                      href="javascript:;"
+                      href="/login/issue-info"
                       class="text-success text-gradient font-weight-bold"
                       >Trouble logging in?</a
                     >
