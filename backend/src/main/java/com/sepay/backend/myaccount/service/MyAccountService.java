@@ -12,7 +12,6 @@ public interface MyAccountService {
 
     SongAccountDTO getSongAccountByUserNo(String songNo);
 
-
     // 충전
     String deposit(AccountDTO accountDTO, SongAccountDTO songAccountDTO, Double amount);
 
