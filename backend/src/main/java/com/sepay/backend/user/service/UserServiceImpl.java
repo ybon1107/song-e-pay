@@ -1,5 +1,6 @@
 package com.sepay.backend.user.service;
 
+import com.sepay.backend.payment.dto.PasswordDTO;
 import com.sepay.backend.user.dto.UserDTO;
 import com.sepay.backend.user.mapper.UserMapper;
 import lombok.RequiredArgsConstructor;
@@ -17,5 +18,17 @@ public class UserServiceImpl implements UserService{
     @Override
     public UserDTO getInfo(Integer userNo) {
         return mapper.selectUser(userNo);
+    }
+
+    @Override
+    public boolean checkPassword(PasswordDTO passwordDTO) {
+        String userPassword = mapper.getPassword(1);
+
+        if(passwordDTO.getPassword().equals(userPassword)){
+            return true;
+        }
+        else{
+            return false;
+        }
     }
 }
