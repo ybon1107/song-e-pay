@@ -4,6 +4,7 @@ import com.google.zxing.WriterException;
 import com.sepay.backend.payment.dto.PasswordDTO;
 import com.sepay.backend.payment.service.PaymentService;
 import com.sepay.backend.payment.service.PaymentServiceImpl;
+import com.sepay.backend.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,18 +20,12 @@ import java.io.OutputStream;
 @RequestMapping("/api/payment")
 public class PaymentController {
     private final PaymentService paymentService;
-
-//    @Autowired
-//    public PaymentController(PaymentServiceImpl paymentService) {
-//        this.paymentService = paymentService;
-//    }
+    private final UserService userService;
 
     @PostMapping("/check-password")
-    public void checkPassword(@RequestBody PasswordDTO passwordDTO){
-        System.out.println("password:"+passwordDTO);
-//        boolean result = paymentService.checkPassword(passwordDTO);
-
-        return;
+    public boolean checkPassword(@RequestBody PasswordDTO passwordDTO){
+//        System.out.println("password:"+passwordDTO);
+        return userService.checkPassword(passwordDTO);
     }
 
     @GetMapping("/qr")
