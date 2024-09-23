@@ -6,5 +6,5 @@ import com.sepay.backend.user.dto.UserDTO;
 public interface UserService {
     UserDTO getInfo(Integer userNo);
 
-    boolean checkPassword(PasswordDTO passwordDTO);
+    boolean checkSecondaryPassword(PasswordDTO passwordDTO);
 }
