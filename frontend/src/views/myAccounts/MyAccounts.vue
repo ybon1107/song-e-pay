@@ -1,6 +1,6 @@
 <script setup>
 import ArgonInput from '@/components/templates/ArgonInput.vue';
-import DefaultInfoCard from '@/components/yb_templates/AccountsCard.vue';
+import DefaultInfoCard from '@/view/Cards/AccountsCard.vue';
 import ArgonAmountInput from '@/components/yb_templates/ArgonAmountInput.vue';
 import ArgonButton from '@/components/templates/ArgonButton.vue';
 import SecondPassword from '@/views/MyAccounts/SecondPassword.vue';
@@ -8,7 +8,8 @@ import { ref, onMounted, computed, nextTick, watch } from 'vue';
 import axios from 'axios';
 
 onMounted(() => {
-  fetchAccountBalance(); // 컴포넌트가 마운트될 때 데이터 가져오기
+  fetchkrwAccountBalance();
+  fetchsongeAccountBalance();
 });
 
 const emit = defineEmits(['password-verified', 'close']);
@@ -30,13 +31,40 @@ const formattedWonEMoneyBalance = computed(() => `KRW ${formatNumber(wonEMoneyBa
 const exchangeRate = ref(null); // To store the fetched exchange rate
 const showModal = ref(false);
 let currentAction = ref('');
-const songAccountBalance = ref(null);
-
-const fetchAccountBalance = async () => {
+// API 호출 함수
+const updateSongEMoneyBalanceInDB = async (amount) => {
   try {
-    const userNo = 1; // 예시: 로그인한 사용자의 userNo 값을 지정합니다.
-    const response = await axios.post(`/api/my-accounts/balance?userNo=${userNo}`);
-    songAccountBalance.value = response.data; // 응답 데이터를 songAccountBalance에 저장
+    // DB에 업데이트하는 API 호출
+    const accountDTO = '1234';
+    const songAccountDTO = '1234';
+    await axios.post('/api/my-accounts/deposit?', { amount, accountDTO, songAccountDTO });
+  } catch (error) {
+    console.error('Error updating song balance in DB:', error);
+  }
+};
+
+const updateWonEMoneyBalanceInDB = async (newBalance) => {
+  try {
+    // DB에 업데이트하는 API 호출
+    await axios.post('/api/update-won-balance', { balance: newBalance });
+  } catch (error) {
+    console.error('Error updating won balance in DB:', error);
+  }
+};
+const fetchkrwAccountBalance = async () => {
+  try {
+    const krwNo = '1234'; // 로그인한 사용자의 userNo 값
+    const response = await axios.post(`/api/my-accounts/krwbalance?krwNo=${krwNo}`);
+    wonEMoneyBalance.value = response.data.balance; // 응답 데이터를 songAccountBalance에 저장
+  } catch (error) {
+    console.error('Error fetching account balance:', error);
+  }
+};
+const fetchsongeAccountBalance = async () => {
+  try {
+    const songNo = '1234'; // 로그인한 사용자의 userNo 값
+    const response = await axios.post(`/api/my-accounts/songebalance?songNo=${songNo}`);
+    songEMoneyBalance.value = response.data.balance; // 응답 데이터를 songAccountBalance에 저장
   } catch (error) {
     console.error('Error fetching account balance:', error);
   }
@@ -99,7 +127,7 @@ const formatNumber = (num) => {
   return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 };
 
-let transactionAfterBalance = computed(() => {
+let processAfterBalance = computed(() => {
   let balance = 0;
   // 충전일 경우 잔액 증가
   if (activeTab.value === 'charge') {
@@ -118,7 +146,7 @@ let transactionAfterBalance = computed(() => {
   return formatNumber(balance.toFixed(2)); // 소수점 두 자릿수까지 표시
 });
 
-let transactionAfterWonBalance = computed(() => {
+let processAfterWonBalance = computed(() => {
   let wonBalance = 0;
 
   // 충전일 경우 잔액 증가
@@ -201,9 +229,6 @@ const receivedAmount = computed(() => {
         @click="selectAsset('Song-E Money')"
         :class="{ selected: selectedAsset === 'Song-E Money' }"
       />
-      <p v-if="songAccountBalance && songAccountBalance.balance !== undefined">
-      잔액: {{ songAccountBalance.balance }}
-    </p>
 
       <!-- Won-E Money 카드 -->
       <DefaultInfoCard
@@ -240,7 +265,7 @@ const receivedAmount = computed(() => {
           <p>충전 금액</p>
           <ArgonAmountInput v-model="chargeAmount" placeholder="금액을 입력하세요" :unit="customerunit" />
           <p>충전계좌: {{ selectedAsset === 'Song-E Money' ? '내 계좌' : 'KRW 계좌' }}</p>
-          <p>거래 후 잔액: {{ transactionAfterBalance }} {{ customerunit }}</p>
+          <p>거래 후 잔액: {{ processAfterBalance }} {{ customerunit }}</p>
           <argon-button type="submit" color="success" size="lg" class="w-100" @click="openModal" :disabled="!isValidAmount(chargeAmount)">충전하기</argon-button>
         </div>
 
@@ -259,7 +284,7 @@ const receivedAmount = computed(() => {
           <p>받는 금액</p>
           <p>{{ receivedAmount }} KRW</p>
           <p>환급계좌: {{ selectedAsset === 'Song-E Money' ? '내 계좌' : 'KRW 계좌' }}</p>
-          <p>거래 후 잔액: {{ transactionAfterBalance }} {{ customerunit }}</p>
+          <p>거래 후 잔액: {{ processAfterBalance }} {{ customerunit }}</p>
           <argon-button type="submit" color="success" size="lg" class="w-100" @click="openModal" :disabled="!isValidAmount(exchangeAmount)">환전하기</argon-button>
         </div>
 
@@ -274,7 +299,7 @@ const receivedAmount = computed(() => {
             :activeTab="activeTab"
           />
           <p>환불계좌: {{ selectedAsset === 'Song-E Money' ? '내 계좌' : 'KRW 계좌' }}</p>
-          <p>거래 후 잔액: {{ transactionAfterBalance }} {{ customerunit }}</p>
+          <p>거래 후 잔액: {{ processAfterBalance }} {{ customerunit }}</p>
           <argon-button type="submit" color="success" size="lg" class="w-100" @click="openModal" :disabled="!isValidAmount(withdrawAmount)">환불하기</argon-button>
         </div>
       </div>
@@ -298,7 +323,7 @@ const receivedAmount = computed(() => {
             :wonEMoneyBalance="wonEMoneyBalance"
             :activeTab="activeTab"
           />
-          <p>송금 후 잔액: {{ transactionAfterWonBalance }} KRW</p>
+          <p>송금 후 잔액: {{ processAfterWonBalance }} KRW</p>
           <argon-button type="submit" color="success" size="lg" class="w-100" @click="openModal" :disabled="!isValidAmount(transferAmount)">송금하기</argon-button>
         </div>
 
@@ -316,7 +341,7 @@ const receivedAmount = computed(() => {
           />
           <p>받는 금액</p>
           <p>{{ receivedAmount }} USD</p>
-          <p>거래 후 잔액: {{ transactionAfterWonBalance }} KRW</p>
+          <p>거래 후 잔액: {{ processAfterWonBalance }} KRW</p>
           <argon-button type="submit" color="success" size="lg" class="w-100" @click="openModal" :disabled="!isValidAmount(refundAmount)">환급하기</argon-button>
         </div>
       </div>
