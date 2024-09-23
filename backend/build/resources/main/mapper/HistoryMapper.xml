@@ -4,22 +4,42 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.sepay.backend.history.mapper.HistoryMapper">
-    <select id="selectByUserNo" parameterType="SearchItem" resultType="historyDTO">
+    <select id="getFilter" parameterType="SearchItem" resultType="HistoryDTO">
         SELECT *
         FROM history h
-                 join song_account sa
-                      on h.song_no = sa.song_no
-                 join krw_account ka
-                      on h.krw_no = ka.krw_no
-        where user_no = #{userNo}
-        <if test="typeCode != null">
-            and type_code = #{typeCode}
+--         LEFT JOIN song_account sa ON h.song_no = sa.song_no
+--         LEFT JOIN krw_account ka ON h.krw_no = ka.krw_no
+        WHERE h.user_no = #{userNo}
+        <!-- 거래 유형 필터링 -->
+        <if test="typeCode != null and typeCode.size > 0">
+            AND h.type_code IN
+            <foreach item="item" collection="typeCode" open="(" separator="," close=")">
+                #{item}
+            </foreach>
         </if>
+        <!-- 거래 상태 필터링 -->
         <if test="stateCode != null">
-            and state_code = #{stateCode}
+            AND h.state_code = #{stateCode}
         </if>
+        <!-- 날짜 범위 필터링 -->
         <if test="beginDate != null and endDate != null">
-            and between #{beginDate} and #{endDate}
+            AND h.history_date BETWEEN #{beginDate} AND #{endDate}
         </if>
+        <!-- 검색 쿼리 필터링 -->
+        <if test="historyContent != null and historyContent != ''">
+            AND h.history_content LIKE CONCAT('%', #{historyContent}, '%')
+        </if>
+
+        ORDER BY h.history_date DESC
     </select>
+
+    <select id="selectAllHistories" resultType="HistoryDTO">
+        SELECT * FROM history ORDER BY history_date DESC
+    </select>
+
+    <update id="updateMemo" parameterType="HistoryDTO">
+        UPDATE history
+        SET memo = #{memo}
+        WHERE history_no = #{historyNo}
+    </update>
 </mapper>
