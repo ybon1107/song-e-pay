@@ -10,7 +10,6 @@ export default {
     async submitPassword(password) {
         try {
             const response = await api.post('/check-password', { password });
-            console.log("응답:", response);
             return response;
         } catch (error) {
             console.error('비밀번호 제출 오류:', error);
