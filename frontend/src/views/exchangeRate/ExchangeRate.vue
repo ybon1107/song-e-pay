@@ -1,41 +1,13 @@
 <template>
-    <div class="container-fluid py-4">
-        <h5>Compare Exchange Rate</h5>
-        <div class="row">
-            <!-- USD to KRW Section -->
-            <div class="col-lg-6 col-md-12">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="d-flex justify-content-between">
-                            <h6>1 USD = {{ currentToKrw }} KRW</h6>
-                        </div>
-                        <div class="chart-container">
-                            <canvas id="exchangeRateChart"></canvas>
-                        </div>
-                        <div class="input-group my-3">
-                            <input
-                                type="number"
-                                class="form-control"
-                                v-model.number="usdAmount"
-                                @input="convertToKrw"
-                            />
-                            <div class="input-group-append">
-                                <span class="input-group-text">USD</span>
-                            </div>
-                            <span class="input-group-text">=</span>
-                            <input
-                                type="text"
-                                class="form-control"
-                                :value="krwAmount"
-                                readonly
-                            />
-                            <div class="input-group-append">
-                                <span class="input-group-text">KRW</span>
-                            </div>
-                        </div>
-                        <button class="btn btn-primary w-100">Buy</button>
-                    </div>
-                </div>
+  <div class="container-fluid py-4">
+    <h5>Compare Exchange Rate</h5>
+    <div class="row">
+      <!-- USD to KRW Section -->
+      <div class="col-lg-6 col-md-12">
+        <div class="card">
+          <div class="card-body">
+            <div class="d-flex justify-content-between">
+              <h6>1 USD = {{ currentToKrw }} KRW</h6>
             </div>
             <ExchangeRateChart chartId="toexchangeChart" />
             <div class="input-group my-3">
@@ -250,9 +222,9 @@ onMounted(() => {
 
 <style scoped>
 .chart-container {
-    position: relative;
-    height: 40vh;
-    width: 100%;
+  position: relative;
+  height: 40vh;
+  width: 100%;
 }
 
 .clickable-alert {
