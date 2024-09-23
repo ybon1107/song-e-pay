@@ -33,9 +33,7 @@
             <div class="d-flex justify-content-between">
               <h6>1 KRW = {{ currentFromKrw }} USD</h6>
             </div>
-            <div class="chart-container">
-              <canvas id="krwToUsdChart"></canvas>
-            </div>
+            <ExchangeRateChart chartId="fromexchangeChart" />
             <div class="input-group my-3">
               <input type="number" class="form-control" v-model.number="krwAmountReverse" @input="convertToUsd" />
               <div class="input-group-append">
@@ -52,20 +50,6 @@
           </div>
         </div>
       </div>
-      <ExchangeRateChart chartId="fromexchangeChart" />
-      <div class="input-group my-3">
-        <input type="number" class="form-control" v-model.number="krwAmountReverse" @input="convertToUsd" />
-        <div class="input-group-append">
-          <img src="https://upload.wikimedia.org/wikipedia/commons/0/09/Flag_of_South_Korea.svg" alt="한국 국기"
-            class="flag-icon" />
-        </div>
-        <span class="input-group-text">=</span>
-        <input type="number" class="form-control" :value="usdAmountReverse" readonly />
-        <div class="input-group-append">
-          <span class="input-group-text">USD</span>
-        </div>
-      </div>
-      <button class="btn btn-danger w-100">Sell</button>
     </div>
 
     <!-- Notification & Auto Settings Section -->
@@ -102,8 +86,8 @@ import { useExchangeStore } from "@/stores/exchangeStore";
 import ExchangeRateChart from "@/views/Chart/ExchangeRateChart.vue";
 
 // API URL과 API 키를 설정합니다.
-const usdToKrwUrl = "/api/exchange/pair/USD/KRW";
-const krwToUsdUrl = "/api/exchange/pair/KRW/USD";
+// const usdToKrwUrl = "/api/exchange/pair/USD/KRW";
+// const krwToUsdUrl = "/api/exchange/pair/KRW/USD";
 
 // 데이터 변수
 const usdAmount = ref(1); // 초기값을 1로 설정
@@ -166,12 +150,6 @@ onMounted(() => {
 </script>
 
 <style scoped>
-.chart-container {
-  position: relative;
-  height: 40vh;
-  width: 100%;
-}
-
 .clickable-alert {
   text-align: center;
   cursor: pointer;
