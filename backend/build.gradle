@@ -10,6 +10,7 @@ repositories {
     mavenCentral()
 }
 
+
 ext {
     junitVersion = '5.9.2'
     springVersion = '5.3.37'
@@ -30,6 +31,9 @@ dependencies {
             { exclude group: 'commons-logging', module: 'commons-logging' }
     implementation "org.springframework:spring-webmvc:${springVersion}"
     implementation 'javax.inject:javax.inject:1'
+
+    // AWS S3
+    implementation 'software.amazon.awssdk:s3:2.16.82'
 
     // AOP
     implementation 'org.aspectj:aspectjrt:1.9.20'

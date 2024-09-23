@@ -21,7 +21,7 @@
         select balance
         from account
         where account_no = #{accountNo}
-            for update
+        for update
     </select>
 
     <!-- 송이 계좌 잔액 확인 -->
@@ -29,7 +29,7 @@
         select balance
         from song_account
         where song_no = #{songNo}
-            for update
+        for update
     </select>
 
     <!-- 원화 계좌 잔액 확인 -->
@@ -37,27 +37,28 @@
         select balance
         from krw_account
         where krw_no = #{krwNo}
-            for update
+        for update
     </select>
 
     <!-- 계좌 잔액 수정 -->
     <update id="updateAccount" parameterType="accountDTO">
         UPDATE account
         SET balance = #{balance}
-            WHEN account_no = #{accountNo}
+        WHEN account_no = #{accountNo}
     </update>
 
     <!-- 송이 계좌 잔액 수정 -->
     <update id="updateSongAccount" parameterType="songAccountDTO">
         UPDATE song_account
         SET balance = #{balance}
-            WHEN song_no = #{songNo}
+        WHEN song_no = #{songNo}
     </update>
 
     <!-- 원화 잔액 수정 -->
     <update id="updateKrwAccount" parameterType="krwAccountDTO">
         UPDATE krw_account
         SET balance = #{balance}
-            WHEN krw_no = #{krwNo}
+        WHEN krw_no = #{krwNo}
     </update>
+
 </mapper>

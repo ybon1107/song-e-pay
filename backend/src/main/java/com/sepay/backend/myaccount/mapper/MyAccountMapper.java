@@ -9,7 +9,6 @@ public interface MyAccountMapper {
 
     SongAccountDTO selectSongAccount(String songNo);
 
-
     Double selectAccountBalance(String account);
 
     Double selectSongBalance(String songNo);
@@ -21,4 +20,5 @@ public interface MyAccountMapper {
     int updateSongAccount(SongAccountDTO songAccountDTO);
 
     int updateKrwAccount(KrwAccountDTO krwAccountDTO);
+
 }
