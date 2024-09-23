@@ -45,8 +45,8 @@ const routes = [
     component: ExchangeRate,
   },
   {
-    path: "/set-alert",
-    name: "SetAlert",
+    path: '/set-alert',
+    name: 'SetAlert',
     component: SetAlert,
   },
   {
@@ -75,8 +75,8 @@ const routes = [
     component: Maps,
   },
   {
-    path: "/profile",
-    name: "Profile",
+    path: '/profile',
+    name: 'Profile',
     component: Profile,
   },
   // map컴포넌트 추가
@@ -86,23 +86,28 @@ const routes = [
     component: MapComponent,
   },
   {
-    path: "/change-password",
-    name: "ChangePwd",
+    path: '/map',
+    name: 'MapComponent',
+    component: MapComponent,
+  },
+  {
+    path: '/change-password',
+    name: 'ChangePwd',
     component: ChangePwd,
   },
   {
-    path: "/login",
-    name: "Login",
+    path: '/login',
+    name: 'Login',
     component: Login,
   },
   {
-    path: "/register/legal",
-    name: "Register",
+    path: '/register/legal',
+    name: 'Register',
     component: Register,
   },
   {
-    path: "/register/email",
-    name: "Registeremail",
+    path: '/register/email',
+    name: 'Registeremail',
     component: Registeremail,
   },
 ];

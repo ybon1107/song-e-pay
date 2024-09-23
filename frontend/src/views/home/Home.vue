@@ -52,22 +52,12 @@
           <div class="card-body">
             <h6>Convert USD to KRW</h6>
             <div class="input-group my-3">
-              <input
-                type="number"
-                class="form-control"
-                v-model.number="usdAmount"
-                @input="convertToKrw"
-              />
+              <input type="number" class="form-control" v-model.number="usdAmount" @input="convertToKrw" />
               <div class="input-group-append">
                 <span class="input-group-text">USD</span>
               </div>
               <span class="input-group-text">=</span>
-              <input
-                type="text"
-                class="form-control"
-                :value="krwAmount"
-                readonly
-              />
+              <input type="text" class="form-control" :value="krwAmount" readonly />
               <div class="input-group-append">
                 <span class="input-group-text">KRW</span>
               </div>
@@ -80,22 +70,12 @@
           <div class="card-body">
             <h6>Convert KRW to USD</h6>
             <div class="input-group my-3">
-              <input
-                type="number"
-                class="form-control"
-                v-model.number="krwAmountReverse"
-                @input="convertToUsd"
-              />
+              <input type="number" class="form-control" v-model.number="krwAmountReverse" @input="convertToUsd" />
               <div class="input-group-append">
                 <span class="input-group-text">KRW</span>
               </div>
               <span class="input-group-text">=</span>
-              <input
-                type="text"
-                class="form-control"
-                :value="usdAmountReverse"
-                readonly
-              />
+              <input type="text" class="form-control" :value="usdAmountReverse" readonly />
               <div class="input-group-append">
                 <span class="input-group-text">USD</span>
               </div>
@@ -113,13 +93,8 @@
           <calendar></calendar>
         </div>
       </div>
-  <div class="main-page-container">
-    <div class="content-area">
-      <h2>홈</h2>
-      <p>메인 콘텐츠 영역입니다.</p>
     </div>
 
-    <!-- 지도 영역 -->
     <div class="map-area">
       <!-- 클릭 시 /maps 페이지로 이동 -->
       <button @click="goToMap" class="go-to-map-btn">Go to Map</button>
@@ -220,7 +195,8 @@ function initializeMap() {
 
 #mini-map {
   width: 100%;
-  height: 200px; /* 미니맵의 높이 설정 */
+  height: 200px;
+  /* 미니맵의 높이 설정 */
   border-radius: 8px;
 }
 
@@ -229,15 +205,19 @@ function initializeMap() {
   position: absolute;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%); /* 중앙 정렬을 위한 transform */
-  padding: 10px 20px; /* 버튼의 크기를 키우기 위해 padding을 조절 */
-  font-size: 16px; /* 글자 크기를 조금 더 키움 */
+  transform: translate(-50%, -50%);
+  /* 중앙 정렬을 위한 transform */
+  padding: 10px 20px;
+  /* 버튼의 크기를 키우기 위해 padding을 조절 */
+  font-size: 16px;
+  /* 글자 크기를 조금 더 키움 */
   color: black;
   border: none;
   border-radius: 5px;
   cursor: pointer;
   transition: background-color 0.3s ease;
-  z-index: 10; /* 지도 위에 버튼을 보이도록 설정 */
+  z-index: 10;
+  /* 지도 위에 버튼을 보이도록 설정 */
 }
 
 .go-to-map-btn:hover {
@@ -262,15 +242,20 @@ function initializeMap() {
 
 .chart-container {
   display: flex;
-  height: 50vh; /* Adjusts the height based on 50% of the viewport height */
-  width: 100%; /* Ensures full width */
-  align-items: center; /* Centers chart vertically */
-  justify-content: center; /* Centers chart horizontally */
+  height: 50vh;
+  /* Adjusts the height based on 50% of the viewport height */
+  width: 100%;
+  /* Ensures full width */
+  align-items: center;
+  /* Centers chart vertically */
+  justify-content: center;
+  /* Centers chart horizontally */
 }
+
 /* Additional responsiveness */
 @media (max-width: 768px) {
   .calendar-container {
     height: auto;
   }
-}  
+}
 </style>
