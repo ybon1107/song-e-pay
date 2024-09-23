@@ -26,21 +26,27 @@ onBeforeUnmount(() => {
   body.classList.add("bg-gray-100");
 });
 
-const email = ref("");
+// 인증 코드 유효성 검사
+const verificationCode = ref("");
 
-// 이메일 유효성 검사
-const isEmailValid = computed(() => {
-  // Basic email regex for validation
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  return emailRegex.test(email.value);
+const isCodeValid = computed(() => {
+  return /^\d{6}$/.test(verificationCode.value);
 });
 
-// 다음 버튼 클릭 핸들러
-const handleNext = () => {
-  if (isEmailValid.value) {
-    router.push("/register/email/check");
+// 인증 코드 입력 제한 함수
+const handleInput = (event) => {
+  if (event.target.value.length > 6) {
+    event.target.value = event.target.value.slice(0, 6);
+  }
+  verificationCode.value = event.target.value;
+};
+
+// submit 버튼 클릭 핸들러
+const handleSubmit = () => {
+  if (isCodeValid.value) {
+    router.push("/register/detail");
   } else {
-    console.log("Invalid email address.");
+    console.log("Invalid verification code.");
   }
 };
 </script>
@@ -55,45 +61,52 @@ const handleNext = () => {
             <div class="card card-plain">
               <!-- 카드 헤더: 제목 -->
               <div class="pb-0 card-header text-center">
-                <h4 class="font-weight-bolder">
-                  Create your Song-E Pay account
-                </h4>
+                <h4 class="font-weight-bolder">Enter the 6-digit code</h4>
               </div>
-              <!-- 카드 푸터: 로그인 링크 -->
+              <!-- 카드 푸터: -->
               <div class="pt-0 text-center card-footer">
                 <p class="mx-auto text-sm">
-                  Already have an account?
+                  We sent to &#43;{{ phone }}
                   <a
-                    href="/login"
+                    href="/register/phone"
                     class="text-success text-gradient font-weight-bold"
-                    >Sign in</a
+                    >Change phone number</a
                   >
                 </p>
               </div>
               <!-- 카드 본문 -->
               <div class="card-body">
                 <form role="form">
-                  <!-- 이메일 입력 필드 -->
-                  <label for="email" class="form-label"
-                    >First, enter your email address</label
+                  <!-- 인증 코드 입력 필드 -->
+                  <label for="verificationCode" class="form-label"
+                    >Your 6-digit code</label
                   >
                   <argon-input
-                    id="email"
-                    type="email"
-                    placeholder="Email"
-                    aria-label="Email"
-                    v-model="email"
+                    id="verificationCode"
+                    type="text"
+                    placeholder=""
+                    aria-label="verificationCode"
+                    v-model="verificationCode"
+                    @input="handleInput"
                   />
+                  <!-- 인증 코드 재전송 링크 -->
+                  <p class="text-sm">
+                    <a
+                      href="/register/phone/another"
+                      class="text-success text-gradient font-weight-bold"
+                      >I didn't receive a code</a
+                    >
+                  </p>
                   <!-- 다음 버튼 -->
                   <div class="text-center">
                     <argon-button
-                      :disabled="!isEmailValid"
+                      :disabled="!isCodeValid"
                       fullWidth
                       color="success"
                       variant="gradient"
                       class="my-4 mb-2"
-                      @click="handleNext"
-                      >Next</argon-button
+                      @click="handleSubmit"
+                      >Submit</argon-button
                     >
                   </div>
                 </form>
