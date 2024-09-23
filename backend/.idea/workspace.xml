@@ -5,19 +5,34 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="2d94ba48-0118-4f0b-b93f-00771c024fe3" name="변경" comment="">
+<<<<<<< HEAD
       <change beforePath="$PROJECT_DIR$/.gradle/8.7/checksums/checksums.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.7/checksums/checksums.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/8.7/checksums/md5-checksums.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.7/checksums/md5-checksums.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/8.7/checksums/sha1-checksums.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.7/checksums/sha1-checksums.bin" afterDir="false" />
+=======
+<<<<<<< HEAD
+>>>>>>> b0e02b0f63bd88e62538f814750d8875b08ce82d
       <change beforePath="$PROJECT_DIR$/.gradle/8.7/executionHistory/executionHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.7/executionHistory/executionHistory.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/8.7/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.7/executionHistory/executionHistory.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/8.7/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.7/fileHashes/fileHashes.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/8.7/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.7/fileHashes/fileHashes.lock" afterDir="false" />
+<<<<<<< HEAD
       <change beforePath="$PROJECT_DIR$/.gradle/8.7/fileHashes/resourceHashesCache.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.7/fileHashes/resourceHashesCache.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
+=======
+      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/file-system.probe" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/file-system.probe" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/libs/backend-1.0-SNAPSHOT.war" beforeDir="false" afterPath="$PROJECT_DIR$/build/libs/backend-1.0-SNAPSHOT.war" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/views/exchangeRate/ExchangeRate.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/views/exchangeRate/ExchangeRate.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/views/myAccounts/MyAccounts.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/views/myAccounts/MyAccounts.vue" afterDir="false" />
+=======
+>>>>>>> b0e02b0f63bd88e62538f814750d8875b08ce82d
       <change beforePath="$PROJECT_DIR$/.gradle/file-system.probe" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/file-system.probe" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
+<<<<<<< HEAD
       <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/sepay/backend/config/RootConfig.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/com/sepay/backend/config/RootConfig.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/sepay/backend/setting/controller/SettingController.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/com/sepay/backend/setting/controller/SettingController.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/sepay/backend/setting/mapper/SettingMapper.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/com/sepay/backend/setting/mapper/SettingMapper.class" afterDir="false" />
@@ -43,6 +58,9 @@
       <change beforePath="$PROJECT_DIR$/src/main/java/com/sepay/backend/setting/service/SettingServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sepay/backend/setting/service/SettingServiceImpl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/mapper/MyAccountMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/mapper/MyAccountMapper.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/mapper/SettingMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/mapper/SettingMapper.xml" afterDir="false" />
+=======
+>>>>>>> 2430669661d82c0b0228a625f9f90d5b0a25e6ad
+>>>>>>> b0e02b0f63bd88e62538f814750d8875b08ce82d
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -106,6 +124,7 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
+<<<<<<< HEAD
   <component name="PropertiesComponent">{
   &quot;keyToString&quot;: {
     &quot;DefaultHtmlFileTemplate&quot;: &quot;HTML File&quot;,
@@ -130,6 +149,40 @@
     &quot;project.structure.side.proportion&quot;: &quot;0.22941971&quot;,
     &quot;settings.editor.selected.configurable&quot;: &quot;reference.projectsettings.compiler.annotationProcessors&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+=======
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "DefaultHtmlFileTemplate": "HTML File",
+<<<<<<< HEAD
+    "Gradle.backend 빌드.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "Tomcat 서버.Tomcat 9.0.91.executor": "Run",
+    "Tomcat 서버.Tomcat 9.0.93.executor": "Run",
+    "git-widget-placeholder": "lyb-ver2",
+=======
+    "Gradle.Build backend.executor": "Run",
+    "Gradle.backend 빌드.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "Tomcat Server.Tomcat 9.0.91.executor": "Run",
+    "Tomcat Server.Tomcat 9.0.911.executor": "Run",
+    "Tomcat 서버.Tomcat 9.0.91.executor": "Run",
+    "Tomcat 서버.Tomcat 9.0.93.executor": "Run",
+    "git-widget-placeholder": "sm",
+>>>>>>> 2430669661d82c0b0228a625f9f90d5b0a25e6ad
+    "ignore.virus.scanning.warn.message": "true",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/Users/Hwang-C/Desktop/프로젝트/sepay/backend/src/main/resources/mapper",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "아티팩트",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.22941971",
+    "settings.editor.selected.configurable": "reference.projectsettings.compiler.annotationProcessors",
+    "vue.rearranger.settings.migration": "true"
+>>>>>>> b0e02b0f63bd88e62538f814750d8875b08ce82d
   }
 }</component>
   <component name="RecentsManager">

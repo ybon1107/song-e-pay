@@ -4,8 +4,6 @@ import com.sepay.backend.myaccount.dto.AccountDTO;
 import com.sepay.backend.myaccount.dto.KrwAccountDTO;
 import com.sepay.backend.myaccount.dto.SongAccountDTO;
 
-import java.util.Map;
-
 public interface MyAccountMapper {
     KrwAccountDTO selectKrwAccount(String krwNo);
 
