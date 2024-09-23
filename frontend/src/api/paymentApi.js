@@ -1,8 +1,8 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: '/api/payment',
-  headers: { 'Content-Type': 'application/json' }
+    baseURL: '/api/payment',
+    headers: { 'Content-Type': 'application/json' },
 });
 
 export default {
@@ -15,5 +15,5 @@ export default {
             console.error('비밀번호 제출 오류:', error);
             throw error;
         }
-    }
-}
+    },
+};
