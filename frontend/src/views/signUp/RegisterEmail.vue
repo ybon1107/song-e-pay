@@ -1,16 +1,15 @@
 <script setup>
-import { ref, computed, onBeforeUnmount, onBeforeMount } from "vue";
+import { onBeforeUnmount, onBeforeMount } from "vue";
 import { useStore } from "vuex";
-import { useRouter } from "vue-router";
+
 // import Navbar from "@/views/pageLayout/Navbar.vue";
-// import AppFooter from "@/views/pageLayout/Footer.vue";
+import AppFooter from "@/views/pageLayout/Footer.vue";
 import ArgonInput from "@/components/templates/ArgonInput.vue";
+import ArgonCheckbox from "@/components/templates/ArgonCheckbox.vue";
 import ArgonButton from "@/components/templates/ArgonButton.vue";
-
 const body = document.getElementsByTagName("body")[0];
-const store = useStore();
-const router = useRouter();
 
+const store = useStore();
 onBeforeMount(() => {
   store.state.hideConfigButton = true;
   store.state.showNavbar = false;
@@ -25,24 +24,6 @@ onBeforeUnmount(() => {
   store.state.showFooter = true;
   body.classList.add("bg-gray-100");
 });
-
-const email = ref("");
-
-// 이메일 유효성 검사
-const isEmailValid = computed(() => {
-  // Basic email regex for validation
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  return emailRegex.test(email.value);
-});
-
-// 다음 버튼 클릭 핸들러
-const handleNext = () => {
-  if (isEmailValid.value) {
-    router.push("/register/email/check");
-  } else {
-    console.log("Invalid email address.");
-  }
-};
 </script>
 <template>
   <main class="main-content mt-0">
@@ -59,7 +40,7 @@ const handleNext = () => {
                   Create your Song-E Pay account
                 </h4>
               </div>
-              <!-- 카드 푸터: 로그인 링크 -->
+              <!-- 카드 푸터: 회원가입 링크 -->
               <div class="pt-0 text-center card-footer">
                 <p class="mx-auto text-sm">
                   Already have an account?
@@ -74,7 +55,7 @@ const handleNext = () => {
               <div class="card-body">
                 <form role="form">
                   <!-- 이메일 입력 필드 -->
-                  <label for="email" class="form-label"
+                  <label for="name" class="form-label"
                     >First, enter your email address</label
                   >
                   <argon-input
@@ -82,17 +63,15 @@ const handleNext = () => {
                     type="email"
                     placeholder="Email"
                     aria-label="Email"
-                    v-model="email"
                   />
                   <!-- 다음 버튼 -->
                   <div class="text-center">
                     <argon-button
-                      :disabled="!isEmailValid"
+                      disabled
                       fullWidth
                       color="success"
                       variant="gradient"
                       class="my-4 mb-2"
-                      @click="handleNext"
                       >Next</argon-button
                     >
                   </div>

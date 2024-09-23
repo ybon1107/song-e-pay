@@ -25,7 +25,7 @@ const getIcon = (icon) => (icon ? icon : null);
 </script>
 <template>
   <div
-    class="alert text-white font-weight-bold d-flex gap-3"
+    class="alert text-white font-weight-bold"
     role="alert"
     :class="getClasses(color, dismissible)"
   >
@@ -33,6 +33,7 @@ const getIcon = (icon) => (icon ? icon : null);
       <i :class="getIcon(icon)" />
     </span>
     <span class="alert-text">
+      &nbsp;
       <slot />
     </span>
     <button

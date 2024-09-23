@@ -1,14 +1,14 @@
 <script setup>
 import { onBeforeUnmount, onBeforeMount } from "vue";
 import { useStore } from "vuex";
-import { useRouter } from "vue-router";
-// import Navbar from "@/components/Navbars/Navbar.vue";
+import Navbar from "@/components/Navbars/Navbar.vue";
+import ArgonInput from "@/components/templates/ArgonInput.vue";
+import ArgonCheckbox from "@/components/templates/ArgonCheckbox.vue";
+import ArgonAlert from "@/components/templates/ArgonAlert.vue";
 import ArgonButton from "@/components/templates/ArgonButton.vue";
 
 const body = document.getElementsByTagName("body")[0];
 const store = useStore();
-const router = useRouter();
-
 onBeforeMount(() => {
   store.state.hideConfigButton = true;
   store.state.showNavbar = false;
@@ -23,16 +23,12 @@ onBeforeUnmount(() => {
   store.state.showFooter = true;
   body.classList.add("bg-gray-100");
 });
-
-// 계속하기 버튼 클릭 핸들러
-const continueHandler = () => {
-  router.push("/register/phone");
-};
 </script>
 <template>
   <!-- 메인 콘텐츠 섹션 -->
   <main class="mt-0 main-content">
     <!-- 전체 페이지 헤더 섹션 -->
+
     <section>
       <div class="page-header min-vh-100">
         <div class="container">
@@ -55,13 +51,13 @@ const continueHandler = () => {
                 </div>
                 <!-- 카드 본문-->
                 <div class="pt-0 card-body">
+                  <!-- 인증 메일 재전송 버튼 -->
                   <div class="text-center">
                     <argon-button
                       fullWidth
                       color="success"
                       variant="gradient"
                       class="my-4 mb-2"
-                      @click="continueHandler"
                       >Continue
                     </argon-button>
                   </div>
