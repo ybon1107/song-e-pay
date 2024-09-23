@@ -2,11 +2,11 @@ import { createRouter, createWebHistory } from "vue-router";
 import Home from "../views/home/Home.vue";
 import MyAccounts from "../views/myAccounts/MyAccounts.vue";
 import SetAlert from "../views/exchangeRate/SetAlert.vue";
-import Payment from '../views/payment/Payment.vue';
-import PassWordInputPage from "../views/payment/PasswordInputPage.vue"; 
-import QrScanPage from "../views/payment/QrScanPage.vue"; 
-import Histories from '../views/Histories/Histories.vue';
-import Maps from '../views/Maps/Maps.vue';
+import Payment from "../views/payment/Payment.vue";
+import PassWordInputPage from "../views/payment/PasswordInputPage.vue";
+import QrScanPage from "../views/payment/QrScanPage.vue";
+import Histories from "../views/Histories/Histories.vue";
+import Maps from "../views/maps/Maps.vue";
 // import Dashboard from "../views/Dashboard.vue";
 // import Tables from "../views/Tables.vue";
 // import Billing from "../views/Billing.vue";
@@ -19,6 +19,9 @@ import Registeremail from "../views/signUp/Registeremail.vue";
 import Login from "../views/signIn/Login.vue";
 import ExchangeRate from "../views/exchangeRate/ExchangeRate.vue";
 import ExchangeRateChart from "../views/Chart/ExchangeRateChart.vue";
+
+// map 컴포넌트 추가
+import MapComponent from "../views/maps/MapComponent.vue";
 
 const routes = [
   {
@@ -47,18 +50,18 @@ const routes = [
     component: SetAlert,
   },
   {
-    path: '/payment',
-    name: 'Payment',
+    path: "/payment",
+    name: "Payment",
     component: Payment,
   },
   {
-    path: '/payment/password',
-    name: 'Password',
+    path: "/payment/password",
+    name: "Password",
     component: PassWordInputPage,
   },
   {
-    path: '/payment/qr',
-    name: 'Qr',
+    path: "/payment/qr",
+    name: "Qr",
     component: QrScanPage,
   },
   {
@@ -75,6 +78,12 @@ const routes = [
     path: "/profile",
     name: "Profile",
     component: Profile,
+  },
+  // map컴포넌트 추가
+  {
+    path: "/map",
+    name: "MapComponent",
+    component: MapComponent,
   },
   {
     path: "/change-password",
