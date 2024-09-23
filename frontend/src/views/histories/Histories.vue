@@ -227,6 +227,7 @@ const MemoUpdate = ({ historyNo, memo }) => {
                         <input
                             type="date"
                             v-model="endDate"
+                            :min="startDate"
                             @click="openDatePicker"
                         />
                     </div>
