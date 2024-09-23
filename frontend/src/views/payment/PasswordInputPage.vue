@@ -56,30 +56,32 @@ export default {
                     // 비밀번호 제출
                     const response = await paymentApi.submitPassword(passwordString);
                     // const response = await submitPasswordToServer(passwordString);
-                    console.log('Password submitted successfully:', response);
+                    if (response.data === true) {
+                        router.push('/payment/qr');
+                    }
+                    else {
+                        alert(response.data.message || '비밀번호가 틀렸습니다.')
+                        resetPassword(); // 비밀번호 초기화 함수 호출
+                    }
 
                     // 성공 시 페이지 이동
-                    router.push('/payment/qr');
                 } catch (error) {
                     // 에러 처리
                     console.error('Error submitting password:', error);
                     errorMessage.value = '비밀번호 제출 중 오류가 발생했습니다.';
+                    resetPassword(); // 오류 발생 시에도 비밀번호 초기화
                 } finally {
                     isLoading.value = false;
                 }
             }
         };
 
-        // // 서버에 비밀번호를 제출하는 가상의 메서드
-        // const submitPasswordToServer = async (passwordString) => {
-        //     try {
-        //         const response = await axios.post('/api/payment/check-password', passwordString)
-        //         console.log("??", response);
-        //         return response;
-        //     } catch (error) {
-        //         alert('오류가 발생했습니다: ' + (error.response?.data?.message || error.message))
-        //     }
-        // };
+        const resetPassword = () => {
+            password.value = ['', '', '', '', '', ''];
+            if (inputRefs.value[0]) {
+                inputRefs.value[0].focus(); // 첫 번째 입력 필드로 포커스 이동
+            }
+        };
 
         return {
             password,
