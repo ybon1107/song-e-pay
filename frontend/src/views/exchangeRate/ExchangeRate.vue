@@ -10,13 +10,29 @@
               <h6>1 USD = {{ currentToKrw }} KRW</h6>
             </div>
             <ExchangeRateChart chartId="toexchangeChart" />
+            <div class="chart-button-container">
+              <button class="chart-btn">1년</button>
+              <button class="chart-btn">6개월</button>
+              <button class="chart-btn">3개월</button>
+              <button class="chart-btn">1개월</button>
+            </div>
             <div class="input-group my-3">
-              <input type="number" class="form-control" v-model.number="usdAmount" @input="convertToKrw" />
+              <input
+                type="number"
+                class="form-control"
+                v-model.number="usdAmount"
+                @input="convertToKrw"
+              />
               <div class="input-group-append">
                 <span class="input-group-text">USD</span>
               </div>
               <span class="input-group-text">=</span>
-              <input type="text" class="form-control" :value="krwAmount" readonly />
+              <input
+                type="text"
+                class="form-control"
+                :value="krwAmount"
+                readonly
+              />
               <div class="input-group-append">
                 <span class="input-group-text">KRW</span>
               </div>
@@ -35,12 +51,26 @@
             </div>
             <ExchangeRateChart chartId="fromexchangeChart" />
             <div class="input-group my-3">
-              <input type="number" class="form-control" v-model.number="krwAmountReverse" @input="convertToUsd" />
+              <input
+                type="number"
+                class="form-control"
+                v-model.number="krwAmountReverse"
+                @input="convertToUsd"
+              />
               <div class="input-group-append">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/0/09/Flag_of_South_Korea.svg" alt="한국 국기" class="flag-icon" />
+                <img
+                  src="https://upload.wikimedia.org/wikipedia/commons/0/09/Flag_of_South_Korea.svg"
+                  alt="한국 국기"
+                  class="flag-icon"
+                />
               </div>
               <span class="input-group-text">=</span>
-              <input type="number" class="form-control" :value="usdAmountReverse" readonly />
+              <input
+                type="number"
+                class="form-control"
+                :value="usdAmountReverse"
+                readonly
+              />
               <div class="input-group-append">
                 <span class="input-group-text">USD</span>
               </div>
@@ -56,20 +86,39 @@
       <div class="col-lg-12">
         <div class="card">
           <div class="card-body">
-            <div @click="$router.push('/set-alert')" class="alert alert-info clickable-alert" role="button">
+            <div
+              @click="$router.push('/set-alert')"
+              class="alert alert-info clickable-alert"
+              role="button"
+            >
               <span>Set an alert for exchange rates</span>
             </div>
             <div class="form-group">
               <label for="autoCondition">Auto Condition</label>
-              <input type="text" class="form-control" id="autoCondition" value="Target Exchange: 1,330 KRW. Current rate: 1,000,000 KRW = 90 USD" />
+              <input
+                type="text"
+                class="form-control"
+                id="autoCondition"
+                value="Target Exchange: 1,330 KRW. Current rate: 1,000,000 KRW = 90 USD"
+              />
             </div>
             <div class="form-group">
               <label for="targetRate1">Target Rate 1</label>
-              <input type="text" class="form-control" id="targetRate1" value="1,330 KRW" />
+              <input
+                type="text"
+                class="form-control"
+                id="targetRate1"
+                value="1,330 KRW"
+              />
             </div>
             <div class="form-group">
               <label for="targetRate2">Target Rate 2</label>
-              <input type="text" class="form-control" id="targetRate2" value="1,329 KRW" />
+              <input
+                type="text"
+                class="form-control"
+                id="targetRate2"
+                value="1,329 KRW"
+              />
             </div>
           </div>
         </div>
@@ -79,9 +128,9 @@
 </template>
 
 <script setup>
-import { ref, onMounted, watch } from 'vue';
-import { useExchangeStore } from '@/stores/exchangeStore';
-import ExchangeRateChart from '@/views/Chart/ExchangeRateChart.vue';
+import { ref, onMounted, watch } from "vue";
+import { useExchangeStore } from "@/stores/exchangeStore";
+import ExchangeRateChart from "@/views/Chart/ExchangeRateChart.vue";
 
 // API URL과 API 키를 설정합니다.
 // const usdToKrwUrl = "/api/exchange/pair/USD/KRW";
@@ -102,14 +151,14 @@ const fetchExchangeRates = async () => {
   try {
     const usdToKrwResponse = await fetch(usdToKrwUrl);
     if (!usdToKrwResponse.ok) {
-      throw new Error('Network response was not ok for USD to KRW');
+      throw new Error("Network response was not ok for USD to KRW");
     }
     const usdToKrwData = await usdToKrwResponse.json();
     currentToKrw.value = usdToKrwData.conversion_rate;
 
     const krwToUsdResponse = await fetch(krwToUsdUrl);
     if (!krwToUsdResponse.ok) {
-      throw new Error('Network response was not ok for KRW to USD');
+      throw new Error("Network response was not ok for KRW to USD");
     }
     const krwToUsdData = await krwToUsdResponse.json();
     currentFromKrw.value = krwToUsdData.conversion_rate;
@@ -118,9 +167,11 @@ const fetchExchangeRates = async () => {
 
     // 환율 데이터를 가져온 후 계산된 값으로 초기화
     krwAmount.value = (usdAmount.value * currentToKrw.value).toFixed(2);
-    usdAmountReverse.value = (krwAmountReverse.value * currentFromKrw.value).toFixed(2);
+    usdAmountReverse.value = (
+      krwAmountReverse.value * currentFromKrw.value
+    ).toFixed(2);
   } catch (error) {
-    console.error('Error fetching exchange rate data:', error);
+    console.error("Error fetching exchange rate data:", error);
   }
 };
 
@@ -130,7 +181,9 @@ const convertToKrw = () => {
 };
 
 const convertToUsd = () => {
-  usdAmountReverse.value = (krwAmountReverse.value * currentFromKrw.value).toFixed(2);
+  usdAmountReverse.value = (
+    krwAmountReverse.value * currentFromKrw.value
+  ).toFixed(2);
 };
 
 // Watchers to update values when exchange rates change
@@ -156,5 +209,22 @@ onMounted(() => {
   /* 자동 높이 조정 */
   vertical-align: middle;
   /* 텍스트와 이미지 정렬 맞추기 */
+}
+
+.chart-button-container {
+  display: flex;
+  gap: 10px; /* Adds space between the buttons */
+}
+
+.chart-btn {
+  padding: 10px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+.chart-btn:hover {
+  background-color: #0056b3;
 }
 </style>
