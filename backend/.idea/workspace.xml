@@ -5,32 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="2d94ba48-0118-4f0b-b93f-00771c024fe3" name="변경" comment="">
-      <change beforePath="$PROJECT_DIR$/.gradle/8.7/executionHistory/executionHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.7/executionHistory/executionHistory.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/8.7/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.7/executionHistory/executionHistory.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/8.7/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.7/fileHashes/fileHashes.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/8.7/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.7/fileHashes/fileHashes.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/8.7/fileHashes/resourceHashesCache.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.7/fileHashes/resourceHashesCache.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/file-system.probe" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/file-system.probe" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/sepay/backend/myaccount/controller/MyAccountController.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/com/sepay/backend/myaccount/controller/MyAccountController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/sepay/backend/myaccount/dto/KrwAccountDTO$KrwAccountDTOBuilder.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/com/sepay/backend/myaccount/dto/KrwAccountDTO$KrwAccountDTOBuilder.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/sepay/backend/myaccount/dto/KrwAccountDTO.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/com/sepay/backend/myaccount/dto/KrwAccountDTO.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/sepay/backend/myaccount/mapper/MyAccountMapper.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/com/sepay/backend/myaccount/mapper/MyAccountMapper.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/sepay/backend/myaccount/service/MyAccountService.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/com/sepay/backend/myaccount/service/MyAccountService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/sepay/backend/myaccount/service/MyAccountServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/com/sepay/backend/myaccount/service/MyAccountServiceImpl.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/libs/backend-1.0-SNAPSHOT.war" beforeDir="false" afterPath="$PROJECT_DIR$/build/libs/backend-1.0-SNAPSHOT.war" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/resources/main/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/build/resources/main/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/resources/main/mapper/MyAccountMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/build/resources/main/mapper/MyAccountMapper.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/tmp/compileJava/previous-compilation-data.bin" beforeDir="false" afterPath="$PROJECT_DIR$/build/tmp/compileJava/previous-compilation-data.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/sepay/backend/myaccount/controller/MyAccountController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sepay/backend/myaccount/controller/MyAccountController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/sepay/backend/myaccount/dto/KrwAccountDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sepay/backend/myaccount/dto/KrwAccountDTO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/sepay/backend/myaccount/dto/SongAccountDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sepay/backend/myaccount/dto/SongAccountDTO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/sepay/backend/myaccount/mapper/MyAccountMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sepay/backend/myaccount/mapper/MyAccountMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/sepay/backend/myaccount/service/MyAccountService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sepay/backend/myaccount/service/MyAccountService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/sepay/backend/myaccount/service/MyAccountServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sepay/backend/myaccount/service/MyAccountServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/mapper/MyAccountMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/mapper/MyAccountMapper.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/../.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/../FRONTEND/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/router/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/../FRONTEND/src/router/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FRONTEND/src/views/Templates/Profile.vue" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -94,48 +72,36 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "DefaultHtmlFileTemplate": "HTML File",
-    "Gradle.Build backend.executor": "Run",
-    "Gradle.backend 빌드.executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "Smart Tomcat.smart tomcat 설정.executor": "Run",
-    "Smart Tomcat.이름이 지정되지 않았습니다.executor": "Run",
-    "Tomcat Server.Tomcat 9.0.91.executor": "Run",
-    "Tomcat Server.Tomcat 9.0.911.executor": "Run",
-    "Tomcat 서버.Tomcat 9.0.91.executor": "Run",
-    "Tomcat 서버.Tomcat 9.0.93.executor": "Run",
-    "Tomcat 서버.tomcat.executor": "Run",
-    "git-widget-placeholder": "lyb-ver2",
-    "ignore.virus.scanning.warn.message": "true",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "/Users/iyebon/KB_project/song-e-pay/backend",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "project.structure.last.edited": "아티팩트",
-    "project.structure.proportion": "0.0",
-    "project.structure.side.proportion": "0.22941971",
-    "settings.editor.selected.configurable": "preferences.pluginManager",
-    "vue.rearranger.settings.migration": "true"
-  },
-  "keyToStringList": {
-    "DatabaseDriversLRU": [
-      "mysql_aurora_aws"
-    ]
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;DefaultHtmlFileTemplate&quot;: &quot;HTML File&quot;,
+    &quot;Gradle.backend 빌드.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;Tomcat 서버.Tomcat 9.0.91.executor&quot;: &quot;Run&quot;,
+    &quot;Tomcat 서버.Tomcat 9.0.93.executor&quot;: &quot;Run&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/Hwang-C/Desktop/프로젝트/sepay/backend/src/main/resources/mapper&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;아티팩트&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.22941971&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;reference.projectsettings.compiler.annotationProcessors&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\KB_project\song-e-pay\backend\src\main\resources" />
       <recent name="C:\Users\Hwang-C\Desktop\프로젝트\sepay\backend\src\main\resources\mapper" />
       <recent name="C:\Users\Hwang-C\Desktop\프로젝트\sepay\backend\src\main\java\com\sepay\backend\setting\service" />
       <recent name="C:\Users\Hwang-C\Desktop\프로젝트\sepay\backend\src\main\java\com\sepay\backend\Notification" />
       <recent name="C:\Users\Hwang-C\Desktop\프로젝트\sepay\backend\src\main\java\com\sepay\backend\ExchangeReservation" />
+      <recent name="C:\Users\Hwang-C\Desktop\프로젝트\backend\src\main\java\com\sepay\backend\common\pagination" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
       <recent name="com.sepay.backend.setting.mapper" />
@@ -152,7 +118,7 @@
     </option>
   </component>
   <component name="RunManager">
-    <configuration name="tomcat" type="#com.intellij.j2ee.web.tomcat.TomcatRunConfigurationFactory" factoryName="Local" APPLICATION_SERVER_NAME="Tomcat 9.0.91" ALTERNATIVE_JRE_ENABLED="false">
+    <configuration name="Tomcat 9.0.91" type="#com.intellij.j2ee.web.tomcat.TomcatRunConfigurationFactory" factoryName="Local" APPLICATION_SERVER_NAME="Tomcat 9.0.91" ALTERNATIVE_JRE_ENABLED="false" nameIsGenerated="true">
       <option name="UPDATING_POLICY" value="restart-server" />
       <deployment>
         <artifact name="Gradle : com.sepay : backend-1.0-SNAPSHOT.war">
@@ -162,7 +128,8 @@
         </artifact>
       </deployment>
       <server-settings>
-        <option name="BASE_DIRECTORY_NAME" value="d5b74601-dbaa-43cd-a293-7bcca4487949" />
+        <option name="BASE_DIRECTORY_NAME" value="3e173e86-4c69-4f5a-ae66-45cca66e391e" />
+        <option name="HTTP_PORT" value="8080" />
       </server-settings>
       <predefined_log_file enabled="true" id="Tomcat" />
       <predefined_log_file enabled="true" id="Tomcat Catalina" />
@@ -170,7 +137,7 @@
       <predefined_log_file id="Tomcat Host Manager" />
       <predefined_log_file id="Tomcat Localhost Access" />
       <RunnerSettings RunnerId="Debug">
-        <option name="DEBUG_PORT" value="50431" />
+        <option name="DEBUG_PORT" value="49918" />
       </RunnerSettings>
       <ConfigurationWrapper VM_VAR="JAVA_OPTS" RunnerId="Cover">
         <option name="USE_ENV_VARIABLES" value="true" />
@@ -272,33 +239,11 @@
       <workItem from="1726705116143" duration="5856000" />
       <workItem from="1726711045046" duration="107000" />
       <workItem from="1726711211737" duration="77000" />
-      <workItem from="1726724412420" duration="560000" />
-      <workItem from="1726813836891" duration="57000" />
-      <workItem from="1726814262659" duration="5622000" />
-      <workItem from="1727050048305" duration="14146000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
-  </component>
-  <component name="UnknownFeatures">
-    <option featureType="dependencySupport" implementationName="java:org.springframework:spring-core" />
-    <option featureType="dependencySupport" implementationName="java:org.springframework.security:spring-security-core" />
-    <option featureType="com.intellij.configurationType" implementationName="com.poratu.idea.plugins.tomcat" />
-    <option featureType="dependencySupport" implementationName="java:org.springframework:spring-webmvc" />
-    <option featureType="dependencySupport" implementationName="java:org.projectlombok:lombok" />
-  </component>
-  <component name="Vcs.Log.Tabs.Properties">
-    <option name="TAB_STATES">
-      <map>
-        <entry key="MAIN">
-          <value>
-            <State />
-          </value>
-        </entry>
-      </map>
-    </option>
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
