@@ -6,10 +6,25 @@ import ArgonButton from '@/components/templates/ArgonButton.vue';
 import SecondPassword from '@/views/MyAccounts/SecondPassword.vue';
 import { ref, onMounted, computed, nextTick, watch } from 'vue';
 import axios from 'axios';
-
+import myaccountApi from '../../api/myaccountApi';
 onMounted(() => {
-  fetchkrwAccountBalance();
-  fetchsongeAccountBalance();
+  myaccountApi
+    .fetchkrwAccountBalance('1234')
+    .then((balance) => {
+      wonEMoneyBalance.value = balance;
+    })
+    .catch((error) => {
+      console.error('Error fetching KRW account balance:', error);
+    });
+
+  myaccountApi
+    .fetchsongeAccountBalance('1234')
+    .then((balance) => {
+      songEMoneyBalance.value = balance;
+    })
+    .catch((error) => {
+      console.error('Error fetching SongE account balance:', error);
+    });
 });
 
 const emit = defineEmits(['password-verified', 'close']);
@@ -32,24 +47,7 @@ const exchangeRate = ref(null); // To store the fetched exchange rate
 const showModal = ref(false);
 let currentAction = ref('');
 // API 호출 함수
-const fetchkrwAccountBalance = async () => {
-  try {
-    const krwNo = '1234'; // 로그인한 사용자의 userNo 값
-    const response = await axios.post(`/api/my-accounts/krwbalance?krwNo=${krwNo}`);
-    wonEMoneyBalance.value = response.data.balance; // 응답 데이터를 songAccountBalance에 저장
-  } catch (error) {
-    console.error('Error fetching account balance:', error);
-  }
-};
-const fetchsongeAccountBalance = async () => {
-  try {
-    const songNo = '1234'; // 로그인한 사용자의 userNo 값
-    const response = await axios.post(`/api/my-accounts/songebalance?songNo=${songNo}`);
-    songEMoneyBalance.value = response.data.balance; // 응답 데이터를 songAccountBalance에 저장
-  } catch (error) {
-    console.error('Error fetching account balance:', error);
-  }
-};
+
 const isValidAmount = (amount) => {
   return amount && !isNaN(amount) && parseFloat(amount) > 0;
 };
