@@ -7,5 +7,4 @@ import java.io.IOException;
 
 public interface PaymentService {
     byte[] createQR(String url) throws WriterException, IOException;
-    boolean checkPassword(PasswordDTO passwordDTO);
 }

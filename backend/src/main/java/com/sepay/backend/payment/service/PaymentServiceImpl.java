@@ -37,11 +37,4 @@ public class PaymentServiceImpl implements PaymentService {
         }
     }
 
-    @Override
-    public boolean checkPassword(PasswordDTO passwordDTO) {
-        int userPassword = mapper.getPassword(1);
-        System.out.println(passwordDTO.getPassword());
-        System.out.println("??"+userPassword);
-        return false;
-    }
 }
