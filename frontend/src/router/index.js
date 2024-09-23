@@ -1,7 +1,6 @@
 import { createRouter, createWebHistory } from "vue-router";
 import Home from "../views/home/Home.vue";
 import MyAccounts from "../views/myAccounts/MyAccounts.vue";
-import ExchangeRate from "../views/exchangeRate/ExchangeRate.vue";
 import SetAlert from "../views/exchangeRate/SetAlert.vue";
 import Payment from '../views/payment/Payment.vue';
 import PassWordInputPage from "../views/payment/PasswordInputPage.vue"; 
@@ -18,6 +17,7 @@ import ChangePwd from "../views/profile/ChangePassword.vue";
 import Register from "../views/signUp/RegisterLegal.vue";
 import Registeremail from "../views/signUp/Registeremail.vue";
 import Login from "../views/signIn/Login.vue";
+import ExchangeRate from "../views/exchangeRate/ExchangeRate.vue";
 import ExchangeRateChart from "../views/Chart/ExchangeRateChart.vue";
 
 const routes = [

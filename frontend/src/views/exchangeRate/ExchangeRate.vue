@@ -9,9 +9,7 @@
             <div class="d-flex justify-content-between">
               <h6>1 USD = {{ currentToKrw }} KRW</h6>
             </div>
-            <div class="chart-container">
-              <ExchangeRateChart chartId="toexchangeChart" />
-            </div>
+            <ExchangeRateChart chartId="toexchangeChart" />
             <div class="input-group my-3">
               <input
                 type="number"
@@ -45,9 +43,7 @@
             <div class="d-flex justify-content-between">
               <h6>1 KRW = {{ currentFromKrw }} USD</h6>
             </div>
-            <div class="chart-container">
-              <ExchangeRateChart chartId="fromexchangeChart" />
-            </div>
+            <ExchangeRateChart chartId="fromexchangeChart" />
             <div class="input-group my-3">
               <input
                 type="number"
@@ -131,8 +127,8 @@ import { useExchangeStore } from "@/stores/exchangeStore";
 import ExchangeRateChart from "@/views/Chart/ExchangeRateChart.vue";
 
 // API URL과 API 키를 설정합니다.
-const usdToKrwUrl = "/exchange/v6/6bbbf78cc42a296d533a9e6b/pair/USD/KRW";
-const krwToUsdUrl = "/exchange/v6/6bbbf78cc42a296d533a9e6b/pair/KRW/USD";
+const usdToKrwUrl = "/api/exchange/pair/USD/KRW";
+const krwToUsdUrl = "/api/exchange/pair/KRW/USD";
 
 // 데이터 변수
 const usdAmount = ref(1); // 초기값을 1로 설정
@@ -195,12 +191,6 @@ onMounted(() => {
 </script>
 
 <style scoped>
-.chart-container {
-  position: relative;
-  height: 40vh;
-  width: 100%;
-}
-
 .clickable-alert {
   text-align: center;
   cursor: pointer;

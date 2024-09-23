@@ -94,7 +94,7 @@ onMounted(() => {
 <style scoped>
 .chart-container {
   position: relative;
-  height: 40vh;
+  /* height: 40vh; */
   width: 100%;
 }
 </style>
