@@ -104,7 +104,7 @@ function displayMarker(coords: any, place: any) {
 <style scoped>
 .map-container {
   width: 100%;
-  height: 300px; /* 미니맵 크기 설정 */
+  height: 200px; /* 미니맵 크기 설정 */
   border: 1px solid #ddd;
   border-radius: 8px;
 }
