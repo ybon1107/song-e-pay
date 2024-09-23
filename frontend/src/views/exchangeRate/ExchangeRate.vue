@@ -37,6 +37,34 @@
                     </div>
                 </div>
             </div>
+            <div class="chart-container">
+              <canvas id="toexchangeChart" ref="toChartContainer"></canvas>
+            </div>
+            <div class="input-group my-3">
+              <input
+                type="number"
+                class="form-control"
+                v-model.number="usdAmount"
+                @input="convertToKrw"
+              />
+              <div class="input-group-append">
+                <span class="input-group-text">USD</span>
+              </div>
+              <span class="input-group-text">=</span>
+              <input
+                type="text"
+                class="form-control"
+                :value="krwAmount"
+                readonly
+              />
+              <div class="input-group-append">
+                <span class="input-group-text">KRW</span>
+              </div>
+            </div>
+            <button class="btn btn-primary w-100">Buy</button>
+          </div>
+        </div>
+      </div>
 
             <!-- KRW to USD Section -->
             <div class="col-lg-6 col-md-12">
@@ -77,6 +105,36 @@
                     </div>
                 </div>
             </div>
+            <div class="chart-container">
+              <canvas id="fromexchangeChart" ref="fromChartContainer"></canvas>
+            </div>
+            <div class="input-group my-3">
+              <input
+                type="number"
+                class="form-control"
+                v-model.number="krwAmountReverse"
+                @input="convertToUsd"
+              />
+              <div class="input-group-append">
+                <img
+                  src="https://upload.wikimedia.org/wikipedia/commons/0/09/Flag_of_South_Korea.svg"
+                  alt="한국 국기"
+                  class="flag-icon"
+                />
+              </div>
+              <span class="input-group-text">=</span>
+              <input
+                type="number"
+                class="form-control"
+                :value="usdAmountReverse"
+                readonly
+              />
+              <div class="input-group-append">
+                <span class="input-group-text">USD</span>
+              </div>
+            </div>
+            <button class="btn btn-danger w-100">Sell</button>
+          </div>
         </div>
 
         <!-- Notification & Auto Settings Section -->
@@ -126,8 +184,10 @@
 </template>
 
 <script setup>
-import { ref, onMounted, watch } from 'vue';
-import { useExchangeStore } from '@/stores/exchangeStore';
+import { ref, onMounted, watch } from "vue";
+import { useExchangeStore } from "@/stores/exchangeStore";
+import * as XLSX from "xlsx";
+import { Chart, registerables } from "chart.js";
 
 // API URL과 API 키를 설정합니다.
 // const usdToKrwUrl = "/exchange/v6/6bbbf78cc42a296d533a9e6b/pair/USD/KRW";
@@ -190,6 +250,77 @@ watch(currentFromKrw, convertToUsd);
 // 컴포넌트가 마운트된 후 환율 데이터 가져오기
 onMounted(() => {
     fetchExchangeRates();
+});
+
+Chart.register(...registerables);
+
+const toChartContainer = ref(null);
+const fromChartContainer = ref(null);
+
+const loadExcelAndDrawChart = (chartType) => {
+  const excelFilePath =
+    chartType === "to" ? "/csv/USDKRW.xlsx" : "/csv/KRWUSD.xlsx"; // 각 차트에 맞는 파일 경로
+
+  fetch(excelFilePath)
+    .then((response) => {
+      if (!response.ok) throw new Error("Excel file not found");
+      return response.arrayBuffer();
+    })
+    .then((buffer) => {
+      const workbook = XLSX.read(buffer, { type: "array" });
+      const sheetName = workbook.SheetNames[0];
+      const worksheet = workbook.Sheets[sheetName];
+      const jsonData = XLSX.utils.sheet_to_json(worksheet);
+
+      const labels = jsonData.map((row) => row["day"]);
+      const exchangeRates = jsonData.map((row) => row["exchange_rate"]);
+
+      const ctx =
+        chartType === "to"
+          ? toChartContainer.value.getContext("2d")
+          : fromChartContainer.value.getContext("2d");
+
+      new Chart(ctx, {
+        type: "line",
+        data: {
+          labels: labels,
+          datasets: [
+            {
+              label:
+                chartType === "to"
+                  ? "1-Year Exchange Rate (USD/KRW)"
+                  : "1-Year Exchange Rate (KRW/USD)",
+              data: exchangeRates,
+              borderColor: "rgba(75, 192, 192, 1)",
+              backgroundColor: "rgba(75, 192, 192, 0.2)",
+              borderWidth: 1,
+            },
+          ],
+        },
+        options: {
+          responsive: true,
+          scales: {
+            x: {
+              ticks: {
+                display: false, // x축 레이블 숨기기
+              },
+            },
+            y: {
+              beginAtZero: false,
+            },
+          },
+        },
+      });
+    })
+    .catch((error) => {
+      console.error("Error loading Excel file:", error);
+    });
+};
+
+// 컴포넌트가 마운트된 후 차트 로드
+onMounted(() => {
+  loadExcelAndDrawChart("to"); // 첫 번째 차트
+  loadExcelAndDrawChart("from"); // 두 번째 차트
 });
 </script>
 

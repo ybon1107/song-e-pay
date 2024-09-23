@@ -35,7 +35,7 @@
         <span>=</span>
         <input
           type="number"
-          v-model="alertRate"
+          v-model="alertRate2"
           placeholder="목표 환율을 입력하세요."
         />
         <span>USD</span>
@@ -60,7 +60,8 @@
           src="https://upload.wikimedia.org/wikipedia/commons/a/a4/Flag_of_the_United_States.svg"
           alt="미국 국기"
         />
-        <span>1 USD =</span>
+        <span>1 USD</span>
+        <span>=</span>
         <input
           type="number"
           v-model="targetRate"
@@ -75,7 +76,7 @@
 
       <!-- 자동 환전 금액 입력 -->
       <div class="exchange-input">
-        <div>
+        <div class="targetbox">
           목표 환율: <br />
           {{ targetRate }} KRW 이하
         </div>
@@ -106,6 +107,7 @@ const currentRate = ref(store.currentToKrw);
 
 // 상태 변수들을 ref로 선언
 const alertRate = ref(""); // 환율 알림 목표 값
+const alertRate2 = ref(""); // 환율 알림 목표 값
 const targetRate = ref(""); // 자동 환전 목표 환율
 const targetAmount = ref(""); // 목표 금액
 
