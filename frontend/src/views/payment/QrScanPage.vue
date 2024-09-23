@@ -5,7 +5,7 @@
           <div class="d-xl-none">
             <div class="text-center mb-3">
               <form @submit.prevent="handleQRScan">
-                <button type="submit" class="btn btn-primary me-3" :disabled="disableSubmit">
+                <button type="submit" class="btn btn-primary me-3">
                   확인
                 </button>
               </form>
