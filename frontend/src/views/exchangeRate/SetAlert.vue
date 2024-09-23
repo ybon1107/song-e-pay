@@ -61,7 +61,7 @@
 
 <script setup>
 import { ref } from 'vue';
-import { useExchangeStore } from '../stores/exchangeStore';
+import { useExchangeStore } from '../../stores/exchangeStore';
 
 const store = useExchangeStore();
 
