@@ -37,8 +37,7 @@
             <div class="input-group my-3">
               <input type="number" class="form-control" v-model.number="krwAmountReverse" @input="convertToUsd" />
               <div class="input-group-append">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/0/09/Flag_of_South_Korea.svg" alt="한국 국기"
-                  class="flag-icon" />
+                <img src="https://upload.wikimedia.org/wikipedia/commons/0/09/Flag_of_South_Korea.svg" alt="한국 국기" class="flag-icon" />
               </div>
               <span class="input-group-text">=</span>
               <input type="number" class="form-control" :value="usdAmountReverse" readonly />
@@ -62,8 +61,7 @@
             </div>
             <div class="form-group">
               <label for="autoCondition">Auto Condition</label>
-              <input type="text" class="form-control" id="autoCondition"
-                value="Target Exchange: 1,330 KRW. Current rate: 1,000,000 KRW = 90 USD" />
+              <input type="text" class="form-control" id="autoCondition" value="Target Exchange: 1,330 KRW. Current rate: 1,000,000 KRW = 90 USD" />
             </div>
             <div class="form-group">
               <label for="targetRate1">Target Rate 1</label>
@@ -81,9 +79,9 @@
 </template>
 
 <script setup>
-import { ref, onMounted, watch } from "vue";
-import { useExchangeStore } from "@/stores/exchangeStore";
-import ExchangeRateChart from "@/views/Chart/ExchangeRateChart.vue";
+import { ref, onMounted, watch } from 'vue';
+import { useExchangeStore } from '@/stores/exchangeStore';
+import ExchangeRateChart from '@/views/Chart/ExchangeRateChart.vue';
 
 // API URL과 API 키를 설정합니다.
 // const usdToKrwUrl = "/api/exchange/pair/USD/KRW";
@@ -120,9 +118,7 @@ const fetchExchangeRates = async () => {
 
     // 환율 데이터를 가져온 후 계산된 값으로 초기화
     krwAmount.value = (usdAmount.value * currentToKrw.value).toFixed(2);
-    usdAmountReverse.value = (
-      krwAmountReverse.value * currentFromKrw.value
-    ).toFixed(2);
+    usdAmountReverse.value = (krwAmountReverse.value * currentFromKrw.value).toFixed(2);
   } catch (error) {
     console.error('Error fetching exchange rate data:', error);
   }
@@ -134,9 +130,7 @@ const convertToKrw = () => {
 };
 
 const convertToUsd = () => {
-  usdAmountReverse.value = (
-    krwAmountReverse.value * currentFromKrw.value
-  ).toFixed(2);
+  usdAmountReverse.value = (krwAmountReverse.value * currentFromKrw.value).toFixed(2);
 };
 
 // Watchers to update values when exchange rates change
