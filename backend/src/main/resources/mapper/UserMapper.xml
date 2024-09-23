@@ -10,7 +10,7 @@
         where user_no = #{userNo}
     </select>
 
-    <select id="getPassword" parameterType="int" resultType="int">
+    <select id="getPassword" parameterType="int" resultType="String">
         select second_pwd
         from user
         where user_no = #{userNo}
