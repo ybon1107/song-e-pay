@@ -1,7 +1,8 @@
 <script setup>
-import { ref, computed, onBeforeUnmount, onBeforeMount, onMounted } from "vue";
+import { ref, reactive, computed, onBeforeUnmount, onBeforeMount, onMounted } from "vue";
 import { useStore } from "vuex";
 import { useRouter } from "vue-router";
+import { useAuthStore } from '@/stores/auth';
 import axios from "axios";
 import ArgonInput from "@/components/templates/ArgonInput.vue";
 import ArgonSwitch from "@/components/templates/ArgonSwitch.vue";
@@ -10,6 +11,14 @@ import ArgonButton from "@/components/templates/ArgonButton.vue";
 const body = document.getElementsByTagName("body")[0];
 const store = useStore();
 const router = useRouter();
+const auth = useAuthStore();
+
+const member = reactive({
+  email: '',
+  password: '',
+});
+
+const error = ref('');
 
 onBeforeMount(() => {
   store.state.hideConfigButton = true;
@@ -29,6 +38,9 @@ onBeforeUnmount(() => {
 // 이메일과 비밀번호 입력 필드 상태
 const email = ref("");
 const password = ref("");
+
+member.email = email;
+member.password = password;
 
 // 이메일 유효성 검사
 const isEmailValid = computed(() => {
@@ -55,23 +67,33 @@ const handleSubmit = async () => {
   emailError.value = !isEmailValid.value;
   passwordError.value = !isPasswordValid.value;
 
-  if (isFormValid.value) {
-    try {
-      const response = await axios.post("http://localhost:8080/login", {
-        email: email.value,
-        password: password.value,
-      });
+  // if (isFormValid.value) {
+  //   try {
+  //     const response = await axios.post("http://localhost:8080/login", {
+  //       email: email.value,
+  //       password: password.value,
+  //     });
 
-      if (response.data.success) {
-        router.push("/login/phone");
-      } else {
-        // 로그인 실패 처리
-        alert("Invalid email or password");
-      }
-    } catch (error) {
-      console.error("Login error:", error);
-      alert("An error occurred during login. Please try again.");
-    }
+  //     if (response.data.success) {
+  //       router.push("/login/phone");
+  //     } else {
+  //       // 로그인 실패 처리
+  //       alert("Invalid email or password");
+  //     }
+  //   } catch (error) {
+  //     console.error("Login error:", error);
+  //     alert("An error occurred during login. Please try again.");
+  //   }
+  // }
+  try {
+    await auth.login(member);
+    if (localStorage.getItem('auth') != " ") {
+      router.push('/');
+    } 
+  } catch (e) {
+    // 로그인 에러
+    console.log('에러=======', e);
+    error.value = e.response.data;
   }
 };
 
@@ -182,6 +204,7 @@ onMounted(() => {
                       >Remember me</argon-switch
                     > -->
                     <!-- 로그인 버튼 -->
+                    <div v-if="error" class="text-xs">{{ error }}</div>
                     <div class="text-center">
                       <argon-button
                         class="mt-4"
