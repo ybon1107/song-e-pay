@@ -1,114 +1,56 @@
 <template>
   <div class="container-fluid py-4">
-    <h5>Compare Exchange Rate</h5>
-    <div class="row">
-      <!-- USD to KRW Section -->
-      <div class="col-lg-6 col-md-12">
-        <div class="card">
-          <div class="card-body">
-            <div class="d-flex justify-content-between">
-              <h6>1 USD = {{ currentToKrw }} KRW</h6>
-            </div>
-            <ExchangeRateChart
-              chartId="toexchangeChart"
-              :period="toSelectedPeriod"
-              chartType="to"
-            />
+    <h3>Compare Exchange Rate</h3>
+
+    <!-- USD to KRW Section -->
+    <div class="card my-4">
+      <div class="card-body">
+        <div class="row px-3">
+          <div class="col-md-8">
+            <h6 class="mt-3">1 USD = {{ currentToKrw }} KRW</h6>
+            <ExchangeRateChart chartId="toexchangeChart" :period="toSelectedPeriod" chartType="to" />
             <div class="chart-button-container">
-              <template
-                v-for="period in ['1y', '6m', '3m', '1m']"
-                :key="period"
-              >
-                <button
-                  class="chart-btn"
-                  :class="{ selected: toSelectedPeriod === period }"
-                  @click="setToPeriod(period)"
-                >
+              <template v-for="period in ['1y', '6m', '3m', '1m']" :key="period">
+                <button class="chart-btn" :class="{ selected: toSelectedPeriod === period }"
+                  @click="setToPeriod(period)">
                   {{ period }}
                 </button>
               </template>
             </div>
-            <div class="input-group my-3">
-              <input
-                type="number"
-                class="form-control"
-                v-model.number="usdAmount"
-                @input="convertToKrw"
-                aria-label="Amount in USD"
-              />
-              <div class="input-group-append">
-                <span class="input-group-text">USD</span>
-              </div>
-              <span class="input-group-text">=</span>
-              <input
-                type="text"
-                class="form-control"
-                :value="krwAmount"
-                readonly
-                aria-label="Amount in KRW"
-              />
-              <div class="input-group-append">
-                <span class="input-group-text">KRW</span>
-              </div>
-            </div>
+          </div>
+          <div class="col-md-4 d-flex flex-column justify-content-center">
+            <input type="number" class="form-control mb-3" v-model.number="usdAmount" @input="convertToKrw"
+              aria-label="Amount in USD" />
+            <span class="text-center mb-3">=</span>
+            <input type="text" class="form-control mb-3" :value="krwAmount" readonly aria-label="Amount in KRW" />
             <button class="btn btn-primary w-100">Buy</button>
           </div>
         </div>
       </div>
+    </div>
 
-      <!-- KRW to USD Section -->
-      <div class="col-lg-6 col-md-12">
-        <div class="card">
-          <div class="card-body">
-            <div class="d-flex justify-content-between">
-              <h6>1 KRW = {{ currentFromKrw }} USD</h6>
-            </div>
-            <ExchangeRateChart
-              chartId="fromexchangeChart"
-              :period="fromSelectedPeriod"
-              chartType="from"
-            />
-            <div class="chart-button-container">
-              <template
-                v-for="period in ['1y', '6m', '3m', '1m']"
-                :key="period"
-              >
-                <button
-                  class="chart-btn"
-                  :class="{ selected: fromSelectedPeriod === period }"
-                  @click="setFromPeriod(period)"
-                >
-                  {{ period }}
-                </button>
-              </template>
-            </div>
-            <div class="input-group my-3">
-              <input
-                type="number"
-                class="form-control"
-                v-model.number="krwAmountReverse"
-                @input="convertToUsd"
-                aria-label="Amount in KRW"
-              />
-              <div class="input-group-append">
-                <img
-                  src="https://upload.wikimedia.org/wikipedia/commons/0/09/Flag_of_South_Korea.svg"
-                  alt="한국 국기"
-                  class="flag-icon"
-                />
-              </div>
-              <span class="input-group-text">=</span>
-              <input
-                type="number"
-                class="form-control"
-                :value="usdAmountReverse"
-                readonly
-                aria-label="Amount in USD"
-              />
-              <div class="input-group-append">
-                <span class="input-group-text">USD</span>
-              </div>
-            </div>
+    <!-- KRW to USD Section -->
+    <div class="card my-4">
+      <div class="card-body">
+        <div class="row px-3">
+          <div class="col-md-8">
+            <h6 class="mt-3">1 KRW = {{ currentFromKrw }} USD</h6>
+                <ExchangeRateChart chartId="fromexchangeChart" :period="fromSelectedPeriod" chartType="from" />
+                <div class="chart-button-container">
+                  <template v-for="period in ['1y', '6m', '3m', '1m']" :key="period">
+                    <button class="chart-btn" :class="{ selected: fromSelectedPeriod === period }"
+                      @click="setFromPeriod(period)">
+                      {{ period }}
+                    </button>
+                  </template>
+                </div>
+          </div>
+          <div class="col-md-4 d-flex flex-column justify-content-center">
+            <input type="number" class="form-control mb-3" v-model.number="krwAmountReverse" @input="convertToUsd"
+              aria-label="Amount in KRW" />
+            <span class="text-center mb-3">=</span>
+            <input type="number" class="form-control mb-3" :value="usdAmountReverse" readonly
+              aria-label="Amount in USD" />
             <button class="btn btn-danger w-100">Sell</button>
           </div>
         </div>
@@ -116,49 +58,26 @@
     </div>
 
     <!-- Notification & Auto Settings Section -->
-    <div class="row my-4">
-      <div class="col-lg-12">
-        <div class="card">
-          <div class="card-body">
-            <div
-              @click="$router.push('/set-alert')"
-              class="alert alert-info clickable-alert"
-              role="button"
-              tabindex="0"
-              @keypress.enter="$router.push('/set-alert')"
-              aria-label="Set an alert for exchange rates"
-            >
+    <div class="card mt-4">
+      <div class="card-body">
+        <div class="row">
+          <div class="col-lg-12">
+            <div @click="$router.push('/set-alert')" class="alert alert-info clickable-alert" role="button" tabindex="0"
+              @keypress.enter="$router.push('/set-alert')" aria-label="Set an alert for exchange rates">
               <span>Set an alert for exchange rates</span>
             </div>
             <div class="form-group">
               <label for="autoCondition">Auto Condition</label>
-              <input
-                type="text"
-                class="form-control"
-                id="autoCondition"
-                value="Target Exchange: 1,330 KRW. Current rate: 1,000,000 KRW = 90 USD"
-                readonly
-              />
+              <input type="text" class="form-control" id="autoCondition"
+                value="Target Exchange: 1,330 KRW. Current rate: 1,000,000 KRW = 90 USD" readonly />
             </div>
             <div class="form-group">
               <label for="targetRate1">Target Rate 1</label>
-              <input
-                type="text"
-                class="form-control"
-                id="targetRate1"
-                value="1,330 KRW"
-                readonly
-              />
+              <input type="text" class="form-control" id="targetRate1" value="1,330 KRW" readonly />
             </div>
             <div class="form-group">
               <label for="targetRate2">Target Rate 2</label>
-              <input
-                type="text"
-                class="form-control"
-                id="targetRate2"
-                value="1,329 KRW"
-                readonly
-              />
+              <input type="text" class="form-control" id="targetRate2" value="1,329 KRW" readonly />
             </div>
           </div>
         </div>
@@ -240,31 +159,39 @@ const setFromPeriod = (period) => {
 
 .chart-button-container {
   display: flex;
-  justify-content: center; /* 버튼들 사이 간격 균등 */
-  margin-top: 5%; /* 버튼 컨테이너와 위 요소 사이 간격 */
-  margin-bottom: 5%; /* 버튼 컨테이너와 위 요소 사이 간격 */
-  width: 100%; /* 버튼 컨테이너가 100% 너비 차지 */
-  padding: 0 10%;
+  justify-content: center;
+  width: 100%;
+  padding: 1rem;
 }
 
+
 .chart-btn {
-  flex-grow: 1; /* 버튼들이 남은 공간을 균등하게 차지 */
-  padding: 1px 0; /* 버튼 높이 */
-  background-color: #e0e0e0; /* 기본 배경 색상 */
-  color: #333; /* 기본 텍스트 색상 */
+  flex-grow: 1;
+  /* 버튼들이 남은 공간을 균등하게 차지 */
+  padding: 1px 0;
+  /* 버튼 높이 */
+  background-color: #e0e0e0;
+  /* 기본 배경 색상 */
+  color: #333;
+  /* 기본 텍스트 색상 */
   border: none;
-  border-radius: 20px; /* 둥근 모서리 */
+  border-radius: 20px;
+  /* 둥근 모서리 */
   text-align: center;
   cursor: pointer;
-  margin: 0 5px; /* 버튼 간 좌우 간격 */
+  margin: 0 5px;
+  /* 버튼 간 좌우 간격 */
 }
 
 .chart-btn.selected {
-  background-color: #ffd700; /* 선택된 버튼의 배경색 */
-  color: #fff; /* 선택된 버튼의 텍스트 색상 */
+  background-color: #ffd700;
+  /* 선택된 버튼의 배경색 */
+  color: #fff;
+  /* 선택된 버튼의 텍스트 색상 */
 }
 
 .chart-btn:hover {
-  background-color: #f0f0f0; /* 호버 시 버튼 배경색 */
+  background-color: #f0f0f0;
+  /* 호버 시 버튼 배경색 */
 }
 </style>
