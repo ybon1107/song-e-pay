@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed, onBeforeUnmount, onBeforeMount } from "vue";
+import { ref, onBeforeUnmount, onBeforeMount } from "vue";
 import { useStore } from "vuex";
 import { useRouter } from "vue-router";
 import ArgonButton from "@/components/templates/ArgonButton.vue";
@@ -90,6 +90,7 @@ const goBack = () => {
                     <strong>Select an issue</strong>
                     <hr />
                   </div>
+                  <!-- 아코디언 컴포넌트 -->
                   <Accordion :items="accordionItems" />
                 </div>
                 <!-- 뒤로 가기 버튼 -->
