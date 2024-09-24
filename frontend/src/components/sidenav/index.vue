@@ -27,7 +27,8 @@ const darkMode = computed(() => store.state.darkMode);
       } ${sidebarType}`"
     id="sidenav-main"
   >
-    <div class="sidenav-header">
+  <!-- 로고 있는 버전 메뉴바 -->
+    <!-- <div class="sidenav-header">
       <i
         class="top-0 p-3 cursor-pointer fas fa-times text-secondary opacity-5 position-absolute end-0 d-none d-xl-none"
         aria-hidden="true"
@@ -46,7 +47,9 @@ const darkMode = computed(() => store.state.darkMode);
     </div>
 
     <hr class="mt-0 horizontal dark" />
-
-    <sidenav-list />
+    <sidenav-list /> -->
+    <div class="py-5">
+      <sidenav-list />
+    </div>
   </aside>
 </template>
