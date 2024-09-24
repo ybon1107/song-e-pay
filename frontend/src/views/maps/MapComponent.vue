@@ -1,121 +1,111 @@
 <template>
-  <div>
-    <div>
-      <label for="address">주소 검색: </label>
-      <input
-        type="text"
-        id="address"
-        v-model="address"
-        placeholder="주소를 입력하세요"
-      />
-      <button @click="searchAddress">검색</button>
-    </div>
-
-    <div id="map" style="width: 100%; height: 400px"></div>
+  <div class="map-container">
+    <div id="map" ref="mapContainerRef" style="height: 100%"></div>
   </div>
 </template>
 
-<script>
-export default {
-  name: 'MapComponent',
-  data() {
-    return {
-      address: '', // 입력한 주소
-      map: null, // 네이버 지도 객체
-      marker: null, // 마커 객체
-      infoWindow: null, // 인포윈도우 객체
-    };
-  },
-  mounted() {
-    this.loadNaverMap();
-  },
-  methods: {
-    loadNaverMap() {
-      // 스크립트가 이미 로드된 경우 바로 지도 초기화
-      if (window.naver && window.naver.maps) {
-        this.initMap();
-      } else {
-        // 네이버 지도 스크립트 로드
-        const script = document.createElement('script');
-        script.src =
-          'https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=your-client-id&submodules=geocoder';
-        script.async = true;
-        script.onload = () => {
-          this.initMap();
-        };
-        script.onerror = () => {
-          console.error('Failed to load Naver Maps API.');
-        };
-        document.head.appendChild(script);
-      }
-    },
-    initMap() {
-      // 지도 생성
-      const mapOptions = {
-        center: new naver.maps.LatLng(37.3595704, 127.105399),
-        zoom: 10,
-      };
-      this.map = new naver.maps.Map('map', mapOptions);
+<script setup lang="ts">
+import { ref, onMounted } from 'vue';
 
-      // 마커 및 인포윈도우 초기화
-      this.marker = new naver.maps.Marker({
-        position: mapOptions.center,
-        map: this.map,
-      });
+// Kakao 지도 API 키
+const MAP_API_KEY = '33cf94244b357b4aa60393fea33c07ba';
 
-      this.infoWindow = new naver.maps.InfoWindow({
-        anchorSkew: true,
-      });
-    },
-    searchAddress() {
-      if (!this.address) {
-        alert('주소를 입력하세요');
-        return;
-      }
+const mapContainerRef = ref<HTMLElement | null>(null);
+let mapRef = ref<any>(null);
+let currentInfowindow: any = null;
 
-      // 주소를 좌표로 변환
-      naver.maps.Service.geocode(
-        {
-          query: this.address,
-        },
-        (status, response) => {
-          if (status === naver.maps.Service.Status.ERROR) {
-            return alert('Something went wrong!');
-          }
+// 전역 kakao 객체를 선언하여 TypeScript 오류 방지
+declare global {
+  interface Window {
+    kakao: any;
+  }
+}
 
-          if (response.v2.meta.totalCount === 0) {
-            return alert('검색된 주소가 없습니다.');
-          }
+onMounted(() => {
+  // Kakao Maps API 비동기 로드
+  const script = document.createElement('script');
+  script.onload = () => {
+    if (window.kakao && window.kakao.maps) {
+      window.kakao.maps.load(() => initializeMap());
+    }
+  };
+  script.src = `https://dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=${MAP_API_KEY}&libraries=services`;
+  document.head.appendChild(script);
+});
 
-          const result = response.v2.addresses[0];
-          const point = new naver.maps.LatLng(result.y, result.x);
+function initializeMap() {
+  const mapContainer = mapContainerRef.value as HTMLElement;
+  const mapOption = {
+    // 서울시 강남구 중심 좌표 (37.497942, 127.027621)
+    center: new window.kakao.maps.LatLng(37.497942, 127.027621),
+    level: 5, // 확대 수준
+  };
 
-          // 지도 중심 이동
-          this.map.setCenter(point);
+  // 지도 객체 생성
+  mapRef.value = new window.kakao.maps.Map(mapContainer, mapOption);
 
-          // 마커 이동
-          this.marker.setPosition(point);
+  // 장소 검색 객체 생성
+  const ps = new window.kakao.maps.services.Places(mapRef.value);
 
-          // 인포윈도우에 검색된 주소 표시
-          const htmlContent = `
-          <div style="padding:10px;min-width:200px;line-height:150%;">
-            <h4>검색 주소</h4>
-            [지번 주소] ${result.jibunAddress}<br/>
-            [도로명 주소] ${result.roadAddress || '없음'}
-          </div>
-        `;
-          this.infoWindow.setContent(htmlContent);
-          this.infoWindow.open(this.map, this.marker);
-        }
+  // '서울시 강남구 국민은행' 키워드로 검색
+  ps.keywordSearch('서울시 강남구 국민은행', placesSearchCB);
+}
+
+function placesSearchCB(data: any, status: any) {
+  if (status === window.kakao.maps.services.Status.OK) {
+    // 검색 결과 첫 번째 장소로 지도 중심 이동
+    if (data.length > 0) {
+      const firstPlaceCoords = new window.kakao.maps.LatLng(
+        data[0].y,
+        data[0].x
       );
-    },
-  },
-};
+      mapRef.value.setCenter(firstPlaceCoords);
+    }
+
+    // 검색된 모든 장소에 마커와 인포윈도우 표시
+    data.forEach((place: any) => {
+      if (
+        place.category_name.includes('KB국민은행') &&
+        !place.category_name.includes('ATM')
+      ) {
+        const coords = new window.kakao.maps.LatLng(place.y, place.x);
+        displayMarker(coords, place);
+      }
+    });
+  }
+}
+
+function displayMarker(coords: any, place: any) {
+  const marker = new window.kakao.maps.Marker({
+    map: mapRef.value,
+    position: coords,
+  });
+
+  const infowindow = new window.kakao.maps.InfoWindow({
+    content: `
+          <div style="padding:10px; font-size:14px; width:200px;">
+            <strong>${place.place_name}</strong><br>
+            <em>주소: ${place.address_name}</em>
+          </div>
+        `,
+    removable: true,
+  });
+
+  window.kakao.maps.event.addListener(marker, 'click', () => {
+    if (currentInfowindow) {
+      currentInfowindow.close();
+    }
+    infowindow.open(mapRef.value, marker);
+    currentInfowindow = infowindow;
+  });
+}
 </script>
 
 <style scoped>
-#map {
+.map-container {
   width: 100%;
-  height: 400px;
+  height: 200px; /* 미니맵 크기 설정 */
+  border: 1px solid #ddd;
+  border-radius: 8px;
 }
 </style>
