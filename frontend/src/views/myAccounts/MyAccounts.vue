@@ -21,6 +21,7 @@ const songEMoneyBalance = ref(0); // Song-E Money의 잔액
 const wonEMoneyBalance = ref(0); // Won-E Money의 잔액
 const sendEmail = ref('');
 const sendEmailConfirm = ref('');
+const isMember = ref(null);
 const formattedSongEMoneyBalance = computed(() => `${customerunit.value} ${formatNumber(songEMoneyBalance.value.toFixed(2))}`);
 const formattedWonEMoneyBalance = computed(() => `KRW ${formatNumber(wonEMoneyBalance.value.toFixed(2))}`);
 const ecRate = ref(1); // To store the fetched exchange rate
@@ -296,10 +297,9 @@ const reExchange = async () => {
 };
 
 const emailConfirm = async () => {
-  const usedId = sendEmail.value;
-  const response = await myaccountApi.confirmEmail(usedId);
-  const isMember = ref(null);
-  if (response.data) {
+  const userId = sendEmail.value;
+  const response = await myaccountApi.confirmEmail(userId);
+  if (response) {
     isMember.value = true; // 회원 이메일로 표시
   } else {
     isMember.value = false; // 비회원 이메일로 표시

@@ -77,10 +77,10 @@ export default {
     }
   },
   // 이메일 확인
-  async confirmEmail(usedId) {
+  async confirmEmail(userId) {
     try {
       // API 요청을 POST 방식으로 하고 usedId를 JSON 데이터로 전달
-      const response = await api.post(`/confirm`, { usedId: usedId });
+      const response = await api.post(`/confirm?userId=${userId}`);
       return response.data; // 필요한 데이터만 반환
     } catch (error) {
       console.error('이메일 확인 중 오류 발생:', error);

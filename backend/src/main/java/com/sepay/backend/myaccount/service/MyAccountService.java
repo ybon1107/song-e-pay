@@ -16,7 +16,7 @@ public interface MyAccountService {
     Double selectSongBalance(String songNo);
 
     // 이메일 확인
-    Boolean selectUserEmail(Integer userNo);
+    Boolean selectUserEmail(String userId);
     // 충전
     String deposit(AccountDTO accountDTO, SongAccountDTO songAccountDTO, HistoryDTO historyDTO, Double amount);
 
