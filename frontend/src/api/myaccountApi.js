@@ -10,7 +10,7 @@ export default {
   async fetchkrwAccountBalance(krwNo) {
     try {
       const response = await api.post(`/krwbalance?krwNo=${krwNo}`); // 쿼리 파라미터로 전달
-      return response.data.balance;
+      return response.data;
     } catch (error) {
       console.error('KRW 계좌 잔액 조회 오류:', error);
       throw error;
@@ -20,9 +20,59 @@ export default {
   async fetchsongeAccountBalance(songNo) {
     try {
       const response = await api.post(`/songebalance?songNo=${songNo}`); // 쿼리 파라미터로 전달
-      return response.data.balance;
+      return response.data;
     } catch (error) {
       console.error('Songe 계좌 잔액 조회 오류:', error);
+      throw error;
+    }
+  },
+  // 충전
+  async deposit(data) {
+    try {
+      const response = await api.post(`/deposit`, data); // JSON으로 전송
+      return response;
+    } catch (error) {
+      console.error('충전 오류', error);
+      throw error;
+    }
+  },
+  // 환불
+  async refund(data) {
+    try {
+      const response = await api.post(`/refund`, data); // JSON으로 전송
+      return response;
+    } catch (error) {
+      console.error('환불 오류', error);
+      throw error;
+    }
+  },
+  // 환전
+  async exchange(data) {
+    try {
+      const response = await api.post(`/exchange`, data);
+      return response;
+    } catch (error) {
+      console.error('환전 오류', error);
+      throw error;
+    }
+  },
+  //환급
+  async reExchange(data) {
+    try {
+      const response = await api.post(`/re-exchange`, data);
+      return response;
+    } catch (error) {
+      console.error('환급 오류', error);
+      throw error;
+    }
+  },
+  //송금
+  async transfer(data) {
+    try {
+      const response = await api.post(`/transfer`, data);
+      return response;
+    } catch (error) {
+      console.error('송금 오류', error);
       throw error;
     }
   },
