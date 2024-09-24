@@ -452,7 +452,7 @@ function clickSearch() {
 
 <template>
   <div class="container-fluid px-4">
-    <h1>금융 지도</h1>
+    <h3>금융 지도</h3>
 
     <div class="row mb-3">
       <!-- 광역시/도 선택 -->

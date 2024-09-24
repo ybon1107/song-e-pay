@@ -186,7 +186,7 @@ const MemoUpdate = ({ historyNo, memo }) => {
 
 <template>
     <div class="container-fluid">
-        <h1>이용 내역</h1>
+        <h3>이용 내역</h3>
         <div class="card p-5 mt-3">
             <div class="mb-3">
                 <!-- 첫 번째 줄: 계좌 종류와 상세 내용 검색 -->
