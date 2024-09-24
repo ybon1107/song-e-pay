@@ -35,7 +35,7 @@ const closeMenu = () => {
     data-scroll="true"
   >
     <div class="px-3 py-1 container-fluid">
-      <img src="@/assets/img/songepay_logo.png" />
+      <!-- <img src="@/assets/img/songepay_logo.png" /> -->
       <div
         class="mt-2 collapse navbar-collapse mt-sm-0 me-md-0 me-sm-4"
         :class="isRTL ? 'px-0' : 'me-sm-4'"
@@ -49,7 +49,7 @@ const closeMenu = () => {
           <!-- <li class="nav-item d-flex align-items-center">
             <router-link
               :to="{ name: 'Signin' }"
-              class="px-0 nav-link font-weight-bold text-white"
+              class="px-0 nav-link font-weight-bold"
               target="_blank"
             >
               <i class="fa fa-user" :class="isRTL ? 'ms-sm-2' : 'me-sm-2'"></i>
@@ -61,18 +61,18 @@ const closeMenu = () => {
             <a
               href="#"
               @click="minimizeSidebar"
-              class="p-0 nav-link text-white"
+              class="p-0 nav-link"
               id="iconNavbarSidenav"
             >
               <div class="sidenav-toggler-inner">
-                <i class="sidenav-toggler-line bg-white"></i>
-                <i class="sidenav-toggler-line bg-white"></i>
-                <i class="sidenav-toggler-line bg-white"></i>
+                <i class="sidenav-toggler-line"></i>
+                <i class="sidenav-toggler-line"></i>
+                <i class="sidenav-toggler-line"></i>
               </div>
             </a>
           </li>
           <li class="px-3 nav-item d-flex align-items-center">
-            <a class="p-0 nav-link text-white" @click="toggleConfigurator">
+            <a class="p-0 nav-link" @click="toggleConfigurator">
               <i class="cursor-pointer fa fa-cog fixed-plugin-button-nav"></i>
             </a>
           </li>
@@ -82,7 +82,7 @@ const closeMenu = () => {
           >
             <a
               href="#"
-              class="p-0 nav-link text-white"
+              class="p-0 nav-link"
               :class="[showMenu ? 'show' : '']"
               id="dropdownMenuButton"
               data-bs-toggle="dropdown"
