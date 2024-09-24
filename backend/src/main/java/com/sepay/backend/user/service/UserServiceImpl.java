@@ -21,8 +21,9 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public boolean checkPassword(PasswordDTO passwordDTO) {
-        String userPassword = mapper.getPassword(1);
+    public boolean checkSecondaryPassword(PasswordDTO passwordDTO) {
+        //추후에 userNo  동적 변경
+        String userPassword = mapper.getSecondaryPassword(1);
 
         if(passwordDTO.getPassword().equals(userPassword)){
             return true;

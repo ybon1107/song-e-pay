@@ -53,28 +53,28 @@ const closeModal = () => {
 };
 
 // 비밀번호가 확인되었을 때 호출되는 함수
-const handlePasswordVerified = () => {
+const handlePasswordVerified = async () => {
   showModal.value = false; // 모달 숨김
   switch (currentAction.value) {
     case 'deposit':
-      deposit();
-      fetchBalances();
+      await deposit(); // deposit이 완료될 때까지 기다림
+      await fetchBalances(); // 잔액을 다시 가져옴
       break;
     case 'exchange':
-      exchange();
-      fetchBalances();
+      await exchange(); // exchange가 완료될 때까지 기다림
+      await fetchBalances();
       break;
     case 'refund':
-      refund();
-      fetchBalances();
+      await refund(); // refund가 완료될 때까지 기다림
+      await fetchBalances();
       break;
     case 'transfer':
-      transfer();
-      fetchBalances();
+      await transfer(); // transfer가 완료될 때까지 기다림
+      await fetchBalances();
       break;
     case 'reExchange':
-      reExchange();
-      fetchBalances();
+      await reExchange(); // reExchange가 완료될 때까지 기다림
+      await fetchBalances();
       break;
   }
 };
@@ -365,8 +365,14 @@ const receivedAmount = computed(() => {
         <div v-if="activeTab === 'deposit'" class="tab-pane fade show active">
           <p>충전 금액</p>
           <ArgonAmountInput v-model="depositAmount" placeholder="금액을 입력하세요" :unit="customerunit" />
-          <p>충전계좌: {{ selectedAsset === 'Song-E Money' ? '내 계좌' : 'KRW 계좌' }}</p>
-          <p>거래 후 잔액: {{ processAfterBalance }} {{ customerunit }}</p>
+          <p>
+            충전계좌:
+            {{ selectedAsset === 'Song-E Money' ? '내 계좌' : 'KRW 계좌' }}
+          </p>
+          <p>
+            거래 후 잔액: {{ processAfterBalance }}
+            {{ customerunit }}
+          </p>
           <argon-button type="submit" color="success" size="lg" class="w-100" @click="openModal" :disabled="!isValidAmount(depositAmount)">충전하기</argon-button>
         </div>
 
@@ -384,8 +390,14 @@ const receivedAmount = computed(() => {
           />
           <p>받는 금액</p>
           <p>{{ receivedAmount }} KRW</p>
-          <p>환급계좌: {{ selectedAsset === 'Song-E Money' ? '내 계좌' : 'KRW 계좌' }}</p>
-          <p>거래 후 잔액: {{ processAfterBalance }} {{ customerunit }}</p>
+          <p>
+            환급계좌:
+            {{ selectedAsset === 'Song-E Money' ? '내 계좌' : 'KRW 계좌' }}
+          </p>
+          <p>
+            거래 후 잔액: {{ processAfterBalance }}
+            {{ customerunit }}
+          </p>
           <argon-button type="submit" color="success" size="lg" class="w-100" @click="openModal" :disabled="!isValidAmount(exchangeAmount)">환전하기</argon-button>
         </div>
 
@@ -399,8 +411,14 @@ const receivedAmount = computed(() => {
             :songEMoneyBalance="songEMoneyBalance"
             :activeTab="activeTab"
           />
-          <p>환불계좌: {{ selectedAsset === 'Song-E Money' ? '내 계좌' : 'KRW 계좌' }}</p>
-          <p>거래 후 잔액: {{ processAfterBalance }} {{ customerunit }}</p>
+          <p>
+            환불계좌:
+            {{ selectedAsset === 'Song-E Money' ? '내 계좌' : 'KRW 계좌' }}
+          </p>
+          <p>
+            거래 후 잔액: {{ processAfterBalance }}
+            {{ customerunit }}
+          </p>
           <argon-button type="submit" color="success" size="lg" class="w-100" @click="openModal" :disabled="!isValidAmount(refundAmount)">환불하기</argon-button>
         </div>
       </div>

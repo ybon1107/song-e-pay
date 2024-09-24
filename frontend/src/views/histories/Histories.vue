@@ -185,15 +185,16 @@ const MemoUpdate = ({ historyNo, memo }) => {
 </script>
 
 <template>
-    <div class="transaction-history-container">
-        <div class="transaction-history">
-            <h2>이용 내역 (Transaction history)</h2>
-            <div class="filters">
+    <div class="container-fluid">
+        <h3>이용 내역</h3>
+        <div class="card p-5 mt-3">
+            <div class="mb-3">
                 <!-- 첫 번째 줄: 계좌 종류와 상세 내용 검색 -->
-                <div class="filter-row">
-                    <div class="filter-item filter-account">
-                        <label>계좌 종류</label>
-                        <select v-model="selectedCurrency">
+
+                <div class="row">
+                    <div class="col-md-3 mb-3">
+                        <label for="account-kind">계좌 종류</label>
+                        <select id="account-kind" v-model="selectedCurrency" class="form-select">
                             <option value="">전체 내역</option>
                             <option value="KoreaAccount">원화 머니 계좌</option>
                             <option value="ForeignAccount">
@@ -201,53 +202,18 @@ const MemoUpdate = ({ historyNo, memo }) => {
                             </option>
                         </select>
                     </div>
-                    <div class="filter-item filter-search">
-                        <input
-                            type="text"
-                            class="form-control"
-                            placeholder="상세 내용 검색"
-                            v-model="searchQuery"
-                            @keyup.enter="applyFilters"
-                        />
-                    </div>
-                </div>
-
-                <!-- 두 번째 줄: 시작 날짜, 끝 날짜, 거래 유형, 거래 상태, Apply 버튼 -->
-                <div class="filter-row filter-row-responsive">
-                    <div class="filter-item">
-                        <label>시작 날짜</label>
-                        <input
-                            type="date"
-                            v-model="startDate"
-                            @click="openDatePicker"
-                        />
-                    </div>
-                    <div class="filter-item">
-                        <label>끝 날짜</label>
-                        <input
-                            type="date"
-                            v-model="endDate"
-                            :min="startDate"
-                            @click="openDatePicker"
-                        />
-                    </div>
-
-                    <div class="filter-item">
-                        <label>거래 유형</label>
-                        <select v-model="transactionType">
+                    <div class="col-md-3 mb-3">
+                        <label for="transType">거래 유형</label>
+                        <select id="transType" v-model="transactionType" class="form-select">
                             <option value="">모두</option>
-                            <option
-                                v-for="type in transactionTypes"
-                                :key="type"
-                                :value="type"
-                            >
+                            <option v-for="type in transactionTypes" :key="type" :value="type">
                                 {{ type }}
                             </option>
                         </select>
                     </div>
-                    <div class="filter-item">
-                        <label>거래 상태</label>
-                        <select v-model="transactionStatus">
+                    <div class="col-md-3 mb-3">
+                        <label for="transactionStatus">거래 상태</label>
+                        <select id="transactionStatus" v-model="transactionStatus" class="form-select">
                             <option value="">모두</option>
                             <option value="완료">완료</option>
                             <option value="취소">취소</option>
@@ -255,136 +221,64 @@ const MemoUpdate = ({ historyNo, memo }) => {
                             <option value="진행 중">진행 중</option>
                         </select>
                     </div>
-                    <div class="filter-item filter-apply">
-                        <button @click="applyFilters">Apply</button>
+                </div>
+                <div class="row">
+                    <div class="col-md-3 mb-3">
+                        <label for="startDate">시작 날짜</label>
+                        <input id="startDate" type="date" v-model="startDate" @click="openDatePicker"
+                            class="form-control" />
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <label for="endDate">끝 날짜</label>
+                        <input id="endDate" type="date" v-model="endDate" :min="startDate" @click="openDatePicker"
+                            class="form-control" />
+                    </div>
+                    <div class="col-md-4 d-flex align-items-end mb-3">
+                        <input type="text" class="form-control" placeholder="상세 내용 검색" v-model="searchQuery"
+                            @keyup.enter="applyFilters" />
+                    </div>
+                    <div class="col-md-2 d-flex align-items-end mb-3">
+                        <button @click="applyFilters" class="btn btn-success mb-0">Apply</button>
                     </div>
                 </div>
             </div>
 
-            <br /><br />
-            <!-- 이용 내역 테이블 -->
-            <table class="table table-striped">
-                <thead>
-                    <tr>
-                        <th style="width: 120px">날짜/시간</th>
-                        <th style="width: 100px">거래 유형</th>
-                        <th style="width: 260px">거래 상세</th>
-                        <th style="width: 120px">거래 금액</th>
-                        <th style="width: 80px">거래 상태</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr
-                        v-for="transaction in transactions"
-                        :key="transaction.historyNo"
-                        @click="openModal(transaction)"
-                        style="cursor: pointer"
-                    >
-                        <td>{{ transaction.historyDate }}</td>
-                        <td>{{ transaction.typeCode }}</td>
-                        <td>{{ transaction.historyContent }}</td>
-                        <!-- <td :style="{ color: transaction.amountColor }"></td> -->
-                        <td>{{ transaction.amount }}</td>
-                        <td>{{ transaction.stateCode }}</td>
-                    </tr>
-                </tbody>
-            </table>
+            <div class="table-responsive">
+                <table class="table table-bordered align-middle">
+                    <thead>
+                        <tr>
+                            <th style="width: 20%">날짜/시간</th>
+                            <th style="width: 10%">거래 유형</th>
+                            <th style="width: 40%">거래 상세</th>
+                            <th style="width: 20%">거래 금액</th>
+                            <th style="width: 10%">거래 상태</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="transaction in transactions" :key="transaction.historyNo"
+                            @click="openModal(transaction)" style="cursor: pointer">
+                            <td>{{ transaction.historyDate }}</td>
+                            <td>{{ transaction.typeCode }}</td>
+                            <td>{{ transaction.historyContent }}</td>
+                            <!-- <td :style="{ color: transaction.amountColor }"></td> -->
+                            <td>{{ transaction.amount }}</td>
+                            <td>{{ transaction.stateCode }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- 모달 컴포넌트  -->
+            <Modal :transaction="selectedTransaction" :isVisible="isModalVisible" @close="closeModal"
+                @updateMemo="MemoUpdate" />
         </div>
-        <!-- 모달 컴포넌트  -->
-        <Modal
-            :transaction="selectedTransaction"
-            :isVisible="isModalVisible"
-            @close="closeModal"
-            @updateMemo="MemoUpdate"
-        />
     </div>
+
 </template>
 
 <style scoped>
-/* 부모 컨테이너를 화면의 중앙에 위치하게 설정 */
-.transaction-history-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-}
-
-.transaction-history {
-    background-color: white;
-    padding: 20px;
-    border-radius: 12px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    width: 100%;
-    max-width: 1000px;
-}
-
-.filters {
-    display: flex;
-    flex-direction: column;
-    margin-bottom: 20px;
-}
-
-/* 첫 번째 줄: 계좌와 검색 필터 */
-.filter-row {
-    display: flex;
-    align-items: flex-end; /* 필터들을 아래쪽 끝에 맞추어 정렬 */
-    justify-content: space-between;
-    margin-bottom: 10px;
-}
-
-/* 두 번째 줄: 필터를 공간을 채워 고르게 배치하고 Apply 버튼을 오른쪽으로 */
-.filter-row-responsive {
-    display: flex;
-    align-items: flex-end; /* 필터들을 아래쪽 끝에 맞추어 정렬 */
-    justify-content: space-between;
-    gap: 10px; /* 필터 아이템 간의 간격을 추가 */
-}
-
-.filter-item {
-    flex: 1; /* 각 필터 아이템이 고르게 차지하도록 설정 */
-}
-
-.filter-item.filter-apply {
-    flex: none; /* Apply 버튼의 너비가 고정되도록 */
-    margin-left: auto;
-}
-
-.filter-item input,
-.filter-item select {
-    width: 100%;
-    padding: 8px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    outline: none;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    line-height: 1.2; /* 높이를 조정 */
-}
-
-/* 상세 내용 검색 필터와 Apply 버튼의 위치를 조정 */
-.filter-item.filter-search input {
-    padding: 12px 8px; /* 상단에 더 많은 패딩을 주어 텍스트를 살짝 아래로 이동 */
-    line-height: 1.4; /* 텍스트의 높이를 약간 조정 */
-}
-
-.filter-item.filter-apply button {
-    padding: 12px 16px; /* Apply 버튼에 동일한 패딩을 적용 */
-    line-height: 1.4;
-    background-color: #2dce89;
-    color: white;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    font-weight: bold;
-    transition: background-color 0.3s ease;
-}
-
 button:hover {
     background-color: #21af71;
-}
-
-table {
-    width: 100%;
-    border-collapse: collapse;
 }
 
 thead {
@@ -392,41 +286,16 @@ thead {
     text-align: center;
 }
 
-th,
-td {
-    padding: 10px;
-    border: 1px solid #ddd;
-}
-
-td {
-    text-align: center;
-}
-
 /* 반응형: 작은 화면에서는 필터를 세로로 배치 */
 @media (max-width: 767px) {
-    .filter-row,
-    .filter-row-responsive {
-        flex-direction: column;
-        align-items: flex-start;
-    }
-
-    .filter-item {
-        width: 100%;
-    }
-
     button {
         width: 100%;
     }
 
-    th,
-    td {
-        font-size: 12px;
-        text-align: center;
-    }
-
     th:nth-child(3),
     td:nth-child(3) {
-        display: none; /* 거래 상세, 승인 번호, 상태를 숨김 */
+        display: none;
+        /* 거래 상세를 숨김 */
     }
 }
 </style>

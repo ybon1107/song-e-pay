@@ -23,9 +23,9 @@ public class PaymentController {
     private final UserService userService;
 
     @PostMapping("/check-password")
-    public boolean checkPassword(@RequestBody PasswordDTO passwordDTO){
-//        System.out.println("password:"+passwordDTO);
-        return userService.checkPassword(passwordDTO);
+    public boolean checkSecondaryPassword(@RequestBody PasswordDTO passwordDTO){
+        //2차 비밀번호 확인
+        return userService.checkSecondaryPassword(passwordDTO);
     }
 
     @GetMapping("/qr")

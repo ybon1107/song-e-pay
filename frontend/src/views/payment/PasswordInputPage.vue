@@ -2,7 +2,6 @@
 import { ref, computed } from 'vue';
 import { useRouter } from 'vue-router';
 import paymentApi from '../../api/paymentApi';
-import axios from 'axios';
 export default {
     setup() {
         const router = useRouter();
@@ -55,7 +54,6 @@ export default {
                 try {
                     // 비밀번호 제출
                     const response = await paymentApi.submitPassword(passwordString);
-                    // const response = await submitPasswordToServer(passwordString);
                     if (response.data === true) {
                         router.push('/payment/qr');
                     }
