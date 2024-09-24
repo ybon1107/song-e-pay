@@ -116,10 +116,10 @@ onMounted(() => {
                 <div class="pt-0 text-center card-footer">
                   <p class="mx-auto text-sm">
                     Don't have Song-E Pay account?
-                    <a
-                      href="/register/legal"
+                    <router-link
+                      to="/register/legal"
                       class="text-success text-gradient font-weight-bold"
-                      >Sign up</a
+                      >Sign up</router-link
                     >
                   </p>
                 </div>
@@ -196,10 +196,10 @@ onMounted(() => {
                   </form>
                   <!-- 로그인 문제 발생시 안내 링크 -->
                   <p class="mx-auto text-sm pt-3">
-                    <a
-                      href="/login/issue-info"
+                    <router-link
+                      to="/login/issue-info"
                       class="text-success text-gradient font-weight-bold"
-                      >Trouble logging in?</a
+                      >Trouble logging in?</router-link
                     >
                   </p>
                 </div>
