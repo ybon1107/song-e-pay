@@ -2,6 +2,7 @@
 import { ref, computed, onBeforeUnmount, onBeforeMount } from "vue";
 import { useStore } from "vuex";
 import { useRouter } from "vue-router";
+import { useSigninStore } from "@/stores/signinStore";
 import axios from "axios";
 import ArgonInput from "@/components/templates/ArgonInput.vue";
 import ArgonButton from "@/components/templates/ArgonButton.vue";
@@ -11,6 +12,7 @@ import "flatpickr/dist/flatpickr.css";
 
 const body = document.getElementsByTagName("body")[0];
 const store = useStore();
+const signinStore = useSigninStore();
 const router = useRouter();
 
 onBeforeMount(() => {
@@ -27,6 +29,8 @@ onBeforeUnmount(() => {
   store.state.showFooter = true;
   body.classList.add("bg-gray-100");
 });
+
+const email = computed(() => signinStore.email);
 
 // 비밀번호 입력 필드 상태
 const password = ref("");
@@ -153,7 +157,12 @@ const handleSubmit = async (event) => {
                         >Your email address</label
                       >
                       <!-- 이전에 입력받은 값 pinia에서 가져와서 넣고 입력변경 막기 -->
-                      <argon-input disabled id="email" type="email" />
+                      <argon-input
+                        disabled
+                        id="email"
+                        type="email"
+                        @input="email"
+                      ></argon-input>
                     </div>
                     <!-- 비밀번호 입력 필드 -->
                     <div class="col-md-12">
