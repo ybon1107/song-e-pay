@@ -2,14 +2,14 @@
 import { ref, computed, onBeforeUnmount, onBeforeMount } from "vue";
 import { useStore } from "vuex";
 import { useRouter } from "vue-router";
-// import Navbar from "@/views/pageLayout/Navbar.vue";
-// import AppFooter from "@/views/pageLayout/Footer.vue";
 import ArgonInput from "@/components/templates/ArgonInput.vue";
 import ArgonButton from "@/components/templates/ArgonButton.vue";
+import { useSigninStore } from "@/stores/signinStore";
 
 const body = document.getElementsByTagName("body")[0];
 const store = useStore();
 const router = useRouter();
+const signinStore = useSigninStore();
 
 onBeforeMount(() => {
   store.state.hideConfigButton = true;
@@ -26,11 +26,12 @@ onBeforeUnmount(() => {
   body.classList.add("bg-gray-100");
 });
 
+// 이메일 입력 필드 상태
 const email = ref("");
 
 // 이메일 유효성 검사
 const isEmailValid = computed(() => {
-  // Basic email regex for validation
+  // 이메일 주소 유효성 검사 정규식
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   return emailRegex.test(email.value);
 });
@@ -38,6 +39,7 @@ const isEmailValid = computed(() => {
 // 다음 버튼 클릭 핸들러
 const handleNext = () => {
   if (isEmailValid.value) {
+    signinStore.setEmail(email.value); // 이메일 저장
     router.push("/register/email/check");
   } else {
     console.log("Invalid email address.");
