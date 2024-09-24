@@ -2,8 +2,6 @@
 import { ref, computed, onBeforeUnmount, onBeforeMount } from "vue";
 import { useStore } from "vuex";
 import { useRouter } from "vue-router";
-// import Navbar from "@/views/pageLayout/Navbar.vue";
-// import AppFooter from "@/views/pageLayout/Footer.vue";
 import ArgonInput from "@/components/templates/ArgonInput.vue";
 import ArgonButton from "@/components/templates/ArgonButton.vue";
 
@@ -26,11 +24,12 @@ onBeforeUnmount(() => {
   body.classList.add("bg-gray-100");
 });
 
+// 이메일 입력 필드 상태
 const email = ref("");
 
 // 이메일 유효성 검사
 const isEmailValid = computed(() => {
-  // Basic email regex for validation
+  // 이메일 주소 유효성 검사 정규식
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   return emailRegex.test(email.value);
 });
