@@ -184,7 +184,7 @@ const exchange = async () => {
       krwNo,
       typeCode: 5,
       stateCode: 1,
-      historyContent: 'SongE money -> WonE money',
+      historyContent: 'SongE money → WonE money',
       amount,
       exchangeRate,
     },
@@ -219,7 +219,7 @@ const refund = async () => {
       krwNo,
       typeCode: 4,
       stateCode: 1,
-      historyContent: 'SongE money -> My Account',
+      historyContent: 'SongE money → My Account',
       amount,
     },
   });
@@ -250,7 +250,7 @@ const transfer = async () => {
       krwNo,
       typeCode: 2, //거래 코드 충전 2
       stateCode: 1,
-      historyContent: `나의 WonE money -> ${sendEmail}`,
+      historyContent: `나의 WonE money → ${sendEmail}`,
       amount,
     },
   });
@@ -283,7 +283,7 @@ const reExchange = async () => {
       krwNo,
       typeCode: 6,
       stateCode: 1,
-      historyContent: 'WonE money -> SongE money',
+      historyContent: 'WonE money → SongE money',
       amount,
       exchangeRate,
     },
@@ -295,8 +295,15 @@ const reExchange = async () => {
   reExchangeAmount.value = ''; // 환급 후 입력 초기화
 };
 
-const emailConfirm = () => {
-  //이메일 확인 버튼 눌렀을 시 회원 이메일 혹은 비회원 이메일 뜨게 하기
+const emailConfirm = async () => {
+  const usedId = sendEmail.value;
+  const response = await myaccountApi.confirmEmail(usedId);
+  const isMember = ref(null);
+  if (response.data) {
+    isMember.value = true; // 회원 이메일로 표시
+  } else {
+    isMember.value = false; // 비회원 이메일로 표시
+  }
 };
 
 // 받는 금액 계산
@@ -404,6 +411,9 @@ const receivedAmount = computed(() => {
           <div class="text-btn">
             <p style="margin-top: 1rem; margin-bottom: 1rem">보낼 이메일</p>
             <button class="action-btn2" @click="emailConfirm">이메일 확인하기</button>
+            <!-- 회원/비회원 표시 -->
+            <p v-if="isMember === true" style="color: blue; margin-top: 1rem">회원 이메일</p>
+            <p v-else-if="isMember === false" style="color: red; margin-top: 1rem">비회원 이메일</p>
           </div>
           <ArgonInput v-model="sendEmail" placeholder="받는 분의 이메일을 입력하세요" />
           <p>이메일 확인</p>

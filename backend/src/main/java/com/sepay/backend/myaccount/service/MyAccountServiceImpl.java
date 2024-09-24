@@ -25,6 +25,12 @@ public class MyAccountServiceImpl implements MyAccountService {
         return mapper.selectSongBalance(songNo);
     }
 
+    @Override
+    public Boolean selectUserEmail(Integer userNo) {
+        String userId = mapper.selectUserEmail(userNo);
+        return userId != null && !userId.isEmpty(); // userId가 null이 아니고 비어있지 않으면 true, 그렇지 않으면 false
+    }
+
     // 충전 : 계좌 -> 송이
     @Override
     public String deposit(AccountDTO accountDTO, SongAccountDTO songAccountDTO, HistoryDTO historyDTO, Double amount) {
