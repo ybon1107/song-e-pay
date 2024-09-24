@@ -4,7 +4,7 @@ import DefaultInfoCard from '@/views/Cards/AccountsCard.vue';
 import ArgonAmountInput from '@/components/yb_templates/ArgonAmountInput.vue';
 import ArgonButton from '@/components/templates/ArgonButton.vue';
 import SecondPassword from '@/views/MyAccounts/SecondPassword.vue';
-import { ref, onMounted, computed, nextTick, watch } from 'vue';
+import { ref, onMounted, computed } from 'vue';
 import myaccountApi from '../../api/myaccountApi';
 
 const emit = defineEmits(['password-verified', 'close']);
@@ -306,6 +306,14 @@ const emailConfirm = async () => {
   }
 };
 
+// 입력값이 변경되면 isMember를 null로 리셋하는 함수
+const resetIsMember = () => {
+  isMember.value = null;
+};
+
+// 이메일 일치 여부를 computed로 정의
+const isEmailMatch = computed(() => sendEmail.value === sendEmailConfirm.value);
+
 // 받는 금액 계산
 const receivedAmount = computed(() => {
   if (selectedAsset.value === 'Song-E Money') {
@@ -433,8 +441,13 @@ const receivedAmount = computed(() => {
             <p v-if="isMember === true" style="color: blue; margin-top: 1rem">회원 이메일</p>
             <p v-else-if="isMember === false" style="color: red; margin-top: 1rem">비회원 이메일</p>
           </div>
-          <ArgonInput v-model="sendEmail" placeholder="받는 분의 이메일을 입력하세요" />
-          <p>이메일 확인</p>
+          <ArgonInput v-model="sendEmail" placeholder="받는 분의 이메일을 입력하세요" @input="resetIsMember" />
+          <div class="text-btn">
+            <p>이메일 확인</p>
+            <p v-if="sendEmail && sendEmailConfirm" :style="{ color: isEmailMatch ? 'blue' : 'red' }">
+              {{ isEmailMatch ? '일치합니다.' : '불일치합니다.' }}
+            </p>
+          </div>
           <ArgonInput v-model="sendEmailConfirm" placeholder="이메일을 다시 입력하세요" />
           <p>송금할 금액을 입력하세요</p>
           <ArgonAmountInput
@@ -446,7 +459,9 @@ const receivedAmount = computed(() => {
             :activeTab="activeTab"
           />
           <p>송금 후 잔액: {{ processAfterWonBalance }} KRW</p>
-          <argon-button type="submit" color="success" size="lg" class="w-100" @click="openModal" :disabled="!isValidAmount(transferAmount)">송금하기</argon-button>
+          <argon-button type="submit" color="success" size="lg" class="w-100" @click="openModal" :disabled="!isValidAmount(transferAmount) || !isEmailMatch || !isMember"
+            >송금하기</argon-button
+          >
         </div>
 
         <div v-if="activeTab === 'reExchange'">
