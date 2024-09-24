@@ -12,6 +12,8 @@ public interface MyAccountMapper {
 
     Double selectKrwBalance(String krwNo);
 
+    String selectUserEmail(Integer userNo);
+
     int updateAccount(AccountDTO accountDTO);
 
     int updateSongAccount(SongAccountDTO songAccountDTO);

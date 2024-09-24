@@ -9,10 +9,14 @@ import java.math.BigDecimal;
 import java.util.Map;
 
 public interface MyAccountService {
+    // krw 계좌 잔액 조회
     Double selectKrwBalance(String krwNo);
 
+    // songe 계좌 잔액 조회
     Double selectSongBalance(String songNo);
 
+    // 이메일 확인
+    Boolean selectUserEmail(Integer userNo);
     // 충전
     String deposit(AccountDTO accountDTO, SongAccountDTO songAccountDTO, HistoryDTO historyDTO, Double amount);
 

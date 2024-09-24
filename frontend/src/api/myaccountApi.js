@@ -76,4 +76,15 @@ export default {
       throw error;
     }
   },
+  // 이메일 확인
+  async confirmEmail(usedId) {
+    try {
+      // API 요청을 POST 방식으로 하고 usedId를 JSON 데이터로 전달
+      const response = await api.post(`/confirm`, { usedId: usedId });
+      return response.data; // 필요한 데이터만 반환
+    } catch (error) {
+      console.error('이메일 확인 중 오류 발생:', error);
+      throw error; // 에러 발생 시 예외 처리
+    }
+  },
 };
