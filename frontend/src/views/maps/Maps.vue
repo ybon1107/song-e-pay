@@ -1,549 +1,544 @@
-<script setup>
-import { ref, onMounted, watch } from 'vue';
-import axios from 'axios';
-
-// Kakao 지도 API 키
-const MAP_API_KEY = '33cf94244b357b4aa60393fea33c07ba';
-
-// 선택된 은행, 지역 설정
-const selectedBank = ref('국민은행'); // 디폴트 값을 '국민은행'으로 설정
-// const banks = ref([
-//   '전체보기',
-//   '우리은행',
-//   '한국스탠다드차타드은행',
-//   '대구은행',
-//   '부산은행',
-//   '광주은행',
-//   '제주은행',
-//   '전북은행',
-//   '경남은행',
-//   '중소기업은행',
-//   '한국산업은행',
-//   '국민은행',
-//   '신한은행',
-//   '농협은행',
-//   '하나은행',
-//   '수협은행',
-// ]);
-
-const selectedCity = ref();
-const cities = ref([
-  '서울특별시',
-  '경기도',
-  '부산광역시',
-  '인천시',
-  '대구광역시',
-  '대전광역시',
-  '울산광역시',
-  '경상남도',
-  '경상북도',
-  '충청북도',
-  '충청남도',
-  '전라북도',
-  '전라남도',
-  '강원도',
-  '광주광역시',
-  '제주특별자치도',
-]);
-const selectedCityDetail = ref();
-const citiesDetail = ref();
-const selectedTown = ref(''); // selectedTown 초기화
-
-const keyword = ref('국민은행');
-
-// 이전에 열렸던 정보창을 추적하는 변수
-let currentInfowindow = null;
-
-const seoul = [
-  '강남구',
-  '강동구',
-  '강북구',
-  '강서구',
-  '관악구',
-  '광진구',
-  '구로구',
-  '금천구',
-  '노원구',
-  '도봉구',
-  '동대문구',
-  '동작구',
-  '마포구',
-  '서대문구',
-  '서초구',
-  '성동구',
-  '성북구',
-  '송파구',
-  '양천구',
-  '영등포구',
-  '용산구',
-  '은평구',
-  '종로구',
-  '중구',
-  '중랑구',
-];
-const gyeonggi = [
-  '고양시',
-  '과천시',
-  '광명시',
-  '광주시',
-  '구리시',
-  '군포시',
-  '김포시',
-  '남양주시',
-  '동두천시',
-  '부천시',
-  '성남시',
-  '수원시',
-  '시흥시',
-  '안산시',
-  '안성시',
-  '안양시',
-  '양주시',
-  '오산시',
-  '용인시',
-  '의왕시',
-  '의정부시',
-  '이천시',
-  '파주시',
-  '평택시',
-  '포천시',
-  '하남시',
-  '화성시',
-  '가평군',
-  '양평군',
-  '여주군',
-  '연천군',
-];
-const busan = [
-  '강서구',
-  '금정구',
-  '남구',
-  '동구',
-  '동래구',
-  '부산진구',
-  '북구',
-  '사상구',
-  '사하구',
-  '서구',
-  '수영구',
-  '연제구',
-  '영도구',
-  '중구',
-  '해운대구',
-  '기장군',
-];
-const incheon = [
-  '계양구',
-  '남구',
-  '남동구',
-  '동구',
-  '부평구',
-  '서구',
-  '연수구',
-  '중구',
-  '강화군',
-  '옹진군',
-];
-const daegu = [
-  '남구',
-  '달서구',
-  '동구',
-  '북구',
-  '서구',
-  '수성구',
-  '중구',
-  '달성군',
-];
-const daejeon = ['대덕구', '동구', '서구', '유성구', '중구'];
-const ulsan = ['남구', '동구', '북구', '중구', '울주군'];
-const gyeongsangnam = [
-  '거제시',
-  '김해시',
-  '마산시',
-  '밀양시',
-  '사천시',
-  '양산시',
-  '진주시',
-  '진해시',
-  '창원시',
-  '통영시',
-  '거창군',
-  '고성군',
-  '남해군',
-  '산청군',
-  '의령군',
-  '창녕군',
-  '하동군',
-  '함안군',
-  '함양군',
-  '합천군',
-];
-const gyeongsangbuk = [
-  '경산시',
-  '경주시',
-  '구미시',
-  '김천시',
-  '문경시',
-  '상주시',
-  '안동시',
-  '영주시',
-  '영천시',
-  '포항시',
-  '고령군',
-  '군위군',
-  '봉화군',
-  '성주군',
-  '영덕군',
-  '영양군',
-  '예천군',
-  '울릉군',
-  '울진군',
-  '의성군',
-  '청도군',
-  '청송군',
-  '칠곡군',
-];
-const chungbuk = [
-  '제천시',
-  '청주시',
-  '충주시',
-  '괴산군',
-  '단양군',
-  '보은군',
-  '영동군',
-  '옥천군',
-  '음성군',
-  '증평군',
-  '진천군',
-  '청원군',
-];
-const chungnam = [
-  '계룡시',
-  '공주시',
-  '논산시',
-  '보령시',
-  '서산시',
-  '아산시',
-  '천안시',
-  '금산군',
-  '당진군',
-  '부여군',
-  '서천군',
-  '연기군',
-  '예산군',
-  '태안군',
-  '홍성군',
-];
-const jeonbuk = [
-  '군산시',
-  '김제시',
-  '남원시',
-  '익산시',
-  '전주시',
-  '정읍시',
-  '고창군',
-  '무주군',
-  '부안군',
-  '순창군',
-  '완주군',
-  '임실군',
-  '장수군',
-  '진안군',
-];
-const jeonnam = [
-  '광양시',
-  '나주시',
-  '목포시',
-  '순천시',
-  '여수시',
-  '강진군',
-  '고흥군',
-  '곡성군',
-  '구례군',
-  '담양군',
-  '무안군',
-  '보성군',
-  '신안군',
-  '영광군',
-  '영암군',
-  '완도군',
-  '장성군',
-  '장흥군',
-  '진도군',
-  '함평군',
-  '해남군',
-  '화순군',
-];
-const gangwon = [
-  '강릉시',
-  '동해시',
-  '삼척시',
-  '속초시',
-  '원주시',
-  '춘천시',
-  '태백시',
-  '고성군',
-  '양구군',
-  '양양군',
-  '영월군',
-  '인제군',
-  '정선군',
-  '철원군',
-  '평창군',
-  '홍천군',
-  '화천군',
-  '횡성군',
-];
-const jeju = ['서귀포시', '제주시', '남제주군', '북제주군'];
-
-watch(selectedCity, () => {
-  selectedCityDetail.value = null;
-  if (selectedCity.value == '서울특별시') {
-    citiesDetail.value = seoul;
-  } else if (selectedCity.value == '경기도') {
-    citiesDetail.value = gyeonggi;
-  } else if (selectedCity.value == '부산광역시') {
-    citiesDetail.value = busan;
-  } else if (selectedCity.value == '인천시') {
-    citiesDetail.value = incheon;
-  } else if (selectedCity.value == '대구광역시') {
-    citiesDetail.value = daegu;
-  } else if (selectedCity.value == '대전광역시') {
-    citiesDetail.value = daejeon;
-  } else if (selectedCity.value == '울산광역시') {
-    citiesDetail.value = ulsan;
-  } else if (selectedCity.value == '경상남도') {
-    citiesDetail.value = gyeongsangnam;
-  } else if (selectedCity.value == '경상북도') {
-    citiesDetail.value = gyeongsangbuk;
-  } else if (selectedCity.value == '충청남도') {
-    citiesDetail.value = chungnam;
-  } else if (selectedCity.value == '충청북도') {
-    citiesDetail.value = chungbuk;
-  } else if (selectedCity.value == '전라북도') {
-    citiesDetail.value = jeonbuk;
-  } else if (selectedCity.value == '전라남도') {
-    citiesDetail.value = jeonnam;
-  } else if (selectedCity.value == '강원도') {
-    citiesDetail.value = gangwon;
-  } else if (selectedCity.value == '광주광역시') {
-    citiesDetail.value = gwangju;
-  } else if (selectedCity.value == '제주특별자치도') {
-    citiesDetail.value = jeju;
-  }
-});
-
-const mapRef = ref();
-
-watch([selectedCity, selectedCityDetail, selectedBank], () => {
-  keyword.value = '';
-  if (selectedCity.value) {
-    keyword.value += `${selectedCity.value}`;
-  }
-  if (selectedCityDetail.value) {
-    keyword.value += `${selectedCityDetail.value}`;
-  }
-  if (selectedBank.value) {
-    if (selectedBank.value === '전체보기') {
-      keyword.value += '은행';
-    } else {
-      keyword.value += `${selectedBank.value}`;
-    }
-  }
-});
-
-onMounted(() => {
-  const script = document.createElement('script');
-  script.onload = () => kakao.maps.load(() => initMap('init'));
-  script.src = `https://dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=${MAP_API_KEY}&libraries=services`;
-  document.head.appendChild(script);
-});
-
-function initMap(state = 'current') {
-  const mapContainer = document.getElementById('map');
-  const mapOption = {
-    center: new kakao.maps.LatLng(37.566826, 126.9786567),
-    level: 7,
-  };
-
-  // 맵이 초기화되지 않았을 때만 초기화
-  if (!mapRef.value) {
-    mapRef.value = new kakao.maps.Map(mapContainer, mapOption);
-  }
-
-  const map = mapRef.value;
-  const ps = new kakao.maps.services.Places(map);
-
-  if (state === 'search') {
-    console.log('키워드로 검색 중:', keyword.value);
-    ps.keywordSearch(keyword.value, placesSearchCB);
-  } else {
-    console.log('카테고리로 검색 중: 국민은행');
-    ps.categorySearch('국민은행', placesSearchCB, { useMapBounds: true });
-  }
-}
-
-function placesSearchCB(data, status) {
-  if (status === kakao.maps.services.Status.OK) {
-    console.log('검색 결과:', data);
-
-    if (data.length > 0) {
-      const firstPlaceCoords = new kakao.maps.LatLng(data[0].y, data[0].x);
-      mapRef.value.setCenter(firstPlaceCoords); // 첫 번째 검색 결과로 지도 중심 이동
-    }
-
-    data.forEach((place) => {
-      if (
-        place.category_name.includes('KB국민은행') &&
-        !place.category_name.includes('ATM')
-      ) {
-        const geocoder = new kakao.maps.services.Geocoder();
-        geocoder.addressSearch(place.address_name, (result, status) => {
-          if (status === kakao.maps.services.Status.OK) {
-            const coords = new kakao.maps.LatLng(result[0].y, result[0].x);
-            displayMarker(coords, place);
-          } else {
-            console.error('Geocoder 오류 상태:', status);
-          }
-        });
-      }
-    });
-  } else {
-    console.log('검색 결과 없음 또는 오류 발생:', status);
-  }
-}
-
-function displayMarker(coords, place) {
-  if (!mapRef.value) return;
-
-  const marker = new kakao.maps.Marker({
-    map: mapRef.value,
-    position: coords,
-  });
-
-  const infowindow = new kakao.maps.InfoWindow({
-    content: `
-      <div style="padding:10px; font-size:14px; width:200px;">
-        <strong>${place.place_name}</strong><br>
-        <em>주소: ${place.address_name}</em>
-      </div>
-    `,
-    removable: true,
-  });
-
-  kakao.maps.event.addListener(marker, 'click', () => {
-    if (currentInfowindow) {
-      currentInfowindow.close();
-    }
-    infowindow.open(mapRef.value, marker);
-    currentInfowindow = infowindow;
-    mapRef.value.setCenter(coords); // 지도 중심을 마커 위치로 이동
-  });
-}
-
-function clickSearch() {
-  const townValue = selectedTown.value ? selectedTown.value : '';
-  keyword.value =
-    `${selectedCity.value || ''} ${selectedCityDetail.value || ''} ${townValue || ''} 국민은행`.trim();
-  console.log('검색 키워드:', keyword.value);
-  initMap('search');
-}
-</script>
-
 <template>
-  <div class="container">
-    <h1>금융 지도</h1>
+  <div>
+    <div>
+      <select v-model="selectedProvince" @change="fetchCities">
+        <option value="" disabled selected>광역시 선택</option>
+        <option v-for="province in provinces" :key="province" :value="province">
+          {{ province }}
+        </option>
+      </select>
 
-    <div class="row mb-3">
-      <!-- 광역시/도 선택 -->
-      <div class="col-md-3">
-        <label for="city-select">광역시 / 도</label>
-        <select id="city-select" v-model="selectedCity" class="form-control">
-          <option disabled value="">광역시 / 도 선택</option>
-          <option v-for="city in cities" :key="city" :value="city">
-            {{ city }}
-          </option>
-        </select>
-      </div>
+      <select v-model="selectedCity" @change="fetchDistricts">
+        <option value="" disabled selected>시/군/구 선택</option>
+        <option v-for="city in cities" :key="city" :value="city">
+          {{ city }}
+        </option>
+      </select>
 
-      <div class="col-md-3">
-        <label for="district-select">시/군/구 선택</label>
-        <select
-          id="district-select"
-          v-model="selectedCityDetail"
-          class="form-control"
-          :disabled="!citiesDetail || !citiesDetail.length"
-        >
-          <option disabled value="">시/군/구 선택</option>
-          <option
-            v-for="district in citiesDetail || []"
-            :key="district"
-            :value="district"
-          >
-            {{ district }}
-          </option>
-        </select>
-      </div>
-
-      <!-- 찾기 버튼 -->
-      <div class="col-md-3">
-        <label>&nbsp;</label>
-        <!-- 버튼과 필드 높이를 맞추기 위한 빈 레이블 -->
-        <button class="btn btn-primary w-100" @click="clickSearch">
-          <i class="mdi mdi-map-search-outline"></i> 찾기
-        </button>
-      </div>
+      <select v-model="selectedDistrict" @change="searchBank">
+        <option value="" disabled selected>구 선택</option>
+        <option v-for="district in districts" :key="district" :value="district">
+          {{ district }}
+        </option>
+      </select>
     </div>
 
-    <!-- 지도 영역 -->
-    <div class="map-container mb-4">
-      <div id="map"></div>
-    </div>
+    <div id="map" style="width: 100%; height: 500px"></div>
   </div>
 </template>
 
+<script>
+export default {
+  data() {
+    return {
+      map: null,
+      service: null,
+      geocoder: null,
+      selectedProvince: '',
+      selectedCity: '',
+      selectedDistrict: '',
+      provinces: [
+        '서울특별시',
+        '부산광역시',
+        '대구광역시',
+        '인천광역시',
+        '광주광역시',
+        '대전광역시',
+        '울산광역시',
+      ],
+      cities: [],
+      districts: [],
+      markers: [],
+    };
+  },
+  mounted() {
+    this.initMap();
+  },
+  methods: {
+    initMap() {
+      this.map = new google.maps.Map(document.getElementById('map'), {
+        center: { lat: 37.5665, lng: 126.978 }, // 서울 좌표
+        zoom: 12,
+      });
+      this.service = new google.maps.places.PlacesService(this.map);
+      this.geocoder = new google.maps.Geocoder(); // Initialize Geocoder
+    },
+    fetchCities() {
+      // 광역시 및 도에 따른 시/군/구 설정
+      if (this.selectedProvince === '서울특별시') {
+        this.cities = [
+          '강남구',
+          '강동구',
+          '강북구',
+          '강서구',
+          '관악구',
+          '광진구',
+          '구로구',
+          '금천구',
+          '노원구',
+          '도봉구',
+          '동대문구',
+          '동작구',
+          '마포구',
+          '서대문구',
+          '서초구',
+          '성동구',
+          '성북구',
+          '송파구',
+          '양천구',
+          '영등포구',
+          '용산구',
+          '은평구',
+          '종로구',
+          '중구',
+          '중랑구',
+        ];
+      } else if (this.selectedProvince === '부산광역시') {
+        this.cities = [
+          '강서구',
+          '금정구',
+          '남구',
+          '동구',
+          '동래구',
+          '부산진구',
+          '북구',
+          '사상구',
+          '사하구',
+          '서구',
+          '수영구',
+          '연제구',
+          '영도구',
+          '중구',
+          '해운대구',
+        ];
+      } else if (this.selectedProvince === '대구광역시') {
+        this.cities = [
+          '남구',
+          '달서구',
+          '달성군',
+          '동구',
+          '북구',
+          '서구',
+          '수성구',
+          '중구',
+        ];
+      } else if (this.selectedProvince === '인천광역시') {
+        this.cities = [
+          '강화군',
+          '계양구',
+          '남동구',
+          '동구',
+          '미추홀구',
+          '부평구',
+          '서구',
+          '연수구',
+          '옹진군',
+          '중구',
+        ];
+      } else if (this.selectedProvince === '광주광역시') {
+        this.cities = ['광산구', '남구', '동구', '북구', '서구'];
+      } else if (this.selectedProvince === '대전광역시') {
+        this.cities = ['대덕구', '동구', '서구', '유성구', '중구'];
+      } else if (this.selectedProvince === '울산광역시') {
+        this.cities = ['남구', '동구', '북구', '울주군', '중구'];
+      } else if (this.selectedProvince === '세종특별자치시') {
+        this.cities = ['세종시'];
+      } else if (this.selectedProvince === '경기도') {
+        this.cities = [
+          '가평군',
+          '고양시',
+          '과천시',
+          '광명시',
+          '광주시',
+          '구리시',
+          '군포시',
+          '김포시',
+          '남양주시',
+          '동두천시',
+          '부천시',
+          '성남시',
+          '수원시',
+          '시흥시',
+          '안산시',
+          '안성시',
+          '안양시',
+          '양주시',
+          '양평군',
+          '여주시',
+          '연천군',
+          '오산시',
+          '용인시',
+          '의왕시',
+          '의정부시',
+          '이천시',
+          '파주시',
+          '평택시',
+          '포천시',
+          '하남시',
+          '화성시',
+        ];
+      } else if (this.selectedProvince === '강원도') {
+        this.cities = [
+          '강릉시',
+          '고성군',
+          '동해시',
+          '삼척시',
+          '속초시',
+          '양구군',
+          '양양군',
+          '영월군',
+          '원주시',
+          '인제군',
+          '정선군',
+          '철원군',
+          '춘천시',
+          '태백시',
+          '평창군',
+          '홍천군',
+          '화천군',
+          '횡성군',
+        ];
+      } else if (this.selectedProvince === '충청북도') {
+        this.cities = [
+          '괴산군',
+          '단양군',
+          '보은군',
+          '영동군',
+          '옥천군',
+          '음성군',
+          '제천시',
+          '진천군',
+          '청주시',
+          '충주시',
+        ];
+      } else if (this.selectedProvince === '충청남도') {
+        this.cities = [
+          '계룡시',
+          '공주시',
+          '금산군',
+          '논산시',
+          '당진시',
+          '보령시',
+          '부여군',
+          '서산시',
+          '서천군',
+          '아산시',
+          '예산군',
+          '천안시',
+          '청양군',
+          '태안군',
+          '홍성군',
+        ];
+      } else if (this.selectedProvince === '전라북도') {
+        this.cities = [
+          '고창군',
+          '군산시',
+          '김제시',
+          '남원시',
+          '무주군',
+          '부안군',
+          '순창군',
+          '완주군',
+          '익산시',
+          '임실군',
+          '장수군',
+          '전주시',
+          '정읍시',
+          '진안군',
+        ];
+      } else if (this.selectedProvince === '전라남도') {
+        this.cities = [
+          '강진군',
+          '고흥군',
+          '곡성군',
+          '광양시',
+          '구례군',
+          '나주시',
+          '담양군',
+          '목포시',
+          '무안군',
+          '보성군',
+          '순천시',
+          '신안군',
+          '여수시',
+          '영광군',
+          '영암군',
+          '완도군',
+          '장성군',
+          '장흥군',
+          '진도군',
+          '함평군',
+          '해남군',
+          '화순군',
+        ];
+      } else if (this.selectedProvince === '경상북도') {
+        this.cities = [
+          '경산시',
+          '경주시',
+          '고령군',
+          '구미시',
+          '군위군',
+          '김천시',
+          '문경시',
+          '봉화군',
+          '상주시',
+          '성주군',
+          '안동시',
+          '영덕군',
+          '영양군',
+          '영주시',
+          '영천시',
+          '예천군',
+          '울릉군',
+          '울진군',
+          '의성군',
+          '청도군',
+          '청송군',
+          '칠곡군',
+          '포항시',
+        ];
+      } else if (this.selectedProvince === '경상남도') {
+        this.cities = [
+          '거제시',
+          '거창군',
+          '고성군',
+          '김해시',
+          '남해군',
+          '밀양시',
+          '사천시',
+          '산청군',
+          '양산시',
+          '의령군',
+          '진주시',
+          '창녕군',
+          '창원시',
+          '통영시',
+          '하동군',
+          '함안군',
+          '함양군',
+          '합천군',
+        ];
+      } else if (this.selectedProvince === '제주특별자치도') {
+        this.cities = ['서귀포시', '제주시'];
+      }
+    },
+    fetchDistricts() {
+      // 시/군/구에 따른 동 설정
+      if (this.selectedCity === '강남구') {
+        this.districts = [
+          '압구정동',
+          '역삼동',
+          '삼성동',
+          '청담동',
+          '신사동',
+          '논현동',
+          '대치동',
+          '개포동',
+        ];
+      } else if (this.selectedCity === '종로구') {
+        this.districts = [
+          '청운동',
+          '신교동',
+          '궁정동',
+          '효자동',
+          '창성동',
+          '통의동',
+          '통인동',
+          '누상동',
+          '누하동',
+          '옥인동',
+        ];
+      } else if (this.selectedCity === '해운대구') {
+        this.districts = ['중동', '좌동', '우동', '송정동', '반송동', '재송동'];
+      } else if (this.selectedCity === '부산진구') {
+        this.districts = [
+          '부암동',
+          '당감동',
+          '가야동',
+          '개금동',
+          '범천동',
+          '범전동',
+          '연지동',
+          '전포동',
+        ];
+      } else if (this.selectedCity === '수원시') {
+        this.districts = ['장안구', '권선구', '팔달구', '영통구'];
+      } else if (this.selectedCity === '성남시') {
+        this.districts = ['분당구', '수정구', '중원구'];
+      } else if (this.selectedCity === '용인시') {
+        this.districts = ['수지구', '기흥구', '처인구'];
+      } else if (this.selectedCity === '인천광역시 중구') {
+        this.districts = [
+          '운서동',
+          '용유동',
+          '을왕동',
+          '운남동',
+          '중산동',
+          '영종동',
+        ];
+      } else if (this.selectedCity === '인천광역시 남동구') {
+        this.districts = [
+          '간석동',
+          '만수동',
+          '구월동',
+          '남촌동',
+          '수산동',
+          '장수동',
+        ];
+      } else if (this.selectedCity === '대전광역시 서구') {
+        this.districts = [
+          '둔산동',
+          '탄방동',
+          '월평동',
+          '관저동',
+          '가수원동',
+          '내동',
+        ];
+      } else if (this.selectedCity === '대구광역시 달서구') {
+        this.districts = [
+          '성서동',
+          '상인동',
+          '월성동',
+          '도원동',
+          '송현동',
+          '진천동',
+        ];
+      } else if (this.selectedCity === '대구광역시 수성구') {
+        this.districts = [
+          '범어동',
+          '수성동',
+          '지산동',
+          '황금동',
+          '만촌동',
+          '중동',
+        ];
+      } else if (this.selectedCity === '광주광역시 서구') {
+        this.districts = [
+          '화정동',
+          '쌍촌동',
+          '상무동',
+          '유덕동',
+          '치평동',
+          '광천동',
+        ];
+      } else if (this.selectedCity === '울산광역시 남구') {
+        this.districts = [
+          '삼산동',
+          '달동',
+          '무거동',
+          '신정동',
+          '옥동',
+          '야음동',
+        ];
+      } else if (this.selectedCity === '세종특별자치시') {
+        this.districts = [
+          '도담동',
+          '종촌동',
+          '고운동',
+          '아름동',
+          '새롬동',
+          '다정동',
+        ];
+      } else if (this.selectedCity === '경기도 고양시') {
+        this.districts = ['덕양구', '일산동구', '일산서구'];
+      } else if (this.selectedCity === '경기도 성남시') {
+        this.districts = ['분당구', '수정구', '중원구'];
+      } else if (this.selectedCity === '경기도 평택시') {
+        this.districts = [
+          '비전동',
+          '동삭동',
+          '세교동',
+          '칠괴동',
+          '청북읍',
+          '포승읍',
+        ];
+      } else if (this.selectedCity === '경기도 안양시') {
+        this.districts = ['동안구', '만안구'];
+      } else if (this.selectedCity === '경상북도 포항시') {
+        this.districts = ['남구', '북구'];
+      } else if (this.selectedCity === '경상남도 창원시') {
+        this.districts = [
+          '의창구',
+          '성산구',
+          '마산합포구',
+          '마산회원구',
+          '진해구',
+        ];
+      } else if (this.selectedCity === '제주시') {
+        this.districts = [
+          '아라동',
+          '노형동',
+          '연동',
+          '이도동',
+          '삼양동',
+          '외도동',
+        ];
+      } else if (this.selectedCity === '서귀포시') {
+        this.districts = ['대정읍', '남원읍', '성산읍', '안덕면', '표선면'];
+      }
+      // 더 많은 시/군/구 및 동 추가 가능
+    },
+    // Use geocoding to get the latitude and longitude of the selected location
+    searchBank() {
+      const location = `${this.selectedProvince} ${this.selectedCity} ${this.selectedDistrict}`;
+
+      // Use geocoding to get the latitude and longitude of the selected location
+      this.geocoder.geocode({ address: location }, (results, status) => {
+        if (status === google.maps.GeocoderStatus.OK) {
+          const resultLocation = results[0].geometry.location;
+          this.map.setCenter(resultLocation); // Center map to the location
+          this.map.setZoom(15); // Zoom in to the location
+
+          // Now search for KB국민은행 near the location
+          const request = {
+            location: resultLocation,
+            radius: '5000', // 5km 반경
+            query: `KB국민은행`,
+          };
+
+          this.service.textSearch(request, (results, status) => {
+            if (status === google.maps.places.PlacesServiceStatus.OK) {
+              this.clearMarkers(); // 이전 마커 제거
+
+              results.forEach((place) => {
+                const marker = new google.maps.Marker({
+                  map: this.map,
+                  position: place.geometry.location,
+                  title: place.name,
+                });
+
+                // Add InfoWindow to show details when the marker is clicked
+                const infoWindow = new google.maps.InfoWindow({
+                  content: `<div><strong>${place.name}</strong><br>
+                        주소: ${place.formatted_address}<br>
+                        전화번호: ${place.formatted_phone_number || '정보 없음'}</div>`,
+                });
+
+                // Add click event to open InfoWindow when marker is clicked
+                marker.addListener('click', () => {
+                  infoWindow.open(this.map, marker);
+                });
+
+                this.markers.push(marker);
+              });
+            }
+          });
+        } else {
+          console.error(
+            `Geocode was not successful for the following reason: ${status}`
+          );
+        }
+      });
+    },
+
+    clearMarkers() {
+      this.markers.forEach((marker) => marker.setMap(null));
+      this.markers = [];
+    },
+  },
+};
+</script>
+
 <style scoped>
-@font-face {
-  font-family: 'TTLaundryGothicB';
-  src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/2403-2@1.0/TTLaundryGothicB.woff2')
-    format('woff2');
-  font-weight: 700;
-  font-style: normal;
-}
-
-h1 {
-  font-family: 'TTLaundryGothicB', sans-serif;
-}
-
-.container {
-  max-width: px;
-  margin: 2rem auto;
-}
-
-.map-container {
-  border-radius: 10px;
-}
-
-/* 반응형 지도 크기 설정 */
-#map {
-  width: 100%;
-  height: 60vh; /* 화면 높이의 60% */
-  min-height: 400px; /* 최소 높이 설정 */
-}
-
-@media (max-width: 768px) {
-  /* 작은 화면일 때 지도 높이 줄이기 */
-  #map {
-    width: 60vh;
-    height: 50vh;
-  }
-}
-
-@media (max-width: 480px) {
-  /* 모바일 기기에서는 지도 높이를 더 줄이기 */
-  #map {
-    width: 50vh;
-    height: 40vh;
-  }
-}
+/* 스타일 추가 필요 시 작성 */
 </style>
