@@ -451,7 +451,7 @@ function clickSearch() {
 </script>
 
 <template>
-  <div class="container">
+  <div class="container-fluid px-4">
     <h1>금융 지도</h1>
 
     <div class="row mb-3">
@@ -465,48 +465,38 @@ function clickSearch() {
           </option>
         </select>
       </div>
-
+      <!-- 시/군/구 선택 -->
       <div class="col-md-3">
         <label for="district-select">시/군/구 선택</label>
-        <select
-          id="district-select"
-          v-model="selectedCityDetail"
-          class="form-control"
-          :disabled="!citiesDetail || !citiesDetail.length"
-        >
+        <select id="district-select" v-model="selectedCityDetail" class="form-control"
+          :disabled="!citiesDetail || !citiesDetail.length">
           <option disabled value="">시/군/구 선택</option>
-          <option
-            v-for="district in citiesDetail || []"
-            :key="district"
-            :value="district"
-          >
+          <option v-for="district in citiesDetail || []" :key="district" :value="district">
             {{ district }}
           </option>
         </select>
       </div>
 
       <!-- 찾기 버튼 -->
-      <div class="col-md-3">
-        <label>&nbsp;</label>
-        <!-- 버튼과 필드 높이를 맞추기 위한 빈 레이블 -->
-        <button class="btn btn-primary w-100" @click="clickSearch">
+      <div class="col-md-3 d-flex align-items-end">
+        <button class="search-button btn btn-primary m-0" @click="clickSearch">
           <i class="mdi mdi-map-search-outline"></i> 찾기
         </button>
       </div>
     </div>
 
     <!-- 지도 영역 -->
-    <div class="map-container mb-4">
+    <div class="card">
       <div id="map"></div>
     </div>
+
   </div>
 </template>
 
 <style scoped>
 @font-face {
   font-family: 'TTLaundryGothicB';
-  src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/2403-2@1.0/TTLaundryGothicB.woff2')
-    format('woff2');
+  src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/2403-2@1.0/TTLaundryGothicB.woff2') format('woff2');
   font-weight: 700;
   font-style: normal;
 }
@@ -515,37 +505,32 @@ h1 {
   font-family: 'TTLaundryGothicB', sans-serif;
 }
 
-.container {
-  max-width: px;
-  margin: 2rem auto;
-}
-
-.map-container {
-  border-radius: 10px;
-}
-
 /* 반응형 지도 크기 설정 */
 #map {
   width: 100%;
-  height: 60vh; /* 화면 높이의 60% */
-  min-height: 400px; /* 최소 높이 설정 */
+  height: 60vh;
+  /* 화면 높이의 60% */
+  min-height: 400px;
+  /* 최소 높이 설정 */
 }
 
+/* 작은 화면일 때 */
 @media (max-width: 768px) {
-  /* 작은 화면일 때 지도 높이 줄이기 */
+  /*  지도 높이 줄이기 */
   #map {
-    width: 60vh;
     height: 50vh;
+  }
+  /* 버튼 늘리기 */
+  .search-button {
+    width: 100%;
+    margin-top: 1rem !important;
   }
 }
 
 @media (max-width: 480px) {
   /* 모바일 기기에서는 지도 높이를 더 줄이기 */
   #map {
-    width: 50vh;
     height: 40vh;
   }
 }
 </style>
-
-여기에 적용해주겠니
