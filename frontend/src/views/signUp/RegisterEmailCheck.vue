@@ -1,18 +1,20 @@
 <script setup>
-import { ref, onBeforeUnmount, onBeforeMount } from "vue";
+import { ref, computed, onBeforeUnmount, onBeforeMount } from "vue";
 import { useStore } from "vuex";
-// import Navbar from "@/components/Navbars/Navbar.vue";
-// import ArgonInput from "@/components/templates/ArgonInput.vue";
-// import ArgonCheckbox from "@/components/templates/ArgonCheckbox.vue";
+import { useSigninStore } from "@/stores/signinStore";
 import ArgonAlert from "@/components/templates/ArgonAlert.vue";
 import ArgonButton from "@/components/templates/ArgonButton.vue";
 
 const body = document.getElementsByTagName("body")[0];
 const store = useStore();
+const signinStore = useSigninStore();
+
+const email = computed(() => signinStore.email);
 
 const isButtonEnabled = ref(false); // 버튼 활성화 상태
 // const timer = ref(60); // 1분 카운트다운
 const timer = ref(5); // 5초 카운트다운
+let interval = null;
 
 onBeforeMount(() => {
   store.state.hideConfigButton = true;
@@ -22,7 +24,7 @@ onBeforeMount(() => {
   body.classList.remove("bg-gray-100");
 
   // 카운트다운 시작
-  const interval = setInterval(() => {
+  interval = setInterval(() => {
     if (timer.value > 0) {
       timer.value--;
     } else {
@@ -37,6 +39,11 @@ onBeforeUnmount(() => {
   store.state.showSidenav = true;
   store.state.showFooter = true;
   body.classList.add("bg-gray-100");
+
+  // 타이머 정리
+  if (interval) {
+    clearInterval(interval);
+  }
 });
 </script>
 <template>
@@ -63,7 +70,7 @@ onBeforeUnmount(() => {
                   <argon-alert color="info" icon="ni ni-send">
                     <span
                       >Follow the link in the email we sent to
-                      <strong class="text-dark">useremail@gmail.com</strong
+                      <strong class="text-dark">{{ email }}</strong
                       >.<br />
                       The email can take up to
                       <strong class="text-dark">1 minute</strong> to

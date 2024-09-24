@@ -133,7 +133,8 @@ const onInput = (event) => {
     (Number(rawValue) > getBalance() && props.activeTab == 'exchange') ||
     (Number(rawValue) > getBalance() && props.activeTab == 'withdraw') ||
     (Number(rawValue) > getBalance() && props.activeTab == 'transfer') ||
-    (Number(rawValue) > getBalance() && props.activeTab == 'refund')
+    (Number(rawValue) > getBalance() && props.activeTab == 'refund') ||
+    (Number(rawValue) > getBalance() && props.activeTab == 'reExchange')
   ) {
     // If the input value exceeds the balance, show error and prevent further input
     errorMessage.value = '잔액을 초과합니다';

@@ -10,7 +10,7 @@
           <h4 class="text-end font-weight-bold">{{ transaction.amount }}</h4>
           <h4 class="text-end font-weight-bold" v-if="['환전', '환급'].includes(transaction.typeCode)"><strong>환율:</strong> {{ transaction.exchangeRate }}</h4>
           <!-- <p v-if="transaction.typeCode === '충전'"><hr> <strong>출금 계좌:</strong> {{ transaction.원래 외국 계좌 }}</p> -->
-          <!-- <p v-if="transaction.typeCode === '송금'"><hr> <strong>계좌:</strong> {{ transaction.송금 받을 이메일}}</p> -->
+          <p v-if="transaction.typeCode === '송금'"><hr> <strong>계좌:</strong> {{ transaction.historyContent }}</p>
           <p><hr><strong>결제 일시:</strong> {{ transaction.historyDate }}</p>
           <!-- <p v-if="transaction.typeCode === '결제'"><hr><strong>승인 번호:</strong> {{ transaction.결제 승인 번호 ?  }}</p> -->
           <p><hr><strong>거래 상태:</strong> {{  transaction.stateCode }}</p>
@@ -75,6 +75,8 @@ const closeModal = () => {
   border-radius: 10px;
   border: none;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  max-width: 600px; /* 모달의 최대 너비 설정 */
+  width: 100%; /* 화면에 맞게 너비를 100% 설정 */
 }
 
 .modal-header {
@@ -104,8 +106,26 @@ const closeModal = () => {
   background-color: #6c757d;
 }
 
-textarea {
+.textarea {
   border-radius: 5px;
 }
 
+/* 모달을 화면 중앙에 위치시키기 위한 스타일 */
+.modal.fade.show {
+  display: flex !important;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; /* 모달이 화면 중앙에 고정되도록 설정 */
+}
+
+.modal-dialog {
+  max-width: 600px; /* 모달의 가로 너비를 제한 */
+  width: 100%;
+}
+
+.modal-body {
+  text-align: left;
+  max-height: 70vh; /* 모달의 세로 높이를 제한 */
+  overflow-y: auto; /* 내용이 길 경우 스크롤 표시 */
+}
 </style>
