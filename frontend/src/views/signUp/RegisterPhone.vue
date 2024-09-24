@@ -6,6 +6,7 @@ import { useRouter } from "vue-router";
 import AppFooter from "@/views/pageLayout/Footer.vue";
 import ArgonInput from "@/components/templates/ArgonInput.vue";
 import ArgonButton from "@/components/templates/ArgonButton.vue";
+import PhoneInput from "@/components/signUp/PhoneInput.vue";
 
 const body = document.getElementsByTagName("body")[0];
 const store = useStore();
@@ -73,7 +74,7 @@ const handleSendCode = () => {
                 <p class="mx-auto text-sm">
                   It helps us keep your account secure.
                   <a
-                    href="javascript:;"
+                    href="/register/legal"
                     class="text-success text-gradient font-weight-bold"
                     >Learn more</a
                   >
@@ -86,7 +87,11 @@ const handleSendCode = () => {
                   <label for="name" class="form-control-label"
                     >Your phone number</label
                   >
-                  <div class="phone-input-group row g-3">
+                  <PhoneInput
+                    v-model:phoneNumber="phoneNumber"
+                    v-model:countryCallingCode="countryCallingCode"
+                  />
+                  <!-- <div class="phone-input-group row g-3">
                     <div class="col-xl-4 col-md-3 col-sm-3">
                       <select
                         id="countryCallingCode"
@@ -96,9 +101,7 @@ const handleSendCode = () => {
                       >
                         <option value="+1">&#43;1 USA</option>
                         <option value="+62">&#43;62 IDN</option>
-                        <option value="+81">&#43;81 JPN</option>
-                        <option value="+86">&#43;86 CHN</option>
-                        <option value="+886">&#43;886 TWN</option>
+                        <option value="+81">&#43;84 VNM</option>
                       </select>
                     </div>
                     <div class="col-xl col-md col-sm">
@@ -110,7 +113,7 @@ const handleSendCode = () => {
                         v-model="phoneNumber"
                       />
                     </div>
-                  </div>
+                  </div> -->
                   <!-- 다음 버튼 -->
                   <div class="text-center">
                     <argon-button
