@@ -144,7 +144,7 @@ onMounted(() => {
                         size="lg"
                         v-model="email"
                         :class="{ 'is-invalid': emailError }"
-                        :error="email !== '' && !isEmailValid"
+                        :error="(email !== '' || emailError) && !isEmailValid"
                         isRequired
                       />
                       <div v-if="emailError" class="invalid-feedback text-xs">
@@ -164,7 +164,9 @@ onMounted(() => {
                         size="lg"
                         v-model="password"
                         :class="{ 'is-invalid': passwordError }"
-                        :error="password !== '' && !isPasswordValid"
+                        :error="
+                          (password !== '' || passwordError) && !isPasswordValid
+                        "
                         isRequired
                       />
                       <div
