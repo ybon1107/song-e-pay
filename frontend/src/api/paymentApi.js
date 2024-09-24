@@ -1,8 +1,8 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: '/api/payment',
-  headers: { 'Content-Type': 'application/json' }
+    baseURL: '/api/payment',
+    headers: { 'Content-Type': 'application/json' },
 });
 
 export default {
@@ -13,6 +13,16 @@ export default {
             return response;
         } catch (error) {
             console.error('비밀번호 제출 오류:', error);
+            throw error;
+        }
+    },
+    // QR 스캔을 처리하는 메서드 추가
+    async scanQRCode() {
+        try {
+            const response = await api.get('/qr-scan');
+            return response;
+        } catch (error) {
+            console.error('QR 코드 스캔 오류:', error);
             throw error;
         }
     }
