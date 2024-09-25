@@ -3,8 +3,12 @@ package com.sepay.backend.user.mapper;
 
 import com.sepay.backend.user.dto.UserDTO;
 
+import java.util.Map;
+
 public interface UserMapper {
-    UserDTO selectUser(Integer userNo);
+    UserDTO selectUserByUserNo(Integer userNo);
 
     String getSecondaryPassword(int userNo);
+
+    UserDTO selectUser(Map map);
 }

@@ -75,7 +75,7 @@ public class SettingServiceImpl implements SettingService {
     // 유저 삭제
     @Override
     public int deleteUser(Integer userNo) {
-        UserDTO user = userMapper.selectUser(userNo);
+        UserDTO user = userMapper.selectUserByUserNo(userNo);
         mapper.deleteKrw(user.getKrwNo());
         mapper.deleteSonge(user.getSongNo());
         return mapper.deleteUser(userNo);
