@@ -38,6 +38,9 @@ dependencies {
     // AWS S3
     implementation 'software.amazon.awssdk:s3:2.16.82'
 
+    // Commons FileUpload 의존성
+    implementation 'commons-fileupload:commons-fileupload:1.4'
+
     // AOP
     implementation 'org.aspectj:aspectjrt:1.9.20'
     implementation 'org.aspectj:aspectjweaver:1.9.20'

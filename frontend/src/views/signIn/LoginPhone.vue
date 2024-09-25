@@ -2,8 +2,6 @@
 import { ref, computed, onBeforeUnmount, onBeforeMount } from "vue";
 import { useStore } from "vuex";
 import { useRouter } from "vue-router";
-// import Navbar from "@/views/pageLayout/Navbar.vue";
-// import AppFooter from "@/views/pageLayout/Footer.vue";
 import ArgonInput from "@/components/templates/ArgonInput.vue";
 import ArgonButton from "@/components/templates/ArgonButton.vue";
 
@@ -103,10 +101,10 @@ const handleSubmit = () => {
                     @input="limitInputLength"
                   />
                   <p class="mx-auto text-sm">
-                    <a
-                      href="javascript:;"
+                    <router-link
+                      to="/login/phone/another"
                       class="text-success text-gradient font-weight-bold"
-                      >I didn't receive a code</a
+                      >I didn't receive a code</router-link
                     >
                   </p>
                   <!-- done 버튼 -->

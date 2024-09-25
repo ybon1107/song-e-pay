@@ -46,6 +46,10 @@ defineProps({
     type: Boolean,
     default: false,
   },
+  disabled: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 const getClasses = (size, success, error) => {
@@ -81,6 +85,7 @@ const hasIcon = (icon) => (icon ? "input-group" : null);
         :value="modelValue"
         :placeholder="placeholder"
         :isRequired="isRequired"
+        :disabled="disabled"
         @input="emit('update:modelValue', $event.target.value)"
       />
       <span v-if="iconDir === 'right'" class="input-group-text">
@@ -89,3 +94,17 @@ const hasIcon = (icon) => (icon ? "input-group" : null);
     </div>
   </div>
 </template>
+
+<style>
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+</style>

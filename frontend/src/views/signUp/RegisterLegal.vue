@@ -2,8 +2,6 @@
 import { ref, watch, onBeforeUnmount, onBeforeMount } from "vue";
 import { useStore } from "vuex";
 import { useRouter } from "vue-router";
-// import Navbar from "@/components/Navbars/Navbar.vue";
-// import ArgonInput from "@/components/templates/ArgonInput.vue";
 import ArgonCheckbox from "@/components/templates/ArgonCheckbox.vue";
 import ArgonButton from "@/components/templates/ArgonButton.vue";
 
@@ -50,7 +48,6 @@ watch(agreeAll, (newAgreeAll) => {
 const handleNext = () => {
   if (agreeTerms.value && agreePrivacy.value) {
     router.push("/register/email");
-    // console.log("All agreements accepted, proceeding to next step.");
   } else {
     console.log("Please agree to the required terms.");
   }
