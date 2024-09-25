@@ -1,28 +1,38 @@
 <template>
+  <br />
+  <h1>금융 지도</h1>
+  <br />
+
   <div>
-    <div>
-      <select v-model="selectedProvince" @change="fetchCities">
+    <div class="search-container">
+      <!-- 광역시 선택 -->
+      <select
+        v-model="selectedProvince"
+        @change="fetchCities"
+        class="rounded-select"
+      >
         <option value="" disabled selected>광역시 선택</option>
         <option v-for="province in provinces" :key="province" :value="province">
           {{ province }}
         </option>
       </select>
 
-      <select v-model="selectedCity" @change="fetchDistricts">
+      <!-- 시/군/구 선택 -->
+      <select v-model="selectedCity" class="rounded-select">
         <option value="" disabled selected>시/군/구 선택</option>
         <option v-for="city in cities" :key="city" :value="city">
           {{ city }}
         </option>
       </select>
 
-      <select v-model="selectedDistrict" @change="searchBank">
-        <option value="" disabled selected>구 선택</option>
-        <option v-for="district in districts" :key="district" :value="district">
-          {{ district }}
-        </option>
-      </select>
+      <!-- 검색 버튼 -->
+      <button class="rounded-select search-btn" @click="searchBank">
+        검색
+      </button>
     </div>
+    <br />
 
+    <!-- 지도 영역 -->
     <div id="map" style="width: 100%; height: 500px"></div>
   </div>
 </template>
@@ -36,7 +46,6 @@ export default {
       geocoder: null,
       selectedProvince: '',
       selectedCity: '',
-      selectedDistrict: '',
       provinces: [
         '서울특별시',
         '부산광역시',
@@ -45,24 +54,51 @@ export default {
         '광주광역시',
         '대전광역시',
         '울산광역시',
+        '세종특별자치시',
+        '경기도',
+        '강원도',
+        '충청북도',
+        '충청남도',
+        '전라북도',
+        '전라남도',
+        '경상북도',
+        '경상남도',
+        '제주특별자치도',
       ],
       cities: [],
-      districts: [],
-      markers: [],
+      markers: [], // To hold marker instances
     };
   },
   mounted() {
     this.initMap();
   },
   methods: {
+    // 오늘의 운영시간에서 시간만 추출하는 함수
+    getTodayOpeningHours(openingHours) {
+      const todayIndex = new Date().getDay(); // 오늘 요일 인덱스 가져오기
+      const todayHours = openingHours[todayIndex]; // 오늘에 해당하는 운영시간 가져오기
+
+      // 운영시간 문자열에서 콜론(:) 이후의 시간 부분만 추출
+      return todayHours ? todayHours.split(': ')[1] : '운영시간 정보 없음';
+    },
+
     initMap() {
       this.map = new google.maps.Map(document.getElementById('map'), {
-        center: { lat: 37.5665, lng: 126.978 }, // 서울 좌표
+        center: { lat: 37.5665, lng: 126.978 }, // Initial map center at Seoul
         zoom: 12,
       });
       this.service = new google.maps.places.PlacesService(this.map);
       this.geocoder = new google.maps.Geocoder(); // Initialize Geocoder
     },
+
+    // 기존 마커 제거 함수
+    clearMarkers() {
+      this.markers.forEach((marker) => {
+        marker.setMap(null); // 지도에서 마커를 제거
+      });
+      this.markers = []; // 마커 배열 초기화
+    },
+
     fetchCities() {
       // 광역시 및 도에 따른 시/군/구 설정
       if (this.selectedProvince === '서울특별시') {
@@ -322,223 +358,162 @@ export default {
         this.cities = ['서귀포시', '제주시'];
       }
     },
-    fetchDistricts() {
-      // 시/군/구에 따른 동 설정
-      if (this.selectedCity === '강남구') {
-        this.districts = [
-          '압구정동',
-          '역삼동',
-          '삼성동',
-          '청담동',
-          '신사동',
-          '논현동',
-          '대치동',
-          '개포동',
-        ];
-      } else if (this.selectedCity === '종로구') {
-        this.districts = [
-          '청운동',
-          '신교동',
-          '궁정동',
-          '효자동',
-          '창성동',
-          '통의동',
-          '통인동',
-          '누상동',
-          '누하동',
-          '옥인동',
-        ];
-      } else if (this.selectedCity === '해운대구') {
-        this.districts = ['중동', '좌동', '우동', '송정동', '반송동', '재송동'];
-      } else if (this.selectedCity === '부산진구') {
-        this.districts = [
-          '부암동',
-          '당감동',
-          '가야동',
-          '개금동',
-          '범천동',
-          '범전동',
-          '연지동',
-          '전포동',
-        ];
-      } else if (this.selectedCity === '수원시') {
-        this.districts = ['장안구', '권선구', '팔달구', '영통구'];
-      } else if (this.selectedCity === '성남시') {
-        this.districts = ['분당구', '수정구', '중원구'];
-      } else if (this.selectedCity === '용인시') {
-        this.districts = ['수지구', '기흥구', '처인구'];
-      } else if (this.selectedCity === '인천광역시 중구') {
-        this.districts = [
-          '운서동',
-          '용유동',
-          '을왕동',
-          '운남동',
-          '중산동',
-          '영종동',
-        ];
-      } else if (this.selectedCity === '인천광역시 남동구') {
-        this.districts = [
-          '간석동',
-          '만수동',
-          '구월동',
-          '남촌동',
-          '수산동',
-          '장수동',
-        ];
-      } else if (this.selectedCity === '대전광역시 서구') {
-        this.districts = [
-          '둔산동',
-          '탄방동',
-          '월평동',
-          '관저동',
-          '가수원동',
-          '내동',
-        ];
-      } else if (this.selectedCity === '대구광역시 달서구') {
-        this.districts = [
-          '성서동',
-          '상인동',
-          '월성동',
-          '도원동',
-          '송현동',
-          '진천동',
-        ];
-      } else if (this.selectedCity === '대구광역시 수성구') {
-        this.districts = [
-          '범어동',
-          '수성동',
-          '지산동',
-          '황금동',
-          '만촌동',
-          '중동',
-        ];
-      } else if (this.selectedCity === '광주광역시 서구') {
-        this.districts = [
-          '화정동',
-          '쌍촌동',
-          '상무동',
-          '유덕동',
-          '치평동',
-          '광천동',
-        ];
-      } else if (this.selectedCity === '울산광역시 남구') {
-        this.districts = [
-          '삼산동',
-          '달동',
-          '무거동',
-          '신정동',
-          '옥동',
-          '야음동',
-        ];
-      } else if (this.selectedCity === '세종특별자치시') {
-        this.districts = [
-          '도담동',
-          '종촌동',
-          '고운동',
-          '아름동',
-          '새롬동',
-          '다정동',
-        ];
-      } else if (this.selectedCity === '경기도 고양시') {
-        this.districts = ['덕양구', '일산동구', '일산서구'];
-      } else if (this.selectedCity === '경기도 성남시') {
-        this.districts = ['분당구', '수정구', '중원구'];
-      } else if (this.selectedCity === '경기도 평택시') {
-        this.districts = [
-          '비전동',
-          '동삭동',
-          '세교동',
-          '칠괴동',
-          '청북읍',
-          '포승읍',
-        ];
-      } else if (this.selectedCity === '경기도 안양시') {
-        this.districts = ['동안구', '만안구'];
-      } else if (this.selectedCity === '경상북도 포항시') {
-        this.districts = ['남구', '북구'];
-      } else if (this.selectedCity === '경상남도 창원시') {
-        this.districts = [
-          '의창구',
-          '성산구',
-          '마산합포구',
-          '마산회원구',
-          '진해구',
-        ];
-      } else if (this.selectedCity === '제주시') {
-        this.districts = [
-          '아라동',
-          '노형동',
-          '연동',
-          '이도동',
-          '삼양동',
-          '외도동',
-        ];
-      } else if (this.selectedCity === '서귀포시') {
-        this.districts = ['대정읍', '남원읍', '성산읍', '안덕면', '표선면'];
-      }
-      // 더 많은 시/군/구 및 동 추가 가능
-    },
+
     // Use geocoding to get the latitude and longitude of the selected location
     searchBank() {
-      const location = `${this.selectedProvince} ${this.selectedCity} ${this.selectedDistrict}`;
+      const location = `${this.selectedProvince} ${this.selectedCity}`;
 
-      // Use geocoding to get the latitude and longitude of the selected location
+      // Geocoding을 사용하여 선택된 위치의 위도와 경도를 가져옴
       this.geocoder.geocode({ address: location }, (results, status) => {
-        if (status === google.maps.GeocoderStatus.OK) {
-          const resultLocation = results[0].geometry.location;
-          this.map.setCenter(resultLocation); // Center map to the location
-          this.map.setZoom(15); // Zoom in to the location
+        if (status === google.maps.GeocoderStatus.OK && results.length > 0) {
+          const result = results[0];
+          const resultLocation = result.geometry.location;
+          this.map.setCenter(resultLocation);
+          this.map.setZoom(15); // 해당 위치로 확대
 
-          // Now search for KB국민은행 near the location
+          // Clear existing markers
+          this.clearMarkers();
+
+          // Bounding Box 설정 (해당 구역의 경계를 제한)
+          const bounds = new google.maps.LatLngBounds(
+            new google.maps.LatLng(
+              result.geometry.viewport.getSouthWest().lat(),
+              result.geometry.viewport.getSouthWest().lng()
+            ),
+            new google.maps.LatLng(
+              result.geometry.viewport.getNorthEast().lat(),
+              result.geometry.viewport.getNorthEast().lng()
+            )
+          );
+
           const request = {
-            location: resultLocation,
-            radius: '5000', // 5km 반경
-            query: `KB국민은행`,
+            bounds: bounds, // 경계 설정을 추가
+            query: `KB국민은행 ${this.selectedCity}`, // 쿼리에 선택한 구를 추가
           };
 
-          this.service.textSearch(request, (results, status) => {
+          // 장소 검색 수행
+          this.service.textSearch(request, (places, status) => {
             if (status === google.maps.places.PlacesServiceStatus.OK) {
-              this.clearMarkers(); // 이전 마커 제거
+              this.clearMarkers(); // 기존 마커 제거
 
-              results.forEach((place) => {
-                const marker = new google.maps.Marker({
-                  map: this.map,
-                  position: place.geometry.location,
-                  title: place.name,
-                });
+              places.forEach((place) => {
+                // 검색 결과에서 ATM과 국민카드가 포함된 결과를 제외하는 조건 추가
+                if (
+                  !place.name.includes('ATM') &&
+                  !place.name.includes('국민카드')
+                ) {
+                  const marker = new google.maps.Marker({
+                    map: this.map,
+                    position: place.geometry.location,
+                    title: place.name,
+                  });
 
-                // Add InfoWindow to show details when the marker is clicked
-                const infoWindow = new google.maps.InfoWindow({
-                  content: `<div><strong>${place.name}</strong><br>
-                        주소: ${place.formatted_address}<br>
-                        전화번호: ${place.formatted_phone_number || '정보 없음'}</div>`,
-                });
+                  // Places Details 요청을 통해 세부 정보를 가져옴
+                  const detailsRequest = {
+                    placeId: place.place_id,
+                    fields: ['name', 'formatted_address', 'opening_hours'], // 필요한 정보 필드 설정
+                  };
 
-                // Add click event to open InfoWindow when marker is clicked
-                marker.addListener('click', () => {
-                  infoWindow.open(this.map, marker);
-                });
+                  this.service.getDetails(
+                    detailsRequest,
+                    (placeDetails, status) => {
+                      if (
+                        status === google.maps.places.PlacesServiceStatus.OK
+                      ) {
+                        // 오늘의 운영시간 가져오기
+                        let todayOpeningHours = '운영시간 정보 없음';
+                        if (
+                          placeDetails.opening_hours &&
+                          placeDetails.opening_hours.weekday_text
+                        ) {
+                          todayOpeningHours = this.getTodayOpeningHours(
+                            placeDetails.opening_hours.weekday_text
+                          );
+                        }
 
-                this.markers.push(marker);
+                        // InfoWindow에 오늘의 운영시간 추가
+                        const infoWindow = new google.maps.InfoWindow({
+                          content: `<div><strong>${placeDetails.name}</strong><br>
+                                주소: ${placeDetails.formatted_address}<br>
+                                오늘의 운영시간: ${todayOpeningHours}</div>`,
+                        });
+
+                        marker.addListener('click', () => {
+                          infoWindow.open(this.map, marker);
+                        });
+
+                        this.markers.push(marker); // 마커 배열에 추가
+                      } else {
+                        console.error('Place details request failed:', status);
+                      }
+                    }
+                  );
+                }
               });
+            } else {
+              console.error('Places search was not successful:', status);
             }
           });
         } else {
-          console.error(
-            `Geocode was not successful for the following reason: ${status}`
-          );
+          console.error('Geocode was not successful:', status);
         }
       });
     },
 
-    clearMarkers() {
-      this.markers.forEach((marker) => marker.setMap(null));
-      this.markers = [];
-    },
+    // Use `.bind(this)` to ensure `this` refers to Vue instance
   },
 };
 </script>
 
 <style scoped>
-/* 스타일 추가 필요 시 작성 */
+.search-container {
+  display: flex;
+  gap: 10px;
+}
+
+.rounded-select {
+  padding: 8px 15px;
+  border-radius: 20px; /* 동글한 모서리 */
+  border: 1px solid #ccc;
+  outline: none;
+  font-size: 16px;
+  background-color: #f9f9f9;
+  transition: all 0.3s ease-in-out;
+}
+
+.rounded-select:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+.search-btn {
+  background-color: #ffc107; /* 노란색 배경 */
+  color: black; /* 검정색 글씨 */
+  cursor: pointer;
+  border: none;
+  padding: 10px 20px;
+}
+
+.search-btn:hover {
+  background-color: #e0a800; /* 호버 시 더 어두운 노란색 */
+}
+
+/* 지도 기본 크기 */
+#map {
+  width: 100%;
+  height: 500px;
+}
+
+/* 반응형 디자인 */
+@media only screen and (max-width: 768px) {
+  #map {
+    height: 300px;
+  }
+}
+
+@media only screen and (max-width: 480px) {
+  #map {
+    height: 200px;
+  }
+}
 </style>
