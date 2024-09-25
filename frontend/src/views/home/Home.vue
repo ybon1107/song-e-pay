@@ -45,54 +45,43 @@
     <!-- Graph and Conversion Section -->
     <div class="card">
       <div class="card-body">
-        <div class="row my-3">
+        <div class="row">
           <!-- Exchange Rate Graph Section -->
-          <div class="col-lg-8 col-md-12">
+          <div class="col-lg-7 col-md-12 my-3">
             <h6>Exchange Rate</h6>
             <div class="chart-container">
               <ExchangeRateChart chartId="toexchangeChart" period="1m" chartType="to" />
             </div>
           </div>
 
-          <div class="col-lg-4 col-md-12">
-            <h6>Convert USD to KRW</h6>
-
-            <div class="d-flex align-items-center mb-3">
-              <div class="position-relative flex-grow-1">
-                <input type="number" class="form-control" v-model.number="usdAmount" @input="convertToKrw"
-                  aria-label="Amount in USD" />
-                <img src="@/assets/img/icons/flags/US.png" alt="USA Flag" class="flag-icon"/>
-              </div>
-              <span class="mx-3">=</span>
-              <div class="position-relative flex-grow-1">
-              <input type="text" class="form-control" :value="krwAmount" readonly aria-label="Amount in KRW" />
-                <img src="@/assets/img/icons/flags/KR.png" alt="KRW Flag" class="flag-icon"/>
-              </div>
-            </div>
-
-
-            <div class="input-group my-3">
-              <input type="number" class="form-control" v-model.number="usdAmount" @input="convertToKrw" />
-              <div class="input-group-append">
-                <span class="input-group-text">USD</span>
-              </div>
-              <span class="input-group-text">=</span>
-              <input type="text" class="form-control" :value="krwAmount" readonly />
-              <div class="input-group-append">
-                <span class="input-group-text">KRW</span>
+          <div class="col-lg-5 col-md-12 d-flex flex-column justify-content-center my-3">
+            <div class="mb-3">
+              <h6>Convert USD to KRW</h6>
+              <div class="d-flex align-items-center">
+                <div class="position-relative flex-grow-1">
+                  <input type="number" class="form-control" v-model.number="usdAmount" @input="convertToKrw"
+                    aria-label="Amount in USD" />
+                  <img src="@/assets/img/icons/flags/US.png" alt="USA Flag" class="flag-icon" />
+                </div>
+                <span class="mx-3">=</span>
+                <div class="position-relative flex-grow-1">
+                  <input type="text" class="form-control" :value="krwAmount" readonly aria-label="Amount in KRW" />
+                  <img src="@/assets/img/icons/flags/KR.png" alt="KRW Flag" class="flag-icon" />
+                </div>
               </div>
             </div>
-
-            <h6>Convert KRW to USD</h6>
-            <div class="input-group my-3">
-              <input type="number" class="form-control" v-model.number="krwAmountReverse" @input="convertToUsd" />
-              <div class="input-group-append">
-                <span class="input-group-text">KRW</span>
-              </div>
-              <span class="input-group-text">=</span>
-              <input type="text" class="form-control" :value="usdAmountReverse" readonly />
-              <div class="input-group-append">
-                <span class="input-group-text">USD</span>
+            <div>
+              <h6>Convert KRW to USD</h6>
+              <div class="d-flex align-items-center">
+                <div class="position-relative flex-grow-1">
+                  <input type="number" class="form-control" v-model.number="krwAmountReverse" @input="convertToUsd" />
+                  <img src="@/assets/img/icons/flags/KR.png" alt="KRW Flag" class="flag-icon" />
+                </div>
+                <span class="mx-3">=</span>
+                <div class="position-relative flex-grow-1">
+                  <input type="text" class="form-control" :value="usdAmountReverse" readonly />
+                  <img src="@/assets/img/icons/flags/US.png" alt="USA Flag" class="flag-icon" />
+                </div>
               </div>
             </div>
           </div>
@@ -101,7 +90,7 @@
     </div>
 
     <!-- Calendar Section -->
-    <div class="row my-4">
+    <div class="row my-3">
       <div class="col-lg-12">
         <div class="calendar-container">
           <!-- Insert calendar here -->
@@ -109,11 +98,19 @@
         </div>
       </div>
     </div>
+
+    <div class="row my-3">
+    <div class="col-lg-12">
+      <div class="map-area">
+        <MapComponent />
+      </div>
+    </div>
+  </div>
   </div>
 
-  <div class="map-area">
-    <MapComponent />
-  </div>
+  
+
+
 </template>
 
 <script setup>
