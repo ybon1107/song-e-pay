@@ -31,6 +31,11 @@ public class MyAccountServiceImpl implements MyAccountService {
         return searchUserId != null && !searchUserId.isEmpty(); // userId가 null이 아니고 비어있지 않으면 true, 그렇지 않으면 false
     }
 
+    @Override
+    public String selectSecondPwd(Integer userNo){
+        return mapper.selectSecondPwd(userNo);
+    }
+
     // 충전 : 계좌 -> 송이
     @Override
     public String deposit(AccountDTO accountDTO, SongAccountDTO songAccountDTO, HistoryDTO historyDTO, Double amount) {

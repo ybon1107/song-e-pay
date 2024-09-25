@@ -37,7 +37,11 @@ public class MyAccountController {
         return ResponseEntity.ok(myAccountService.selectUserEmail(userId));
     }
 
-
+    //2차 비밀번호 확인
+    @PostMapping("/check")
+    public ResponseEntity<?> checkAccount(@RequestParam Integer userNo) {
+        return ResponseEntity.ok(myAccountService.selectSecondPwd(userNo));
+    }
     // 충전
     @PostMapping("/deposit")
     public ResponseEntity<?> deposit(@RequestBody DTORequest request) {

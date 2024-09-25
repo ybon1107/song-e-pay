@@ -17,6 +17,9 @@ public interface MyAccountService {
 
     // 이메일 확인
     Boolean selectUserEmail(String userId);
+
+    String selectSecondPwd(Integer userNo);
+
     // 충전
     String deposit(AccountDTO accountDTO, SongAccountDTO songAccountDTO, HistoryDTO historyDTO, Double amount);
 

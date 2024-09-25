@@ -87,4 +87,14 @@ export default {
       throw error; // 에러 발생 시 예외 처리
     }
   },
+  //2차 비밀번호 확인
+  async checkSecondPassword(userNo) {
+    try {
+      const response = await api.post(`/check?userNo=${userNo}`);
+      return response.data;
+    } catch (error) {
+      console.error('2차 비밀번호 확인 중 오류 발생:', error);
+      throw error;
+    }
+  },
 };

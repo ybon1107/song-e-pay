@@ -14,6 +14,8 @@ public interface MyAccountMapper {
 
     String selectUserEmail(String userId);
 
+    String selectSecondPwd(Integer userNo);
+
     int updateAccount(AccountDTO accountDTO);
 
     int updateSongAccount(SongAccountDTO songAccountDTO);

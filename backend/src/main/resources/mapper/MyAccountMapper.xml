@@ -56,11 +56,17 @@
         SET balance = #{balance}
         WHERE krw_no = #{krwNo}
     </update>
-
+    <!-- 이용내역 추가-->
     <insert id="insertHistory" parameterType="historyDTO">
         INSERT INTO sepay.history
         (user_no, song_no, krw_no, type_code, state_code, history_content, amount)
         VALUES
             (#{userNo}, #{songNo}, #{krwNo}, #{typeCode}, #{stateCode}, #{historyContent}, #{amount})
     </insert>
+    <!--  userNo에 따른 2차 비밀번호 조회  -->
+    <select id="selectSecondPwd" parameterType="integer" resultType="string">
+        select second_pwd
+        from user
+        where user_no = #{userNo}
+    </select>
 </mapper>
