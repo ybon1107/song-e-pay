@@ -33,7 +33,7 @@
     <br />
 
     <!-- 지도 영역 -->
-    <div id="map" style="width: 100%; height: 500px"></div>
+    <div id="map" class="map-shadow" style="width: 100%; height: 500px"></div>
   </div>
 </template>
 
@@ -496,6 +496,19 @@ export default {
 
 .search-btn:hover {
   background-color: #e0a800; /* 호버 시 더 어두운 노란색 */
+}
+
+/* CSS */
+.map-shadow {
+  box-shadow: 10px 10px 30px rgba(0, 0, 0, 0.3); /* 오른쪽 하단으로 그림자 */
+  border-radius: 10px; /* 모서리를 약간 둥글게 하고 싶다면 추가 */
+}
+
+/* 반응형 조정 */
+@media only screen and (max-width: 768px) {
+  .map-shadow {
+    box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.3); /* 모바일에서는 더 작은 그림자 */
+  }
 }
 
 /* 지도 기본 크기 */
