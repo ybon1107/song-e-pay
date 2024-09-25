@@ -7,4 +7,6 @@ public interface UserService {
     UserDTO getInfo(Integer userNo);
 
     boolean checkSecondaryPassword(PasswordDTO passwordDTO);
+
+    UserDTO login(String userId, String password);
 }

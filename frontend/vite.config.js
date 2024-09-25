@@ -1,10 +1,10 @@
-import { defineConfig } from "vite";
-import path from "path";
-import vue from "@vitejs/plugin-vue";
-import vueJsx from "@vitejs/plugin-vue-jsx";
-import envCompatible from "vite-plugin-env-compatible";
-import { createHtmlPlugin } from "vite-plugin-html";
-import { viteCommonjs } from "@originjs/vite-plugin-commonjs";
+import { defineConfig } from 'vite';
+import path from 'path';
+import vue from '@vitejs/plugin-vue';
+import vueJsx from '@vitejs/plugin-vue-jsx';
+import envCompatible from 'vite-plugin-env-compatible';
+import { createHtmlPlugin } from 'vite-plugin-html';
+import { viteCommonjs } from '@originjs/vite-plugin-commonjs';
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -20,7 +20,7 @@ export default defineConfig({
     createHtmlPlugin({
       inject: {
         data: {
-          title: "frontend",
+          title: 'frontend',
         },
       },
     }),
@@ -29,26 +29,26 @@ export default defineConfig({
     alias: [
       {
         find: /^~/,
-        replacement: "",
+        replacement: '',
       },
       {
-        find: "@",
-        replacement: path.resolve(__dirname, "src"),
+        find: '@',
+        replacement: path.resolve(__dirname, 'src'),
       },
     ],
-    extensions: [".mjs", ".js", ".ts", ".jsx", ".tsx", ".json", ".vue"],
+    extensions: ['.mjs', '.js', '.ts', '.jsx', '.tsx', '.json', '.vue'],
   },
   server: {
     proxy: {
-      "/api": {
-        target: "http://localhost:8888",
+      '/api': {
+        target: 'http://localhost:8080',
         changeOrigin: true,
         // secure: false,
       },
-      "/api/exchange": {
-        target: "https://v6.exchangerate-api.com/v6/6bbbf78cc42a296d533a9e6b",
+      '/api/exchange': {
+        target: 'https://v6.exchangerate-api.com/v6/6bbbf78cc42a296d533a9e6b',
         changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/api\/exchange/, ""),
+        rewrite: (path) => path.replace(/^\/api\/exchange/, ''),
       },
     },
   },

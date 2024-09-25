@@ -17,7 +17,7 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public UserDTO getInfo(Integer userNo) {
-        return mapper.selectUser(userNo);
+        return mapper.selectUserByUserNo(userNo);
     }
 
     @Override
@@ -31,5 +31,13 @@ public class UserServiceImpl implements UserService{
         else{
             return false;
         }
+    }
+
+    @Override
+    public UserDTO login(String userId, String password) {
+        HashMap map = new HashMap();
+        map.put("userId", userId);
+        map.put("password", password);
+        return mapper.selectUser(map);
     }
 }

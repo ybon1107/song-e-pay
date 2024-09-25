@@ -28,6 +28,13 @@ public class MyAccountController {
     public ResponseEntity<?> getSongAccountBalance(@RequestParam String songNo) {
         return ResponseEntity.ok(myAccountService.selectSongBalance(songNo));
     }
+
+    // 이메일 확인
+    @PostMapping("/confirm")
+    public ResponseEntity<?> confirmAccount(@RequestParam Integer userNo) {
+        return ResponseEntity.ok(myAccountService.selectUserEmail(userNo));
+    }
+
     // 충전
     @PostMapping("/deposit")
     public ResponseEntity<?> deposit(@RequestBody DTORequest request) {

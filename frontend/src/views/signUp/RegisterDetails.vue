@@ -2,11 +2,17 @@
 import { ref, computed, onBeforeUnmount, onBeforeMount } from "vue";
 import { useStore } from "vuex";
 import { useRouter } from "vue-router";
+import { useSigninStore } from "@/stores/signinStore";
+import axios from "axios";
 import ArgonInput from "@/components/templates/ArgonInput.vue";
 import ArgonButton from "@/components/templates/ArgonButton.vue";
+import PhoneInput from "@/components/signUp/PhoneInput.vue";
+import flatPickr from "vue-flatpickr-component";
+import "flatpickr/dist/flatpickr.css";
 
 const body = document.getElementsByTagName("body")[0];
 const store = useStore();
+const signinStore = useSigninStore();
 const router = useRouter();
 
 onBeforeMount(() => {
@@ -24,69 +30,106 @@ onBeforeUnmount(() => {
   body.classList.add("bg-gray-100");
 });
 
+const email = computed(() => signinStore.email);
+
 // 비밀번호 입력 필드 상태
 const password = ref("");
 const confirmPassword = ref("");
 
+// 비밀번호 입력 시 공백 제거
+const handlePasswordInput = (event) => {
+  password.value = event.target.value.replace(/\s/g, "");
+};
+
+const handleConfirmPasswordInput = (event) => {
+  confirmPassword.value = event.target.value.replace(/\s/g, "");
+};
+
 // 비밀번호 일치 여부 검사
 const isPasswordMatch = computed(() => {
-  if (password.value === "" || confirmPassword.value === "") {
-    return false;
-  }
-  return password.value === confirmPassword.value;
+  return password.value.length >= 8 && password.value === confirmPassword.value;
 });
 
+// 거주 국가 상태
+const country = ref("Country");
+
+// 성 및 이름 입력 필드 상태
+const firstName = ref("");
+const lastName = ref("");
+
 // 생년월일 입력 필드 상태
-const month = ref("");
-const day = ref("");
-const year = ref("");
+const birth = ref("");
+
+// 특정 년수를 뺀 날짜를 반환하는 함수
+function calculateDateYearsAgo(years) {
+  const date = new Date();
+  date.setFullYear(date.getFullYear() - years);
+  return date.toISOString().split("T")[0];
+}
 
 // 전화번호와 국가 코드 상태
 const phoneNumber = ref("");
 const countryCallingCode = ref("+1");
 
-// Day 입력 필드 제어 함수
-const handleDayInput = (event) => {
-  let value = event.target.value.replace(/\D/g, ""); // 숫자만 허용
-  if (value.length > 2) {
-    value = value.slice(0, 2); // 최대 2자리
-  }
-  // 01부터 31까지의 값만 허용하는 정규식
-  const dayRegex = /^(0[1-9]|[12][0-9]|3[01])$/;
-  if (!dayRegex.test(value) && value !== "") {
-    value = value.slice(0, -1); // 마지막 입력 제거
-  }
-  day.value = value;
-};
-
-// Year 입력 필드 제어 함수
-const handleYearInput = (event) => {
-  let value = event.target.value.replace(/\D/g, ""); // 숫자만 허용
-  if (value.length > 4) {
-    value = value.slice(0, 4); // 최대 4자리
-  }
-  year.value = value;
-};
-
-// 생년월일 유효성 검사
-const isDateOfBirthValid = computed(() => {
-  const monthRegex = /^(0?[1-9]|1[0-2])$/;
-  const dayRegex = /^(0[1-9]|[12][0-9]|3[01])$/;
-  const yearRegex = /^\d{4}$/;
-  return (
-    monthRegex.test(month.value) &&
-    dayRegex.test(day.value) &&
-    yearRegex.test(year.value) &&
-    month.value !== "" &&
-    day.value !== "" &&
-    year.value !== ""
-  );
-});
+// 에러 상태
+const passwordError = ref(false);
+const confirmPasswordError = ref(false);
+const firstNameError = ref(false);
+const lastNameError = ref(false);
+const birthError = ref(false);
+const countryError = ref(false);
 
 // 모든 입력값 유효성 검사
 const isFormValid = computed(() => {
-  return isDateOfBirthValid.value && isPasswordMatch.value;
+  return (
+    password.value.length >= 8 &&
+    confirmPassword.value.length >= 8 &&
+    isPasswordNotBlank.value &&
+    isPasswordMatch.value &&
+    country.value !== "Country" &&
+    firstName.value !== "" &&
+    lastName.value !== "" &&
+    birth.value !== ""
+  );
 });
+
+// 폼 제출 처리
+const handleSubmit = async (event) => {
+  event.preventDefault();
+
+  passwordError.value = password.value.length < 8;
+  confirmPasswordError.value =
+    confirmPassword.value.length < 8 || !isPasswordMatch.value;
+  birthError.value = !birth.value;
+  countryError.value = country.value === "Country";
+  firstNameError.value = !firstName.value;
+  lastNameError.value = !lastName.value;
+
+  if (!isFormValid.value) {
+    return;
+  } else {
+    try {
+      const response = await axios.post("http://localhost:8080/register", {
+        password: password.value,
+        firstName: firstName.value,
+        lastName: lastName.value,
+        birth: birth.value,
+        country: country.value,
+        phoneNumber: `${countryCallingCode.value}${phoneNumber.value}`,
+      });
+
+      if (response.data.success) {
+        router.push("/login");
+      } else {
+        // 등록 실패 처리
+        alert("Registration failed. Please try again.");
+      }
+    } catch (error) {
+      console.error("Registration error:", error);
+      alert("An error occurred during registration. Please try again.");
+    }
+  }
+};
 </script>
 <template>
   <!-- 메인 콘텐츠 섹션 -->
@@ -106,7 +149,7 @@ const isFormValid = computed(() => {
               </div>
               <!-- 카드 본문 -->
               <div class="card-body container-fluid">
-                <form role="form">
+                <form @submit.prevent="handleSubmit">
                   <div class="row">
                     <!-- 사용자 이메일 필드 -->
                     <div class="col-md-12">
@@ -114,7 +157,12 @@ const isFormValid = computed(() => {
                         >Your email address</label
                       >
                       <!-- 이전에 입력받은 값 pinia에서 가져와서 넣고 입력변경 막기 -->
-                      <argon-input disabled id="email" type="email" />
+                      <argon-input
+                        disabled
+                        id="email"
+                        type="email"
+                        @input="email"
+                      ></argon-input>
                     </div>
                     <!-- 비밀번호 입력 필드 -->
                     <div class="col-md-12">
@@ -122,110 +170,149 @@ const isFormValid = computed(() => {
                         >Your password</label
                       >
                       <argon-input
+                        isRequired
                         id="password"
                         type="password"
                         v-model="password"
-                        :success="password.value !== '' && isPasswordMatch"
-                        :error="password.value !== '' && !isPasswordMatch"
-                      />
-                    </div>
-                    <!-- 비밀번호 입력 확인 필드 -->
-                    <div class="col-md-12">
+                        @input="handlePasswordInput"
+                        :class="{
+                          'is-invalid': passwordError && password.length < 8,
+                        }"
+                        :error="passwordError && password.length < 8"
+                      ></argon-input>
+                      <div
+                        v-if="passwordError"
+                        class="invalid-feedback text-xs mb-1"
+                      >
+                        Please provide a password with at least 8 characters.
+                      </div>
+                      <!-- 비밀번호 입력 확인 필드 -->
                       <label for="confirm-password" class="form-control-label"
                         >Confirm your password</label
                       >
                       <argon-input
+                        isRequired
                         id="confirm-password"
                         type="password"
                         v-model="confirmPassword"
-                        :success="
-                          confirmPassword.value !== '' && isPasswordMatch
-                        "
+                        @input="handleConfirmPasswordInput"
+                        :class="{
+                          'is-invalid':
+                            (confirmPasswordError &&
+                              confirmPassword.length < 8) ||
+                            !isPasswordMatch,
+                        }"
+                        :success="isPasswordMatch"
                         :error="
-                          confirmPassword.value !== '' && !isPasswordMatch
+                          confirmPasswordError && confirmPassword.length < 8
                         "
                       />
+                      <div
+                        v-if="confirmPasswordError"
+                        class="invalid-feedback text-xs mb-1"
+                      >
+                        Please confirm your password with at least 8 characters.
+                      </div>
+                      <div
+                        v-if="confirmPassword !== '' && !isPasswordMatch"
+                        class="invalid-feedback text-xs"
+                      >
+                        Passwords do not match or are less than 8 characters.
+                      </div>
                     </div>
+                    <!-- <div class="col-md-12"></div> -->
                     <!-- 거주 국가 입력 필드 -->
                     <div class="col-md-12">
                       <label for="country" class="form-control-label"
                         >Country of residence</label
                       >
-                      <argon-input id="country" type="text" />
+                      <div class="form-group">
+                        <select
+                          id="country"
+                          class="form-select"
+                          v-model="country"
+                          :class="{
+                            'is-invalid': country === 'Country' && countryError,
+                          }"
+                        >
+                          <option disabled hidden>Country</option>
+                          <option value="1">🇺🇸 United States</option>
+                          <option value="2">🇮🇩 Indonesia</option>
+                          <option value="3">🇻🇳 Vietnam</option>
+                        </select>
+                        <div
+                          v-if="country === 'Country'"
+                          class="invalid-feedback text-xs"
+                        >
+                          Please select a country.
+                        </div>
+                      </div>
                     </div>
                     <!-- 이름 입력 필드 -->
                     <div class="col-md-12">
                       <label for="first-name" class="form-control-label"
                         >Full legal first and middle name(s)</label
                       >
-                      <argon-input id="first-name" type="text" />
+                      <argon-input
+                        isRequired
+                        id="first-name"
+                        type="text"
+                        v-model="firstName"
+                        :class="{
+                          'is-invalid': firstNameError && firstName === '',
+                        }"
+                        :error="firstNameError && firstName === ''"
+                      />
+                      <div
+                        v-if="firstNameError"
+                        class="invalid-feedback text-xs"
+                      >
+                        Please provide your full legal first and middle name(s).
+                      </div>
                     </div>
                     <!-- 성 입력 필드 -->
                     <div class="col-md-12">
                       <label for="last-name" class="form-control-label"
                         >Full legal last name(s)</label
                       >
-                      <argon-input id="last-name" type="text" />
+                      <argon-input
+                        isRequired
+                        id="last-name"
+                        type="text"
+                        v-model="lastName"
+                        :class="{
+                          'is-invalid': lastNameError && lastName === '',
+                        }"
+                        :error="lastNameError && lastName === ''"
+                      />
+                      <div
+                        v-if="lastNameError"
+                        class="invalid-feedback text-xs"
+                      >
+                        Please provide your full legal last name(s).
+                      </div>
                     </div>
                     <!-- 생년월일 입력 필드 -->
-                    <div class="col-md-12">
-                      <label for="birth-input-group" class="form-control-label"
+                    <div class="col-md-12 form-group">
+                      <label for="birth" class="form-control-label"
                         >Date of birth</label
                       >
-                      <div id="birth-input-group" class="birth-input-group row">
-                        <!-- 월 입력 필드 -->
-                        <div class="col-md-4">
-                          <label for="month" class="form-control-label"
-                            >Month</label
-                          >
-                          <select
-                            id="month"
-                            placeholder="Month"
-                            class="form-select"
-                            v-model="month"
-                          >
-                            <option disabled hidden selected>Month</option>
-                            <option value="1">01</option>
-                            <option value="2">02</option>
-                            <option value="3">03</option>
-                            <option value="4">04</option>
-                            <option value="5">05</option>
-                            <option value="6">06</option>
-                            <option value="7">07</option>
-                            <option value="8">08</option>
-                            <option value="9">09</option>
-                            <option value="10">10</option>
-                            <option value="11">11</option>
-                            <option value="12">12</option>
-                          </select>
-                          <!-- <argon-input type="text" /> -->
-                        </div>
-                        <!-- 일 입력 필드 -->
-                        <div class="col-md-4">
-                          <label for="day" class="form-control-label"
-                            >Day</label
-                          >
-                          <argon-input
-                            id="day"
-                            type="text"
-                            placeholder="DD"
-                            v-model="day"
-                            @input="handleDayInput"
-                          />
-                        </div>
-                        <!-- 년도 입력 필드 -->
-                        <div class="col-md-4">
-                          <label for="year" class="form-control-label"
-                            >Year</label
-                          >
-                          <argon-input
-                            id="year"
-                            type="text"
-                            placeholder="YYYY"
-                            v-model="year"
-                            @input="handleYearInput"
-                          />
-                        </div>
+                      <flat-pickr
+                        id="birth"
+                        v-model="birth"
+                        class="form-control bg-white"
+                        placeholder="YYYY-MM-DD"
+                        :config="{
+                          dateFormat: 'Y-m-d',
+                          maxDate: calculateDateYearsAgo(14),
+                          minDate: calculateDateYearsAgo(110),
+                        }"
+                        :class="{
+                          'is-invalid': birth === '' && birthError,
+                        }"
+                      />
+                      <div v-if="birthError" class="invalid-feedback text-xs">
+                        Please provide a valid date of birth.
                       </div>
                     </div>
                     <!-- 전화번호 입력 필드 -->
@@ -233,46 +320,20 @@ const isFormValid = computed(() => {
                       <label for="name" class="form-control-label"
                         >Your phone number</label
                       >
-                      <div class="phone-input-group row g-3">
-                        <!-- 국가 코드 선택 필드 -->
-                        <div class="col-xl-4 col-md-4 col-sm-4">
-                          <!-- 이전에 입력받은 값 pinia에서 가져와서 넣고 입력변경 막기 -->
-                          <select
-                            disabled
-                            id="countryCallingCode"
-                            class="form-select"
-                            aria-label="Country"
-                            v-model="countryCallingCode"
-                          >
-                            <option value="+1">&#43;1 USA</option>
-                            <option value="+62">&#43;62 IDN</option>
-                            <option value="+81">&#43;81 JPN</option>
-                            <option value="+86">&#43;86 CHN</option>
-                            <option value="+886">&#43;886 TWN</option>
-                          </select>
-                        </div>
-                        <!-- 전화번호 입력 필드 -->
-                        <div class="col-xl col-md col-sm">
-                          <!-- 이전에 입력받은 값 pinia에서 가져와서 넣고 입력변경 막기 -->
-                          <argon-input
-                            disabled
-                            id="phoneNumber"
-                            type="tel"
-                            placeholder="Phone number"
-                            aria-label="Phone number"
-                            v-model="phoneNumber"
-                          />
-                        </div>
-                      </div>
+                      <PhoneInput
+                        disabled
+                        v-model:phoneNumber="phoneNumber"
+                        v-model:countryCallingCode="countryCallingCode"
+                      />
                     </div>
                     <!-- 다음 버튼 -->
                     <div class="text-center">
                       <argon-button
-                        :disabled="!isFormValid"
                         fullWidth
                         color="success"
                         variant="gradient"
                         class="my-4 mb-2"
+                        type="submit"
                         >Continue</argon-button
                       >
                     </div>
