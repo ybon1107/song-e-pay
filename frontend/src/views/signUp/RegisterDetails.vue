@@ -9,6 +9,7 @@ import ArgonButton from "@/components/templates/ArgonButton.vue";
 import PhoneInput from "@/components/signUp/PhoneInput.vue";
 import flatPickr from "vue-flatpickr-component";
 import "flatpickr/dist/flatpickr.css";
+import { parsePhoneNumberFromString } from "libphonenumber-js";
 
 const body = document.getElementsByTagName("body")[0];
 const store = useStore();
@@ -89,7 +90,6 @@ const isFormValid = computed(() => {
   return (
     password.value.length >= 8 &&
     confirmPassword.value.length >= 8 &&
-    isPasswordNotBlank.value &&
     isPasswordMatch.value &&
     country.value !== "Country" &&
     firstName.value !== "" &&
@@ -100,9 +100,7 @@ const isFormValid = computed(() => {
 });
 
 // 폼 제출 처리
-const handleSubmit = async (event) => {
-  event.preventDefault();
-
+const handleSubmit = async () => {
   passwordError.value = password.value.length < 8;
   confirmPasswordError.value =
     confirmPassword.value.length < 8 || !isPasswordMatch.value;
@@ -112,25 +110,27 @@ const handleSubmit = async (event) => {
   birthError.value = !birth.value;
   genderError.value = gender.value === "Gender";
 
-  if (!isFormValid.value) {
-    return;
-  } else {
+  if (isFormValid.value) {
     try {
-      const response = await axios.post("http://localhost:8080/register", {
-        email: email.value,
+      const phoneNumberE164 = parsePhoneNumberFromString(
+        `${countryCallingCode.value}${phoneNumber.value}`
+      ).format("E.164");
+
+      const response = await axios.post("/api/users/register", {
+        userId: email.value,
         password: password.value,
-        country: country.value,
+        countryCode: country.value,
         firstName: firstName.value,
         lastName: lastName.value,
-        birth: birth.value,
+        birthday: birth.value,
         gender: gender.value,
-        phoneNumber: `${countryCallingCode.value}${phoneNumber.value}`,
+        phoneNo: phoneNumberE164,
       });
 
-      if (response.data.success) {
+      if (response.data === "success") {
         router.push("/login");
       } else {
-        // 등록 실패 처리
+        // 등록 실패
         alert("Registration failed. Please try again.");
       }
     } catch (error) {
