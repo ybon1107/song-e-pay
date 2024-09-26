@@ -1,6 +1,7 @@
 <template>
     <div class="card wallet-card" :style="{ backgroundImage: `url(${backgroundImage})` }" @click="navigateTo"
-        @mouseover="isFocused = true" @mouseleave="isFocused = false" :class="{ 'focused': isFocused, 'selected': isSelected }">
+        @mouseover="isFocused = true" @mouseleave="isFocused = false"
+        :class="{ 'focused': isFocused, 'selected': isSelected }">
         <div class="card-header bg-transparent">
             <h5>{{ title }}</h5>
         </div>
@@ -10,7 +11,7 @@
                 <div class="icon-container">
                     <img :src="icon" alt="icon" class="icon-image">
                 </div>
-                <h3 class="m-0">{{ formattedBalance }}</h3>
+                <h4 class="m-0">{{ formattedBalance }}</h4>
             </div>
         </div>
     </div>
@@ -77,18 +78,18 @@ const wonEMoneyBalance = ref(0); // Won-E Money의 잔액
 // };
 
 const fetchBalance = async () => {
-  try {
-    if (props.assetType === 'song-e') {
-      const result = await myaccountApi.fetchsongeAccountBalance('1234');
-      balance.value = result;
-    } else {
-      const result = await myaccountApi.fetchkrwAccountBalance('1234');
-      balance.value = result;
+    try {
+        if (props.assetType === 'song-e') {
+            const result = await myaccountApi.fetchsongeAccountBalance('1234');
+            balance.value = result;
+        } else {
+            const result = await myaccountApi.fetchkrwAccountBalance('1234');
+            balance.value = result;
+        }
+    } catch (error) {
+        console.error('잔액을 가져오는 중 오류 발생:', error);
+        // 오류 처리 로직 추가 (예: 사용자에게 오류 메시지 표시)
     }
-  } catch (error) {
-    console.error('잔액을 가져오는 중 오류 발생:', error);
-    // 오류 처리 로직 추가 (예: 사용자에게 오류 메시지 표시)
-  }
 };
 
 
