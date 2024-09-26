@@ -212,7 +212,10 @@ const handleSubmit = async (event) => {
                       }"
                       :success="isPasswordMatch"
                       :error="
-                        confirmPasswordError && confirmPassword.length < 8
+                        !confirmPasswordError &&
+                        0 < confirmPassword.length &&
+                        confirmPassword.length < 8 &&
+                        !isPasswordMatch
                       "
                     />
                     <div
