@@ -38,41 +38,14 @@ onMounted(() => {
   fetchBalances();
   fetchExchangeRates();
 });
-const convertToKrw = () => {
-  krwAmount.value = (usdAmount.value * currentToKrw.value).toFixed(2);
-};
 
-const convertToUsd = () => {
-  usdAmountReverse.value = (krwAmountReverse.value * currentFromKrw.value).toFixed(2);
-};
-// 환율 데이터를 가져오는 함수
-const fetchExchangeRates = async () => {
-  try {
-    console.log(' 확인');
-    convertToKrw();
-    convertToUsd();
-  } catch (error) {
-    console.error('환율 데이터를 가져오는 중 오류 발생:', error);
-  }
-};
-const fetchBalances = () => {
-  myaccountApi.fetchkrwAccountBalance('1234').then((balance) => {
-    wonEMoneyBalance.value = balance;
-  });
-
-  myaccountApi.fetchsongeAccountBalance('1234').then((balance) => {
-    songEMoneyBalance.value = balance;
-  });
-};
-const isValidAmount = (amount) => {
-  return amount && !isNaN(amount) && parseFloat(amount) > 0;
-};
-
+//비밀번호 관련 기능
+// 비밀번호 입력 모달 열기
 const openModal = () => {
   showModal.value = true;
   currentAction.value = activeTab.value;
 };
-
+// 비밀번호 입력 모달 닫기
 const closeModal = () => {
   showModal.value = false;
 };
@@ -104,11 +77,19 @@ const handlePasswordVerified = async () => {
   }
 };
 
+//값이 입력되지 않으면 버튼 비활성화
+const isValidAmount = (amount) => {
+  return amount && !isNaN(amount) && parseFloat(amount) > 0;
+};
+
+// 입력된 금액 타입 확인
 const formatNumber = (num) => {
   // 입력값이 숫자이면 포맷, 아니면 그대로 반환
   return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 };
 
+// 화면상에서 입력된 금액 기반 거래 후 잔액 계산
+//송이페이계좌
 let processAfterBalance = computed(() => {
   let balance = 0;
   // 충전일 경우 잔액 증가
@@ -127,7 +108,7 @@ let processAfterBalance = computed(() => {
   // 계산된 숫자를 포맷하여 반환
   return formatNumber(balance.toFixed(2)); // 소수점 두 자릿수까지 표시
 });
-
+//원화페이계좌
 let processAfterWonBalance = computed(() => {
   let wonBalance = 0;
 
@@ -145,7 +126,7 @@ let processAfterWonBalance = computed(() => {
   return formatNumber(wonBalance.toFixed(2)); // 소수점 두 자릿수까지 표시
 });
 
-// 자산 선택
+// 자산 탭 선택
 const selectAsset = (asset) => {
   selectedAsset.value = asset;
   // Song-E Money 선택 시 기본 탭을 deposit로 설정, Won-E Money 선택 시 기본 탭을 transfer로 설정
@@ -319,6 +300,34 @@ const reExchange = async () => {
   }
   reExchangeAmount.value = ''; // 환급 후 입력 초기화
 };
+
+const convertToKrw = () => {
+  krwAmount.value = (usdAmount.value * currentToKrw.value).toFixed(2);
+};
+
+const convertToUsd = () => {
+  usdAmountReverse.value = (krwAmountReverse.value * currentFromKrw.value).toFixed(2);
+};
+// 환율 데이터를 가져오는 함수
+const fetchExchangeRates = async () => {
+  try {
+    console.log(' 확인');
+    convertToKrw();
+    convertToUsd();
+  } catch (error) {
+    console.error('환율 데이터를 가져오는 중 오류 발생:', error);
+  }
+};
+const fetchBalances = () => {
+  myaccountApi.fetchkrwAccountBalance('1234').then((balance) => {
+    wonEMoneyBalance.value = balance;
+  });
+
+  myaccountApi.fetchsongeAccountBalance('1234').then((balance) => {
+    songEMoneyBalance.value = balance;
+  });
+};
+
 // 받는 금액 계산
 const receivedAmount = computed(() => {
   if (selectedAsset.value === 'Song-E Money') {
