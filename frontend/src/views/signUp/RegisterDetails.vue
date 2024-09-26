@@ -128,6 +128,7 @@ const handleSubmit = async () => {
       });
 
       if (response.data === "success") {
+        signupStore.clearSessionStorage();
         router.push("/login");
       } else {
         // 등록 실패

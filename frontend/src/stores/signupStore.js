@@ -21,6 +21,12 @@ export const useSignupStore = defineStore('signup', () => {
     sessionStorage.setItem('phoneNumber', newPhoneNumber);
   };
 
+  const clearSessionStorage = () => {
+    sessionStorage.removeItem('email');
+    sessionStorage.removeItem('countryCallingCode');
+    sessionStorage.removeItem('phoneNumber');
+  };
+
   return {
     email,
     countryCallingCode,
@@ -28,5 +34,6 @@ export const useSignupStore = defineStore('signup', () => {
     setEmail,
     setCountryCallingCode,
     setPhoneNumber,
+    clearSessionStorage,
   };
 });
