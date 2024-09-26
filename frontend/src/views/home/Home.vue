@@ -1,54 +1,20 @@
 <template>
-  <div class="container-fluid py-4">
+  <div class="container-fluid">
     <h4>Welcome to Song-E-pay!</h4>
     <!-- Currency Cards Section -->
-    <div class="row my-3">
+    <div class="row mt-3">
       <!-- USD Wallet -->
-      <div class="col-lg-6 col-md-12">
-        <!-- <AccountsCard/> -->
-        <DefaultInfoCard
-          title="Song-E Money"
-          :value="100"
-          img-src="/images/song-e-money.png"
-          img="/images/america.png"
-          @click="selectAsset('Song-E Money')"
-          :class="{ selected: selectedAsset === 'Song-E Money' }"
-        />
-
-        <!-- <div class="card text-center">
-          <div class="card-body">
-            <h6>My Wallet (USD)</h6>
-            <div class="wallet-balance">
-              <h3>0 USD</h3>
-            </div>
-            <button class="btn btn-primary">Deposit</button>
-            <button class="btn btn-secondary">Withdraw</button>
-          </div>
-        </div> -->
+      <div class="col-lg-4 col-md-12">
+        <!-- Song-E Money 카드 -->
+        <AccountsCard title="Song-E Money" :balance="100" currency="USD" backgroundImage="/images/song-e-money.png"
+          icon="/images/america.png" />
       </div>
 
       <!-- KRW Wallet -->
-      <div class="col-lg-6 col-md-12">
+      <div class="col-lg-4 col-md-12">
         <!-- Won-E Money 카드 -->
-        <DefaultInfoCard
-          title="Won-E Money"
-          :value="formattedWonEMoneyBalance"
-          img-src="images/won-e-money.png"
-          img="/images/korea.png"
-          @click="selectAsset('Won-E Money')"
-          :class="{ selected: selectedAsset === 'Won-E Money' }"
-        />
-
-        <!-- <div class="card text-center">
-          <div class="card-body">
-            <h6>My Wallet (KRW)</h6>
-            <div class="wallet-balance">
-              <h3>0 KRW</h3>
-            </div>
-            <button class="btn btn-primary">Deposit</button>
-            <button class="btn btn-secondary">Withdraw</button>
-          </div>
-        </div> -->
+        <AccountsCard title="Won-E Money" :balance="100" currency="KRW" backgroundImage="/images/won-e-money.png"
+        icon="/images/korea.png" />
       </div>
     </div>
 
@@ -60,48 +26,23 @@
           <div class="col-lg-7 col-md-12 my-3">
             <h6>Exchange Rate</h6>
             <div class="chart-container">
-              <ExchangeRateChart
-                chartId="toexchangeChart"
-                period="1m"
-                chartType="to"
-              />
+              <ExchangeRateChart chartId="toexchangeChart" period="1m" chartType="to" />
             </div>
           </div>
 
-          <div
-            class="col-lg-5 col-md-12 d-flex flex-column justify-content-center my-3"
-          >
+          <div class="col-lg-5 col-md-12 d-flex flex-column justify-content-center my-3">
             <div class="mb-3">
               <h6>Convert USD to KRW</h6>
               <div class="d-flex align-items-center">
                 <div class="position-relative flex-grow-1">
-                  <input
-                    type="number"
-                    class="form-control"
-                    v-model.number="usdAmount"
-                    @input="convertToKrw"
-                    aria-label="Amount in USD"
-                  />
-                  <img
-                    src="@/assets/img/icons/flags/US.png"
-                    alt="USA Flag"
-                    class="flag-icon"
-                  />
+                  <input type="number" class="form-control" v-model.number="usdAmount" @input="convertToKrw"
+                    aria-label="Amount in USD" />
+                  <img src="@/assets/img/icons/flags/US.png" alt="USA Flag" class="flag-icon" />
                 </div>
                 <span class="mx-3">=</span>
                 <div class="position-relative flex-grow-1">
-                  <input
-                    type="text"
-                    class="form-control"
-                    :value="krwAmount"
-                    readonly
-                    aria-label="Amount in KRW"
-                  />
-                  <img
-                    src="@/assets/img/icons/flags/KR.png"
-                    alt="KRW Flag"
-                    class="flag-icon"
-                  />
+                  <input type="text" class="form-control" :value="krwAmount" readonly aria-label="Amount in KRW" />
+                  <img src="@/assets/img/icons/flags/KR.png" alt="KRW Flag" class="flag-icon" />
                 </div>
               </div>
             </div>
@@ -109,31 +50,13 @@
               <h6>Convert KRW to USD</h6>
               <div class="d-flex align-items-center">
                 <div class="position-relative flex-grow-1">
-                  <input
-                    type="number"
-                    class="form-control"
-                    v-model.number="krwAmountReverse"
-                    @input="convertToUsd"
-                  />
-                  <img
-                    src="@/assets/img/icons/flags/KR.png"
-                    alt="KRW Flag"
-                    class="flag-icon"
-                  />
+                  <input type="number" class="form-control" v-model.number="krwAmountReverse" @input="convertToUsd" />
+                  <img src="@/assets/img/icons/flags/KR.png" alt="KRW Flag" class="flag-icon" />
                 </div>
                 <span class="mx-3">=</span>
                 <div class="position-relative flex-grow-1">
-                  <input
-                    type="text"
-                    class="form-control"
-                    :value="usdAmountReverse"
-                    readonly
-                  />
-                  <img
-                    src="@/assets/img/icons/flags/US.png"
-                    alt="USA Flag"
-                    class="flag-icon"
-                  />
+                  <input type="text" class="form-control" :value="usdAmountReverse" readonly />
+                  <img src="@/assets/img/icons/flags/US.png" alt="USA Flag" class="flag-icon" />
                 </div>
               </div>
             </div>
@@ -143,7 +66,7 @@
     </div>
 
     <!-- Calendar Section -->
-    <div class="row my-3">
+    <div class="row">
       <div class="col-lg-12">
         <div class="calendar-container">
           <!-- Insert calendar here -->
@@ -153,7 +76,7 @@
     </div>
 
     <!-- Map Section -->
-    <div class="row my-3">
+    <div class="row">
       <div class="col-lg-12">
         <div class="map-area">
           <MapComponent />
@@ -209,14 +132,6 @@ onMounted(() => {
 </script>
 
 <style scoped>
-.content-area {
-  padding: 20px;
-  background-color: #f8f9fa;
-}
-
-.container-fluid {
-  max-width: 1200px;
-}
 
 .card {
   margin-bottom: 20px;
