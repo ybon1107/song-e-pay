@@ -1,15 +1,15 @@
 <script setup>
 import { ref, computed, onBeforeUnmount, onBeforeMount } from "vue";
 import { useStore } from "vuex";
-import { useSigninStore } from "@/stores/signinStore";
+import { useSignupStore } from "@/stores/signupStore";
 import ArgonAlert from "@/components/templates/ArgonAlert.vue";
 import ArgonButton from "@/components/templates/ArgonButton.vue";
 
 const body = document.getElementsByTagName("body")[0];
 const store = useStore();
-const signinStore = useSigninStore();
+const signupStore = useSignupStore();
 
-const email = computed(() => signinStore.email);
+const email = computed(() => signupStore.email);
 
 const isButtonEnabled = ref(false); // 버튼 활성화 상태
 // const timer = ref(60); // 1분 카운트다운
