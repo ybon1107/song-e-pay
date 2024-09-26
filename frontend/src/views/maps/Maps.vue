@@ -434,8 +434,8 @@ export default {
                         // InfoWindow에 오늘의 운영시간 추가
                         const infoWindow = new google.maps.InfoWindow({
                           content: `<div><strong>${placeDetails.name}</strong><br>
-                                주소: ${placeDetails.formatted_address}<br>
-                                오늘의 운영시간: ${todayOpeningHours}</div>`,
+                            <strong>주소:</strong> ${placeDetails.formatted_address}<br>
+                            <strong>오늘의 운영시간:</strong> ${todayOpeningHours}</div>`,
                         });
 
                         marker.addListener('click', () => {
