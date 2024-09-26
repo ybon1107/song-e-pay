@@ -54,12 +54,17 @@
                 <span class="equals-symbol">=</span>
                 <input
                   type="number"
-                  v-model="alertRate"
+                  v-model="alertRateUsdToKrw"
                   class="form-control alert-input"
                 />
                 <span>KRW</span>
               </div>
-              <button class="btn btn-warning w-100 mt-2">알림 설정</button>
+              <button
+                class="btn btn-warning w-100 mt-3"
+                @click="saveAlertRate(1, 0, alertRateUsdToKrw)"
+              >
+                알림 설정
+              </button>
             </div>
           </div>
         </div>
@@ -118,12 +123,17 @@
                 <span class="equals-symbol">=</span>
                 <input
                   type="number"
-                  v-model="alertRate"
+                  v-model="alertRateKrwToUsd"
                   class="form-control alert-input"
                 />
                 <span>USD</span>
               </div>
-              <button class="btn btn-warning w-100 mt-2">알림 설정</button>
+              <button
+                @click="saveAlertRate(0, 1, alertRateKrwToUsd)"
+                class="btn btn-warning w-100 mt-3"
+              >
+                알림 설정
+              </button>
             </div>
           </div>
         </div>
@@ -140,38 +150,36 @@
               class="alert alert-info clickable-alert"
               role="button"
               tabindex="0"
-              @keypress.enter="$router.push('/set-alert')"
-              aria-label="Set an alert for exchange rates"
             >
-              <span>Set an alert for exchange rates</span>
+              <span>자동 환전 설정 페이지</span>
             </div>
             <div class="form-group">
-              <label for="autoCondition">Auto Condition</label>
+              <label for="autoCondition">자동 환전 설정 내역</label>
               <input
                 type="text"
                 class="form-control"
                 id="autoCondition"
-                value="Target Exchange: 1,330 KRW. Current rate: 1,000,000 KRW = 90 USD"
+                :value="autoCondition"
                 readonly
               />
             </div>
             <div class="form-group">
-              <label for="targetRate1">Target Rate 1</label>
+              <label for="targetRate1">환율 알림 설정 내역</label>
               <input
                 type="text"
                 class="form-control"
                 id="targetRate1"
-                value="1,330 KRW"
+                :value="targetRate1"
                 readonly
               />
             </div>
             <div class="form-group">
-              <label for="targetRate2">Target Rate 2</label>
+              <label for="targetRate2">환율 알림 설정 내역</label>
               <input
                 type="text"
                 class="form-control"
                 id="targetRate2"
-                value="1,329 KRW"
+                :value="targetRate2"
                 readonly
               />
             </div>
@@ -186,6 +194,7 @@
 import { ref, onMounted, computed } from "vue";
 import { useExchangeStore } from "@/stores/exchangeStore";
 import ExchangeRateChart from "@/views/Chart/ExchangeRateChart.vue";
+import axios from "axios";
 
 // Data variables
 const usdAmount = ref(1);
@@ -235,6 +244,41 @@ const setToPeriod = (period) => {
 
 const setFromPeriod = (period) => {
   fromSelectedPeriod.value = period;
+};
+
+// 알림 저장 함수
+const alertRateUsdToKrw = ref(null); // USD -> KRW 알림 목표 환율
+const alertRateKrwToUsd = ref(null); // KRW -> USD 알림 목표 환율
+
+const saveAlertRate = async (baseCode, targetCode, targetExchange) => {
+  try {
+    // const token = localStorage.getItem("jwt_token"); // JWT 토큰 가져오기
+    // userNo를 추가(임시)
+    const userNo = 1;
+    console.log(userNo, baseCode, targetCode, targetExchange);
+    // 서버에 POST 요청 보내기
+    const response = await axios.post(
+      "/api/exchange-reservation",
+      {
+        userNo: userNo,
+        baseCode: baseCode,
+        targetCode: targetCode,
+        targetExchange: targetExchange,
+      }
+      // {
+      //   headers: {
+      //     Authorization: `Bearer ${token}`, // 인증 헤더에 토큰 추가
+      //   },
+      // }
+    );
+
+    if (response.status === 200) {
+      alert("환율 알림이 성공적으로 저장되었습니다.");
+    }
+  } catch (error) {
+    console.error("환율 알림 저장 중 오류 발생:", error);
+    alert("환율 알림 저장에 실패했습니다. 오류: " + error.response.data);
+  }
 };
 </script>
 
@@ -331,7 +375,7 @@ input[type="number"] {
 }
 
 .alert-input {
-  width: 100px;
+  width: 60%;
   text-align: center;
   white-space: nowrap;
 }
