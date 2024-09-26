@@ -12,21 +12,54 @@
             <ExchangeRateChart chartId="toexchangeChart" :period="toSelectedPeriod" chartType="to" />
             
             <div class="chart-button-container">
-              <template v-for="period in ['1y', '6m', '3m', '1m']" :key="period">
-                <button class="chart-btn" :class="{ selected: toSelectedPeriod === period }"
-                  @click="setToPeriod(period)">
+              <template
+                v-for="period in ['1y', '6m', '3m', '1m']"
+                :key="period"
+              >
+                <button
+                  class="chart-btn"
+                  :class="{ selected: toSelectedPeriod === period }"
+                  @click="setToPeriod(period)"
+                >
                   {{ period }}
                 </button>
               </template>
             </div>
             
           </div>
-          <div class="col-md-4 d-flex flex-column justify-content-center">
-            <input type="number" class="form-control mb-3" v-model.number="usdAmount" @input="convertToKrw"
-              aria-label="Amount in USD" />
-            <span class="text-center mb-3">=</span>
-            <input type="text" class="form-control mb-3" :value="krwAmount" readonly aria-label="Amount in KRW" />
+          <div class="col-md-4 d-flex flex-column justify-content-center mt-6">
+            <input
+              type="number"
+              class="form-control mb-1"
+              v-model.number="usdAmount"
+              @input="convertToKrw"
+              aria-label="Amount in USD"
+            />
+            <span class="text-center mb-1">=</span>
+            <input
+              type="text"
+              class="form-control mb-3"
+              :value="krwAmount"
+              readonly
+              aria-label="Amount in KRW"
+            />
             <button class="btn btn-primary w-100">Buy</button>
+            <!-- 환율 알림 Section -->
+            <div class="exchange-alert-container">
+              <span class="alert-title">환율 알림 설정</span>
+              <span class="alert-content">목표 환율 입력하시오.</span>
+              <div class="exchange-input">
+                <span>1 USD</span>
+                <span class="equals-symbol">=</span>
+                <input
+                  type="number"
+                  v-model="alertRate"
+                  class="form-control alert-input"
+                />
+                <span>KRW</span>
+              </div>
+              <button class="btn btn-warning w-100 mt-2">알림 설정</button>
+            </div>
           </div>
         </div>
       </div>
@@ -38,23 +71,59 @@
         <div class="row px-3">
           <div class="col-md-8">
             <h6 class="mt-3">1 KRW = {{ currentFromKrw }} USD</h6>
-                <ExchangeRateChart chartId="fromexchangeChart" :period="fromSelectedPeriod" chartType="from" />
-                <div class="chart-button-container">
-                  <template v-for="period in ['1y', '6m', '3m', '1m']" :key="period">
-                    <button class="chart-btn" :class="{ selected: fromSelectedPeriod === period }"
-                      @click="setFromPeriod(period)">
-                      {{ period }}
-                    </button>
-                  </template>
-                </div>
+            <ExchangeRateChart
+              chartId="fromexchangeChart"
+              :period="fromSelectedPeriod"
+              chartType="from"
+            />
+            <div class="chart-button-container">
+              <template
+                v-for="period in ['1y', '6m', '3m', '1m']"
+                :key="period"
+              >
+                <button
+                  class="chart-btn"
+                  :class="{ selected: fromSelectedPeriod === period }"
+                  @click="setFromPeriod(period)"
+                >
+                  {{ period }}
+                </button>
+              </template>
+            </div>
           </div>
-          <div class="col-md-4 d-flex flex-column justify-content-center">
-            <input type="number" class="form-control mb-3" v-model.number="krwAmountReverse" @input="convertToUsd"
-              aria-label="Amount in KRW" />
-            <span class="text-center mb-3">=</span>
-            <input type="number" class="form-control mb-3" :value="usdAmountReverse" readonly
-              aria-label="Amount in USD" />
+          <div class="col-md-4 d-flex flex-column justify-content-center mt-6">
+            <input
+              type="number"
+              class="form-control mb-1"
+              v-model.number="krwAmountReverse"
+              @input="convertToUsd"
+              aria-label="Amount in KRW"
+            />
+            <span class="text-center mb-1">=</span>
+            <input
+              type="number"
+              class="form-control mb-3"
+              :value="usdAmountReverse"
+              readonly
+              aria-label="Amount in USD"
+            />
             <button class="btn btn-danger w-100">Sell</button>
+            <!-- 환율 알림 Section -->
+            <div class="exchange-alert-container">
+              <span class="alert-title">환율 알림 설정</span>
+              <span class="alert-content">목표 환율 입력하시오.</span>
+              <div class="exchange-input">
+                <span>1 KRW</span>
+                <span class="equals-symbol">=</span>
+                <input
+                  type="number"
+                  v-model="alertRate"
+                  class="form-control alert-input"
+                />
+                <span>USD</span>
+              </div>
+              <button class="btn btn-warning w-100 mt-2">알림 설정</button>
+            </div>
           </div>
         </div>
       </div>
@@ -65,22 +134,45 @@
       <div class="card-body">
         <div class="row">
           <div class="col-lg-12">
-            <div @click="$router.push('/set-alert')" class="alert alert-info clickable-alert" role="button" tabindex="0"
-              @keypress.enter="$router.push('/set-alert')" aria-label="Set an alert for exchange rates">
+            <div
+              @click="$router.push('/set-alert')"
+              class="alert alert-info clickable-alert"
+              role="button"
+              tabindex="0"
+              @keypress.enter="$router.push('/set-alert')"
+              aria-label="Set an alert for exchange rates"
+            >
               <span>Set an alert for exchange rates</span>
             </div>
             <div class="form-group">
               <label for="autoCondition">Auto Condition</label>
-              <input type="text" class="form-control" id="autoCondition"
-                value="Target Exchange: 1,330 KRW. Current rate: 1,000,000 KRW = 90 USD" readonly />
+              <input
+                type="text"
+                class="form-control"
+                id="autoCondition"
+                value="Target Exchange: 1,330 KRW. Current rate: 1,000,000 KRW = 90 USD"
+                readonly
+              />
             </div>
             <div class="form-group">
               <label for="targetRate1">Target Rate 1</label>
-              <input type="text" class="form-control" id="targetRate1" value="1,330 KRW" readonly />
+              <input
+                type="text"
+                class="form-control"
+                id="targetRate1"
+                value="1,330 KRW"
+                readonly
+              />
             </div>
             <div class="form-group">
               <label for="targetRate2">Target Rate 2</label>
-              <input type="text" class="form-control" id="targetRate2" value="1,329 KRW" readonly />
+              <input
+                type="text"
+                class="form-control"
+                id="targetRate2"
+                value="1,329 KRW"
+                readonly
+              />
             </div>
           </div>
         </div>
@@ -146,6 +238,16 @@ const setFromPeriod = (period) => {
 </script>
 
 <style scoped>
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
 .clickable-alert {
   text-align: center;
   cursor: pointer;
@@ -166,7 +268,6 @@ const setFromPeriod = (period) => {
   width: 100%;
   padding: 1rem;
 }
-
 
 .chart-btn {
   flex-grow: 1;
@@ -196,5 +297,55 @@ const setFromPeriod = (period) => {
 .chart-btn:hover {
   background-color: #f0f0f0;
   /* 호버 시 버튼 배경색 */
+}
+
+.exchange-alert-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 1rem;
+  text-align: center;
+}
+
+.alert-title {
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+  text-align: left;
+  width: 100%;
+}
+
+.alert-content {
+  margin-bottom: 0.5rem;
+  text-align: left;
+  width: 100%;
+  font-size: small;
+}
+
+.exchange-input {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  width: 100%;
+}
+
+.alert-input {
+  width: 100px;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.equals-symbol {
+  margin: 0 0.2rem;
+  font-weight: bold;
+}
+
+.btn-warning {
+  background-color: #ffcc00;
+  border: none;
+}
+
+.btn-warning:hover {
+  background-color: #ffbb00;
 }
 </style>
