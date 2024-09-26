@@ -1,16 +1,16 @@
 <script setup>
-import { ref, computed, onBeforeUnmount, onBeforeMount } from "vue";
-import { useStore } from "vuex";
-import { useRouter } from "vue-router";
-import { useSigninStore } from "@/stores/signinStore";
-import axios from "axios";
-import ArgonInput from "@/components/templates/ArgonInput.vue";
-import ArgonButton from "@/components/templates/ArgonButton.vue";
-import PhoneInput from "@/components/signUp/PhoneInput.vue";
-import flatPickr from "vue-flatpickr-component";
-import "flatpickr/dist/flatpickr.css";
+import { ref, computed, onBeforeUnmount, onBeforeMount } from 'vue';
+import { useStore } from 'vuex';
+import { useRouter } from 'vue-router';
+import { useSigninStore } from '@/stores/signinStore';
+import axios from 'axios';
+import ArgonInput from '@/components/templates/ArgonInput.vue';
+import ArgonButton from '@/components/templates/ArgonButton.vue';
+import PhoneInput from '@/components/signUp/PhoneInput.vue';
+import flatPickr from 'vue-flatpickr-component';
+import 'flatpickr/dist/flatpickr.css';
 
-const body = document.getElementsByTagName("body")[0];
+const body = document.getElementsByTagName('body')[0];
 const store = useStore();
 const signinStore = useSigninStore();
 const router = useRouter();
@@ -20,29 +20,29 @@ onBeforeMount(() => {
   store.state.showNavbar = false;
   store.state.showSidenav = false;
   store.state.showFooter = false;
-  body.classList.remove("bg-gray-100");
+  body.classList.remove('bg-gray-100');
 });
 onBeforeUnmount(() => {
   store.state.hideConfigButton = false;
   store.state.showNavbar = true;
   store.state.showSidenav = true;
   store.state.showFooter = true;
-  body.classList.add("bg-gray-100");
+  body.classList.add('bg-gray-100');
 });
 
 const email = computed(() => signinStore.email);
 
 // 비밀번호 입력 필드 상태
-const password = ref("");
-const confirmPassword = ref("");
+const password = ref('');
+const confirmPassword = ref('');
 
 // 비밀번호 입력 시 공백 제거
 const handlePasswordInput = (event) => {
-  password.value = event.target.value.replace(/\s/g, "");
+  password.value = event.target.value.replace(/\s/g, '');
 };
 
 const handleConfirmPasswordInput = (event) => {
-  confirmPassword.value = event.target.value.replace(/\s/g, "");
+  confirmPassword.value = event.target.value.replace(/\s/g, '');
 };
 
 // 비밀번호 일치 여부 검사
@@ -51,25 +51,25 @@ const isPasswordMatch = computed(() => {
 });
 
 // 거주 국가 상태
-const country = ref("Country");
+const country = ref('Country');
 
 // 성 및 이름 입력 필드 상태
-const firstName = ref("");
-const lastName = ref("");
+const firstName = ref('');
+const lastName = ref('');
 
 // 생년월일 입력 필드 상태
-const birth = ref("");
+const birth = ref('');
 
 // 특정 년수를 뺀 날짜를 반환하는 함수
 function calculateDateYearsAgo(years) {
   const date = new Date();
   date.setFullYear(date.getFullYear() - years);
-  return date.toISOString().split("T")[0];
+  return date.toISOString().split('T')[0];
 }
 
 // 전화번호와 국가 코드 상태
-const phoneNumber = ref("");
-const countryCallingCode = ref("+1");
+const phoneNumber = ref('');
+const countryCallingCode = ref('+1');
 
 // 에러 상태
 const passwordError = ref(false);
@@ -86,10 +86,10 @@ const isFormValid = computed(() => {
     confirmPassword.value.length >= 8 &&
     isPasswordNotBlank.value &&
     isPasswordMatch.value &&
-    country.value !== "Country" &&
-    firstName.value !== "" &&
-    lastName.value !== "" &&
-    birth.value !== ""
+    country.value !== 'Country' &&
+    firstName.value !== '' &&
+    lastName.value !== '' &&
+    birth.value !== ''
   );
 });
 
@@ -98,10 +98,9 @@ const handleSubmit = async (event) => {
   event.preventDefault();
 
   passwordError.value = password.value.length < 8;
-  confirmPasswordError.value =
-    confirmPassword.value.length < 8 || !isPasswordMatch.value;
+  confirmPasswordError.value = confirmPassword.value.length < 8 || !isPasswordMatch.value;
   birthError.value = !birth.value;
-  countryError.value = country.value === "Country";
+  countryError.value = country.value === 'Country';
   firstNameError.value = !firstName.value;
   lastNameError.value = !lastName.value;
 
@@ -109,7 +108,7 @@ const handleSubmit = async (event) => {
     return;
   } else {
     try {
-      const response = await axios.post("http://localhost:8080/register", {
+      const response = await axios.post('http://localhost:8080/register', {
         password: password.value,
         firstName: firstName.value,
         lastName: lastName.value,
@@ -119,14 +118,14 @@ const handleSubmit = async (event) => {
       });
 
       if (response.data.success) {
-        router.push("/login");
+        router.push('/login');
       } else {
         // 등록 실패 처리
-        alert("Registration failed. Please try again.");
+        alert('Registration failed. Please try again.');
       }
     } catch (error) {
-      console.error("Registration error:", error);
-      alert("An error occurred during registration. Please try again.");
+      console.error('Registration error:', error);
+      alert('An error occurred during registration. Please try again.');
     }
   }
 };
@@ -139,9 +138,7 @@ const handleSubmit = async (event) => {
       <div class="container">
         <div class="row justify-content-center">
           <!-- 카드 컨테이너 -->
-          <div
-            class="mx-auto col-xl-5 col-lg-6 col-md-8 d-flex flex-column mx-lg-0"
-          >
+          <div class="mx-auto col-xl-5 col-lg-6 col-md-8 d-flex flex-column mx-lg-0">
             <div class="card card-plain">
               <!-- 카드 헤더: 제목 -->
               <div class="pb-0 card-header text-center">
@@ -153,22 +150,13 @@ const handleSubmit = async (event) => {
                   <div class="row">
                     <!-- 사용자 이메일 필드 -->
                     <div class="col-md-12">
-                      <label for="email" class="form-control-label"
-                        >Your email address</label
-                      >
+                      <label for="email" class="form-control-label">Your email address</label>
                       <!-- 이전에 입력받은 값 pinia에서 가져와서 넣고 입력변경 막기 -->
-                      <argon-input
-                        disabled
-                        id="email"
-                        type="email"
-                        @input="email"
-                      ></argon-input>
+                      <argon-input disabled id="email" type="email" @input="email"></argon-input>
                     </div>
                     <!-- 비밀번호 입력 필드 -->
                     <div class="col-md-12">
-                      <label for="password" class="form-control-label"
-                        >Your password</label
-                      >
+                      <label for="password" class="form-control-label">Your password</label>
                       <argon-input
                         isRequired
                         id="password"
@@ -180,16 +168,9 @@ const handleSubmit = async (event) => {
                         }"
                         :error="passwordError && password.length < 8"
                       ></argon-input>
-                      <div
-                        v-if="passwordError"
-                        class="invalid-feedback text-xs mb-1"
-                      >
-                        Please provide a password with at least 8 characters.
-                      </div>
+                      <div v-if="passwordError" class="invalid-feedback text-xs mb-1">Please provide a password with at least 8 characters.</div>
                       <!-- 비밀번호 입력 확인 필드 -->
-                      <label for="confirm-password" class="form-control-label"
-                        >Confirm your password</label
-                      >
+                      <label for="confirm-password" class="form-control-label">Confirm your password</label>
                       <argon-input
                         isRequired
                         id="confirm-password"
@@ -197,35 +178,18 @@ const handleSubmit = async (event) => {
                         v-model="confirmPassword"
                         @input="handleConfirmPasswordInput"
                         :class="{
-                          'is-invalid':
-                            (confirmPasswordError &&
-                              confirmPassword.length < 8) ||
-                            !isPasswordMatch,
+                          'is-invalid': (confirmPasswordError && confirmPassword.length < 8) || !isPasswordMatch,
                         }"
                         :success="isPasswordMatch"
-                        :error="
-                          confirmPasswordError && confirmPassword.length < 8
-                        "
+                        :error="confirmPasswordError && confirmPassword.length < 8"
                       />
-                      <div
-                        v-if="confirmPasswordError"
-                        class="invalid-feedback text-xs mb-1"
-                      >
-                        Please confirm your password with at least 8 characters.
-                      </div>
-                      <div
-                        v-if="confirmPassword !== '' && !isPasswordMatch"
-                        class="invalid-feedback text-xs"
-                      >
-                        Passwords do not match or are less than 8 characters.
-                      </div>
+                      <div v-if="confirmPasswordError" class="invalid-feedback text-xs mb-1">Please confirm your password with at least 8 characters.</div>
+                      <div v-if="confirmPassword !== '' && !isPasswordMatch" class="invalid-feedback text-xs">Passwords do not match or are less than 8 characters.</div>
                     </div>
                     <!-- <div class="col-md-12"></div> -->
                     <!-- 거주 국가 입력 필드 -->
                     <div class="col-md-12">
-                      <label for="country" class="form-control-label"
-                        >Country of residence</label
-                      >
+                      <label for="country" class="form-control-label">Country of residence</label>
                       <div class="form-group">
                         <select
                           id="country"
@@ -240,19 +204,12 @@ const handleSubmit = async (event) => {
                           <option value="2">🇮🇩 Indonesia</option>
                           <option value="3">🇻🇳 Vietnam</option>
                         </select>
-                        <div
-                          v-if="country === 'Country'"
-                          class="invalid-feedback text-xs"
-                        >
-                          Please select a country.
-                        </div>
+                        <div v-if="country === 'Country'" class="invalid-feedback text-xs">Please select a country.</div>
                       </div>
                     </div>
                     <!-- 이름 입력 필드 -->
                     <div class="col-md-12">
-                      <label for="first-name" class="form-control-label"
-                        >Full legal first and middle name(s)</label
-                      >
+                      <label for="first-name" class="form-control-label">Full legal first and middle name(s)</label>
                       <argon-input
                         isRequired
                         id="first-name"
@@ -263,18 +220,11 @@ const handleSubmit = async (event) => {
                         }"
                         :error="firstNameError && firstName === ''"
                       />
-                      <div
-                        v-if="firstNameError"
-                        class="invalid-feedback text-xs"
-                      >
-                        Please provide your full legal first and middle name(s).
-                      </div>
+                      <div v-if="firstNameError" class="invalid-feedback text-xs">Please provide your full legal first and middle name(s).</div>
                     </div>
                     <!-- 성 입력 필드 -->
                     <div class="col-md-12">
-                      <label for="last-name" class="form-control-label"
-                        >Full legal last name(s)</label
-                      >
+                      <label for="last-name" class="form-control-label">Full legal last name(s)</label>
                       <argon-input
                         isRequired
                         id="last-name"
@@ -285,18 +235,11 @@ const handleSubmit = async (event) => {
                         }"
                         :error="lastNameError && lastName === ''"
                       />
-                      <div
-                        v-if="lastNameError"
-                        class="invalid-feedback text-xs"
-                      >
-                        Please provide your full legal last name(s).
-                      </div>
+                      <div v-if="lastNameError" class="invalid-feedback text-xs">Please provide your full legal last name(s).</div>
                     </div>
                     <!-- 생년월일 입력 필드 -->
                     <div class="col-md-12 form-group">
-                      <label for="birth" class="form-control-label"
-                        >Date of birth</label
-                      >
+                      <label for="birth" class="form-control-label">Date of birth</label>
                       <flat-pickr
                         id="birth"
                         v-model="birth"
@@ -311,31 +254,16 @@ const handleSubmit = async (event) => {
                           'is-invalid': birth === '' && birthError,
                         }"
                       />
-                      <div v-if="birthError" class="invalid-feedback text-xs">
-                        Please provide a valid date of birth.
-                      </div>
+                      <div v-if="birthError" class="invalid-feedback text-xs">Please provide a valid date of birth.</div>
                     </div>
                     <!-- 전화번호 입력 필드 -->
                     <div class="col-md-12">
-                      <label for="name" class="form-control-label"
-                        >Your phone number</label
-                      >
-                      <PhoneInput
-                        disabled
-                        v-model:phoneNumber="phoneNumber"
-                        v-model:countryCallingCode="countryCallingCode"
-                      />
+                      <label for="name" class="form-control-label">Your phone number</label>
+                      <PhoneInput disabled v-model:phoneNumber="phoneNumber" v-model:countryCallingCode="countryCallingCode" />
                     </div>
                     <!-- 다음 버튼 -->
                     <div class="text-center">
-                      <argon-button
-                        fullWidth
-                        color="success"
-                        variant="gradient"
-                        class="my-4 mb-2"
-                        type="submit"
-                        >Continue</argon-button
-                      >
+                      <argon-button fullWidth color="success" variant="gradient" class="my-4 mb-2" type="submit">Continue</argon-button>
                     </div>
                   </div>
                 </form>

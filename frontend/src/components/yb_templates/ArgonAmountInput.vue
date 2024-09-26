@@ -8,7 +8,7 @@
         :id="id"
         :type="type"
         class="form-control"
-        :class="getClasses(size, success, error)"
+        :class="{ 'is-invalid': errorMessage }"
         :name="name"
         :value="formattedValue"
         :placeholder="placeholder"
@@ -20,8 +20,9 @@
         <i :class="getIcon(icon)"></i>
       </span>
       <span class="input-group-text">{{ unit }}</span>
+      <div v-if="errorMessage" class="invalid-feedback text-xs mb-1">{{ errorMessage }}</div>
     </div>
-    <p v-if="errorMessage" class="error">{{ errorMessage }}</p>
+
     <!-- 에러 메시지 표시 -->
   </div>
 </template>
@@ -180,11 +181,5 @@ input {
   background-color: #e9ecef;
   border: 1px solid #ced4da;
   border-radius: 0.375rem;
-}
-
-.error {
-  color: red;
-  font-size: 14px;
-  margin-top: 4px;
 }
 </style>
