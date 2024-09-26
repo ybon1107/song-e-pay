@@ -18,15 +18,42 @@
         where user_no = #{userNo}
     </select>
 
-    <!-- 알람 내역 삭제    -->
+    <!-- 알람 내역 삭제 -->
     <delete id="deleteReservation">
         DELETE from exchange_reservation
         where res_no = #{resNo}
     </delete>
 
+    <!-- 알람 내역 갯수 -->
     <select id="countReservation" parameterType="map" resultType="Integer">
         select count(*)
         from exchange_reservation
         where user_no = #{userNo} and target_krw = #{targetKrw}
+    </select>
+
+    <!-- 자동 환전 예약 -->
+    <insert id="insertAutoexchange" parameterType="exchangeReservationDTO">
+        insert into exchange_reservation(user_no, base_code, target_code, target_exchange, target_krw)
+        values (#{userNo}, #{baseCode}, #{targetCode}, #{targetExchange}, #{targetKrw})
+    </insert>
+
+    <!-- 자동 환전 예약 화면에 보여주기 -->
+    <select id="selectAutoexchange" parameterType="int" resultType="exchangeReservationDTO">
+        select base_code, target_code, target_exchange, target_krw
+        from exchange_reservation
+        where user_no = #{userNo}
+    </select>
+
+    <!-- 자동 환전 예약 삭제 -->
+    <delete id="deleteAutoexchange">
+        DELETE from exchange_reservation
+        where res_no = #{resNo}
+    </delete>
+
+    <!-- 자동 환전 예약 갯수 -->
+    <select id="countAutoexchange" parameterType="map" resultType="Integer">
+        select count(*)
+        from exchange_reservation
+        where user_no = #{userNo} and target_krw != #{targetKrw}
     </select>
 </mapper>

@@ -19,4 +19,16 @@ public interface ExchangeReservationMapper {
 
     // 알람 내역 카운트
     int countReservation(Map map);
+
+    // 자동 환전 예약
+    int insertAutoexchange(ExchangeReservationDTO exchangeReservationDTO);
+
+    // 자동 환전 예약 화면에 보여주기
+    List<ExchangeReservationDTO> selectAutoexchange(Integer userNo);
+
+    // 자동 환전 예약 삭제
+    int deleteAutoexchange(Integer resNo);
+
+    // 자동 환전 예약 카운트
+    int countAutoexchange(Map map);
 }
