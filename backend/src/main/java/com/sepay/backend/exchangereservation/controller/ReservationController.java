@@ -25,7 +25,7 @@ public class ReservationController {
             exchangeReservationService.saveExchangeReservation(exchangeReservationDTO);
             return ResponseEntity.ok().body("환율 알림이 성공적으로 저장되었습니다.");
         } catch (IllegalArgumentException | IllegalStateException e) {
-            return ResponseEntity.badRequest().body(e.gepotMessage());
+            return ResponseEntity.badRequest().body(e.getMessage());
         } catch (Exception e) {
             log.error("환율 알림 저장 중 오류 발생", e);
             return ResponseEntity.internalServerError().body("서버 오류가 발생했습니다.");
