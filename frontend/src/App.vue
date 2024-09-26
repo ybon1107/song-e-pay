@@ -44,16 +44,12 @@ const navClasses = computed(() => {
 });
 </script>
 <template>
-  <div
-    v-show="layout === 'landing'"
-    class="landing-bg h-100 bg-gradient-primary position-fixed w-100"
-  ></div>
+
+  <div v-show="layout === 'landing'" class="landing-bg h-100 bg-gradient-primary position-fixed w-100"></div>
 
   <sidenav v-if="showSidenav" />
 
-  <main
-    class="main-content position-relative max-height-vh-100 h-100 border-radius-lg"
-  >
+  <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg">
     <!-- nav -->
 
     <navbar :class="[navClasses]" v-if="showNavbar" />
@@ -66,6 +62,10 @@ const navClasses = computed(() => {
       :toggle="toggleConfigurator"
       :class="[showConfig ? 'show' : '', hideConfigButton ? 'd-none' : '']"
     /> -->
+    <!-- 모달을 여기로 이동 -->
+    <teleport to="body">
+      <div id="modal-container"></div>
+    </teleport>
   </main>
 </template>
 
@@ -84,4 +84,15 @@ h1 {
   max-width: 1200px;
 }
 
+.modal-backdrop {
+  z-index: 1060 !important;
+}
+
+.modal {
+  z-index: 1065 !important;
+}
+
+#sidenav-main {
+  z-index: 1050 !important;
+}
 </style>
