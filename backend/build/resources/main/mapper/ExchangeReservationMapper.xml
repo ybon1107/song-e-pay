@@ -4,10 +4,29 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.sepay.backend.exchangereservation.mapper.ExchangeReservationMapper">
-    <select id="selectByUserNo" parameterType="int" resultType="exchangeReservationDTO">
-        select resNo, targetExchange, targetKrw, createAT
+
+    <!-- 알람 내역 저장 -->
+    <insert id="insertReservation" parameterType="exchangeReservationDTO">
+        insert into exchange_reservation(user_no, base_code, target_code, target_exchange)
+        values (#{userNo}, #{baseCode}, #{targetCode}, #{targetExchange})
+    </insert>
+
+    <!-- 알람 내역 화면에 보여주기 -->
+    <select id="selectReservation" parameterType="int" resultType="exchangeReservationDTO">
+        select base_code, target_code, target_exchange
         from exchange_reservation
         where user_no = #{userNo}
     </select>
 
+    <!-- 알람 내역 삭제    -->
+    <delete id="deleteReservation">
+        DELETE from exchange_reservation
+        where res_no = #{resNo}
+    </delete>
+
+    <select id="countReservation" parameterType="map" resultType="Integer">
+        select count(*)
+        from exchange_reservation
+        where user_no = #{userNo} and target_krw = #{targetKrw}
+    </select>
 </mapper>
