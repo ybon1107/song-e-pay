@@ -14,7 +14,7 @@ import java.util.List;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-@RequestMapping(value = "/api/histories", produces = "application/json; charset=UTF-8" )
+@RequestMapping("/api/histories")
 public class HistoryController {
 
     private final HistoryService historyService;

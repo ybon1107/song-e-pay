@@ -14,4 +14,5 @@ public interface HistoryMapper {
     List<HistoryDTO> selectAllHistories();
 
     void updateMemo(HistoryDTO historyDTO);
+    void updateMemo(HistoryDTO historyDTO);
 }
