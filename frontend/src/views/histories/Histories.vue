@@ -1,8 +1,9 @@
 <script setup>
 import { ref, computed, onMounted } from 'vue';
-import Modal from './Modal.vue'; // 모달 창
+// import Modal from './Modal.vue'; // 모달 창
 import axios from 'axios';
 import moment from 'moment'; // moment.js를 통해 unix timeStamp를 변환
+import HistoriesDetailModal from './HistoriesDetailModal.vue';
 
 const selectedCurrency = ref('');
 const transactionType = ref('');
@@ -146,6 +147,15 @@ const transactionTypes = computed(() => {
 const selectedTransaction = ref(null);
 const isModalVisible = ref(false);
 
+const openModal = (transaction) => {
+    selectedTransaction.value = transaction;
+    isModalVisible.value = true;
+};
+
+const closeModal = () => {
+    isModalVisible.value = false;
+};
+
 // 메모 업데이트 기능
 const updateMemo = (newMemo) => {
     if (selectedTransaction.value) {
@@ -157,16 +167,18 @@ const updateMemo = (newMemo) => {
     }
 };
 
-// 거래 내역을 클릭하면 모달을 열고 해당 거래를 선택
-const openModal = (transaction) => {
-    selectedTransaction.value = transaction;
-    isModalVisible.value = true;
-};
 
-// 모달을 닫는 함수
-const closeModal = () => {
-    isModalVisible.value = false;
-};
+
+// 거래 내역을 클릭하면 모달을 열고 해당 거래를 선택
+// const openModal = (transaction) => {
+//     selectedTransaction.value = transaction;
+//     isModalVisible.value = true;
+// };
+
+// // 모달을 닫는 함수
+// const closeModal = () => {
+//     isModalVisible.value = false;
+// };
 
 // 날짜 선택 창 열기
 const openDatePicker = (event) => {
@@ -269,11 +281,12 @@ const MemoUpdate = ({ historyNo, memo }) => {
             </div>
 
             <!-- 모달 컴포넌트  -->
-            <Modal :transaction="selectedTransaction" :isVisible="isModalVisible" @close="closeModal"
-                @updateMemo="MemoUpdate" />
+            <!-- <Modal :transaction="selectedTransaction" :isVisible="isModalVisible" @close="closeModal"
+                @updateMemo="MemoUpdate" /> -->
         </div>
     </div>
 
+    <HistoriesDetailModal v-if="isModalVisible" :transaction="selectedTransaction" @close="closeModal" />
 </template>
 
 <style scoped>
