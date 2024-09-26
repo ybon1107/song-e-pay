@@ -1,5 +1,5 @@
 <template>
-  <div class="container-fluid px-4">
+  <div class="container-fluid">
     <h3>금융 지도</h3>
 
     <div class="row mb-3">

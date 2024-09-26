@@ -1,5 +1,5 @@
 <template>
-  <div class="container-fluid py-4">
+  <div class="container-fluid">
     <h3>Compare Exchange Rate</h3>
 
     <!-- USD to KRW Section -->
@@ -8,7 +8,9 @@
         <div class="row px-3">
           <div class="col-md-8">
             <h6 class="mt-3">1 USD = {{ currentToKrw }} KRW</h6>
+            
             <ExchangeRateChart chartId="toexchangeChart" :period="toSelectedPeriod" chartType="to" />
+            
             <div class="chart-button-container">
               <template v-for="period in ['1y', '6m', '3m', '1m']" :key="period">
                 <button class="chart-btn" :class="{ selected: toSelectedPeriod === period }"
@@ -17,6 +19,7 @@
                 </button>
               </template>
             </div>
+            
           </div>
           <div class="col-md-4 d-flex flex-column justify-content-center">
             <input type="number" class="form-control mb-3" v-model.number="usdAmount" @input="convertToKrw"
