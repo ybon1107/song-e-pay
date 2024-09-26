@@ -40,9 +40,6 @@
     <update id="updateAccount" parameterType="accountDTO">
         UPDATE account
         SET balance = #{balance}
-<<<<<<< HEAD
-        WHEN account_no = #{accountNo}
-=======
         WHERE account_no = #{accountNo}
     </update>
 
