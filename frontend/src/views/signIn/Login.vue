@@ -65,9 +65,6 @@ onMounted(() => {
 const email = ref("");
 const password = ref("");
 
-member.email = email;
-member.password = password;
-
 // 이메일 유효성 검사
 const isEmailValid = computed(() => {
   const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -87,6 +84,10 @@ const passwordError = ref(false);
 const isFormValid = computed(() => {
   return isEmailValid.value && isPasswordValid.value;
 });
+
+// member 객체에 이메일과 비밀번호 할당
+member.email = email;
+member.password = password;
 
 // 폼 제출 처리
 const handleSubmit = async () => {
