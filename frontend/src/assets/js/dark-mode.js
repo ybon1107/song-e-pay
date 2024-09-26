@@ -30,7 +30,7 @@ const cardNavLinksIcons = document.querySelectorAll(".card .nav .nav-link i");
 const cardNavSpan = document.querySelectorAll(".card .nav .nav-link span");
 
 export function activateDarkMode() {
-  body.classList.add("bg-gray-600", "dark-version");
+  body.classList.add("bg-gray-600", "dark-version"); //다크 모두 배경색 변경하는 부분
 
   for (var i = 0; i < cardNavLinksIcons.length; i++) {
     if (cardNavLinksIcons[i].classList.contains("text-dark")) {

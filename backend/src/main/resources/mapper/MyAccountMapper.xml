@@ -4,17 +4,6 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.sepay.backend.myaccount.mapper.MyAccountMapper">
-    <select id="selectKrwAccount" parameterType="String" resultType="krwAccountDTO">
-        select *
-        from krw_account
-        where krw_no = #{krwNo}
-    </select>
-
-    <select id="selectSongAccount" parameterType="String" resultType="songAccountDTO">
-        select *
-        from song_account
-        where song_no = #{songNo}
-    </select>
 
     <!-- 계좌 잔액 확인 -->
     <select id="selectAccountBalance" parameterType="string" resultType="double">
@@ -40,25 +29,38 @@
         for update
     </select>
 
+    <!--  회원 이메일 확인  -->
+    <select id="selectUserEmail" parameterType="integer" resultType="string">
+        select user_id
+        from user
+        where user_no = ${userNo}
+    </select>
+
     <!-- 계좌 잔액 수정 -->
     <update id="updateAccount" parameterType="accountDTO">
         UPDATE account
         SET balance = #{balance}
-        WHEN account_no = #{accountNo}
+        WHERE account_no = #{accountNo}
     </update>
 
     <!-- 송이 계좌 잔액 수정 -->
     <update id="updateSongAccount" parameterType="songAccountDTO">
         UPDATE song_account
         SET balance = #{balance}
-        WHEN song_no = #{songNo}
+        WHERE song_no = #{songNo}
     </update>
 
     <!-- 원화 잔액 수정 -->
     <update id="updateKrwAccount" parameterType="krwAccountDTO">
         UPDATE krw_account
         SET balance = #{balance}
-        WHEN krw_no = #{krwNo}
+        WHERE krw_no = #{krwNo}
     </update>
 
+    <insert id="insertHistory" parameterType="historyDTO">
+        INSERT INTO sepay.history
+        (user_no, song_no, krw_no, type_code, state_code, history_content, amount)
+        VALUES
+            (#{userNo}, #{songNo}, #{krwNo}, #{typeCode}, #{stateCode}, #{historyContent}, #{amount})
+    </insert>
 </mapper>

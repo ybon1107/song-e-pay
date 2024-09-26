@@ -11,8 +11,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.nio.file.Path;
-
 @Slf4j
 @RestController
 @RequiredArgsConstructor
@@ -21,6 +19,7 @@ public class SettingController {
 
     final SettingService settingService;
 
+    @Autowired
     private S3Service s3Service;
 
     // 설정 저장

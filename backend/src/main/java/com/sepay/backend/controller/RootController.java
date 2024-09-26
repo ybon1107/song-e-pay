@@ -12,8 +12,4 @@ import org.springframework.web.bind.annotation.GetMapping;
         System.out.println("RootController created");
     }
 
-    @GetMapping("/")
-    public String root(){
-        return "index";
-    }
 }

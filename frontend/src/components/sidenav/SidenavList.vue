@@ -41,7 +41,7 @@ const getRoute = () => {
         >
           <template v-slot:icon>
             <i
-              class="ni ni-calendar-grid-58 text-warning text-sm opacity-10"
+              class="ni ni-money-coins text-warning text-sm opacity-10"
             ></i>
           </template>
         </sidenav-item>
@@ -54,19 +54,19 @@ const getRoute = () => {
           :navText="isRTL ? 'الفواتیر' : '환율'"
         >
           <template v-slot:icon>
-            <i class="ni ni-credit-card text-success text-sm opacity-10"></i>
+            <i class="ni ni-chart-bar-32 text-success text-sm opacity-10"></i>
           </template>
         </sidenav-item>
       </li>
 
       <li class="nav-item">
         <sidenav-item
-          to="/payments"
-          :class="getRoute() === 'payments' ? 'active' : ''"
+          to="/payment"
+          :class="getRoute() === 'payment' ? 'active' : ''"
           :navText="isRTL ? 'الواقع الافتراضي' : '결제'"
         >
           <template v-slot:icon>
-            <i class="ni ni-app text-info text-sm opacity-10"></i>
+            <i class="ni ni-credit-card text-info text-sm opacity-10"></i>
           </template>
         </sidenav-item>
       </li>
@@ -78,7 +78,7 @@ const getRoute = () => {
           :navText="isRTL ? 'الواقع الافتراضي' : '이용내역'"
         >
           <template v-slot:icon>
-            <i class="ni ni-world-2 text-danger text-sm opacity-10"></i>
+            <i class="ni ni-collection text-danger text-sm opacity-10"></i>
           </template>
         </sidenav-item>
       </li>
@@ -90,7 +90,7 @@ const getRoute = () => {
           :navText="isRTL ? 'الواقع الافتراضي' : '금융지도'"
         >
           <template v-slot:icon>
-            <i class="ni ni-world-2 text-danger text-sm opacity-10"></i>
+            <i class="ni ni-pin-3 text-danger text-sm opacity-10"></i>
           </template>
         </sidenav-item>
       </li>

@@ -1,12 +1,13 @@
 package com.sepay.backend.payment.controller;
 
 import com.google.zxing.WriterException;
-import com.sepay.backend.payment.service.QrService;
-import com.sepay.backend.payment.service.QrServiceImpl;
+import com.sepay.backend.payment.dto.PasswordDTO;
+import com.sepay.backend.payment.service.PaymentService;
+import com.sepay.backend.payment.service.PaymentServiceImpl;
+import com.sepay.backend.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
@@ -17,12 +18,14 @@ import java.io.OutputStream;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/payment")
-public class QRController {
-    private final QrService qrService;
+public class PaymentController {
+    private final PaymentService paymentService;
+    private final UserService userService;
 
-    @Autowired
-    public QRController(QrServiceImpl qrService) {
-        this.qrService = qrService;
+    @PostMapping("/check-password")
+    public boolean checkSecondaryPassword(@RequestBody PasswordDTO passwordDTO){
+        //2차 비밀번호 확인
+        return userService.checkSecondaryPassword(passwordDTO);
     }
 
     @GetMapping("/qr")
@@ -31,7 +34,7 @@ public class QRController {
         String dynamicUrl = url + "?time=" + System.currentTimeMillis();
 
         // QR 코드 이미지 생성
-        byte[] qrBytes = qrService.createQR(dynamicUrl);
+        byte[] qrBytes = paymentService.createQR(dynamicUrl);
 
         // 응답의 content type을 이미지(PNG)로 설정
         response.setContentType("image/png");
