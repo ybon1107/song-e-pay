@@ -9,4 +9,6 @@ public interface UserService {
     boolean checkSecondaryPassword(PasswordDTO passwordDTO);
 
     UserDTO login(String userId, String password);
+
+    int register(UserDTO userDTO);
 }

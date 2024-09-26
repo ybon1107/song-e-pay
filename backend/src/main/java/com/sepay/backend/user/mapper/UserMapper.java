@@ -11,4 +11,6 @@ public interface UserMapper {
     String getSecondaryPassword(int userNo);
 
     UserDTO selectUser(Map map);
+
+    int insertUser(UserDTO userDTO);
 }
