@@ -1,25 +1,31 @@
 <template>
   <div class="container-fluid">
-    <h4>Welcome to Song-E-pay!</h4>
+    <h3>Welcome to Song-E-pay!</h3>
     <!-- Currency Cards Section -->
     <div class="row mt-3">
       <!-- USD Wallet -->
-      <div class="col-lg-4 col-md-12">
+      <div class="col-lg-4 col-md-5">
         <!-- Song-E Money 카드 -->
-        <AccountsCard title="Song-E Money" :balance="100" currency="USD" backgroundImage="/images/song-e-money.png"
-          icon="/images/america.png" />
+        <!-- <AccountsCard title="Song-E Money" :balance="songEMoneyBalance" :currency="USD" backgroundImage="/images/song-e-money.png"
+          icon="/images/america.png" @click="navigateToMyAccounts('Song-E Money')"/> -->
+        <AccountsCard assetType="song-e" currency="USD" @click="navigateToMyAccounts('Song-E Money')"
+          :isSelected="selectedAsset === 'Song-E Money'" />
+
       </div>
 
       <!-- KRW Wallet -->
-      <div class="col-lg-4 col-md-12">
+      <div class="col-lg-4 col-md-5">
         <!-- Won-E Money 카드 -->
-        <AccountsCard title="Won-E Money" :balance="100" currency="KRW" backgroundImage="/images/won-e-money.png"
-        icon="/images/korea.png" />
+        <!-- <AccountsCard title="Won-E Money" :balance="wonEMoneyBalance" :currency="KRW"
+          backgroundImage="/images/won-e-money.png" icon="/images/korea.png"
+          @click="navigateToMyAccounts('Won-E Money')" /> -->
+        <AccountsCard assetType="won-e" currency="KRW" @click="navigateToMyAccounts('Won-E Money')"
+          :isSelected="selectedAsset === 'Won-E Money'" />
       </div>
     </div>
 
     <!-- Graph and Conversion Section -->
-    <div class="card">
+    <div class="card mt-3">
       <div class="card-body">
         <div class="row">
           <!-- Exchange Rate Graph Section -->
@@ -66,7 +72,7 @@
     </div>
 
     <!-- Calendar Section -->
-    <div class="row">
+    <div class="row mt-3">
       <div class="col-lg-12">
         <div class="calendar-container">
           <!-- Insert calendar here -->
@@ -76,7 +82,7 @@
     </div>
 
     <!-- Map Section -->
-    <div class="row">
+    <div class="row mt-3">
       <div class="col-lg-12">
         <div class="map-area">
           <MapComponent />
@@ -92,9 +98,14 @@ import { useExchangeStore } from '@/stores/exchangeStore';
 import ExchangeRateChart from '@/views/Chart/ExchangeRateChart.vue';
 import Calendar from '../Templates/Calendar.vue';
 import MapComponent from '@/views/maps/MapComponent.vue';
-import DefaultInfoCard from '@/views/Cards/AccountsCard.vue';
 import AccountsCard from '@/views/Cards/AccountsCard2.vue';
+import { useRouter } from 'vue-router';
+
+const router = useRouter();
 const store = useExchangeStore();
+
+const songEMoneyBalance = ref(0);
+const wonEMoneyBalance = ref(0);
 
 // Define reactive variables
 const usdAmount = ref(1);
@@ -126,17 +137,20 @@ const fetchExchangeRates = async () => {
   }
 };
 
+// 클릭시 나의 자산으로 이동
+const navigateToMyAccounts = (assetType) => {
+  router.push({
+    name: 'MyAccounts',
+    query: { selectedAsset: assetType }
+  });
+};
+
 onMounted(() => {
   fetchExchangeRates();
 });
 </script>
 
 <style scoped>
-
-.card {
-  margin-bottom: 20px;
-}
-
 .wallet-balance h3 {
   margin-bottom: 20px;
 }
