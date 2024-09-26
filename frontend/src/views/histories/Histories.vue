@@ -12,20 +12,11 @@ const endDate = ref('');
 const searchQuery = ref('');
 const transactions = ref([]);
 
-// 거래 유형 코드 변환
-const getTransactionTypeCodes = (types) => {
-    const typeCodes = {
-        결제: 1,
-        송금: 2,
-        충전: 3,
-        환불: 4,
-        환전: 5,
-        환급: 6,
-    };
-    return types
-        .map((type) => typeCodes[type])
-        .filter((code) => code !== undefined);
-};
+const totalItems = ref(0); // 전체 항목 수
+const pageRequest = ref({
+    page: 1, // 현재 페이지
+    amount: 10, // 페이지당 항목 수
+});
 
 // 거래 유형 옵션 (계좌 종류에 따라 다르게 설정)
 const transactionTypes = computed(() => {
@@ -61,16 +52,28 @@ const applyTransactionFilters = async () => {
             : null,
         endDate: endDate.value ? new Date(endDate.value).toISOString() : null,
         historyContent: searchQuery.value || null,
+        offset: (pageRequest.value.page - 1) * pageRequest.value.amount, // offset 계산
+        amount: pageRequest.value.amount, // 한 페이지에 표시할 개수
     };
 
     try {
-        const response = await historyApi.applyFilters(filters);
-        transactions.value = response.map((transaction) => ({
-            ...transaction,
-            historyDate: formatUnixTimestamp(transaction.historyDate),
-            typeCode: convertTransactionType(transaction.typeCode),
-            stateCode: convertTransactionStatus(transaction.stateCode),
-        }));
+        const response = await historyApi.applyFilters(
+            filters,
+            pageRequest.value
+        );
+
+        // 응답 데이터가 배열인지 확인 후 처리
+        if (response && Array.isArray(response.list)) {
+            totalItems.value = response.totalCount; // 전체 항목 수 업데이트
+            transactions.value = response.list.map((transaction) => ({
+                ...transaction,
+                historyDate: formatUnixTimestamp(transaction.historyDate),
+                typeCode: convertTransactionType(transaction.typeCode),
+                stateCode: convertTransactionStatus(transaction.stateCode),
+            }));
+        } else {
+            console.error('예상하지 않은 응답 형식:', response);
+        }
     } catch (error) {
         console.error('필터링된 거래 내역을 가져오는 중 오류 발생:', error);
     }
@@ -84,17 +87,38 @@ onMounted(async () => {
 // 기본 거래 내역 가져오기
 const getTransactionList = async () => {
     try {
-        const response = await historyApi.getTransactionList();
-        transactions.value = response.map((transaction) => ({
-            ...transaction,
-            historyDate: formatUnixTimestamp(transaction.historyDate),
-            typeCode: convertTransactionType(transaction.typeCode),
-            stateCode: convertTransactionStatus(transaction.stateCode),
-        }));
+        const response = await historyApi.getTransactionList(pageRequest.value);
+        console.log('API 응답:', response); // 응답 데이터를 로그로 출력하여 확인
+
+        // 응답 데이터가 배열인지 확인
+        if (response && Array.isArray(response.list)) {
+            totalItems.value = response.totalCount; // 전체 항목 수 업데이트
+            transactions.value = response.list.map((transaction) => ({
+                ...transaction,
+                historyDate: formatUnixTimestamp(transaction.historyDate),
+                typeCode: convertTransactionType(transaction.typeCode),
+                stateCode: convertTransactionStatus(transaction.stateCode),
+            }));
+        } else {
+            console.error('응답이 예상하지 않은 형식입니다:', response);
+        }
     } catch (error) {
         console.error('API 호출 중 오류 발생:', error);
     }
 };
+
+// 페이지 이동 함수
+const goToPage = async (pageNum) => {
+    if (pageNum > 0 && pageNum <= totalPages.value) {
+        pageRequest.value.page = pageNum;
+        await getTransactionList(); // 새로운 페이지로 이동 시 거래 내역 갱신
+    }
+};
+
+// 총 페이지 수 계산
+const totalPages = computed(() =>
+    Math.ceil(totalItems.value / pageRequest.value.amount)
+);
 
 // Unix Timestamp 포맷팅 함수
 const formatUnixTimestamp = (unixTimestamp) => {
@@ -114,6 +138,16 @@ const convertTransactionStatus = (code) => {
     return statuses[code] || '알 수 없는 상태';
 };
 
+const getTransactionStateCode = (status) => {
+    const stateCodes = {
+        성공: 1,
+        실패: 2,
+        취소: 3,
+        처리중: 4,
+    };
+    return stateCodes[status] || null;
+};
+
 // 거래 유형 코드 변환
 const convertTransactionType = (code) => {
     const types = {
@@ -125,6 +159,20 @@ const convertTransactionType = (code) => {
         6: '환급',
     };
     return types[code] || '알 수 없는 거래 유형';
+};
+
+const getTransactionTypeCodes = (types) => {
+    const typeCodes = {
+        결제: 1,
+        송금: 2,
+        충전: 3,
+        환불: 4,
+        환전: 5,
+        환급: 6,
+    };
+    return types
+        .map((type) => typeCodes[type])
+        .filter((code) => code !== undefined);
 };
 
 // 모달 관련 상태 관리
@@ -140,16 +188,6 @@ const openModal = (transaction) => {
 // 모달을 닫는 함수
 const closeModal = () => {
     isModalVisible.value = false;
-};
-
-const getTransactionStateCode = (status) => {
-    const stateCodes = {
-        성공: 1,
-        실패: 2,
-        취소: 3,
-        처리중: 4,
-    };
-    return stateCodes[status] || null;
 };
 </script>
 
@@ -269,20 +307,37 @@ const getTransactionStateCode = (status) => {
                             <td>{{ transaction.historyDate }}</td>
                             <td>{{ transaction.typeCode }}</td>
                             <td>{{ transaction.historyContent }}</td>
-                            <!-- <td :style="{ color: transaction.amountColor }"></td> -->
                             <td>{{ transaction.amount }}</td>
                             <td>{{ transaction.stateCode }}</td>
                         </tr>
                     </tbody>
                 </table>
             </div>
-
+            <!-- 페이지네이션 컨트롤 -->
+            <div class="d-flex justify-content-center my-4">
+                <button
+                    class="btn btn-secondary mx-1"
+                    @click="goToPage(pageRequest.page - 1)"
+                    :disabled="pageRequest.page === 1"
+                >
+                    Previous
+                </button>
+                <button
+                    class="btn btn-secondary mx-1"
+                    @click="goToPage(pageRequest.page + 1)"
+                    :disabled="pageRequest.page === totalPages"
+                >
+                    Next
+                </button>
+                <span class="mx-2"
+                    >Page {{ pageRequest.page }} of {{ totalPages }}</span
+                >
+            </div>
             <!-- 모달 컴포넌트  -->
             <Modal
                 :transaction="selectedTransaction"
                 :isVisible="isModalVisible"
                 @close="closeModal"
-                @updateMemo="MemoUpdate"
             />
         </div>
     </div>

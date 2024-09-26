@@ -6,18 +6,30 @@ const api = axios.create({
 });
 
 export default {
-    // 거래 내역 필터링
-    async applyFilters(filters) {
-        const { data } = await api.post('/filter', filters);
+    // 거래 내역 필터링 (페이지네이션 포함)
+    async applyFilters(filters, pageRequest) {
+        const requestBody = {
+            ...filters,
+            page: pageRequest.page, // 페이지 번호
+            amount: pageRequest.amount, // 페이지당 항목 수
+        };
+
         console.log('HISTORIES FILTERED:', data);
-        return data;
+        const { data } = await api.post('/filter', requestBody);
+        console.log('HISTORIES FILTERED:', data);
+        return data; // 필터링된 거래 내역 및 페이지네이션 정보 반환
     },
 
-    // 기본 거래 내역 리스트 가져오기
-    async getTransactionList(params) {
-        const { data } = await api.get('/getList', { params });
+    // 기본 거래 내역 리스트 가져오기 (페이지네이션 포함)
+    async getTransactionList(pageRequest) {
+        const { data } = await api.get('/getList', {
+            params: {
+                page: pageRequest.page, // 페이지 번호
+                amount: pageRequest.amount, // 페이지당 항목 수
+            },
+        });
         console.log('HISTORIES GET LIST:', data);
-        return data;
+        return data; // 페이지네이션 정보와 함께 반환
     },
 
     // 거래 메모 업데이트

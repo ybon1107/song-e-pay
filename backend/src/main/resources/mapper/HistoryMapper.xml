@@ -7,7 +7,6 @@
     <select id="getFilter" parameterType="SearchItem" resultType="HistoryDTO">
         SELECT *
         FROM history h
-        --         LEFT JOIN song_account sa ON h.song_no = sa.song_no
         WHERE h.user_no = #{userNo}
         <!-- 거래 유형 필터링 -->
         <if test="typeCode != null and typeCode.size > 0">
@@ -28,12 +27,38 @@
         <if test="historyContent != null and historyContent != ''">
             AND h.history_content LIKE CONCAT('%', #{historyContent}, '%')
         </if>
-
         ORDER BY h.history_date DESC
+        limit #{offset}, #{amount}
+    </select>
+
+    <select id="getTotalCountForFilter" parameterType="SearchItem" resultType="java.lang.Integer">
+        SELECT COUNT(*)
+        FROM history h
+        WHERE h.user_no = #{userNo}
+        <if test="typeCode != null and typeCode.size > 0">
+            AND h.type_code IN
+            <foreach item="item" collection="typeCode" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+        <if test="stateCode != null">
+            AND h.state_code = #{stateCode}
+        </if>
+        <if test="beginDate != null and endDate != null">
+            AND h.history_date BETWEEN #{beginDate} AND #{endDate}
+        </if>
+        <if test="historyContent != null and historyContent != ''">
+            AND h.history_content LIKE CONCAT('%', #{historyContent}, '%')
+        </if>
     </select>
 
     <select id="selectAllHistories" resultType="HistoryDTO">
         SELECT * FROM history ORDER BY history_date DESC
+        limit #{offset}, #{amount}
+    </select>
+
+    <select id="getTotalCount" resultType="java.lang.Integer">
+        select count(*) from history
     </select>
 
     <update id="updateMemo" parameterType="HistoryDTO">
