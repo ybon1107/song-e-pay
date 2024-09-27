@@ -1,42 +1,25 @@
 <template>
   <div class="container">
-    <!-- 환율 알림 받기 섹션 -->
-    <div class="box">
-      <h2>환율 알림 받기</h2>
-      <div class="exchange-input">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/a/a4/Flag_of_the_United_States.svg" alt="미국 국기" />
-        <span>1 USD</span>
-        <span>=</span>
-        <input type="number" v-model="alertRate" placeholder="목표 환율을 입력하세요." />
-        <span>KRW</span>
-        <img src="https://upload.wikimedia.org/wikipedia/commons/0/09/Flag_of_South_Korea.svg" alt="한국 국기" />
-      </div>
-      <button @click="confirmAlert">확인</button>
-      <br />
-      <br />
-      <hr />
-      <br />
-      <div class="exchange-input">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/0/09/Flag_of_South_Korea.svg" alt="한국 국기" />
-        <span>1 KRW</span>
-        <span>=</span>
-        <input type="number" v-model="alertRate2" placeholder="목표 환율을 입력하세요." />
-        <span>USD</span>
-        <img src="https://upload.wikimedia.org/wikipedia/commons/a/a4/Flag_of_the_United_States.svg" alt="미국 국기" />
-      </div>
-      <button @click="confirmAlert">확인</button>
-    </div>
-
     <!-- 자동 환전 설정 섹션 -->
     <div class="box chart-box">
       <h2>자동 환전 설정</h2>
       <h3>1 USD = {{ currentRate }} KRW</h3>
+
       <!-- 그래프 공간 -->
-      <div class="chart">그래프 자리 (Placeholder)</div>
+      <div class="chart-container">
+        <ExchangeRateChart
+          chartId="toexchangeChart"
+          chartType="to"
+          period="1m"
+        />
+      </div>
 
       <!-- 목표 환율 입력 -->
       <div class="exchange-input" style="margin-top: 20px">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/a/a4/Flag_of_the_United_States.svg" alt="미국 국기" />
+        <img
+          src="https://upload.wikimedia.org/wikipedia/commons/a/a4/Flag_of_the_United_States.svg"
+          alt="미국 국기"
+        />
         <span>1 USD</span>
         <span>=</span>
         <input
@@ -45,7 +28,10 @@
           placeholder="목표 환율을 입력하세요."
         />
         <span>KRW</span>
-        <img src="https://upload.wikimedia.org/wikipedia/commons/0/09/Flag_of_South_Korea.svg" alt="한국 국기" />
+        <img
+          src="https://upload.wikimedia.org/wikipedia/commons/0/09/Flag_of_South_Korea.svg"
+          alt="한국 국기"
+        />
       </div>
 
       <!-- 자동 환전 금액 입력 -->
@@ -60,7 +46,10 @@
           placeholder="자동 전환할 금액을 입력하세요."
         />
         <span>KRW</span>
-        <img src="https://upload.wikimedia.org/wikipedia/commons/0/09/Flag_of_South_Korea.svg" alt="한국 국기" />
+        <img
+          src="https://upload.wikimedia.org/wikipedia/commons/0/09/Flag_of_South_Korea.svg"
+          alt="한국 국기"
+        />
       </div>
       <button @click="confirmAutoExchange(1, 0, targetExchange, targetKrw)">
         확인
@@ -74,9 +63,6 @@ import { ref } from "vue";
 import { useExchangeStore } from "../../stores/exchangeStore";
 import ExchangeRateChart from "@/views/Chart/ExchangeRateChart.vue";
 import axios from "axios";
-import { useRouter } from "vue-router";
-
-const router = useRouter();
 
 const store = useExchangeStore();
 
@@ -118,7 +104,6 @@ const confirmAutoExchange = async (
 
     if (response.status === 200) {
       alert("자동 환전 예약이 성공적으로 저장되었습니다.");
-      router.push("/exchange-rate");
     }
   } catch (error) {
     console.error("자동 환전 예약 중 오류 발생:", error);
@@ -147,6 +132,21 @@ body {
 h2 {
   font-size: 18px;
   margin-bottom: 15px;
+}
+h3 {
+  font-size: 16px;
+  margin-bottom: 10px;
+  color: #333;
+}
+.chart-container {
+  width: 100%;
+  width: 100%; /* 그래프 높이 늘리기 */
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 2%;
+  margin-bottom: 2%; /* 그래프와 상단 요소 간격 */
 }
 .exchange-input {
   display: flex;
@@ -181,21 +181,8 @@ button {
 button:hover {
   background-color: #fdd835;
 }
-.chart-box {
-  margin-top: 20px;
-}
-.chart-box h3 {
-  font-size: 16px;
-  margin-bottom: 10px;
-}
-.chart {
-  width: 100%;
-  height: 200px;
-  background-color: #efefef;
-  border-radius: 10px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  color: #aaa;
+.targetbox {
+  font-size: 14px;
+  color: #666;
 }
 </style>
