@@ -10,6 +10,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
+
 @Slf4j
 @RestController
 @RequiredArgsConstructor
@@ -31,10 +33,15 @@ public class MyAccountController {
 
     // 이메일 확인
     @PostMapping("/confirm")
-    public ResponseEntity<?> confirmAccount(@RequestParam Integer userNo) {
-        return ResponseEntity.ok(myAccountService.selectUserEmail(userNo));
+    public ResponseEntity<?> confirmAccount(@RequestParam String userId) {
+        return ResponseEntity.ok(myAccountService.selectUserEmail(userId));
     }
 
+    //2차 비밀번호 확인
+    @PostMapping("/check")
+    public ResponseEntity<?> checkAccount(@RequestParam Integer userNo) {
+        return ResponseEntity.ok(myAccountService.selectSecondPwd(userNo));
+    }
     // 충전
     @PostMapping("/deposit")
     public ResponseEntity<?> deposit(@RequestBody DTORequest request) {

@@ -32,13 +32,13 @@
 </template>
 <script setup>
 import { ref, defineEmits } from 'vue';
-
+import myaccountApi from '../../api/myaccountApi';
 // 이벤트 설정
 const emit = defineEmits(['close', 'password-verified']);
 
 const showModal = ref(true);
 const password = ref(''); // 비밀번호는 최대 6자리
-const correctPassword = '111111'; // 실제 비밀번호로 교체
+const userNo = 1;
 
 const closeModal = () => {
   showModal.value = false;
@@ -56,7 +56,7 @@ const enterDigit = (num) => {
 
     // 비밀번호 길이가 6자리일 때 자동으로 확인
     if (password.value.length === 6) {
-      verifyPassword();
+      verifyPassword(userNo);
     }
   }
 };
@@ -73,14 +73,24 @@ const clearAll = () => {
   password.value = '';
 };
 
-// 비밀번호 검증
-const verifyPassword = () => {
-  if (password.value === correctPassword) {
-    emit('password-verified'); // 비밀번호가 맞을 경우 password-verified 이벤트 emit
-    closeModal();
-  } else {
-    alert('비밀번호가 틀렸습니다.');
-    password.value = ''; // 입력값 초기화
+// 2차 비밀번호 검증
+const verifyPassword = async (userNo) => {
+  try {
+    // API 호출을 통해 correctPassword 가져오기
+    const correctPassword = await myaccountApi.checkSecondPassword(userNo);
+    console.log(password.value);
+    console.log(correctPassword);
+    // 사용자가 입력한 비밀번호와 correctPassword 비교
+    if (password.value == correctPassword) {
+      emit('password-verified'); // 비밀번호가 맞을 경우 password-verified 이벤트 emit
+      closeModal(); // 모달 닫기
+    } else {
+      alert('비밀번호가 틀렸습니다.');
+      password.value = ''; // 입력값 초기화
+    }
+  } catch (error) {
+    console.error('비밀번호 검증 중 오류 발생:', error);
+    alert('비밀번호 확인에 실패했습니다. 다시 시도해 주세요.');
   }
 };
 </script>
