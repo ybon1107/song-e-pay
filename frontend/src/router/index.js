@@ -26,7 +26,6 @@ import RegisterPhoneSubmit from "../views/signUp/RegisterPhoneSubmit.vue";
 import RegisterDetails from '../views/signUp/RegisterDetails.vue';
 import CodeSendAnother from '../views/signIn/CodeSendAnother.vue';
 import ExchangeRate from "../views/exchangeRate/ExchangeRate.vue";
-import LoginPhone from "../views/signIn/LoginPhone.vue";
 
 // map 컴포넌트 추가
 import MapComponent from "../views/maps/MapComponent.vue";
