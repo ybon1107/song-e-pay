@@ -112,7 +112,7 @@ const handleSubmit = async () => {
     try {
       await auth.login(member.value);
       if (localStorage.getItem("auth") != " ") {
-        router.push("/login/phone");
+        window.location.href = '/';
       }
     } catch (e) {
       // 로그인 에러

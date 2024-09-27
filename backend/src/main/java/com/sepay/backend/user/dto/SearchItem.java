@@ -22,8 +22,4 @@ public class SearchItem {
     Integer stateCode;
     Date beginDate;
     Date endDate;
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> d09716cb662efcd59cac58c74b192846943cf87c
