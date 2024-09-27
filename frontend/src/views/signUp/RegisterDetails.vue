@@ -11,7 +11,7 @@ import flatPickr from "vue-flatpickr-component";
 import "flatpickr/dist/flatpickr.css";
 import { parsePhoneNumberFromString } from "libphonenumber-js";
 
-const body = document.getElementsByTagName('body')[0];
+const body = document.getElementsByTagName("body")[0];
 const store = useStore();
 const signupStore = useSignupStore();
 const router = useRouter();
@@ -21,30 +21,30 @@ onBeforeMount(() => {
   store.state.showNavbar = false;
   store.state.showSidenav = false;
   store.state.showFooter = false;
-  body.classList.remove('bg-gray-100');
+  body.classList.remove("bg-gray-100");
 });
 onBeforeUnmount(() => {
   store.state.hideConfigButton = false;
   store.state.showNavbar = true;
   store.state.showSidenav = true;
   store.state.showFooter = true;
-  body.classList.add('bg-gray-100');
+  body.classList.add("bg-gray-100");
 });
 
 // 이메일 상태
 const email = computed(() => signupStore.email);
 
 // 비밀번호 입력 필드 상태
-const password = ref('');
-const confirmPassword = ref('');
+const password = ref("");
+const confirmPassword = ref("");
 
 // 비밀번호 입력 시 공백 제거
 const handlePasswordInput = (event) => {
-  password.value = event.target.value.replace(/\s/g, '');
+  password.value = event.target.value.replace(/\s/g, "");
 };
 
 const handleConfirmPasswordInput = (event) => {
-  confirmPassword.value = event.target.value.replace(/\s/g, '');
+  confirmPassword.value = event.target.value.replace(/\s/g, "");
 };
 
 // 비밀번호 일치 여부 검사
@@ -53,20 +53,20 @@ const isPasswordMatch = computed(() => {
 });
 
 // 거주 국가 상태
-const country = ref('Country');
+const country = ref("Country");
 
 // 성 및 이름 입력 필드 상태
-const firstName = ref('');
-const lastName = ref('');
+const firstName = ref("");
+const lastName = ref("");
 
 // 생년월일 입력 필드 상태
-const birth = ref('');
+const birth = ref("");
 
 // 특정 년수를 뺀 날짜를 반환하는 함수
 function calculateDateYearsAgo(years) {
   const date = new Date();
   date.setFullYear(date.getFullYear() - years);
-  return date.toISOString().split('T')[0];
+  return date.toISOString().split("T")[0];
 }
 
 // 성별 상태
@@ -118,8 +118,6 @@ const handleSubmit = async () => {
 
       const response = await axios.post("/api/users/register", {
         userId: email.value,
-      const response = await axios.post('http://localhost:8080/register', {
-
         password: password.value,
         countryCode: country.value,
         firstName: firstName.value,
@@ -137,8 +135,8 @@ const handleSubmit = async () => {
         alert("Registration failed. Please try again.");
       }
     } catch (error) {
-      console.error('Registration error:', error);
-      alert('An error occurred during registration. Please try again.');
+      console.error("Registration error:", error);
+      alert("An error occurred during registration. Please try again.");
     }
   }
 };
@@ -151,7 +149,9 @@ const handleSubmit = async () => {
       <div class="container">
         <div class="row justify-content-center">
           <!-- 카드 컨테이너 -->
-          <div class="mx-auto col-xl-5 col-lg-6 col-md-8 d-flex flex-column mx-lg-0">
+          <div
+            class="mx-auto col-xl-5 col-lg-6 col-md-8 d-flex flex-column mx-lg-0"
+          >
             <div class="card card-plain">
               <!-- 카드 헤더: 제목 -->
               <div class="pb-0 card-header text-center">
@@ -358,7 +358,14 @@ const handleSubmit = async () => {
                     </div>
                     <!-- 다음 버튼 -->
                     <div class="text-center">
-                      <argon-button fullWidth color="success" variant="gradient" class="my-4 mb-2" type="submit">Continue</argon-button>
+                      <argon-button
+                        fullWidth
+                        color="success"
+                        variant="gradient"
+                        class="my-4 mb-2"
+                        type="submit"
+                        >Continue</argon-button
+                      >
                     </div>
                   </div>
                 </form>
