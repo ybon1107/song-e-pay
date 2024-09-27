@@ -35,6 +35,7 @@ const closeMenu = () => {
     showMenu.value = false;
   }, 100);
 };
+const noLoginImg = 'https://song-e-pay.s3.ap-northeast-2.amazonaws.com/profile/noLogin.png'
 </script>
 <template>
   <nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl"
@@ -154,12 +155,16 @@ const closeMenu = () => {
           <li class="nav-item d-flex align-items-center">
             <template v-if="isLogin">
               <a class="p-0 nav-link" href="/profile">
-                <i class="cursor-pointer fa fa-cog fixed-plugin-button-nav"></i>
+                <div class="img-div">
+                  <img class="nav-lmg cursor-pointer fa fa-cog fixed-plugin-button-nav" :src="user.profilePic">
+                </div>
               </a>
             </template>
             <template v-else>
               <a class="p-0 nav-link" href="/login">
-                <i class="cursor-pointer fa fa-cog fixed-plugin-button-nav"></i>
+                <div class="img-div">
+                  <img class="nav-lmg cursor-pointer fa fa-cog fixed-plugin-button-nav" :src="noLoginImg">
+                </div>
               </a>
             </template>
           </li>
@@ -168,3 +173,19 @@ const closeMenu = () => {
     </div>
   </nav>
 </template>
+<style>
+.img-div {
+  width: 20px;
+  height: 20px;
+  position: relative;
+}
+
+.nav-lmg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 10px;
+}
+</style>
