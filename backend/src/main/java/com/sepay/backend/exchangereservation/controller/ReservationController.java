@@ -74,13 +74,6 @@ public class ReservationController {
         return ResponseEntity.ok(reservations);
     }
 
-//    @DeleteMapping("/setalert/{resNo}")
-//    public ResponseEntity<Void> removeAutoExchange(@PathVariable Integer resNo) {
-//        log.info("환전 예약 삭제 요청. 예약 번호: {}", resNo);
-//        exchangeReservationService.removeAutoExchange(resNo);
-//        return ResponseEntity.ok().build();
-//    }
-
     @PostMapping("/setalert/count")
     public ResponseEntity<Integer> countAutoExchange(@RequestBody Integer userNo, Integer targetKrw) {
         log.info("환전 예약 개수 조회 요청: {}",  userNo,  targetKrw);

@@ -44,7 +44,9 @@
               readonly
               aria-label="Amount in KRW"
             />
-            <button class="btn btn-primary w-100">Buy</button>
+            <button class="btn btn-primary w-100" @click="handleExchange">
+              Buy
+            </button>
             <!-- 환율 알림 Section -->
             <div class="exchange-alert-container">
               <span class="alert-title">환율 알림 설정</span>
@@ -156,7 +158,8 @@
             <div class="form-group">
               <label for="autoCondition">자동 환전 설정 내역</label>
               <button
-                class="btn btn-danger btn-sm ml-2"
+                v-if="autoConditions.length > 0"
+                class="btn delete-btn btn-sm ml-2"
                 @click="deleteAlertCondition(autoConditions[0]?.resNo)"
               >
                 삭제
@@ -181,7 +184,8 @@
             <div class="form-group">
               <label for="targetRate1">환율 알림 설정 내역 1</label>
               <button
-                class="btn btn-danger btn-sm ml-2"
+                v-if="alertConditions[0]"
+                class="btn delete-btn btn-sm ml-2"
                 @click="deleteAlertCondition(alertConditions[0]?.resNo)"
               >
                 삭제
@@ -204,7 +208,8 @@
             <div class="form-group">
               <label for="targetRate2">환율 알림 설정 내역 2</label>
               <button
-                class="btn btn-danger btn-sm ml-2"
+                v-if="alertConditions[1]"
+                class="btn delete-btn btn-sm ml-2"
                 @click="deleteAlertCondition(alertConditions[1]?.resNo)"
               >
                 삭제
@@ -235,6 +240,7 @@ import { ref, onMounted, computed } from "vue";
 import { useExchangeStore } from "@/stores/exchangeStore";
 import ExchangeRateChart from "@/views/Chart/ExchangeRateChart.vue";
 import axios from "axios";
+import myaccountApi from "../../api/myaccountApi";
 
 // Data variables
 const usdAmount = ref(1);
@@ -495,5 +501,33 @@ input[type="number"] {
 
 .btn-warning:hover {
   background-color: #ffbb00;
+}
+
+.delete-btn {
+  flex-grow: 1;
+  padding: 8px 16px; /* 적당한 크기로 버튼 높이 조정 */
+  background-color: #f44336; /* 기본 배경 색상: 밝은 빨간색 */
+  color: white; /* 텍스트 색상: 흰색 */
+  border: none;
+  border-radius: 20px; /* 둥근 모서리 */
+  text-align: center;
+  cursor: pointer;
+  margin: 0 5px; /* 버튼 간 좌우 간격 */
+  font-size: 14px; /* 텍스트 크기 */
+  transition: background-color 0.3s ease; /* 배경색 전환 효과 */
+}
+
+.delete-btn:hover {
+  background-color: #d32f2f; /* 호버 시 더 짙은 빨간색 */
+}
+
+.delete-btn:active {
+  background-color: #b71c1c; /* 클릭 시 색상 */
+}
+
+.delete-btn:disabled {
+  background-color: #e0e0e0; /* 비활성화된 버튼 색상 */
+  color: #9e9e9e; /* 비활성화된 텍스트 색상 */
+  cursor: not-allowed; /* 비활성화 상태에서는 커서 변경 */
 }
 </style>
