@@ -60,7 +60,7 @@ function handleClick() {
     </div>
 
     <!-- 아이콘과 내용 -->
-    <div class="p-3 d-flex justify-content-start align-items-center" style="margin-top: 20px">
+    <div class="w-60 mt-2" style="margin-top: 20px">
       <slot name="icon"></slot>
     </div>
 

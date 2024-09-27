@@ -8,7 +8,7 @@ import ArgonInput from "@/components/templates/ArgonInput.vue";
 import ArgonSwitch from "@/components/templates/ArgonSwitch.vue";
 import ArgonButton from "@/components/templates/ArgonButton.vue";
 
-const body = document.getElementsByTagName("body")[0];
+const body = document.getElementsByTagName('body')[0];
 const store = useStore();
 const router = useRouter();
 const auth = useAuthStore();
@@ -27,14 +27,14 @@ onBeforeMount(() => {
   store.state.showNavbar = false;
   store.state.showSidenav = false;
   store.state.showFooter = false;
-  body.classList.remove("bg-gray-100");
+  body.classList.remove('bg-gray-100');
 });
 onBeforeUnmount(() => {
   store.state.hideConfigButton = false;
   store.state.showNavbar = true;
   store.state.showSidenav = true;
   store.state.showFooter = true;
-  body.classList.add("bg-gray-100");
+  body.classList.add('bg-gray-100');
 });
 // 부트스트랩 유효성 검사 스크립트
 onMounted(() => {
@@ -57,8 +57,8 @@ onMounted(() => {
 });
 
 // 이메일과 비밀번호 입력 필드 상태
-const email = ref("");
-const password = ref("");
+const email = ref('');
+const password = ref('');
 
 // 이메일 유효성 검사
 const isEmailValid = computed(() => {

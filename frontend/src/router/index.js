@@ -26,10 +26,11 @@ import RegisterPhoneSubmit from "../views/signUp/RegisterPhoneSubmit.vue";
 import RegisterDetails from '../views/signUp/RegisterDetails.vue';
 import CodeSendAnother from '../views/signIn/CodeSendAnother.vue';
 import ExchangeRate from "../views/exchangeRate/ExchangeRate.vue";
-import ExchangeRateChart from "../views/Chart/ExchangeRateChart.vue";
+import LoginPhone from "../views/signIn/LoginPhone.vue";
 
 // map 컴포넌트 추가
 import MapComponent from "../views/maps/MapComponent.vue";
+import ErrorPage from "../views/error/ErrorPage.vue";
 
 
 const routes = [
@@ -54,8 +55,8 @@ const routes = [
     component: ExchangeRate,
   },
   {
-    path: '/set-alert',
-    name: 'SetAlert',
+    path: "/set-alert",
+    name: "SetAlert",
     component: SetAlert,
   },
   {
@@ -84,8 +85,8 @@ const routes = [
     component: Maps,
   },
   {
-    path: '/profile',
-    name: 'Profile',
+    path: "/profile",
+    name: "Profile",
     component: Profile,
   },
   // map컴포넌트 추가
@@ -100,8 +101,8 @@ const routes = [
     component: ChangePwd,
   },
   {
-    path: '/login',
-    name: 'Login',
+    path: "/login",
+    name: "Login",
     component: Login,
   },
   {
@@ -158,7 +159,12 @@ const routes = [
     path: "/register/detail",
     name: "RegisterDetails",
     component: RegisterDetails,
-  }
+  },
+  {
+    path: "/error",
+    name: "ErrorPage",
+    component: ErrorPage,
+  },
 ];
 
 const router = createRouter({

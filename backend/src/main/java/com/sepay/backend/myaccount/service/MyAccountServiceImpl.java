@@ -26,9 +26,14 @@ public class MyAccountServiceImpl implements MyAccountService {
     }
 
     @Override
-    public Boolean selectUserEmail(Integer userNo) {
-        String userId = mapper.selectUserEmail(userNo);
-        return userId != null && !userId.isEmpty(); // userId가 null이 아니고 비어있지 않으면 true, 그렇지 않으면 false
+    public Boolean selectUserEmail(String userId) {
+        String searchUserId = mapper.selectUserEmail(userId);
+        return searchUserId != null && !searchUserId.isEmpty(); // userId가 null이 아니고 비어있지 않으면 true, 그렇지 않으면 false
+    }
+
+    @Override
+    public String selectSecondPwd(Integer userNo){
+        return mapper.selectSecondPwd(userNo);
     }
 
     // 충전 : 계좌 -> 송이
