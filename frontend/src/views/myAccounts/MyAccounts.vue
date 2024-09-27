@@ -348,59 +348,71 @@ const receivedAmount = computed(() => {
   }
 });
 
+// 이메일 입력 유효성 검증
+let isconfirmed = false;
+let success = false;
 const emailConfirm = async () => {
+  isconfirmed = true;
   const userId = sendEmail.value;
   const response = await myaccountApi.confirmEmail(userId);
   if (response) {
     if (userId === 'test@gmail.com') {
       //userId 세션에서 가져오기(로그인할때 사용된 이메일)
       isMember.value = 'self';
+      success = false;
+      errorMessage.value = '본인이 아닌 다른 회원의 이메일을 입력하세요';
     } else {
-      isMember.value = true; // 회원 이메일로 표시
+      isMember.value = 'member'; // 회원 이메일로 표시
+      success = true;
+      errorMessage.value = '';
     }
-  } else if (isMember.value === null && emailPattern.test(sendEmail.value)) {
-    isMember.value = false; // 비회원 이메일로 표시
+  } else if (sendEmail.value !== '' && emailPattern.test(sendEmail.value)) {
+    isMember.value = 'no-member'; // 비회원 이메일로 표시
+    success = true;
+    errorMessage.value = '';
   } else {
     isMember.value = 'error';
+    success = false;
   }
 };
-
-// 입력값이 변경되면 isMember를 null로 리셋하는 함수
-const resetIsMember = () => {
-  isMember.value = null;
-};
-
-// 이메일 일치 여부를 computed로 정의
-const isEmailMatch = computed(() => sendEmail.value === sendEmailConfirm.value);
-
 // 이메일 형식 확인을 위한 정규식
 const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-let exceptError = ref(true);
-// 오류 메시지 계산
-const error = computed(() => {
-  if (sendEmail.value === '') {
-    return '이메일을 입력해주세요.';
+
+const errorMessageCheck = ref('');
+let checkSucess = false;
+const onInputCheck = (event) => {
+  if (sendEmailConfirm.value === '' && checkSucess) {
+    errorMessageCheck.value = '이메일 재입력하세요.';
+  } else {
+    if (sendEmail.value !== event.target.value) {
+      errorMessageCheck.value = '입력하신 이메일과 일치하지 않습니다.';
+    } else {
+      errorMessageCheck.value = '';
+      checkSucess = true;
+    }
+  }
+};
+const errorMessage = ref('');
+const onInput = (event) => {
+  sendEmail.value = event.target.value;
+  isconfirmed = false;
+
+  if (sendEmail.value == '' && isconfirmed) {
+    errorMessage.value = '이메일을 입력해주세요.';
+    isconfirmed = false;
   } else if (!emailPattern.test(sendEmail.value)) {
-    return '올바른 이메일 형식을 지켜야 합니다.';
-  } else if (isMember.value === null) {
-    return '이메일 확인이 필요합니다.';
+    errorMessage.value = '올바른 이메일 형식을 지켜야 합니다.';
+  } else if (isconfirmed == false) {
+    errorMessage.value = '이메일 확인이 필요합니다.';
   } else if (isMember.value === 'self') {
-    return '본인이 아닌 다른 회원의 이메일을 입력하세요';
+    errorMessage.value = '본인이 아닌 다른 회원의 이메일을 입력하세요';
+  } else {
+    errorMessage.value = '';
   }
-  exceptError = false;
-  return ''; // 오류가 없으면 빈 문자열
-});
-
-// 이메일 확인 오류 메시지 계산
-const check_error = computed(() => {
-  if (sendEmailConfirm.value === '') {
-    return '이메일 재입력하세요.';
-  } else if (isEmailMatch.value == false) {
-    return '입력하신 이메일과 일치하지 않습니다.';
+  if (sendEmailConfirm.value !== '') {
+    onInputCheck({ target: { value: sendEmailConfirm.value } });
   }
-
-  return '';
-});
+};
 </script>
 
 <template>
@@ -547,30 +559,31 @@ const check_error = computed(() => {
             <small class="text-muted" style="margin-top: 1rem; margin-bottom: 1rem">받는 이메일</small>
             <argon-button class="action-btn2" @click="emailConfirm" size="sm" variant="outline" :disabled="sendEmail === ''">이메일 확인</argon-button>
             <!-- 회원/비회원 표시 -->
-            <small class="text-muted" v-if="isMember === true">회원 이메일</small>
-            <small class="text-muted" v-else-if="isMember === false">비회원 이메일</small>
+            <small class="text-muted" v-if="isMember === 'member'">회원 이메일</small>
+            <small class="text-muted" v-else-if="isMember === 'no-member'">비회원 이메일</small>
           </div>
           <ArgonInput
             v-model="sendEmail"
             placeholder="받는 분의 이메일을 입력하세요"
-            @input="resetIsMember"
+            @input="onInput"
             variant="gradient"
-            :class="{ 'is-invalid': error }"
-            :error="!!error"
-            :success="!error"
+            :class="{ 'is-invalid': errorMessage }"
+            :error="errorMessage !== ''"
+            :success="success"
             style="margin-bottom: 0"
           />
-          <div v-if="error" class="invalid-feedback text-xs mb-1">{{ error }}</div>
+          <div v-if="errorMessage !== ''" class="invalid-feedback text-xs mb-1">{{ errorMessage }}</div>
           <small class="text-muted">이메일 확인</small>
           <ArgonInput
             v-model="sendEmailConfirm"
             placeholder="이메일을 다시 입력하세요"
-            :class="{ 'is-invalid': check_error }"
-            :error="!!check_error"
-            :success="!check_error"
+            :class="{ 'is-invalid': errorMessageCheck }"
+            :error="errorMessageCheck !== ''"
+            :success="checkSucess"
             style="margin-bottom: 0"
+            @input="onInputCheck"
           />
-          <div v-if="check_error" class="invalid-feedback text-xs mb-1">{{ check_error }}</div>
+          <div v-if="errorMessageCheck" class="invalid-feedback text-xs mb-1">{{ errorMessageCheck }}</div>
 
           <p>
             <small class="text-muted">송금할 금액을 입력하세요</small>
@@ -594,7 +607,7 @@ const check_error = computed(() => {
             size="lg"
             class="w-100"
             @click="openModal"
-            :disabled="!isValidAmount(transferAmount) || !isEmailMatch || isMember === null || isMember === 'self' || exceptError"
+            :disabled="!isValidAmount(transferAmount) || errorMessage !== '' || errorMessageCheck !== ''"
             variant="gradient"
             >송금하기</argon-button
           >
