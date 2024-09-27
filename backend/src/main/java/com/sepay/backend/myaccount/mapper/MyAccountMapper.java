@@ -12,7 +12,9 @@ public interface MyAccountMapper {
 
     Double selectKrwBalance(String krwNo);
 
-    String selectUserEmail(Integer userNo);
+    String selectUserEmail(String userId);
+
+    String selectSecondPwd(Integer userNo);
 
     int updateAccount(AccountDTO accountDTO);
 

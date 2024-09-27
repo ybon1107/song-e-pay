@@ -26,108 +26,109 @@ import MapComponent from '../views/maps/MapComponent.vue';
 import ErrorPage from '../views/error/ErrorPage.vue';
 
 const routes = [
-  {
-    path: '/',
-    name: '/',
-    redirect: '/home',
-  },
-  {
-    path: '/home',
-    name: 'Home',
-    component: Home,
-  },
-  {
-    path: '/my-accounts',
-    name: 'MyAccounts',
-    component: MyAccounts,
-  },
-  {
-    path: '/exchange-rate',
-    name: 'ExchangeRate',
-    component: ExchangeRate,
-  },
-  {
-    path: '/set-alert',
-    name: 'SetAlert',
-    component: SetAlert,
-  },
-  {
-    path: '/payment',
-    name: 'Payment',
-    component: Payment,
-  },
-  {
-    path: '/payment/password',
-    name: 'Password',
-    component: PassWordInputPage,
-  },
-  {
-    path: '/payment/qr',
-    name: 'Qr',
-    component: QrScanPage,
-  },
-  {
-    path: '/histories',
-    name: 'Histories',
-    component: Histories,
-  },
-  {
-    path: '/maps',
-    name: 'Maps',
-    component: Maps,
-  },
-  {
-    path: '/profile',
-    name: 'Profile',
-    component: Profile,
-  },
-  // map컴포넌트 추가
-  {
-    path: '/map',
-    name: 'MapComponent',
-    component: MapComponent,
-  },
-  {
-    path: '/map',
-    name: 'MapComponent',
-    component: MapComponent,
-  },
-  {
-    path: '/change-password',
-    name: 'ChangePwd',
-    component: ChangePwd,
-  },
-  {
-    path: '/login',
-    name: 'Login',
-    component: Login,
-  },
-  {
-    path: '/login/phone',
-    name: 'LoginPhone',
-    component: LoginPhone,
-  },
-  {
-    path: '/register/legal',
-    name: 'Register',
-    component: Register,
-  },
-  {
-    path: '/register/email',
-    name: 'Registeremail',
-    component: Registeremail,
-  },
-  {
-    path: '/error',
-    name: 'ErrorPage',
-    component: ErrorPage,
-  },
+    {
+        path: '/',
+        name: '/',
+        redirect: '/home',
+    },
+    {
+        path: '/home',
+        name: 'Home',
+        component: Home,
+    },
+    {
+        path: '/my-accounts',
+        name: 'MyAccounts',
+        component: MyAccounts,
+    },
+    {
+        path: '/exchange-rate',
+        name: 'ExchangeRate',
+        component: ExchangeRate,
+    },
+    {
+        path: '/set-alert',
+        name: 'SetAlert',
+        component: SetAlert,
+    },
+    {
+        path: '/payment',
+        name: 'Payment',
+        component: Payment,
+    },
+    {
+        path: '/payment/password',
+        name: 'Password',
+        component: PassWordInputPage,
+    },
+    {
+        path: '/payment/qr',
+        name: 'Qr',
+        component: QrScanPage,
+    },
+    {
+        path: '/histories',
+        name: 'Histories',
+        component: Histories,
+    },
+    {
+        path: '/maps',
+        name: 'Maps',
+        component: Maps,
+    },
+    {
+        path: '/profile',
+        name: 'Profile',
+        component: Profile,
+    },
+    // map컴포넌트 추가
+    {
+        path: '/map',
+        name: 'MapComponent',
+        component: MapComponent,
+    },
+    {
+        path: '/map',
+        name: 'MapComponent',
+        component: MapComponent,
+    },
+    {
+        path: '/change-password',
+        name: 'ChangePwd',
+        component: ChangePwd,
+    },
+    {
+        path: '/login',
+        name: 'Login',
+        component: Login,
+    },
+    {
+        path: '/login/phone',
+        name: 'LoginPhone',
+        component: LoginPhone,
+    },
+    {
+        path: '/register/legal',
+        name: 'Register',
+        component: Register,
+    },
+    {
+        path: '/register/email',
+        name: 'Registeremail',
+        component: Registeremail,
+    },
+    {
+        path: '/error',
+        name: 'ErrorPage',
+        component: ErrorPage,
+    },
 ];
 
 const router = createRouter({
-  history: createWebHistory(process.env.BASE_URL),
-  routes,
-  linkActiveClass: 'active',
+    history: createWebHistory(process.env.BASE_URL),
+    routes,
+    linkActiveClass: 'active',
+    linkActiveClass: 'active',
 });
 
 export default router;
