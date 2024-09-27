@@ -16,8 +16,10 @@ public class ExchangeReservationDTO {
     private Integer userNo;
     private String songNo;
     private String krwNo;
+    private Integer baseCode;
+    private Integer targetCode;
     private Double targetExchange;
     private Integer targetKrw;
-    private Date createAT;
-    private Date updateAT;
+    private Date createAt;
+    private Date updateAt;
 }

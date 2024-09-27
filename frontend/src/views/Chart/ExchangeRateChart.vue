@@ -77,8 +77,8 @@ const loadExcelAndDrawChart = (months) => {
           {
             label: props.chartType === "to" ? "USD to KRW" : "KRW to USD",
             data: exchangeRates,
-            borderColor: "rgba(75, 192, 192, 1)",
-            backgroundColor: "rgba(75, 192, 192, 0.2)",
+            borderColor: "#ffd700",
+            backgroundColor: "#ffd700",
             borderWidth: 1,
           },
         ],

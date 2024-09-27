@@ -5,15 +5,6 @@
 
 <mapper namespace="com.sepay.backend.myaccount.mapper.MyAccountMapper">
 
-<<<<<<< HEAD
-    <select id="selectSongAccount" parameterType="String" resultType="songAccountDTO">
-        select *
-        from song_account
-        where song_no = #{songNo}
-    </select>
-
-=======
->>>>>>> 68d7ce0e084dffd20f92dbc738854ef41fb8990d
     <!-- 계좌 잔액 확인 -->
     <select id="selectAccountBalance" parameterType="string" resultType="double">
         select balance
@@ -72,10 +63,13 @@
         VALUES
             (#{userNo}, #{songNo}, #{krwNo}, #{typeCode}, #{stateCode}, #{historyContent}, #{amount})
     </insert>
+<<<<<<< HEAD
+=======
     <!--  userNo에 따른 2차 비밀번호 조회  -->
     <select id="selectSecondPwd" parameterType="integer" resultType="string">
         select second_pwd
         from user
         where user_no = #{userNo}
     </select>
+>>>>>>> 2ebfe61bd987f72bfea238a75164080a5347c4f3
 </mapper>
