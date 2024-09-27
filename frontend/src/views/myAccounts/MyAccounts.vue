@@ -1,6 +1,7 @@
 <script setup>
 import ArgonInput from '@/components/templates/ArgonInput.vue';
 import DefaultInfoCard from '@/views/Cards/AccountsCard.vue';
+import AccountsCard from '@/views/Cards/AccountsCard2.vue';
 import ArgonAmountInput from '@/components/yb_templates/ArgonAmountInput.vue';
 import ArgonButton from '@/components/templates/ArgonButton.vue';
 import SecondPassword from '@/views/MyAccounts/SecondPassword.vue';
@@ -10,15 +11,22 @@ import { useExchangeStore } from '@/stores/exchangeStore';
 const emit = defineEmits(['password-verified', 'close']);
 const store = useExchangeStore();
 const selectedAsset = ref('Song-E Money'); // 기본적으로 Song-E Money가 선택됨
+
+const songEMoneyBalance = ref(0); // Song-E Money의 잔액
+const wonEMoneyBalance = ref(0); // Won-E Money의 잔액
+// const formattedSongEMoneyBalance = computed(() => `${customerunit.value} ${formatNumber(songEMoneyBalance.value.toFixed(2))}`);
+// const formattedWonEMoneyBalance = computed(() => `KRW ${formatNumber(wonEMoneyBalance.value.toFixed(2))}`);
+
 const activeTab = ref('deposit'); // 기본적으로 충전 탭이 선택됨
+
 const depositAmount = ref('');
 const exchangeAmount = ref('');
 const refundAmount = ref('');
 const transferAmount = ref('');
 const reExchangeAmount = ref('');
+
 const customerunit = ref('USD'); //나라 설정에 따라 변경되게끔
-const songEMoneyBalance = ref(0); // Song-E Money의 잔액
-const wonEMoneyBalance = ref(0); // Won-E Money의 잔액
+
 const sendEmail = ref('');
 const sendEmailConfirm = ref('');
 const isMember = ref(null);
@@ -35,6 +43,10 @@ const currentToKrw = computed(() => store.currentToKrw);
 const currentFromKrw = computed(() => store.currentFromKrw);
 
 onMounted(() => {
+  // 라우터 쿼리에서 selectedAsset 값을 가져옴
+  if (route.query.selectedAsset) {
+    selectAsset(route.query.selectedAsset);
+  }
   fetchBalances();
   fetchExchangeRates();
 });
@@ -419,8 +431,40 @@ const onInput = (event) => {
   <div class="container-fluid" style="width: 80%" id="responsive-container">
     <h3>My account</h3>
     <SecondPassword v-if="showModal" @close="closeModal" @password-verified="handlePasswordVerified" />
-    <div class="assets-list">
-      <!-- Song-E Money 카드 -->
+
+    <div class="row my-3">
+      <div class="col-lg-4 col-md-5">
+        <!-- Song-E Money 카드 -->
+        <AccountsCard title="Song-E Money" :balance="songEMoneyBalance" :currency="customerunit"
+          backgroundImage="/images/song-e-money.png" icon="/images/america.png"
+          @click="selectAsset('Song-E Money')" :isSelected="selectedAsset === 'Song-E Money'"/>
+          <!-- <DefaultInfoCard
+        title="Song-E Money"
+        :value="formattedSongEMoneyBalance"
+        img-src="/images/song-e-money.png"
+        img="/images/america.png"
+        @click="selectAsset('Song-E Money')"
+        :class="{ selected: selectedAsset === 'Song-E Money' }"
+      /> -->
+      </div>
+      <div class="col-lg-4 col-md-5">
+        <!-- Won-E Money 카드 -->
+        <AccountsCard title="Won-E Money" :balance="wonEMoneyBalance" currency="KRW"
+          backgroundImage="/images/won-e-money.png" icon="/images/korea.png"
+          @click="selectAsset('Won-E Money')" :isSelected="selectedAsset === 'Won-E Money'"/>
+          <!-- <DefaultInfoCard
+        title="Won-E Money"
+        :value="formattedWonEMoneyBalance"
+        img-src="images/won-e-money.png"
+        img="/images/korea.png"
+        @click="selectAsset('Won-E Money')"
+        :class="{ selected: selectedAsset === 'Won-E Money' }"
+      /> -->
+      </div>
+    </div>
+
+    <!-- <div class="assets-list">
+
       <DefaultInfoCard
         title="Song-E Money"
         :value="formattedSongEMoneyBalance"
@@ -430,32 +474,31 @@ const onInput = (event) => {
         :class="{ selected: selectedAsset === 'Song-E Money' }"
       />
 
-      <!-- Won-E Money 카드 -->
-      <DefaultInfoCard
-        title="Won-E Money"
-        :value="formattedWonEMoneyBalance"
-        img-src="images/won-e-money.png"
-        img="/images/korea.png"
-        @click="selectAsset('Won-E Money')"
-        :class="{ selected: selectedAsset === 'Won-E Money' }"
-      />
-    </div>
+      <DefaultInfoCard title="Won-E Money" :value="formattedWonEMoneyBalance" img-src="images/won-e-money.png"
+        img="/images/korea.png" @click="selectAsset('Won-E Money')"
+        :class="{ selected: selectedAsset === 'Won-E Money' }" />
+    </div> -->
 
     <div class="card">
       <!-- Song-E Money 선택 시 -->
       <template v-if="selectedAsset === 'Song-E Money'">
         <nav class="nav flex-column flex-sm-row">
-          <a class="flex-sm-fill text-sm-center nav-link" :class="{ active: activeTab === 'deposit' }" @click="activeTab = 'deposit'" aria-current="page"> 충전 </a>
-          <a class="flex-sm-fill text-sm-center nav-link" :class="{ active: activeTab === 'exchange' }" @click="activeTab = 'exchange'"> 환전 </a>
-          <a class="flex-sm-fill text-sm-center nav-link" :class="{ active: activeTab === 'refund' }" @click="activeTab = 'refund'"> 환불 </a>
+          <a class="flex-sm-fill text-sm-center nav-link" :class="{ active: activeTab === 'deposit' }"
+            @click="activeTab = 'deposit'" aria-current="page"> 충전 </a>
+          <a class="flex-sm-fill text-sm-center nav-link" :class="{ active: activeTab === 'exchange' }"
+            @click="activeTab = 'exchange'"> 환전 </a>
+          <a class="flex-sm-fill text-sm-center nav-link" :class="{ active: activeTab === 'refund' }"
+            @click="activeTab = 'refund'"> 환불 </a>
         </nav>
       </template>
 
       <!-- Won-E Money 선택 시 -->
       <template v-if="selectedAsset === 'Won-E Money'">
         <nav class="nav flex-column flex-sm-row">
-          <a class="flex-sm-fill text-sm-center nav-link" :class="{ active: activeTab === 'transfer' }" @click="activeTab = 'transfer'" aria-current="page"> 송금 </a>
-          <a class="flex-sm-fill text-sm-center nav-link" :class="{ active: activeTab === 'reExchange' }" @click="activeTab = 'reExchange'"> 환급 </a>
+          <a class="flex-sm-fill text-sm-center nav-link" :class="{ active: activeTab === 'transfer' }"
+            @click="activeTab = 'transfer'" aria-current="page"> 송금 </a>
+          <a class="flex-sm-fill text-sm-center nav-link" :class="{ active: activeTab === 'reExchange' }"
+            @click="activeTab = 'reExchange'"> 환급 </a>
         </nav>
       </template>
 
@@ -676,8 +719,10 @@ const onInput = (event) => {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  width: 100%; /* 카드를 가로로 전체 너비에 맞추기 */
-  margin-bottom: 20px; /* 탭과의 간격 설정 */
+  width: 100%;
+  /* 카드를 가로로 전체 너비에 맞추기 */
+  margin-bottom: 20px;
+  /* 탭과의 간격 설정 */
 }
 /* For mobile screens */
 @media (max-width: 768px) {
@@ -698,7 +743,9 @@ const onInput = (event) => {
 
 .text-btn {
   display: flex;
-  align-items: center; /* 세로 중앙 정렬 */
-  gap: 10px; /* p 태그와 버튼 사이의 간격을 설정 (필요에 따라 조정) */
+  align-items: center;
+  /* 세로 중앙 정렬 */
+  gap: 10px;
+  /* p 태그와 버튼 사이의 간격을 설정 (필요에 따라 조정) */
 }
 </style>

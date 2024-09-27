@@ -70,10 +70,8 @@ import { useStore } from "vuex";
 const store = useStore();
 const exchangeStore = useExchangeStore();
 
-// const usdToKrwUrl =
-//   "https://v6.exchangerate-api.com/v6/6bbbf78cc42a296d533a9e6b/pair/USD/KRW";
-// const krwToUsdUrl =
-//   "https://v6.exchangerate-api.com/v6/6bbbf78cc42a296d533a9e6b/pair/KRW/USD";
+const usdToKrwUrl = `https://v6.exchangerate-api.com/v6/${import.meta.env.VITE_EXCHANGE_RATE_API_KEY}/pair/USD/KRW`;
+const krwToUsdUrl = `https://v6.exchangerate-api.com/v6/${import.meta.env.VITE_EXCHANGE_RATE_API_KEY}/pair/KRW/USD`;
 
 const fetchExchangeRates = async () => {
   try {

@@ -23,12 +23,28 @@ export default {
       service: null,
       geocoder: null,
       overlayVisible: false, // 오버레이 표시 상태
+      apiLoaded: false // API 로드 상태를 추적하기 위한 새로운 데이터 속성
     };
   },
   mounted() {
-    this.initMap();
+    this.loadGoogleMapsAPI();
   },
   methods: {
+    loadGoogleMapsAPI() {
+      if (!this.apiLoaded) {
+        const script = document.createElement('script');
+        script.src = `https://maps.googleapis.com/maps/api/js?key=${import.meta.env.VITE_GOOGLE_MAP_API_KEY}&libraries=places,advanced-markers`;
+        script.async = true;
+        script.defer = true;
+        script.onload = () => {
+          this.apiLoaded = true;
+          this.initMap();
+        };
+        document.head.appendChild(script);
+      } else {
+        this.initMap();
+      }
+    },
     initMap() {
       this.map = new google.maps.Map(document.getElementById('map'), {
         center: { lat: 37.5665, lng: 126.978 }, // Initial map center at Seoul

@@ -12,7 +12,8 @@
 
           <!-- 비밀번호 도트 -->
           <div class="password-dots">
-            <span v-for="(digit, index) in 6" :key="index" :class="{ dot: true, filled: password.length >= index + 1 }"></span>
+            <span v-for="(digit, index) in 6" :key="index"
+              :class="{ dot: true, filled: password.length >= index + 1 }"></span>
           </div>
 
           <!-- 숫자 키패드 -->
@@ -92,38 +93,6 @@ const verifyPassword = async (userNo) => {
 };
 </script>
 <style scope>
-/* 모달 오버레이 */
-.modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.5);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 1000;
-}
-
-/* 모달 컨텐츠 */
-.modal-content {
-  background-color: white;
-  padding: 20px;
-  border-radius: 8px;
-  width: 100px; /* 기본 크기 */
-  max-width: 30%; /* 화면에 맞게 줄어들도록 설정 */
-  text-align: center;
-  z-index: 1001;
-}
-
-/* 모달 헤더 */
-.modal-header h3 {
-  font-size: 24px;
-  font-weight: bold;
-  margin-bottom: 10px;
-}
-
 /* 비밀번호 도트 */
 .password-dots {
   display: flex;
@@ -165,34 +134,5 @@ const verifyPassword = async (userNo) => {
 
 .keypad button:hover {
   background-color: #ddd;
-}
-
-/* 반응형 스타일 */
-@media (max-width: 768px) {
-  .modal-content {
-    width: 90%; /* 작은 화면에서 너비를 90%로 설정 */
-  }
-
-  .keypad button {
-    width: 50px; /* 버튼 크기 조정 */
-    height: 50px; /* 버튼 크기 조정 */
-    font-size: 20px; /* 폰트 크기 조정 */
-  }
-}
-
-@media (max-width: 480px) {
-  .modal-content {
-    width: 95%; /* 더욱 작은 화면에서 너비를 95%로 설정 */
-  }
-
-  .modal-header h3 {
-    font-size: 20px; /* 제목 크기 조정 */
-  }
-
-  .keypad button {
-    width: 40px; /* 버튼 크기 조정 */
-    height: 40px; /* 버튼 크기 조정 */
-    font-size: 18px; /* 폰트 크기 조정 */
-  }
 }
 </style>

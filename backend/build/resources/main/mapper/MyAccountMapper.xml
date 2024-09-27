@@ -33,7 +33,15 @@
     <select id="selectUserEmail" parameterType="string" resultType="string">
         select user_id
         from user
+<<<<<<< HEAD
+<<<<<<< HEAD
         where user_id = #{userId}
+=======
+        where user_no = ${userNo}
+>>>>>>> 94ee48886d81483b4875d1db400bf4947367a889
+=======
+        where user_id = #{userId}
+>>>>>>> 29e4e7d12389fe76e0850a06a96a66140ff7da45
     </select>
 
     <!-- 계좌 잔액 수정 -->
@@ -63,10 +71,25 @@
         VALUES
             (#{userNo}, #{songNo}, #{krwNo}, #{typeCode}, #{stateCode}, #{historyContent}, #{amount}, #{exchangeRate})
     </insert>
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+>>>>>>> 94ee48886d81483b4875d1db400bf4947367a889
+=======
+>>>>>>> 29e4e7d12389fe76e0850a06a96a66140ff7da45
     <!--  userNo에 따른 2차 비밀번호 조회  -->
     <select id="selectSecondPwd" parameterType="integer" resultType="string">
         select second_pwd
         from user
         where user_no = #{userNo}
     </select>
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 2ebfe61bd987f72bfea238a75164080a5347c4f3
+>>>>>>> 94ee48886d81483b4875d1db400bf4947367a889
+=======
+>>>>>>> 29e4e7d12389fe76e0850a06a96a66140ff7da45
 </mapper>
