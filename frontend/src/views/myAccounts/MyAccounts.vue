@@ -176,7 +176,7 @@ const deposit = async () => {
       krwNo,
       typeCode: 3, //거래 코드 충전 3
       stateCode: 1,
-      historyContent: 'SongE money 충전',
+      historyContent: `My Account → ${customerunit} 충전`,
       amount,
     },
   });
@@ -208,7 +208,7 @@ const exchange = async () => {
       krwNo,
       typeCode: 5,
       stateCode: 1,
-      historyContent: 'SongE money → WonE money',
+      historyContent: `${customerunit} → KRW 환전`,
       amount,
       exchangeRate,
     },
@@ -241,7 +241,7 @@ const refund = async () => {
       krwNo,
       typeCode: 4,
       stateCode: 1,
-      historyContent: 'SongE money → My Account',
+      historyContent: `${customerunit} → My Account 환불`,
       amount,
     },
   });
@@ -271,7 +271,7 @@ const transfer = async () => {
       krwNo,
       typeCode: 2, //거래 코드 충전 2
       stateCode: 1,
-      historyContent: `나의 WonE money → ${sendEmail}`,
+      historyContent: `KRW → ${sendEmail} 송금`,
       amount,
     },
   });
@@ -304,7 +304,7 @@ const reExchange = async () => {
       krwNo,
       typeCode: 6,
       stateCode: 1,
-      historyContent: 'WonE money → SongE money',
+      historyContent: `KRW → ${customerunit} 환급`,
       amount,
       exchangeRate,
     },
