@@ -4,12 +4,12 @@ import { useStore } from "vuex";
 import { useRouter } from "vue-router";
 import ArgonInput from "@/components/templates/ArgonInput.vue";
 import ArgonButton from "@/components/templates/ArgonButton.vue";
-import { useSigninStore } from "@/stores/signinStore";
+import { useSignupStore } from "@/stores/signupStore";
 
 const body = document.getElementsByTagName("body")[0];
 const store = useStore();
 const router = useRouter();
-const signinStore = useSigninStore();
+const signupStore = useSignupStore();
 
 onBeforeMount(() => {
   store.state.hideConfigButton = true;
@@ -39,7 +39,7 @@ const isEmailValid = computed(() => {
 // 다음 버튼 클릭 핸들러
 const handleNext = () => {
   if (isEmailValid.value) {
-    signinStore.setEmail(email.value); // 이메일 저장
+    signupStore.setEmail(email.value); // 이메일 저장
     router.push("/register/email/check");
   } else {
     console.log("Invalid email address.");
@@ -85,6 +85,7 @@ const handleNext = () => {
                     placeholder="Email"
                     aria-label="Email"
                     v-model="email"
+                    :error="email !== '' && !isEmailValid"
                   />
                   <!-- 다음 버튼 -->
                   <div class="text-center">
