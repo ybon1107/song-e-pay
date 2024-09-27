@@ -5,7 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
+import java.util.List;
 import java.util.Date;
 import java.util.List;
 
@@ -22,4 +22,8 @@ public class SearchItem {
     Integer stateCode;
     Date beginDate;
     Date endDate;
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> d09716cb662efcd59cac58c74b192846943cf87c

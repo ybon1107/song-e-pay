@@ -14,14 +14,23 @@ import Maps from "../views/maps/Maps.vue";
 // import RTL from "../views/Rtl.vue";
 import Profile from "../views/profile/Profile.vue";
 import ChangePwd from "../views/profile/ChangePassword.vue";
-import Register from "../views/signUp/RegisterLegal.vue";
-import Registeremail from "../views/signUp/Registeremail.vue";
 import Login from "../views/signIn/Login.vue";
+import LoginPhone from '../views/signIn/LoginPhone.vue';
+import LoginIssueInfo from '../views/signIn/LoginIssueInfo.vue';
+import RegisterLegal from "../views/signUp/RegisterLegal.vue";
+import RegisterEmail from "../views/signUp/RegisterEmail.vue";
+import RegisterEmailCheck from "../views/signUp/RegisterEmailCheck.vue";
+import RegisterEmailSuccess from '../views/signUp/RegisterEmailSuccess.vue';
+import RegisterPhone from "../views/signUp/RegisterPhone.vue";
+import RegisterPhoneSubmit from "../views/signUp/RegisterPhoneSubmit.vue";
+import RegisterDetails from '../views/signUp/RegisterDetails.vue';
+import CodeSendAnother from '../views/signIn/CodeSendAnother.vue';
 import ExchangeRate from "../views/exchangeRate/ExchangeRate.vue";
-import ExchangeRateChart from "../views/Chart/ExchangeRateChart.vue";
 
 // map 컴포넌트 추가
 import MapComponent from "../views/maps/MapComponent.vue";
+import ErrorPage from "../views/error/ErrorPage.vue";
+
 
 const routes = [
   {
@@ -45,8 +54,8 @@ const routes = [
     component: ExchangeRate,
   },
   {
-    path: '/set-alert',
-    name: 'SetAlert',
+    path: "/set-alert",
+    name: "SetAlert",
     component: SetAlert,
   },
   {
@@ -75,8 +84,8 @@ const routes = [
     component: Maps,
   },
   {
-    path: '/profile',
-    name: 'Profile',
+    path: "/profile",
+    name: "Profile",
     component: Profile,
   },
   // map컴포넌트 추가
@@ -86,29 +95,74 @@ const routes = [
     component: MapComponent,
   },
   {
-    path: '/map',
-    name: 'MapComponent',
-    component: MapComponent,
-  },
-  {
     path: '/change-password',
     name: 'ChangePwd',
     component: ChangePwd,
   },
   {
-    path: '/login',
-    name: 'Login',
+    path: "/login",
+    name: "Login",
     component: Login,
   },
   {
-    path: '/register/legal',
-    name: 'Register',
-    component: Register,
+    path: "/login/issue-info",
+    name: "LoginIssueInfo",
+    component: LoginIssueInfo,
   },
   {
-    path: '/register/email',
-    name: 'Registeremail',
-    component: Registeremail,
+    path: "/login/phone",
+    name: "LoginPhone",
+    component: LoginPhone,
+  },
+  {
+    path: "/login/phone/another",
+    name: "LoginPhoneAnother",
+    component: CodeSendAnother,
+  },
+  {
+    path: "/register/legal",
+    name: "RegisterLegal",
+    component: RegisterLegal,
+  },
+  {
+    path: "/register/email",
+    name: "RegisterEmail",
+    component: RegisterEmail,
+  },
+  {
+    path: "/register/email/check",
+    name: "RegisterEmailCheck",
+    component: RegisterEmailCheck,
+  },
+  {
+    path: "/register/email/success",
+    name: "RegisterEmailSuccess",
+    component: RegisterEmailSuccess,
+  },
+  {
+    path: "/register/phone",
+    name: "RegisterPhone",
+    component: RegisterPhone,
+  },
+  {
+    path: "/register/phone/another",
+    name: "RegisterPhoneAnother",
+    component: CodeSendAnother,
+  },
+  {
+    path: "/register/phone/submit",
+    name: "RegisterPhoneSubmit",
+    component: RegisterPhoneSubmit,
+  },
+  {
+    path: "/register/detail",
+    name: "RegisterDetails",
+    component: RegisterDetails,
+  },
+  {
+    path: "/error",
+    name: "ErrorPage",
+    component: ErrorPage,
   },
 ];
 

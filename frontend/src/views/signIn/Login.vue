@@ -1,46 +1,64 @@
 <script setup>
-import { ref, reactive, computed, onBeforeUnmount, onBeforeMount, onMounted } from "vue";
+import { ref, computed, onBeforeUnmount, onBeforeMount, onMounted } from "vue";
 import { useStore } from "vuex";
 import { useRouter } from "vue-router";
-import { useAuthStore } from '@/stores/auth';
+import { useAuthStore } from "@/stores/auth";
 import axios from "axios";
 import ArgonInput from "@/components/templates/ArgonInput.vue";
 import ArgonSwitch from "@/components/templates/ArgonSwitch.vue";
 import ArgonButton from "@/components/templates/ArgonButton.vue";
 
-const body = document.getElementsByTagName("body")[0];
+const body = document.getElementsByTagName('body')[0];
 const store = useStore();
 const router = useRouter();
 const auth = useAuthStore();
 
-const member = reactive({
-  email: '',
-  password: '',
+const member = ref({
+  user: {
+    email: "",
+    password: "",
+  },
 });
 
-const error = ref('');
+const error = ref("");
 
 onBeforeMount(() => {
   store.state.hideConfigButton = true;
   store.state.showNavbar = false;
   store.state.showSidenav = false;
   store.state.showFooter = false;
-  body.classList.remove("bg-gray-100");
+  body.classList.remove('bg-gray-100');
 });
 onBeforeUnmount(() => {
   store.state.hideConfigButton = false;
   store.state.showNavbar = true;
   store.state.showSidenav = true;
   store.state.showFooter = true;
-  body.classList.add("bg-gray-100");
+  body.classList.add('bg-gray-100');
+});
+// 부트스트랩 유효성 검사 스크립트
+onMounted(() => {
+  const forms = document.querySelectorAll(".needs-validation");
+  Array.prototype.slice.call(forms).forEach(function (form) {
+    form.addEventListener(
+      "submit",
+      function (event) {
+        if (!form.checkValidity()) {
+          event.preventDefault();
+          event.stopPropagation();
+          form.classList.remove("was-validated");
+        } else {
+          form.classList.remove("was-validated");
+        }
+      },
+      false
+    );
+  });
 });
 
 // 이메일과 비밀번호 입력 필드 상태
-const email = ref("");
-const password = ref("");
-
-member.email = email;
-member.password = password;
+const email = ref('');
+const password = ref('');
 
 // 이메일 유효성 검사
 const isEmailValid = computed(() => {
@@ -64,6 +82,11 @@ const isFormValid = computed(() => {
 
 // 폼 제출 처리
 const handleSubmit = async () => {
+  // member 객체에 이메일과 비밀번호 할당
+  member.value.user.email = email.value;
+  member.value.user.password = password.value;
+
+  console.log("try login: ", member.value);
   emailError.value = !isEmailValid.value;
   passwordError.value = !isPasswordValid.value;
 
@@ -85,37 +108,19 @@ const handleSubmit = async () => {
   //     alert("An error occurred during login. Please try again.");
   //   }
   // }
-  try {
-    await auth.login(member);
-    if (localStorage.getItem('auth') != " ") {
-      router.push('/');
-    } 
-  } catch (e) {
-    // 로그인 에러
-    console.log('에러=======', e);
-    error.value = e.response.data;
+  if (isFormValid.value) {
+    try {
+      await auth.login(member.value);
+      if (localStorage.getItem("auth") != " ") {
+        router.push("/login/phone");
+      }
+    } catch (e) {
+      // 로그인 에러
+      console.log("에러=======", e);
+      error.value = e.response.data;
+    }
   }
 };
-
-// 부트스트랩 유효성 검사 스크립트
-onMounted(() => {
-  const forms = document.querySelectorAll(".needs-validation");
-  Array.prototype.slice.call(forms).forEach(function (form) {
-    form.addEventListener(
-      "submit",
-      function (event) {
-        if (!form.checkValidity()) {
-          event.preventDefault();
-          event.stopPropagation();
-          form.classList.remove("was-validated");
-        } else {
-          form.classList.remove("was-validated");
-        }
-      },
-      false
-    );
-  });
-});
 </script>
 <template>
   <!-- 메인 콘텐츠 섹션 -->

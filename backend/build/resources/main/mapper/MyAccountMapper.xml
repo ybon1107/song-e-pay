@@ -41,11 +41,15 @@
     </select>
 
     <!--  회원 이메일 확인  -->
-    <select id="selectUserEmail" parameterType="integer" resultType="string">
+    <select id="selectUserEmail" parameterType="string" resultType="string">
         select user_id
         from user
+<<<<<<< HEAD
         where user_no = ${userNo}
 >>>>>>> 68d7ce0e084dffd20f92dbc738854ef41fb8990d
+=======
+        where user_id = #{userId}
+>>>>>>> d09716cb662efcd59cac58c74b192846943cf87c
     </select>
 
     <!-- 계좌 잔액 수정 -->
@@ -81,12 +85,21 @@
 =======
         WHERE krw_no = #{krwNo}
     </update>
-
+    <!-- 이용내역 추가-->
     <insert id="insertHistory" parameterType="historyDTO">
         INSERT INTO sepay.history
-        (user_no, song_no, krw_no, type_code, state_code, history_content, amount)
+        (user_no, song_no, krw_no, type_code, state_code, history_content, amount, exchange_rate)
         VALUES
-            (#{userNo}, #{songNo}, #{krwNo}, #{typeCode}, #{stateCode}, #{historyContent}, #{amount})
+            (#{userNo}, #{songNo}, #{krwNo}, #{typeCode}, #{stateCode}, #{historyContent}, #{amount}, #{exchangeRate})
     </insert>
+<<<<<<< HEAD
 >>>>>>> 68d7ce0e084dffd20f92dbc738854ef41fb8990d
+=======
+    <!--  userNo에 따른 2차 비밀번호 조회  -->
+    <select id="selectSecondPwd" parameterType="integer" resultType="string">
+        select second_pwd
+        from user
+        where user_no = #{userNo}
+    </select>
+>>>>>>> d09716cb662efcd59cac58c74b192846943cf87c
 </mapper>

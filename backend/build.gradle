@@ -97,6 +97,13 @@ dependencies {
     runtimeOnly("io.jsonwebtoken:jjwt-impl:0.11.5")
     implementation("io.jsonwebtoken:jjwt-jackson:0.11.5")
 
+    // google email smtp
+    implementation ("org.springframework:spring-context-support:${springVersion}")
+    implementation ("javax.mail:javax.mail-api:1.6.2")
+    implementation 'javax.activation:activation:1.1.1'
+    implementation ("com.sun.mail:javax.mail:1.6.2")
+
+
     // 테스트
     testImplementation "org.springframework:spring-test:${springVersion}"
     testCompileOnly"org.projectlombok:lombok:${lombokVersion}"
@@ -104,6 +111,9 @@ dependencies {
 
     testImplementation("org.junit.jupiter:junit-jupiter-api:${junitVersion}")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:${junitVersion}")
+
+    // sms 인증 처리
+    implementation 'net.nurigo:sdk:4.3.0'
 }
 
 test {
