@@ -1,20 +1,20 @@
 <template>
     <teleport to="#modal-container">
-        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div v-if="isVisible" class="modal-backdrop fade show"></div>
+        <div v-if="isVisible" class="modal fade show" style="display: block;" tabindex="-1" role="dialog"
+            aria-labelledby="exampleModalLabel" aria-hidden="true" @click.self="close">
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
-                    <div class="modal-header">
+                    <div class="modal-header border-0">
                         <h1 class="modal-title fs-5" id="exampleModalLabel">{{ title }}</h1>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        <button type="button" class="btn-close" @click="close" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
                         <slot></slot>
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ cancelText
-                            }}</button>
-                        <button type="button" class="btn btn-primary" @click="$emit('confirm')">{{ confirmText
-                            }}</button>
+                    <div class="modal-footer border-0">
+                        <button type="button" class="btn btn-secondary" @click="close">{{ cancelText }}</button>
+                        <button type="button" class="btn btn-primary" @click="confirm">{{ confirmText }}</button>
                     </div>
                 </div>
             </div>
@@ -23,7 +23,7 @@
 </template>
 
 <script setup>
-defineProps({
+const props = defineProps({
     title: {
         type: String,
         default: '모달 제목'
@@ -35,8 +35,20 @@ defineProps({
     confirmText: {
         type: String,
         default: '확인'
+    },
+    isVisible: {
+        type: Boolean,
+        required: true
     }
 });
 
-defineEmits(['confirm']);
+const emit = defineEmits(['close', 'confirm']);
+
+const close = () => {
+    emit('close');
+};
+
+const confirm = () => {
+    emit('confirm');
+};
 </script>

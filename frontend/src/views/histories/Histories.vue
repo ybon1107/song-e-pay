@@ -3,6 +3,7 @@ import { ref, computed, onMounted } from 'vue';
 import moment from 'moment'; // moment.js로 Unix Timestamp를 변환
 import historyApi from '../../api/historiesApi.js'; // API 파일 import
 import Modal from './Modal.vue';
+import HistoriesDetailModal from './HistoriesDetailModal.vue';
 
 const selectedCurrency = ref('');
 const transactionType = ref('');
@@ -175,15 +176,37 @@ const getTransactionTypeCodes = (types) => {
         .filter((code) => code !== undefined);
 };
 
+
 // 모달 관련 상태 관리
 const isModalVisible = ref(false);
 const selectedTransaction = ref(null); // selectedTransaction 정의
 
+const openModal = (transaction) => {
+    selectedTransaction.value = transaction;
+    isModalVisible.value = true;
+};
 
 // 모달을 닫는 함수
 const closeModal = () => {
     isModalVisible.value = false;
 };
+
+
+// // HistoriesDetailModal 관련 상태
+// const isDetailModalVisible = ref(false);
+// const selectedDetailTransaction = ref(null);
+
+// // HistoriesDetailModal을 여는 함수
+// const openDetailModal = (transaction) => {
+//     selectedDetailTransaction.value = transaction;
+//     isDetailModalVisible.value = true;
+// };
+
+// // HistoriesDetailModal을 닫는 함수
+// const closeDetailModal = () => {
+//     isDetailModalVisible.value = false;
+// };
+
 </script>
 
 <template>
@@ -196,11 +219,7 @@ const closeModal = () => {
                 <div class="row">
                     <div class="col-md-3 mb-3">
                         <label for="account-kind">계좌 종류</label>
-                        <select
-                            id="account-kind"
-                            v-model="selectedCurrency"
-                            class="form-select"
-                        >
+                        <select id="account-kind" v-model="selectedCurrency" class="form-select">
                             <option value="">전체 내역</option>
                             <option value="KoreaAccount">원화 머니 계좌</option>
                             <option value="ForeignAccount">
@@ -210,28 +229,16 @@ const closeModal = () => {
                     </div>
                     <div class="col-md-3 mb-3">
                         <label for="transType">거래 유형</label>
-                        <select
-                            id="transType"
-                            v-model="transactionType"
-                            class="form-select"
-                        >
+                        <select id="transType" v-model="transactionType" class="form-select">
                             <option value="">모두</option>
-                            <option
-                                v-for="type in transactionTypes"
-                                :key="type"
-                                :value="type"
-                            >
+                            <option v-for="type in transactionTypes" :key="type" :value="type">
                                 {{ type }}
                             </option>
                         </select>
                     </div>
                     <div class="col-md-3 mb-3">
                         <label for="transactionStatus">거래 상태</label>
-                        <select
-                            id="transactionStatus"
-                            v-model="transactionStatus"
-                            class="form-select"
-                        >
+                        <select id="transactionStatus" v-model="transactionStatus" class="form-select">
                             <option value="">모두</option>
                             <option value="성공">성공</option>
                             <option value="취소">취소</option>
@@ -242,39 +249,20 @@ const closeModal = () => {
                 <div class="row">
                     <div class="col-md-3 mb-3">
                         <label for="startDate">시작 날짜</label>
-                        <input
-                            id="startDate"
-                            type="date"
-                            v-model="startDate"
-                            @click="openDatePicker"
-                            class="form-control"
-                        />
+                        <input id="startDate" type="date" v-model="startDate" @click="openDatePicker"
+                            class="form-control" />
                     </div>
                     <div class="col-md-3 mb-3">
                         <label for="endDate">끝 날짜</label>
-                        <input
-                            id="endDate"
-                            type="date"
-                            v-model="endDate"
-                            :min="startDate"
-                            @click="openDatePicker"
-                            class="form-control"
-                        />
+                        <input id="endDate" type="date" v-model="endDate" :min="startDate" @click="openDatePicker"
+                            class="form-control" />
                     </div>
                     <div class="col-md-4 d-flex align-items-end mb-3">
-                        <input
-                            type="text"
-                            class="form-control"
-                            placeholder="상세 내용 검색"
-                            v-model="searchQuery"
-                            @keyup.enter="applyTransactionFilters"
-                        />
+                        <input type="text" class="form-control" placeholder="상세 내용 검색" v-model="searchQuery"
+                            @keyup.enter="applyTransactionFilters" />
                     </div>
                     <div class="col-md-2 d-flex align-items-end mb-3">
-                        <button
-                            @click="applyTransactionFilters"
-                            class="btn btn-success mb-0"
-                        >
+                        <button @click="applyTransactionFilters" class="btn btn-success mb-0">
                             Apply
                         </button>
                     </div>
@@ -293,12 +281,8 @@ const closeModal = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        <tr
-                            v-for="transaction in transactions"
-                            :key="transaction.historyNo"
-                            @click="openModal(transaction)"
-                            style="cursor: pointer"
-                        >
+                        <tr v-for="transaction in transactions" :key="transaction.historyNo"
+                            @click="openModal(transaction)" style="cursor: pointer">
                             <td>{{ transaction.historyDate }}</td>
                             <td>{{ transaction.typeCode }}</td>
                             <td>{{ transaction.historyContent }}</td>
@@ -310,32 +294,20 @@ const closeModal = () => {
             </div>
             <!-- 페이지네이션 컨트롤 -->
             <div class="d-flex justify-content-center my-4">
-                <button
-                    class="btn btn-secondary mx-1"
-                    @click="goToPage(pageRequest.page - 1)"
-                    :disabled="pageRequest.page === 1"
-                >
+                <button class="btn btn-secondary mx-1" @click="goToPage(pageRequest.page - 1)"
+                    :disabled="pageRequest.page === 1">
                     Previous
                 </button>
-                <button
-                    class="btn btn-secondary mx-1"
-                    @click="goToPage(pageRequest.page + 1)"
-                    :disabled="pageRequest.page === totalPages"
-                >
+                <button class="btn btn-secondary mx-1" @click="goToPage(pageRequest.page + 1)"
+                    :disabled="pageRequest.page === totalPages">
                     Next
                 </button>
-                <span class="mx-2"
-                    >Page {{ pageRequest.page }} of {{ totalPages }}</span
-                >
+                <span class="mx-2">Page {{ pageRequest.page }} of {{ totalPages }}</span>
             </div>
-            <!-- 모달 컴포넌트  -->
-            <Modal
-                :transaction="selectedTransaction"
-                :isVisible="isModalVisible"
-                @close="closeModal"
-            />
         </div>
     </div>
+    <!-- 이용내역 상세 모달 -->
+    <HistoriesDetailModal :transaction="selectedTransaction" :isVisible="isModalVisible" @close="closeModal" />
 </template>
 
 <style scoped>
