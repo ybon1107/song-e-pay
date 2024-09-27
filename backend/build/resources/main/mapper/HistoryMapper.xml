@@ -5,6 +5,7 @@
 
 <mapper namespace="com.sepay.backend.history.mapper.HistoryMapper">
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 <<<<<<< HEAD
     <select id="getFilter" parameterType="SearchItem" resultType="HistoryDTO">
@@ -37,6 +38,8 @@
 
 =======
 >>>>>>> 94ee48886d81483b4875d1db400bf4947367a889
+=======
+>>>>>>> 29e4e7d12389fe76e0850a06a96a66140ff7da45
     <select id="getFilter" resultType="HistoryDTO">
         SELECT *
         FROM history h
@@ -71,11 +74,9 @@
                 #{item}
             </foreach>
         </if>
-        <!-- 거래 상태 필터링 -->
         <if test="stateCode != null">
             AND h.state_code = #{stateCode}
         </if>
-        <!-- 날짜 범위 필터링 -->
         <if test="beginDate != null and endDate != null">
             AND h.history_date BETWEEN #{beginDate} AND #{endDate}
         </if>
@@ -89,10 +90,9 @@
 =======
 >>>>>>> 94ee48886d81483b4875d1db400bf4947367a889
         </if>
-
-        ORDER BY h.history_date DESC
     </select>
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 =======
 >>>>>>> 2ebfe61bd987f72bfea238a75164080a5347c4f3
@@ -103,6 +103,8 @@
 <<<<<<< HEAD
 =======
 >>>>>>> 94ee48886d81483b4875d1db400bf4947367a889
+=======
+>>>>>>> 29e4e7d12389fe76e0850a06a96a66140ff7da45
 
     <select id="selectAllHistories" resultType="HistoryDTO">
         SELECT * FROM history ORDER BY history_date DESC
@@ -113,10 +115,10 @@
         select count(*) from history
     </select>
 
->>>>>>> 2ebfe61bd987f72bfea238a75164080a5347c4f3
     <update id="updateMemo" parameterType="HistoryDTO">
         UPDATE history
         SET memo = #{memo}
         WHERE history_no = #{historyNo}
     </update>
+    
 </mapper>

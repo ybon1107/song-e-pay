@@ -78,8 +78,6 @@ const verifyPassword = async (userNo) => {
   try {
     // API 호출을 통해 correctPassword 가져오기
     const correctPassword = await myaccountApi.checkSecondPassword(userNo);
-    console.log(password.value);
-    console.log(correctPassword);
     // 사용자가 입력한 비밀번호와 correctPassword 비교
     if (password.value == correctPassword) {
       emit('password-verified'); // 비밀번호가 맞을 경우 password-verified 이벤트 emit
