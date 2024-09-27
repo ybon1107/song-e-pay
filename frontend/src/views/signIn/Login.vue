@@ -13,9 +13,11 @@ const store = useStore();
 const router = useRouter();
 const auth = useAuthStore();
 
-const member = reactive({
-  email: '',
-  password: '',
+const member = ref({
+  user: {
+    email: "",
+    password: "",
+  },
 });
 
 const error = ref('');
@@ -64,6 +66,12 @@ const isFormValid = computed(() => {
 
 // 폼 제출 처리
 const handleSubmit = async () => {
+  // 함수 외부에 있던 member 객체 함수 내부로 이동 및 수정
+  // member 객체에 이메일과 비밀번호 할당
+  member.value.user.email = email.value;
+  member.value.user.password = password.value;
+
+  console.log("try login: ", member.value);
   emailError.value = !isEmailValid.value;
   passwordError.value = !isPasswordValid.value;
 
@@ -85,15 +93,17 @@ const handleSubmit = async () => {
   //     alert("An error occurred during login. Please try again.");
   //   }
   // }
-  try {
-    await auth.login(member);
-    if (localStorage.getItem('auth') != " ") {
-      router.push('/');
-    } 
-  } catch (e) {
-    // 로그인 에러
-    console.log('에러=======', e);
-    error.value = e.response.data;
+  if (isFormValid.value) {
+    try {
+      await auth.login(member.value);
+      if (localStorage.getItem("auth") != " ") {
+        window.location.href = '/';
+      }
+    } catch (e) {
+      // 로그인 에러
+      console.log("에러=======", e);
+      error.value = e.response.data;
+    }
   }
 };
 

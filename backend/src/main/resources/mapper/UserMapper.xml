@@ -16,6 +16,7 @@
         where user_no = #{userNo}
     </select>
 
+    <!-- 로그인 -->
     <select id="selectUser" parameterType="map" resultType="userDTO">
         select *
         from user
