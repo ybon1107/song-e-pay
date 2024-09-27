@@ -44,12 +44,6 @@
         where user_no = #{userNo} and target_krw != 0
     </select>
 
-    <!-- 자동 환전 예약 삭제 -->
-<!--    <delete id="deleteAutoexchange">-->
-<!--        DELETE from exchange_reservation-->
-<!--        where res_no = #{resNo}-->
-<!--    </delete>-->
-
     <!-- 자동 환전 예약 갯수 -->
     <select id="countAutoexchange" parameterType="map" resultType="Integer">
         select count(*)
