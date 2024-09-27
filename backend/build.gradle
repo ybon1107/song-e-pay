@@ -10,6 +10,7 @@ repositories {
     mavenCentral()
 }
 
+
 ext {
     junitVersion = '5.9.2'
     springVersion = '5.3.37'
@@ -25,11 +26,20 @@ tasks.withType(JavaCompile) {
 }
 
 dependencies {
+
+    implementation 'commons-fileupload:commons-fileupload:1.4'
+
     // 스프링
     implementation ("org.springframework:spring-context:${springVersion}")
             { exclude group: 'commons-logging', module: 'commons-logging' }
     implementation "org.springframework:spring-webmvc:${springVersion}"
     implementation 'javax.inject:javax.inject:1'
+
+    // AWS S3
+    implementation 'software.amazon.awssdk:s3:2.16.82'
+
+    // Commons FileUpload 의존성
+    implementation 'commons-fileupload:commons-fileupload:1.4'
 
     // AOP
     implementation 'org.aspectj:aspectjrt:1.9.20'
@@ -94,6 +104,9 @@ dependencies {
 
     testImplementation("org.junit.jupiter:junit-jupiter-api:${junitVersion}")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:${junitVersion}")
+
+    // sms 인증 처리
+    implementation 'net.nurigo:sdk:4.3.0'
 }
 
 test {

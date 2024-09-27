@@ -1,58 +1,18 @@
 <template>
   <div class="container">
-    <!-- 환율 알림 받기 섹션 -->
-    <div class="box">
-      <h2>환율 알림 받기</h2>
-      <div class="exchange-input">
-        <img
-          src="https://upload.wikimedia.org/wikipedia/commons/a/a4/Flag_of_the_United_States.svg"
-          alt="미국 국기"
-        />
-        <span>1 USD</span>
-        <span>=</span>
-        <input
-          type="number"
-          v-model="alertRate"
-          placeholder="목표 환율을 입력하세요."
-        />
-        <span>KRW</span>
-        <img
-          src="https://upload.wikimedia.org/wikipedia/commons/0/09/Flag_of_South_Korea.svg"
-          alt="한국 국기"
-        />
-      </div>
-      <button @click="confirmAlert">확인</button>
-      <br />
-      <br />
-      <hr />
-      <br />
-      <div class="exchange-input">
-        <img
-          src="https://upload.wikimedia.org/wikipedia/commons/0/09/Flag_of_South_Korea.svg"
-          alt="한국 국기"
-        />
-        <span>1 KRW</span>
-        <span>=</span>
-        <input
-          type="number"
-          v-model="alertRate2"
-          placeholder="목표 환율을 입력하세요."
-        />
-        <span>USD</span>
-        <img
-          src="https://upload.wikimedia.org/wikipedia/commons/a/a4/Flag_of_the_United_States.svg"
-          alt="미국 국기"
-        />
-      </div>
-      <button @click="confirmAlert">확인</button>
-    </div>
-
     <!-- 자동 환전 설정 섹션 -->
     <div class="box chart-box">
       <h2>자동 환전 설정</h2>
       <h3>1 USD = {{ currentRate }} KRW</h3>
+
       <!-- 그래프 공간 -->
-      <div class="chart">그래프 자리 (Placeholder)</div>
+      <div class="chart-container">
+        <ExchangeRateChart
+          chartId="toexchangeChart"
+          chartType="to"
+          period="1m"
+        />
+      </div>
 
       <!-- 목표 환율 입력 -->
       <div class="exchange-input" style="margin-top: 20px">
@@ -64,7 +24,7 @@
         <span>=</span>
         <input
           type="number"
-          v-model="targetRate"
+          v-model="targetExchange"
           placeholder="목표 환율을 입력하세요."
         />
         <span>KRW</span>
@@ -78,11 +38,11 @@
       <div class="exchange-input">
         <div class="targetbox">
           목표 환율: <br />
-          {{ targetRate }} KRW 이하
+          {{ targetExchange }} KRW 이하
         </div>
         <input
           type="number"
-          v-model="targetAmount"
+          v-model="targetKrw"
           placeholder="자동 전환할 금액을 입력하세요."
         />
         <span>KRW</span>
@@ -91,7 +51,9 @@
           alt="한국 국기"
         />
       </div>
-      <button @click="confirmAutoExchange">확인</button>
+      <button @click="confirmAutoExchange(1, 0, targetExchange, targetKrw)">
+        확인
+      </button>
     </div>
   </div>
 </template>
@@ -99,6 +61,11 @@
 <script setup>
 import { ref } from "vue";
 import { useExchangeStore } from "../../stores/exchangeStore";
+import ExchangeRateChart from "@/views/Chart/ExchangeRateChart.vue";
+import axios from "axios";
+import { useRouter } from "vue-router";
+
+const router = useRouter();
 
 const store = useExchangeStore();
 
@@ -106,21 +73,46 @@ const store = useExchangeStore();
 const currentRate = ref(store.currentToKrw);
 
 // 상태 변수들을 ref로 선언
-const alertRate = ref(""); // 환율 알림 목표 값
-const alertRate2 = ref(""); // 환율 알림 목표 값
-const targetRate = ref(""); // 자동 환전 목표 환율
-const targetAmount = ref(""); // 목표 금액
+const targetExchange = ref(null); // 자동 환전 목표 환율
+const targetKrw = ref(null); // 목표 금액
 
-// 알림 목표 환율을 확인하는 함수
-const confirmAlert = () => {
-  alert(`설정된 알림 목표 환율: 1 USD = ${alertRate.value} KRW`);
-};
+// 자동 환전 저장 함수
+const confirmAutoExchange = async (
+  baseCode,
+  targetCode,
+  targetExchange,
+  targetKrw
+) => {
+  try {
+    // const token = localStorage.getItem("jwt_token"); // JWT 토큰 가져오기
+    // userNo를 추가(임시)
+    const userNo = 1;
+    console.log(userNo, baseCode, targetCode, targetExchange, targetKrw);
+    // 서버에 POST 요청 보내기
+    const response = await axios.post(
+      "/api/exchange-reservation/setalert",
+      {
+        userNo: userNo,
+        baseCode: baseCode,
+        targetCode: targetCode,
+        targetExchange: targetExchange,
+        targetKrw: targetKrw,
+      }
+      // {
+      //   headers: {
+      //     Authorization: `Bearer ${token}`, // 인증 헤더에 토큰 추가
+      //   },
+      // }
+    );
 
-// 자동 환전 목표를 확인하는 함수
-const confirmAutoExchange = () => {
-  alert(
-    `목표 환율: 1 USD = ${targetRate.value} KRW \n목표 금액: ${targetAmount.value} KRW 이하`
-  );
+    if (response.status === 200) {
+      alert("자동 환전 예약이 성공적으로 저장되었습니다.");
+      router.push("/exchange-rate");
+    }
+  } catch (error) {
+    console.error("자동 환전 예약 중 오류 발생:", error);
+    alert("자동 환전 예약에 실패했습니다. 오류: " + error.response.data);
+  }
 };
 </script>
 
@@ -144,6 +136,21 @@ body {
 h2 {
   font-size: 18px;
   margin-bottom: 15px;
+}
+h3 {
+  font-size: 16px;
+  margin-bottom: 10px;
+  color: #333;
+}
+.chart-container {
+  width: 100%;
+  width: 100%; /* 그래프 높이 늘리기 */
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 2%;
+  margin-bottom: 2%; /* 그래프와 상단 요소 간격 */
 }
 .exchange-input {
   display: flex;
@@ -178,21 +185,8 @@ button {
 button:hover {
   background-color: #fdd835;
 }
-.chart-box {
-  margin-top: 20px;
-}
-.chart-box h3 {
-  font-size: 16px;
-  margin-bottom: 10px;
-}
-.chart {
-  width: 100%;
-  height: 200px;
-  background-color: #efefef;
-  border-radius: 10px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  color: #aaa;
+.targetbox {
+  font-size: 14px;
+  color: #666;
 }
 </style>

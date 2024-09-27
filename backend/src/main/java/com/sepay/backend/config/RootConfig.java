@@ -5,13 +5,11 @@ import com.zaxxer.hikari.HikariDataSource;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
-import org.mybatis.spring.SqlSessionTemplate;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
@@ -29,7 +27,7 @@ import javax.sql.DataSource;
         "com.sepay.backend.notification.mapper",
         "com.sepay.backend.user.mapper",
         "com.sepay.backend.setting.mapper",
-        "com.sepay.backend.payment.mapper"
+        "com.sepay.backend.payment.mapper",
 })
 @Slf4j
 @EnableTransactionManagement
@@ -68,11 +66,6 @@ public class RootConfig {
     public DataSourceTransactionManager transactionManager(){
         DataSourceTransactionManager manager = new DataSourceTransactionManager(dataSource());
         return manager;
-    }
-
-    @Bean
-    public SqlSessionTemplate sqlSessionTemplate(SqlSessionFactory sqlSessionFactory) {
-        return new SqlSessionTemplate(sqlSessionFactory);
     }
 
 }

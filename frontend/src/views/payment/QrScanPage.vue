@@ -26,8 +26,8 @@
   
   <script>
   import { ref, computed, onMounted, onBeforeUnmount } from 'vue'
-  import axios from 'axios';
   import { useRouter } from 'vue-router';
+  import paymentApi from '../../api/paymentApi';
   
   export default {
     setup() {
@@ -67,11 +67,11 @@
       //qr스캔후 처리
       const handleQRScan = async () => {
         try {
-          const response = await axios.get('/api/payment/qr-scan')
-          alert(response.data.message || '결제가 완료되었습니다.')
-          router.push('/') // 홈으로 이동
+          const response = await paymentApi.scanQRCode();
+          alert(response.data.message || '결제가 완료되었습니다.');
+          router.push('/'); // 홈으로 이동
         } catch (error) {
-          alert('오류가 발생했습니다: ' + (error.response?.data?.message || error.message))
+          alert('오류가 발생했습니다: ' + (error.response?.data?.message || error.message));
         }
       }
   

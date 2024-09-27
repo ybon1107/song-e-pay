@@ -1,111 +1,118 @@
 <template>
-  <div class="map-container">
-    <div id="map" ref="mapContainerRef" style="height: 100%"></div>
+  <div>
+    <!-- 지도 영역 -->
+    <div
+      class="map-container"
+      @click="goToMaps"
+      @mouseover="showOverlay"
+      @mouseleave="hideOverlay"
+    >
+      <div id="map" class="map-shadow"></div>
+      <div v-if="overlayVisible" class="map-overlay">
+        <p>지도로 이동</p>
+      </div>
+    </div>
   </div>
 </template>
 
-<script setup lang="ts">
-import { ref, onMounted } from 'vue';
-
-// Kakao 지도 API 키
-const MAP_API_KEY = '33cf94244b357b4aa60393fea33c07ba';
-
-const mapContainerRef = ref<HTMLElement | null>(null);
-let mapRef = ref<any>(null);
-let currentInfowindow: any = null;
-
-// 전역 kakao 객체를 선언하여 TypeScript 오류 방지
-declare global {
-  interface Window {
-    kakao: any;
-  }
-}
-
-onMounted(() => {
-  // Kakao Maps API 비동기 로드
-  const script = document.createElement('script');
-  script.onload = () => {
-    if (window.kakao && window.kakao.maps) {
-      window.kakao.maps.load(() => initializeMap());
-    }
-  };
-  script.src = `https://dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=${MAP_API_KEY}&libraries=services`;
-  document.head.appendChild(script);
-});
-
-function initializeMap() {
-  const mapContainer = mapContainerRef.value as HTMLElement;
-  const mapOption = {
-    // 서울시 강남구 중심 좌표 (37.497942, 127.027621)
-    center: new window.kakao.maps.LatLng(37.497942, 127.027621),
-    level: 5, // 확대 수준
-  };
-
-  // 지도 객체 생성
-  mapRef.value = new window.kakao.maps.Map(mapContainer, mapOption);
-
-  // 장소 검색 객체 생성
-  const ps = new window.kakao.maps.services.Places(mapRef.value);
-
-  // '서울시 강남구 국민은행' 키워드로 검색
-  ps.keywordSearch('서울시 강남구 국민은행', placesSearchCB);
-}
-
-function placesSearchCB(data: any, status: any) {
-  if (status === window.kakao.maps.services.Status.OK) {
-    // 검색 결과 첫 번째 장소로 지도 중심 이동
-    if (data.length > 0) {
-      const firstPlaceCoords = new window.kakao.maps.LatLng(
-        data[0].y,
-        data[0].x
-      );
-      mapRef.value.setCenter(firstPlaceCoords);
-    }
-
-    // 검색된 모든 장소에 마커와 인포윈도우 표시
-    data.forEach((place: any) => {
-      if (
-        place.category_name.includes('KB국민은행') &&
-        !place.category_name.includes('ATM')
-      ) {
-        const coords = new window.kakao.maps.LatLng(place.y, place.x);
-        displayMarker(coords, place);
+<script>
+export default {
+  data() {
+    return {
+      map: null,
+      service: null,
+      geocoder: null,
+      overlayVisible: false, // 오버레이 표시 상태
+      apiLoaded: false // API 로드 상태를 추적하기 위한 새로운 데이터 속성
+    };
+  },
+  mounted() {
+    this.loadGoogleMapsAPI();
+  },
+  methods: {
+    loadGoogleMapsAPI() {
+      if (!this.apiLoaded) {
+        const script = document.createElement('script');
+        script.src = `https://maps.googleapis.com/maps/api/js?key=${import.meta.env.VITE_GOOGLE_MAP_API_KEY}&libraries=places,advanced-markers`;
+        script.async = true;
+        script.defer = true;
+        script.onload = () => {
+          this.apiLoaded = true;
+          this.initMap();
+        };
+        document.head.appendChild(script);
+      } else {
+        this.initMap();
       }
-    });
-  }
-}
-
-function displayMarker(coords: any, place: any) {
-  const marker = new window.kakao.maps.Marker({
-    map: mapRef.value,
-    position: coords,
-  });
-
-  const infowindow = new window.kakao.maps.InfoWindow({
-    content: `
-          <div style="padding:10px; font-size:14px; width:200px;">
-            <strong>${place.place_name}</strong><br>
-            <em>주소: ${place.address_name}</em>
-          </div>
-        `,
-    removable: true,
-  });
-
-  window.kakao.maps.event.addListener(marker, 'click', () => {
-    if (currentInfowindow) {
-      currentInfowindow.close();
-    }
-    infowindow.open(mapRef.value, marker);
-    currentInfowindow = infowindow;
-  });
-}
+    },
+    initMap() {
+      this.map = new google.maps.Map(document.getElementById('map'), {
+        center: { lat: 37.5665, lng: 126.978 }, // Initial map center at Seoul
+        zoom: 12,
+      });
+      this.service = new google.maps.places.PlacesService(this.map);
+      this.geocoder = new google.maps.Geocoder(); // Initialize Geocoder
+    },
+    goToMaps() {
+      // Maps.vue로 이동
+      this.$router.push({ name: 'Maps' });
+    },
+    showOverlay() {
+      // 마우스 오버 시 오버레이 표시
+      this.overlayVisible = true;
+    },
+    hideOverlay() {
+      // 마우스가 벗어나면 오버레이 숨기기
+      this.overlayVisible = false;
+    },
+  },
+};
 </script>
 
 <style scoped>
 .map-container {
+  position: relative;
   width: 100%;
-  height: 300px; /* 미니맵 크기 설정 */
-  border: 1px solid #ddd;
-  border-radius: 8px;
+  height: 300px;
+  cursor: pointer;
+}
+
+.map-shadow {
+  box-shadow: 10px 10px 30px rgba(0, 0, 0, 0.3); /* 그림자 */
+  border-radius: 10px; /* 모서리 둥글게 */
+  width: 100%;
+  height: 100%;
+}
+
+.map-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* 반투명 회색 배경 */
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 10px;
+  font-size: 20px;
+}
+
+.map-overlay p {
+  margin: 0;
+}
+
+/* 반응형 디자인 */
+@media only screen and (max-width: 768px) {
+  .map-container {
+    height: 200px;
+  }
+}
+
+@media only screen and (max-width: 480px) {
+  .map-container {
+    height: 150px;
+  }
 }
 </style>

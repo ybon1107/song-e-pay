@@ -18,10 +18,11 @@ import Register from "../views/signUp/RegisterLegal.vue";
 import Registeremail from "../views/signUp/Registeremail.vue";
 import Login from "../views/signIn/Login.vue";
 import ExchangeRate from "../views/exchangeRate/ExchangeRate.vue";
-import ExchangeRateChart from "../views/Chart/ExchangeRateChart.vue";
+import LoginPhone from "../views/signIn/LoginPhone.vue";
 
 // map 컴포넌트 추가
 import MapComponent from "../views/maps/MapComponent.vue";
+import ErrorPage from "../views/error/ErrorPage.vue";
 
 const routes = [
   {
@@ -86,6 +87,11 @@ const routes = [
     component: MapComponent,
   },
   {
+    path: "/map",
+    name: "MapComponent",
+    component: MapComponent,
+  },
+  {
     path: "/change-password",
     name: "ChangePwd",
     component: ChangePwd,
@@ -96,6 +102,11 @@ const routes = [
     component: Login,
   },
   {
+    path: "/login/phone",
+    name: "LoginPhone",
+    component: LoginPhone,
+  },
+  {
     path: "/register/legal",
     name: "Register",
     component: Register,
@@ -104,6 +115,11 @@ const routes = [
     path: "/register/email",
     name: "Registeremail",
     component: Registeremail,
+  },
+  {
+    path: "/error",
+    name: "ErrorPage",
+    component: ErrorPage,
   },
 ];
 

@@ -17,12 +17,13 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public UserDTO getInfo(Integer userNo) {
-        return mapper.selectUser(userNo);
+        return mapper.selectUserByUserNo(userNo);
     }
 
     @Override
-    public boolean checkPassword(PasswordDTO passwordDTO) {
-        String userPassword = mapper.getPassword(1);
+    public boolean checkSecondaryPassword(PasswordDTO passwordDTO) {
+        //추후에 userNo  동적 변경
+        String userPassword = mapper.getSecondaryPassword(1);
 
         if(passwordDTO.getPassword().equals(userPassword)){
             return true;
@@ -30,5 +31,13 @@ public class UserServiceImpl implements UserService{
         else{
             return false;
         }
+    }
+
+    @Override
+    public UserDTO login(String userId, String password) {
+        HashMap map = new HashMap();
+        map.put("userId", userId);
+        map.put("password", password);
+        return mapper.selectUser(map);
     }
 }

@@ -28,4 +28,6 @@ frontend/yarn.lock
 frontend/.env
 
 backend/src/main/resources/application.properties
+backend/build/resources/main/application.properties
+
 

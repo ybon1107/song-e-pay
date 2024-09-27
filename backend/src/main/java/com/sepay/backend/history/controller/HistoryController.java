@@ -1,5 +1,7 @@
 package com.sepay.backend.history.controller;
 
+import com.sepay.backend.common.pagination.Page;
+import com.sepay.backend.common.pagination.PageRequest;
 import com.sepay.backend.history.dto.HistoryDTO;
 import com.sepay.backend.history.service.HistoryService;
 import com.sepay.backend.user.dto.SearchItem;
@@ -14,22 +16,32 @@ import java.util.List;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-@RequestMapping(value = "/api/histories", produces = "application/json; charset=UTF-8" )
+@RequestMapping("/api/histories")
 public class HistoryController {
 
     private final HistoryService historyService;
 
     @PostMapping("/filter")
-    public List<HistoryDTO> getHistoryList(@RequestBody SearchItem searchItem) {
+    public ResponseEntity<Page<HistoryDTO>> getHistoryList(@RequestBody SearchItem searchItem, PageRequest pageRequest) {
         log.info("SearchItem received: {}", searchItem);
-        return historyService.getFilter(searchItem);
+        log.info("PageRequest received: {}", pageRequest);
+
+        try {
+            // 필터된 거래 내역을 페이지네이션과 함께 반환
+            Page<HistoryDTO> filteredHistories = historyService.getFilter(searchItem, pageRequest);
+            log.info("Filtered Histories: {}", filteredHistories);
+            return ResponseEntity.ok(filteredHistories);
+        } catch (Exception e) {
+            // 오류 발생 시 상세 로그 출력
+            log.error("Error occurred while filtering histories", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(null); // 500 에러 발생 시 null 반환
+        }
     }
 
-
     @GetMapping("/getList")
-    public List<HistoryDTO> getAllHistories() {
-        System.out.println("controller 연결");
-        return historyService.getAllHistories();
+    public ResponseEntity<Page> getList(PageRequest pageRequest) {
+        return ResponseEntity.ok(historyService.getAllHistories(pageRequest));
     }
 
     @PostMapping("/updateMemo")
@@ -42,5 +54,4 @@ public class HistoryController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("메모 업데이트에 실패했습니다.");
         }
     }
-
 }

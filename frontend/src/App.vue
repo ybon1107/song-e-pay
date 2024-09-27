@@ -16,7 +16,7 @@ Coded by www.creative-tim.com
 import { computed } from "vue";
 import { useStore } from "vuex";
 import Sidenav from "./components/sidenav";
-import Configurator from "./views/Configurator.vue";
+// import Configurator from "./views/Configurator.vue";
 import Navbar from "./components/navbars/Navbar.vue";
 import AppFooter from "./components/footer/Footer.vue";
 
@@ -28,9 +28,9 @@ const showSidenav = computed(() => store.state.showSidenav);
 const layout = computed(() => store.state.layout);
 const showNavbar = computed(() => store.state.showNavbar);
 const showFooter = computed(() => store.state.showFooter);
-const showConfig = computed(() => store.state.showConfig);
-const hideConfigButton = computed(() => store.state.hideConfigButton);
-const toggleConfigurator = () => store.commit("toggleConfigurator");
+// const showConfig = computed(() => store.state.showConfig);
+// const hideConfigButton = computed(() => store.state.hideConfigButton);
+// const toggleConfigurator = () => store.commit("toggleConfigurator");
 
 const navClasses = computed(() => {
   return {
@@ -44,16 +44,12 @@ const navClasses = computed(() => {
 });
 </script>
 <template>
-  <div
-    v-show="layout === 'landing'"
-    class="landing-bg h-100 bg-gradient-primary position-fixed w-100"
-  ></div>
+
+  <div v-show="layout === 'landing'" class="landing-bg h-100 bg-gradient-primary position-fixed w-100"></div>
 
   <sidenav v-if="showSidenav" />
 
-  <main
-    class="main-content position-relative max-height-vh-100 h-100 border-radius-lg"
-  >
+  <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg">
     <!-- nav -->
 
     <navbar :class="[navClasses]" v-if="showNavbar" />
@@ -62,9 +58,41 @@ const navClasses = computed(() => {
 
     <app-footer v-show="showFooter" />
 
-    <configurator
+    <!-- <configurator
       :toggle="toggleConfigurator"
       :class="[showConfig ? 'show' : '', hideConfigButton ? 'd-none' : '']"
-    />
+    /> -->
+    <!-- 모달을 여기로 이동 -->
+    <teleport to="body">
+      <div id="modal-container"></div>
+    </teleport>
   </main>
 </template>
+
+<style>
+/* @font-face {
+  font-family: 'TTLaundryGothicB';
+  src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/2403-2@1.0/TTLaundryGothicB.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+}
+
+h1 {
+  font-family: 'TTLaundryGothicB', sans-serif;
+} */
+.container-fluid {
+  max-width: 1200px;
+}
+
+.modal-backdrop {
+  z-index: 1060 !important;
+}
+
+.modal {
+  z-index: 1065 !important;
+}
+
+#sidenav-main {
+  z-index: 1050 !important;
+}
+</style>
