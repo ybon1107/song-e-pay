@@ -5,6 +5,15 @@
 
 <mapper namespace="com.sepay.backend.myaccount.mapper.MyAccountMapper">
 
+<<<<<<< HEAD
+    <select id="selectSongAccount" parameterType="String" resultType="songAccountDTO">
+        select *
+        from song_account
+        where song_no = #{songNo}
+    </select>
+
+=======
+>>>>>>> 68d7ce0e084dffd20f92dbc738854ef41fb8990d
     <!-- 계좌 잔액 확인 -->
     <select id="selectAccountBalance" parameterType="string" resultType="double">
         select balance
@@ -33,7 +42,7 @@
     <select id="selectUserEmail" parameterType="string" resultType="string">
         select user_id
         from user
-        where user_id = #{userId}
+        where user_no = ${userNo}
     </select>
 
     <!-- 계좌 잔액 수정 -->

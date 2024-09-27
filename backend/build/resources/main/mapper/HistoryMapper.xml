@@ -38,15 +38,23 @@
                 #{item}
             </foreach>
         </if>
+        <!-- 거래 상태 필터링 -->
         <if test="stateCode != null">
             AND h.state_code = #{stateCode}
         </if>
+        <!-- 날짜 범위 필터링 -->
         <if test="beginDate != null and endDate != null">
             AND h.history_date BETWEEN #{beginDate} AND #{endDate}
         </if>
         <if test="historyContent != null and historyContent != ''">
             AND h.history_content LIKE CONCAT('%', #{historyContent}, '%')
         </if>
+
+        ORDER BY h.history_date DESC
+    </select>
+
+    <select id="selectAllHistories" resultType="HistoryDTO">
+        SELECT * FROM history ORDER BY history_date DESC
     </select>
 
 
