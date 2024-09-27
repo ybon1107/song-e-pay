@@ -12,7 +12,7 @@
                     <div class="modal-body">
                         <slot></slot>
                     </div>
-                    <div class="modal-footer border-0">
+                    <div v-if="showFooter" class="modal-footer border-0">
                         <button type="button" class="btn btn-secondary" @click="close">{{ cancelText }}</button>
                         <button type="button" class="btn btn-primary" @click="confirm">{{ confirmText }}</button>
                     </div>
@@ -39,6 +39,10 @@ const props = defineProps({
     isVisible: {
         type: Boolean,
         required: true
+    },
+    showFooter: {
+        type: Boolean,
+        default: true
     }
 });
 
@@ -52,3 +56,14 @@ const confirm = () => {
     emit('confirm');
 };
 </script>
+
+<style scoped>
+.btn-close {
+  opacity: 1;
+  visibility: visible;
+  color: #000;
+  background-color: transparent;
+  border: 0;
+  font-size: 1.5rem;
+}
+</style>

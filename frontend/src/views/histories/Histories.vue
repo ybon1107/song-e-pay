@@ -2,8 +2,10 @@
 import { ref, computed, onMounted } from 'vue';
 import moment from 'moment'; // moment.js로 Unix Timestamp를 변환
 import historyApi from '../../api/historiesApi.js'; // API 파일 import
-import Modal from './Modal.vue';
 import HistoriesDetailModal from './HistoriesDetailModal.vue';
+import ArgonButton from "@/components/templates/ArgonButton.vue";
+import ArgonPagination from "@/components/templates/ArgonPagination.vue";
+import ArgonPaginationItem from "@/components/templates/ArgonPaginationItem.vue";
 
 const selectedCurrency = ref('');
 const transactionType = ref('');
@@ -108,24 +110,17 @@ const getTransactionList = async () => {
     }
 };
 
-// 페이지 이동 함수
-const goToPage = async (pageNum) => {
-    if (pageNum > 0 && pageNum <= totalPages.value) {
-        pageRequest.value.page = pageNum;
-        await getTransactionList(); // 새로운 페이지로 이동 시 거래 내역 갱신
-    }
-};
-
-// 총 페이지 수 계산
-const totalPages = computed(() =>
-    Math.ceil(totalItems.value / pageRequest.value.amount)
-);
-
-// Unix Timestamp 포맷팅 함수
-const formatUnixTimestamp = (unixTimestamp) => {
-    return unixTimestamp
-        ? moment(unixTimestamp).format('YYYY-MM-DD hh:mm')
-        : '';
+// 거래 유형 코드 변환
+const convertTransactionType = (code) => {
+    const types = {
+        1: '결제',
+        2: '송금',
+        3: '충전',
+        4: '환불',
+        5: '환전',
+        6: '환급',
+    };
+    return types[code] || '알 수 없는 거래 유형';
 };
 
 // 상태 코드 변환
@@ -139,6 +134,50 @@ const convertTransactionStatus = (code) => {
     return statuses[code] || '알 수 없는 상태';
 };
 
+
+
+// 총 페이지 수 계산
+const totalPages = computed(() =>
+    Math.ceil(totalItems.value / pageRequest.value.amount)
+);
+// 페이지 이동 함수
+const goToPage = async (pageNum) => {
+    if (pageNum > 0 && pageNum <= totalPages.value) {
+        pageRequest.value.page = pageNum;
+        await getTransactionList(); // 새로운 페이지로 이동 시 거래 내역 갱신
+    }
+};
+// 페이지네이션을 위한 계산된 속성 추가
+const paginationItems = computed(() => {
+    const items = [];
+    const maxVisiblePages = 5; // 최대 표시할 페이지 수
+    const halfVisible = Math.floor(maxVisiblePages / 2);
+
+    let startPage = Math.max(pageRequest.value.page - halfVisible, 1);
+    let endPage = Math.min(startPage + maxVisiblePages - 1, totalPages.value);
+
+    if (endPage - startPage + 1 < maxVisiblePages) {
+        startPage = Math.max(endPage - maxVisiblePages + 1, 1);
+    }
+
+    for (let i = startPage; i <= endPage; i++) {
+        items.push({
+            label: i.toString(),
+            active: i === pageRequest.value.page,
+            disabled: false,
+        });
+    }
+
+    return items;
+});
+
+// Unix Timestamp 포맷팅 함수
+const formatUnixTimestamp = (unixTimestamp) => {
+    return unixTimestamp
+        ? moment(unixTimestamp).format('YYYY-MM-DD hh:mm')
+        : '';
+};
+
 const getTransactionStateCode = (status) => {
     const stateCodes = {
         성공: 1,
@@ -147,19 +186,6 @@ const getTransactionStateCode = (status) => {
         처리중: 4,
     };
     return stateCodes[status] || null;
-};
-
-// 거래 유형 코드 변환
-const convertTransactionType = (code) => {
-    const types = {
-        1: '결제',
-        2: '송금',
-        3: '충전',
-        4: '환불',
-        5: '환전',
-        6: '환급',
-    };
-    return types[code] || '알 수 없는 거래 유형';
 };
 
 const getTransactionTypeCodes = (types) => {
@@ -176,7 +202,6 @@ const getTransactionTypeCodes = (types) => {
         .filter((code) => code !== undefined);
 };
 
-
 // 모달 관련 상태 관리
 const isModalVisible = ref(false);
 const selectedTransaction = ref(null); // selectedTransaction 정의
@@ -190,23 +215,6 @@ const openModal = (transaction) => {
 const closeModal = () => {
     isModalVisible.value = false;
 };
-
-
-// // HistoriesDetailModal 관련 상태
-// const isDetailModalVisible = ref(false);
-// const selectedDetailTransaction = ref(null);
-
-// // HistoriesDetailModal을 여는 함수
-// const openDetailModal = (transaction) => {
-//     selectedDetailTransaction.value = transaction;
-//     isDetailModalVisible.value = true;
-// };
-
-// // HistoriesDetailModal을 닫는 함수
-// const closeDetailModal = () => {
-//     isDetailModalVisible.value = false;
-// };
-
 </script>
 
 <template>
@@ -214,7 +222,6 @@ const closeModal = () => {
         <h3>이용 내역</h3>
         <div class="card p-5 mt-3">
             <div class="mb-3">
-                <!-- 첫 번째 줄: 계좌 종류와 상세 내용 검색 -->
 
                 <div class="row">
                     <div class="col-md-3 mb-3">
@@ -246,6 +253,7 @@ const closeModal = () => {
                         </select>
                     </div>
                 </div>
+
                 <div class="row">
                     <div class="col-md-3 mb-3">
                         <label for="startDate">시작 날짜</label>
@@ -262,11 +270,12 @@ const closeModal = () => {
                             @keyup.enter="applyTransactionFilters" />
                     </div>
                     <div class="col-md-2 d-flex align-items-end mb-3">
-                        <button @click="applyTransactionFilters" class="btn btn-success mb-0">
+                        <argon-button @click="applyTransactionFilters" class="btn btn-success mb-0">
                             Apply
-                        </button>
+                        </argon-button>
                     </div>
                 </div>
+
             </div>
 
             <div class="table-responsive">
@@ -293,16 +302,15 @@ const closeModal = () => {
                 </table>
             </div>
             <!-- 페이지네이션 컨트롤 -->
-            <div class="d-flex justify-content-center my-4">
-                <button class="btn btn-secondary mx-1" @click="goToPage(pageRequest.page - 1)"
-                    :disabled="pageRequest.page === 1">
-                    Previous
-                </button>
-                <button class="btn btn-secondary mx-1" @click="goToPage(pageRequest.page + 1)"
-                    :disabled="pageRequest.page === totalPages">
-                    Next
-                </button>
-                <span class="mx-2">Page {{ pageRequest.page }} of {{ totalPages }}</span>
+            <div class="d-flex justify-content-center">
+                <argon-pagination class="mb-0">
+                    <argon-pagination-item prev @click="goToPage(pageRequest.page - 1)"
+                        :disabled="pageRequest.page === 1" />
+                    <argon-pagination-item v-for="item in paginationItems" :key="item.label" :label="item.label"
+                        :active="item.active" :disabled="item.disabled" @click="goToPage(parseInt(item.label))" />
+                    <argon-pagination-item next @click="goToPage(pageRequest.page + 1)"
+                        :disabled="pageRequest.page === totalPages" />
+                </argon-pagination>
             </div>
         </div>
     </div>
@@ -311,10 +319,6 @@ const closeModal = () => {
 </template>
 
 <style scoped>
-button:hover {
-    background-color: #21af71;
-}
-
 thead {
     background-color: #f4f4f4;
     text-align: center;
