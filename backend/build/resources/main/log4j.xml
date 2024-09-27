@@ -51,8 +51,8 @@
         <level value="warn" />
     </logger>
 
-    <logger name="jdbc.sqlonly">
-        <level value="info" />
+    <logger name="jdbc.sqltiming">
+        <level value="debug" />
     </logger>
 
     <!-- Root Logger -->

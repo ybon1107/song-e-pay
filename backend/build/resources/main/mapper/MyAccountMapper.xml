@@ -33,7 +33,7 @@
     <select id="selectUserEmail" parameterType="string" resultType="string">
         select user_id
         from user
-        where user_no = ${userNo}
+        where user_id = #{userId}
     </select>
 
     <!-- 계좌 잔액 수정 -->
@@ -59,17 +59,14 @@
     <!-- 이용내역 추가-->
     <insert id="insertHistory" parameterType="historyDTO">
         INSERT INTO sepay.history
-        (user_no, song_no, krw_no, type_code, state_code, history_content, amount)
+        (user_no, song_no, krw_no, type_code, state_code, history_content, amount, exchange_rate)
         VALUES
-            (#{userNo}, #{songNo}, #{krwNo}, #{typeCode}, #{stateCode}, #{historyContent}, #{amount})
+            (#{userNo}, #{songNo}, #{krwNo}, #{typeCode}, #{stateCode}, #{historyContent}, #{amount}, #{exchangeRate})
     </insert>
-<<<<<<< HEAD
-=======
     <!--  userNo에 따른 2차 비밀번호 조회  -->
     <select id="selectSecondPwd" parameterType="integer" resultType="string">
         select second_pwd
         from user
         where user_no = #{userNo}
     </select>
->>>>>>> 2ebfe61bd987f72bfea238a75164080a5347c4f3
 </mapper>
