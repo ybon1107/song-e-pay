@@ -58,6 +58,7 @@ public class MyAccountController {
     // 환전
     @PostMapping("/exchange")
     public ResponseEntity<?> exchange(@RequestBody DTORequest request) {
+        log.info(String.valueOf(request.getExchangeRate()));
         return ResponseEntity.ok(myAccountService.exchange(request.getSongAccountDTO(), request.getKrwAccountDTO(), request.getHistoryDTO() , request.getAmount(), request.getExchangeRate()));
     }
 

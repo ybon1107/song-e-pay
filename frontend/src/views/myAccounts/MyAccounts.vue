@@ -1,6 +1,7 @@
 <script setup>
 import ArgonInput from '@/components/templates/ArgonInput.vue';
 import DefaultInfoCard from '@/views/Cards/AccountsCard.vue';
+import AccountsCard from '@/views/Cards/AccountsCard2.vue';
 import ArgonAmountInput from '@/components/yb_templates/ArgonAmountInput.vue';
 import ArgonButton from '@/components/templates/ArgonButton.vue';
 import SecondPassword from '@/views/MyAccounts/SecondPassword.vue';
@@ -10,15 +11,22 @@ import { useExchangeStore } from '@/stores/exchangeStore';
 const emit = defineEmits(['password-verified', 'close']);
 const store = useExchangeStore();
 const selectedAsset = ref('Song-E Money'); // 기본적으로 Song-E Money가 선택됨
+
+const songEMoneyBalance = ref(0); // Song-E Money의 잔액
+const wonEMoneyBalance = ref(0); // Won-E Money의 잔액
+// const formattedSongEMoneyBalance = computed(() => `${customerunit.value} ${formatNumber(songEMoneyBalance.value.toFixed(2))}`);
+// const formattedWonEMoneyBalance = computed(() => `KRW ${formatNumber(wonEMoneyBalance.value.toFixed(2))}`);
+
 const activeTab = ref('deposit'); // 기본적으로 충전 탭이 선택됨
+
 const depositAmount = ref('');
 const exchangeAmount = ref('');
 const refundAmount = ref('');
 const transferAmount = ref('');
 const reExchangeAmount = ref('');
+
 const customerunit = ref('USD'); //나라 설정에 따라 변경되게끔
-const songEMoneyBalance = ref(0); // Song-E Money의 잔액
-const wonEMoneyBalance = ref(0); // Won-E Money의 잔액
+
 const sendEmail = ref('');
 const sendEmailConfirm = ref('');
 const isMember = ref(null);
@@ -35,6 +43,10 @@ const currentToKrw = computed(() => store.currentToKrw);
 const currentFromKrw = computed(() => store.currentFromKrw);
 
 onMounted(() => {
+  // 라우터 쿼리에서 selectedAsset 값을 가져옴
+  if (route.query.selectedAsset) {
+    selectAsset(route.query.selectedAsset);
+  }
   fetchBalances();
   fetchExchangeRates();
 });
@@ -56,23 +68,32 @@ const handlePasswordVerified = async () => {
   switch (currentAction.value) {
     case 'deposit':
       await deposit(); // deposit이 완료될 때까지 기다림
+      resetValue();
       await fetchBalances(); // 잔액을 다시 가져옴
+      alert('입금이 완료되었습니다.'); // 작업 완료 메시지
       break;
     case 'exchange':
       await exchange(); // exchange가 완료될 때까지 기다림
+      resetValue();
       await fetchBalances();
+      alert('환전이 완료되었습니다.'); // 작업 완료 메시지
       break;
     case 'refund':
       await refund(); // refund가 완료될 때까지 기다림
+      resetValue();
       await fetchBalances();
+      alert('환불이 완료되었습니다.'); // 작업 완료 메시지
       break;
     case 'transfer':
       await transfer(); // transfer가 완료될 때까지 기다림
       await fetchBalances();
+      alert('송금이 완료되었습니다.'); // 작업 완료 메시지
       break;
     case 'reExchange':
       await reExchange(); // reExchange가 완료될 때까지 기다림
+      resetValue();
       await fetchBalances();
+      alert('환급이 완료되었습니다.'); // 작업 완료 메시지
       break;
   }
 };
@@ -163,9 +184,6 @@ const deposit = async () => {
   if (response != '') {
     console.log(response);
   }
-
-  // 충전 후 입력 초기화
-  depositAmount.value = ''; // 충전 금액 초기화
 };
 
 // 환전 처리
@@ -173,7 +191,7 @@ const exchange = async () => {
   const userNo = '1';
   const krwNo = '1234'; // krw 계좌 번호 사용
   const songNo = '1234'; // 송이 페이 계좌 번호
-  const exchangeRate = currentToKrw.value;
+  const exchangeRate = currentFromKrw.value * 1000;
   const amount = exchangeAmount.value; // 환전하려는 금액
   const response = await myaccountApi.exchange({
     amount,
@@ -199,8 +217,6 @@ const exchange = async () => {
   if (response != '') {
     console.log(response);
   }
-
-  exchangeAmount.value = ''; // 환전 후 입력 초기화
 };
 
 // 환불 처리
@@ -233,7 +249,6 @@ const refund = async () => {
   if (response != '') {
     console.log(response);
   }
-  refundAmount.value = ''; // 환불 후 입력 초기화
 };
 
 // 송금 처리
@@ -264,7 +279,6 @@ const transfer = async () => {
   if (response != '') {
     console.log(response);
   }
-  transferAmount.value = ''; // 송금 후 입력 초기화
 };
 
 // 환급 처리
@@ -272,8 +286,9 @@ const reExchange = async () => {
   const userNo = '1';
   const krwNo = '1234'; // krw 계좌 번호 사용
   const songNo = '1234'; // 송이 페이 계좌 번호
-  const exchangeRate = currentFromKrw.value;
+  const exchangeRate = currentToKrw.value;
   const amount = reExchangeAmount.value; // 환급하려는 금액
+  console.log('exchangeRate 확인' + exchangeRate);
   const response = await myaccountApi.reExchange({
     amount,
     exchangeRate,
@@ -298,7 +313,16 @@ const reExchange = async () => {
   if (response != '') {
     console.log(response);
   }
-  reExchangeAmount.value = ''; // 환급 후 입력 초기화
+};
+
+const resetValue = () => {
+  refundAmount.value = '';
+  reExchangeAmount.value = '';
+  transferAmount.value = '';
+  exchangeAmount.value = '';
+  depositAmount.value = '';
+  sendEmail.value = '';
+  sendEmailConfirm.value = '';
 };
 
 const convertToKrw = () => {
@@ -311,7 +335,6 @@ const convertToUsd = () => {
 // 환율 데이터를 가져오는 함수
 const fetchExchangeRates = async () => {
   try {
-    console.log(' 확인');
     convertToKrw();
     convertToUsd();
   } catch (error) {
@@ -337,64 +360,111 @@ const receivedAmount = computed(() => {
   }
 });
 
+// 이메일 입력 유효성 검증
+let isconfirmed = false;
+let success = false;
 const emailConfirm = async () => {
+  isconfirmed = true;
   const userId = sendEmail.value;
   const response = await myaccountApi.confirmEmail(userId);
   if (response) {
     if (userId === 'test@gmail.com') {
       //userId 세션에서 가져오기(로그인할때 사용된 이메일)
       isMember.value = 'self';
+      success = false;
+      errorMessage.value = '본인이 아닌 다른 회원의 이메일을 입력하세요';
     } else {
-      isMember.value = true; // 회원 이메일로 표시
+      isMember.value = 'member'; // 회원 이메일로 표시
+      success = true;
+      errorMessage.value = '';
     }
+  } else if (sendEmail.value !== '' && emailPattern.test(sendEmail.value)) {
+    isMember.value = 'no-member'; // 비회원 이메일로 표시
+    success = true;
+    errorMessage.value = '';
   } else {
-    isMember.value = false; // 비회원 이메일로 표시
+    isMember.value = 'error';
+    success = false;
   }
 };
-
-// 입력값이 변경되면 isMember를 null로 리셋하는 함수
-const resetIsMember = () => {
-  isMember.value = null;
-};
-
-// 이메일 일치 여부를 computed로 정의
-const isEmailMatch = computed(() => sendEmail.value === sendEmailConfirm.value);
-
 // 이메일 형식 확인을 위한 정규식
 const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-// 오류 메시지 계산
-const error = computed(() => {
-  if (sendEmail.value === '') {
-    return '이메일을 입력해주세요.';
+const errorMessageCheck = ref('');
+let checkSucess = false;
+const onInputCheck = (event) => {
+  if (sendEmailConfirm.value === '' && checkSucess) {
+    errorMessageCheck.value = '이메일 재입력하세요.';
+  } else {
+    if (sendEmail.value !== event.target.value) {
+      errorMessageCheck.value = '입력하신 이메일과 일치하지 않습니다.';
+    } else {
+      errorMessageCheck.value = '';
+      checkSucess = true;
+    }
+  }
+};
+const errorMessage = ref('');
+const onInput = (event) => {
+  sendEmail.value = event.target.value;
+  isconfirmed = false;
+
+  if (sendEmail.value == '' && isconfirmed) {
+    errorMessage.value = '이메일을 입력해주세요.';
+    isconfirmed = false;
   } else if (!emailPattern.test(sendEmail.value)) {
-    return '올바른 이메일 형식을 지켜야 합니다.';
-  } else if (isMember.value === null) {
-    return '이메일 확인이 필요합니다.';
+    errorMessage.value = '올바른 이메일 형식을 지켜야 합니다.';
+  } else if (isconfirmed == false) {
+    errorMessage.value = '이메일 확인이 필요합니다.';
   } else if (isMember.value === 'self') {
-    return '본인이 아닌 다른 회원의 이메일을 입력하세요';
+    errorMessage.value = '본인이 아닌 다른 회원의 이메일을 입력하세요';
+  } else {
+    errorMessage.value = '';
   }
-  return ''; // 오류가 없으면 빈 문자열
-});
-
-// 이메일 확인 오류 메시지 계산
-const check_error = computed(() => {
-  if (sendEmailConfirm.value === '') {
-    return '이메일 재입력하세요.';
-  } else if (isEmailMatch.value == false) {
-    return '입력하신 이메일과 일치하지 않습니다.';
+  if (sendEmailConfirm.value !== '') {
+    onInputCheck({ target: { value: sendEmailConfirm.value } });
   }
-
-  return '';
-});
+};
 </script>
 
 <template>
   <div class="container-fluid" style="width: 80%" id="responsive-container">
     <h3>My account</h3>
     <SecondPassword v-if="showModal" @close="closeModal" @password-verified="handlePasswordVerified" />
-    <div class="assets-list">
-      <!-- Song-E Money 카드 -->
+
+    <div class="row my-3">
+      <div class="col-lg-4 col-md-5">
+        <!-- Song-E Money 카드 -->
+        <AccountsCard title="Song-E Money" :balance="songEMoneyBalance" :currency="customerunit"
+          backgroundImage="/images/song-e-money.png" icon="/images/america.png"
+          @click="selectAsset('Song-E Money')" :isSelected="selectedAsset === 'Song-E Money'"/>
+          <!-- <DefaultInfoCard
+        title="Song-E Money"
+        :value="formattedSongEMoneyBalance"
+        img-src="/images/song-e-money.png"
+        img="/images/america.png"
+        @click="selectAsset('Song-E Money')"
+        :class="{ selected: selectedAsset === 'Song-E Money' }"
+      /> -->
+      </div>
+      <div class="col-lg-4 col-md-5">
+        <!-- Won-E Money 카드 -->
+        <AccountsCard title="Won-E Money" :balance="wonEMoneyBalance" currency="KRW"
+          backgroundImage="/images/won-e-money.png" icon="/images/korea.png"
+          @click="selectAsset('Won-E Money')" :isSelected="selectedAsset === 'Won-E Money'"/>
+          <!-- <DefaultInfoCard
+        title="Won-E Money"
+        :value="formattedWonEMoneyBalance"
+        img-src="images/won-e-money.png"
+        img="/images/korea.png"
+        @click="selectAsset('Won-E Money')"
+        :class="{ selected: selectedAsset === 'Won-E Money' }"
+      /> -->
+      </div>
+    </div>
+
+    <!-- <div class="assets-list">
+
       <DefaultInfoCard
         title="Song-E Money"
         :value="formattedSongEMoneyBalance"
@@ -404,32 +474,31 @@ const check_error = computed(() => {
         :class="{ selected: selectedAsset === 'Song-E Money' }"
       />
 
-      <!-- Won-E Money 카드 -->
-      <DefaultInfoCard
-        title="Won-E Money"
-        :value="formattedWonEMoneyBalance"
-        img-src="images/won-e-money.png"
-        img="/images/korea.png"
-        @click="selectAsset('Won-E Money')"
-        :class="{ selected: selectedAsset === 'Won-E Money' }"
-      />
-    </div>
+      <DefaultInfoCard title="Won-E Money" :value="formattedWonEMoneyBalance" img-src="images/won-e-money.png"
+        img="/images/korea.png" @click="selectAsset('Won-E Money')"
+        :class="{ selected: selectedAsset === 'Won-E Money' }" />
+    </div> -->
 
     <div class="card">
       <!-- Song-E Money 선택 시 -->
       <template v-if="selectedAsset === 'Song-E Money'">
         <nav class="nav flex-column flex-sm-row">
-          <a class="flex-sm-fill text-sm-center nav-link" :class="{ active: activeTab === 'deposit' }" @click="activeTab = 'deposit'" aria-current="page"> 충전 </a>
-          <a class="flex-sm-fill text-sm-center nav-link" :class="{ active: activeTab === 'exchange' }" @click="activeTab = 'exchange'"> 환전 </a>
-          <a class="flex-sm-fill text-sm-center nav-link" :class="{ active: activeTab === 'refund' }" @click="activeTab = 'refund'"> 환불 </a>
+          <a class="flex-sm-fill text-sm-center nav-link" :class="{ active: activeTab === 'deposit' }"
+            @click="activeTab = 'deposit'" aria-current="page"> 충전 </a>
+          <a class="flex-sm-fill text-sm-center nav-link" :class="{ active: activeTab === 'exchange' }"
+            @click="activeTab = 'exchange'"> 환전 </a>
+          <a class="flex-sm-fill text-sm-center nav-link" :class="{ active: activeTab === 'refund' }"
+            @click="activeTab = 'refund'"> 환불 </a>
         </nav>
       </template>
 
       <!-- Won-E Money 선택 시 -->
       <template v-if="selectedAsset === 'Won-E Money'">
         <nav class="nav flex-column flex-sm-row">
-          <a class="flex-sm-fill text-sm-center nav-link" :class="{ active: activeTab === 'transfer' }" @click="activeTab = 'transfer'" aria-current="page"> 송금 </a>
-          <a class="flex-sm-fill text-sm-center nav-link" :class="{ active: activeTab === 'reExchange' }" @click="activeTab = 'reExchange'"> 환급 </a>
+          <a class="flex-sm-fill text-sm-center nav-link" :class="{ active: activeTab === 'transfer' }"
+            @click="activeTab = 'transfer'" aria-current="page"> 송금 </a>
+          <a class="flex-sm-fill text-sm-center nav-link" :class="{ active: activeTab === 'reExchange' }"
+            @click="activeTab = 'reExchange'"> 환급 </a>
         </nav>
       </template>
 
@@ -531,32 +600,33 @@ const check_error = computed(() => {
         <div v-if="activeTab === 'transfer'">
           <div class="text-btn">
             <small class="text-muted" style="margin-top: 1rem; margin-bottom: 1rem">받는 이메일</small>
-            <argon-button class="action-btn2" @click="emailConfirm" size="sm" variant="outline">이메일 확인</argon-button>
+            <argon-button class="action-btn2" @click="emailConfirm" size="sm" variant="outline" :disabled="sendEmail === ''">이메일 확인</argon-button>
             <!-- 회원/비회원 표시 -->
-            <small class="text-muted" v-if="isMember === true">회원 이메일</small>
-            <small class="text-muted" v-else-if="isMember === false">비회원 이메일</small>
+            <small class="text-muted" v-if="isMember === 'member'">회원 이메일</small>
+            <small class="text-muted" v-else-if="isMember === 'no-member'">비회원 이메일</small>
           </div>
           <ArgonInput
             v-model="sendEmail"
             placeholder="받는 분의 이메일을 입력하세요"
-            @input="resetIsMember"
+            @input="onInput"
             variant="gradient"
-            :class="{ 'is-invalid': error }"
-            :error="!!error"
-            :success="!error"
+            :class="{ 'is-invalid': errorMessage }"
+            :error="errorMessage !== ''"
+            :success="success"
             style="margin-bottom: 0"
           />
-          <div v-if="error" class="invalid-feedback text-xs mb-1">{{ error }}</div>
+          <div v-if="errorMessage !== ''" class="invalid-feedback text-xs mb-1">{{ errorMessage }}</div>
           <small class="text-muted">이메일 확인</small>
           <ArgonInput
             v-model="sendEmailConfirm"
             placeholder="이메일을 다시 입력하세요"
-            :class="{ 'is-invalid': check_error }"
-            :error="!!check_error"
-            :success="!check_error"
+            :class="{ 'is-invalid': errorMessageCheck }"
+            :error="errorMessageCheck !== ''"
+            :success="checkSucess"
             style="margin-bottom: 0"
+            @input="onInputCheck"
           />
-          <div v-if="check_error" class="invalid-feedback text-xs mb-1">{{ check_error }}</div>
+          <div v-if="errorMessageCheck" class="invalid-feedback text-xs mb-1">{{ errorMessageCheck }}</div>
 
           <p>
             <small class="text-muted">송금할 금액을 입력하세요</small>
@@ -580,7 +650,7 @@ const check_error = computed(() => {
             size="lg"
             class="w-100"
             @click="openModal"
-            :disabled="!isValidAmount(transferAmount) || !isEmailMatch || !isMember"
+            :disabled="!isValidAmount(transferAmount) || errorMessage !== '' || errorMessageCheck !== ''"
             variant="gradient"
             >송금하기</argon-button
           >
@@ -649,8 +719,10 @@ const check_error = computed(() => {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  width: 100%; /* 카드를 가로로 전체 너비에 맞추기 */
-  margin-bottom: 20px; /* 탭과의 간격 설정 */
+  width: 100%;
+  /* 카드를 가로로 전체 너비에 맞추기 */
+  margin-bottom: 20px;
+  /* 탭과의 간격 설정 */
 }
 /* For mobile screens */
 @media (max-width: 768px) {
@@ -671,7 +743,9 @@ const check_error = computed(() => {
 
 .text-btn {
   display: flex;
-  align-items: center; /* 세로 중앙 정렬 */
-  gap: 10px; /* p 태그와 버튼 사이의 간격을 설정 (필요에 따라 조정) */
+  align-items: center;
+  /* 세로 중앙 정렬 */
+  gap: 10px;
+  /* p 태그와 버튼 사이의 간격을 설정 (필요에 따라 조정) */
 }
 </style>
