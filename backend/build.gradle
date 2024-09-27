@@ -104,6 +104,9 @@ dependencies {
 
     testImplementation("org.junit.jupiter:junit-jupiter-api:${junitVersion}")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:${junitVersion}")
+
+    // sms 인증 처리
+    implementation 'net.nurigo:sdk:4.3.0'
 }
 
 test {
