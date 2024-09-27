@@ -43,10 +43,3 @@ public class HistoryServiceImpl implements HistoryService{
         // Page 객체를 생성하여 반환
         return Page.of(pageRequest, totalCount, histories);
     }
-
-    @Override
-    public void updateMemo(HistoryDTO historyDTO) {
-        // Mapper를 호출하여 DB의 메모를 업데이트
-        mapper.updateMemo(historyDTO);
-    }
-}

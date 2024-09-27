@@ -11,6 +11,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.Map;
+
 @Slf4j
 @RestController
 @RequiredArgsConstructor
@@ -46,7 +48,9 @@ public class SettingController {
 
     // 비밀번호 변경
     @PatchMapping("/change-password")
-    public ResponseEntity<?> changePassword(String password, Integer userNo) {
+    public ResponseEntity<?> changePassword(@RequestBody Map<String, Object> requestData) {
+        String password = (String) requestData.get("password");
+        Integer userNo = (Integer) requestData.get("userNo");
         return ResponseEntity.ok(settingService.changePassword(password, userNo));
     }
 
@@ -57,8 +61,9 @@ public class SettingController {
     }
 
     // 회원 탈퇴
-    @DeleteMapping("/bye")
-    public ResponseEntity<?> bye(Integer userNo) {
+    @DeleteMapping("/bye/{userNo}")
+    public ResponseEntity<?> bye(@PathVariable Integer userNo) {
+        log.info("userNo : ", userNo);
         return ResponseEntity.ok(settingService.deleteUser(userNo));
     }
     

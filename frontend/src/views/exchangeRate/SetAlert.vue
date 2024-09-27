@@ -63,6 +63,9 @@ import { ref } from "vue";
 import { useExchangeStore } from "../../stores/exchangeStore";
 import ExchangeRateChart from "@/views/Chart/ExchangeRateChart.vue";
 import axios from "axios";
+import { useRouter } from "vue-router";
+
+const router = useRouter();
 
 const store = useExchangeStore();
 
@@ -104,6 +107,7 @@ const confirmAutoExchange = async (
 
     if (response.status === 200) {
       alert("자동 환전 예약이 성공적으로 저장되었습니다.");
+      router.push("/exchange-rate");
     }
   } catch (error) {
     console.error("자동 환전 예약 중 오류 발생:", error);
