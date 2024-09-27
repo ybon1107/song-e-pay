@@ -3,9 +3,9 @@ import { ref, computed, onMounted } from 'vue';
 import moment from 'moment'; // moment.js로 Unix Timestamp를 변환
 import historyApi from '../../api/historiesApi.js'; // API 파일 import
 import HistoriesDetailModal from './HistoriesDetailModal.vue';
-import ArgonButton from "@/components/templates/ArgonButton.vue";
-import ArgonPagination from "@/components/templates/ArgonPagination.vue";
-import ArgonPaginationItem from "@/components/templates/ArgonPaginationItem.vue";
+import ArgonButton from '@/components/templates/ArgonButton.vue';
+import ArgonPagination from '@/components/templates/ArgonPagination.vue';
+import ArgonPaginationItem from '@/components/templates/ArgonPaginationItem.vue';
 
 const selectedCurrency = ref('');
 const transactionType = ref('');
@@ -87,6 +87,15 @@ onMounted(async () => {
     await getTransactionList();
 });
 
+// 메모 업데이트 처리 함수
+const handleMemoUpdate = (updatedMemo) => {
+    const transaction = transactions.value.find(
+        (item) => item.historyNo === updatedMemo.historyNo
+    );
+    if (transaction) {
+        transaction.memo = updatedMemo.memo; // 트랜잭션 목록에서 해당 거래의 메모 업데이트
+    }
+};
 // 기본 거래 내역 가져오기
 const getTransactionList = async () => {
     try {
@@ -133,8 +142,6 @@ const convertTransactionStatus = (code) => {
     };
     return statuses[code] || '알 수 없는 상태';
 };
-
-
 
 // 총 페이지 수 계산
 const totalPages = computed(() =>
@@ -222,11 +229,14 @@ const closeModal = () => {
         <h3>이용 내역</h3>
         <div class="card p-5 mt-3">
             <div class="mb-3">
-
                 <div class="row">
                     <div class="col-md-3 mb-3">
                         <label for="account-kind">계좌 종류</label>
-                        <select id="account-kind" v-model="selectedCurrency" class="form-select">
+                        <select
+                            id="account-kind"
+                            v-model="selectedCurrency"
+                            class="form-select"
+                        >
                             <option value="">전체 내역</option>
                             <option value="KoreaAccount">원화 머니 계좌</option>
                             <option value="ForeignAccount">
@@ -236,16 +246,28 @@ const closeModal = () => {
                     </div>
                     <div class="col-md-3 mb-3">
                         <label for="transType">거래 유형</label>
-                        <select id="transType" v-model="transactionType" class="form-select">
+                        <select
+                            id="transType"
+                            v-model="transactionType"
+                            class="form-select"
+                        >
                             <option value="">모두</option>
-                            <option v-for="type in transactionTypes" :key="type" :value="type">
+                            <option
+                                v-for="type in transactionTypes"
+                                :key="type"
+                                :value="type"
+                            >
                                 {{ type }}
                             </option>
                         </select>
                     </div>
                     <div class="col-md-3 mb-3">
                         <label for="transactionStatus">거래 상태</label>
-                        <select id="transactionStatus" v-model="transactionStatus" class="form-select">
+                        <select
+                            id="transactionStatus"
+                            v-model="transactionStatus"
+                            class="form-select"
+                        >
                             <option value="">모두</option>
                             <option value="성공">성공</option>
                             <option value="취소">취소</option>
@@ -257,25 +279,43 @@ const closeModal = () => {
                 <div class="row">
                     <div class="col-md-3 mb-3">
                         <label for="startDate">시작 날짜</label>
-                        <input id="startDate" type="date" v-model="startDate" @click="openDatePicker"
-                            class="form-control" />
+                        <input
+                            id="startDate"
+                            type="date"
+                            v-model="startDate"
+                            @click="openDatePicker"
+                            class="form-control"
+                        />
                     </div>
                     <div class="col-md-3 mb-3">
                         <label for="endDate">끝 날짜</label>
-                        <input id="endDate" type="date" v-model="endDate" :min="startDate" @click="openDatePicker"
-                            class="form-control" />
+                        <input
+                            id="endDate"
+                            type="date"
+                            v-model="endDate"
+                            :min="startDate"
+                            @click="openDatePicker"
+                            class="form-control"
+                        />
                     </div>
                     <div class="col-md-4 d-flex align-items-end mb-3">
-                        <input type="text" class="form-control" placeholder="상세 내용 검색" v-model="searchQuery"
-                            @keyup.enter="applyTransactionFilters" />
+                        <input
+                            type="text"
+                            class="form-control"
+                            placeholder="상세 내용 검색"
+                            v-model="searchQuery"
+                            @keyup.enter="applyTransactionFilters"
+                        />
                     </div>
                     <div class="col-md-2 d-flex align-items-end mb-3">
-                        <argon-button @click="applyTransactionFilters" class="btn btn-success mb-0">
+                        <argon-button
+                            @click="applyTransactionFilters"
+                            class="btn btn-success mb-0"
+                        >
                             Apply
                         </argon-button>
                     </div>
                 </div>
-
             </div>
 
             <div class="table-responsive">
@@ -290,8 +330,12 @@ const closeModal = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-for="transaction in transactions" :key="transaction.historyNo"
-                            @click="openModal(transaction)" style="cursor: pointer">
+                        <tr
+                            v-for="transaction in transactions"
+                            :key="transaction.historyNo"
+                            @click="openModal(transaction)"
+                            style="cursor: pointer"
+                        >
                             <td>{{ transaction.historyDate }}</td>
                             <td>{{ transaction.typeCode }}</td>
                             <td>{{ transaction.historyContent }}</td>
@@ -304,18 +348,35 @@ const closeModal = () => {
             <!-- 페이지네이션 컨트롤 -->
             <div class="d-flex justify-content-center">
                 <argon-pagination class="mb-0">
-                    <argon-pagination-item prev @click="goToPage(pageRequest.page - 1)"
-                        :disabled="pageRequest.page === 1" />
-                    <argon-pagination-item v-for="item in paginationItems" :key="item.label" :label="item.label"
-                        :active="item.active" :disabled="item.disabled" @click="goToPage(parseInt(item.label))" />
-                    <argon-pagination-item next @click="goToPage(pageRequest.page + 1)"
-                        :disabled="pageRequest.page === totalPages" />
+                    <argon-pagination-item
+                        prev
+                        @click="goToPage(pageRequest.page - 1)"
+                        :disabled="pageRequest.page === 1"
+                    />
+                    <argon-pagination-item
+                        v-for="item in paginationItems"
+                        :key="item.label"
+                        :label="item.label"
+                        :active="item.active"
+                        :disabled="item.disabled"
+                        @click="goToPage(parseInt(item.label))"
+                    />
+                    <argon-pagination-item
+                        next
+                        @click="goToPage(pageRequest.page + 1)"
+                        :disabled="pageRequest.page === totalPages"
+                    />
                 </argon-pagination>
             </div>
         </div>
     </div>
     <!-- 이용내역 상세 모달 -->
-    <HistoriesDetailModal :transaction="selectedTransaction" :isVisible="isModalVisible" @close="closeModal" />
+    <HistoriesDetailModal
+        :transaction="selectedTransaction"
+        :isVisible="isModalVisible"
+        @updateMemo="handleMemoUpdate"
+        @close="closeModal"
+    />
 </template>
 
 <style scoped>
