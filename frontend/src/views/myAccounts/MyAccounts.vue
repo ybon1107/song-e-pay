@@ -1,7 +1,7 @@
 <script setup>
 import ArgonInput from '@/components/templates/ArgonInput.vue';
 import DefaultInfoCard from '@/views/Cards/AccountsCard.vue';
-import AccountsCard from '@/views/Cards/AccountsCard2.vue';
+// import AccountsCard from '@/views/Cards/AccountsCard2.vue';
 import ArgonAmountInput from '@/components/yb_templates/ArgonAmountInput.vue';
 import ArgonButton from '@/components/templates/ArgonButton.vue';
 import SecondPassword from '@/views/MyAccounts/SecondPassword.vue';
@@ -44,9 +44,9 @@ const currentFromKrw = computed(() => store.currentFromKrw);
 
 onMounted(() => {
   // 라우터 쿼리에서 selectedAsset 값을 가져옴
-  if (route.query.selectedAsset) {
-    selectAsset(route.query.selectedAsset);
-  }
+  // if (route.query.selectedAsset) {
+  //   selectAsset(route.query.selectedAsset);
+  // }
   fetchBalances();
   fetchExchangeRates();
 });
@@ -432,38 +432,22 @@ const onInput = (event) => {
     <h3>My account</h3>
     <SecondPassword v-if="showModal" @close="closeModal" @password-verified="handlePasswordVerified" />
 
-    <div class="row my-3">
+    <!-- <div class="row my-3">
       <div class="col-lg-4 col-md-5">
-        <!-- Song-E Money 카드 -->
         <AccountsCard title="Song-E Money" :balance="songEMoneyBalance" :currency="customerunit"
           backgroundImage="/images/song-e-money.png" icon="/images/america.png"
           @click="selectAsset('Song-E Money')" :isSelected="selectedAsset === 'Song-E Money'"/>
-          <!-- <DefaultInfoCard
-        title="Song-E Money"
-        :value="formattedSongEMoneyBalance"
-        img-src="/images/song-e-money.png"
-        img="/images/america.png"
-        @click="selectAsset('Song-E Money')"
-        :class="{ selected: selectedAsset === 'Song-E Money' }"
-      /> -->
+>
       </div>
       <div class="col-lg-4 col-md-5">
-        <!-- Won-E Money 카드 -->
         <AccountsCard title="Won-E Money" :balance="wonEMoneyBalance" currency="KRW"
           backgroundImage="/images/won-e-money.png" icon="/images/korea.png"
           @click="selectAsset('Won-E Money')" :isSelected="selectedAsset === 'Won-E Money'"/>
-          <!-- <DefaultInfoCard
-        title="Won-E Money"
-        :value="formattedWonEMoneyBalance"
-        img-src="images/won-e-money.png"
-        img="/images/korea.png"
-        @click="selectAsset('Won-E Money')"
-        :class="{ selected: selectedAsset === 'Won-E Money' }"
-      /> -->
-      </div>
-    </div>
 
-    <!-- <div class="assets-list">
+      </div>
+    </div> -->
+
+    <div class="assets-list">
 
       <DefaultInfoCard
         title="Song-E Money"
@@ -477,7 +461,7 @@ const onInput = (event) => {
       <DefaultInfoCard title="Won-E Money" :value="formattedWonEMoneyBalance" img-src="images/won-e-money.png"
         img="/images/korea.png" @click="selectAsset('Won-E Money')"
         :class="{ selected: selectedAsset === 'Won-E Money' }" />
-    </div> -->
+    </div>
 
     <div class="card">
       <!-- Song-E Money 선택 시 -->
