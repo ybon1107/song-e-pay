@@ -24,7 +24,7 @@ public interface ExchangeReservationService {
     List<ExchangeReservationDTO> getAutoExchange(Integer userNo);
 
     // 자동 환전 예약 삭제
-    void removeAutoExchange(Integer resNo);
+//    void removeAutoExchange(Integer resNo);
 
     // 자동 환전 예약 카운트
     int countAutoExchange(Integer userNo, Integer targetKrw);

@@ -38,11 +38,11 @@
       <div class="exchange-input">
         <div class="targetbox">
           목표 환율: <br />
-          {{ targetRate }} KRW 이하
+          {{ targetExchange }} KRW 이하
         </div>
         <input
           type="number"
-          v-model="targetAmount"
+          v-model="targetKrw"
           placeholder="자동 전환할 금액을 입력하세요."
         />
         <span>KRW</span>
@@ -51,7 +51,7 @@
           alt="한국 국기"
         />
       </div>
-      <button @click="confirmAutoExchange(1, 0, targetExchange, targetAmount)">
+      <button @click="confirmAutoExchange(1, 0, targetExchange, targetKrw)">
         확인
       </button>
     </div>
@@ -70,21 +70,21 @@ const store = useExchangeStore();
 const currentRate = ref(store.currentToKrw);
 
 // 상태 변수들을 ref로 선언
-const targetRate = ref(null); // 자동 환전 목표 환율
-const targetAmount = ref(null); // 목표 금액
+const targetExchange = ref(null); // 자동 환전 목표 환율
+const targetKrw = ref(null); // 목표 금액
 
 // 자동 환전 저장 함수
 const confirmAutoExchange = async (
   baseCode,
   targetCode,
   targetExchange,
-  targetAmount
+  targetKrw
 ) => {
   try {
     // const token = localStorage.getItem("jwt_token"); // JWT 토큰 가져오기
     // userNo를 추가(임시)
     const userNo = 1;
-    console.log(userNo, baseCode, targetCode, targetExchange, targetAmount);
+    console.log(userNo, baseCode, targetCode, targetExchange, targetKrw);
     // 서버에 POST 요청 보내기
     const response = await axios.post(
       "/api/exchange-reservation/setalert",
@@ -93,7 +93,7 @@ const confirmAutoExchange = async (
         baseCode: baseCode,
         targetCode: targetCode,
         targetExchange: targetExchange,
-        targetAmount: targetAmount,
+        targetKrw: targetKrw,
       }
       // {
       //   headers: {

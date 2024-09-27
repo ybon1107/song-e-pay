@@ -155,33 +155,73 @@
             </div>
             <div class="form-group">
               <label for="autoCondition">자동 환전 설정 내역</label>
-              <input
-                type="text"
-                class="form-control"
-                id="autoCondition"
-                :value="autoCondition"
-                readonly
-              />
+              <button
+                class="btn btn-danger btn-sm ml-2"
+                @click="deleteAlertCondition(autoConditions[0]?.resNo)"
+              >
+                삭제
+              </button>
+              <ul v-if="autoConditions.length > 0" class="list-group">
+                <li class="list-group-item">
+                  <p>
+                    <strong>예약 번호:</strong> {{ autoConditions[0]?.resNo }} |
+                    <strong>기준 통화:</strong>
+                    {{ autoConditions[0]?.baseCode }} |
+                    <strong>대상 통화:</strong>
+                    {{ autoConditions[0]?.targetCode }} |
+                    <strong>목표 환율:</strong>
+                    {{ autoConditions[0]?.targetExchange }} |
+                    <strong>목표 KRW 금액:</strong>
+                    {{ autoConditions[0]?.targetKrw }}
+                  </p>
+                </li>
+              </ul>
+              <p v-else>자동 환전 예약 내역이 없습니다.</p>
             </div>
             <div class="form-group">
-              <label for="targetRate1">환율 알림 설정 내역</label>
-              <input
-                type="text"
-                class="form-control"
-                id="targetRate1"
-                :value="targetRate1"
-                readonly
-              />
+              <label for="targetRate1">환율 알림 설정 내역 1</label>
+              <button
+                class="btn btn-danger btn-sm ml-2"
+                @click="deleteAlertCondition(alertConditions[0]?.resNo)"
+              >
+                삭제
+              </button>
+              <ul v-if="alertConditions.length > 0" class="list-group">
+                <li class="list-group-item">
+                  <p>
+                    <strong>기준 통화:</strong>
+                    {{ alertConditions[0]?.baseCode }} |
+                    <strong>대상 통화:</strong>
+                    {{ alertConditions[0]?.targetCode }} |
+                    <strong>목표 환율:</strong>
+                    {{ alertConditions[0]?.targetExchange }} |
+                  </p>
+                </li>
+              </ul>
+              <p v-else>환율 알림 예약 내역이 없습니다.</p>
             </div>
+
             <div class="form-group">
-              <label for="targetRate2">환율 알림 설정 내역</label>
-              <input
-                type="text"
-                class="form-control"
-                id="targetRate2"
-                :value="targetRate2"
-                readonly
-              />
+              <label for="targetRate2">환율 알림 설정 내역 2</label>
+              <button
+                class="btn btn-danger btn-sm ml-2"
+                @click="deleteAlertCondition(alertConditions[1]?.resNo)"
+              >
+                삭제
+              </button>
+              <ul v-if="alertConditions.length > 1" class="list-group">
+                <li class="list-group-item">
+                  <p>
+                    <strong>기준 통화:</strong>
+                    {{ alertConditions[1]?.baseCode }} |
+                    <strong>대상 통화:</strong>
+                    {{ alertConditions[1]?.targetCode }} |
+                    <strong>목표 환율:</strong>
+                    {{ alertConditions[1]?.targetExchange }} |
+                  </p>
+                </li>
+              </ul>
+              <p v-else>환율 알림 예약 내역이 없습니다.</p>
             </div>
           </div>
         </div>
@@ -228,10 +268,6 @@ const fetchExchangeRates = async () => {
     console.error("환율 데이터를 가져오는 중 오류 발생:", error);
   }
 };
-
-onMounted(() => {
-  fetchExchangeRates();
-});
 
 // Period state
 const toSelectedPeriod = ref("1y");
@@ -280,6 +316,73 @@ const saveAlertRate = async (baseCode, targetCode, targetExchange) => {
     alert("환율 알림 저장에 실패했습니다. 오류: " + error.response.data);
   }
 };
+
+// 자동 환전 내역을 저장할 ref
+const autoConditions = ref([]);
+
+// 환율 알림 내역을 저장할 ref
+const alertConditions = ref([]);
+
+// 사용자 번호를 설정 (임의로 1로 설정)
+const userNo = 1;
+
+// 자동 환전 예약 데이터를 가져오는 함수
+const fetchAutoExchange = async () => {
+  try {
+    const response = await axios.get(
+      `/api/exchange-reservation/setalert/${userNo}`
+    );
+    if (response.status === 200) {
+      // 응답 데이터가 존재하면 autoConditions에 저장
+      const reservations = response.data;
+      autoConditions.value = reservations;
+    }
+  } catch (error) {
+    console.error("자동 환전 데이터를 가져오는 중 오류 발생:", error);
+  }
+};
+
+// 환율 알림 데이터를 가져오는 함수
+const fetchAlertConditions = async () => {
+  try {
+    const response = await axios.get(`/api/exchange-reservation/${userNo}`);
+    if (response.status === 200) {
+      // 응답 데이터가 존재하면 alertConditions에 최대 2개 저장
+      const alerts = response.data.slice(0, 2); // 최대 2개만 가져옴
+      alertConditions.value = alerts;
+      console.log("Fetched alert conditions:", alertConditions.value);
+      fetchAlertConditions(); // 알림을 다시 가져와서 업데이트
+    }
+  } catch (error) {
+    console.error("환율 알림 데이터를 가져오는 중 오류 발생:", error);
+  }
+};
+
+const deleteAlertCondition = async (resNo) => {
+  try {
+    console.log("삭제할 예약 번호:", resNo);
+    if (resNo) {
+      console.log("삭제할 예약 번호:", resNo);
+      const response = await axios.delete(`/api/exchange-reservation/${resNo}`);
+      if (response.status === 200) {
+        alert("알림 설정이 삭제되었습니다.");
+        fetchAlertConditions(); // 알림을 다시 가져와서 업데이트
+        fetchAutoExchange(); // 예약을 다시 가져와서 업데이트
+      }
+    } else {
+      console.error("예약 번호(resNo)가 없습니다.");
+    }
+  } catch (error) {
+    console.error("알림 설정 삭제 중 오류 발생:", error);
+  }
+};
+
+// 컴포넌트가 마운트될 때 데이터를 가져옴
+onMounted(() => {
+  fetchExchangeRates();
+  fetchAutoExchange();
+  fetchAlertConditions();
+});
 </script>
 
 <style scoped>

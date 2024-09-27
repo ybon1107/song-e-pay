@@ -80,11 +80,11 @@ public class ExchangeReservationServiceImpl implements ExchangeReservationServic
         return mapper.selectAutoexchange(userNo);
     }
 
-    @Override
-    public void removeAutoExchange(Integer resNo) {
-        log.info("자동 환전 예약을 삭제합니다. resNo: {}", resNo);
-        mapper.deleteAutoexchange(resNo);
-    }
+//    @Override
+//    public void removeAutoExchange(Integer resNo) {
+//        log.info("자동 환전 예약을 삭제합니다. resNo: {}", resNo);
+//        mapper.deleteAutoexchange(resNo);
+//    }
 
     @Override
     public int countAutoExchange(Integer userNo, Integer targetKrw) {

@@ -27,7 +27,7 @@ public interface ExchangeReservationMapper {
     List<ExchangeReservationDTO> selectAutoexchange(Integer userNo);
 
     // 자동 환전 예약 삭제
-    int deleteAutoexchange(Integer resNo);
+//    int deleteAutoexchange(Integer resNo);
 
     // 자동 환전 예약 카운트
     int countAutoexchange(Map map);
