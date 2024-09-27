@@ -16,4 +16,13 @@ public interface ExchangeReservationService {
 
     // 알람 내역 카운트
     int countExchangeReservations(Integer userNo, Integer targetKrw);
+
+    // 자동 환전 예약 저장
+    void saveAutoExchange(ExchangeReservationDTO exchangeReservationDTO);
+
+    // 자동 환전 예약 조회
+    List<ExchangeReservationDTO> getAutoExchange(Integer userNo);
+
+    // 자동 환전 예약 카운트
+    int countAutoExchange(Integer userNo, Integer targetKrw);
 }

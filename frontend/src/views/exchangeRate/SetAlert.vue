@@ -39,7 +39,11 @@
         <img src="https://upload.wikimedia.org/wikipedia/commons/a/a4/Flag_of_the_United_States.svg" alt="미국 국기" />
         <span>1 USD</span>
         <span>=</span>
-        <input type="number" v-model="targetRate" placeholder="목표 환율을 입력하세요." />
+        <input
+          type="number"
+          v-model="targetExchange"
+          placeholder="목표 환율을 입력하세요."
+        />
         <span>KRW</span>
         <img src="https://upload.wikimedia.org/wikipedia/commons/0/09/Flag_of_South_Korea.svg" alt="한국 국기" />
       </div>
@@ -48,20 +52,31 @@
       <div class="exchange-input">
         <div class="targetbox">
           목표 환율: <br />
-          {{ targetRate }} KRW 이하
+          {{ targetExchange }} KRW 이하
         </div>
-        <input type="number" v-model="targetAmount" placeholder="자동 전환할 금액을 입력하세요." />
+        <input
+          type="number"
+          v-model="targetKrw"
+          placeholder="자동 전환할 금액을 입력하세요."
+        />
         <span>KRW</span>
         <img src="https://upload.wikimedia.org/wikipedia/commons/0/09/Flag_of_South_Korea.svg" alt="한국 국기" />
       </div>
-      <button @click="confirmAutoExchange">확인</button>
+      <button @click="confirmAutoExchange(1, 0, targetExchange, targetKrw)">
+        확인
+      </button>
     </div>
   </div>
 </template>
 
 <script setup>
-import { ref } from 'vue';
-import { useExchangeStore } from '../../stores/exchangeStore';
+import { ref } from "vue";
+import { useExchangeStore } from "../../stores/exchangeStore";
+import ExchangeRateChart from "@/views/Chart/ExchangeRateChart.vue";
+import axios from "axios";
+import { useRouter } from "vue-router";
+
+const router = useRouter();
 
 const store = useExchangeStore();
 
@@ -69,19 +84,46 @@ const store = useExchangeStore();
 const currentRate = ref(store.currentToKrw);
 
 // 상태 변수들을 ref로 선언
-const alertRate = ref(''); // 환율 알림 목표 값
-const alertRate2 = ref(''); // 환율 알림 목표 값
-const targetRate = ref(''); // 자동 환전 목표 환율
-const targetAmount = ref(''); // 목표 금액
+const targetExchange = ref(null); // 자동 환전 목표 환율
+const targetKrw = ref(null); // 목표 금액
 
-// 알림 목표 환율을 확인하는 함수
-const confirmAlert = () => {
-  alert(`설정된 알림 목표 환율: 1 USD = ${alertRate.value} KRW`);
-};
+// 자동 환전 저장 함수
+const confirmAutoExchange = async (
+  baseCode,
+  targetCode,
+  targetExchange,
+  targetKrw
+) => {
+  try {
+    // const token = localStorage.getItem("jwt_token"); // JWT 토큰 가져오기
+    // userNo를 추가(임시)
+    const userNo = 1;
+    console.log(userNo, baseCode, targetCode, targetExchange, targetKrw);
+    // 서버에 POST 요청 보내기
+    const response = await axios.post(
+      "/api/exchange-reservation/setalert",
+      {
+        userNo: userNo,
+        baseCode: baseCode,
+        targetCode: targetCode,
+        targetExchange: targetExchange,
+        targetKrw: targetKrw,
+      }
+      // {
+      //   headers: {
+      //     Authorization: `Bearer ${token}`, // 인증 헤더에 토큰 추가
+      //   },
+      // }
+    );
 
-// 자동 환전 목표를 확인하는 함수
-const confirmAutoExchange = () => {
-  alert(`목표 환율: 1 USD = ${targetRate.value} KRW \n목표 금액: ${targetAmount.value} KRW 이하`);
+    if (response.status === 200) {
+      alert("자동 환전 예약이 성공적으로 저장되었습니다.");
+      router.push("/exchange-rate");
+    }
+  } catch (error) {
+    console.error("자동 환전 예약 중 오류 발생:", error);
+    alert("자동 환전 예약에 실패했습니다. 오류: " + error.response.data);
+  }
 };
 </script>
 

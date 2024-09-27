@@ -46,16 +46,12 @@ export default {
       }
     },
     initMap() {
-      if (typeof window !== 'undefined' && window.google) {
-        this.map = new window.google.maps.Map(document.getElementById('map'), {
-          center: { lat: 37.5665, lng: 126.978 }, // 서울 중심 좌표
-          zoom: 12,
-        });
-        this.service = new window.google.maps.places.PlacesService(this.map);
-        this.geocoder = new window.google.maps.Geocoder(); // Geocoder 초기화
-      } else {
-        console.error('Google Maps API를 찾을 수 없습니다.');
-      }
+      this.map = new google.maps.Map(document.getElementById('map'), {
+        center: { lat: 37.5665, lng: 126.978 }, // Initial map center at Seoul
+        zoom: 12,
+      });
+      this.service = new google.maps.places.PlacesService(this.map);
+      this.geocoder = new google.maps.Geocoder(); // Initialize Geocoder
     },
     goToMaps() {
       // Maps.vue로 이동

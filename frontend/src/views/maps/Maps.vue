@@ -401,7 +401,7 @@ export default {
               this.clearMarkers(); // 기존 마커 제거
 
               places.forEach((place) => {
-                // 검색 결과에서 ATM과 국민카드가 포함된 결과를 제외하는 조건 추가
+                // 검색 결과에서 ATM과 국민카드가 포함된 결과는 제외
                 if (
                   !place.name.includes('ATM') &&
                   !place.name.includes('국민카드')
@@ -430,16 +430,42 @@ export default {
                           placeDetails.opening_hours &&
                           placeDetails.opening_hours.weekday_text
                         ) {
-                          todayOpeningHours = this.getTodayOpeningHours(
-                            placeDetails.opening_hours.weekday_text
-                          );
+                          // 현재 날짜 가져오기
+                          const today = new Date();
+                          const todayIndex = today.getDay();
+
+                          // weekday_text 배열에서 요일이 일요일부터 시작하는지 확인
+                          let weekdayText =
+                            placeDetails.opening_hours.weekday_text;
+                          const firstDayText = weekdayText[0].toLowerCase();
+                          const isSundayFirst =
+                            firstDayText.includes('sunday') ||
+                            firstDayText.includes('일요일');
+
+                          // 요일 인덱스 조정
+                          let correctedIndex = isSundayFirst
+                            ? todayIndex
+                            : todayIndex === 0
+                              ? 6
+                              : todayIndex - 1;
+
+                          // 오늘의 운영 시간만 출력
+                          let openingHoursText =
+                            weekdayText[correctedIndex] || '운영시간 정보 없음';
+
+                          // "요일: 시간" 형식에서 시간 부분만 추출
+                          if (openingHoursText.includes(': ')) {
+                            todayOpeningHours = openingHoursText.split(': ')[1]; // 시간만 추출
+                          } else {
+                            todayOpeningHours = '운영시간 정보 없음';
+                          }
                         }
 
                         // InfoWindow에 오늘의 운영시간 추가
                         const infoWindow = new google.maps.InfoWindow({
                           content: `<div><strong>${placeDetails.name}</strong><br>
-                            <strong>주소:</strong> ${placeDetails.formatted_address}<br>
-                            <strong>오늘의 운영시간:</strong> ${todayOpeningHours}</div>`,
+    <strong>주소:</strong> ${placeDetails.formatted_address}<br>
+    <strong>오늘의 운영시간:</strong> ${todayOpeningHours}</div>`,
                         });
 
                         marker.addListener('click', () => {
