@@ -1,5 +1,5 @@
 <template>
-  <div class="container-fluid">
+  <div class="container-fluid py-4">
     <h3>Compare Exchange Rate</h3>
 
     <!-- USD to KRW Section -->
@@ -8,9 +8,11 @@
         <div class="row px-3">
           <div class="col-md-8">
             <h6 class="mt-3">1 USD = {{ currentToKrw }} KRW</h6>
-            
-            <ExchangeRateChart chartId="toexchangeChart" :period="toSelectedPeriod" chartType="to" />
-            
+            <ExchangeRateChart
+              chartId="toexchangeChart"
+              :period="toSelectedPeriod"
+              chartType="to"
+            />
             <div class="chart-button-container">
               <template
                 v-for="period in ['1y', '6m', '3m', '1m']"
@@ -25,7 +27,6 @@
                 </button>
               </template>
             </div>
-            
           </div>
           <div class="col-md-4 d-flex flex-column justify-content-center mt-6">
             <input
@@ -114,7 +115,9 @@
               readonly
               aria-label="Amount in USD"
             />
-            <button class="btn btn-danger w-100">Sell</button>
+            <button class="btn btn-danger w-100" @click="reExchange">
+              Sell
+            </button>
             <!-- 환율 알림 Section -->
             <div class="exchange-alert-container">
               <span class="alert-title">환율 알림 설정</span>
@@ -287,6 +290,86 @@ const setFromPeriod = (period) => {
   fromSelectedPeriod.value = period;
 };
 
+// 환전 함수
+const handleExchange = async () => {
+  try {
+    const userNo = "5"; // 실제 사용자 번호로 대체해야 합니다
+    const krwNo = "1234"; // 실제 KRW 계좌 번호로 대체해야 합니다
+    const songNo = "1234"; // 실제 송이 페이 계좌 번호로 대체해야 합니다
+    const exchangeRate = currentToKrw.value;
+    const amount = usdAmount.value;
+
+    const response = await myaccountApi.exchange({
+      amount,
+      exchangeRate,
+      songAccountDTO: {
+        songNo,
+      },
+      krwAccountDTO: {
+        krwNo,
+      },
+      historyDTO: {
+        userNo,
+        songNo,
+        krwNo,
+        typeCode: 5, // 환전 코드
+        stateCode: 1, // 상태 코드 (성공)
+        historyContent: "USD → KRW 환전",
+        amount,
+        exchangeRate,
+      },
+    });
+
+    if (response && response.data) {
+      console.log("환전 성공:", response.data);
+      alert("환전이 성공적으로 완료되었습니다.");
+    }
+  } catch (error) {
+    console.error("환전 중 오류 발생:", error);
+    alert("환전 중 오류가 발생했습니다. 다시 시도해 주세요.");
+  }
+};
+
+// 환급 함수
+const reExchange = async () => {
+  try {
+    const userNo = "5"; // 실제 사용자 번호로 대체해야 합니다
+    const krwNo = "1234"; // 실제 KRW 계좌 번호로 대체해야 합니다
+    const songNo = "1234"; // 실제 송이 페이 계좌 번호로 대체해야 합니다
+    const exchangeRate = currentFromKrw.value;
+    const amount = krwAmountReverse.value;
+
+    const response = await myaccountApi.reExchange({
+      amount,
+      exchangeRate,
+      krwAccountDTO: {
+        krwNo,
+      },
+      songAccountDTO: {
+        songNo,
+      },
+      historyDTO: {
+        userNo,
+        songNo,
+        krwNo,
+        typeCode: 6, // 환급 코드
+        stateCode: 1, // 상태 코드 (성공)
+        historyContent: "KRW → USD 환급",
+        amount,
+        exchangeRate,
+      },
+    });
+
+    if (response && response.data) {
+      console.log("환급 성공:", response.data);
+      alert("환급이 성공적으로 완료되었습니다.");
+    }
+  } catch (error) {
+    console.error("환급 중 오류 발생:", error);
+    alert("환급 중 오류가 발생했습니다. 다시 시도해 주세요.");
+  }
+};
+
 // 알림 저장 함수
 const alertRateUsdToKrw = ref(null); // USD -> KRW 알림 목표 환율
 const alertRateKrwToUsd = ref(null); // KRW -> USD 알림 목표 환율
@@ -356,7 +439,7 @@ const fetchAlertConditions = async () => {
       const alerts = response.data.slice(0, 2); // 최대 2개만 가져옴
       alertConditions.value = alerts;
       console.log("Fetched alert conditions:", alertConditions.value);
-      fetchAlertConditions(); // 알림을 다시 가져와서 업데이트
+      // fetchAlertConditions(); // 알림을 다시 가져와서 업데이트
     }
   } catch (error) {
     console.error("환율 알림 데이터를 가져오는 중 오류 발생:", error);
