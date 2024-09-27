@@ -1,12 +1,5 @@
 <script setup>
-import {
-  ref,
-  reactive,
-  computed,
-  onBeforeUnmount,
-  onBeforeMount,
-  onMounted,
-} from "vue";
+import { ref, computed, onBeforeUnmount, onBeforeMount, onMounted } from "vue";
 import { useStore } from "vuex";
 import { useRouter } from "vue-router";
 import { useAuthStore } from "@/stores/auth";
@@ -20,9 +13,11 @@ const store = useStore();
 const router = useRouter();
 const auth = useAuthStore();
 
-const member = reactive({
-  email: "",
-  password: "",
+const member = ref({
+  user: {
+    email: "",
+    password: "",
+  },
 });
 
 const error = ref("");
@@ -85,12 +80,13 @@ const isFormValid = computed(() => {
   return isEmailValid.value && isPasswordValid.value;
 });
 
-// member 객체에 이메일과 비밀번호 할당
-member.email = email;
-member.password = password;
-
 // 폼 제출 처리
 const handleSubmit = async () => {
+  // member 객체에 이메일과 비밀번호 할당
+  member.value.user.email = email.value;
+  member.value.user.password = password.value;
+
+  console.log("try login: ", member.value);
   emailError.value = !isEmailValid.value;
   passwordError.value = !isPasswordValid.value;
 
@@ -114,7 +110,7 @@ const handleSubmit = async () => {
   // }
   if (isFormValid.value) {
     try {
-      await auth.login(member);
+      await auth.login(member.value);
       if (localStorage.getItem("auth") != " ") {
         router.push("/login/phone");
       }
