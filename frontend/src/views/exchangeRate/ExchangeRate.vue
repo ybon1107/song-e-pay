@@ -217,7 +217,9 @@
                 삭제
               </button>
               <ul v-if="alertConditions.length > 1" class="list-group">
-                <li class="list-group-item">
+                <li
+                  class="list-group-item d-flex align-items-center justify-content-between py-1"
+                >
                   <p>
                     <strong>기준 통화:</strong>
                     {{ alertConditions[1]?.baseCode }} |
@@ -611,5 +613,25 @@ input[type="number"] {
   background-color: #e0e0e0; /* 비활성화된 버튼 색상 */
   color: #9e9e9e; /* 비활성화된 텍스트 색상 */
   cursor: not-allowed; /* 비활성화 상태에서는 커서 변경 */
+}
+
+.list-group-item {
+  background-color: #f9f9f9;
+  border-radius: 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.list-group-item p {
+  font-size: 0.9rem;
+}
+
+.btn-primary {
+  background-color: #5a9;
+  border-color: #5a9;
+}
+
+.btn-danger {
+  background-color: #e57373;
+  border-color: #e57373;
 }
 </style>
