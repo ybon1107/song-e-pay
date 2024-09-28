@@ -4,31 +4,58 @@
 
     <div class="row mb-3">
       <!-- 광역시/도 선택 -->
-      <div class="col-md-3">
+      <div class="col-md-3 col-sm-6 mb-2 d-flex flex-column">
         <label for="city-select">광역시 / 도</label>
-        <select v-model="selectedProvince" @change="fetchCities" id="city-select" class="form-select">
+        <select
+          v-model="selectedProvince"
+          @change="fetchCities"
+          id="city-select"
+          class="form-select"
+        >
           <option value="" disabled selected>광역시 선택</option>
-          <option v-for="province in provinces" :key="province" :value="province">
+          <option
+            v-for="province in provinces"
+            :key="province"
+            :value="province"
+          >
             {{ province }}
           </option>
         </select>
       </div>
       <!-- 시/군/구 선택 -->
-      <div class="col-md-3">
+      <div class="col-md-3 col-sm-6 mb-2 d-flex flex-column">
         <label for="district-select">시/군/구 선택</label>
-        <select v-model="selectedCity" id="district-select" class="form-control">
-        <option value="" disabled selected>시/군/구 선택</option>
-        <option v-for="city in cities" :key="city" :value="city">
-          {{ city }}
-        </option>
-      </select>
-
+        <select
+          v-model="selectedCity"
+          id="district-select"
+          class="form-control"
+        >
+          <option value="" disabled selected>시/군/구 선택</option>
+          <option v-for="city in cities" :key="city" :value="city">
+            {{ city }}
+          </option>
+        </select>
       </div>
 
-      <!-- 찾기 버튼 -->
-      <div class="col-md-3 d-flex align-items-end">
-        <button class="search-button btn btn-success m-0" @click="searchBank">
-          <i class="mdi mdi-map-search-outline"></i> 찾기
+      <!-- 검색 버튼 -->
+      <div class="col-md-3 col-sm-6 d-flex align-items-end mb-2">
+        <button
+          class="search-button btn btn-success w-100"
+          @click="searchBank"
+          style="margin-bottom: 0"
+        >
+          <i class="mdi mdi-map-search-outline"></i> 검색
+        </button>
+      </div>
+
+      <!-- 내 위치에서 찾기 버튼 -->
+      <div class="col-md-3 col-sm-6 d-flex align-items-end mb-2">
+        <button
+          class="btn btn-primary w-100"
+          @click="findUserLocation"
+          style="margin-bottom: 0"
+        >
+          내 위치에서 찾기
         </button>
       </div>
     </div>
@@ -37,7 +64,6 @@
     <div class="card">
       <div id="map"></div>
     </div>
-
   </div>
 </template>
 
@@ -77,6 +103,86 @@ export default {
     this.initMap();
   },
   methods: {
+    // 사용자의 현재 위치를 가져오고 주변 KB국민은행을 검색하는 함수
+    findUserLocation() {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+          (position) => {
+            const userLocation = {
+              lat: position.coords.latitude,
+              lng: position.coords.longitude,
+            };
+            this.map.setCenter(userLocation);
+            this.map.setZoom(15); // 줌 설정
+            this.setUserMarker(userLocation);
+            this.searchNearbyBanks(userLocation);
+          },
+          () => {
+            alert('위치 정보를 사용할 수 없습니다.');
+          }
+        );
+      } else {
+        alert('사용자의 브라우저에서 위치 정보를 지원하지 않습니다.');
+      }
+    },
+
+    // 사용자의 위치에 파란색 마커를 설정하는 함수
+    setUserMarker(location) {
+      if (this.userMarker) {
+        this.userMarker.setMap(null); // 기존 마커 제거
+      }
+      this.userMarker = new google.maps.Marker({
+        position: location,
+        map: this.map,
+        icon: {
+          url: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png', // 파란색 마커
+        },
+        title: '나의 위치',
+      });
+    },
+
+    // 주변 KB국민은행을 검색하는 함수
+    searchNearbyBanks(location) {
+      const request = {
+        location: location,
+        radius: 3000, // 3km 반경 내에서 검색
+        query: 'KB국민은행',
+      };
+
+      this.service.textSearch(request, (places, status) => {
+        if (status === google.maps.places.PlacesServiceStatus.OK) {
+          this.clearMarkers(); // 기존 마커 제거
+
+          places.forEach((place) => {
+            // 검색 결과에서 ATM과 국민카드가 포함된 결과는 제외
+            if (
+              !place.name.includes('ATM') &&
+              !place.name.includes('국민카드')
+            ) {
+              const marker = new google.maps.Marker({
+                map: this.map,
+                position: place.geometry.location,
+                title: place.name,
+              });
+
+              const infoWindow = new google.maps.InfoWindow({
+                content: `<div><strong>${place.name}</strong><br>
+                <strong>주소:</strong> ${place.formatted_address}</div>`,
+              });
+
+              marker.addListener('click', () => {
+                infoWindow.open(this.map, marker);
+              });
+
+              this.markers.push(marker); // 마커 배열에 추가
+            }
+          });
+        } else {
+          console.error('Places search was not successful:', status);
+        }
+      });
+    },
+
     // 오늘의 운영시간에서 시간만 추출하는 함수
     getTodayOpeningHours(openingHours) {
       const todayIndex = new Date().getDay(); // 오늘 요일 인덱스 가져오기
