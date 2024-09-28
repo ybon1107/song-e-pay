@@ -65,7 +65,6 @@ const closeModal = () => {
   showModal.value = false;
 };
 
-
 // 비밀번호가 확인되었을 때 호출되는 함수
 const handlePasswordVerified = async () => {
   showModal.value = false; // 모달 숨김
@@ -90,7 +89,6 @@ const handlePasswordVerified = async () => {
       await reExchange(); // reExchange가 완료될 때까지 기다림
       alert('환급이 완료되었습니다.'); // 작업 완료 메시지
       break;
-
   }
   resetValue();
   await fetchBalances(); // 잔액을 다시 가져옴
@@ -174,7 +172,7 @@ const deposit = async () => {
       krwNo,
       typeCode: 3, //거래 코드 충전 3
       stateCode: 1,
-      historyContent: 'SongE money 충전',
+      historyContent: `My Account → ${customerunit} 충전`,
       amount,
     },
   });
@@ -189,7 +187,7 @@ const exchange = async () => {
   const userNo = '1';
   const krwNo = '1234'; // krw 계좌 번호 사용
   const songNo = '1234'; // 송이 페이 계좌 번호
-  const exchangeRate = currentFromKrw.value * 1000;
+  const exchangeRate = currentToKrw.value;
   const amount = exchangeAmount.value; // 환전하려는 금액
   const response = await myaccountApi.exchange({
     amount,
@@ -206,7 +204,7 @@ const exchange = async () => {
       krwNo,
       typeCode: 5,
       stateCode: 1,
-      historyContent: 'SongE money → WonE money',
+      historyContent: `${customerunit} → KRW 환전`,
       amount,
       exchangeRate,
     },
@@ -239,7 +237,7 @@ const refund = async () => {
       krwNo,
       typeCode: 4,
       stateCode: 1,
-      historyContent: 'SongE money → My Account',
+      historyContent: `${customerunit} → My Account 환불`,
       amount,
     },
   });
@@ -269,7 +267,7 @@ const transfer = async () => {
       krwNo,
       typeCode: 2, //거래 코드 충전 2
       stateCode: 1,
-      historyContent: `나의 WonE money → ${sendEmail}`,
+      historyContent: `KRW → ${sendEmail} 송금`,
       amount,
     },
   });
@@ -284,7 +282,7 @@ const reExchange = async () => {
   const userNo = '1';
   const krwNo = '1234'; // krw 계좌 번호 사용
   const songNo = '1234'; // 송이 페이 계좌 번호
-  const exchangeRate = currentToKrw.value;
+  const exchangeRate = currentFromKrw.value * 1000;
   const amount = reExchangeAmount.value; // 환급하려는 금액
   console.log('exchangeRate 확인' + exchangeRate);
   const response = await myaccountApi.reExchange({
@@ -302,7 +300,7 @@ const reExchange = async () => {
       krwNo,
       typeCode: 6,
       stateCode: 1,
-      historyContent: 'WonE money → SongE money',
+      historyContent: `KRW → ${customerunit} 환급`,
       amount,
       exchangeRate,
     },
@@ -447,7 +445,6 @@ const onInput = (event) => {
     </div> -->
 
     <div class="assets-list">
-
       <DefaultInfoCard
         title="Song-E Money"
         :value="formattedSongEMoneyBalance"
@@ -457,31 +454,31 @@ const onInput = (event) => {
         :class="{ selected: selectedAsset === 'Song-E Money' }"
       />
 
-      <DefaultInfoCard title="Won-E Money" :value="formattedWonEMoneyBalance" img-src="images/won-e-money.png"
-        img="/images/korea.png" @click="selectAsset('Won-E Money')"
-        :class="{ selected: selectedAsset === 'Won-E Money' }" />
+      <DefaultInfoCard
+        title="Won-E Money"
+        :value="formattedWonEMoneyBalance"
+        img-src="images/won-e-money.png"
+        img="/images/korea.png"
+        @click="selectAsset('Won-E Money')"
+        :class="{ selected: selectedAsset === 'Won-E Money' }"
+      />
     </div>
 
     <div class="card">
       <!-- Song-E Money 선택 시 -->
       <template v-if="selectedAsset === 'Song-E Money'">
         <nav class="nav flex-column flex-sm-row">
-          <a class="flex-sm-fill text-sm-center nav-link" :class="{ active: activeTab === 'deposit' }"
-            @click="activeTab = 'deposit'" aria-current="page"> 충전 </a>
-          <a class="flex-sm-fill text-sm-center nav-link" :class="{ active: activeTab === 'exchange' }"
-            @click="activeTab = 'exchange'"> 환전 </a>
-          <a class="flex-sm-fill text-sm-center nav-link" :class="{ active: activeTab === 'refund' }"
-            @click="activeTab = 'refund'"> 환불 </a>
+          <a class="flex-sm-fill text-sm-center nav-link" :class="{ active: activeTab === 'deposit' }" @click="activeTab = 'deposit'" aria-current="page"> 충전 </a>
+          <a class="flex-sm-fill text-sm-center nav-link" :class="{ active: activeTab === 'exchange' }" @click="activeTab = 'exchange'"> 환전 </a>
+          <a class="flex-sm-fill text-sm-center nav-link" :class="{ active: activeTab === 'refund' }" @click="activeTab = 'refund'"> 환불 </a>
         </nav>
       </template>
 
       <!-- Won-E Money 선택 시 -->
       <template v-if="selectedAsset === 'Won-E Money'">
         <nav class="nav flex-column flex-sm-row">
-          <a class="flex-sm-fill text-sm-center nav-link" :class="{ active: activeTab === 'transfer' }"
-            @click="activeTab = 'transfer'" aria-current="page"> 송금 </a>
-          <a class="flex-sm-fill text-sm-center nav-link" :class="{ active: activeTab === 'reExchange' }"
-            @click="activeTab = 'reExchange'"> 환급 </a>
+          <a class="flex-sm-fill text-sm-center nav-link" :class="{ active: activeTab === 'transfer' }" @click="activeTab = 'transfer'" aria-current="page"> 송금 </a>
+          <a class="flex-sm-fill text-sm-center nav-link" :class="{ active: activeTab === 'reExchange' }" @click="activeTab = 'reExchange'"> 환급 </a>
         </nav>
       </template>
 
