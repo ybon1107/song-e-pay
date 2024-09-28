@@ -70,8 +70,8 @@ onBeforeUnmount(() => {
       integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
       crossorigin="anonymous" referrerpolicy="no-referrer" />
     <div class="container-fluid">
-      <div class="page-header min-height-300" style="
-          background-image: url(&quot;https://images.unsplash.com/photo-1531512073830-ba890ca4eba2?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80&quot;);
+      <div class="page-header min-height-300 bg-success" style="
+          /* background-image: url(&quot;https://images.unsplash.com/photo-1531512073830-ba890ca4eba2?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80&quot;); */
           margin-right: -24px;
           margin-left: -34%;
         ">
@@ -89,7 +89,7 @@ onBeforeUnmount(() => {
             <div class="col-auto my-auto">
               <div class="h-100">
                 <!-- 유저 닉네임 나오는 곳 -->
-                <h5 class="mb-1">유저 닉네임</h5>
+                <h5 class="mb-1">{{ user.userId }}</h5>
               </div>
             </div>
             <div class="mx-auto mt-3 col-lg-4 col-md-6 my-sm-auto ms-sm-auto me-sm-0 btn-logout"
