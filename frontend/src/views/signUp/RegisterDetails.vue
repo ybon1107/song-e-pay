@@ -11,7 +11,7 @@ import flatPickr from "vue-flatpickr-component";
 import "flatpickr/dist/flatpickr.css";
 import { parsePhoneNumberFromString } from "libphonenumber-js";
 
-const body = document.getElementsByTagName('body')[0];
+const body = document.getElementsByTagName("body")[0];
 const store = useStore();
 const signupStore = useSignupStore();
 const router = useRouter();
@@ -21,31 +21,22 @@ onBeforeMount(() => {
   store.state.showNavbar = false;
   store.state.showSidenav = false;
   store.state.showFooter = false;
-  body.classList.remove('bg-gray-100');
+  body.classList.remove("bg-gray-100");
 });
 onBeforeUnmount(() => {
   store.state.hideConfigButton = false;
   store.state.showNavbar = true;
   store.state.showSidenav = true;
   store.state.showFooter = true;
-  body.classList.add('bg-gray-100');
+  body.classList.add("bg-gray-100");
 });
 
 // 이메일 상태
 const email = computed(() => signupStore.email);
 
 // 비밀번호 입력 필드 상태
-const password = ref('');
-const confirmPassword = ref('');
-
-// 비밀번호 입력 시 공백 제거
-const handlePasswordInput = (event) => {
-  password.value = event.target.value.replace(/\s/g, '');
-};
-
-const handleConfirmPasswordInput = (event) => {
-  confirmPassword.value = event.target.value.replace(/\s/g, '');
-};
+const password = ref("");
+const confirmPassword = ref("");
 
 // 비밀번호 입력 시 공백 제거
 const handlePasswordInput = (event) => {
@@ -158,7 +149,9 @@ const handleSubmit = async () => {
       <div class="container">
         <div class="row justify-content-center">
           <!-- 카드 컨테이너 -->
-          <div class="mx-auto col-xl-5 col-lg-6 col-md-8 d-flex flex-column mx-lg-0">
+          <div
+            class="mx-auto col-xl-5 col-lg-6 col-md-8 d-flex flex-column mx-lg-0"
+          >
             <div class="card card-plain">
               <!-- 카드 헤더: 제목 -->
               <div class="pb-0 card-header text-center">
