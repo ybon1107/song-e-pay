@@ -1,39 +1,43 @@
 <template>
-  <br />
-  <h1>금융 지도</h1>
-  <br />
+  <div class="container-fluid">
+    <h3>금융 지도</h3>
 
-  <div>
-    <div class="search-container">
-      <!-- 광역시 선택 -->
-      <select
-        v-model="selectedProvince"
-        @change="fetchCities"
-        class="rounded-select"
-      >
-        <option value="" disabled selected>광역시 선택</option>
-        <option v-for="province in provinces" :key="province" :value="province">
-          {{ province }}
-        </option>
-      </select>
-
+    <div class="row mb-3">
+      <!-- 광역시/도 선택 -->
+      <div class="col-md-3">
+        <label for="city-select">광역시 / 도</label>
+        <select v-model="selectedProvince" @change="fetchCities" id="city-select" class="form-select">
+          <option value="" disabled selected>광역시 선택</option>
+          <option v-for="province in provinces" :key="province" :value="province">
+            {{ province }}
+          </option>
+        </select>
+      </div>
       <!-- 시/군/구 선택 -->
-      <select v-model="selectedCity" class="rounded-select">
+      <div class="col-md-3">
+        <label for="district-select">시/군/구 선택</label>
+        <select v-model="selectedCity" id="district-select" class="form-control">
         <option value="" disabled selected>시/군/구 선택</option>
         <option v-for="city in cities" :key="city" :value="city">
           {{ city }}
         </option>
       </select>
 
-      <!-- 검색 버튼 -->
-      <button class="rounded-select search-btn" @click="searchBank">
-        검색
-      </button>
+      </div>
+
+      <!-- 찾기 버튼 -->
+      <div class="col-md-3 d-flex align-items-end">
+        <button class="search-button btn btn-success m-0" @click="searchBank">
+          <i class="mdi mdi-map-search-outline"></i> 찾기
+        </button>
+      </div>
     </div>
-    <br />
 
     <!-- 지도 영역 -->
-    <div id="map" class="map-shadow" style="width: 100%; height: 500px"></div>
+    <div class="card">
+      <div id="map"></div>
+    </div>
+
   </div>
 </template>
 
@@ -397,7 +401,7 @@ export default {
               this.clearMarkers(); // 기존 마커 제거
 
               places.forEach((place) => {
-                // 검색 결과에서 ATM과 국민카드가 포함된 결과를 제외하는 조건 추가
+                // 검색 결과에서 ATM과 국민카드가 포함된 결과는 제외
                 if (
                   !place.name.includes('ATM') &&
                   !place.name.includes('국민카드')
@@ -426,16 +430,42 @@ export default {
                           placeDetails.opening_hours &&
                           placeDetails.opening_hours.weekday_text
                         ) {
-                          todayOpeningHours = this.getTodayOpeningHours(
-                            placeDetails.opening_hours.weekday_text
-                          );
+                          // 현재 날짜 가져오기
+                          const today = new Date();
+                          const todayIndex = today.getDay();
+
+                          // weekday_text 배열에서 요일이 일요일부터 시작하는지 확인
+                          let weekdayText =
+                            placeDetails.opening_hours.weekday_text;
+                          const firstDayText = weekdayText[0].toLowerCase();
+                          const isSundayFirst =
+                            firstDayText.includes('sunday') ||
+                            firstDayText.includes('일요일');
+
+                          // 요일 인덱스 조정
+                          let correctedIndex = isSundayFirst
+                            ? todayIndex
+                            : todayIndex === 0
+                              ? 6
+                              : todayIndex - 1;
+
+                          // 오늘의 운영 시간만 출력
+                          let openingHoursText =
+                            weekdayText[correctedIndex] || '운영시간 정보 없음';
+
+                          // "요일: 시간" 형식에서 시간 부분만 추출
+                          if (openingHoursText.includes(': ')) {
+                            todayOpeningHours = openingHoursText.split(': ')[1]; // 시간만 추출
+                          } else {
+                            todayOpeningHours = '운영시간 정보 없음';
+                          }
                         }
 
                         // InfoWindow에 오늘의 운영시간 추가
                         const infoWindow = new google.maps.InfoWindow({
                           content: `<div><strong>${placeDetails.name}</strong><br>
-                                주소: ${placeDetails.formatted_address}<br>
-                                오늘의 운영시간: ${todayOpeningHours}</div>`,
+    <strong>주소:</strong> ${placeDetails.formatted_address}<br>
+    <strong>오늘의 운영시간:</strong> ${todayOpeningHours}</div>`,
                         });
 
                         marker.addListener('click', () => {
@@ -466,67 +496,32 @@ export default {
 </script>
 
 <style scoped>
-.search-container {
-  display: flex;
-  gap: 10px;
-}
-
-.rounded-select {
-  padding: 8px 15px;
-  border-radius: 20px; /* 동글한 모서리 */
-  border: 1px solid #ccc;
-  outline: none;
-  font-size: 16px;
-  background-color: #f9f9f9;
-  transition: all 0.3s ease-in-out;
-}
-
-.rounded-select:focus {
-  border-color: #007bff;
-  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
-}
-
-.search-btn {
-  background-color: #ffc107; /* 노란색 배경 */
-  color: black; /* 검정색 글씨 */
-  cursor: pointer;
-  border: none;
-  padding: 10px 20px;
-}
-
-.search-btn:hover {
-  background-color: #e0a800; /* 호버 시 더 어두운 노란색 */
-}
-
-/* CSS */
-.map-shadow {
-  box-shadow: 10px 10px 30px rgba(0, 0, 0, 0.3); /* 오른쪽 하단으로 그림자 */
-  border-radius: 10px; /* 모서리를 약간 둥글게 하고 싶다면 추가 */
-}
-
-/* 반응형 조정 */
-@media only screen and (max-width: 768px) {
-  .map-shadow {
-    box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.3); /* 모바일에서는 더 작은 그림자 */
-  }
-}
-
-/* 지도 기본 크기 */
+/* 반응형 지도 크기 설정 */
 #map {
   width: 100%;
-  height: 500px;
+  height: 60vh;
+  /* 화면 높이의 60% */
+  min-height: 400px;
+  /* 최소 높이 설정 */
 }
 
-/* 반응형 디자인 */
-@media only screen and (max-width: 768px) {
+/* 작은 화면일 때 */
+@media (max-width: 768px) {
+  /*  지도 높이 줄이기 */
   #map {
-    height: 300px;
+    height: 50vh;
+  }
+  /* 버튼 늘리기 */
+  .search-button {
+    width: 100%;
+    margin-top: 1rem !important;
   }
 }
 
-@media only screen and (max-width: 480px) {
+@media (max-width: 480px) {
+  /* 모바일 기기에서는 지도 높이를 더 줄이기 */
   #map {
-    height: 200px;
+    height: 40vh;
   }
 }
 </style>
