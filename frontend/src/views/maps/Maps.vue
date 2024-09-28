@@ -27,7 +27,7 @@
 
       <!-- 찾기 버튼 -->
       <div class="col-md-3 d-flex align-items-end">
-        <button class="search-button btn btn-primary m-0" @click="searchBank">
+        <button class="search-button btn btn-success m-0" @click="searchBank">
           <i class="mdi mdi-map-search-outline"></i> 찾기
         </button>
       </div>

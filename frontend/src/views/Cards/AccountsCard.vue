@@ -86,8 +86,10 @@ function handleClick() {
 }
 
 .card.selected {
-  border: 2px solid #007bff; /* 선택된 카드를 강조하는 스타일 */
-  background-color: #e7f0ff; /* 선택된 카드 배경색 조정 */
+  border: 3px solid #2cce89;
+    /* 선택된 카드에 녹색 테두리 추가 */
+    box-shadow: 0 0 15px rgba(44, 206, 137, 0.5);
+    /* 선택된 카드에 그림자 효과 추가 */
 }
 
 .img-container {

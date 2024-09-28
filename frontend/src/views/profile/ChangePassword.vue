@@ -12,7 +12,6 @@ const isFormValid = computed(() => {
         newPw.value.trim() !== "" &&
         newPwCheck.value.trim() !== "";
 });
-
 </script>
 
 <template>
@@ -56,3 +55,42 @@ const isFormValid = computed(() => {
         </div>
     </div>
 </template>
+<style>
+.password-page {
+    background-color: white;
+    height: 650px;
+    border-radius: 1rem;
+    padding: 1rem;
+}
+
+.password-container {
+    margin-top: 5%;
+}
+
+.password-box {
+    border: 1px solid black;
+    border-radius: 1rem;
+    width: 70%;
+    margin: 0 auto;
+    height: 400px;
+    padding: 1rem;
+    position: relative;
+}
+
+.btn-back {
+    position: absolute;
+    bottom: 0%;
+    left: 5%;
+}
+
+.btn-pwd {
+    position: absolute;
+    bottom: 0%;
+    right: 5%;
+}
+
+.password-message {
+    margin-top: 5px;
+    font-size: 12px;
+}
+</style>

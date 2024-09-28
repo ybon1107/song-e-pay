@@ -56,7 +56,7 @@ const props = defineProps({
     }
 });
 
-//추후에 i18n키값 구분 로직으로 변경 
+//추후에 i18n키값 구분 로직으로 변경
 const title = computed(() => props.assetType === 'song-e' ? 'Song-E Money' : 'Won-E Money');
 const backgroundImage = computed(() => `/images/${props.assetType}-money.png`);
 const icon = computed(() => `/images/${props.currency}.png`);

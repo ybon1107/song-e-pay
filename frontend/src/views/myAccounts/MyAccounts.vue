@@ -8,6 +8,9 @@ import SecondPassword from '@/views/MyAccounts/SecondPassword.vue';
 import { ref, onMounted, computed } from 'vue';
 import myaccountApi from '../../api/myaccountApi';
 import { useExchangeStore } from '@/stores/exchangeStore';
+import SecondPasswordModal from '@/views/MyAccounts/SecondPasswordModal.vue';
+import { useRoute } from 'vue-router';
+const route = useRoute();
 const emit = defineEmits(['password-verified', 'close']);
 const store = useExchangeStore();
 const selectedAsset = ref('Song-E Money'); // 기본적으로 Song-E Money가 선택됨
@@ -44,9 +47,9 @@ const currentFromKrw = computed(() => store.currentFromKrw);
 
 onMounted(() => {
   // 라우터 쿼리에서 selectedAsset 값을 가져옴
-  // if (route.query.selectedAsset) {
-  //   selectAsset(route.query.selectedAsset);
-  // }
+  if (route.query.selectedAsset) {
+    selectAsset(route.query.selectedAsset);
+  }
   fetchBalances();
   fetchExchangeRates();
 });
@@ -62,40 +65,35 @@ const closeModal = () => {
   showModal.value = false;
 };
 
+
 // 비밀번호가 확인되었을 때 호출되는 함수
 const handlePasswordVerified = async () => {
   showModal.value = false; // 모달 숨김
   switch (currentAction.value) {
     case 'deposit':
       await deposit(); // deposit이 완료될 때까지 기다림
-      resetValue();
-      await fetchBalances(); // 잔액을 다시 가져옴
       alert('입금이 완료되었습니다.'); // 작업 완료 메시지
       break;
     case 'exchange':
       await exchange(); // exchange가 완료될 때까지 기다림
-      resetValue();
-      await fetchBalances();
       alert('환전이 완료되었습니다.'); // 작업 완료 메시지
       break;
     case 'refund':
       await refund(); // refund가 완료될 때까지 기다림
-      resetValue();
-      await fetchBalances();
       alert('환불이 완료되었습니다.'); // 작업 완료 메시지
       break;
     case 'transfer':
       await transfer(); // transfer가 완료될 때까지 기다림
-      await fetchBalances();
       alert('송금이 완료되었습니다.'); // 작업 완료 메시지
       break;
     case 'reExchange':
       await reExchange(); // reExchange가 완료될 때까지 기다림
-      resetValue();
-      await fetchBalances();
       alert('환급이 완료되었습니다.'); // 작업 완료 메시지
       break;
+
   }
+  resetValue();
+  await fetchBalances(); // 잔액을 다시 가져옴
 };
 
 //값이 입력되지 않으면 버튼 비활성화
@@ -430,7 +428,8 @@ const onInput = (event) => {
 <template>
   <div class="container-fluid" style="width: 80%" id="responsive-container">
     <h3>My account</h3>
-    <SecondPassword v-if="showModal" @close="closeModal" @password-verified="handlePasswordVerified" />
+
+    <SecondPasswordModal v-if="showModal" @close="closeModal" @password-verified="handlePasswordVerified" />
 
     <!-- <div class="row my-3">
       <div class="col-lg-4 col-md-5">
