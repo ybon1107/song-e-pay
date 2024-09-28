@@ -14,6 +14,7 @@ const startDate = ref('');
 const endDate = ref('');
 const searchQuery = ref('');
 const transactions = ref([]);
+const isFilterApplied = ref(false); // 필터 적용 여부 추적
 
 const totalItems = ref(0); // 전체 항목 수
 const pageRequest = ref({
@@ -32,7 +33,11 @@ const transactionTypes = computed(() => {
 });
 
 // 필터 적용 함수
-const applyTransactionFilters = async () => {
+const applyTransactionFilters = async (resetPage = false) => {
+    // 필터를 적용할 때 페이지를 항상 1로 초기화
+    if (resetPage) {
+        pageRequest.value.page = 1;
+    }
     let typeCodesToSend = [];
     if (transactionType.value) {
         typeCodesToSend = getTransactionTypeCodes([transactionType.value]);
@@ -55,8 +60,6 @@ const applyTransactionFilters = async () => {
             : null,
         endDate: endDate.value ? new Date(endDate.value).toISOString() : null,
         historyContent: searchQuery.value || null,
-        offset: (pageRequest.value.page - 1) * pageRequest.value.amount, // offset 계산
-        amount: pageRequest.value.amount, // 한 페이지에 표시할 개수
     };
 
     try {
@@ -64,21 +67,18 @@ const applyTransactionFilters = async () => {
             filters,
             pageRequest.value
         );
-
-        // 응답 데이터가 배열인지 확인 후 처리
         if (response && Array.isArray(response.list)) {
-            totalItems.value = response.totalCount; // 전체 항목 수 업데이트
+            totalItems.value = response.totalCount;
             transactions.value = response.list.map((transaction) => ({
                 ...transaction,
                 historyDate: formatUnixTimestamp(transaction.historyDate),
                 typeCode: convertTransactionType(transaction.typeCode),
                 stateCode: convertTransactionStatus(transaction.stateCode),
             }));
-        } else {
-            console.error('예상하지 않은 응답 형식:', response);
         }
+        isFilterApplied.value = true; // 필터 적용 상태로 변경
     } catch (error) {
-        console.error('필터링된 거래 내역을 가져오는 중 오류 발생:', error);
+        console.error('Error fetching filtered transactions:', error);
     }
 };
 
@@ -151,7 +151,13 @@ const totalPages = computed(() =>
 const goToPage = async (pageNum) => {
     if (pageNum > 0 && pageNum <= totalPages.value) {
         pageRequest.value.page = pageNum;
-        await getTransactionList(); // 새로운 페이지로 이동 시 거래 내역 갱신
+
+        // 필터 적용 여부에 따라 다른 함수 호출
+        if (isFilterApplied.value) {
+            await applyTransactionFilters(); // 필터가 적용된 상태면 필터링된 거래 내역 호출
+        } else {
+            await getTransactionList(); // 필터가 적용되지 않은 상태면 기본 거래 내역 호출
+        }
     }
 };
 // 페이지네이션을 위한 계산된 속성 추가
@@ -304,12 +310,12 @@ const closeModal = () => {
                             class="form-control"
                             placeholder="상세 내용 검색"
                             v-model="searchQuery"
-                            @keyup.enter="applyTransactionFilters"
+                            @keyup.enter="applyTransactionFilters(true)"
                         />
                     </div>
                     <div class="col-md-2 d-flex align-items-end mb-3">
                         <argon-button
-                            @click="applyTransactionFilters"
+                            @click="applyTransactionFilters(true)"
                             class="btn btn-success mb-0"
                         >
                             Apply

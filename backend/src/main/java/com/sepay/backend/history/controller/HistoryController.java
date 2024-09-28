@@ -21,23 +21,50 @@ public class HistoryController {
 
     private final HistoryService historyService;
 
-    @PostMapping("/filter")
-    public ResponseEntity<Page<HistoryDTO>> getHistoryList(@RequestBody SearchItem searchItem, PageRequest pageRequest) {
-        log.info("SearchItem received: {}", searchItem);
-        log.info("PageRequest received: {}", pageRequest);
+//    @PostMapping("/filter")
+//    public ResponseEntity<Page<HistoryDTO>> getHistoryList(@RequestBody SearchItem searchItem, PageRequest pageRequest) {
+//        log.info("SearchItem received: {}", searchItem);
+//        log.info("PageRequest received: {}", pageRequest);
+//
+//        try {
+//            // 필터된 거래 내역을 페이지네이션과 함께 반환
+//            Page<HistoryDTO> filteredHistories = historyService.getFilter(searchItem, pageRequest);
+//            log.info("Filtered Histories: {}", filteredHistories);
+//            return ResponseEntity.ok(filteredHistories);
+//        } catch (Exception e) {
+//            // 오류 발생 시 상세 로그 출력
+//            log.error("Error occurred while filtering histories", e);
+//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+//                    .body(null); // 500 에러 발생 시 null 반환
+//        }
+//    }
+@PostMapping("/filter")
+public ResponseEntity<Page<HistoryDTO>> getHistoryList(@RequestBody SearchItem searchItem,
+                                                       @RequestParam int page,
+                                                       @RequestParam int amount) {
+    log.info("SearchItem received: {}", searchItem);
+    log.info("Page: {}", page);
+    log.info("Amount: {}", amount);
 
-        try {
-            // 필터된 거래 내역을 페이지네이션과 함께 반환
-            Page<HistoryDTO> filteredHistories = historyService.getFilter(searchItem, pageRequest);
-            log.info("Filtered Histories: {}", filteredHistories);
-            return ResponseEntity.ok(filteredHistories);
-        } catch (Exception e) {
-            // 오류 발생 시 상세 로그 출력
-            log.error("Error occurred while filtering histories", e);
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(null); // 500 에러 발생 시 null 반환
-        }
+    try {
+        // 페이지 번호가 1 미만일 경우 기본값으로 설정
+        int pageNumber = Math.max(page - 1, 0); // 1-based 인덱스를 0-based로 변환
+        int validAmount = Math.max(amount, 1); // 최소 1개 이상의 항목을 받아야 함
+
+        // PageRequest 생성
+        PageRequest pageRequest = PageRequest.of(pageNumber, validAmount);
+
+        // 필터된 거래 내역을 페이지네이션과 함께 반환
+        Page<HistoryDTO> filteredHistories = historyService.getFilter(searchItem, pageRequest);
+        log.info("Filtered Histories: {}", filteredHistories);
+        return ResponseEntity.ok(filteredHistories);
+    } catch (Exception e) {
+        // 오류 발생 시 상세 로그 출력
+        log.error("Error occurred while filtering histories", e);
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body(null); // 500 에러 발생 시 null 반환
     }
+}
 
     @GetMapping("/getList")
     public ResponseEntity<Page> getList(PageRequest pageRequest) {
