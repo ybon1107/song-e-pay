@@ -213,8 +213,7 @@ const handleSubmit = async () => {
                       }"
                       :success="isPasswordMatch"
                       :error="
-                        !confirmPasswordError &&
-                        0 < confirmPassword.length &&
+                        confirmPasswordError &&
                         confirmPassword.length < 8 &&
                         !isPasswordMatch
                       "
