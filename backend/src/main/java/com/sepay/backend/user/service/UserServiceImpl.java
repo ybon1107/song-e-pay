@@ -40,4 +40,16 @@ public class UserServiceImpl implements UserService{
         map.put("password", password);
         return mapper.selectUser(map);
     }
+
+    @Override
+    public int register(UserDTO userDTO) {
+        try {
+            // 추후 password 암호화 추가(security & JWT)
+            return mapper.insertUser(userDTO);
+        } catch (Exception e) {
+            log.error("Error registering user: ", e);
+            throw new RuntimeException("Registration failed");
+        }
+
+    }
 }

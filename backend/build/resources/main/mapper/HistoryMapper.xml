@@ -4,42 +4,6 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.sepay.backend.history.mapper.HistoryMapper">
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-    <select id="getFilter" parameterType="SearchItem" resultType="HistoryDTO">
-        SELECT *
-        FROM history h
-        --         LEFT JOIN song_account sa ON h.song_no = sa.song_no
-        WHERE h.user_no = #{userNo}
-        <!-- 거래 유형 필터링 -->
-        <if test="typeCode != null and typeCode.size > 0">
-            AND h.type_code IN
-            <foreach item="item" collection="typeCode" open="(" separator="," close=")">
-                #{item}
-            </foreach>
-        </if>
-        <!-- 거래 상태 필터링 -->
-        <if test="stateCode != null">
-            AND h.state_code = #{stateCode}
-        </if>
-        <!-- 날짜 범위 필터링 -->
-        <if test="beginDate != null and endDate != null">
-            AND h.history_date BETWEEN #{beginDate} AND #{endDate}
-        </if>
-        <!-- 검색 쿼리 필터링 -->
-        <if test="historyContent != null and historyContent != ''">
-            AND h.history_content LIKE CONCAT('%', #{historyContent}, '%')
-        </if>
-
-        ORDER BY h.history_date DESC
-    </select>
-
-=======
->>>>>>> 94ee48886d81483b4875d1db400bf4947367a889
-=======
->>>>>>> 29e4e7d12389fe76e0850a06a96a66140ff7da45
     <select id="getFilter" resultType="HistoryDTO">
         SELECT *
         FROM history h
@@ -82,29 +46,9 @@
         </if>
         <if test="historyContent != null and historyContent != ''">
             AND h.history_content LIKE CONCAT('%', #{historyContent}, '%')
-<<<<<<< HEAD
-        </if>
-        <!-- 검색 쿼리 필터링 -->
-        <if test="historyContent != null and historyContent != ''">
-            AND h.history_content LIKE CONCAT('%', #{historyContent}, '%')
-=======
->>>>>>> 94ee48886d81483b4875d1db400bf4947367a889
         </if>
     </select>
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> 2ebfe61bd987f72bfea238a75164080a5347c4f3
-    <select id="selectAllHistories" resultType="HistoryDTO">
-        SELECT * FROM history ORDER BY history_date DESC
-    </select>
-
-<<<<<<< HEAD
-=======
->>>>>>> 94ee48886d81483b4875d1db400bf4947367a889
-=======
->>>>>>> 29e4e7d12389fe76e0850a06a96a66140ff7da45
 
     <select id="selectAllHistories" resultType="HistoryDTO">
         SELECT * FROM history ORDER BY history_date DESC

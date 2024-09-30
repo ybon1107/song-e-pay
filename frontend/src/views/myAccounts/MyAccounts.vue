@@ -1,39 +1,50 @@
 <script setup>
-import ArgonInput from '@/components/templates/ArgonInput.vue';
-import DefaultInfoCard from '@/views/Cards/AccountsCard.vue';
+import ArgonInput from "@/components/templates/ArgonInput.vue";
+import DefaultInfoCard from "@/views/Cards/AccountsCard.vue";
 // import AccountsCard from '@/views/Cards/AccountsCard2.vue';
-import ArgonAmountInput from '@/components/yb_templates/ArgonAmountInput.vue';
-import ArgonButton from '@/components/templates/ArgonButton.vue';
-import SecondPassword from '@/views/MyAccounts/SecondPassword.vue';
-import { ref, onMounted, computed } from 'vue';
-import myaccountApi from '../../api/myaccountApi';
-import { useExchangeStore } from '@/stores/exchangeStore';
-const emit = defineEmits(['password-verified', 'close']);
+import ArgonAmountInput from "@/components/yb_templates/ArgonAmountInput.vue";
+import ArgonButton from "@/components/templates/ArgonButton.vue";
+import SecondPassword from "@/views/MyAccounts/SecondPassword.vue";
+import { ref, onMounted, computed } from "vue";
+import myaccountApi from "../../api/myaccountApi";
+import { useExchangeStore } from "@/stores/exchangeStore";
+import SecondPasswordModal from "@/views/MyAccounts/SecondPasswordModal.vue";
+import { useRoute } from "vue-router";
+import axios from "axios";
+import ExchangeRateChart from "@/views/Chart/ExchangeRateChart.vue";
+
+const route = useRoute();
+const emit = defineEmits(["password-verified", "close"]);
 const store = useExchangeStore();
-const selectedAsset = ref('Song-E Money'); // 기본적으로 Song-E Money가 선택됨
+const selectedAsset = ref("Song-E Money"); // 기본적으로 Song-E Money가 선택됨
 
 const songEMoneyBalance = ref(0); // Song-E Money의 잔액
 const wonEMoneyBalance = ref(0); // Won-E Money의 잔액
 // const formattedSongEMoneyBalance = computed(() => `${customerunit.value} ${formatNumber(songEMoneyBalance.value.toFixed(2))}`);
 // const formattedWonEMoneyBalance = computed(() => `KRW ${formatNumber(wonEMoneyBalance.value.toFixed(2))}`);
 
-const activeTab = ref('deposit'); // 기본적으로 충전 탭이 선택됨
+const activeTab = ref("deposit"); // 기본적으로 충전 탭이 선택됨
 
-const depositAmount = ref('');
-const exchangeAmount = ref('');
-const refundAmount = ref('');
-const transferAmount = ref('');
-const reExchangeAmount = ref('');
+const depositAmount = ref("");
+const exchangeAmount = ref("");
+const refundAmount = ref("");
+const transferAmount = ref("");
+const reExchangeAmount = ref("");
 
-const customerunit = ref('USD'); //나라 설정에 따라 변경되게끔
+const customerunit = ref("USD"); //나라 설정에 따라 변경되게끔
 
-const sendEmail = ref('');
-const sendEmailConfirm = ref('');
+const sendEmail = ref("");
+const sendEmailConfirm = ref("");
 const isMember = ref(null);
-const formattedSongEMoneyBalance = computed(() => `${customerunit.value} ${formatNumber(songEMoneyBalance.value.toFixed(2))}`);
-const formattedWonEMoneyBalance = computed(() => `KRW ${formatNumber(wonEMoneyBalance.value.toFixed(2))}`);
+const formattedSongEMoneyBalance = computed(
+  () =>
+    `${customerunit.value} ${formatNumber(songEMoneyBalance.value.toFixed(2))}`
+);
+const formattedWonEMoneyBalance = computed(
+  () => `KRW ${formatNumber(wonEMoneyBalance.value.toFixed(2))}`
+);
 const showModal = ref(false);
-let currentAction = ref('');
+let currentAction = ref("");
 const usdAmount = ref(1);
 const krwAmount = ref(0);
 const krwAmountReverse = ref(1000);
@@ -41,15 +52,6 @@ const usdAmountReverse = ref(0);
 
 const currentToKrw = computed(() => store.currentToKrw);
 const currentFromKrw = computed(() => store.currentFromKrw);
-
-onMounted(() => {
-  // 라우터 쿼리에서 selectedAsset 값을 가져옴
-  // if (route.query.selectedAsset) {
-  //   selectAsset(route.query.selectedAsset);
-  // }
-  fetchBalances();
-  fetchExchangeRates();
-});
 
 //비밀번호 관련 기능
 // 비밀번호 입력 모달 열기
@@ -66,36 +68,29 @@ const closeModal = () => {
 const handlePasswordVerified = async () => {
   showModal.value = false; // 모달 숨김
   switch (currentAction.value) {
-    case 'deposit':
+    case "deposit":
       await deposit(); // deposit이 완료될 때까지 기다림
-      resetValue();
-      await fetchBalances(); // 잔액을 다시 가져옴
-      alert('입금이 완료되었습니다.'); // 작업 완료 메시지
+      alert("입금이 완료되었습니다."); // 작업 완료 메시지
       break;
-    case 'exchange':
+    case "exchange":
       await exchange(); // exchange가 완료될 때까지 기다림
-      resetValue();
-      await fetchBalances();
-      alert('환전이 완료되었습니다.'); // 작업 완료 메시지
+      alert("환전이 완료되었습니다."); // 작업 완료 메시지
       break;
-    case 'refund':
+    case "refund":
       await refund(); // refund가 완료될 때까지 기다림
-      resetValue();
-      await fetchBalances();
-      alert('환불이 완료되었습니다.'); // 작업 완료 메시지
+      alert("환불이 완료되었습니다."); // 작업 완료 메시지
       break;
-    case 'transfer':
+    case "transfer":
       await transfer(); // transfer가 완료될 때까지 기다림
-      await fetchBalances();
-      alert('송금이 완료되었습니다.'); // 작업 완료 메시지
+      alert("송금이 완료되었습니다."); // 작업 완료 메시지
       break;
-    case 'reExchange':
+    case "reExchange":
       await reExchange(); // reExchange가 완료될 때까지 기다림
-      resetValue();
-      await fetchBalances();
-      alert('환급이 완료되었습니다.'); // 작업 완료 메시지
+      alert("환급이 완료되었습니다."); // 작업 완료 메시지
       break;
   }
+  resetValue();
+  await fetchBalances(); // 잔액을 다시 가져옴
 };
 
 //값이 입력되지 않으면 버튼 비활성화
@@ -106,7 +101,7 @@ const isValidAmount = (amount) => {
 // 입력된 금액 타입 확인
 const formatNumber = (num) => {
   // 입력값이 숫자이면 포맷, 아니면 그대로 반환
-  return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+  return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 };
 
 // 화면상에서 입력된 금액 기반 거래 후 잔액 계산
@@ -114,15 +109,15 @@ const formatNumber = (num) => {
 let processAfterBalance = computed(() => {
   let balance = 0;
   // 충전일 경우 잔액 증가
-  if (activeTab.value === 'deposit') {
+  if (activeTab.value === "deposit") {
     balance = songEMoneyBalance.value + parseFloat(depositAmount.value || 0);
   }
   // 환전일 경우 잔액 감소
-  if (activeTab.value === 'exchange') {
+  if (activeTab.value === "exchange") {
     balance = songEMoneyBalance.value - parseFloat(exchangeAmount.value || 0);
   }
   // 환불일 경우 잔액 감소
-  else if (activeTab.value === 'refund') {
+  else if (activeTab.value === "refund") {
     balance = songEMoneyBalance.value - parseFloat(refundAmount.value || 0);
   }
 
@@ -134,13 +129,14 @@ let processAfterWonBalance = computed(() => {
   let wonBalance = 0;
 
   // 충전일 경우 잔액 증가
-  if (activeTab.value === 'transfer') {
+  if (activeTab.value === "transfer") {
     wonBalance = wonEMoneyBalance.value - parseFloat(transferAmount.value || 0);
   }
 
   // 환급일 경우 잔액 감소
-  else if (activeTab.value === 'reExchange') {
-    wonBalance = wonEMoneyBalance.value - parseFloat(reExchangeAmount.value || 0);
+  else if (activeTab.value === "reExchange") {
+    wonBalance =
+      wonEMoneyBalance.value - parseFloat(reExchangeAmount.value || 0);
   }
 
   // 계산된 숫자를 포맷하여 반환
@@ -151,15 +147,15 @@ let processAfterWonBalance = computed(() => {
 const selectAsset = (asset) => {
   selectedAsset.value = asset;
   // Song-E Money 선택 시 기본 탭을 deposit로 설정, Won-E Money 선택 시 기본 탭을 transfer로 설정
-  activeTab.value = asset === 'Song-E Money' ? 'deposit' : 'transfer';
+  activeTab.value = asset === "Song-E Money" ? "deposit" : "transfer";
 };
 
 // 충전 함수 정의
 const deposit = async () => {
-  const userNo = '1';
-  const accountNo = '123'; // 실제 계좌 번호 사용
-  const songNo = '1234'; // 송이 페이 계좌 번호
-  const krwNo = '1234';
+  const userNo = "1";
+  const accountNo = "123"; // 실제 계좌 번호 사용
+  const songNo = "1234"; // 송이 페이 계좌 번호
+  const krwNo = "1234";
   const amount = depositAmount.value; // 충전하려는 금액
   // 송이 페이머니 충전 요청
   const response = await myaccountApi.deposit({
@@ -176,21 +172,21 @@ const deposit = async () => {
       krwNo,
       typeCode: 3, //거래 코드 충전 3
       stateCode: 1,
-      historyContent: 'SongE money 충전',
+      historyContent: "SongE money 충전",
       amount,
     },
   });
 
-  if (response != '') {
+  if (response != "") {
     console.log(response);
   }
 };
 
 // 환전 처리
 const exchange = async () => {
-  const userNo = '1';
-  const krwNo = '1234'; // krw 계좌 번호 사용
-  const songNo = '1234'; // 송이 페이 계좌 번호
+  const userNo = "1";
+  const krwNo = "1234"; // krw 계좌 번호 사용
+  const songNo = "1234"; // 송이 페이 계좌 번호
   const exchangeRate = currentFromKrw.value * 1000;
   const amount = exchangeAmount.value; // 환전하려는 금액
   const response = await myaccountApi.exchange({
@@ -208,23 +204,23 @@ const exchange = async () => {
       krwNo,
       typeCode: 5,
       stateCode: 1,
-      historyContent: 'SongE money → WonE money',
+      historyContent: "SongE money → WonE money",
       amount,
       exchangeRate,
     },
   });
 
-  if (response != '') {
+  if (response != "") {
     console.log(response);
   }
 };
 
 // 환불 처리
 const refund = async () => {
-  const userNo = '1';
-  const accountNo = '123'; // 실제 계좌 번호 사용
-  const songNo = '1234'; // 송이 페이 계좌 번호
-  const krwNo = '1234'; // krw 계좌 번호 사용
+  const userNo = "1";
+  const accountNo = "123"; // 실제 계좌 번호 사용
+  const songNo = "1234"; // 송이 페이 계좌 번호
+  const krwNo = "1234"; // krw 계좌 번호 사용
   const amount = refundAmount.value; // 충전하려는 금액
   // 송이 페이머니 충전 요청
   const response = await myaccountApi.refund({
@@ -241,22 +237,22 @@ const refund = async () => {
       krwNo,
       typeCode: 4,
       stateCode: 1,
-      historyContent: 'SongE money → My Account',
+      historyContent: "SongE money → My Account",
       amount,
     },
   });
 
-  if (response != '') {
+  if (response != "") {
     console.log(response);
   }
 };
 
 // 송금 처리
 const transfer = async () => {
-  const userNo = '1';
-  const songNo = '1234'; // 송이 페이 계좌 번호
-  const krwNo = '1234'; // krw 계좌 번호 사용
-  const target_krwNo = '1234'; // 보내는 사람 페이 계좌 번호
+  const userNo = "1";
+  const songNo = "1234"; // 송이 페이 계좌 번호
+  const krwNo = "1234"; // krw 계좌 번호 사용
+  const target_krwNo = "1234"; // 보내는 사람 페이 계좌 번호
   const amount = transferAmount.value; // 충전하려는 금액
   // 송이 페이머니 충전 요청
   const response = await myaccountApi.transfer({
@@ -276,19 +272,19 @@ const transfer = async () => {
     },
   });
 
-  if (response != '') {
+  if (response != "") {
     console.log(response);
   }
 };
 
 // 환급 처리
 const reExchange = async () => {
-  const userNo = '1';
-  const krwNo = '1234'; // krw 계좌 번호 사용
-  const songNo = '1234'; // 송이 페이 계좌 번호
+  const userNo = "1";
+  const krwNo = "1234"; // krw 계좌 번호 사용
+  const songNo = "1234"; // 송이 페이 계좌 번호
   const exchangeRate = currentToKrw.value;
   const amount = reExchangeAmount.value; // 환급하려는 금액
-  console.log('exchangeRate 확인' + exchangeRate);
+  console.log("exchangeRate 확인" + exchangeRate);
   const response = await myaccountApi.reExchange({
     amount,
     exchangeRate,
@@ -304,25 +300,25 @@ const reExchange = async () => {
       krwNo,
       typeCode: 6,
       stateCode: 1,
-      historyContent: 'WonE money → SongE money',
+      historyContent: "WonE money → SongE money",
       amount,
       exchangeRate,
     },
   });
 
-  if (response != '') {
+  if (response != "") {
     console.log(response);
   }
 };
 
 const resetValue = () => {
-  refundAmount.value = '';
-  reExchangeAmount.value = '';
-  transferAmount.value = '';
-  exchangeAmount.value = '';
-  depositAmount.value = '';
-  sendEmail.value = '';
-  sendEmailConfirm.value = '';
+  refundAmount.value = "";
+  reExchangeAmount.value = "";
+  transferAmount.value = "";
+  exchangeAmount.value = "";
+  depositAmount.value = "";
+  sendEmail.value = "";
+  sendEmailConfirm.value = "";
 };
 
 const convertToKrw = () => {
@@ -330,7 +326,9 @@ const convertToKrw = () => {
 };
 
 const convertToUsd = () => {
-  usdAmountReverse.value = (krwAmountReverse.value * currentFromKrw.value).toFixed(2);
+  usdAmountReverse.value = (
+    krwAmountReverse.value * currentFromKrw.value
+  ).toFixed(2);
 };
 // 환율 데이터를 가져오는 함수
 const fetchExchangeRates = async () => {
@@ -338,26 +336,29 @@ const fetchExchangeRates = async () => {
     convertToKrw();
     convertToUsd();
   } catch (error) {
-    console.error('환율 데이터를 가져오는 중 오류 발생:', error);
+    console.error("환율 데이터를 가져오는 중 오류 발생:", error);
   }
 };
 const fetchBalances = () => {
-  myaccountApi.fetchkrwAccountBalance('1234').then((balance) => {
+  myaccountApi.fetchkrwAccountBalance("1234").then((balance) => {
     wonEMoneyBalance.value = balance;
   });
 
-  myaccountApi.fetchsongeAccountBalance('1234').then((balance) => {
+  myaccountApi.fetchsongeAccountBalance("1234").then((balance) => {
     songEMoneyBalance.value = balance;
   });
 };
 
 // 받는 금액 계산
 const receivedAmount = computed(() => {
-  if (selectedAsset.value === 'Song-E Money') {
-    return (exchangeAmount.value * currentToKrw.value).toFixed(2);
-  } else if (selectedAsset.value === 'Won-E Money') {
-    return (reExchangeAmount.value * currentFromKrw.value).toFixed(2);
+  if (selectedAsset.value === "Song-E Money") {
+    return (parseFloat(exchangeAmount.value) * currentToKrw.value).toFixed(2);
+  } else if (selectedAsset.value === "Won-E Money") {
+    return (parseFloat(reExchangeAmount.value) * currentFromKrw.value).toFixed(
+      2
+    );
   }
+  return "0.00"; // 기본값 추가
 });
 
 // 이메일 입력 유효성 검증
@@ -368,87 +369,155 @@ const emailConfirm = async () => {
   const userId = sendEmail.value;
   const response = await myaccountApi.confirmEmail(userId);
   if (response) {
-    if (userId === 'test@gmail.com') {
+    if (userId === "test@gmail.com") {
       //userId 세션에서 가져오기(로그인할때 사용된 이메일)
-      isMember.value = 'self';
+      isMember.value = "self";
       success = false;
-      errorMessage.value = '본인이 아닌 다른 회원의 이메일을 입력하세요';
+      errorMessage.value = "본인이 아닌 다른 회원의 이메일을 입력하세요";
     } else {
-      isMember.value = 'member'; // 회원 이메일로 표시
+      isMember.value = "member"; // 회원 이메일로 표시
       success = true;
-      errorMessage.value = '';
+      errorMessage.value = "";
     }
-  } else if (sendEmail.value !== '' && emailPattern.test(sendEmail.value)) {
-    isMember.value = 'no-member'; // 비회원 이메일로 표시
+  } else if (sendEmail.value !== "" && emailPattern.test(sendEmail.value)) {
+    isMember.value = "no-member"; // 비회원 이메일로 표시
     success = true;
-    errorMessage.value = '';
+    errorMessage.value = "";
   } else {
-    isMember.value = 'error';
+    isMember.value = "error";
     success = false;
   }
 };
 // 이메일 형식 확인을 위한 정규식
 const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-const errorMessageCheck = ref('');
+const errorMessageCheck = ref("");
 let checkSucess = false;
 const onInputCheck = (event) => {
-  if (sendEmailConfirm.value === '' && checkSucess) {
-    errorMessageCheck.value = '이메일 재입력하세요.';
+  if (sendEmailConfirm.value === "" && checkSucess) {
+    errorMessageCheck.value = "이메일 재입력하세요.";
   } else {
     if (sendEmail.value !== event.target.value) {
-      errorMessageCheck.value = '입력하신 이메일과 일치하지 않습니다.';
+      errorMessageCheck.value = "입력하신 이메일과 일치하지 않습니다.";
     } else {
-      errorMessageCheck.value = '';
+      errorMessageCheck.value = "";
       checkSucess = true;
     }
   }
 };
-const errorMessage = ref('');
+const errorMessage = ref("");
 const onInput = (event) => {
   sendEmail.value = event.target.value;
   isconfirmed = false;
 
-  if (sendEmail.value == '' && isconfirmed) {
-    errorMessage.value = '이메일을 입력해주세요.';
+  if (sendEmail.value == "" && isconfirmed) {
+    errorMessage.value = "이메일을 입력해주세요.";
     isconfirmed = false;
   } else if (!emailPattern.test(sendEmail.value)) {
-    errorMessage.value = '올바른 이메일 형식을 지켜야 합니다.';
+    errorMessage.value = "올바른 이메일 형식을 지켜야 합니다.";
   } else if (isconfirmed == false) {
-    errorMessage.value = '이메일 확인이 필요합니다.';
-  } else if (isMember.value === 'self') {
-    errorMessage.value = '본인이 아닌 다른 회원의 이메일을 입력하세요';
+    errorMessage.value = "이메일 확인이 필요합니다.";
+  } else if (isMember.value === "self") {
+    errorMessage.value = "본인이 아닌 다른 회원의 이메일을 입력하세요";
   } else {
-    errorMessage.value = '';
+    errorMessage.value = "";
   }
-  if (sendEmailConfirm.value !== '') {
+  if (sendEmailConfirm.value !== "") {
     onInputCheck({ target: { value: sendEmailConfirm.value } });
   }
 };
+
+// 자동 환전 내역을 저장할 ref
+const autoConditions = ref([]);
+
+// 환율 알림 내역을 저장할 ref
+const alertConditions = ref([]);
+
+// 사용자 번호를 설정 (임의로 1로 설정)
+const userNo = 1;
+
+// 자동 환전 예약 데이터를 가져오는 함수
+const fetchAutoExchange = async () => {
+  try {
+    const response = await axios.get(
+      `/api/exchange-reservation/setalert/${userNo}`
+    );
+    if (response.status === 200) {
+      // 응답 데이터가 존재하면 autoConditions에 저장
+      const reservations = response.data;
+      autoConditions.value = reservations;
+    }
+  } catch (error) {
+    console.error("자동 환전 데이터를 가져오는 중 오류 발생:", error);
+  }
+};
+
+// 환율 알림 데이터를 가져오는 함수
+const fetchAlertConditions = async () => {
+  try {
+    const response = await axios.get(`/api/exchange-reservation/${userNo}`);
+    if (response.status === 200) {
+      // 응답 데이터가 존재하면 alertConditions에 최대 2개 저장
+      const alerts = response.data.slice(0, 2); // 최대 2개만 가져옴
+      alertConditions.value = alerts;
+      console.log("Fetched alert conditions:", alertConditions.value);
+      // fetchAlertConditions(); // 알림을 다시 가져와서 업데이트
+    }
+  } catch (error) {
+    console.error("환율 알림 데이터를 가져오는 중 오류 발생:", error);
+  }
+};
+
+const deleteAlertCondition = async (resNo) => {
+  try {
+    console.log("삭제할 예약 번호:", resNo);
+    if (resNo) {
+      console.log("삭제할 예약 번호:", resNo);
+      const response = await axios.delete(`/api/exchange-reservation/${resNo}`);
+      if (response.status === 200) {
+        alert("알림 설정이 삭제되었습니다.");
+        fetchAlertConditions(); // 알림을 다시 가져와서 업데이트
+        fetchAutoExchange(); // 예약을 다시 가져와서 업데이트
+      }
+    } else {
+      console.error("예약 번호(resNo)가 없습니다.");
+    }
+  } catch (error) {
+    console.error("알림 설정 삭제 중 오류 발생:", error);
+  }
+};
+
+// 컴포넌트가 마운트될 때 데이터를 가져옴
+onMounted(() => {
+  fetchExchangeRates();
+  fetchAutoExchange();
+  fetchAlertConditions();
+  // 라우터 쿼리에서 selectedAsset 값을 가져옴
+  if (route.query.selectedAsset) {
+    selectAsset(route.query.selectedAsset);
+  }
+  fetchBalances();
+});
 </script>
 
 <template>
-  <div class="container-fluid" style="width: 80%" id="responsive-container">
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+    integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
+    crossorigin="anonymous"
+    referrerpolicy="no-referrer"
+  />
+  <div class="container-fluid" style="width: 100%" id="responsive-container">
     <h3>My account</h3>
-    <SecondPassword v-if="showModal" @close="closeModal" @password-verified="handlePasswordVerified" />
 
-    <!-- <div class="row my-3">
-      <div class="col-lg-4 col-md-5">
-        <AccountsCard title="Song-E Money" :balance="songEMoneyBalance" :currency="customerunit"
-          backgroundImage="/images/song-e-money.png" icon="/images/america.png"
-          @click="selectAsset('Song-E Money')" :isSelected="selectedAsset === 'Song-E Money'"/>
->
-      </div>
-      <div class="col-lg-4 col-md-5">
-        <AccountsCard title="Won-E Money" :balance="wonEMoneyBalance" currency="KRW"
-          backgroundImage="/images/won-e-money.png" icon="/images/korea.png"
-          @click="selectAsset('Won-E Money')" :isSelected="selectedAsset === 'Won-E Money'"/>
-
-      </div>
-    </div> -->
+    <SecondPasswordModal
+      v-if="showModal"
+      @close="closeModal"
+      @password-verified="handlePasswordVerified"
+    />
 
     <div class="assets-list">
-
       <DefaultInfoCard
         title="Song-E Money"
         :value="formattedSongEMoneyBalance"
@@ -458,31 +527,63 @@ const onInput = (event) => {
         :class="{ selected: selectedAsset === 'Song-E Money' }"
       />
 
-      <DefaultInfoCard title="Won-E Money" :value="formattedWonEMoneyBalance" img-src="images/won-e-money.png"
-        img="/images/korea.png" @click="selectAsset('Won-E Money')"
-        :class="{ selected: selectedAsset === 'Won-E Money' }" />
+      <DefaultInfoCard
+        title="Won-E Money"
+        :value="formattedWonEMoneyBalance"
+        img-src="images/won-e-money.png"
+        img="/images/korea.png"
+        @click="selectAsset('Won-E Money')"
+        :class="{ selected: selectedAsset === 'Won-E Money' }"
+      />
     </div>
 
     <div class="card">
       <!-- Song-E Money 선택 시 -->
       <template v-if="selectedAsset === 'Song-E Money'">
         <nav class="nav flex-column flex-sm-row">
-          <a class="flex-sm-fill text-sm-center nav-link" :class="{ active: activeTab === 'deposit' }"
-            @click="activeTab = 'deposit'" aria-current="page"> 충전 </a>
-          <a class="flex-sm-fill text-sm-center nav-link" :class="{ active: activeTab === 'exchange' }"
-            @click="activeTab = 'exchange'"> 환전 </a>
-          <a class="flex-sm-fill text-sm-center nav-link" :class="{ active: activeTab === 'refund' }"
-            @click="activeTab = 'refund'"> 환불 </a>
+          <a
+            class="flex-sm-fill text-sm-center nav-link"
+            :class="{ active: activeTab === 'deposit' }"
+            @click="activeTab = 'deposit'"
+            aria-current="page"
+          >
+            충전
+          </a>
+          <a
+            class="flex-sm-fill text-sm-center nav-link"
+            :class="{ active: activeTab === 'exchange' }"
+            @click="activeTab = 'exchange'"
+          >
+            환전
+          </a>
+          <a
+            class="flex-sm-fill text-sm-center nav-link"
+            :class="{ active: activeTab === 'refund' }"
+            @click="activeTab = 'refund'"
+          >
+            환불
+          </a>
         </nav>
       </template>
 
       <!-- Won-E Money 선택 시 -->
       <template v-if="selectedAsset === 'Won-E Money'">
         <nav class="nav flex-column flex-sm-row">
-          <a class="flex-sm-fill text-sm-center nav-link" :class="{ active: activeTab === 'transfer' }"
-            @click="activeTab = 'transfer'" aria-current="page"> 송금 </a>
-          <a class="flex-sm-fill text-sm-center nav-link" :class="{ active: activeTab === 'reExchange' }"
-            @click="activeTab = 'reExchange'"> 환급 </a>
+          <a
+            class="flex-sm-fill text-sm-center nav-link"
+            :class="{ active: activeTab === 'transfer' }"
+            @click="activeTab = 'transfer'"
+            aria-current="page"
+          >
+            송금
+          </a>
+          <a
+            class="flex-sm-fill text-sm-center nav-link"
+            :class="{ active: activeTab === 'reExchange' }"
+            @click="activeTab = 'reExchange'"
+          >
+            환급
+          </a>
         </nav>
       </template>
 
@@ -491,12 +592,16 @@ const onInput = (event) => {
         <div v-if="activeTab === 'deposit'" class="tab-pane fade show active">
           <p>
             <small class="text-muted">충전 금액</small>
-            <ArgonAmountInput v-model="depositAmount" placeholder="금액을 입력하세요" :unit="customerunit" />
+            <ArgonAmountInput
+              v-model="depositAmount"
+              placeholder="금액을 입력하세요"
+              :unit="customerunit"
+            />
           </p>
           <p>
             <small class="text-muted">
               충전계좌:
-              {{ selectedAsset === 'Song-E Money' ? '내 계좌' : 'KRW 계좌' }}
+              {{ selectedAsset === "Song-E Money" ? "내 계좌" : "KRW 계좌" }}
             </small>
           </p>
           <p>
@@ -506,7 +611,14 @@ const onInput = (event) => {
             </small>
           </p>
 
-          <argon-button type="submit" color="success" size="lg" class="w-100" @click="openModal" :disabled="!isValidAmount(depositAmount)" variant="gradient"
+          <argon-button
+            type="submit"
+            color="success"
+            size="lg"
+            class="w-100"
+            @click="openModal"
+            :disabled="!isValidAmount(depositAmount)"
+            variant="gradient"
             >충전하기</argon-button
           >
         </div>
@@ -514,7 +626,9 @@ const onInput = (event) => {
         <div v-if="activeTab === 'exchange'">
           <p>
             <small class="text-muted">현재 환율</small><br />
-            <small class="text-muted">1 KRW = {{ currentFromKrw }} {{ customerunit }}</small>
+            <small class="text-muted"
+              >1 KRW = {{ currentFromKrw }} {{ customerunit }}</small
+            >
           </p>
           <p>
             <small class="text-muted">보내는 금액</small>
@@ -534,7 +648,7 @@ const onInput = (event) => {
           <p>
             <small class="text-muted">
               환급계좌:
-              {{ selectedAsset === 'Song-E Money' ? '내 계좌' : 'KRW 계좌' }}
+              {{ selectedAsset === "Song-E Money" ? "내 계좌" : "KRW 계좌" }}
             </small>
           </p>
           <p>
@@ -544,7 +658,14 @@ const onInput = (event) => {
             </small>
           </p>
 
-          <argon-button type="submit" color="success" size="lg" class="w-100" @click="openModal" :disabled="!isValidAmount(exchangeAmount)" variant="gradient"
+          <argon-button
+            type="submit"
+            color="success"
+            size="lg"
+            class="w-100"
+            @click="openModal"
+            :disabled="!isValidAmount(exchangeAmount)"
+            variant="gradient"
             >환전하기</argon-button
           >
         </div>
@@ -565,7 +686,7 @@ const onInput = (event) => {
           <p>
             <small class="text-muted">
               환불계좌:
-              {{ selectedAsset === 'Song-E Money' ? '내 계좌' : 'KRW 계좌' }}
+              {{ selectedAsset === "Song-E Money" ? "내 계좌" : "KRW 계좌" }}
             </small>
           </p>
           <p>
@@ -575,7 +696,16 @@ const onInput = (event) => {
             </small>
           </p>
 
-          <argon-button type="submit" color="success" size="lg" class="w-100" @click="openModal" :disabled="!isValidAmount(refundAmount)" variant="gradient">환불하기</argon-button>
+          <argon-button
+            type="submit"
+            color="success"
+            size="lg"
+            class="w-100"
+            @click="openModal"
+            :disabled="!isValidAmount(refundAmount)"
+            variant="gradient"
+            >환불하기</argon-button
+          >
         </div>
       </div>
 
@@ -583,11 +713,26 @@ const onInput = (event) => {
       <div class="card-body" v-if="selectedAsset === 'Won-E Money'">
         <div v-if="activeTab === 'transfer'">
           <div class="text-btn">
-            <small class="text-muted" style="margin-top: 1rem; margin-bottom: 1rem">받는 이메일</small>
-            <argon-button class="action-btn2" @click="emailConfirm" size="sm" variant="outline" :disabled="sendEmail === ''">이메일 확인</argon-button>
+            <small
+              class="text-muted"
+              style="margin-top: 1rem; margin-bottom: 1rem"
+              >받는 이메일</small
+            >
+            <argon-button
+              class="action-btn2"
+              @click="emailConfirm"
+              size="sm"
+              variant="outline"
+              :disabled="sendEmail === ''"
+              >이메일 확인</argon-button
+            >
             <!-- 회원/비회원 표시 -->
-            <small class="text-muted" v-if="isMember === 'member'">회원 이메일</small>
-            <small class="text-muted" v-else-if="isMember === 'no-member'">비회원 이메일</small>
+            <small class="text-muted" v-if="isMember === 'member'"
+              >회원 이메일</small
+            >
+            <small class="text-muted" v-else-if="isMember === 'no-member'"
+              >비회원 이메일</small
+            >
           </div>
           <ArgonInput
             v-model="sendEmail"
@@ -599,7 +744,9 @@ const onInput = (event) => {
             :success="success"
             style="margin-bottom: 0"
           />
-          <div v-if="errorMessage !== ''" class="invalid-feedback text-xs mb-1">{{ errorMessage }}</div>
+          <div v-if="errorMessage !== ''" class="invalid-feedback text-xs mb-1">
+            {{ errorMessage }}
+          </div>
           <small class="text-muted">이메일 확인</small>
           <ArgonInput
             v-model="sendEmailConfirm"
@@ -610,7 +757,9 @@ const onInput = (event) => {
             style="margin-bottom: 0"
             @input="onInputCheck"
           />
-          <div v-if="errorMessageCheck" class="invalid-feedback text-xs mb-1">{{ errorMessageCheck }}</div>
+          <div v-if="errorMessageCheck" class="invalid-feedback text-xs mb-1">
+            {{ errorMessageCheck }}
+          </div>
 
           <p>
             <small class="text-muted">송금할 금액을 입력하세요</small>
@@ -625,7 +774,9 @@ const onInput = (event) => {
           </p>
 
           <p>
-            <small class="text-muted">송금 후 잔액: {{ processAfterWonBalance }} KRW</small>
+            <small class="text-muted"
+              >송금 후 잔액: {{ processAfterWonBalance }} KRW</small
+            >
           </p>
 
           <argon-button
@@ -634,7 +785,11 @@ const onInput = (event) => {
             size="lg"
             class="w-100"
             @click="openModal"
-            :disabled="!isValidAmount(transferAmount) || errorMessage !== '' || errorMessageCheck !== ''"
+            :disabled="
+              !isValidAmount(transferAmount) ||
+              errorMessage !== '' ||
+              errorMessageCheck !== ''
+            "
             variant="gradient"
             >송금하기</argon-button
           >
@@ -643,7 +798,9 @@ const onInput = (event) => {
         <div v-if="activeTab === 'reExchange'">
           <p>
             <small class="text-muted">현재 환율</small><br />
-            <small class="text-muted">1{{ customerunit }} = {{ currentToKrw }} KRW</small>
+            <small class="text-muted"
+              >1{{ customerunit }} = {{ currentToKrw }} KRW</small
+            >
           </p>
           <p>
             <small class="text-muted">보내는 금액</small><br />
@@ -663,12 +820,195 @@ const onInput = (event) => {
             <small class="text-muted">{{ receivedAmount }} USD</small>
           </p>
           <p>
-            <small class="text-muted">거래 후 잔액: {{ processAfterWonBalance }} KRW</small>
+            <small class="text-muted"
+              >거래 후 잔액: {{ processAfterWonBalance }} KRW</small
+            >
           </p>
 
-          <argon-button type="submit" color="success" size="lg" class="w-100" @click="openModal" :disabled="!isValidAmount(reExchangeAmount)" variant="gradient"
+          <argon-button
+            type="submit"
+            color="success"
+            size="lg"
+            class="w-100"
+            @click="openModal"
+            :disabled="!isValidAmount(reExchangeAmount)"
+            variant="gradient"
             >환급하기</argon-button
           >
+        </div>
+      </div>
+    </div>
+    <br />
+    <!-- Graph and Conversion Section -->
+    <h3>Exchange Rate</h3>
+    <div class="card mt-3">
+      <div class="card-body">
+        <div class="row">
+          <!-- Exchange Rate Graph Section -->
+          <div class="col-lg-7 col-md-12 my-3">
+            <div class="chart-container">
+              <ExchangeRateChart
+                chartId="toexchangeChart"
+                period="1m"
+                chartType="to"
+              />
+            </div>
+          </div>
+
+          <div
+            class="col-lg-5 col-md-12 d-flex flex-column justify-content-center my-3"
+          >
+            <div class="mb-3">
+              <h6>Convert USD to KRW</h6>
+              <div class="d-flex align-items-center">
+                <div class="position-relative flex-grow-1">
+                  <input
+                    type="number"
+                    class="form-control"
+                    v-model.number="usdAmount"
+                    @input="convertToKrw"
+                    aria-label="Amount in USD"
+                  />
+                  <img
+                    src="@/assets/img/icons/flags/US.png"
+                    alt="USA Flag"
+                    class="flag-icon"
+                  />
+                </div>
+                <span class="mx-3">=</span>
+                <div class="position-relative flex-grow-1">
+                  <input
+                    type="text"
+                    class="form-control"
+                    :value="krwAmount"
+                    readonly
+                    aria-label="Amount in KRW"
+                  />
+                  <img
+                    src="@/assets/img/icons/flags/KR.png"
+                    alt="KRW Flag"
+                    class="flag-icon"
+                  />
+                </div>
+              </div>
+            </div>
+            <div>
+              <h6>Convert KRW to USD</h6>
+              <div class="d-flex align-items-center">
+                <div class="position-relative flex-grow-1">
+                  <input
+                    type="number"
+                    class="form-control"
+                    v-model.number="krwAmountReverse"
+                    @input="convertToUsd"
+                  />
+                  <img
+                    src="@/assets/img/icons/flags/KR.png"
+                    alt="KRW Flag"
+                    class="flag-icon"
+                  />
+                </div>
+                <span class="mx-3">=</span>
+                <div class="position-relative flex-grow-1">
+                  <input
+                    type="text"
+                    class="form-control"
+                    :value="usdAmountReverse"
+                    readonly
+                  />
+                  <img
+                    src="@/assets/img/icons/flags/US.png"
+                    alt="USA Flag"
+                    class="flag-icon"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <br />
+    <div
+      @click="$router.push('/exchange-rate')"
+      class="clickable-alert"
+      role="button"
+      tabindex="0"
+    >
+      <span class="alert-text">자동 환전 및 알람</span>
+      <i class="fa-solid fa-angle-right alert-icon"></i>
+    </div>
+    <div class="card mt-4">
+      <div class="card-body">
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="form-group">
+              <label for="autoCondition" class="label"
+                >자동 환전 설정 내역</label
+              >
+              <ul v-if="autoConditions.length > 0" class="list-group">
+                <li class="list-group-item">
+                  <div
+                    class="d-flex justify-content-between align-items-center"
+                  >
+                    <span>
+                      <span>기준 통화:</span>
+                      {{ autoConditions[0]?.baseCode }}
+                      <span>대상 통화:</span>
+                      {{ autoConditions[0]?.targetCode }}
+                      <span>목표 환율:</span>
+                      {{ autoConditions[0]?.targetExchange }}
+                      <span>목표 KRW 금액:</span>
+                      {{ autoConditions[0]?.targetKrw }}
+                    </span>
+                    <button
+                      class="btn delete-btn btn-sm align-self-center"
+                      @click="deleteAlertCondition(autoConditions[0]?.resNo)"
+                    >
+                      삭제
+                    </button>
+                  </div>
+                </li>
+              </ul>
+              <p v-else style="margin-left: 0.5rem">
+                자동 환전 예약 내역이 없습니다.
+              </p>
+            </div>
+            <div class="form-group">
+              <label for="alertConditions" class="label"
+                >환율 알림 설정 내역</label
+              >
+              <ul v-if="alertConditions.length > 0" class="list-group">
+                <li
+                  v-for="condition in alertConditions"
+                  :key="condition.resNo"
+                  class="list-group-item"
+                >
+                  <div
+                    class="d-flex justify-content-between align-items-center"
+                  >
+                    <span>
+                      <span>기준 통화:</span> {{ condition.baseCode }}
+                      <span>대상 통화:</span> {{ condition.targetCode }}
+                      <span>목표 환율:</span> {{ condition.targetExchange }}
+                    </span>
+                    <button
+                      class="btn delete-btn btn-sm"
+                      @click="deleteAlertCondition(condition.resNo)"
+                    >
+                      삭제
+                    </button>
+                  </div>
+                </li>
+              </ul>
+              <p
+                v-if="alertConditions.length === 0"
+                style="margin-left: 0.5rem"
+              >
+                환율 알림 예약 내역이 없습니다.
+              </p>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -687,7 +1027,7 @@ const onInput = (event) => {
 
 /* 탭 활성화 스타일 */
 .nav-link.active {
-  background-color: #2cce89;
+  background-color: #ffd700;
   border-radius: 3px;
   color: white;
 }
@@ -731,5 +1071,88 @@ const onInput = (event) => {
   /* 세로 중앙 정렬 */
   gap: 10px;
   /* p 태그와 버튼 사이의 간격을 설정 (필요에 따라 조정) */
+}
+
+.wallet-balance h3 {
+  margin-bottom: 20px;
+}
+
+.flag-icon {
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+  width: 24px;
+  height: 16px;
+}
+
+.clickable-alert {
+  display: flex;
+  justify-content: space-between; /* 텍스트와 아이콘을 좌우로 배치 */
+  align-items: center;
+  background-color: transparent; /* 기본 배경색 없음 */
+  padding: 10px;
+  transition: background-color 0.3s ease;
+  cursor: pointer;
+  outline: none;
+}
+
+.clickable-alert:hover,
+.clickable-alert:focus {
+  background-color: #e0f7fa; /* 클릭 시 배경 색상 */
+}
+
+.alert-text {
+  font-size: 1.5rem; /* 텍스트 크기를 더 크게 설정 */
+  margin: 0; /* 기본 여백 제거 */
+  font-weight: bolder;
+}
+
+.alert-icon {
+  font-size: 1.2rem;
+  margin-left: auto; /* 아이콘을 오른쪽으로 정렬 */
+}
+
+/* 반응형 스타일 */
+@media (max-width: 768px) {
+  .clickable-alert {
+    padding: 8px;
+  }
+
+  .alert-text {
+    font-size: 0.9rem;
+  }
+
+  .alert-icon {
+    font-size: 1rem;
+  }
+}
+
+.list-group-item {
+  border-radius: 5px;
+}
+
+.list-group-item > div {
+  display: flex;
+  justify-content: space-between;
+  align-items: stretch;
+}
+
+.delete-btn {
+  padding: 2px 8px;
+  font-size: 0.8rem;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  margin-bottom: 0 !important;
+}
+
+.mt-2 {
+  margin-top: 0.5rem;
+  font-size: 0.9rem;
+}
+
+.label {
+  font-size: 1.1rem;
 }
 </style>

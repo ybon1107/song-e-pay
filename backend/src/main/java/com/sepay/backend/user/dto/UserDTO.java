@@ -27,6 +27,7 @@ public class UserDTO {
     private String secondPwd;
     private String profilePic;
     private String address;
+    private String postCode;
     private Date createAt;
     private Date updateAt;
 }

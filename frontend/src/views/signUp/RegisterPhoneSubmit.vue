@@ -1,14 +1,14 @@
 <script setup>
-import { ref, computed, onBeforeUnmount, onBeforeMount } from "vue";
+import { ref, computed, onBeforeUnmount, onBeforeMount, onMounted } from "vue";
 import { useStore } from "vuex";
+import { useSignupStore } from "@/stores/signupStore";
 import { useRouter } from "vue-router";
-// import Navbar from "@/views/pageLayout/Navbar.vue";
-// import AppFooter from "@/views/pageLayout/Footer.vue";
 import ArgonInput from "@/components/templates/ArgonInput.vue";
 import ArgonButton from "@/components/templates/ArgonButton.vue";
 
 const body = document.getElementsByTagName("body")[0];
 const store = useStore();
+const signupStore = useSignupStore();
 const router = useRouter();
 
 onBeforeMount(() => {
@@ -25,6 +25,9 @@ onBeforeUnmount(() => {
   store.state.showFooter = true;
   body.classList.add("bg-gray-100");
 });
+
+const countryCallingCode = computed(() => signupStore.countryCallingCode);
+const phoneNumber = computed(() => signupStore.phoneNumber);
 
 // 인증 코드 유효성 검사
 const verificationCode = ref("");
@@ -66,7 +69,7 @@ const handleSubmit = () => {
               <!-- 카드 푸터: -->
               <div class="pt-0 text-center card-footer">
                 <p class="mx-auto text-sm">
-                  We sent to &#43;{{ phone }}
+                  We sent to {{ countryCallingCode }} {{ phoneNumber }}
                   <a
                     href="/register/phone"
                     class="text-success text-gradient font-weight-bold"

@@ -1,34 +1,77 @@
 <template>
   <div class="container-fluid">
-    <h3>금융 지도</h3>
+    <br />
+    <h3 class="mapsFont">금융 지도</h3>
 
-    <div class="row mb-3">
+    <div class="row mb-3 mapSelect">
       <!-- 광역시/도 선택 -->
-      <div class="col-md-3">
-        <label for="city-select">광역시 / 도</label>
-        <select v-model="selectedProvince" @change="fetchCities" id="city-select" class="form-select">
-          <option value="" disabled selected>광역시 선택</option>
-          <option v-for="province in provinces" :key="province" :value="province">
+      <div class="col-md-2 col-sm-3 d-flex align-items-end mb-2">
+        <!-- <label for="city-select">광역시 / 도</label> -->
+        <select
+          v-model="selectedProvince"
+          @change="fetchCities"
+          id="city-select"
+          class="form-select custom-select"
+          style="border-radius: 50px; height: 40px; padding-left: 20px"
+        >
+          <option value="" disabled selected>광역시/도 선택</option>
+          <option
+            v-for="province in provinces"
+            :key="province"
+            :value="province"
+          >
             {{ province }}
           </option>
         </select>
       </div>
-      <!-- 시/군/구 선택 -->
-      <div class="col-md-3">
-        <label for="district-select">시/군/구 선택</label>
-        <select v-model="selectedCity" id="district-select" class="form-control">
-        <option value="" disabled selected>시/군/구 선택</option>
-        <option v-for="city in cities" :key="city" :value="city">
-          {{ city }}
-        </option>
-      </select>
 
+      <!-- 시/군/구 선택 -->
+      <div class="col-md-2 col-sm-3 d-flex align-items-end mb-2">
+        <!-- <label for="district-select">시/군/구 선택</label> -->
+        <select
+          v-model="selectedCity"
+          id="district-select"
+          class="form-control"
+          style="border-radius: 50px; height: 40px; padding-left: 20px"
+        >
+          <option value="" disabled selected>시/군/구 선택</option>
+          <option v-for="city in cities" :key="city" :value="city">
+            {{ city }}
+          </option>
+        </select>
       </div>
 
-      <!-- 찾기 버튼 -->
-      <div class="col-md-3 d-flex align-items-end">
-        <button class="search-button btn btn-primary m-0" @click="searchBank">
-          <i class="mdi mdi-map-search-outline"></i> 찾기
+      <!-- 검색 버튼 -->
+      <div class="col-md-2 col-sm-3 d-flex align-items-end mb-2">
+        <button
+          class="search-button btn btn-success w-100"
+          @click="searchBank"
+          style="
+            margin-bottom: 0;
+            border-radius: 50px;
+            height: 40px;
+            padding-left: 20px;
+            background-color: #ffc700;
+          "
+        >
+          <i class="mdi mdi-map-search-outline"></i> 검색
+        </button>
+      </div>
+
+      <!-- 내 위치에서 찾기 버튼 -->
+      <div class="col-md-2 col-sm-3 d-flex align-items-end mb-2">
+        <button
+          class="btn btn-primary w-100"
+          @click="findUserLocation"
+          style="
+            margin-bottom: 0;
+            border-radius: 50px;
+            height: 40px;
+            padding-left: 20px;
+            background-color: #60584c;
+          "
+        >
+          내 위치에서 찾기
         </button>
       </div>
     </div>
@@ -37,7 +80,6 @@
     <div class="card">
       <div id="map"></div>
     </div>
-
   </div>
 </template>
 
@@ -77,6 +119,86 @@ export default {
     this.initMap();
   },
   methods: {
+    // 사용자의 현재 위치를 가져오고 주변 KB국민은행을 검색하는 함수
+    findUserLocation() {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+          (position) => {
+            const userLocation = {
+              lat: position.coords.latitude,
+              lng: position.coords.longitude,
+            };
+            this.map.setCenter(userLocation);
+            this.map.setZoom(15); // 줌 설정
+            this.setUserMarker(userLocation);
+            this.searchNearbyBanks(userLocation);
+          },
+          () => {
+            alert('위치 정보를 사용할 수 없습니다.');
+          }
+        );
+      } else {
+        alert('사용자의 브라우저에서 위치 정보를 지원하지 않습니다.');
+      }
+    },
+
+    // 사용자의 위치에 파란색 마커를 설정하는 함수
+    setUserMarker(location) {
+      if (this.userMarker) {
+        this.userMarker.setMap(null); // 기존 마커 제거
+      }
+      this.userMarker = new google.maps.Marker({
+        position: location,
+        map: this.map,
+        icon: {
+          url: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png', // 파란색 마커
+        },
+        title: '나의 위치',
+      });
+    },
+
+    // 주변 KB국민은행을 검색하는 함수
+    searchNearbyBanks(location) {
+      const request = {
+        location: location,
+        radius: 3000, // 3km 반경 내에서 검색
+        query: 'KB국민은행',
+      };
+
+      this.service.textSearch(request, (places, status) => {
+        if (status === google.maps.places.PlacesServiceStatus.OK) {
+          this.clearMarkers(); // 기존 마커 제거
+
+          places.forEach((place) => {
+            // 검색 결과에서 ATM과 국민카드가 포함된 결과는 제외
+            if (
+              !place.name.includes('ATM') &&
+              !place.name.includes('국민카드')
+            ) {
+              const marker = new google.maps.Marker({
+                map: this.map,
+                position: place.geometry.location,
+                title: place.name,
+              });
+
+              const infoWindow = new google.maps.InfoWindow({
+                content: `<div><strong>${place.name}</strong><br>
+                <strong>주소:</strong> ${place.formatted_address}</div>`,
+              });
+
+              marker.addListener('click', () => {
+                infoWindow.open(this.map, marker);
+              });
+
+              this.markers.push(marker); // 마커 배열에 추가
+            }
+          });
+        } else {
+          console.error('Places search was not successful:', status);
+        }
+      });
+    },
+
     // 오늘의 운영시간에서 시간만 추출하는 함수
     getTodayOpeningHours(openingHours) {
       const todayIndex = new Date().getDay(); // 오늘 요일 인덱스 가져오기
@@ -496,6 +618,30 @@ export default {
 </script>
 
 <style scoped>
+@font-face {
+  font-family: 'TTLaundryGothicB';
+  src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/2403-2@1.0/TTLaundryGothicB.woff2')
+    format('woff2');
+  font-weight: 700;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Pretendard-Regular';
+  src: url('https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff')
+    format('woff');
+  font-weight: 400;
+  font-style: normal;
+}
+
+.mapsFont {
+  font-family: TTLaundryGothicB, sans-serif;
+}
+
+.mapSelect {
+  font-family: Pretendard-Regular, sans-serif;
+}
+
 /* 반응형 지도 크기 설정 */
 #map {
   width: 100%;

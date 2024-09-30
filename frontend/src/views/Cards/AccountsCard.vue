@@ -1,12 +1,12 @@
 <script setup>
-import { defineProps, defineEmits } from 'vue';
+import { defineProps, defineEmits } from "vue";
 
 const props = defineProps({
   icon: {
     type: Object,
     required: false,
     default: () => ({
-      background: 'bg-gradient-success', // 기본값 추가
+      background: "bg-gradient-success", // 기본값 추가
     }),
   },
   title: {
@@ -15,11 +15,11 @@ const props = defineProps({
   },
   description: {
     type: String,
-    default: '',
+    default: "",
   },
   value: {
     type: [String, Number],
-    default: '',
+    default: "",
   },
   imgSrc: {
     type: String,
@@ -35,10 +35,10 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits(['click']);
+const emit = defineEmits(["click"]);
 
 function handleClick() {
-  emit('click');
+  emit("click");
 }
 </script>
 
@@ -46,7 +46,11 @@ function handleClick() {
   <div
     class="card position-relative"
     :class="{ selected: isSelected }"
-    :style="{ backgroundImage: `url(${imgSrc})`, backgroundSize: 'cover', backgroundPosition: 'center' }"
+    :style="{
+      backgroundImage: `url(${imgSrc})`,
+      backgroundSize: 'cover',
+      backgroundPosition: 'center',
+    }"
     @click="handleClick"
   >
     <!-- 카드 제목 -->
@@ -54,18 +58,21 @@ function handleClick() {
       <h6 class="mb-0">{{ title }}</h6>
     </div>
 
-    <!-- 카드 안에 표시할 이미지 -->
+    <!-- 카드 안에 표시할 이미지
     <div v-if="img" class="position-relative p-3 img-container">
       <img :src="img" alt="Card Image" class="img-fluid rounded" />
-    </div>
+    </div> -->
 
-    <!-- 아이콘과 내용 -->
+    <!-- 아이콘과 내용
     <div class="w-60 mt-2" style="margin-top: 20px">
       <slot name="icon"></slot>
-    </div>
+    </div> -->
 
     <!-- 하단 우측 내용 -->
-    <div class="position-absolute bottom-0 end-0 p-3 text-center text-white" style="margin-bottom: -15px; margin-right: 10px">
+    <div
+      class="position-absolute bottom-0 end-0 p-3 text-center text-white"
+      style="margin-bottom: -15px; margin-right: 10px"
+    >
       <hr class="my-1 horizontal dark" />
       <h6 class="text-s">{{ value }}</h6>
     </div>
@@ -86,8 +93,10 @@ function handleClick() {
 }
 
 .card.selected {
-  border: 2px solid #007bff; /* 선택된 카드를 강조하는 스타일 */
-  background-color: #e7f0ff; /* 선택된 카드 배경색 조정 */
+  border: 3px solid #ffd700;
+  /* 선택된 카드에 녹색 테두리 추가 */
+  box-shadow: 0 0 15px ffd700;
+  /* 선택된 카드에 그림자 효과 추가 */
 }
 
 .img-container {

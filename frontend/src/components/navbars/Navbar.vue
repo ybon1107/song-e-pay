@@ -1,31 +1,3 @@
-<script setup>
-import { computed, ref } from "vue";
-import { useStore } from "vuex";
-import { useRoute } from "vue-router";
-
-const showMenu = ref(false);
-const store = useStore();
-const isRTL = computed(() => store.state.isRTL);
-
-const route = useRoute();
-
-const currentRouteName = computed(() => {
-  return route.name;
-});
-const currentDirectory = computed(() => {
-  let dir = route.path.split("/")[1];
-  return dir.charAt(0).toUpperCase() + dir.slice(1);
-});
-
-const minimizeSidebar = () => store.commit("sidebarMinimize");
-const toggleConfigurator = () => store.commit("toggleConfigurator");
-
-const closeMenu = () => {
-  setTimeout(() => {
-    showMenu.value = false;
-  }, 100);
-};
-</script>
 <template>
   <nav
     class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl"
@@ -73,15 +45,8 @@ const closeMenu = () => {
               </div>
             </a>
           </li>
-          <li class="px-3 nav-item d-flex align-items-center">
-            <a class="p-0 nav-link" @click="toggleConfigurator">
-              <i class="cursor-pointer fa fa-cog fixed-plugin-button-nav"></i>
-            </a>
-          </li>
-          <li
-            class="nav-item dropdown d-flex align-items-center"
-            :class="isRTL ? 'ps-2' : 'pe-2'"
-          >
+          <!-- 알림 -->
+          <li class="px-3 nav-item dropdown d-flex align-items-center">
             <a
               href="#"
               class="p-0 nav-link"
@@ -92,7 +57,9 @@ const closeMenu = () => {
               @click="showMenu = !showMenu"
               @blur="closeMenu"
             >
-              <i class="cursor-pointer fa fa-bell"></i>
+              <div class="icon-div">
+                <i class="cursor-pointer fa-solid fa-bell"></i>
+              </div>
             </a>
             <ul
               class="px-2 py-3 dropdown-menu dropdown-menu-end me-sm-n4"
@@ -202,8 +169,148 @@ const closeMenu = () => {
               </li>
             </ul>
           </li>
+          <!-- 프로필 -->
+          <li class="nav-item d-flex align-items-center">
+            <template v-if="isLogin">
+              <a class="p-0 nav-link" href="/profile">
+                <div class="icon-div">
+                  <!-- img-div 대신 icon-div 사용 -->
+                  <i class="fa-solid fa-user profile-icon"></i>
+                  <!-- FontAwesome 아이콘 추가 -->
+                </div>
+              </a>
+            </template>
+            <template v-else>
+              <a class="p-0 nav-link" href="/login">
+                <div class="icon-div">
+                  <i class="fa-solid fa-user profile-icon"></i>
+                  <!-- 로그인 전에도 FontAwesome 아이콘 -->
+                </div>
+              </a>
+            </template>
+          </li>
         </ul>
       </div>
     </div>
   </nav>
 </template>
+
+<script setup>
+import { computed, ref, onMounted } from "vue";
+import { useStore } from "vuex";
+// import { useRoute } from "vue-router";
+import { useExchangeStore } from "@/stores/exchangeStore";
+
+import { useAuthStore } from "@/stores/auth";
+const auth = useAuthStore();
+const exchangeStore = useExchangeStore();
+
+const isLogin = computed(() => auth.isLogin);
+const userNo = computed(() => auth.userNo);
+const user = computed(() => auth.user);
+
+console.log("nav isLogin : ", isLogin);
+console.log("nav userNo : ", userNo);
+console.log("nav user : ", user);
+
+const showMenu = ref(false);
+const store = useStore();
+const isRTL = computed(() => store.state.isRTL);
+
+// const route = useRoute();
+
+// const currentRouteName = computed(() => {
+//   return route.name;
+// });
+// const currentDirectory = computed(() => {
+//   let dir = route.path.split("/")[1];
+//   return dir.charAt(0).toUpperCase() + dir.slice(1);
+// });
+
+const minimizeSidebar = () => store.commit("sidebarMinimize");
+
+const closeMenu = () => {
+  setTimeout(() => {
+    showMenu.value = false;
+  }, 100);
+};
+const noLoginImg =
+  "https://song-e-pay.s3.ap-northeast-2.amazonaws.com/profile/noLogin.png";
+
+const usdToKrwUrl = `https://v6.exchangerate-api.com/v6/${import.meta.env.VITE_EXCHANGE_RATE_API_KEY}/pair/USD/KRW`;
+const krwToUsdUrl = `https://v6.exchangerate-api.com/v6/${import.meta.env.VITE_EXCHANGE_RATE_API_KEY}/pair/KRW/USD`;
+
+const fetchExchangeRates = async () => {
+  try {
+    const [usdToKrwResponse, krwToUsdResponse] = await Promise.all([
+      fetch(usdToKrwUrl),
+      fetch(krwToUsdUrl),
+    ]);
+
+    if (!usdToKrwResponse.ok || !krwToUsdResponse.ok) {
+      throw new Error("Network response was not ok");
+    }
+
+    const [usdToKrwData, krwToUsdData] = await Promise.all([
+      usdToKrwResponse.json(),
+      krwToUsdResponse.json(),
+    ]);
+
+    exchangeStore.setCurrentToKrw(usdToKrwData.conversion_rate);
+    exchangeStore.setCurrentFromKrw(krwToUsdData.conversion_rate);
+
+    console.log("환율 데이터가 성공적으로 로드되었습니다.");
+    return {
+      currentToKrw: usdToKrwData.conversion_rate,
+      currentFromKrw: krwToUsdData.conversion_rate,
+    };
+  } catch (error) {
+    console.error("Error fetching exchange rate data", error);
+  }
+};
+
+onMounted(() => {
+  fetchExchangeRates();
+});
+</script>
+
+<style>
+.img-div {
+  width: 20px;
+  height: 20px;
+  position: relative;
+}
+
+.nav-lmg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 10px;
+}
+
+/* FontAwesome 아이콘을 감싸는 div */
+.icon-div {
+  width: 40px;
+  height: 40px;
+  background-color: #e0e0e0; /* 회색 배경 */
+  border-radius: 50%; /* 둥근 모양 */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+/* FontAwesome 아이콘 */
+.fa-solid {
+  font-size: 20px; /* 아이콘 크기 */
+  color: #333; /* 아이콘 색상 */
+  line-height: 1; /* 아이콘의 라인 높이를 1로 설정하여 중앙 정렬 */
+}
+@font-face {
+  font-family: "HakgyoansimDunggeunmisoTTF-B";
+  src: url("https://fastly.jsdelivr.net/gh/projectnoonnu/2408-5@1.0/HakgyoansimDunggeunmisoTTF-B.woff2")
+    format("woff2");
+  font-weight: 700;
+  font-style: normal;
+}
+</style>
