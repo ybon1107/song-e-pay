@@ -47,7 +47,7 @@ watch(agreeAll, (newAgreeAll) => {
 // 다음 버튼 클릭 핸들러
 const handleNext = () => {
   if (agreeTerms.value && agreePrivacy.value) {
-    router.push("/register/email");
+    router.push("/register/detail");
   } else {
     console.log("Please agree to the required terms.");
   }
