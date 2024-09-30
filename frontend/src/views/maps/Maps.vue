@@ -1,18 +1,20 @@
 <template>
   <div class="container-fluid">
-    <h3>금융 지도</h3>
+    <br />
+    <h3 class="mapsFont">금융 지도</h3>
 
-    <div class="row mb-3">
+    <div class="row mb-3 mapSelect">
       <!-- 광역시/도 선택 -->
-      <div class="col-md-3 col-sm-6 mb-2 d-flex flex-column">
-        <label for="city-select">광역시 / 도</label>
+      <div class="col-md-2 col-sm-3 d-flex align-items-end mb-2">
+        <!-- <label for="city-select">광역시 / 도</label> -->
         <select
           v-model="selectedProvince"
           @change="fetchCities"
           id="city-select"
-          class="form-select"
+          class="form-select custom-select"
+          style="border-radius: 50px; height: 40px; padding-left: 20px"
         >
-          <option value="" disabled selected>광역시 선택</option>
+          <option value="" disabled selected>광역시/도 선택</option>
           <option
             v-for="province in provinces"
             :key="province"
@@ -22,13 +24,15 @@
           </option>
         </select>
       </div>
+
       <!-- 시/군/구 선택 -->
-      <div class="col-md-3 col-sm-6 mb-2 d-flex flex-column">
-        <label for="district-select">시/군/구 선택</label>
+      <div class="col-md-2 col-sm-3 d-flex align-items-end mb-2">
+        <!-- <label for="district-select">시/군/구 선택</label> -->
         <select
           v-model="selectedCity"
           id="district-select"
           class="form-control"
+          style="border-radius: 50px; height: 40px; padding-left: 20px"
         >
           <option value="" disabled selected>시/군/구 선택</option>
           <option v-for="city in cities" :key="city" :value="city">
@@ -38,22 +42,34 @@
       </div>
 
       <!-- 검색 버튼 -->
-      <div class="col-md-3 col-sm-6 d-flex align-items-end mb-2">
+      <div class="col-md-2 col-sm-3 d-flex align-items-end mb-2">
         <button
           class="search-button btn btn-success w-100"
           @click="searchBank"
-          style="margin-bottom: 0"
+          style="
+            margin-bottom: 0;
+            border-radius: 50px;
+            height: 40px;
+            padding-left: 20px;
+            background-color: #ffc700;
+          "
         >
           <i class="mdi mdi-map-search-outline"></i> 검색
         </button>
       </div>
 
       <!-- 내 위치에서 찾기 버튼 -->
-      <div class="col-md-3 col-sm-6 d-flex align-items-end mb-2">
+      <div class="col-md-2 col-sm-3 d-flex align-items-end mb-2">
         <button
           class="btn btn-primary w-100"
           @click="findUserLocation"
-          style="margin-bottom: 0"
+          style="
+            margin-bottom: 0;
+            border-radius: 50px;
+            height: 40px;
+            padding-left: 20px;
+            background-color: #60584c;
+          "
         >
           내 위치에서 찾기
         </button>
@@ -602,6 +618,30 @@ export default {
 </script>
 
 <style scoped>
+@font-face {
+  font-family: 'TTLaundryGothicB';
+  src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/2403-2@1.0/TTLaundryGothicB.woff2')
+    format('woff2');
+  font-weight: 700;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Pretendard-Regular';
+  src: url('https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff')
+    format('woff');
+  font-weight: 400;
+  font-style: normal;
+}
+
+.mapsFont {
+  font-family: TTLaundryGothicB, sans-serif;
+}
+
+.mapSelect {
+  font-family: Pretendard-Regular, sans-serif;
+}
+
 /* 반응형 지도 크기 설정 */
 #map {
   width: 100%;

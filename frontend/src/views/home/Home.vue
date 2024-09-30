@@ -1,20 +1,29 @@
 <template>
   <div class="container-fluid">
+    <br />
     <h3>Welcome to Song-E-pay!</h3>
     <!-- Currency Cards Section -->
     <div class="row mt-3">
       <!-- USD Wallet -->
       <div class="col-lg-4 col-md-5">
         <!-- Song-E Money 카드 -->
-        <AccountsCard assetType="song-e" currency="USD" @click="navigateToMyAccounts('Song-E Money')"
-          :isSelected="selectedAsset === 'Song-E Money'" />
+        <AccountsCard
+          assetType="song-e"
+          currency="USD"
+          @click="navigateToMyAccounts('Song-E Money')"
+          :isSelected="selectedAsset === 'Song-E Money'"
+        />
       </div>
 
       <!-- KRW Wallet -->
       <div class="col-lg-4 col-md-5">
         <!-- Won-E Money 카드 -->
-        <AccountsCard assetType="won-e" currency="KRW" @click="navigateToMyAccounts('Won-E Money')"
-          :isSelected="selectedAsset === 'Won-E Money'" />
+        <AccountsCard
+          assetType="won-e"
+          currency="KRW"
+          @click="navigateToMyAccounts('Won-E Money')"
+          :isSelected="selectedAsset === 'Won-E Money'"
+        />
       </div>
     </div>
 
@@ -26,23 +35,48 @@
           <div class="col-lg-7 col-md-12 my-3">
             <h6>Exchange Rate</h6>
             <div class="chart-container">
-              <ExchangeRateChart chartId="toexchangeChart" period="1m" chartType="to" />
+              <ExchangeRateChart
+                chartId="toexchangeChart"
+                period="1m"
+                chartType="to"
+              />
             </div>
           </div>
 
-          <div class="col-lg-5 col-md-12 d-flex flex-column justify-content-center my-3">
+          <div
+            class="col-lg-5 col-md-12 d-flex flex-column justify-content-center my-3"
+          >
             <div class="mb-3">
               <h6>Convert USD to KRW</h6>
               <div class="d-flex align-items-center">
                 <div class="position-relative flex-grow-1">
-                  <input type="number" class="form-control" v-model.number="usdAmount" @input="convertToKrw"
-                    aria-label="Amount in USD" />
-                  <img src="@/assets/img/icons/flags/US.png" alt="USA Flag" class="flag-icon" />
+                  <input
+                    type="number"
+                    class="form-control"
+                    v-model.number="usdAmount"
+                    @input="convertToKrw"
+                    aria-label="Amount in USD"
+                  />
+                  <img
+                    src="@/assets/img/icons/flags/US.png"
+                    alt="USA Flag"
+                    class="flag-icon"
+                  />
                 </div>
                 <span class="mx-3">=</span>
                 <div class="position-relative flex-grow-1">
-                  <input type="text" class="form-control" :value="krwAmount" readonly aria-label="Amount in KRW" />
-                  <img src="@/assets/img/icons/flags/KR.png" alt="KRW Flag" class="flag-icon" />
+                  <input
+                    type="text"
+                    class="form-control"
+                    :value="krwAmount"
+                    readonly
+                    aria-label="Amount in KRW"
+                  />
+                  <img
+                    src="@/assets/img/icons/flags/KR.png"
+                    alt="KRW Flag"
+                    class="flag-icon"
+                  />
                 </div>
               </div>
             </div>
@@ -50,13 +84,31 @@
               <h6>Convert KRW to USD</h6>
               <div class="d-flex align-items-center">
                 <div class="position-relative flex-grow-1">
-                  <input type="number" class="form-control" v-model.number="krwAmountReverse" @input="convertToUsd" />
-                  <img src="@/assets/img/icons/flags/KR.png" alt="KRW Flag" class="flag-icon" />
+                  <input
+                    type="number"
+                    class="form-control"
+                    v-model.number="krwAmountReverse"
+                    @input="convertToUsd"
+                  />
+                  <img
+                    src="@/assets/img/icons/flags/KR.png"
+                    alt="KRW Flag"
+                    class="flag-icon"
+                  />
                 </div>
                 <span class="mx-3">=</span>
                 <div class="position-relative flex-grow-1">
-                  <input type="text" class="form-control" :value="usdAmountReverse" readonly />
-                  <img src="@/assets/img/icons/flags/US.png" alt="USA Flag" class="flag-icon" />
+                  <input
+                    type="text"
+                    class="form-control"
+                    :value="usdAmountReverse"
+                    readonly
+                  />
+                  <img
+                    src="@/assets/img/icons/flags/US.png"
+                    alt="USA Flag"
+                    class="flag-icon"
+                  />
                 </div>
               </div>
             </div>
@@ -132,7 +184,7 @@ const fetchExchangeRates = async () => {
 const navigateToMyAccounts = (assetType) => {
   router.push({
     name: 'MyAccounts',
-    query: { selectedAsset: assetType }
+    query: { selectedAsset: assetType },
   });
 };
 
