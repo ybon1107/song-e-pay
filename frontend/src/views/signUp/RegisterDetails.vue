@@ -2,7 +2,7 @@
 import { ref, computed, onBeforeUnmount, onBeforeMount } from "vue";
 import { useStore } from "vuex";
 import { useRouter } from "vue-router";
-import { useSignupStore } from "@/stores/signupStore";
+// import { useSignupStore } from "@/stores/signupStore";
 import axios from "axios";
 import ArgonInput from "@/components/templates/ArgonInput.vue";
 import ArgonButton from "@/components/templates/ArgonButton.vue";
@@ -13,8 +13,13 @@ import { parsePhoneNumberFromString } from "libphonenumber-js";
 
 const body = document.getElementsByTagName("body")[0];
 const store = useStore();
-const signupStore = useSignupStore();
+// const signupStore = useSignupStore();
 const router = useRouter();
+
+const isButtonEnabled = ref(false); // 버튼 활성화 상태
+// const timer = ref(60); // 1분 카운트다운
+const timer = ref(5); // 5초 카운트다운
+let interval = null;
 
 onBeforeMount(() => {
   store.state.hideConfigButton = true;
@@ -22,6 +27,16 @@ onBeforeMount(() => {
   store.state.showSidenav = false;
   store.state.showFooter = false;
   body.classList.remove("bg-gray-100");
+
+  // 카운트다운 시작
+  interval = setInterval(() => {
+    if (timer.value > 0) {
+      timer.value--;
+    } else {
+      clearInterval(interval);
+      isButtonEnabled.value = true; // 버튼 활성화
+    }
+  }, 1000); // 1초마다 감소
 });
 onBeforeUnmount(() => {
   store.state.hideConfigButton = false;
@@ -29,10 +44,22 @@ onBeforeUnmount(() => {
   store.state.showSidenav = true;
   store.state.showFooter = true;
   body.classList.add("bg-gray-100");
+
+  // 타이머 정리
+  if (interval) {
+    clearInterval(interval);
+  }
 });
 
-// 이메일 상태
-const email = computed(() => signupStore.email);
+// 이메일 입력 필드 상태
+const email = ref("");
+
+// 이메일 유효성 검사
+const isEmailValid = computed(() => {
+  // 이메일 주소 유효성 검사 정규식
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return emailRegex.test(email.value);
+});
 
 // 비밀번호 입력 필드 상태
 const password = ref("");
@@ -73,10 +100,11 @@ function calculateDateYearsAgo(years) {
 const gender = ref("Gender");
 
 // 전화번호와 국가 코드 상태
-const countryCallingCode = computed(() => signupStore.countryCallingCode);
-const phoneNumber = computed(() => signupStore.phoneNumber);
+const countryCallingCode = ref("+1");
+const phoneNumber = ref("");
 
 // 에러 상태
+const emailError = ref(false);
 const passwordError = ref(false);
 const confirmPasswordError = ref(false);
 const firstNameError = ref(false);
@@ -84,6 +112,7 @@ const lastNameError = ref(false);
 const birthError = ref(false);
 const countryError = ref(false);
 const genderError = ref(false);
+const phoneNumberError = ref(false);
 
 // 모든 입력값 유효성 검사
 const isFormValid = computed(() => {
@@ -95,7 +124,8 @@ const isFormValid = computed(() => {
     firstName.value !== "" &&
     lastName.value !== "" &&
     birth.value !== "" &&
-    gender.value !== "Gender"
+    gender.value !== "Gender" &&
+    phoneNumber.value !== ""
   );
 });
 
@@ -109,6 +139,7 @@ const handleSubmit = async () => {
   lastNameError.value = !lastName.value;
   birthError.value = !birth.value;
   genderError.value = gender.value === "Gender";
+  phoneNumberError.value = phoneNumber.value === "";
 
   if (isFormValid.value) {
     try {
@@ -128,7 +159,6 @@ const handleSubmit = async () => {
       });
 
       if (response.data === "success") {
-        signupStore.clearSessionStorage();
         router.push("/login");
       } else {
         // 등록 실패
@@ -165,13 +195,42 @@ const handleSubmit = async () => {
                     <label for="email" class="form-control-label"
                       >Your email address</label
                     >
-                    <!-- 이전에 입력받은 값 pinia에서 가져와서 넣고 입력변경 막기 -->
                     <argon-input
-                      disabled
                       id="email"
                       type="email"
+                      placeholder="Email"
+                      aria-label="Email"
                       v-model="email"
+                      :error="email !== '' && !isEmailValid"
+                    />
+                    <!-- 인증 메일 전송/재전송 버튼 -->
+                    <argon-button
+                      :disabled="!isButtonEnabled"
+                      color="info"
+                      variant="gradient"
+                      class="col-xl col-md col-sm"
+                      >Resend email
+                      <span v-if="!isButtonEnabled"
+                        >{{ Math.floor(timer / 60) }}:{{
+                          (timer % 60).toString().padStart(2, "0")
+                        }}</span
+                      >
+                    </argon-button>
+                  </div>
+                  <!-- 인증 코드 입력 -->
+                  <div class="col-md-12">
+                    <label for="digitCode" class="form-label"
+                      >Verification code</label
+                    >
+                    <argon-input
+                      isRequired
+                      id="digitCode"
+                      type="text"
+                      class="col-xl col-md col-sm"
                     ></argon-input>
+                    <argon-button color="info" variant="gradient"
+                      >Verify</argon-button
+                    >
                   </div>
                   <!-- 비밀번호 입력 필드 -->
                   <div class="col-md-12">
@@ -350,10 +409,16 @@ const handleSubmit = async () => {
                         >Your phone number</label
                       >
                       <PhoneInput
-                        disabled
                         v-model="phoneNumber"
+                        :error="phoneNumberError"
                         :countryCallingCode="countryCallingCode"
                       />
+                      <div
+                        v-if="phoneNumberError"
+                        class="invalid-feedback text-xs"
+                      >
+                        Please provide a valid phone number.
+                      </div>
                     </div>
                     <!-- 다음 버튼 -->
                     <div class="text-center">
