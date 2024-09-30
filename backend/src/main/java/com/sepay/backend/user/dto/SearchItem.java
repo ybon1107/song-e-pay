@@ -22,4 +22,6 @@ public class SearchItem {
     Integer stateCode;
     Date beginDate;
     Date endDate;
+    int page;
+    int amount;
 }

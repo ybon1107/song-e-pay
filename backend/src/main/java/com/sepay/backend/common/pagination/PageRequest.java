@@ -20,8 +20,8 @@ public class PageRequest {
         return new PageRequest(page, amount);
     }
 
-    public int getOffset() {		// offset 값 계산
-        return (page - 1) * amount;
+    public int getOffset() {
+        return Math.max(page * amount, 1); // offset이 음수가 되지 않도록
     }
 }
 
