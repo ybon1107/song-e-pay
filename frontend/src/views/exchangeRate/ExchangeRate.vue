@@ -143,93 +143,43 @@
         </div>
       </div>
     </div>
-
-    <!-- Notification & Auto Settings Section -->
-    <div class="card mt-4">
+  </div>
+  <!-- 자동 환전 설정 섹션 -->
+  <div class="container-fluid py-4">
+    <h3 class="mt-3">자동 환전 설정</h3>
+    <div class="card my-4">
       <div class="card-body">
-        <div class="row">
-          <div class="col-lg-12">
-            <div
-              @click="$router.push('/set-alert')"
-              class="alert alert-info clickable-alert"
-              role="button"
-              tabindex="0"
+        <div class="row px-3">
+          <div class="col-md-12">
+            <div class="exchange-input mb-3">
+              <span>1 USD</span>
+              <span class="equals-symbol">=</span>
+              <input
+                type="number"
+                v-model="targetExchange"
+                class="form-control"
+                placeholder="목표 환율을 입력하세요."
+              />
+              <span>KRW</span>
+            </div>
+            <div class="exchange-input mb-3">
+              <div class="targetbox">
+                목표 환율: {{ targetExchange }} KRW 이하
+              </div>
+              <input
+                type="number"
+                v-model="targetKrw"
+                class="form-control"
+                placeholder="자동 전환할 금액을 입력하세요."
+              />
+              <span>KRW</span>
+            </div>
+            <button
+              class="btn btn-warning w-100"
+              @click="confirmAutoExchange(1, 0, targetExchange, targetKrw)"
             >
-              <span>자동 환전 설정 페이지</span>
-            </div>
-            <div class="form-group">
-              <label for="autoCondition">자동 환전 설정 내역</label>
-              <button
-                v-if="autoConditions.length > 0"
-                class="btn delete-btn btn-sm ml-2"
-                @click="deleteAlertCondition(autoConditions[0]?.resNo)"
-              >
-                삭제
-              </button>
-              <ul v-if="autoConditions.length > 0" class="list-group">
-                <li class="list-group-item">
-                  <p>
-                    <strong>예약 번호:</strong> {{ autoConditions[0]?.resNo }} |
-                    <strong>기준 통화:</strong>
-                    {{ autoConditions[0]?.baseCode }} |
-                    <strong>대상 통화:</strong>
-                    {{ autoConditions[0]?.targetCode }} |
-                    <strong>목표 환율:</strong>
-                    {{ autoConditions[0]?.targetExchange }} |
-                    <strong>목표 KRW 금액:</strong>
-                    {{ autoConditions[0]?.targetKrw }}
-                  </p>
-                </li>
-              </ul>
-              <p v-else>자동 환전 예약 내역이 없습니다.</p>
-            </div>
-            <div class="form-group">
-              <label for="targetRate1">환율 알림 설정 내역 1</label>
-              <button
-                v-if="alertConditions[0]"
-                class="btn delete-btn btn-sm ml-2"
-                @click="deleteAlertCondition(alertConditions[0]?.resNo)"
-              >
-                삭제
-              </button>
-              <ul v-if="alertConditions.length > 0" class="list-group">
-                <li class="list-group-item">
-                  <p>
-                    <strong>기준 통화:</strong>
-                    {{ alertConditions[0]?.baseCode }} |
-                    <strong>대상 통화:</strong>
-                    {{ alertConditions[0]?.targetCode }} |
-                    <strong>목표 환율:</strong>
-                    {{ alertConditions[0]?.targetExchange }} |
-                  </p>
-                </li>
-              </ul>
-              <p v-else>환율 알림 예약 내역이 없습니다.</p>
-            </div>
-
-            <div class="form-group">
-              <label for="targetRate2">환율 알림 설정 내역 2</label>
-              <button
-                v-if="alertConditions[1]"
-                class="btn delete-btn btn-sm ml-2"
-                @click="deleteAlertCondition(alertConditions[1]?.resNo)"
-              >
-                삭제
-              </button>
-              <ul v-if="alertConditions.length > 1" class="list-group">
-                <li class="list-group-item">
-                  <p>
-                    <strong>기준 통화:</strong>
-                    {{ alertConditions[1]?.baseCode }} |
-                    <strong>대상 통화:</strong>
-                    {{ alertConditions[1]?.targetCode }} |
-                    <strong>목표 환율:</strong>
-                    {{ alertConditions[1]?.targetExchange }} |
-                  </p>
-                </li>
-              </ul>
-              <p v-else>환율 알림 예약 내역이 없습니다.</p>
-            </div>
+              자동 환전 설정
+            </button>
           </div>
         </div>
       </div>
@@ -243,6 +193,7 @@ import { useExchangeStore } from "@/stores/exchangeStore";
 import ExchangeRateChart from "@/views/Chart/ExchangeRateChart.vue";
 import axios from "axios";
 import myaccountApi from "../../api/myaccountApi";
+import { useRouter } from "vue-router";
 
 // Data variables
 const usdAmount = ref(1);
@@ -405,72 +356,55 @@ const saveAlertRate = async (baseCode, targetCode, targetExchange) => {
   }
 };
 
-// 자동 환전 내역을 저장할 ref
-const autoConditions = ref([]);
-
-// 환율 알림 내역을 저장할 ref
-const alertConditions = ref([]);
-
-// 사용자 번호를 설정 (임의로 1로 설정)
-const userNo = 1;
-
-// 자동 환전 예약 데이터를 가져오는 함수
-const fetchAutoExchange = async () => {
-  try {
-    const response = await axios.get(
-      `/api/exchange-reservation/setalert/${userNo}`
-    );
-    if (response.status === 200) {
-      // 응답 데이터가 존재하면 autoConditions에 저장
-      const reservations = response.data;
-      autoConditions.value = reservations;
-    }
-  } catch (error) {
-    console.error("자동 환전 데이터를 가져오는 중 오류 발생:", error);
-  }
-};
-
-// 환율 알림 데이터를 가져오는 함수
-const fetchAlertConditions = async () => {
-  try {
-    const response = await axios.get(`/api/exchange-reservation/${userNo}`);
-    if (response.status === 200) {
-      // 응답 데이터가 존재하면 alertConditions에 최대 2개 저장
-      const alerts = response.data.slice(0, 2); // 최대 2개만 가져옴
-      alertConditions.value = alerts;
-      console.log("Fetched alert conditions:", alertConditions.value);
-      // fetchAlertConditions(); // 알림을 다시 가져와서 업데이트
-    }
-  } catch (error) {
-    console.error("환율 알림 데이터를 가져오는 중 오류 발생:", error);
-  }
-};
-
-const deleteAlertCondition = async (resNo) => {
-  try {
-    console.log("삭제할 예약 번호:", resNo);
-    if (resNo) {
-      console.log("삭제할 예약 번호:", resNo);
-      const response = await axios.delete(`/api/exchange-reservation/${resNo}`);
-      if (response.status === 200) {
-        alert("알림 설정이 삭제되었습니다.");
-        fetchAlertConditions(); // 알림을 다시 가져와서 업데이트
-        fetchAutoExchange(); // 예약을 다시 가져와서 업데이트
-      }
-    } else {
-      console.error("예약 번호(resNo)가 없습니다.");
-    }
-  } catch (error) {
-    console.error("알림 설정 삭제 중 오류 발생:", error);
-  }
-};
-
 // 컴포넌트가 마운트될 때 데이터를 가져옴
 onMounted(() => {
   fetchExchangeRates();
-  fetchAutoExchange();
-  fetchAlertConditions();
 });
+
+const router = useRouter();
+
+// 상태 변수들을 ref로 선언
+const targetExchange = ref(null); // 자동 환전 목표 환율
+const targetKrw = ref(null); // 목표 금액
+
+// 자동 환전 저장 함수
+const confirmAutoExchange = async (
+  baseCode,
+  targetCode,
+  targetExchange,
+  targetKrw
+) => {
+  try {
+    // const token = localStorage.getItem("jwt_token"); // JWT 토큰 가져오기
+    // userNo를 추가(임시)
+    const userNo = 1;
+    console.log(userNo, baseCode, targetCode, targetExchange, targetKrw);
+    // 서버에 POST 요청 보내기
+    const response = await axios.post(
+      "/api/exchange-reservation/setalert",
+      {
+        userNo: userNo,
+        baseCode: baseCode,
+        targetCode: targetCode,
+        targetExchange: targetExchange,
+        targetKrw: targetKrw,
+      }
+      // {
+      //   headers: {
+      //     Authorization: `Bearer ${token}`, // 인증 헤더에 토큰 추가
+      //   },
+      // }
+    );
+
+    if (response.status === 200) {
+      alert("자동 환전 예약이 성공적으로 저장되었습니다.");
+      router.push("/exchange-rate");
+    }
+  } catch (error) {
+    console.error("자동 환전 예약 중 오류 발생:", error);
+    alert("자동 환전 예약에 실패했습니다. 오류: " + error.response.data);
+  }
+};
 </script>
 
 <style scoped>
@@ -611,5 +545,51 @@ input[type="number"] {
   background-color: #e0e0e0; /* 비활성화된 버튼 색상 */
   color: #9e9e9e; /* 비활성화된 텍스트 색상 */
   cursor: not-allowed; /* 비활성화 상태에서는 커서 변경 */
+}
+
+.list-group-item {
+  background-color: #f9f9f9;
+  border-radius: 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.list-group-item p {
+  font-size: 0.9rem;
+}
+
+.btn-primary {
+  background-color: #5a9;
+  border-color: #5a9;
+}
+
+.btn-danger {
+  background-color: #e57373;
+  border-color: #e57373;
+}
+
+.targetbox {
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 5px;
+}
+
+.exchange-input {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.exchange-input input {
+  flex-grow: 1;
+}
+
+.btn-warning {
+  background-color: #ffcc00;
+  border: none;
+  color: #333;
+}
+
+.btn-warning:hover {
+  background-color: #ffbb00;
 }
 </style>
