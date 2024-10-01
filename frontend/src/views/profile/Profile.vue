@@ -70,12 +70,11 @@ onBeforeUnmount(() => {
       integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
       crossorigin="anonymous" referrerpolicy="no-referrer" />
     <div class="container-fluid">
-      <div class="page-header min-height-300 bg-success" style="
-          /* background-image: url(&quot;https://images.unsplash.com/photo-1531512073830-ba890ca4eba2?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80&quot;); */
-          margin-right: -24px;
+      <div class="page-header min-height-300 bg-yellow" style="
+          margin-right: -34%;
           margin-left: -34%;
         ">
-        <span class="mask bg-gradient-success opacity-6"></span>
+        <!-- <span class="mask bg-gradient-success opacity-6"></span> -->
       </div>
       <div class="card shadow-lg mt-n6 page-size">
         <div class="card-body p-3">
