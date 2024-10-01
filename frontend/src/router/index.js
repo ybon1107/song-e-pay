@@ -1,7 +1,6 @@
 import { createRouter, createWebHistory } from "vue-router";
 import Home from "../views/home/Home.vue";
 import MyAccounts from "../views/myAccounts/MyAccounts.vue";
-import SetAlert from "../views/exchangeRate/SetAlert.vue";
 import Payment from "../views/payment/Payment.vue";
 import PassWordInputPage from "../views/payment/PasswordInputPage.vue";
 import QrScanPage from "../views/payment/QrScanPage.vue";
@@ -15,22 +14,21 @@ import Maps from "../views/maps/Maps.vue";
 import Profile from "../views/profile/Profile.vue";
 import ChangePwd from "../views/profile/ChangePassword.vue";
 import Login from "../views/signIn/Login.vue";
-import LoginPhone from '../views/signIn/LoginPhone.vue';
-import LoginIssueInfo from '../views/signIn/LoginIssueInfo.vue';
+import LoginPhone from "../views/signIn/LoginPhone.vue";
+import LoginIssueInfo from "../views/signIn/LoginIssueInfo.vue";
 import RegisterLegal from "../views/signUp/RegisterLegal.vue";
 import RegisterEmail from "../views/signUp/RegisterEmail.vue";
 import RegisterEmailCheck from "../views/signUp/RegisterEmailCheck.vue";
-import RegisterEmailSuccess from '../views/signUp/RegisterEmailSuccess.vue';
+import RegisterEmailSuccess from "../views/signUp/RegisterEmailSuccess.vue";
 import RegisterPhone from "../views/signUp/RegisterPhone.vue";
 import RegisterPhoneSubmit from "../views/signUp/RegisterPhoneSubmit.vue";
-import RegisterDetails from '../views/signUp/RegisterDetails.vue';
-import CodeSendAnother from '../views/signIn/CodeSendAnother.vue';
+import RegisterDetails from "../views/signUp/RegisterDetails.vue";
+import CodeSendAnother from "../views/signIn/CodeSendAnother.vue";
 import ExchangeRate from "../views/exchangeRate/ExchangeRate.vue";
 
 // map 컴포넌트 추가
 import MapComponent from "../views/maps/MapComponent.vue";
 import ErrorPage from "../views/error/ErrorPage.vue";
-
 
 const routes = [
   {
@@ -52,11 +50,6 @@ const routes = [
     path: "/exchange-rate",
     name: "ExchangeRate",
     component: ExchangeRate,
-  },
-  {
-    path: "/set-alert",
-    name: "SetAlert",
-    component: SetAlert,
   },
   {
     path: "/payment",
@@ -95,8 +88,8 @@ const routes = [
     component: MapComponent,
   },
   {
-    path: '/change-password',
-    name: 'ChangePwd',
+    path: "/change-password",
+    name: "ChangePwd",
     component: ChangePwd,
   },
   {

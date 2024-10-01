@@ -152,27 +152,28 @@
         <div class="row px-3">
           <div class="col-md-12">
             <div class="exchange-input mb-3">
-              <span>1 USD</span>
-              <span class="equals-symbol">=</span>
-              <input
-                type="number"
-                v-model="targetExchange"
-                class="form-control"
-                placeholder="목표 환율을 입력하세요."
-              />
-              <span>KRW</span>
+              <div class="input-group">
+                <span class="input-group-text">1 USD =</span>
+                <input
+                  type="number"
+                  v-model="targetExchange"
+                  class="form-control"
+                  placeholder="목표 환율을 입력하세요."
+                />
+                <span class="input-group-text">KRW</span>
+              </div>
             </div>
             <div class="exchange-input mb-3">
-              <div class="targetbox">
-                목표 환율: {{ targetExchange }} KRW 이하
+              <div class="input-group">
+                <span class="input-group-text">목표 금액 =</span>
+                <input
+                  type="number"
+                  v-model="targetKrw"
+                  class="form-control"
+                  placeholder="자동 전환할 금액을 입력하세요."
+                />
+                <span class="input-group-text">KRW</span>
               </div>
-              <input
-                type="number"
-                v-model="targetKrw"
-                class="form-control"
-                placeholder="자동 전환할 금액을 입력하세요."
-              />
-              <span>KRW</span>
             </div>
             <button
               class="btn btn-warning w-100"
@@ -194,6 +195,7 @@ import ExchangeRateChart from "@/views/Chart/ExchangeRateChart.vue";
 import axios from "axios";
 import myaccountApi from "../../api/myaccountApi";
 import { useRouter } from "vue-router";
+import Swal from "sweetalert2";
 
 // Data variables
 const usdAmount = ref(1);
@@ -273,11 +275,21 @@ const handleExchange = async () => {
 
     if (response && response.data) {
       console.log("환전 성공:", response.data);
-      alert("환전이 성공적으로 완료되었습니다.");
+      Swal.fire({
+        title: "성공!",
+        text: "환전이 성공적으로 완료되었습니다.",
+        icon: "success",
+        confirmButtonText: "확인",
+      });
     }
   } catch (error) {
     console.error("환전 중 오류 발생:", error);
-    alert("환전 중 오류가 발생했습니다. 다시 시도해 주세요.");
+    Swal.fire({
+      title: "실패",
+      text: "환전 중 오류가 발생했습니다. 다시 시도해 주세요.",
+      icon: "error",
+      confirmButtonText: "확인",
+    });
   }
 };
 
@@ -313,11 +325,21 @@ const reExchange = async () => {
 
     if (response && response.data) {
       console.log("환급 성공:", response.data);
-      alert("환급이 성공적으로 완료되었습니다.");
+      Swal.fire({
+        title: "성공!",
+        text: "환급이 성공적으로 완료되었습니다.",
+        icon: "success",
+        confirmButtonText: "확인",
+      });
     }
   } catch (error) {
     console.error("환급 중 오류 발생:", error);
-    alert("환급 중 오류가 발생했습니다. 다시 시도해 주세요.");
+    Swal.fire({
+      title: "실패",
+      text: "환급 중 오류가 발생했습니다. 다시 시도해 주세요.",
+      icon: "error",
+      confirmButtonText: "확인",
+    });
   }
 };
 
@@ -348,11 +370,22 @@ const saveAlertRate = async (baseCode, targetCode, targetExchange) => {
     );
 
     if (response.status === 200) {
-      alert("환율 알림이 성공적으로 저장되었습니다.");
+      Swal.fire({
+        title: "성공!",
+        text: "환율 알림이 성공적으로 저장되었습니다.",
+        icon: "success",
+        confirmButtonText: "확인",
+      });
+      router.push("/my-accounts");
     }
   } catch (error) {
     console.error("환율 알림 저장 중 오류 발생:", error);
-    alert("환율 알림 저장에 실패했습니다. 오류: " + error.response.data);
+    Swal.fire({
+      title: "실패",
+      html: `환율 알림 저장에 실패했습니다.<br>이유 : ${error.response?.data || "알 수 없는 오류"}`,
+      icon: "error",
+      confirmButtonText: "확인",
+    });
   }
 };
 
@@ -397,12 +430,22 @@ const confirmAutoExchange = async (
     );
 
     if (response.status === 200) {
-      alert("자동 환전 예약이 성공적으로 저장되었습니다.");
-      router.push("/exchange-rate");
+      Swal.fire({
+        title: "성공!",
+        text: "자동 환전 예약이 성공적으로 저장되었습니다.",
+        icon: "success",
+        confirmButtonText: "확인",
+      });
+      router.push("/my-accounts");
     }
   } catch (error) {
     console.error("자동 환전 예약 중 오류 발생:", error);
-    alert("자동 환전 예약에 실패했습니다. 오류: " + error.response.data);
+    Swal.fire({
+      title: "실패",
+      html: `자동 환전 예약에 실패했습니다.<br>이유 : ${error.response?.data || "알 수 없는 오류"}`,
+      icon: "error",
+      confirmButtonText: "확인",
+    });
   }
 };
 </script>
@@ -493,8 +536,8 @@ input[type="number"] {
 
 .exchange-input {
   display: flex;
-  align-items: center;
-  justify-content: center;
+  /* align-items: center;
+  justify-content: center; */
   gap: 0.5rem;
   width: 100%;
 }
@@ -591,5 +634,18 @@ input[type="number"] {
 
 .btn-warning:hover {
   background-color: #ffbb00;
+}
+
+.exchange-input .input-group {
+  width: 100%;
+}
+
+.exchange-input .input-group-text {
+  background-color: #f8f9fa;
+  border-color: #ced4da;
+}
+
+.exchange-input .form-control {
+  flex: 1;
 }
 </style>
