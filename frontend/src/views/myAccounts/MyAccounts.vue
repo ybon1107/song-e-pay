@@ -712,9 +712,10 @@ onMounted(() => {
       <!-- Won-E Money의 탭 내용 -->
       <div class="card-body" v-if="selectedAsset === WONE">
         <div v-if="activeTab === TRANSACTION_TYPES.TRANSFER">
-          <div class="text-btn">
-            <small class="text-muted" style="margin-top: 1rem; margin-bottom: 1rem">받는 이메일</small>
-            <button class="action-btn2" @click="emailConfirm" size="sm" variant="outline"
+
+          <div class="d-flex align-items-center">
+            <small class="text-muted me-3">받는 이메일</small>
+            <button class="btn btn-sm btn-secondary mb-0" @click="emailConfirm" size="sm" variant="outline"
               :disabled="sendEmail === ''">이메일
               확인</button>
             <!-- 회원/비회원 표시 -->
@@ -727,10 +728,13 @@ onMounted(() => {
           <div v-if="errorMessage !== ''" class="invalid-feedback text-xs mb-1">
             {{ errorMessage }}
           </div>
+
+
           <small class="text-muted">이메일 확인</small>
           <ArgonInput v-model="sendEmailConfirm" placeholder="이메일을 다시 입력하세요"
             :class="{ 'is-invalid': errorMessageCheck }" :error="errorMessageCheck !== ''" :success="checkSucess"
             style="margin-bottom: 0" @input="onInputCheck" />
+
           <div v-if="errorMessageCheck" class="invalid-feedback text-xs mb-1">
             {{ errorMessageCheck }}
           </div>
