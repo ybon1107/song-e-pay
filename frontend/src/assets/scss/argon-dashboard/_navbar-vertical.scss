@@ -295,13 +295,13 @@
 
 .navbar-vertical {
   &.bg-white {
-    box-shadow: $card-box-shadow;
+    // box-shadow: $card-box-shadow;
 
     .navbar-nav {
       > .nav-item {
         .nav-link {
           &.active {
-            background-color: #f6f9fc;
+            background-color: $yellow-100;
             box-shadow: none;
           }
         }
