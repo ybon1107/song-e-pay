@@ -19,19 +19,14 @@ const darkMode = computed(() => store.state.darkMode);
     :class="`${darkMode ? 'bg-transparent' : 'bg-success'}`"
   /> -->
 
-  <aside
-    class="aside-total my-3 overflow-auto border-0 sidenav navbar navbar-vertical navbar-expand-xs border-radius-xl"
+  <aside class="my-3 bg-custom overflow-auto border-0 sidenav navbar navbar-vertical navbar-expand-xs border-radius-xl"
     :class="`${isRTL ? 'me-3 rotate-caret fixed-end' : 'fixed-start ms-3'}    
-      ${layout === 'landing' ? 'bg-transparent shadow-none' : ' '}`"
-    id="sidenav-main"
-  >
+      ${layout === 'landing' ? 'bg-transparent shadow-none' : ' '
+      } ${sidebarType}`" id="sidenav-main">
     <!-- 로고 있는 버전 메뉴바 -->
     <div class="sidenav-header">
-      <i
-        class="top-0 p-3 cursor-pointer fas fa-times text-secondary opacity-5 position-absolute end-0 d-none d-xl-none"
-        aria-hidden="true"
-        id="iconSidenav"
-      ></i>
+      <i class="top-0 p-3 cursor-pointer fas fa-times text-secondary opacity-5 position-absolute end-0 d-none d-xl-none"
+        aria-hidden="true" id="iconSidenav"></i>
 
       <router-link class="m-0 navbar-brand custom-font" to="/">
         <!-- <img :src="darkMode || sidebarType === 'bg-default' ? logoWhite : logo" class="navbar-brand-img h-100"
@@ -51,14 +46,13 @@ const darkMode = computed(() => store.state.darkMode);
 
 <style>
 /* 사이드바 색상 변경 */
-.aside-total {
+/* .aside-total {
   background-color: #f8f9fa !important;
-}
+} */
 
 @font-face {
   font-family: 'Paperlogy-8ExtraBold';
-  src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/2408-3@1.0/Paperlogy-8ExtraBold.woff2')
-    format('woff2');
+  src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/2408-3@1.0/Paperlogy-8ExtraBold.woff2') format('woff2');
   font-weight: 800;
   font-style: normal;
 }
@@ -68,6 +62,7 @@ const darkMode = computed(() => store.state.darkMode);
   color: black;
   font-style: italic;
   font-family: 'Paperlogy-8ExtraBold', sans-serif;
-  font-size: 25px; /* 글씨 크기를 16px로 작게 설정 */
+  font-size: 25px;
+  /* 글씨 크기를 16px로 작게 설정 */
 }
 </style>
