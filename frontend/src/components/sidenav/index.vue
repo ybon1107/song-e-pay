@@ -19,7 +19,7 @@ const darkMode = computed(() => store.state.darkMode);
     :class="`${darkMode ? 'bg-transparent' : 'bg-success'}`"
   /> -->
 
-  <aside class="my-3 bg-custom overflow-auto border-0 sidenav navbar navbar-vertical navbar-expand-xs border-radius-xl"
+  <aside class="my-3 bg-custom overflow-auto border-end sidenav navbar navbar-vertical navbar-expand-xs border-radius-xl"
     :class="`${isRTL ? 'me-3 rotate-caret fixed-end' : 'fixed-start ms-3'}    
       ${layout === 'landing' ? 'bg-transparent shadow-none' : ' '
       } ${sidebarType}`" id="sidenav-main">
