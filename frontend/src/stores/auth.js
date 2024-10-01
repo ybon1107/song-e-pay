@@ -11,7 +11,6 @@ const initState = {
     krwNo: '',
     countryCode: '',
     userId: '',
-    password: '',
     firstName: '',
     lastName: '',
     birthday: '',
@@ -80,11 +79,35 @@ export const useAuthStore = defineStore('auth', () => {
       console.error(error);
       throw error
     }
+  };
 
-    // api 호출
-    // const { data } = await axios.post('/api/users/login', formData);
-    // Object.assign(state.value, data);
-    // localStorage.setItem('auth', JSON.stringify(state.value));
+  // 프로필 변경 시 state 업데이트 및 localStorage 저장
+  const updateProfileState = (updatedData) => {
+    Object.assign(state.value.user, updatedData);
+    console.log("updateProfileState : ", updatedData)
+
+    // countryCode에 따른 국가와 언어 설정
+    switch (state.value.user.countryCode) {
+      case 0:
+        state.value.user.country = '한국';
+        state.value.user.language = 'ko';
+        break;
+      case 1:
+        state.value.user.country = '미국';
+        state.value.user.language = 'en';
+        break;
+      case 2:
+        state.value.user.country = '인도네시아';
+        state.value.user.language = 'id';
+        break;
+      case 3:
+        state.value.user.country = '베트남';
+        state.value.user.language = 'vi';
+        break;
+    }
+
+    // localStorage에 업데이트된 사용자 정보 저장
+    localStorage.setItem('auth', JSON.stringify(state.value));
   };
 
   const logout = () => {
@@ -107,5 +130,5 @@ export const useAuthStore = defineStore('auth', () => {
   // load(): 페이지가 로드될 때 localStorage에서 저장된 인증 정보를 불러와 state에 설정
 
   //   return { state, username, email, isLogin, changeProfile, login, logout, getToken };
-  return { state, userNo, user, email, isLogin, changeProfile, login, logout };
+  return { state, userNo, user, email, isLogin, changeProfile, login, logout, updateProfileState };
 });

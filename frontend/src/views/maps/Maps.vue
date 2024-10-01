@@ -27,7 +27,7 @@
 
       <!-- 찾기 버튼 -->
       <div class="col-md-3 d-flex align-items-end">
-        <button class="search-button btn btn-primary m-0" @click="searchBank">
+        <button class="search-button btn btn-success m-0" @click="searchBank">
           <i class="mdi mdi-map-search-outline"></i> 찾기
         </button>
       </div>
@@ -490,57 +490,10 @@ export default {
       });
     },
 
-function clickSearch() {
-  const townValue = selectedTown.value ? selectedTown.value : '';
-  keyword.value =
-    `${selectedCity.value || ''} ${selectedCityDetail.value || ''} ${townValue || ''} 국민은행`.trim();
-  console.log('검색 키워드:', keyword.value);
-  initMap('search');
-}
+    // Use `.bind(this)` to ensure `this` refers to Vue instance
+  },
+};
 </script>
-
-<template>
-  <div class="container-fluid px-4">
-    <h3>금융 지도</h3>
-
-    <div class="row mb-3">
-      <!-- 광역시/도 선택 -->
-      <div class="col-md-3">
-        <label for="city-select">광역시 / 도</label>
-        <select id="city-select" v-model="selectedCity" class="form-control">
-          <option disabled value="">광역시 / 도 선택</option>
-          <option v-for="city in cities" :key="city" :value="city">
-            {{ city }}
-          </option>
-        </select>
-      </div>
-      <!-- 시/군/구 선택 -->
-      <div class="col-md-3">
-        <label for="district-select">시/군/구 선택</label>
-        <select id="district-select" v-model="selectedCityDetail" class="form-control"
-          :disabled="!citiesDetail || !citiesDetail.length">
-          <option disabled value="">시/군/구 선택</option>
-          <option v-for="district in citiesDetail || []" :key="district" :value="district">
-            {{ district }}
-          </option>
-        </select>
-      </div>
-
-      <!-- 찾기 버튼 -->
-      <div class="col-md-3 d-flex align-items-end">
-        <button class="search-button btn btn-primary m-0" @click="clickSearch">
-          <i class="mdi mdi-map-search-outline"></i> 찾기
-        </button>
-      </div>
-    </div>
-
-    <!-- 지도 영역 -->
-    <div class="card">
-      <div id="map"></div>
-    </div>
-
-  </div>
-</template>
 
 <style scoped>
 /* 반응형 지도 크기 설정 */

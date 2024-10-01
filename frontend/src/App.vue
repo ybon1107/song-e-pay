@@ -70,15 +70,13 @@ const navClasses = computed(() => {
 </template>
 
 <style>
-/* @font-face {
-  font-family: 'TTLaundryGothicB';
-  src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/2403-2@1.0/TTLaundryGothicB.woff2') format('woff2');
-  font-weight: 700;
-  font-style: normal;
+@font-face {
+  font-family: 'Noto Sans KR', sans-serif !important;
+  src: url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap');
 }
 
 h1 {
-  font-family: 'TTLaundryGothicB', sans-serif;
+  font-family: 'Noto Sans KR', sans-serif !important;
 } */
 .container-fluid {
   max-width: 1200px;

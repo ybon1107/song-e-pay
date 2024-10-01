@@ -19,7 +19,7 @@ const darkMode = computed(() => store.state.darkMode);
     :class="`${darkMode ? 'bg-transparent' : 'bg-success'}`"
   /> -->
 
-  <aside class="my-3 overflow-auto border-0 sidenav navbar navbar-vertical navbar-expand-xs border-radius-xl" :class="`${isRTL ? 'me-3 rotate-caret fixed-end' : 'fixed-start ms-3'}    
+  <aside class="aide-total my-3 overflow-auto border-0 sidenav navbar navbar-vertical navbar-expand-xs border-radius-xl" :class="`${isRTL ? 'me-3 rotate-caret fixed-end' : 'fixed-start ms-3'}    
       ${layout === 'landing' ? 'bg-transparent shadow-none' : ' '
     } ${sidebarType}`" id="sidenav-main">
     <!-- 로고 있는 버전 메뉴바 -->
@@ -42,3 +42,8 @@ const darkMode = computed(() => store.state.darkMode);
     </div> -->
   </aside>
 </template>
+<style>
+  .aide-total {
+    background-color: black !important;
+  }
+</style>
