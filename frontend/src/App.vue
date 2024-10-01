@@ -13,12 +13,12 @@ Coded by www.creative-tim.com
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 -->
 <script setup>
-import { computed } from "vue";
-import { useStore } from "vuex";
-import Sidenav from "./components/sidenav";
+import { computed } from 'vue';
+import { useStore } from 'vuex';
+import Sidenav from './components/sidenav';
 // import Configurator from "./views/Configurator.vue";
-import Navbar from "./components/navbars/Navbar.vue";
-import AppFooter from "./components/footer/Footer.vue";
+import Navbar from './components/navbars/Navbar.vue';
+import AppFooter from './components/footer/Footer.vue';
 
 const store = useStore();
 const isNavFixed = computed(() => store.state.isNavFixed);
@@ -34,22 +34,26 @@ const showFooter = computed(() => store.state.showFooter);
 
 const navClasses = computed(() => {
   return {
-    "position-sticky bg-white left-auto top-2 z-index-sticky":
+    'position-sticky bg-white left-auto top-2 z-index-sticky':
       isNavFixed.value && !darkMode.value,
-    "position-sticky bg-default left-auto top-2 z-index-sticky":
+    'position-sticky bg-default left-auto top-2 z-index-sticky':
       isNavFixed.value && darkMode.value,
-    "position-absolute px-4 mx-0 w-100 z-index-2": isAbsolute.value,
-    "px-0 mx-4": !isAbsolute.value,
+    'position-absolute px-4 mx-0 w-100 z-index-2': isAbsolute.value,
+    'px-0 mx-4': !isAbsolute.value,
   };
 });
 </script>
 <template>
-
-  <div v-show="layout === 'landing'" class="landing-bg h-100 bg-gradient-primary position-fixed w-100"></div>
+  <div
+    v-show="layout === 'landing'"
+    class="landing-bg h-100 bg-gradient-primary position-fixed w-100"
+  ></div>
 
   <sidenav v-if="showSidenav" />
 
-  <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg">
+  <main
+    class="main-content position-relative max-height-vh-100 h-100 border-radius-lg"
+  >
     <!-- nav -->
 
     <navbar :class="[navClasses]" v-if="showNavbar" />
@@ -71,14 +75,17 @@ const navClasses = computed(() => {
 
 <style>
 @font-face {
-  font-family: 'Noto Sans KR', sans-serif !important;
-  src: url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap');
+  font-family: 'Pretendard-Regular';
+  src: url('https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff')
+    format('woff');
+  font-weight: 400;
+  font-style: normal;
 }
 
 h1 {
-  font-family: 'Noto Sans KR', sans-serif !important;
-} */
-.container-fluid {
+  font-family: 'TTLaundryGothicB', sans-serif;
+}
+*/ .container-fluid {
   max-width: 1200px;
 }
 

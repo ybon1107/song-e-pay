@@ -1,134 +1,217 @@
 <template>
-    <Modal :isVisible="showModal" :showFooter="false" title="⚠️ 잠깐 !!!!" @close="closeModal">
-        <div class="modal-body">
-            <p>사칭사기에 주의하세요.</p>
-            <h2>결제 비밀번호</h2>
+  <div class="modal-body">
+    <Modal
+      :isVisible="showModal"
+      :showFooter="false"
+      title="⚠️ 경고"
+      @close="closeModal"
+      v-if="showPasswordInput"
+    >
+      <p class="warning-text">사칭사기에 주의하세요.</p>
+      <h3 class="password-title">결제 비밀번호</h3>
+      <!-- 비밀번호 도트 -->
+      <div class="password-dots">
+        <span
+          v-for="(digit, index) in 6"
+          :key="index"
+          :class="{ dot: true, filled: password.length >= index + 1 }"
+        ></span>
+      </div>
 
-            <!-- 비밀번호 도트 -->
-            <div class="password-dots">
-                <span v-for="(digit, index) in 6" :key="index"
-                    :class="{ dot: true, filled: password.length >= index + 1 }"></span>
-            </div>
-
-            <!-- 숫자 키패드 -->
-            <div class="keypad">
-                <button v-for="num in 9" :key="num" @click="enterDigit(num)">{{ num }}</button>
-                <button @click="clearAll">C</button>
-                <button @click="enterDigit(0)">0</button>
-                <button @click="clearLast"><i class="fas fa-backspace"></i></button>
-            </div>
-        </div>
+      <!-- 숫자 키패드 -->
+      <div class="keypad">
+        <button
+          v-for="num in shuffledNumbers"
+          :key="num"
+          @click="enterDigit(num)"
+        >
+          {{ num }}
+        </button>
+        <button @click="clearAll" class="function-key">C</button>
+        <button @click="clearLast" class="function-key">
+          <i class="fas fa-backspace"></i>
+        </button>
+      </div>
     </Modal>
+  </div>
 </template>
 
 <script setup>
-import { ref, defineEmits } from 'vue';
-import myaccountApi from '../../api/myaccountApi';
-import Modal from '../../components/modal/Modal.vue';
+import { ref, defineEmits, onMounted } from "vue";
+import myaccountApi from "../../api/myaccountApi";
+import Modal from "../../components/modal/Modal.vue";
+import Swal from "sweetalert2";
+import "sweetalert2/dist/sweetalert2.min.css";
 
-// ... 기존 코드 유지 ...
 // 이벤트 설정
-const emit = defineEmits(['close', 'password-verified']);
+const emit = defineEmits(["close", "password-verified"]);
 
 const showModal = ref(true);
-const password = ref(''); // 비밀번호는 최대 6자리
+const password = ref(""); // 비밀번호는 최대 6자리
 const userNo = 1;
+const showPasswordInput = ref(true);
 
-const handleOverlayClick = () => {
-    closeModal();
+const shuffledNumbers = ref([]);
+
+onMounted(() => {
+  shuffleNumbers();
+});
+
+const shuffleNumbers = () => {
+  const numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 0];
+  for (let i = numbers.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [numbers[i], numbers[j]] = [numbers[j], numbers[i]];
+  }
+  shuffledNumbers.value = numbers;
 };
 
 // 숫자 입력 처리
 const enterDigit = (num) => {
-    if (password.value.length < 6) {
-        password.value += num;
+  if (password.value.length < 6) {
+    password.value += num;
 
-        // 비밀번호 길이가 6자리일 때 자동으로 확인
-        if (password.value.length === 6) {
-            verifyPassword(userNo);
-        }
+    // 비밀번호 길이가 6자리일 때 자동으로 확인
+    if (password.value.length === 6) {
+      verifyPassword(userNo);
     }
+  }
 };
 
 // 마지막 입력 지우기
 const clearLast = () => {
-    if (password.value.length > 0) {
-        password.value = password.value.slice(0, -1);
-    }
+  if (password.value.length > 0) {
+    password.value = password.value.slice(0, -1);
+  }
 };
 
 // 전체 입력 지우기
 const clearAll = () => {
-    password.value = '';
+  password.value = "";
 };
 
-// 2차 비밀번호 검증
+// 비밀번호 검증 함수 수정
 const verifyPassword = async (userNo) => {
-    try {
-        // API 호출을 통해 correctPassword 가져오기
-        const correctPassword = await myaccountApi.checkSecondPassword(userNo);
-        // 사용자가 입력한 비밀번호와 correctPassword 비교
-        if (password.value == correctPassword) {
-            emit('password-verified'); // 비밀번호가 맞을 경우 password-verified 이벤트 emit
-            closeModal(); // 모달 닫기
-        } else {
-            alert('비밀번호가 틀렸습니다.');
-            password.value = ''; // 입력값 초기화
-        }
-    } catch (error) {
-        console.error('비밀번호 검증 중 오류 발생:', error);
-        alert('비밀번호 확인에 실패했습니다. 다시 시도해 주세요.');
+  try {
+    const correctPassword = await myaccountApi.checkSecondPassword(userNo);
+    if (password.value == correctPassword) {
+      emit("password-verified");
+      closeModal();
+    } else {
+      showPasswordInput.value = false;
+      Swal.fire({
+        title: "다시 입력하세요",
+        text: "비밀번호가 틀렸습니다.",
+        icon: "error",
+      }).then(() => {
+        password.value = "";
+        showPasswordInput.value = true;
+      });
     }
+  } catch (error) {
+    console.error("비밀번호 검증 중 오류 발생:", error);
+    showPasswordInput.value = false;
+    Swal.fire({
+      title: "다시 입력하세요",
+      text: "비밀번호 확인에 실패했습니다. 다시 시도해 주세요.",
+      icon: "error",
+    }).then(() => {
+      password.value = "";
+      showPasswordInput.value = true;
+    });
+  }
 };
 
 const closeModal = () => {
-    showModal.value = false;
-    emit('close');
+  showModal.value = false;
+  emit("close");
 };
-
 </script>
 
 <style scope>
+/* 모달 전체 크기 조정 */
+.compact-modal {
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
 /* 비밀번호 도트 */
 .password-dots {
-    display: flex;
-    justify-content: space-between;
-    margin: 20px 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 40px 0;
 }
 
 .dot {
-    width: 20px;
-    height: 20px;
-    border: 2px solid #333;
-    border-radius: 50%;
-    background-color: transparent;
+  width: 20px;
+  height: 20px;
+  margin: 0 10px;
+  border: 2px solid #e0e0e0;
+  border-radius: 50%;
+  background-color: transparent;
+  transition: all 0.3s ease;
 }
 
 .dot.filled {
-    background-color: black;
+  background-color: #4caf50;
+  border-color: #4caf50;
+  box-shadow: 0 0 10px rgba(76, 175, 80, 0.5);
+  transform: scale(1.15);
 }
 
 /* 키패드 스타일 */
 .keypad {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 10px;
-    margin: 20px 0;
-    justify-items: center;
-    align-items: center;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 15px;
+  margin: 20px auto;
+  padding: 15px;
+  background-color: #f8f9fa;
+  border-radius: 12px;
+  width: 350px;
 }
 
 .keypad button {
-    width: 60px;
-    height: 60px;
-    font-size: 24px;
-    background-color: #f0f0f0;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
+  width: 70px;
+  height: 70px;
+  font-size: 24px;
+  font-weight: bold;
+  background-color: white;
+  border: 1px solid #e0e0e0;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto; /* 버튼을 그리드 셀 내에서 가운데 정렬 */
 }
 
 .keypad button:hover {
-    background-color: #ddd;
+  background-color: #f0f0f0;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.keypad button:active {
+  transform: translateY(0);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.function-key {
+  background-color: #e9ecef !important;
+  color: #495057;
+}
+
+.warning-text {
+  margin-bottom: 5px; /* 경고 텍스트 아래 간격 줄임 */
+  color: #ff6b6b; /* 경고 텍스트 색상 변경 (선택사항) */
+}
+
+.password-title {
+  margin-top: 0; /* 제목 위 간격 제거 */
+  margin-bottom: 20px; /* 제목 아래 간격 추가 */
 }
 </style>

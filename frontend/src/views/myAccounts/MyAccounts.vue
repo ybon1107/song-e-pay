@@ -4,12 +4,16 @@ import DefaultInfoCard from '@/views/Cards/AccountsCard.vue';
 // import AccountsCard from '@/views/Cards/AccountsCard2.vue';
 import ArgonAmountInput from '@/components/yb_templates/ArgonAmountInput.vue';
 import ArgonButton from '@/components/templates/ArgonButton.vue';
-import SecondPassword from '@/views/MyAccounts/SecondPassword.vue';
 import { ref, onMounted, computed } from 'vue';
 import myaccountApi from '../../api/myaccountApi';
 import { useExchangeStore } from '@/stores/exchangeStore';
 import SecondPasswordModal from '@/views/MyAccounts/SecondPasswordModal.vue';
 import { useRoute } from 'vue-router';
+import axios from 'axios';
+import ExchangeRateChart from '@/views/Chart/ExchangeRateChart.vue';
+import Swal from 'sweetalert2';
+import 'sweetalert2/dist/sweetalert2.min.css';
+
 const route = useRoute();
 const emit = defineEmits(['password-verified', 'close']);
 const store = useExchangeStore();
@@ -45,15 +49,6 @@ const usdAmountReverse = ref(0);
 const currentToKrw = computed(() => store.currentToKrw);
 const currentFromKrw = computed(() => store.currentFromKrw);
 
-onMounted(() => {
-  // 라우터 쿼리에서 selectedAsset 값을 가져옴
-  if (route.query.selectedAsset) {
-    selectAsset(route.query.selectedAsset);
-  }
-  fetchBalances();
-  fetchExchangeRates();
-});
-
 //비밀번호 관련 기능
 // 비밀번호 입력 모달 열기
 const openModal = () => {
@@ -65,32 +60,50 @@ const closeModal = () => {
   showModal.value = false;
 };
 
-
 // 비밀번호가 확인되었을 때 호출되는 함수
 const handlePasswordVerified = async () => {
   showModal.value = false; // 모달 숨김
   switch (currentAction.value) {
     case 'deposit':
       await deposit(); // deposit이 완료될 때까지 기다림
-      alert('입금이 완료되었습니다.'); // 작업 완료 메시지
+      Swal.fire({
+        title: '성공!',
+        text: '입금이 완료되었습니다.',
+        icon: 'success',
+      });
       break;
     case 'exchange':
       await exchange(); // exchange가 완료될 때까지 기다림
-      alert('환전이 완료되었습니다.'); // 작업 완료 메시지
+      Swal.fire({
+        title: '성공!',
+        text: '환전이 완료되었습니다.',
+        icon: 'success',
+      });
       break;
     case 'refund':
       await refund(); // refund가 완료될 때까지 기다림
-      alert('환불이 완료되었습니다.'); // 작업 완료 메시지
+      Swal.fire({
+        title: '성공!',
+        text: '환불이 완료되었습니다.',
+        icon: 'success',
+      });
       break;
     case 'transfer':
       await transfer(); // transfer가 완료될 때까지 기다림
-      alert('송금이 완료되었습니다.'); // 작업 완료 메시지
+      Swal.fire({
+        title: '성공!',
+        text: '송금이 완료되었습니다.',
+        icon: 'success',
+      });
       break;
     case 'reExchange':
       await reExchange(); // reExchange가 완료될 때까지 기다림
-      alert('환급이 완료되었습니다.'); // 작업 완료 메시지
+      Swal.fire({
+        title: '성공!',
+        text: '환급이 완료되었습니다.',
+        icon: 'success',
+      });
       break;
-
   }
   resetValue();
   await fetchBalances(); // 잔액을 다시 가져옴
@@ -174,7 +187,7 @@ const deposit = async () => {
       krwNo,
       typeCode: 3, //거래 코드 충전 3
       stateCode: 1,
-      historyContent: 'SongE money 충전',
+      historyContent: `My Account → ${customerunit} 충전`,
       amount,
     },
   });
@@ -206,7 +219,7 @@ const exchange = async () => {
       krwNo,
       typeCode: 5,
       stateCode: 1,
-      historyContent: 'SongE money → WonE money',
+      historyContent: `${customerunit} → KRW 환전`,
       amount,
       exchangeRate,
     },
@@ -239,7 +252,7 @@ const refund = async () => {
       krwNo,
       typeCode: 4,
       stateCode: 1,
-      historyContent: 'SongE money → My Account',
+      historyContent: `${customerunit} → My Account 환불`,
       amount,
     },
   });
@@ -269,7 +282,7 @@ const transfer = async () => {
       krwNo,
       typeCode: 2, //거래 코드 충전 2
       stateCode: 1,
-      historyContent: `나의 WonE money → ${sendEmail}`,
+      historyContent: `KRW → ${sendEmail} 송금`,
       amount,
     },
   });
@@ -302,7 +315,7 @@ const reExchange = async () => {
       krwNo,
       typeCode: 6,
       stateCode: 1,
-      historyContent: 'WonE money → SongE money',
+      historyContent: `KRW → ${customerunit} 환급`,
       amount,
       exchangeRate,
     },
@@ -352,10 +365,11 @@ const fetchBalances = () => {
 // 받는 금액 계산
 const receivedAmount = computed(() => {
   if (selectedAsset.value === 'Song-E Money') {
-    return (exchangeAmount.value * currentToKrw.value).toFixed(2);
+    return (parseFloat(exchangeAmount.value) * currentToKrw.value).toFixed(2);
   } else if (selectedAsset.value === 'Won-E Money') {
-    return (reExchangeAmount.value * currentFromKrw.value).toFixed(2);
+    return (parseFloat(reExchangeAmount.value) * currentFromKrw.value).toFixed(2);
   }
+  return '0.00'; // 기본값 추가
 });
 
 // 이메일 입력 유효성 검증
@@ -423,31 +437,114 @@ const onInput = (event) => {
     onInputCheck({ target: { value: sendEmailConfirm.value } });
   }
 };
+
+// 자동 환전 내역을 저장할 ref
+const autoConditions = ref([]);
+
+// 환율 알림 내역을 저장할 ref
+const alertConditions = ref([]);
+
+// 사용자 번호를 설정 (임의로 1로 설정)
+const userNo = 1;
+
+// 자동 환전 예약 데이터를 가져오는 함수
+const fetchAutoExchange = async () => {
+  try {
+    const response = await axios.get(`/api/exchange-reservation/setalert/${userNo}`);
+    if (response.status === 200) {
+      // 응답 데이터가 존재하면 autoConditions에 저장
+      const reservations = response.data;
+      autoConditions.value = reservations;
+    }
+  } catch (error) {
+    console.error('자동 환전 데이터를 가져오는 중 오류 발생:', error);
+  }
+};
+
+// 환율 알림 데이터를 가져오는 함수
+const fetchAlertConditions = async () => {
+  try {
+    const response = await axios.get(`/api/exchange-reservation/${userNo}`);
+    if (response.status === 200) {
+      // 응답 데이터가 존재하면 alertConditions에 최대 2개 저장
+      const alerts = response.data.slice(0, 2); // 최대 2개만 가져옴
+      alertConditions.value = alerts;
+      console.log('Fetched alert conditions:', alertConditions.value);
+      // fetchAlertConditions(); // 알림을 다시 가져와서 업데이트
+    }
+  } catch (error) {
+    console.error('환율 알림 데이터를 가져오는 중 오류 발생:', error);
+  }
+};
+
+const confirmDelete = (resNo) => {
+  Swal.fire({
+    title: '정말로 삭제하시겠습니까?',
+    text: '삭제된 알림 설정은 복구할 수 없습니다!',
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#3085d6',
+    cancelButtonColor: '#d33',
+    confirmButtonText: '네, 삭제합니다',
+    cancelButtonText: '취소',
+    buttonsStyling: true,
+  }).then((result) => {
+    if (result.isConfirmed) {
+      deleteAlertCondition(resNo);
+    }
+  });
+};
+
+const deleteAlertCondition = async (resNo) => {
+  try {
+    console.log('삭제할 예약 번호:', resNo);
+    if (resNo) {
+      await axios.delete(`/api/exchange-reservation/${resNo}`);
+      Swal.fire({
+        title: '삭제 완료!',
+        text: '알림 설정이 삭제되었습니다.',
+        icon: 'success',
+      });
+      fetchAlertConditions(); // 알림을 다시 가져와서 업데이트
+      fetchAutoExchange(); // 예약을 다시 가져와서 업데이트
+    }
+  } catch (error) {
+    console.error('알림 설정 삭제 중 오류 발생:', error);
+    Swal.fire({
+      title: '오류 발생',
+      text: '알림 설정 삭제 중 문제가 발생했습니다.',
+      icon: 'error',
+    });
+  }
+};
+
+// 컴포넌트가 마운트될 때 데이터를 가져옴
+onMounted(() => {
+  fetchExchangeRates();
+  fetchAutoExchange();
+  fetchAlertConditions();
+  // 라우터 쿼리에서 selectedAsset 값을 가져옴
+  if (route.query.selectedAsset) {
+    selectAsset(route.query.selectedAsset);
+  }
+  fetchBalances();
+});
 </script>
 
 <template>
-  <div class="container-fluid" style="width: 80%" id="responsive-container">
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+    integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
+    crossorigin="anonymous"
+    referrerpolicy="no-referrer"
+  />
+  <div class="container-fluid" style="width: 100%" id="responsive-container">
     <h3>My account</h3>
 
     <SecondPasswordModal v-if="showModal" @close="closeModal" @password-verified="handlePasswordVerified" />
 
-    <!-- <div class="row my-3">
-      <div class="col-lg-4 col-md-5">
-        <AccountsCard title="Song-E Money" :balance="songEMoneyBalance" :currency="customerunit"
-          backgroundImage="/images/song-e-money.png" icon="/images/america.png"
-          @click="selectAsset('Song-E Money')" :isSelected="selectedAsset === 'Song-E Money'"/>
->
-      </div>
-      <div class="col-lg-4 col-md-5">
-        <AccountsCard title="Won-E Money" :balance="wonEMoneyBalance" currency="KRW"
-          backgroundImage="/images/won-e-money.png" icon="/images/korea.png"
-          @click="selectAsset('Won-E Money')" :isSelected="selectedAsset === 'Won-E Money'"/>
-
-      </div>
-    </div> -->
-
     <div class="assets-list">
-
       <DefaultInfoCard
         title="Song-E Money"
         :value="formattedSongEMoneyBalance"
@@ -457,31 +554,31 @@ const onInput = (event) => {
         :class="{ selected: selectedAsset === 'Song-E Money' }"
       />
 
-      <DefaultInfoCard title="Won-E Money" :value="formattedWonEMoneyBalance" img-src="images/won-e-money.png"
-        img="/images/korea.png" @click="selectAsset('Won-E Money')"
-        :class="{ selected: selectedAsset === 'Won-E Money' }" />
+      <DefaultInfoCard
+        title="Won-E Money"
+        :value="formattedWonEMoneyBalance"
+        img-src="images/won-e-money.png"
+        img="/images/korea.png"
+        @click="selectAsset('Won-E Money')"
+        :class="{ selected: selectedAsset === 'Won-E Money' }"
+      />
     </div>
 
     <div class="card">
       <!-- Song-E Money 선택 시 -->
       <template v-if="selectedAsset === 'Song-E Money'">
         <nav class="nav flex-column flex-sm-row">
-          <a class="flex-sm-fill text-sm-center nav-link" :class="{ active: activeTab === 'deposit' }"
-            @click="activeTab = 'deposit'" aria-current="page"> 충전 </a>
-          <a class="flex-sm-fill text-sm-center nav-link" :class="{ active: activeTab === 'exchange' }"
-            @click="activeTab = 'exchange'"> 환전 </a>
-          <a class="flex-sm-fill text-sm-center nav-link" :class="{ active: activeTab === 'refund' }"
-            @click="activeTab = 'refund'"> 환불 </a>
+          <a class="flex-sm-fill text-sm-center nav-link" :class="{ active: activeTab === 'deposit' }" @click="activeTab = 'deposit'" aria-current="page"> 충전 </a>
+          <a class="flex-sm-fill text-sm-center nav-link" :class="{ active: activeTab === 'exchange' }" @click="activeTab = 'exchange'"> 환전 </a>
+          <a class="flex-sm-fill text-sm-center nav-link" :class="{ active: activeTab === 'refund' }" @click="activeTab = 'refund'"> 환불 </a>
         </nav>
       </template>
 
       <!-- Won-E Money 선택 시 -->
       <template v-if="selectedAsset === 'Won-E Money'">
         <nav class="nav flex-column flex-sm-row">
-          <a class="flex-sm-fill text-sm-center nav-link" :class="{ active: activeTab === 'transfer' }"
-            @click="activeTab = 'transfer'" aria-current="page"> 송금 </a>
-          <a class="flex-sm-fill text-sm-center nav-link" :class="{ active: activeTab === 'reExchange' }"
-            @click="activeTab = 'reExchange'"> 환급 </a>
+          <a class="flex-sm-fill text-sm-center nav-link" :class="{ active: activeTab === 'transfer' }" @click="activeTab = 'transfer'" aria-current="page"> 송금 </a>
+          <a class="flex-sm-fill text-sm-center nav-link" :class="{ active: activeTab === 'reExchange' }" @click="activeTab = 'reExchange'"> 환급 </a>
         </nav>
       </template>
 
@@ -598,7 +695,9 @@ const onInput = (event) => {
             :success="success"
             style="margin-bottom: 0"
           />
-          <div v-if="errorMessage !== ''" class="invalid-feedback text-xs mb-1">{{ errorMessage }}</div>
+          <div v-if="errorMessage !== ''" class="invalid-feedback text-xs mb-1">
+            {{ errorMessage }}
+          </div>
           <small class="text-muted">이메일 확인</small>
           <ArgonInput
             v-model="sendEmailConfirm"
@@ -609,7 +708,9 @@ const onInput = (event) => {
             style="margin-bottom: 0"
             @input="onInputCheck"
           />
-          <div v-if="errorMessageCheck" class="invalid-feedback text-xs mb-1">{{ errorMessageCheck }}</div>
+          <div v-if="errorMessageCheck" class="invalid-feedback text-xs mb-1">
+            {{ errorMessageCheck }}
+          </div>
 
           <p>
             <small class="text-muted">송금할 금액을 입력하세요</small>
@@ -671,6 +772,100 @@ const onInput = (event) => {
         </div>
       </div>
     </div>
+    <br />
+    <!-- Graph and Conversion Section -->
+    <h3>Exchange Rate</h3>
+    <div class="card mt-3">
+      <div class="card-body">
+        <div class="row">
+          <!-- Exchange Rate Graph Section -->
+          <div class="col-lg-7 col-md-12 my-3">
+            <div class="chart-container">
+              <ExchangeRateChart chartId="toexchangeChart" period="1m" chartType="to" />
+            </div>
+          </div>
+
+          <div class="col-lg-5 col-md-12 d-flex flex-column justify-content-center my-3">
+            <div class="mb-3">
+              <h6>Convert USD to KRW</h6>
+              <div class="d-flex align-items-center">
+                <div class="position-relative flex-grow-1">
+                  <input type="number" class="form-control" v-model.number="usdAmount" @input="convertToKrw" aria-label="Amount in USD" />
+                  <img src="@/assets/img/icons/flags/US.png" alt="USA Flag" class="flag-icon" />
+                </div>
+                <span class="mx-3">=</span>
+                <div class="position-relative flex-grow-1">
+                  <input type="text" class="form-control" :value="krwAmount" readonly aria-label="Amount in KRW" />
+                  <img src="@/assets/img/icons/flags/KR.png" alt="KRW Flag" class="flag-icon" />
+                </div>
+              </div>
+            </div>
+            <div>
+              <h6>Convert KRW to USD</h6>
+              <div class="d-flex align-items-center">
+                <div class="position-relative flex-grow-1">
+                  <input type="number" class="form-control" v-model.number="krwAmountReverse" @input="convertToUsd" />
+                  <img src="@/assets/img/icons/flags/KR.png" alt="KRW Flag" class="flag-icon" />
+                </div>
+                <span class="mx-3">=</span>
+                <div class="position-relative flex-grow-1">
+                  <input type="text" class="form-control" :value="usdAmountReverse" readonly />
+                  <img src="@/assets/img/icons/flags/US.png" alt="USA Flag" class="flag-icon" />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <br />
+    <div @click="$router.push('/exchange-rate')" class="clickable-alert" role="button" tabindex="0">
+      <span class="alert-text">자동 환전 및 알람</span>
+      <i class="fa-solid fa-angle-right alert-icon"></i>
+    </div>
+    <div class="card mt-4">
+      <div class="card-body">
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="form-group">
+              <label for="autoCondition" class="label">자동 환전 설정 내역</label>
+              <ul v-if="autoConditions.length > 0" class="list-group">
+                <li class="list-group-item">
+                  <div class="d-flex justify-content-between align-items-center">
+                    <span>
+                      <span>기준 통화:</span>
+                      {{ autoConditions[0]?.baseCode }}
+                      <span>대상 통화:</span>
+                      {{ autoConditions[0]?.targetCode }}
+                      <span>목표 환율:</span>
+                      {{ autoConditions[0]?.targetExchange }}
+                      <span>목표 KRW 금액:</span>
+                      {{ autoConditions[0]?.targetKrw }}
+                    </span>
+                    <button class="btn delete-btn btn-sm align-self-center" @click="confirmDelete(autoConditions[0]?.resNo)">삭제</button>
+                  </div>
+                </li>
+              </ul>
+              <p v-else style="margin-left: 0.5rem">자동 환전 예약 내역이 없습니다.</p>
+            </div>
+            <div class="form-group">
+              <label for="alertConditions" class="label">환율 알림 설정 내역</label>
+              <ul v-if="alertConditions.length > 0" class="list-group">
+                <li v-for="condition in alertConditions" :key="condition.resNo" class="list-group-item">
+                  <div class="d-flex justify-content-between align-items-center">
+                    <span>
+                      <span>기준 통화:</span> {{ condition.baseCode }} <span>대상 통화:</span> {{ condition.targetCode }} <span>목표 환율:</span> {{ condition.targetExchange }}
+                    </span>
+                    <button class="btn delete-btn btn-sm" @click="confirmDelete(condition.resNo)">삭제</button>
+                  </div>
+                </li>
+              </ul>
+              <p v-if="alertConditions.length === 0" style="margin-left: 0.5rem">환율 알림 예약 내역이 없습니다.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -686,7 +881,7 @@ const onInput = (event) => {
 
 /* 탭 활성화 스타일 */
 .nav-link.active {
-  background-color: #2cce89;
+  background-color: #ffd700;
   border-radius: 3px;
   color: white;
 }
@@ -730,5 +925,97 @@ const onInput = (event) => {
   /* 세로 중앙 정렬 */
   gap: 10px;
   /* p 태그와 버튼 사이의 간격을 설정 (필요에 따라 조정) */
+}
+
+.wallet-balance h3 {
+  margin-bottom: 20px;
+}
+
+.flag-icon {
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+  width: 24px;
+  height: 16px;
+}
+
+.clickable-alert {
+  display: flex;
+  justify-content: space-between; /* 텍스트와 아이콘을 좌우로 배치 */
+  align-items: center;
+  background-color: transparent; /* 기본 배경색 없음 */
+  padding: 10px;
+  transition: background-color 0.3s ease;
+  cursor: pointer;
+  outline: none;
+}
+
+.clickable-alert:hover,
+.clickable-alert:focus {
+  background-color: #e0f7fa; /* 클릭 시 배경 색상 */
+}
+
+.alert-text {
+  font-size: 1.5rem; /* 텍스트 크기를 더 크게 설정 */
+  margin: 0; /* 기본 여백 제거 */
+  font-weight: bolder;
+}
+
+.alert-icon {
+  font-size: 1.2rem;
+  margin-left: auto; /* 아이콘을 오른쪽으로 정렬 */
+}
+
+/* 반응형 스타일 */
+@media (max-width: 768px) {
+  .clickable-alert {
+    padding: 8px;
+  }
+
+  .alert-text {
+    font-size: 0.9rem;
+  }
+
+  .alert-icon {
+    font-size: 1rem;
+  }
+}
+
+.list-group-item {
+  border-radius: 5px;
+}
+
+.list-group-item > div {
+  display: flex;
+  justify-content: space-between;
+  align-items: stretch;
+}
+
+.delete-btn {
+  padding: 2px 8px;
+  font-size: 0.8rem;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  margin-bottom: 0 !important;
+}
+
+.mt-2 {
+  margin-top: 0.5rem;
+  font-size: 0.9rem;
+}
+
+.label {
+  font-size: 1.1rem;
+}
+
+.btn {
+  padding: 7px 19px;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: 600;
+  text-transform: uppercase;
+  transition: all 0.15s ease;
 }
 </style>
