@@ -21,7 +21,7 @@ public class PageRequest {
     }
 
     public int getOffset() {
-        return Math.max(page * amount, 1); // offset이 음수가 되지 않도록
+        return Math.max(page * amount, 0); // offset이 음수가 되지 않도록
     }
 }
 

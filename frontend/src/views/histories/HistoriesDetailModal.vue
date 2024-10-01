@@ -14,8 +14,14 @@
             {{ transaction?.historyContent }}
         </p>
         <p>
-            <span class="title me-1">{{ transaction?.amount }}</span
-            >won
+            <span class="title me-1"
+                >{{ transaction?.amount.toLocaleString() }}
+            </span>
+            <span
+                v-if="['충전', '환전', '환불'].includes(transaction.typeCode)"
+            >
+                USD
+            </span>
         </p>
         <hr />
 

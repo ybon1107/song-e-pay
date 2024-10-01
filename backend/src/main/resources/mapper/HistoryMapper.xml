@@ -24,7 +24,8 @@
         <if test="searchItem.historyContent != null and searchItem.historyContent != ''">
             AND h.history_content LIKE CONCAT('%', #{searchItem.historyContent}, '%')
         </if>
-        ORDER BY h.history_date DESC
+        <!-- ORDER BY 절을 동적으로 처리 -->
+        ORDER BY h.history_date ${searchItem.sortOrder}
         LIMIT #{pageRequest.offset}, #{pageRequest.amount}
     </select>
 
@@ -51,14 +52,14 @@
     </select>
 
 
-    <select id="selectAllHistories" resultType="HistoryDTO">
-        SELECT * FROM history ORDER BY history_date DESC
-        limit #{offset}, #{amount}
-    </select>
+<!--    <select id="selectAllHistories" resultType="HistoryDTO">-->
+<!--        SELECT * FROM history ORDER BY history_date DESC-->
+<!--        limit #{offset}, #{amount}-->
+<!--    </select>-->
 
-    <select id="getTotalCount" resultType="java.lang.Integer">
-        select count(*) from history
-    </select>
+<!--    <select id="getTotalCount" resultType="java.lang.Integer">-->
+<!--        select count(*) from history-->
+<!--    </select>-->
 
     <update id="updateMemo" parameterType="HistoryDTO">
         UPDATE history
