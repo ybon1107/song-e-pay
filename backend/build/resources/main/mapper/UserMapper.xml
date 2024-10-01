@@ -16,9 +16,16 @@
         where user_no = #{userNo}
     </select>
 
+    <!-- 로그인 -->
     <select id="selectUser" parameterType="map" resultType="userDTO">
         select *
         from user
         where user_id = #{userId} and password = #{password}
     </select>
+
+    <!-- 회원가입 정보 DB에 INSERT -->
+    <insert id="insertUser" parameterType="userDTO">
+        INSERT INTO user(user_id, password, country_code, first_name, last_name, birthday, gender, phone_no)
+        VALUES(#{userId}, #{password}, #{countryCode}, #{firstName}, #{lastName}, #{birthday}, #{gender}, #{phoneNo})
+    </insert>
 </mapper>
