@@ -1,3 +1,44 @@
+<script setup>
+import { ref } from 'vue';
+
+// Prop으로 부모 컴포넌트에서 전달받은 데이터와 이벤트 정의
+const props = defineProps({
+    isVisible: Boolean,
+    filters: Object,
+});
+
+// 이벤트 emit 정의
+const emit = defineEmits(['closeModal', 'applyFilters']);
+
+// 직접설정 관련 상태
+const isCustomDateSelected = ref(false);
+
+// 직접설정 버튼을 클릭하면 기간 선택 필드를 보여주는 함수
+const selectCustomDate = () => {
+    isCustomDateSelected.value = true;
+    props.filters.selectedPeriod = '직접설정'; // 직접설정 선택 시 값 설정
+};
+
+// 기간 선택 시 호출되는 함수
+const selectPeriod = (period) => {
+    props.filters.selectedPeriod = period;
+    isCustomDateSelected.value = false; // 다른 기간을 선택하면 직접 설정 탭 숨기기
+    props.filters.startDate = null;
+    props.filters.endDate = null;
+};
+
+// 모달 닫기
+const closeModal = () => {
+    emit('closeModal');
+};
+
+// 필터 적용 버튼 클릭 시
+const applyFilters = () => {
+    emit('applyFilters', props.filters); // 필터 데이터를 함께 전달
+    closeModal;
+};
+</script>
+
 <template>
     <div
         v-if="isVisible"
@@ -131,47 +172,6 @@
         </div>
     </div>
 </template>
-
-<script setup>
-import { ref } from 'vue';
-
-// Prop으로 부모 컴포넌트에서 전달받은 데이터와 이벤트 정의
-const props = defineProps({
-    isVisible: Boolean,
-    filters: Object,
-});
-
-// 이벤트 emit 정의
-const emit = defineEmits(['closeModal', 'applyFilters']);
-
-// 직접설정 관련 상태
-const isCustomDateSelected = ref(false);
-
-// 직접설정 버튼을 클릭하면 기간 선택 필드를 보여주는 함수
-const selectCustomDate = () => {
-    isCustomDateSelected.value = true;
-    props.filters.selectedPeriod = '직접설정'; // 직접설정 선택 시 값 설정
-};
-
-// 기간 선택 시 호출되는 함수
-const selectPeriod = (period) => {
-    props.filters.selectedPeriod = period;
-    isCustomDateSelected.value = false; // 다른 기간을 선택하면 직접 설정 탭 숨기기
-    props.filters.startDate = null;
-    props.filters.endDate = null;
-};
-
-// 모달 닫기
-const closeModal = () => {
-    emit('closeModal');
-};
-
-// 필터 적용 버튼 클릭 시
-const applyFilters = () => {
-    emit('applyFilters', props.filters); // 필터 데이터를 함께 전달
-    closeModal;
-};
-</script>
 
 <style scoped>
 .filter-modal {
