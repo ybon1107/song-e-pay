@@ -64,5 +64,5 @@
         SET memo = #{memo}
         WHERE history_no = #{historyNo}
     </update>
-    
+
 </mapper>
