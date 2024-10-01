@@ -1,13 +1,19 @@
 <template>
-    <div class="card custom-card" :style="{ backgroundImage: `url(${backgroundImage})` }">
-        <div class="card-body d-flex align-items-end justify-content-end">
-            <div class="icon-container">
-                <img :src=flagIcon alt="icon" class="icon-image">
+    <div v-if="user">
+        <div class="card custom-card" :style="{ backgroundImage: `url(${backgroundImage})` }">
+            <div class="card-body d-flex align-items-end justify-content-end">
+                <div class="d-flex align-items-center">
+                    <div class="icon-container me-2">
+                        <img :src=flagIcon alt="icon" class="icon-image">
+                    </div>
+                    <div class="font-balance me-2 mb-0">{{ displayCountry }}</div>
+                    <div class="font-balance">{{ balance }}</div>
+                </div>
             </div>
-            <div>
-                {{ displayCountry }}
-                {{ balance }}
-            </div>
+        </div>
+    </div>
+    <div v-else>
+        <div class="card custom-card" :style="{ bacgroundColor: gray }">
         </div>
     </div>
 </template>
@@ -64,7 +70,7 @@ const displayCountry = computed(() => {
     return props.assetType === 'song-e' ? user.value.country : 'KRW';
 });
 
-const fetchBalance = () => {
+const fetchBalance = async () => {
     if (props.assetType === 'song-e') {
         myaccountApi.fetchsongeAccountBalance(user.value.songNo).then((fetchedBalance) => {
             balance.value = formatNumber(fetchedBalance.toFixed(2));
@@ -76,6 +82,10 @@ const fetchBalance = () => {
     }
 };
 
+onMounted(() => {
+    fetchBalance();
+});
+
 // fetchBalance 함수를 외부에서 접근 가능하게 만듭니다.
 defineExpose({ fetchBalance });
 
@@ -86,7 +96,6 @@ defineExpose({ fetchBalance });
     width: 8.56cm;
     aspect-ratio: 1.585;
     /* 비율 8.56 / 5.398 */
-    background-image: url('/images/song-e-money.png');
     background-size: cover;
 }
 
@@ -97,23 +106,18 @@ defineExpose({ fetchBalance });
 }
 
 .icon-container {
+    /* 뷰포트 너비의 3% */
     width: 3vw;
-    /* 뷰포트 너비의 3% */
     height: 3vw;
-    /* 뷰포트 너비의 3% */
+    /* 최소 크기 설정 */
     min-width: 20px;
-    /* 최소 크기 설정 */
     min-height: 20px;
-    /* 최소 크기 설정 */
+    /* 최대 크기 설정 */
     max-width: 40px;
-    /* 최대 크기 설정 */
     max-height: 40px;
-    /* 최대 크기 설정 */
     display: flex;
     align-items: center;
     justify-content: center;
-
-    margin-right: 1rem;
 }
 
 .icon-image {
@@ -124,9 +128,15 @@ defineExpose({ fetchBalance });
 
 @media (max-width: 768px) {
     .icon-container {
-        width: 5vw;
         /* 작은 화면에서는 더 큰 비율 적용 */
+        width: 5vw;
         height: 5vw;
     }
+}
+
+.font-balance {
+    font-weight: 600;
+    font-size: 1.5rem;
+
 }
 </style>
