@@ -4,7 +4,6 @@ import DefaultInfoCard from "@/views/Cards/AccountsCard.vue";
 // import AccountsCard from '@/views/Cards/AccountsCard2.vue';
 import ArgonAmountInput from "@/components/yb_templates/ArgonAmountInput.vue";
 import ArgonButton from "@/components/templates/ArgonButton.vue";
-import SecondPassword from "@/views/MyAccounts/SecondPassword.vue";
 import { ref, onMounted, computed } from "vue";
 import myaccountApi from "../../api/myaccountApi";
 import { useExchangeStore } from "@/stores/exchangeStore";
@@ -12,6 +11,8 @@ import SecondPasswordModal from "@/views/MyAccounts/SecondPasswordModal.vue";
 import { useRoute } from "vue-router";
 import axios from "axios";
 import ExchangeRateChart from "@/views/Chart/ExchangeRateChart.vue";
+import Swal from "sweetalert2";
+import "sweetalert2/dist/sweetalert2.min.css";
 
 const route = useRoute();
 const emit = defineEmits(["password-verified", "close"]);
@@ -70,23 +71,43 @@ const handlePasswordVerified = async () => {
   switch (currentAction.value) {
     case "deposit":
       await deposit(); // deposit이 완료될 때까지 기다림
-      alert("입금이 완료되었습니다."); // 작업 완료 메시지
+      Swal.fire({
+        title: "성공!",
+        text: "입금이 완료되었습니다.",
+        icon: "success",
+      });
       break;
     case "exchange":
       await exchange(); // exchange가 완료될 때까지 기다림
-      alert("환전이 완료되었습니다."); // 작업 완료 메시지
+      Swal.fire({
+        title: "성공!",
+        text: "환전이 완료되었습니다.",
+        icon: "success",
+      });
       break;
     case "refund":
       await refund(); // refund가 완료될 때까지 기다림
-      alert("환불이 완료되었습니다."); // 작업 완료 메시지
+      Swal.fire({
+        title: "성공!",
+        text: "환불이 완료되었습니다.",
+        icon: "success",
+      });
       break;
     case "transfer":
       await transfer(); // transfer가 완료될 때까지 기다림
-      alert("송금이 완료되었습니다."); // 작업 완료 메시지
+      Swal.fire({
+        title: "성공!",
+        text: "송금이 완료되었습니다.",
+        icon: "success",
+      });
       break;
     case "reExchange":
       await reExchange(); // reExchange가 완료될 때까지 기다림
-      alert("환급이 완료되었습니다."); // 작업 완료 메시지
+      Swal.fire({
+        title: "성공!",
+        text: "환급이 완료되었습니다.",
+        icon: "success",
+      });
       break;
   }
   resetValue();
@@ -468,22 +489,44 @@ const fetchAlertConditions = async () => {
   }
 };
 
+const confirmDelete = (resNo) => {
+  Swal.fire({
+    title: "정말로 삭제하시겠습니까?",
+    text: "삭제된 알림 설정은 복구할 수 없습니다!",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#3085d6",
+    cancelButtonColor: "#d33",
+    confirmButtonText: "네, 삭제합니다",
+    cancelButtonText: "취소",
+    buttonsStyling: true,
+  }).then((result) => {
+    if (result.isConfirmed) {
+      deleteAlertCondition(resNo);
+    }
+  });
+};
+
 const deleteAlertCondition = async (resNo) => {
   try {
     console.log("삭제할 예약 번호:", resNo);
     if (resNo) {
-      console.log("삭제할 예약 번호:", resNo);
-      const response = await axios.delete(`/api/exchange-reservation/${resNo}`);
-      if (response.status === 200) {
-        alert("알림 설정이 삭제되었습니다.");
-        fetchAlertConditions(); // 알림을 다시 가져와서 업데이트
-        fetchAutoExchange(); // 예약을 다시 가져와서 업데이트
-      }
-    } else {
-      console.error("예약 번호(resNo)가 없습니다.");
+      await axios.delete(`/api/exchange-reservation/${resNo}`);
+      Swal.fire({
+        title: "삭제 완료!",
+        text: "알림 설정이 삭제되었습니다.",
+        icon: "success",
+      });
+      fetchAlertConditions(); // 알림을 다시 가져와서 업데이트
+      fetchAutoExchange(); // 예약을 다시 가져와서 업데이트
     }
   } catch (error) {
     console.error("알림 설정 삭제 중 오류 발생:", error);
+    Swal.fire({
+      title: "오류 발생",
+      text: "알림 설정 삭제 중 문제가 발생했습니다.",
+      icon: "error",
+    });
   }
 };
 
@@ -963,7 +1006,7 @@ onMounted(() => {
                     </span>
                     <button
                       class="btn delete-btn btn-sm align-self-center"
-                      @click="deleteAlertCondition(autoConditions[0]?.resNo)"
+                      @click="confirmDelete(autoConditions[0]?.resNo)"
                     >
                       삭제
                     </button>
@@ -994,7 +1037,7 @@ onMounted(() => {
                     </span>
                     <button
                       class="btn delete-btn btn-sm"
-                      @click="deleteAlertCondition(condition.resNo)"
+                      @click="confirmDelete(condition.resNo)"
                     >
                       삭제
                     </button>
@@ -1154,5 +1197,14 @@ onMounted(() => {
 
 .label {
   font-size: 1.1rem;
+}
+
+.btn {
+  padding: 7px 19px;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: 600;
+  text-transform: uppercase;
+  transition: all 0.15s ease;
 }
 </style>
