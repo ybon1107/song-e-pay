@@ -4,8 +4,8 @@
 // consistent naming. Ex: $nav-link-disabled-color and $modal-content-box-shadow-xs.
 
 $argon-background-color: #ffffff !default; // Testing
-$font-color: #67748e !default;
-$h-color: #344767 !default;
+$font-color: $text-brown !default;
+$h-color: $text-brown !default;
 
 // Color system
 
@@ -587,7 +587,7 @@ $headings-font-family: null !default;
 $headings-font-style: null !default;
 $headings-font-weight: 400 !default;
 $headings-line-height: 1.2 !default;
-$headings-color: #344767 !default;
+$headings-color: $text-brown-900 !default;
 
 // scss-docs-start display-headings
 $display-font-sizes: (
