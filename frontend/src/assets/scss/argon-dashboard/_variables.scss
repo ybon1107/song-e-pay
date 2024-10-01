@@ -52,9 +52,9 @@ $colors: (
 ) !default;
 // scss-docs-end colors-map
 
-$primary: #5e72e4 !default;
-$secondary: #8392ab !default;
-$info: #11cdef !default;
+$primary: $primary-yellow !default;
+$secondary: $dark-brown !default;
+$info: $primary-aqua !default;
 $success: #2dce89 !default;
 $warning: #fb6340 !default;
 $danger: #f5365c !default;
@@ -841,7 +841,7 @@ $btn-just-icon-lg-top: 2px !default;
 // we've overwritten the default Bootstrap function
 // for dynamically adding font color since the colors
 // added by that function were not correctly set
-$btn-primary-font-color: #fff !default;
+$btn-primary-font-color: $text-brown !default;
 $btn-secondary-font-color: #fff !default;
 $btn-danger-font-color: #fff !default;
 $btn-info-font-color: #fff !default;
