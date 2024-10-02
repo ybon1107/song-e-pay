@@ -1,102 +1,124 @@
 <script setup>
-import { computed } from "vue";
-import { useRoute } from "vue-router";
-import { useStore } from "vuex";
+import { computed } from 'vue';
+import { useRoute } from 'vue-router';
+import { useStore } from 'vuex';
 
-import SidenavItem from "./SidenavItem.vue";
-import SidenavCard from "./SidenavCard.vue";
+import SidenavItem from './SidenavItem.vue';
+import SidenavCard from './SidenavCard.vue';
 
 const store = useStore();
 const isRTL = computed(() => store.state.isRTL);
 
 const getRoute = () => {
-  const route = useRoute();
-  const routeArr = route.path.split("/");
-  return routeArr[1];
+    const route = useRoute();
+    const routeArr = route.path.split('/');
+    return routeArr[1];
 };
 </script>
 <template>
-  <div
-    class="collapse navbar-collapse w-auto h-auto h-100"
-    id="sidenav-collapse-main"
-  >
-    <ul class="navbar-nav">
-      <li class="nav-item">
-        <sidenav-item
-          to="/home"
-          :class="getRoute() === 'home' ? 'active' : ''"
-          :navText="isRTL ? 'لوحة القيادة' : '홈'"
-        >
-          <template v-slot:icon>
-            <i class="ni ni-tv-2 text-primary text-sm opacity-10"></i>
-          </template>
-        </sidenav-item>
-      </li>
+    <div
+        class="collapse navbar-collapse w-auto h-auto h-100"
+        id="sidenav-collapse-main"
+    >
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <sidenav-item
+                    to="/home"
+                    :class="getRoute() === 'home' ? 'active' : ''"
+                    :navText="isRTL ? 'لوحة القيادة' : '홈'"
+                >
+                    <template v-slot:icon>
+                        <i
+                            class="ni ni-tv-2 text-primary text-sm opacity-10"
+                        ></i>
+                    </template>
+                </sidenav-item>
+            </li>
 
-      <li class="nav-item">
-        <sidenav-item
-          to="/my-accounts"
-          :class="getRoute() === 'my-accounts' ? 'active' : ''"
-          :navText="isRTL ? 'الجداول' : '나의 자산'"
-        >
-          <template v-slot:icon>
-            <i
-              class="ni ni-money-coins text-warning text-sm opacity-10"
-            ></i>
-          </template>
-        </sidenav-item>
-      </li>
+            <li class="nav-item">
+                <sidenav-item
+                    to="/my-accounts"
+                    :class="getRoute() === 'my-accounts' ? 'active' : ''"
+                    :navText="isRTL ? 'الجداول' : '나의 자산'"
+                >
+                    <template v-slot:icon>
+                        <i
+                            class="ni ni-money-coins text-warning text-sm opacity-10"
+                        ></i>
+                    </template>
+                </sidenav-item>
+            </li>
 
-      <li class="nav-item">
-        <sidenav-item
-          to="/exchange-rate"
-          :class="getRoute() === 'exchange-rate' ? 'active' : ''"
-          :navText="isRTL ? 'الفواتیر' : '환율'"
-        >
-          <template v-slot:icon>
-            <i class="ni ni-chart-bar-32 text-success text-sm opacity-10"></i>
-          </template>
-        </sidenav-item>
-      </li>
+            <li class="nav-item">
+                <sidenav-item
+                    to="/exchange-rate"
+                    :class="getRoute() === 'exchange-rate' ? 'active' : ''"
+                    :navText="isRTL ? 'الفواتیر' : '환율'"
+                >
+                    <template v-slot:icon>
+                        <i
+                            class="ni ni-chart-bar-32 text-success text-sm opacity-10"
+                        ></i>
+                    </template>
+                </sidenav-item>
+            </li>
 
-      <li class="nav-item">
-        <sidenav-item
-          to="/payment"
-          :class="getRoute() === 'payment' ? 'active' : ''"
-          :navText="isRTL ? 'الواقع الافتراضي' : '결제'"
-        >
-          <template v-slot:icon>
-            <i class="ni ni-credit-card text-info text-sm opacity-10"></i>
-          </template>
-        </sidenav-item>
-      </li>
+            <li class="nav-item">
+                <sidenav-item
+                    to="/payment"
+                    :class="getRoute() === 'payment' ? 'active' : ''"
+                    :navText="isRTL ? 'الواقع الافتراضي' : '결제'"
+                >
+                    <template v-slot:icon>
+                        <i
+                            class="ni ni-credit-card text-info text-sm opacity-10"
+                        ></i>
+                    </template>
+                </sidenav-item>
+            </li>
 
-      <li class="nav-item">
-        <sidenav-item
-          to="/histories"
-          :class="getRoute() === 'histories' ? 'active' : ''"
-          :navText="isRTL ? 'الواقع الافتراضي' : '이용내역'"
-        >
-          <template v-slot:icon>
-            <i class="ni ni-collection text-danger text-sm opacity-10"></i>
-          </template>
-        </sidenav-item>
-      </li>
+            <li class="nav-item">
+                <sidenav-item
+                    to="/histories"
+                    :class="getRoute() === 'histories' ? 'active' : ''"
+                    :navText="isRTL ? 'الواقع الافتراضي' : '이용내역'"
+                >
+                    <template v-slot:icon>
+                        <i
+                            class="ni ni-collection text-danger text-sm opacity-10"
+                        ></i>
+                    </template>
+                </sidenav-item>
+            </li>
 
-      <li class="nav-item">
-        <sidenav-item
-          to="/maps"
-          :class="getRoute() === 'maps' ? 'active' : ''"
-          :navText="isRTL ? 'الواقع الافتراضي' : '금융지도'"
-        >
-          <template v-slot:icon>
-            <i class="ni ni-pin-3 text-danger text-sm opacity-10"></i>
-          </template>
-        </sidenav-item>
-      </li>
+            <li class="nav-item">
+                <sidenav-item
+                    to="/maps"
+                    :class="getRoute() === 'maps' ? 'active' : ''"
+                    :navText="isRTL ? 'الواقع الافتراضي' : '금융지도'"
+                >
+                    <template v-slot:icon>
+                        <i
+                            class="ni ni-pin-3 text-danger text-sm opacity-10"
+                        ></i>
+                    </template>
+                </sidenav-item>
+            </li>
 
-
-      <!-- <li class="mt-3 nav-item">
+            <li class="nav-item">
+                <sidenav-item
+                    to="/schedule"
+                    :class="getRoute() === 'schedule' ? 'active' : ''"
+                    :navText="isRTL ? 'الواقع الافتراضي' : '스케줄'"
+                >
+                    <template v-slot:icon>
+                        <i
+                            class="ni ni-pin-3 text-danger text-sm opacity-10"
+                        ></i>
+                    </template>
+                </sidenav-item>
+            </li>
+            <!-- <li class="mt-3 nav-item">
         <h6
           v-if="isRTL"
           class="text-xs ps-4 text-uppercase font-weight-bolder opacity-6"
@@ -149,10 +171,10 @@ const getRoute = () => {
           </template>
         </sidenav-item>
       </li> -->
-    </ul>
-  </div>
+        </ul>
+    </div>
 
-  <!-- <div class="pt-3 mx-3 mt-3 sidenav-footer">
+    <!-- <div class="pt-3 mx-3 mt-3 sidenav-footer">
     <sidenav-card
       :card="{
         title: 'Need Help?',
