@@ -8,42 +8,21 @@
         <div class="row px-3">
           <div class="col-md-8">
             <h6 class="mt-3">1 USD = {{ currentToKrw }} KRW</h6>
-            <ExchangeRateChart
-              chartId="toexchangeChart"
-              :period="toSelectedPeriod"
-              chartType="to"
-            />
+            <ExchangeRateChart chartId="toexchangeChart" :period="toSelectedPeriod" chartType="to" />
             <div class="chart-button-container">
-              <template
-                v-for="period in ['1y', '6m', '3m', '1m']"
-                :key="period"
-              >
-                <button
-                  class="chart-btn"
-                  :class="{ selected: toSelectedPeriod === period }"
-                  @click="setToPeriod(period)"
-                >
+              <template v-for="period in ['1y', '6m', '3m', '1m']" :key="period">
+                <button class="chart-btn" :class="{ selected: toSelectedPeriod === period }"
+                  @click="setToPeriod(period)">
                   {{ period }}
                 </button>
               </template>
             </div>
           </div>
           <div class="col-md-4 d-flex flex-column justify-content-center mt-6">
-            <input
-              type="number"
-              class="form-control mb-1"
-              v-model.number="usdAmount"
-              @input="convertToKrw"
-              aria-label="Amount in USD"
-            />
+            <input type="number" class="form-control mb-1" v-model.number="usdAmount" @input="convertToKrw"
+              aria-label="Amount in USD" />
             <span class="text-center mb-1">=</span>
-            <input
-              type="text"
-              class="form-control mb-3"
-              :value="krwAmount"
-              readonly
-              aria-label="Amount in KRW"
-            />
+            <input type="text" class="form-control mb-3" :value="krwAmount" readonly aria-label="Amount in KRW" />
             <button class="btn btn-primary w-100" @click="handleExchange">
               Buy
             </button>
@@ -54,17 +33,10 @@
               <div class="exchange-input">
                 <span>1 USD</span>
                 <span class="equals-symbol">=</span>
-                <input
-                  type="number"
-                  v-model="alertRateUsdToKrw"
-                  class="form-control alert-input"
-                />
+                <input type="number" v-model="alertRateUsdToKrw" class="form-control alert-input" />
                 <span>KRW</span>
               </div>
-              <button
-                class="btn btn-warning w-100 mt-3"
-                @click="saveAlertRate(1, 0, alertRateUsdToKrw)"
-              >
+              <button class="btn btn-warning w-100 mt-3" @click="saveAlertRate(1, 0, alertRateUsdToKrw)">
                 알림 설정
               </button>
             </div>
@@ -79,42 +51,22 @@
         <div class="row px-3">
           <div class="col-md-8">
             <h6 class="mt-3">1 KRW = {{ currentFromKrw }} USD</h6>
-            <ExchangeRateChart
-              chartId="fromexchangeChart"
-              :period="fromSelectedPeriod"
-              chartType="from"
-            />
+            <ExchangeRateChart chartId="fromexchangeChart" :period="fromSelectedPeriod" chartType="from" />
             <div class="chart-button-container">
-              <template
-                v-for="period in ['1y', '6m', '3m', '1m']"
-                :key="period"
-              >
-                <button
-                  class="chart-btn"
-                  :class="{ selected: fromSelectedPeriod === period }"
-                  @click="setFromPeriod(period)"
-                >
+              <template v-for="period in ['1y', '6m', '3m', '1m']" :key="period">
+                <button class="chart-btn" :class="{ selected: fromSelectedPeriod === period }"
+                  @click="setFromPeriod(period)">
                   {{ period }}
                 </button>
               </template>
             </div>
           </div>
           <div class="col-md-4 d-flex flex-column justify-content-center mt-6">
-            <input
-              type="number"
-              class="form-control mb-1"
-              v-model.number="krwAmountReverse"
-              @input="convertToUsd"
-              aria-label="Amount in KRW"
-            />
+            <input type="number" class="form-control mb-1" v-model.number="krwAmountReverse" @input="convertToUsd"
+              aria-label="Amount in KRW" />
             <span class="text-center mb-1">=</span>
-            <input
-              type="number"
-              class="form-control mb-3"
-              :value="usdAmountReverse"
-              readonly
-              aria-label="Amount in USD"
-            />
+            <input type="number" class="form-control mb-3" :value="usdAmountReverse" readonly
+              aria-label="Amount in USD" />
             <button class="btn btn-danger w-100" @click="reExchange">
               Sell
             </button>
@@ -125,17 +77,10 @@
               <div class="exchange-input">
                 <span>1 KRW</span>
                 <span class="equals-symbol">=</span>
-                <input
-                  type="number"
-                  v-model="alertRateKrwToUsd"
-                  class="form-control alert-input"
-                />
+                <input type="number" v-model="alertRateKrwToUsd" class="form-control alert-input" />
                 <span>USD</span>
               </div>
-              <button
-                @click="saveAlertRate(0, 1, alertRateKrwToUsd)"
-                class="btn btn-warning w-100 mt-3"
-              >
+              <button @click="saveAlertRate(0, 1, alertRateKrwToUsd)" class="btn btn-warning w-100 mt-3">
                 알림 설정
               </button>
             </div>
@@ -154,31 +99,18 @@
             <div class="exchange-input mb-3">
               <div class="input-group">
                 <span class="input-group-text">1 USD =</span>
-                <input
-                  type="number"
-                  v-model="targetExchange"
-                  class="form-control"
-                  placeholder="목표 환율을 입력하세요."
-                />
+                <input type="number" v-model="targetExchange" class="form-control" placeholder="목표 환율을 입력하세요." />
                 <span class="input-group-text">KRW</span>
               </div>
             </div>
             <div class="exchange-input mb-3">
               <div class="input-group">
                 <span class="input-group-text">목표 금액 =</span>
-                <input
-                  type="number"
-                  v-model="targetKrw"
-                  class="form-control"
-                  placeholder="자동 전환할 금액을 입력하세요."
-                />
+                <input type="number" v-model="targetKrw" class="form-control" placeholder="자동 전환할 금액을 입력하세요." />
                 <span class="input-group-text">KRW</span>
               </div>
             </div>
-            <button
-              class="btn btn-warning w-100"
-              @click="confirmAutoExchange(1, 0, targetExchange, targetKrw)"
-            >
+            <button class="btn btn-warning w-100" @click="confirmAutoExchange(1, 0, targetExchange, targetKrw)">
               자동 환전 설정
             </button>
           </div>
@@ -466,15 +398,6 @@ input[type="number"] {
   cursor: pointer;
 }
 
-.flag-icon {
-  width: 50px;
-  /* 적절한 너비로 설정 */
-  height: auto;
-  /* 자동 높이 조정 */
-  vertical-align: middle;
-  /* 텍스트와 이미지 정렬 맞추기 */
-}
-
 .chart-button-container {
   display: flex;
   justify-content: center;
@@ -564,30 +487,42 @@ input[type="number"] {
 
 .delete-btn {
   flex-grow: 1;
-  padding: 8px 16px; /* 적당한 크기로 버튼 높이 조정 */
-  background-color: #f44336; /* 기본 배경 색상: 밝은 빨간색 */
-  color: white; /* 텍스트 색상: 흰색 */
+  padding: 8px 16px;
+  /* 적당한 크기로 버튼 높이 조정 */
+  background-color: #f44336;
+  /* 기본 배경 색상: 밝은 빨간색 */
+  color: white;
+  /* 텍스트 색상: 흰색 */
   border: none;
-  border-radius: 20px; /* 둥근 모서리 */
+  border-radius: 20px;
+  /* 둥근 모서리 */
   text-align: center;
   cursor: pointer;
-  margin: 0 5px; /* 버튼 간 좌우 간격 */
-  font-size: 14px; /* 텍스트 크기 */
-  transition: background-color 0.3s ease; /* 배경색 전환 효과 */
+  margin: 0 5px;
+  /* 버튼 간 좌우 간격 */
+  font-size: 14px;
+  /* 텍스트 크기 */
+  transition: background-color 0.3s ease;
+  /* 배경색 전환 효과 */
 }
 
 .delete-btn:hover {
-  background-color: #d32f2f; /* 호버 시 더 짙은 빨간색 */
+  background-color: #d32f2f;
+  /* 호버 시 더 짙은 빨간색 */
 }
 
 .delete-btn:active {
-  background-color: #b71c1c; /* 클릭 시 색상 */
+  background-color: #b71c1c;
+  /* 클릭 시 색상 */
 }
 
 .delete-btn:disabled {
-  background-color: #e0e0e0; /* 비활성화된 버튼 색상 */
-  color: #9e9e9e; /* 비활성화된 텍스트 색상 */
-  cursor: not-allowed; /* 비활성화 상태에서는 커서 변경 */
+  background-color: #e0e0e0;
+  /* 비활성화된 버튼 색상 */
+  color: #9e9e9e;
+  /* 비활성화된 텍스트 색상 */
+  cursor: not-allowed;
+  /* 비활성화 상태에서는 커서 변경 */
 }
 
 .list-group-item {

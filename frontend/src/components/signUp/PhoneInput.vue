@@ -16,6 +16,10 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  error: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 // Emits 정의
@@ -24,6 +28,7 @@ const emit = defineEmits(["update:modelValue", "update:countryCallingCode"]);
 // 내부 상태 정의
 const internalPhoneNumber = ref(props.modelValue);
 const internalCountryCallingCode = ref(props.countryCallingCode);
+const internalError = ref(props.error);
 
 // 전화번호 입력 변경 감지
 watch(internalPhoneNumber, (newValue) => {
@@ -48,6 +53,18 @@ watch(
     internalCountryCallingCode.value = newValue;
   }
 );
+
+// 숫자만 입력되도록 설정하는 함수
+const handleInput = (event) => {
+  event.target.value = event.target.value.replace(/\D/g, "");
+  internalPhoneNumber.value = event.target.value;
+};
+
+const handleKeyPress = (event) => {
+  if (!/[0-9]/.test(event.key)) {
+    event.preventDefault();
+  }
+};
 </script>
 
 <template>
@@ -62,7 +79,6 @@ watch(
       >
         <option value="+1">&#43;1 USA</option>
         <option value="+62">&#43;62 IDN</option>
-        <option value="+82">&#43;82 KOR</option>
         <option value="+84">&#43;84 VNM</option>
       </select>
     </div>
@@ -74,6 +90,10 @@ watch(
         aria-label="Phone number"
         v-model="internalPhoneNumber"
         :disabled="disabled"
+        :error="!internalError"
+        errorText="Please enter a valid phone number."
+        @input="handleInput"
+        @keypress="handleKeyPress"
       />
     </div>
   </div>

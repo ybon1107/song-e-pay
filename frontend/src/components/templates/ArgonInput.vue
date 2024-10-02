@@ -14,6 +14,10 @@ defineProps({
     type: Boolean,
     default: false,
   },
+  errorText: {
+    type: String,
+    default: "",
+  },
   icon: {
     type: String,
     default: "",
@@ -86,11 +90,13 @@ const hasIcon = (icon) => (icon ? "input-group" : null);
         :placeholder="placeholder"
         :isRequired="isRequired"
         :disabled="disabled"
+        :errorText="errorText"
         @input="emit('update:modelValue', $event.target.value)"
       />
       <span v-if="iconDir === 'right'" class="input-group-text">
         <i :class="getIcon(icon)"></i>
       </span>
+      <div v-if="error" class="invalid-feedback text-xs">{{ errorText }}</div>
     </div>
   </div>
 </template>

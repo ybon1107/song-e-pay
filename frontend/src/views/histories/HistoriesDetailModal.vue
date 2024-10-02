@@ -68,7 +68,7 @@ import axios from 'axios';
 import Modal from '@/components/modal/Modal.vue';
 import {
     TRANSACTION_TYPES,
-    TRANSACTION_TYPES_STRING,
+    TRANSACTION_TYPES_STRING_KO,
 } from '@/constants/transactionType';
 import ArgonAlert from '@/components/templates/ArgonAlert.vue';
 import Swal from 'sweetalert2';
@@ -99,22 +99,22 @@ const getBadgeClass = (typeCode) => {
     const baseClasses = 'badge rounded-pill';
     if (
         [
-            TRANSACTION_TYPES_STRING.DEPOSIT,
-            TRANSACTION_TYPES_STRING.EXCHANGE,
+            TRANSACTION_TYPES_STRING_KO.DEPOSIT,
+            TRANSACTION_TYPES_STRING_KO.EXCHANGE,
         ].includes(typeCode)
     ) {
         return `${baseClasses} bg-primary`;
     } else if (
         [
-            TRANSACTION_TYPES_STRING.REFUND,
-            TRANSACTION_TYPES_STRING.RE_EXCHANGE,
+            TRANSACTION_TYPES_STRING_KO.REFUND,
+            TRANSACTION_TYPES_STRING_KO.RE_EXCHANGE,
         ].includes(typeCode)
     ) {
         return `${baseClasses} bg-danger`;
     } else if (
         [
-            TRANSACTION_TYPES_STRING.PAYMENT,
-            TRANSACTION_TYPES_STRING.TRANSFER,
+            TRANSACTION_TYPES_STRING_KO.PAYMENT,
+            TRANSACTION_TYPES_STRING_KO.TRANSFER,
         ].includes(typeCode)
     ) {
         return `${baseClasses} bg-success`;

@@ -8,7 +8,7 @@ import java.util.Map;
 public interface SettingMapper {
 
     // 정보 변경
-    UserDTO updateUser(UserDTO user);
+    int updateUser(UserDTO user);
 
     // 계좌 등록
     int updateAccount(Map map);
@@ -19,8 +19,14 @@ public interface SettingMapper {
     // 비밀번호 변경
     int updatePassword(Map map);
 
+    // 비밀번호 확인
+    String selectPassword(Integer userNo);
+
     // 2차 비밀번호 변경
     int updateSecondPassword(Map map);
+
+    // 2차 비밀번호 확인
+    String selectSecondPassword(Integer userNo);
 
     // 송이 계좌 삭제
     int deleteSonge(String songNo);
@@ -30,4 +36,7 @@ public interface SettingMapper {
 
     // 회원 삭제
     int deleteUser(Integer userNo);
+
+    // 프로필 이미지 주소
+    String selectUserProfileImg(Integer userNo);
 }

@@ -7,6 +7,7 @@ import com.sepay.backend.user.mapper.UserMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -21,9 +22,12 @@ public class SettingServiceImpl implements SettingService {
     final UserMapper userMapper;
     final S3Service s3Service;
 
+    @Value("${aws.s3.bucket.url}")
+    private String bucketUrl;
+
     // 유저 정보 변경
     @Override
-    public UserDTO modifyUser(UserDTO user) {
+    public int modifyUser(UserDTO user) {
         return mapper.updateUser(user);
     }
 
@@ -44,11 +48,16 @@ public class SettingServiceImpl implements SettingService {
 
     // 비밀번호 변경
     @Override
-    public int changePassword(String password, Integer userNo) {
+    public int changePassword(String newPw, Integer userNo) {
         HashMap map = new HashMap();
-        map.put("password", password);
+        map.put("newPw", newPw);
         map.put("userNo", userNo);
         return mapper.updatePassword(map);
+    }
+
+    @Override
+    public boolean checkPassword(int useNo, String currentPw) {
+        return currentPw.equals(mapper.selectPassword(useNo));
     }
 
     // 2차 비밀번호 변경
@@ -58,6 +67,11 @@ public class SettingServiceImpl implements SettingService {
         map.put("secondPwd", secondPwd);
         map.put("userNo", userNo);
         return mapper.updateSecondPassword(map);
+    }
+
+    @Override
+    public boolean checkSecondPassword(int useNo, String secondPwd) {
+        return secondPwd.equals(mapper.selectSecondPassword(useNo));
     }
 
     // 송이 계좌 삭제
@@ -83,7 +97,18 @@ public class SettingServiceImpl implements SettingService {
 
     // 프로필 이미지 업로드
     @Override
-    public String updateProfileImage(MultipartFile profileImg) {
+    public String updateProfileImage(Integer userNo, MultipartFile profileImg) {
+        String fileName = mapper.selectUserProfileImg(userNo).replace(bucketUrl, "");
+        System.out.println("fileName = " + fileName);
+        if (!fileName.equals("profile/default.jpg")) {
+            s3Service.deleteFile(fileName);
+        }
         return s3Service.uploadFile(profileImg, profileImg.getOriginalFilename());
+    }
+
+    // 프로필 이미지 주소 가져오기
+    @Override
+    public String getProfileImage(Integer userNo) {
+        return mapper.selectUserProfileImg(userNo);
     }
 }
