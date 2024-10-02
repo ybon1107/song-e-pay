@@ -47,7 +47,7 @@ watch(agreeAll, (newAgreeAll) => {
 // 다음 버튼 클릭 핸들러
 const handleNext = () => {
   if (agreeTerms.value && agreePrivacy.value) {
-    router.push("/register/email");
+    router.push("/register/detail");
   } else {
     console.log("Please agree to the required terms.");
   }
@@ -96,8 +96,8 @@ const privacy =
                         disabled
                         class="form-control bg-white"
                         rows="3"
-                        >{{ terms }}</textarea
-                      >
+                        v-model="terms"
+                      ></textarea>
                     </div>
                     <!-- 개인정보 보호정책 동의 -->
                     <div class="form-group">
@@ -112,8 +112,8 @@ const privacy =
                         disabled
                         class="form-control bg-white"
                         rows="3"
-                        >{{ privacy }}</textarea
-                      >
+                        v-model="privacy"
+                      ></textarea>
                     </div>
                     <!-- 다음 버튼 -->
                     <div class="text-center">
