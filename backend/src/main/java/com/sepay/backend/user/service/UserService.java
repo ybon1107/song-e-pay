@@ -12,4 +12,6 @@ public interface UserService {
     UserDTO login(String userId, String password);
 
     int register(UserDTO userDTO);
+
+    boolean isEmailRegistered(String email);
 }

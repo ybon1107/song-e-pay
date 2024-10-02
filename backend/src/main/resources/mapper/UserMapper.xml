@@ -28,4 +28,11 @@
         INSERT INTO user(user_id, password, country_code, first_name, last_name, birthday, gender, phone_no)
         VALUES(#{userId}, #{password}, #{countryCode}, #{firstName}, #{lastName}, #{birthday}, #{gender}, #{phoneNo})
     </insert>
+
+    <!-- 이메일 중복 체크 -->
+    <select id="selectUserByEmail" parameterType="String" resultType="userDTO">
+        select *
+        from user
+        where user_id = #{userId}
+    </select>
 </mapper>

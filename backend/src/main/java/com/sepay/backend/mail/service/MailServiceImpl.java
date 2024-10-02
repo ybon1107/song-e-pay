@@ -1,5 +1,6 @@
 package com.sepay.backend.mail.service;
 
+import com.sepay.backend.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -18,13 +19,16 @@ import java.time.Duration;
 public class MailServiceImpl implements MailService {
 
     private final JavaMailSender emailSender;
+    private final UserService userService;
+
     private String verificationCode; // 인증 코드를 저장할 필드
     private LocalDateTime codeGeneratedTime; // 인증 코드 생성 시간을 저장할 필드
     private static final long CODE_VALID_DURATION = 3; // 인증 코드 유효 시간: 3분(분단위)
 
     @Autowired
-    public MailServiceImpl(JavaMailSender mailSender) {
+    public MailServiceImpl(JavaMailSender mailSender, UserService userService) {
         this.emailSender = mailSender;
+        this.userService = userService;
     }
 
     @Override
@@ -51,6 +55,12 @@ public class MailServiceImpl implements MailService {
 
     @Override
     public boolean sendEmail (String userId){
+        // 이메일 중복 확인
+        if (userService.isEmailRegistered(userId)) {
+            log.info("Email already registered: {}", userId);
+            return false;
+        }
+
         // 이메일 인증 코드 생성
         this.verificationCode = createVerificationCode();
         this.codeGeneratedTime = LocalDateTime.now(); // 인증 코드 생성 시간 저장

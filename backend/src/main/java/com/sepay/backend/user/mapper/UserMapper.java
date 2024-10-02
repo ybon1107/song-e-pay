@@ -13,4 +13,6 @@ public interface UserMapper {
     UserDTO selectUser(Map map);
 
     int insertUser(UserDTO userDTO);
+
+    UserDTO selectUserByEmail(String email);
 }

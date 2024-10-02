@@ -50,6 +50,11 @@ public class UserServiceImpl implements UserService{
             log.error("Error registering user: ", e);
             throw new RuntimeException("Registration failed");
         }
+    }
 
+    // 이메일 중복 확인 메서드 추가
+    @Override
+    public boolean isEmailRegistered(String email) {
+        return mapper.selectUserByEmail(email) != null;
     }
 }
