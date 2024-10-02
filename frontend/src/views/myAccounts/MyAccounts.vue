@@ -1,8 +1,7 @@
 <script setup>
 import ArgonInput from '@/components/templates/ArgonInput.vue';
-import AccountsCard from '@/views/Cards/AccountsCard2.vue';
+import AccountsCard from '@/views/Cards/AccountsCard.vue';
 import ArgonAmountInput from '@/components/yb_templates/ArgonAmountInput.vue';
-import ArgonButton from '@/components/templates/ArgonButton.vue';
 import { ref, onMounted, computed } from 'vue';
 import myaccountApi from '../../api/myaccountApi';
 import { useExchangeStore } from '@/stores/exchangeStore';
@@ -12,18 +11,14 @@ import ExchangeRateChart from '@/views/Chart/ExchangeRateChart.vue';
 import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.min.css';
 import { TRANSACTION_TYPES } from "@/constants/transactionType";
-import { INTL_LOCALE, CURRENCY_NAMES } from "@/constants/countryCode";
+import { CURRENCY_NAMES } from "@/constants/countryCode";
 
 import { useAuthStore } from '@/stores/auth';
 const auth = useAuthStore();
 const user = computed(() => auth.user);
 
 import currencyFormatter from '../../js/currencyFormatter';
-const { formatCurrency, formatNumber } = currencyFormatter;
-
-
-
-import ArgonAlert from "@/components/templates/ArgonAlert.vue";
+const { formatNumber } = currencyFormatter;
 
 const emit = defineEmits(['password-verified', 'close']);
 const store = useExchangeStore();
@@ -542,12 +537,7 @@ onMounted(() => {
   fetchExchangeRates();
   fetchAutoExchange();
   fetchAlertConditions();
-  // // 라우터 쿼리에서 selectedAsset 값을 가져옴
-  // if (route.query.selectedAsset) {
-  //   selectAsset(route.query.selectedAsset);
-  // }
   fetchBalances();
-
 });
 </script>
 
@@ -860,6 +850,7 @@ onMounted(() => {
         </div>
       </div>
     </div>
+
     <div class="custom-spacer"></div>
   </div>
 
