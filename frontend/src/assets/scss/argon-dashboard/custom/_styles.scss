@@ -91,10 +91,46 @@
   color:white;
 }
 
+.chart-button-container {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  padding: 1rem;
+}
+// 환율 페이지 그래프 년도 버튼
+.chart-btn {
+  flex-grow: 1;
+  /* 버튼들이 남은 공간을 균등하게 차지 */
+  padding: 1px 0;
+  /* 버튼 높이 */
+  background-color: $text-brown-300;
+  /* 기본 배경 색상 */
+  color: $dark-brown;
+  /* 기본 텍스트 색상 */
+  border: none;
+  border-radius: 20px;
+  /* 둥근 모서리 */
+  text-align: center;
+  cursor: pointer;
+  margin: 0 5px;
+  /* 버튼 간 좌우 간격 */
+}
+
+.chart-btn.selected {
+  background-color: $dark-brown;
+  /* 선택된 버튼의 배경색 */
+  color: #fff;
+  /* 선택된 버튼의 텍스트 색상 */
+}
+
+// .chart-btn:hover {
+//   background-color: #f0f0f0;
+// }
+
 
 /* 반응형 스타일 */
 @media (max-width: 768px) {
-  .card-up {
+  .max-margin-bottom {
     margin-bottom: 1rem;
   }
 
