@@ -1,5 +1,5 @@
 <script setup>
-import { computed, ref } from "vue";
+import { computed, ref, reactive } from "vue";
 import { onBeforeMount, onMounted, onBeforeUnmount } from "vue";
 import { useStore } from "vuex";
 
@@ -21,6 +21,59 @@ console.log("profile isLogin : ", isLogin)
 console.log("profile userNo : ", userNo)
 console.log("profile user : ", user)
 
+const profilePic = ref(null);
+
+const userInfo = reactive({
+  userNo: auth.user.userNo,
+  address: auth.user.address,
+  postCode: auth.user.postCode,
+  countryCode: auth.user.countryCode,
+  profilePic: null,
+});
+
+const originalProfilePic = ref(auth.user.profilePic);
+
+const triggerFileInput = () => {
+  if (profilePic.value) {
+    profilePic.value.value = ''; // 파일 입력 필드 초기화
+  }
+  profilePic.value.click();
+};
+
+const cancelProfilePic = () => {
+  user.value.profilePic = originalProfilePic.value
+  userInfo.profilePic = null; // 선택된 파일 제거
+  if (profilePic.value) {
+    profilePic.value.value = ''; // 파일 입력 필드 초기화
+  }
+};
+
+const handleFileChange = (event) => {
+  const file = event.target.files[0];
+  if (file) {
+    userInfo.profilePic = file;
+    console.log('선택된 파일:', file.name);
+
+    // 파일 미리보기 생성
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      user.value.profilePic = e.target.result;
+    };
+    reader.readAsDataURL(file);
+  }
+};
+
+const updateProfile = async () => {
+  try {
+    await settingApi.updateProfile(userInfo);
+    console.log('프로필 업데이트 성공');
+    alert('프로필 업데이트 성공');
+  } catch (error) {
+    console.error('프로필 업데이트 실패:', error.response.data);
+    alert('프로필 업데이트 실패');
+  }
+};
+
 const logout = (e) => {
   // 로그아웃
   auth.logout();
@@ -30,7 +83,7 @@ const logout = (e) => {
 // 회원탈퇴 클릭 이벤트 핸들러
 const handleWithdraw = () => {
   const confirmed = confirm("정말로 회원탈퇴 하시겠습니까?");
-  
+
   if (confirmed) {
     // 사용자가 확인을 클릭했을 경우 특정 주소로 이동
     console.log("탈퇴 : ", user.value.userNo)
@@ -48,20 +101,13 @@ onMounted(() => {
   setNavPills();
   setTooltip();
 });
+
 onBeforeMount(() => {
   store.state.imageLayout = "profile-overview";
   store.state.showNavbar = false;
   store.state.showFooter = true;
   store.state.hideConfigButton = true;
   body.classList.add("profile-overview");
-});
-onBeforeUnmount(() => {
-  store.state.isAbsolute = false;
-  store.state.imageLayout = "default";
-  store.state.showNavbar = true;
-  store.state.showFooter = true;
-  store.state.hideConfigButton = false;
-  body.classList.remove("profile-overview");
 });
 </script>
 <template>
@@ -82,8 +128,16 @@ onBeforeUnmount(() => {
             <div class="col-auto">
               <!-- 유저 프로필 이미지 -->
               <div class="avatar avatar-xl position-relative">
-                <img :src="user.profilePic" alt="profile_image" class="profile-img shadow-sm w-100 border-radius-lg" />
+                <img :src="user.profilePic" alt="profile_image" class="profile-img shadow-sm w-100 border-radius-lg"
+                  @click="triggerFileInput" />
+                <input type="file" class="form-control visually-hidden" ref="profilePic" id="avatar"
+                  accept="image/png, image/jpeg" @change="handleFileChange" />
+                <button v-if="userInfo.profilePic" @click="cancelProfilePic" class="btn cancel-btn">
+                  <i class="fa-solid fa-x"></i>
+                </button>
               </div>
+
+
             </div>
             <div class="col-auto my-auto">
               <div class="h-100">
@@ -132,25 +186,32 @@ onBeforeUnmount(() => {
               </div>
               <br />
               <p class="text-uppercase text-sm">Personal address</p>
-              <div class="row">
-                <div class="col-md-6 input-address">
-                  <label for="address" class="form-control-label">주소</label>
-                  <input class="form-control" id="address" :value="user.address" />
+              <form @submit.prevent="updateProfile">
+                <div class="row">
+                  <div class="col-md-6 input-address">
+                    <label for="address" class="form-control-label">주소</label>
+                    <input class="form-control" id="address" v-model="userInfo.address" />
+                  </div>
+                  <div class="col-md-6">
+                    <label for="postal-code" class="form-control-label">우편번호</label>
+                    <input class="form-control" id="postal-code" v-model="userInfo.postCode" />
+                  </div>
+                  <div class="col-md-6">
+                    <label for="country" class="form-control-label">국가</label>
+                    <select id="country" class="form-select" v-model="userInfo.countryCode">
+                      <option value="0">한국</option>
+                      <option value="1">미국</option>
+                      <option value="2">인도네시아</option>
+                      <option value="3">베트남</option>
+                    </select>
+                  </div>
                 </div>
-                <div class="col-md-6">
-                  <label for="postal-code" class="form-control-label">우편번호</label>
-                  <input class="form-control" id="postal-code" :value="user.postCode" />
+                <div class="card-header pb-0" style="padding-right: 0;">
+                  <div class="d-flex align-items-center">
+                    <argon-button color="success" size="sm" class="ms-auto">Settings</argon-button>
+                  </div>
                 </div>
-                <div class="col-md-6">
-                  <label for="country" class="form-control-label">국가</label>
-                  <input class="form-control" id="country" :value="user.country" />
-                </div>
-              </div>
-              <div class="card-header pb-0" style="padding-right: 0;">
-                <div class="d-flex align-items-center">
-                  <argon-button color="success" size="sm" class="ms-auto">Settings</argon-button>
-                </div>
-              </div>
+              </form>
               <hr class="horizontal dark" />
               <!-- <hr /> -->
               <p class="text-uppercase text-sm">Privacy and security</p>
@@ -306,5 +367,31 @@ onBeforeUnmount(() => {
   left: 0;
   width: 100%;
   height: 100%;
+}
+
+.avatar {
+  position: relative;
+}
+
+.cancel-btn {
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  font-size: 12px;
+  background-color: white;
+  border-radius: 50%;
+  padding: 0.1rem 0.4rem !important;
+  border: 1px solid #ccc;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  background-color: rgb(117, 118, 118) !important;
+  color: white !important;
+}
+
+.cancel-btn:hover,
+.cancel-btn:focus,
+.cancel-btn:active {
+  margin: 0;
+  transform: none !important;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 </style>
