@@ -6,8 +6,8 @@
                     <div class="icon-container me-2">
                         <img :src=flagIcon alt="icon" class="icon-image">
                     </div>
-                    <div class="font-balance me-2 mb-0">{{ displayCountry }}</div>
-                    <div class="font-balance">{{ balance }}</div>
+                    <p class="fs-4 mb-0 me-2">{{ balance }}</p>
+                    <p class="fs-6 mb-0">{{ displayCountry }}</p>
                 </div>
             </div>
         </div>
@@ -21,9 +21,10 @@
 <script setup>
 import { defineProps, ref, computed, onMounted } from 'vue';
 import myaccountApi from '../../api/myaccountApi';
+import { INTL_LOCALE, CURRENCY_NAMES } from "@/constants/countryCode";
 
 import currencyFormatter from '../../js/currencyFormatter';
-const { formatNumber } = currencyFormatter;
+const { formatNumber, formatCurrency } = currencyFormatter;
 
 import { useAuthStore } from '@/stores/auth';
 const auth = useAuthStore();
@@ -71,17 +72,22 @@ const flagIcon = computed(() => {
     return `/images/flag_${iconName}.png`;
 });
 const displayCountry = computed(() => {
-    return props.assetType === 'song-e' ? user.value.country : 'KRW';
+    return props.assetType === 'song-e' ? CURRENCY_NAMES[user.value.countryCode] : CURRENCY_NAMES[0];
 });
+
+
 
 const fetchBalance = async () => {
     if (props.assetType === 'song-e') {
         myaccountApi.fetchsongeAccountBalance(user.value.songNo).then((fetchedBalance) => {
             balance.value = formatNumber(fetchedBalance.toFixed(2));
+            // balance.value = formatCurrency(fetchedBalance,INTL_LOCALE[user.value.countryCode],CURRENCY_NAMES[user.value.countryCode]);
+
         });
     } else {
         myaccountApi.fetchkrwAccountBalance(user.value.krwNo).then((fetchedBalance) => {
             balance.value = formatNumber(fetchedBalance.toFixed(2));
+            // formatCurrency(fetchedBalance,INTL_LOCALE[0],CURRENCY_NAMES[0]);
         });
     }
 };
@@ -136,11 +142,5 @@ defineExpose({ fetchBalance });
         width: 5vw;
         height: 5vw;
     }
-}
-
-.font-balance {
-    font-weight: 600;
-    font-size: 1.5rem;
-
 }
 </style>
