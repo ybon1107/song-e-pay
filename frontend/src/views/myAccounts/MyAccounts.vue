@@ -553,7 +553,7 @@ onMounted(() => {
       <!-- <div class="custom-spacer"></div> -->
       <div class="row">
         <!-- USD Wallet -->
-        <div class="col-lg-4 col-md-5 card-up">
+        <div class="col-lg-4 col-md-5 max-margin-bottom">
           <!-- Song-E Money 카드 -->
           <AccountsCard ref="songEMoneyCardRef" :assetType=SONGE @click="selectAsset(SONGE)"
             :class="{ selected: selectedAsset === SONGE }" />
