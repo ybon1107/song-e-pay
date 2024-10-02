@@ -23,8 +23,9 @@ public class MailController {
         return mailService.sendEmail(userId);
     }
 
-//    @PostMapping("/check")
-//    public boolean checkCode(String code) {
-//        return mailService.checkCode(code);
-//    }
+    @PostMapping("/check")
+    public boolean checkCode(@RequestBody Map<String, String> request) throws Exception {
+        String code = request.get("code");
+        return mailService.checkCode(code);
+    }
 }

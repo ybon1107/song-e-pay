@@ -10,11 +10,17 @@ import lombok.extern.slf4j.Slf4j;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 
+import java.time.LocalDateTime;
+import java.time.Duration;
+
 @Slf4j
 @Service
 public class MailServiceImpl implements MailService {
 
     private final JavaMailSender emailSender;
+    private String verificationCode; // 인증 코드를 저장할 필드
+    private LocalDateTime codeGeneratedTime; // 인증 코드 생성 시간을 저장할 필드
+    private static final long CODE_VALID_DURATION = 3; // 인증 코드 유효 시간: 3분(분단위)
 
     @Autowired
     public MailServiceImpl(JavaMailSender mailSender) {
@@ -46,7 +52,9 @@ public class MailServiceImpl implements MailService {
     @Override
     public boolean sendEmail (String userId){
         // 이메일 인증 코드 생성
-        String verifyCode = createVerificationCode();
+        this.verificationCode = createVerificationCode();
+        this.codeGeneratedTime = LocalDateTime.now(); // 인증 코드 생성 시간 저장
+        log.info("Generated verification code: {}", this.verificationCode); // 생성된 인증 코드 로그 출력
 
         try {
             MimeMessage message = emailSender.createMimeMessage();
@@ -54,7 +62,7 @@ public class MailServiceImpl implements MailService {
             helper.setFrom("noreplysongepay@account.google.com");
             helper.setTo(userId);
             helper.setSubject("[Song-E Pay] Registration Verification Email");
-            String body = "<h2>Your verification code is: </h2><h3>" + verifyCode + "</h3>";
+            String body = "<h2>Your verification code is: </h2><h3>" + verificationCode + "</h3>";
             helper.setText(body, true); // true를 설정해서 HTML을 사용 가능하게 함
             helper.setReplyTo("noreplysongepay@account.google.com"); // 회신 불가능한 메일 주소 설정
 
@@ -69,10 +77,24 @@ public class MailServiceImpl implements MailService {
         return true;
     }
 
-//    @Override
-//    public boolean checkCode(String code) {
-//        // 인증 코드 검증 로직
-//
-//        return true;
-//    }
+    @Override
+    public boolean checkCode(String code) {
+        // 전달받은 코드와 저장된 인증코드 비교
+        log.info("Verification code check: {}", code);
+        log.info("Verification code: {}", this.verificationCode);
+
+        // 인증 코드 생성 시간과 현재 시간을 비교해서 인증 코드 유효 시간 확인
+        if (this.verificationCode != null && this.verificationCode.equals(code)) {
+            Duration duration = Duration.between(this.codeGeneratedTime, LocalDateTime.now());
+            if (duration.toMinutes() <= CODE_VALID_DURATION) {
+                log.info("Verification successful");
+                return true;
+            } else {
+                log.info("Verification failed: Code expired");
+            }
+        } else {
+            log.info("Verification failed: Invalid code");
+        }
+        return false;
+    }
 }
