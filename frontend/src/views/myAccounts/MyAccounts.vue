@@ -21,6 +21,10 @@ const user = computed(() => auth.user);
 import currencyFormatter from '../../js/currencyFormatter';
 const { formatCurrency, formatNumber } = currencyFormatter;
 
+
+
+import ArgonAlert from "@/components/templates/ArgonAlert.vue";
+
 const emit = defineEmits(['password-verified', 'close']);
 const store = useExchangeStore();
 
@@ -554,10 +558,10 @@ onMounted(() => {
   <div class="container-fluid">
     <SecondPasswordModal v-if="showModal" @close="closeModal" @password-verified="handlePasswordVerified" />
 
-    <div id="my-account" class="d-grid gap-3">
-      <h3>My account</h3>
+    <div id="my-account" class="d-grid gap-5">
+      <h3 class="mb-0">My account</h3>
       <!-- <div class="custom-spacer"></div> -->
-      <div class="row mt-3">
+      <div class="row">
         <!-- USD Wallet -->
         <div class="col-lg-4 col-md-5 card-up">
           <!-- Song-E Money 카드 -->
@@ -572,7 +576,7 @@ onMounted(() => {
             :class="{ selected: selectedAsset === WONE }" />
         </div>
       </div>
-      <div class="card mt-3">
+      <div class="card">
         <!-- Song-E Money 선택 시 -->
         <template v-if="selectedAsset === SONGE">
           <nav class="nav custom-nav nav-underline nav-justified">
@@ -748,49 +752,51 @@ onMounted(() => {
           </div>
         </div>
       </div>
-
     </div>
 
-    <!-- Graph and Conversion Section -->
-    <div class="m-5"></div>
-    <h3>Exchange Rate</h3>
-    <div class="card mt-3">
-      <div class="card-body">
-        <div class="row">
-          <!-- Exchange Rate Graph Section -->
-          <div class="col-lg-7 col-md-12 my-3">
-            <div class="chart-container">
-              <ExchangeRateChart chartId="toexchangeChart" period="1m" chartType="to" />
-            </div>
-          </div>
+    <div class="custom-spacer"></div>
 
-          <div class="col-lg-5 col-md-12 d-flex flex-column justify-content-center my-3">
-            <div class="mb-3">
-              <h6>Convert USD to KRW</h6>
-              <div class="d-flex align-items-center">
-                <div class="position-relative flex-grow-1">
-                  <input type="number" class="form-control" v-model.number="usdAmount" @input="convertToKrw"
-                    aria-label="Amount in USD" />
-                  <img src="@/assets/img/icons/flags/US.png" alt="USA Flag" class="input-flag-icon" />
-                </div>
-                <span class="mx-3">=</span>
-                <div class="position-relative flex-grow-1">
-                  <input type="text" class="form-control" :value="krwAmount" readonly aria-label="Amount in KRW" />
-                  <img src="@/assets/img/icons/flags/KR.png" alt="KRW Flag" class="input-flag-icon" />
-                </div>
+    <!-- Graph and Conversion Section -->
+    <div id="exchange-rate" class="d-grid gap-5">
+      <h3 clas="mb-0">Exchange Rate</h3>
+      <div class="card">
+        <div class="card-body">
+          <div class="row">
+            <!-- Exchange Rate Graph Section -->
+            <div class="col-lg-7 col-md-12 my-3">
+              <div class="chart-container">
+                <ExchangeRateChart chartId="toexchangeChart" period="1m" chartType="to" />
               </div>
             </div>
-            <div>
-              <h6>Convert KRW to USD</h6>
-              <div class="d-flex align-items-center">
-                <div class="position-relative flex-grow-1">
-                  <input type="number" class="form-control" v-model.number="krwAmountReverse" @input="convertToUsd" />
-                  <img src="@/assets/img/icons/flags/KR.png" alt="KRW Flag" class="input-flag-icon" />
+
+            <div class="col-lg-5 col-md-12 d-flex flex-column justify-content-center my-3">
+              <div class="mb-3">
+                <h6>Convert USD to KRW</h6>
+                <div class="d-flex align-items-center">
+                  <div class="position-relative flex-grow-1">
+                    <input type="number" class="form-control" v-model.number="usdAmount" @input="convertToKrw"
+                      aria-label="Amount in USD" />
+                    <img src="@/assets/img/icons/flags/US.png" alt="USA Flag" class="input-flag-icon" />
+                  </div>
+                  <span class="mx-3">=</span>
+                  <div class="position-relative flex-grow-1">
+                    <input type="text" class="form-control" :value="krwAmount" readonly aria-label="Amount in KRW" />
+                    <img src="@/assets/img/icons/flags/KR.png" alt="KRW Flag" class="input-flag-icon" />
+                  </div>
                 </div>
-                <span class="mx-3">=</span>
-                <div class="position-relative flex-grow-1">
-                  <input type="text" class="form-control" :value="usdAmountReverse" readonly />
-                  <img src="@/assets/img/icons/flags/US.png" alt="USA Flag" class="input-flag-icon" />
+              </div>
+              <div>
+                <h6>Convert KRW to USD</h6>
+                <div class="d-flex align-items-center">
+                  <div class="position-relative flex-grow-1">
+                    <input type="number" class="form-control" v-model.number="krwAmountReverse" @input="convertToUsd" />
+                    <img src="@/assets/img/icons/flags/KR.png" alt="KRW Flag" class="input-flag-icon" />
+                  </div>
+                  <span class="mx-3">=</span>
+                  <div class="position-relative flex-grow-1">
+                    <input type="text" class="form-control" :value="usdAmountReverse" readonly />
+                    <img src="@/assets/img/icons/flags/US.png" alt="USA Flag" class="input-flag-icon" />
+                  </div>
                 </div>
               </div>
             </div>
@@ -799,51 +805,52 @@ onMounted(() => {
       </div>
     </div>
 
+    <div class="custom-spacer"></div>
 
-
-
-    <br />
-    <div @click="$router.push('/exchange-rate')" class="clickable-alert" role="button" tabindex="0">
-      <span class="alert-text">자동 환전 및 알람</span>
-      <i class="fa-solid fa-angle-right alert-icon"></i>
-    </div>
-    <div class="card mt-4">
-      <div class="card-body">
-        <div class="row">
-          <div class="col-lg-12">
-            <div class="form-group">
-              <label for="autoCondition" class="label">자동 환전 설정 내역</label>
+    <div id="set-alert" class="d-grid gap-5">
+      <div>
+        <span @click="$router.push('/exchange-rate')" class="alert-text me-3 mb-0" role="button" tabindex="0">
+          자동 환전 및 알람
+          <i class="fa-solid fa-angle-right alert-icon"></i>
+        </span>
+      </div>
+      <div class="card">
+        <div class="card-body">
+          <div class="d-grid gap-3">
+            <div>
+              <label for="autoCondition" class="form-label">자동 환전 설정 내역</label>
               <ul v-if="autoConditions.length > 0" class="list-group">
                 <li class="list-group-item">
                   <div class="d-flex justify-content-between align-items-center">
-                    <span>
-                      <span>기준 통화:</span>
-                      {{ autoConditions[0]?.baseCode }}
-                      <span>대상 통화:</span>
-                      {{ autoConditions[0]?.targetCode }}
-                      <span>목표 환율:</span>
-                      {{ autoConditions[0]?.targetExchange }}
-                      <span>목표 KRW 금액:</span>
-                      {{ autoConditions[0]?.targetKrw }}
-                    </span>
-                    <button class="btn delete-btn btn-sm align-self-center"
+                    <div class="d-flex gap-3 flex-column-min">
+                      <div>기준 통화: {{ autoConditions[0]?.baseCode }}
+                      </div>
+                      <div>대상 통화: {{ autoConditions[0]?.targetCode }}
+                      </div>
+                      <div>목표 환율: {{ autoConditions[0]?.targetExchange }}
+                      </div>
+                      <div>목표 KRW 금액: {{ autoConditions[0]?.targetKrw }}
+                      </div>
+                    </div>
+                    <button class="btn btn-sm btn-danger mb-0"
                       @click="confirmDelete(autoConditions[0]?.resNo)">삭제</button>
                   </div>
                 </li>
               </ul>
               <p v-else style="margin-left: 0.5rem">자동 환전 예약 내역이 없습니다.</p>
             </div>
-            <div class="form-group">
-              <label for="alertConditions" class="label">환율 알림 설정 내역</label>
+
+            <div>
+              <label for="alertConditions" class="form-label">환율 알림 설정 내역</label>
               <ul v-if="alertConditions.length > 0" class="list-group">
                 <li v-for="condition in alertConditions" :key="condition.resNo" class="list-group-item">
                   <div class="d-flex justify-content-between align-items-center">
-                    <span>
-                      <span>기준 통화:</span> {{ condition.baseCode }} <span>대상 통화:</span> {{ condition.targetCode }}
-                      <span>목표
-                        환율:</span> {{ condition.targetExchange }}
-                    </span>
-                    <button class="btn delete-btn btn-sm" @click="confirmDelete(condition.resNo)">삭제</button>
+                    <div class="d-flex gap-3 flex-column-min">
+                      <div>기준 통화: {{ condition.baseCode }} </div>
+                      <div>대상 통화: {{ condition.targetCode }}</div>
+                      <div>목표 환율: {{ condition.targetExchange }}</div>
+                    </div>
+                    <button class="btn btn-sm btn-danger mb-0" @click="confirmDelete(condition.resNo)">삭제</button>
                   </div>
                 </li>
               </ul>
@@ -853,108 +860,7 @@ onMounted(() => {
         </div>
       </div>
     </div>
+    <div class="custom-spacer"></div>
   </div>
+
 </template>
-
-<style scoped>
-.clickable-alert {
-  display: flex;
-  justify-content: space-between;
-  /* 텍스트와 아이콘을 좌우로 배치 */
-  align-items: center;
-  background-color: transparent;
-  /* 기본 배경색 없음 */
-  padding: 10px;
-  transition: background-color 0.3s ease;
-  cursor: pointer;
-  outline: none;
-}
-
-.clickable-alert:hover,
-.clickable-alert:focus {
-  background-color: #e0f7fa;
-  /* 클릭 시 배경 색상 */
-}
-
-.alert-text {
-  font-size: 1.5rem;
-  /* 텍스트 크기를 더 크게 설정 */
-  margin: 0;
-  /* 기본 여백 제거 */
-  font-weight: bolder;
-}
-
-.alert-icon {
-  font-size: 1.2rem;
-  margin-left: auto;
-  /* 아이콘을 오른쪽으로 정렬 */
-}
-
-.tab-content-width {
-  width: 50%;
-}
-
-/* 반응형 스타일 */
-@media (max-width: 768px) {
-  .clickable-alert {
-    padding: 8px;
-  }
-
-  .alert-text {
-    font-size: 0.9rem;
-  }
-
-  .alert-icon {
-    font-size: 1rem;
-  }
-
-  .card-up {
-    margin-bottom: 1rem;
-  }
-
-  .tab-content-width {
-    width: 100%;
-  }
-
-}
-
-
-
-/* 
-.list-group-item {
-  border-radius: 5px;
-}
-
-.list-group-item>div {
-  display: flex;
-  justify-content: space-between;
-  align-items: stretch;
-}
-
-.delete-btn {
-  padding: 2px 8px;
-  font-size: 0.8rem;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  margin-bottom: 0 !important;
-}
-
-.mt-2 {
-  margin-top: 0.5rem;
-  font-size: 0.9rem;
-}
-
-.label {
-  font-size: 1.1rem;
-}
-
-.btn {
-  padding: 7px 19px;
-  border-radius: 4px;
-  font-size: 14px;
-  font-weight: 600;
-  text-transform: uppercase;
-  transition: all 0.15s ease;
-} */
-</style>
