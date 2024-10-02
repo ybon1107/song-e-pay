@@ -91,12 +91,10 @@ const handleKeyPress = (event) => {
         v-model="internalPhoneNumber"
         :disabled="disabled"
         :error="!internalError"
+        errorText="Please enter a valid phone number."
         @input="handleInput"
         @keypress="handleKeyPress"
       />
-      <div v-if="internalError" class="invalid-feedback text-xs">
-        Please provide a valid phone number.
-      </div>
     </div>
   </div>
 </template>
