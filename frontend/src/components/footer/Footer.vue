@@ -63,46 +63,7 @@
 </template>
 
 <script setup>
-import { onMounted } from "vue";
-import { useExchangeStore } from "@/stores/exchangeStore";
 import { useStore } from "vuex";
 
 const store = useStore();
-const exchangeStore = useExchangeStore();
-
-const usdToKrwUrl = `https://v6.exchangerate-api.com/v6/${import.meta.env.VITE_EXCHANGE_RATE_API_KEY}/pair/USD/KRW`;
-const krwToUsdUrl = `https://v6.exchangerate-api.com/v6/${import.meta.env.VITE_EXCHANGE_RATE_API_KEY}/pair/KRW/USD`;
-
-const fetchExchangeRates = async () => {
-  try {
-    const [usdToKrwResponse, krwToUsdResponse] = await Promise.all([
-      fetch(usdToKrwUrl),
-      fetch(krwToUsdUrl),
-    ]);
-
-    if (!usdToKrwResponse.ok || !krwToUsdResponse.ok) {
-      throw new Error("Network response was not ok");
-    }
-
-    const [usdToKrwData, krwToUsdData] = await Promise.all([
-      usdToKrwResponse.json(),
-      krwToUsdResponse.json(),
-    ]);
-
-    exchangeStore.setCurrentToKrw(usdToKrwData.conversion_rate);
-    exchangeStore.setCurrentFromKrw(krwToUsdData.conversion_rate);
-
-    console.log("환율 데이터가 성공적으로 로드되었습니다.");
-    return {
-      currentToKrw: usdToKrwData.conversion_rate,
-      currentFromKrw: krwToUsdData.conversion_rate,
-    };
-  } catch (error) {
-    console.error("Error fetching exchange rate data", error);
-  }
-};
-
-onMounted(() => {
-  fetchExchangeRates();
-});
 </script>

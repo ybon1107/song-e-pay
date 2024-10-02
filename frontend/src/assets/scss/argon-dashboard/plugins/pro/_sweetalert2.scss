@@ -402,6 +402,12 @@
   background-color: #6e7d88;
   color: #fff;
   font-size: 1em;
+  @include button-size(
+    $btn-padding-y,
+    $btn-padding-x,
+    $btn-font-size,
+    $btn-border-radius
+  );
 }
 .swal2-styled.swal2-cancel:focus {
   box-shadow: 0 0 0 3px rgba(110, 125, 136, 0.5);

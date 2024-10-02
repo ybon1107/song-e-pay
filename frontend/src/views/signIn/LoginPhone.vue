@@ -26,12 +26,15 @@ onBeforeUnmount(() => {
   body.classList.add('bg-gray-100');
 });
 
-// 상태 변수
-const digitCode = ref('');
-const phoneNumber = ref('01022116854'); // 사용자 전화번호
-const message = ref('');
-const isSending = ref(false);
-const errorMessage = ref('');
+// 전화번호 마스킹(로컬스토리지에서 가져온 값의 뒷 4자리만 표시)
+const authData = JSON.parse(localStorage.getItem("auth"));
+const phone = authData ? authData.phoneNo : null;
+const maskedPhone = phone
+  ? phone.slice(0, -4).replace(/./g, "*") + phone.slice(-4)
+  : null;
+
+// 6자리 코드 입력 필드 상태
+const digitCode = ref("");
 
 // 코드 입력 필드 길이 제한
 const limitInputLength = () => {
@@ -125,7 +128,7 @@ const handleSubmit = async () => {
               <div class="pt-0 text-center card-footer">
                 <p class="mx-auto text-sm">
                   To log in, enter the security code we sent to
-                  <strong>*********1234.</strong>
+                  <strong>{{ maskedPhone }}.</strong>
                   It will expire in 5 minutes.
                   <a
                     href="javascript:;"

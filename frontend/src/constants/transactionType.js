@@ -7,7 +7,17 @@ export const TRANSACTION_TYPES = {
     RE_EXCHANGE: 6,
 };
 
-export const TRANSACTION_TYPES_STRING = {
+export const TRANSACTION_TYPES_KEY = {
+    PAYMENT: 'payment',
+    TRANSFER: 'transfser',
+    DEPOSIT: 'deposit',
+    REFUND: 'refund',
+    EXCHANGE: 'exchange',
+    RE_EXCHANGE: 're_exchange',
+};
+
+//historiesmodal에서 사용중, 추후에 제거해야함 
+export const TRANSACTION_TYPES_STRING_KO = {
     PAYMENT: '결제',
     TRANSFER: '송금',
     DEPOSIT: '충전',

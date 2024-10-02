@@ -70,4 +70,16 @@ public class UserController {
                     .body("Verification failed: Invalid code.");
         }
     }
+
+    @PostMapping("/register")
+    public ResponseEntity<?> register(@RequestBody UserDTO userDTO) {
+        try {
+            userService.register(userDTO);
+            return ResponseEntity.ok("success");
+        } catch (Exception e) {
+            log.error("Error registering user: {}", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Registration failed.");
+        }
+    }
 }
