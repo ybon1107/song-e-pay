@@ -4,9 +4,8 @@ import FullCalendar from '@fullcalendar/vue3';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
-import { INITIAL_EVENTS, createEventId } from './event-utils';
+import { createEventId } from './event-utils';
 import moment from 'moment';
-
 // maintenance 상태를 ref로 정의
 const maintenance = ref({
     title: '',
@@ -15,35 +14,12 @@ const maintenance = ref({
     startedAt: moment().format('YYYY-MM-DD HH:mm:ss'),
     endedAt: moment().format('YYYY-MM-DD HH:mm:ss'),
 });
-
-// FullCalendar에 접근할 수 있도록 ref 정의
 const calendarRef = ref(null);
-
-// 캘린더 옵션 및 이벤트 상태 정의
+// 상태 관리
 const currentEvents = ref([]);
-const calendarOptions = ref({
-    plugins: [
-        dayGridPlugin,
-        timeGridPlugin,
-        interactionPlugin, // needed for dateClick
-    ],
-    headerToolbar: {
-        left: 'prev,next today',
-        center: 'title',
-        right: 'dayGridMonth,timeGridWeek,timeGridDay',
-    },
-    initialView: 'dayGridMonth',
-    initialEvents: INITIAL_EVENTS, // alternatively, use the `events` setting to fetch from a feed
-    editable: true,
-    selectable: true,
-    selectMirror: true,
-    dayMaxEvents: true,
-    weekends: true,
-    select: handleDateSelect, // 드래그 선택 이벤트 핸들러
-    eventClick: handleEventClick, // 이벤트 클릭 핸들러
-    eventsSet: handleEvents, // 이벤트 리스트 설정 핸들러
-});
+// 모달 상태와 일정 제목, 선택된 정보 관리
 
+const selectedInfo = ref(null);
 function handleDateSelect(selectInfo: any) {
     // 드래그된 날짜 범위의 시작 날짜와 끝 날짜를 가져옴
     const startDate = selectInfo.startStr; // 드래그한 시작 날짜
@@ -97,27 +73,16 @@ function getColor(colorName: string) {
     }
 }
 
-// 주말 토글 핸들러
-function handleWeekendsToggle() {
-    calendarOptions.value.weekends = !calendarOptions.value.weekends; // 주말 표시 여부 토글
-}
-
 // 이벤트 클릭 핸들러
-function handleEventClick(clickInfo: any) {
+const handleEventClick = (clickInfo) => {
     if (
         confirm(
-            `Are you sure you want to delete the event '${clickInfo.event.title}'?`
+            `Are you sure you want to delete the event '${clickInfo.event.title}'`
         )
     ) {
         clickInfo.event.remove();
     }
-}
-
-// 이벤트 리스트 설정 핸들러
-function handleEvents(events: any) {
-    currentEvents.value = events;
-}
-
+};
 // 모달 닫기 함수
 function closeModal() {
     const modal = document.getElementById('maintenance');
@@ -127,7 +92,6 @@ function closeModal() {
         modal.setAttribute('aria-hidden', 'true');
     }
 }
-
 // 모달 열기 함수
 function showModal() {
     const modal = document.getElementById('maintenance');
@@ -138,34 +102,55 @@ function showModal() {
         modal.style.background = 'rgba(0, 0, 0, 0.5)'; // 배경 색상 추가
     }
 }
+
+// 이벤트 상태 업데이트 핸들러
+const handleEvents = (events) => {
+    currentEvents.value = events;
+};
+
+// 캘린더 옵션
+const calendarOptions = ref({
+    plugins: [
+        dayGridPlugin,
+        timeGridPlugin,
+        interactionPlugin, // needed for dateClick
+    ],
+    headerToolbar: {
+        left: 'prev,next today',
+        center: 'title',
+        right: 'dayGridMonth,timeGridWeek,timeGridDay',
+    },
+    initialView: 'dayGridMonth',
+    // initialEvents: INITIAL_EVENTS,
+    // alternatively, use the `events` setting to fetch from a feed
+    editable: true,
+    selectable: true,
+    selectMirror: true,
+    dayMaxEvents: true,
+    weekends: true,
+    select: handleDateSelect,
+    eventClick: handleEventClick,
+    eventsSet: handleEvents,
+});
 </script>
 
 <template>
-    <div class="demo-app">
-        <div class="demo-app-sidebar">
-            <div class="demo-app-sidebar-section">
-                <h2>Instructions</h2>
-                <ul>
-                    <li>
-                        Select dates and you will be prompted to create a new
-                        event
-                    </li>
-                    <li>Drag, drop, and resize events</li>
-                    <li>Click an event to delete it</li>
-                </ul>
+    <div class="container-fluid" style="width: 85%" id="responsive-container">
+        <div class="card card-body demo-app d-flex flex-column flex-md-row">
+            <div class="demo-app-main col-md-9">
+                <FullCalendar
+                    ref="calendarRef"
+                    class="demo-app-calendar"
+                    :options="calendarOptions"
+                >
+                    <template v-slot:eventContent="arg">
+                        <b>{{ arg.timeText }}</b>
+                        <i>{{ arg.event.title }}</i>
+                    </template>
+                </FullCalendar>
             </div>
-            <div class="demo-app-sidebar-section">
-                <label>
-                    <input
-                        type="checkbox"
-                        :checked="calendarOptions.weekends"
-                        @change="handleWeekendsToggle"
-                    />
-                    toggle weekends
-                </label>
-            </div>
-            <div class="demo-app-sidebar-section">
-                <h2>All Events ({{ currentEvents.length }})</h2>
+            <div class="demo-app-sidebar demo-app-sidebar-section col-md-3">
+                <h5>All Events ({{ currentEvents.length }})</h5>
                 <ul>
                     <li v-for="event in currentEvents" :key="event.id">
                         <b>{{ event.startStr }}</b>
@@ -174,21 +159,7 @@ function showModal() {
                 </ul>
             </div>
         </div>
-        <div class="demo-app-main">
-            <!-- FullCalendar에 ref 추가 -->
-            <FullCalendar
-                ref="calendarRef"
-                class="demo-app-calendar"
-                :options="calendarOptions"
-            >
-                <template v-slot:eventContent="arg">
-                    <b>{{ arg.timeText }}</b>
-                    <i>{{ arg.event.title }}</i>
-                </template>
-            </FullCalendar>
-        </div>
     </div>
-
     <!-- Modal for event creation -->
     <div
         id="maintenance"
@@ -298,7 +269,89 @@ function showModal() {
     </div>
 </template>
 
-<style>
+<style lang="css">
+h2 {
+    margin: 0;
+    font-size: 16px;
+}
+
+ul {
+    margin: 0;
+    padding-left: 1rem !important;
+    padding: 0 0 0 1.5em;
+}
+
+/* li {
+  margin: 1.5em 0;
+  padding: 0;
+} */
+
+b {
+    margin-right: 3px;
+}
+
+.demo-app {
+    display: flex;
+    min-height: 100%;
+    font-family:
+        Arial,
+        Helvetica Neue,
+        Helvetica,
+        sans-serif;
+    font-size: 14px;
+    background: #fff6ef !important;
+}
+
+.demo-app-sidebar {
+    line-height: 1.5;
+    background: #fdf4bb !important;
+    border-right: 2px solid #ffeb69 !important ;
+    border-radius: 1rem;
+}
+
+.demo-app-sidebar-section {
+    padding: 1em;
+    margin-top: 1rem;
+}
+
+.demo-app-main {
+    flex-grow: 1;
+    padding: 1em;
+}
+
+.fc {
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+/* FullCalendar toolbar 버튼 스타일 커스터마이징 */
+.fc-toolbar .fc-button {
+    background-color: #ffeb69 !important; /* 버튼의 배경색 */
+    color: white; /* 버튼 텍스트 색상 */
+    border: 0px !important;
+}
+
+.fc-toolbar .fc-button:hover {
+    background-color: #ffeb69 !important; /* 마우스 오버 시 버튼 색상 */
+    color: black !important;
+}
+
+.fc-day-sun a {
+    /* 일요일 컬러 */
+    color: rgb(253, 150, 150) !important;
+}
+
+.fc-day-sat a {
+    /* 토요일 컬러 */
+    color: rgb(253, 150, 150) !important;
+}
+.fc .fc-toolbar.fc-header-toolbar {
+    margin-bottom: 1.5em !important;
+    background: #fdf4bb !important;
+    padding: 1rem !important;
+    border-radius: 1rem !important;
+}
+
 .color-picker-btn {
     border: none;
     cursor: pointer;
