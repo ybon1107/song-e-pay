@@ -97,38 +97,40 @@
           </div>
         </div>
       </div>
-    </div>
 
-  </div>
-  <!-- 자동 환전 설정 섹션 -->
-  <div class="container-fluid py-4">
-    <h3 class="mt-3">자동 환전 설정</h3>
-    <div class="card my-4">
-      <div class="card-body">
-        <div class="row px-3">
-          <div class="col-md-12">
-            <div class="exchange-input mb-3">
+      <div class="custom-spacer"></div>
+      
+      <!-- 자동 환전 설정 섹션 -->
+      <h3 class="mb-0">자동 환전 설정</h3>
+      <div class="card">
+        <div class="card-body">
+          <div class="d-flex justify-content-center">
+            <div class="d-flex flex-column tab-content-width gap-3">
               <div class="input-group">
                 <span class="input-group-text">1 USD =</span>
                 <input type="number" v-model="targetExchange" class="form-control" placeholder="목표 환율을 입력하세요." />
                 <span class="input-group-text">KRW</span>
               </div>
-            </div>
-            <div class="exchange-input mb-3">
+
               <div class="input-group">
                 <span class="input-group-text">목표 금액 =</span>
                 <input type="number" v-model="targetKrw" class="form-control" placeholder="자동 전환할 금액을 입력하세요." />
                 <span class="input-group-text">KRW</span>
               </div>
+
+              <button class="btn btn-primary w-100 mb-0" @click="confirmAutoExchange(1, 0, targetExchange, targetKrw)">
+                자동 환전 설정
+              </button>
             </div>
-            <button class="btn btn-warning w-100" @click="confirmAutoExchange(1, 0, targetExchange, targetKrw)">
-              자동 환전 설정
-            </button>
           </div>
         </div>
       </div>
+
+      <div class="custom-spacer"></div>
     </div>
+
   </div>
+
 </template>
 
 <script setup>
@@ -411,151 +413,4 @@ input[type="number"] {
   -moz-appearance: textfield;
 }
 
-.clickable-alert {
-  text-align: center;
-  cursor: pointer;
-}
-
-
-
-
-
-/* .exchange-alert-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-top: 1rem;
-  text-align: center;
-} */
-
-/* .alert-title {
-  font-weight: bold;
-  margin-bottom: 0.5rem;
-  text-align: left;
-  width: 100%;
-} */
-
-/* .alert-content {
-  margin-bottom: 0.5rem;
-  text-align: left;
-  width: 100%;
-  font-size: small;
-} */
-
-/* .exchange-input {
-  display: flex;
-  gap: 0.5rem;
-  width: 100%;
-} */
-
-.alert-input {
-  width: 60%;
-  text-align: center;
-  white-space: nowrap;
-}
-
-/* .equals-symbol {
-  margin: 0 0.2rem;
-  font-weight: bold;
-} */
-
-.btn-warning {
-  background-color: #ffcc00;
-  border: none;
-}
-
-.btn-warning:hover {
-  background-color: #ffbb00;
-}
-
-.delete-btn {
-  flex-grow: 1;
-  padding: 8px 16px;
-  /* 적당한 크기로 버튼 높이 조정 */
-  background-color: #f44336;
-  /* 기본 배경 색상: 밝은 빨간색 */
-  color: white;
-  /* 텍스트 색상: 흰색 */
-  border: none;
-  border-radius: 20px;
-  /* 둥근 모서리 */
-  text-align: center;
-  cursor: pointer;
-  margin: 0 5px;
-  /* 버튼 간 좌우 간격 */
-  font-size: 14px;
-  /* 텍스트 크기 */
-  transition: background-color 0.3s ease;
-  /* 배경색 전환 효과 */
-}
-
-.delete-btn:hover {
-  background-color: #d32f2f;
-  /* 호버 시 더 짙은 빨간색 */
-}
-
-.delete-btn:active {
-  background-color: #b71c1c;
-  /* 클릭 시 색상 */
-}
-
-.delete-btn:disabled {
-  background-color: #e0e0e0;
-  /* 비활성화된 버튼 색상 */
-  color: #9e9e9e;
-  /* 비활성화된 텍스트 색상 */
-  cursor: not-allowed;
-  /* 비활성화 상태에서는 커서 변경 */
-}
-
-.list-group-item {
-  background-color: #f9f9f9;
-  border-radius: 10px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-}
-
-.list-group-item p {
-  font-size: 0.9rem;
-}
-
-/* .btn-primary {
-  background-color: #5a9;
-  border-color: #5a9;
-} */
-
-
-
-.targetbox {
-  font-size: 14px;
-  color: #666;
-  margin-bottom: 5px;
-}
-
-
-/* .exchange-input input {
-  flex-grow: 1;
-} */
-
-.btn-warning {
-  background-color: #ffcc00;
-  border: none;
-  color: #333;
-}
-
-.btn-warning:hover {
-  background-color: #ffbb00;
-}
-
-/* .exchange-input .input-group {
-  width: 100%;
-}
-
-.exchange-input .input-group-text {
-  background-color: #f8f9fa;
-  border-color: #ced4da;
-}
-
-.exchange-input .form-control {
-  flex: 1;
-} */
 </style>

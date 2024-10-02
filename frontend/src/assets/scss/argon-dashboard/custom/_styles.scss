@@ -47,7 +47,7 @@
 
   .nav-link {
     cursor: pointer;
-    color: $text-brown-100;
+    color: $text-brown-300;
     transition: background-color 0.3s ease;
   }
 
@@ -58,9 +58,9 @@
   }
 
   /* 비활성화된 탭 스타일 */
-  .nav-link:hover {
-    color: $primary-aqua;
-  }
+  // .nav-link:hover {
+  //   color: $primary-aqua;
+  // }
 }
 // 웹 화면에서는 카드 바디 크기 50프로만 차지
 .tab-content-width {
