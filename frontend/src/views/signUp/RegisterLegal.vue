@@ -96,8 +96,8 @@ const privacy =
                         disabled
                         class="form-control bg-white"
                         rows="3"
-                        >{{ terms }}</textarea
-                      >
+                        v-model="terms"
+                      ></textarea>
                     </div>
                     <!-- 개인정보 보호정책 동의 -->
                     <div class="form-group">
@@ -112,8 +112,8 @@ const privacy =
                         disabled
                         class="form-control bg-white"
                         rows="3"
-                        >{{ privacy }}</textarea
-                      >
+                        v-model="privacy"
+                      ></textarea>
                     </div>
                     <!-- 다음 버튼 -->
                     <div class="text-center">
