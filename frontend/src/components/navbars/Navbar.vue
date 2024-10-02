@@ -290,22 +290,7 @@ onMounted(() => {
   border-radius: 10px;
 }
 
-/* FontAwesome 아이콘을 감싸는 div */
-.icon-div {
-  width: 40px;
-  height: 40px;
-  background-color: #e0e0e0; /* 회색 배경 */
-  border-radius: 50%; /* 둥근 모양 */
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-/* FontAwesome 아이콘 */
-.fa-solid {
-  font-size: 20px; /* 아이콘 크기 */
-  color: #333; /* 아이콘 색상 */
-  line-height: 1; /* 아이콘의 라인 높이를 1로 설정하여 중앙 정렬 */
-}
+
 @font-face {
   font-family: "HakgyoansimDunggeunmisoTTF-B";
   src: url("https://fastly.jsdelivr.net/gh/projectnoonnu/2408-5@1.0/HakgyoansimDunggeunmisoTTF-B.woff2")

@@ -1,10 +1,5 @@
 <template>
-  <Modal
-    title="내역 상세"
-    :isVisible="isVisible"
-    :showFooter="false"
-    @close="closeModal"
-  >
+  <Modal title="내역 상세" :isVisible="isVisible" :showFooter="false" @close="closeModal">
     <h4>
       <span :class="getBadgeClass(transaction?.typeCode)">{{
         transaction?.typeCode
@@ -12,8 +7,7 @@
     </h4>
     <p class="font-weight-bold mb-0 mt-3">{{ transaction?.historyContent }}</p>
     <p>
-      <span class="title me-1">{{ transaction?.amount }}</span
-      >won
+      <span class="title me-1">{{ transaction?.amount }}</span>won
     </p>
     <hr />
 
@@ -26,19 +20,11 @@
     <argon-alert v-if="showAlert" class="mt-3" :color="alertColor">
       {{ alertMessage }}
     </argon-alert>
-    <textarea
-      v-model="localMemo"
-      class="form-control fixed-textarea"
-      id="memo"
-      rows="3"
-      placeholder="메모를 입력하세요"
-    ></textarea>
+    <textarea v-model="localMemo" class="form-control fixed-textarea" id="memo" rows="3"
+      placeholder="메모를 입력하세요"></textarea>
     <hr />
 
-    <div
-      class="flex-justify-between"
-      v-if="['환전', '환급'].includes(transaction?.typeCode)"
-    >
+    <div class="flex-justify-between" v-if="['환전', '환급'].includes(transaction?.typeCode)">
       <strong>환율</strong>
       <p>{{ transaction?.exchangeRate }}</p>
     </div>
@@ -63,7 +49,7 @@ import axios from "axios";
 import Modal from "@/components/modal/Modal.vue";
 import {
   TRANSACTION_TYPES,
-  TRANSACTION_TYPES_STRING,
+  TRANSACTION_TYPES_STRING_KO,
 } from "@/constants/transactionType";
 import ArgonAlert from "@/components/templates/ArgonAlert.vue";
 import Swal from "sweetalert2";
@@ -94,22 +80,22 @@ const getBadgeClass = (typeCode) => {
   const baseClasses = "badge rounded-pill";
   if (
     [
-      TRANSACTION_TYPES_STRING.DEPOSIT,
-      TRANSACTION_TYPES_STRING.EXCHANGE,
+      TRANSACTION_TYPES_STRING_KO.DEPOSIT,
+      TRANSACTION_TYPES_STRING_KO.EXCHANGE,
     ].includes(typeCode)
   ) {
     return `${baseClasses} bg-primary`;
   } else if (
     [
-      TRANSACTION_TYPES_STRING.REFUND,
-      TRANSACTION_TYPES_STRING.RE_EXCHANGE,
+      TRANSACTION_TYPES_STRING_KO.REFUND,
+      TRANSACTION_TYPES_STRING_KO.RE_EXCHANGE,
     ].includes(typeCode)
   ) {
     return `${baseClasses} bg-danger`;
   } else if (
     [
-      TRANSACTION_TYPES_STRING.PAYMENT,
-      TRANSACTION_TYPES_STRING.TRANSFER,
+      TRANSACTION_TYPES_STRING_KO.PAYMENT,
+      TRANSACTION_TYPES_STRING_KO.TRANSFER,
     ].includes(typeCode)
   ) {
     return `${baseClasses} bg-success`;
