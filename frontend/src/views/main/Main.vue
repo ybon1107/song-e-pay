@@ -179,7 +179,7 @@
     </div>
   </section>
   <!-- 곡선 -->
-  <div class="curve-container" style="background-color: #fff6ef">
+  <div class="curve-container" style="background-color: #f8f9fa">
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320" class="curve">
       <path
         fill="#B0AB99"
@@ -199,9 +199,6 @@
         <p>가까운 국민은행을 찾고 ATM 위치를 빠르게 확인할 수 있습니다. 지도를 통해 가장 가까운 금융 서비스를 이용하세요.</p>
       </div>
     </div>
-  </section>
-  <!-- 다섯 번째 섹션 -->
-  <section class="section-container-beige">
     <div class="lastpage d-flex justify-content-between align-items-center flex-column mb-3">
       <h2 class="title text-center">Prepare for Your Trip to Korea With Our SongEpay</h2>
       <br />
@@ -230,7 +227,7 @@ const showSidenav = computed(() => store.state.showSidenav);
   flex-basis: 18%;
 }
 .section-container-beige {
-  background-color: #fff6ef;
+  background: linear-gradient(to bottom, #f8f9fa, #fff6ef);
   padding-top: 8rem;
   padding-left: 13rem;
   padding-right: 8rem;
@@ -287,7 +284,7 @@ const showSidenav = computed(() => store.state.showSidenav);
 @media (max-width: 768px) {
   /* Adjust the max-width value as needed for your breakpoint */
   .section-container-beige {
-    background-color: #fff6ef;
+    background: linear-gradient(to bottom, #f8f9fa, #fff6ef);
     padding-top: 5rem;
     padding-left: 5rem;
     padding-right: 5rem;
