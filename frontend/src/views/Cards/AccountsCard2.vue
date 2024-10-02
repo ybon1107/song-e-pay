@@ -21,10 +21,14 @@
 <script setup>
 import { defineProps, ref, computed, onMounted } from 'vue';
 import myaccountApi from '../../api/myaccountApi';
+
+import currencyFormatter from '../../js/currencyFormatter';
+const { formatNumber } = currencyFormatter;
+
 import { useAuthStore } from '@/stores/auth';
 const auth = useAuthStore();
 const user = computed(() => auth.user);
-const { formatNumber } = myaccountApi;
+
 const isFocused = ref(false);
 const balance = ref(0);
 

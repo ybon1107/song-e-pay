@@ -15,7 +15,12 @@ import {
   TRANSACTION_TYPES,
 } from "@/constants/transactionType";
 
-const { formatNumber } = myaccountApi;
+import { useAuthStore } from '@/stores/auth';
+const auth = useAuthStore();
+const user = computed(() => auth.user);
+
+import currencyFormatter from '../../js/currencyFormatter';
+const { formatNumber } = currencyFormatter;
 
 const emit = defineEmits(['password-verified', 'close']);
 const store = useExchangeStore();
@@ -36,7 +41,7 @@ const refundAmount = ref('');
 const transferAmount = ref('');
 const reExchangeAmount = ref('');
 
-const customerunit = ref('USD'); //나라 설정에 따라 변경되게끔
+const customerunit = ref(user.value.country); //나라 설정에 따라 변경되게끔
 
 const sendEmail = ref('');
 const sendEmailConfirm = ref('');
@@ -577,29 +582,6 @@ onMounted(() => {
     <div class="card mt-3">
       <!-- Song-E Money 선택 시 -->
       <template v-if="selectedAsset === SONGE">
-        <!-- <ul class="nav nav-pills nav-fill">
-          <li class="nav-item">
-            <a class="nav-link active" :class="{ active: activeTab === TRANSACTION_TYPES.DEPOSIT }"
-              @click="activeTab = TRANSACTION_TYPES.DEPOSIT" aria-current="page"> 충전 </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" :class="{ active: activeTab === TRANSACTION_TYPES.EXCHANGE }"
-              @click="activeTab = TRANSACTION_TYPES.EXCHANGE"> 환전 </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" :class="{ active: activeTab === TRANSACTION_TYPES.REFUND }"
-              @click="activeTab = TRANSACTION_TYPES.REFUND"> 환불 </a>
-          </li>
-        </ul> -->
-
-        <!-- <nav class="nav nav-pills flex-column flex-sm-row custom-nav">
-          <a class="flex-sm-fill text-sm-center nav-link" :class="{ active: activeTab === TRANSACTION_TYPES.DEPOSIT }"
-            @click="activeTab = TRANSACTION_TYPES.DEPOSIT" aria-current="page"> 충전 </a>
-          <a class="flex-sm-fill text-sm-center nav-link" :class="{ active: activeTab === TRANSACTION_TYPES.EXCHANGE }"
-            @click="activeTab = TRANSACTION_TYPES.EXCHANGE"> 환전 </a>
-          <a class="flex-sm-fill text-sm-center nav-link" :class="{ active: activeTab === TRANSACTION_TYPES.REFUND }"
-            @click="activeTab = TRANSACTION_TYPES.REFUND"> 환불 </a>
-        </nav> -->
         <nav class="nav custom-nav nav-underline flex-column flex-sm-row">
           <a class="flex-sm-fill text-sm-center nav-link" :class="{ active: activeTab === TRANSACTION_TYPES.DEPOSIT }"
             @click="activeTab = TRANSACTION_TYPES.DEPOSIT" aria-current="page"> 충전 </a>
@@ -608,14 +590,6 @@ onMounted(() => {
           <a class="flex-sm-fill text-sm-center nav-link" :class="{ active: activeTab === TRANSACTION_TYPES.REFUND }"
             @click="activeTab = TRANSACTION_TYPES.REFUND"> 환불 </a>
         </nav>
-        <!-- <nav class="nav flex-column flex-sm-row">
-          <a class="flex-sm-fill text-sm-center nav-link" :class="{ active: activeTab === 'deposit' }"
-            @click="activeTab = 'deposit'" aria-current="page"> 충전 </a>
-          <a class="flex-sm-fill text-sm-center nav-link" :class="{ active: activeTab === 'exchange' }"
-            @click="activeTab = 'exchange'"> 환전 </a>
-          <a class="flex-sm-fill text-sm-center nav-link" :class="{ active: activeTab === 'refund' }"
-            @click="activeTab = 'refund'"> 환불 </a>
-        </nav> -->
       </template>
 
       <!-- Won-E Money 선택 시 -->
@@ -633,7 +607,7 @@ onMounted(() => {
       <div class="card-body" v-if="selectedAsset === SONGE">
         <div v-if="activeTab === TRANSACTION_TYPES.DEPOSIT" class="tab-pane fade show active">
           <p>
-            <small class="text-muted">충전 금액</small>
+            <label class="text-muted">충전 금액</label>
             <ArgonAmountInput v-model="depositAmount" placeholder="금액을 입력하세요" :unit="customerunit" />
           </p>
           <p>
