@@ -9,7 +9,6 @@ import SecondPasswordModal from '@/views/MyAccounts/SecondPasswordModal.vue';
 import axios from 'axios';
 import ExchangeRateChart from '@/views/Chart/ExchangeRateChart.vue';
 import Swal from 'sweetalert2';
-import 'sweetalert2/dist/sweetalert2.min.css';
 import { TRANSACTION_TYPES } from "@/constants/transactionType";
 import { CURRENCY_NAMES } from "@/constants/countryCode";
 
