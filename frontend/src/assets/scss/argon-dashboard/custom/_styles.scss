@@ -24,6 +24,7 @@
   justify-content: center;
   align-items: center;
 }
+
 /* FontAwesome 아이콘 */
 .fa-solid {
   font-size: 20px;
@@ -33,6 +34,7 @@
   line-height: 1;
   /* 아이콘의 라인 높이를 1로 설정하여 중앙 정렬 */
 }
+
 .input-flag-icon {
   position: absolute;
   top: 50%;
@@ -62,33 +64,43 @@
   //   color: $primary-aqua;
   // }
 }
+
 // 웹 화면에서는 카드 바디 크기 50프로만 차지
 .tab-content-width {
   width: 50%;
 }
 
+.card-img-bg {
+  width: 8.56cm;
+  aspect-ratio: 1.585;
+  /* 비율 8.56 / 5.398 */
+  background-size: cover;
+}
 
 // 자동 환전 및 알람 라우터 이동 버튼
 .alert-text:hover,
 .alert-text:focus {
-  padding:1rem;
+  padding: 1rem;
   background-color: $primary-blue;
   border-radius: 0.375rem;
-  color:white;
+  color: white;
 }
-.alert-text{
-  font-size:1.875rem;
+
+.alert-text {
+  font-size: 1.875rem;
   line-height: 1.375;
   font-weight: 700;
 }
+
 .alert-icon {
   opacity: 0;
   transition: opacity 0.3s ease;
 }
+
 .alert-text:hover .alert-icon,
 .alert-text:focus .alert-icon {
   opacity: 1;
-  color:white;
+  color: white;
 }
 
 .chart-button-container {
@@ -97,6 +109,7 @@
   width: 100%;
   padding: 1rem;
 }
+
 // 환율 페이지 그래프 년도 버튼
 .chart-btn {
   flex-grow: 1;
@@ -138,12 +151,12 @@
     width: 100%;
   }
 
-  .alert-icon{
+  .alert-icon {
     opacity: 1;
   }
 
   //flex세로 정렬
-  .flex-column-min{
+  .flex-column-min {
     flex-direction: column;
   }
 }
