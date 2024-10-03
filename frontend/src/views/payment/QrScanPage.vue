@@ -53,6 +53,9 @@ const fetchKrwBalance = async () => {
   }
 };
 
+
+
+
 const generateQRCode = () => {
   const url = encodeURIComponent(`/api/payment/qr-scan`);
   qrCodeUrl.value = `/api/payment/qr?url=${url}&_=${new Date().getTime()}`;
@@ -78,10 +81,15 @@ const formattedCountdown = computed(() => {
   return `${minutes}:${seconds.toString().padStart(2, "0")}`;
 });
 
+const req = {
+  amount: 1000,
+  userDTO: user.value
+};
+
 // QR 스캔 후 처리
 const handleQRScan = async () => {
   try {
-    const response = await paymentApi.scanQRCode();
+    const response = await paymentApi.scanQRCode(req);
     Swal.fire({
       title: "성공!",
       text: response.data.message || "결제가 완료되었습니다.",
