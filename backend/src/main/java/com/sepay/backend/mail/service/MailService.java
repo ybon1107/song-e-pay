@@ -1,7 +1,7 @@
 package com.sepay.backend.mail.service;
 
-import com.sepay.backend.mail.dto.MailDTO;
-
 public interface MailService {
-    void sendEmail(MailDTO mailDTO);
+    String createVerificationCode();
+    boolean sendEmail(String userId) throws Exception;
+    boolean checkCode(String code);
 }
