@@ -1,0 +1,8 @@
+{
+    "setting--title": "프로필",
+    "map--title": "금융 지도",
+    "map--select-cityLabel": "광역시/도",
+    "map--select-districtLabel": "시/군/구",
+    "map--button-search": "찾기",
+    "map--address": "주소"
+}

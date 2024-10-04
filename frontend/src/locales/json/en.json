@@ -1,0 +1,8 @@
+{
+    "setting--title": "Profile",
+    "map--title": "Financial Map",
+    "map--select-cityLabel": "City/Province",
+    "map--select-districtLabel": "District/County/Gu",
+    "map--button-search": "Find",
+    "map--address": "Address"
+}
