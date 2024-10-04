@@ -1,7 +1,7 @@
 <template>
   <div class="container-fluid">
     <br />
-    <h3 class="mapsFont">금융 지도</h3>
+    <h3 class="mapsFont">{{$t("map--title")}}</h3>
 
     <div class="row mb-3 mapSelect">
       <!-- 광역시/도 선택 -->
