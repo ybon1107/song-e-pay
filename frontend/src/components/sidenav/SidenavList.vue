@@ -18,13 +18,13 @@ const getRoute = () => {
 <template>
   <div class="collapse navbar-collapse w-auto h-auto h-100" id="sidenav-collapse-main">
     <ul class="navbar-nav">
-      <li class="nav-item">
+      <!-- <li class="nav-item">
         <sidenav-item to="/home" :class="getRoute() === 'home' ? 'active' : ''" :navText="isRTL ? 'لوحة القيادة' : '홈'">
           <template v-slot:icon>
             <i class="ni ni-tv-2 text-dark text-sm opacity-10"></i>
           </template>
         </sidenav-item>
-      </li>
+      </li> -->
 
       <li class="nav-item">
         <sidenav-item to="/my-accounts" :class="getRoute() === 'my-accounts' ? 'active' : ''" :navText="isRTL ? 'الجداول' : '나의 자산'">
