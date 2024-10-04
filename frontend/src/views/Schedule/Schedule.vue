@@ -228,26 +228,25 @@ const calendarOptions = ref({
                         </div>
                     </div>
                     <div class="row">
-                        <span class="col-3">기간</span>
-                        <div class="form-group col-9">
-                            <div class="input-group w-100">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text"
-                                        ><i class="far fa-clock"></i
-                                    ></span>
+                        <label class="col-3">기간</label>
+                        <div class="col-9">
+                            <div class="row">
+                                <div class="col-6">
+                                    <input
+                                        id="startDate"
+                                        v-model="maintenance.startedAt"
+                                        type="date"
+                                        class="form-control"
+                                    />
                                 </div>
-                                <input
-                                    id="reservationtime"
-                                    v-model="maintenance.startedAt"
-                                    type="text"
-                                    class="form-control float-right"
-                                />
-                                <input
-                                    id="reservationtime"
-                                    v-model="maintenance.endedAt"
-                                    type="text"
-                                    class="form-control float-right"
-                                />
+                                <div class="col-6">
+                                    <input
+                                        id="endDate"
+                                        v-model="maintenance.endedAt"
+                                        type="date"
+                                        class="form-control"
+                                    />
+                                </div>
                             </div>
                         </div>
                     </div>
