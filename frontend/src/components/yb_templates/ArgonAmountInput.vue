@@ -94,15 +94,15 @@ const props = defineProps({
     default: 0,
   },
   activeTab: {
-    type: String,
-    default: '',
+    type: Number,
+    default: 0,
   },
 });
 
 const emit = defineEmits(['update:modelValue']);
 // Helper function to get the current balance based on the selected asset
 const getBalance = () => {
-  return props.selectedAsset === 'Won-E Money' ? props.wonEMoneyBalance : props.songEMoneyBalance;
+  return props.selectedAsset === 'won-e' ? props.wonEMoneyBalance : props.songEMoneyBalance;
 };
 const formatNumber = (num) => {
   return num.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
@@ -131,11 +131,10 @@ const onInput = (event) => {
     rawValue = ''; // input 필드 값을 빈 문자열로 초기화
     event.target.value = ''; // 실제 입력 필드의 값도 초기화
   } else if (
-    (Number(rawValue) > getBalance() && props.activeTab == 'exchange') ||
-    (Number(rawValue) > getBalance() && props.activeTab == 'withdraw') ||
-    (Number(rawValue) > getBalance() && props.activeTab == 'transfer') ||
-    (Number(rawValue) > getBalance() && props.activeTab == 'refund') ||
-    (Number(rawValue) > getBalance() && props.activeTab == 'reExchange')
+    (Number(rawValue) > getBalance() && props.activeTab == 2) ||
+    (Number(rawValue) > getBalance() && props.activeTab == 4) ||
+    (Number(rawValue) > getBalance() && props.activeTab == 5) ||
+    (Number(rawValue) > getBalance() && props.activeTab == 6)
   ) {
     // If the input value exceeds the balance, show error and prevent further input
     errorMessage.value = '잔액을 초과합니다';
