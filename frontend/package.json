@@ -46,7 +46,12 @@
     "vue-router": "^4.3.0",
     "vue3-naver-maps": "^4.2.0",
     "vuex": "^4.1.0",
-    "xlsx": "^0.18.5"
+    "xlsx": "^0.18.5",
+    "@fullcalendar/core": "^6.1.10",
+    "@fullcalendar/daygrid": "^6.1.10",
+    "@fullcalendar/interaction": "^6.1.10",
+    "@fullcalendar/timegrid": "^6.1.10",
+    "@fullcalendar/vue3": "^6.1.10"
   },
   "devDependencies": {
     "@babel/eslint-parser": "7.23.10",
