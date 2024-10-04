@@ -1,0 +1,7 @@
+key,ko,en,id,vi
+setting--title,프로필,Profile,Profil,Hồ sơ
+map--title,금융 지도,Financial Map,Peta Keuangan,Bản đồ tài chính
+map--select-cityLabel,광역시/도,City/Province,Kota,Thành phố
+map--select-districtLabel,시/군/구,District/County/Gu,Pilih Kota/Kabupaten,Chọn quận/huyện
+map--button-search,찾기,Find,Cari,Tìm
+map--address,주소,Address,Alamat,Địa chỉ
