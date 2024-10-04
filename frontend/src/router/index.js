@@ -29,7 +29,7 @@ import MainPage from '../views/main/Main.vue';
 // map 컴포넌트 추가
 import MapComponent from '../views/maps/MapComponent.vue';
 import ErrorPage from '../views/error/ErrorPage.vue';
-
+import SchedulePage from '../views/Schedule/Schedule.vue';
 const routes = [
   {
     path: '/',
@@ -161,6 +161,11 @@ const routes = [
     path: '/main',
     name: 'MainPage',
     component: MainPage,
+  },
+  {
+    path: '/schedule',
+    name: 'SchedulePage',
+    component: SchedulePage,
   },
 ];
 
