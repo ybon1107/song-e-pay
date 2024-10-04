@@ -1,6 +1,7 @@
 package com.sepay.backend.config;
 
 import com.sepay.backend.mail.config.MailConfig;
+import com.sepay.backend.security.config.SecurityConfig;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -16,7 +17,7 @@ public class WebConfig extends AbstractAnnotationConfigDispatcherServletInitiali
 
     @Override
     protected Class<?>[] getRootConfigClasses() {
-        return new Class[] { RootConfig.class, MailConfig.class };
+        return new Class[] { RootConfig.class, SecurityConfig.class, MailConfig.class };
     }
 
     @Override

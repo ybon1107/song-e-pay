@@ -10,7 +10,11 @@ public interface UserMapper {
 
     String getSecondaryPassword(int userNo);
 
+    UserDTO getUserInfo(String userId);
+
     UserDTO selectUser(Map map);
 
     int insertUser(UserDTO userDTO);
+
+    UserDTO selectUserByEmail(String email);
 }
