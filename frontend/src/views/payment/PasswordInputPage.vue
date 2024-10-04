@@ -91,23 +91,11 @@ const resetPassword = () => {
 
     <form @submit.prevent="onSubmit" class="text-center">
       <div class="password-input-container">
-        <input
-          v-for="(digit, index) in password"
-          :key="index"
-          :ref="(el) => (inputRefs[index] = el)"
-          v-model="password[index]"
-          type="tel"
-          maxlength="1"
-          @input="onInput(index)"
-          @keydown="onKeyDown($event, index)"
-          class="password-digit"
-        />
+        <input v-for="(digit, index) in password" :key="index" :ref="(el) => (inputRefs[index] = el)"
+          v-model="password[index]" type="tel" maxlength="1" @input="onInput(index)" @keydown="onKeyDown($event, index)"
+          class="password-digit" />
       </div>
-      <button
-        type="submit"
-        :disabled="!isPasswordComplete"
-        class="btn btn-primary"
-      >
+      <button type="submit" :disabled="!isPasswordComplete" class="btn btn-primary">
         제출
       </button>
     </form>
@@ -120,7 +108,7 @@ const resetPassword = () => {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  min-height: 100vh;
+  min-height: 80vh;
   padding: 20px;
   background-color: #f5f5f5;
 }

@@ -1,6 +1,6 @@
 <template>
     <div v-if="user">
-        <div class="card custom-card" :style="{ backgroundImage: `url(${backgroundImage})` }">
+        <div class="card card-img-bg" :style="{ backgroundImage: `url(${backgroundImage})` }">
             <div class="card-body d-flex align-items-end justify-content-end">
                 <div class="d-flex align-items-center">
                     <div class="icon-container me-2">
@@ -13,7 +13,7 @@
         </div>
     </div>
     <div v-else>
-        <div class="card custom-card" :style="{ bacgroundColor: gray }">
+        <div class="card card-img-bg" :style="{ bacgroundColor: gray }">
         </div>
     </div>
 </template>
@@ -75,8 +75,6 @@ const displayCountry = computed(() => {
     return props.assetType === 'song-e' ? CURRENCY_NAMES[user.value.countryCode] : CURRENCY_NAMES[0];
 });
 
-
-
 const fetchBalance = async () => {
     if (props.assetType === 'song-e') {
         myaccountApi.fetchsongeAccountBalance(user.value.songNo).then((fetchedBalance) => {
@@ -102,13 +100,6 @@ defineExpose({ fetchBalance });
 </script>
 
 <style scoped>
-.custom-card {
-    width: 8.56cm;
-    aspect-ratio: 1.585;
-    /* 비율 8.56 / 5.398 */
-    background-size: cover;
-}
-
 @media (max-width: 500px) {
     .card {
         width: 90%;
