@@ -158,7 +158,7 @@ let processAfterWonBalance = computed(() => {
   let wonBalance = 0;
 
   // 충전일 경우 잔액 증가
-  if (activeTab.value === TRANSACTION_TYPES.REFUND) {
+  if (activeTab.value === TRANSACTION_TYPES.TRANSFER) {
     wonBalance = wonEMoneyBalance.value - parseFloat(transferAmount.value || 0);
   }
 
