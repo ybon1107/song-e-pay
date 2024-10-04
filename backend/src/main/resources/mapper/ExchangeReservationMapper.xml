@@ -55,7 +55,7 @@
     <select id="countAutoExchange" parameterType="map" resultType="Integer">
         select count(*)
         from exchange_reservation
-        where targetExchange <= #{targetExchange} and target_krw != #{targetKrw}
+        where <![CDATA[targetExchange <= #{targetExchange} and target_krw != #{targetKrw}]]>
     </select>
 
     <!-- 자동 환전 완료한 후 삭제 -->
