@@ -16,6 +16,44 @@
         where user_no = #{userNo}
     </select>
 
+    <resultMap id="authMap" type="com.sepay.backend.security.account.domain.AuthVO">
+        <id property="username" column="user_id"/>
+        <result property="auth" column="auth"/>
+    </resultMap>
+
+    <!-- 사용자 정보 매핑 -->
+    <resultMap id="userMap" type="com.sepay.backend.security.account.domain.UserVO">
+        <id property="userNo" column="user_no"/>
+        <result property="accountNo" column="account_no"/>
+        <result property="songNo" column="song_no"/>
+        <result property="krwNo" column="krw_no"/>
+        <result property="countryCode" column="country_code"/>
+        <result property="username" column="user_id"/>
+        <result property="password" column="password"/>
+        <result property="firstName" column="first_name"/>
+        <result property="lastName" column="last_name"/>
+        <result property="birthday" column="birthday"/>
+        <result property="gender" column="gender"/>
+        <result property="phoneNo" column="phone_no"/>
+        <result property="secondPwd" column="second_pwd"/>
+        <result property="profilePic" column="profile_pic"/>
+        <collection property="authList" resultMap="authMap"/>
+    </resultMap>
+
+    <!-- 특정 사용자 정보 조회 -->
+    <select id="getUserInfo" resultMap="userMap">
+        SELECT user_no, account_no, song_no, krw_no, country_code, u.user_id, password, first_name, last_name, birthday, gender, phone_no, second_pwd, profile_pic, post_code, state_code, create_at, update_at, auth,
+        FROM user u
+        LEFT OUTER JOIN user_auth ua ON u.user_id = ua.user_id
+        where u.user_id = #{userId}
+    </select>
+
+    <!-- 권한 부여 -->
+    <insert id="insertAuth">
+        INSERT INTO user_auth(user_id, auth)
+        VALUES(#{userId}, #{auth})
+    </insert>
+
     <!-- 로그인 -->
     <select id="selectUser" parameterType="map" resultType="userDTO">
         select *
@@ -23,7 +61,7 @@
         where user_id = #{userId} and password = #{password}
     </select>
 
-    <!-- 회원가입 정보 DB에 INSERT -->
+    <!-- 회원가입 -->
     <insert id="insertUser" parameterType="userDTO">
         INSERT INTO user(user_id, password, country_code, first_name, last_name, birthday, gender, phone_no)
         VALUES(#{userId}, #{password}, #{countryCode}, #{firstName}, #{lastName}, #{birthday}, #{gender}, #{phoneNo})

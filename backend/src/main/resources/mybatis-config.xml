@@ -15,6 +15,7 @@
         <package name="com.sepay.backend.myaccount.dto"/>
         <package name="com.sepay.backend.exchangereservation.dto"/>
         <package name="com.sepay.backend.notification.dto"/>
+        <package name="com.sepay.backend.security.account.domain"/>
     </typeAliases>
 
     <mappers>
