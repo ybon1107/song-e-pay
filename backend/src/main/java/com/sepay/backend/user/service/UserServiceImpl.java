@@ -1,10 +1,13 @@
 package com.sepay.backend.user.service;
 
 import com.sepay.backend.payment.dto.PasswordDTO;
+import com.sepay.backend.security.account.domain.UserVO;
 import com.sepay.backend.user.dto.UserDTO;
 import com.sepay.backend.user.mapper.UserMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -13,7 +16,9 @@ import java.util.HashMap;
 @Service
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService{
+
     private final UserMapper mapper;
+    final PasswordEncoder passwordEncoder;
 
     @Override
     public UserDTO getInfo(Integer userNo) {
@@ -34,6 +39,11 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
+    public UserDTO getUserId(String userId) {
+        return mapper.getUserInfo(userId);
+    }
+
+    @Override
     public UserDTO login(String userId, String password) {
         HashMap map = new HashMap();
         map.put("userId", userId);
@@ -50,6 +60,12 @@ public class UserServiceImpl implements UserService{
             log.error("Error registering user: ", e);
             throw new RuntimeException("Registration failed");
         }
+    }
 
+    // 이메일 중복 확인 메서드 추가
+    @Override
+    public boolean isEmailRegistered(String userId) {
+        UserVO user = mapper.getUserInfo(userId).toVO();
+        return user != null ? true : false;
     }
 }
