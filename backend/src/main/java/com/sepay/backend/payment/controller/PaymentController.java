@@ -2,12 +2,14 @@ package com.sepay.backend.payment.controller;
 
 import com.google.zxing.WriterException;
 import com.sepay.backend.payment.dto.PasswordDTO;
+import com.sepay.backend.payment.dto.PaymentDTO;
 import com.sepay.backend.payment.service.PaymentService;
-import com.sepay.backend.payment.service.PaymentServiceImpl;
+import com.sepay.backend.user.dto.UserDTO;
 import com.sepay.backend.user.service.UserService;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
@@ -45,11 +47,24 @@ public class PaymentController {
         outputStream.close();
     }
 
-    @GetMapping("/qr-scan")
-    @ResponseBody
-    public void handleQRScan(){
-        //결제 로직 구현
-        System.out.println("입력");
-        return;
+//    @PostMapping("/qr-scan")
+//    public boolean handleQRScan(@RequestBody Double amount, UserDTO user){
+//        return paymentService.payment(amount,user);
+//    }
+
+    @PostMapping("/qr-scan")
+    public ResponseEntity<?> handleQRScan(@RequestBody PaymentDTO dto) {
+        try {
+            paymentService.payment(dto.getAmount(),dto.getUserDTO());
+            return ResponseEntity.ok(true);
+        } catch (Exception e) {
+            return ResponseEntity.ok(false);
+        }
     }
+
+//    public boolean handleQRScan(@RequestBody DTORequest req){
+//        return paymentService.payment(req.getKrwAccountDTO(),req.getAmount());
+////        결제 로직 구현
+////        System.out.println("입력");
+//    }
 }
