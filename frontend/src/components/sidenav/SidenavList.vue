@@ -69,7 +69,7 @@ const getRoute = () => {
       <li class="nav-item">
         <sidenav-item to="/schedule" :class="getRoute() === 'schedule' ? 'active' : ''" :navText="isRTL ? 'الواقع الافتراضي' : '스케줄'">
           <template v-slot:icon>
-            <i class="ni ni-pin-3 text-danger text-sm opacity-10"></i>
+            <i class="ni ni-calendar-grid-58 text-dark text-sm opacity-10"></i>
           </template>
         </sidenav-item>
       </li>
