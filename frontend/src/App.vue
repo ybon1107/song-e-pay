@@ -85,7 +85,8 @@ const navClasses = computed(() => {
 h1 {
   font-family: 'TTLaundryGothicB', sans-serif;
 }
-*/ .container-fluid {
+
+.container-fluid {
   max-width: 1200px;
 }
 
