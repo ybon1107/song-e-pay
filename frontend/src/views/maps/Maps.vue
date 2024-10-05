@@ -9,7 +9,7 @@
         <select v-model="selectedProvince" @change="fetchCities" id="city-select" class="form-select form-field-radius">
           <option value="" disabled selected>{{ $t("map--select-cityLabel") }}</option>
           <option v-for="province in provinces" :key="province" :value="province">
-            {{ province }}
+            {{ $t(province) }}
           </option>
         </select>
       </div>
@@ -68,6 +68,8 @@ import {
   GYEONGSANGNAM_CITIES,
   JEJU_CITIES
 } from '../../constants/localUnits';
+import { useI18n } from 'vue-i18n';
+const { t } = useI18n();
 
 const map = ref(null);
 const service = ref(null);
@@ -199,28 +201,30 @@ function fetchCities() {
   } else if (selectedProvince.value === PROVINCES[3]) {
     cities.value = INCHEON_CITIES
   } else if (selectedProvince.value === PROVINCES[4]) {
-    cities.value = GWANGJU_CITIES
+    cities.value = DAEJEON_CITIES
   } else if (selectedProvince.value === PROVINCES[5]) {
-    cities.value = ULSAN_CITIES
+    cities.value = GWANGJU_CITIES
   } else if (selectedProvince.value === PROVINCES[6]) {
-    cities.value = SEJONG_CITIES
+    cities.value = ULSAN_CITIES
   } else if (selectedProvince.value === PROVINCES[7]) {
-    cities.value = GYEONGGI_CITIES
+    cities.value = SEJONG_CITIES
   } else if (selectedProvince.value === PROVINCES[8]) {
-    cities.value = GANGWON_CITIES
+    cities.value = GYEONGGI_CITIES
   } else if (selectedProvince.value === PROVINCES[9]) {
-    cities.value = CHUNGCHEONGBUK_CITIES
+    cities.value = GANGWON_CITIES
   } else if (selectedProvince.value === PROVINCES[10]) {
-    cities.value = CHUNGCHEONGNAM_CITIES
+    cities.value = CHUNGCHEONGBUK_CITIES
   } else if (selectedProvince.value === PROVINCES[11]) {
-    cities.value = JEOLLABUK_CITIES
+    cities.value = CHUNGCHEONGNAM_CITIES
   } else if (selectedProvince.value === PROVINCES[12]) {
-    cities.value = JEOLLANAM_CITIES
+    cities.value = JEOLLABUK_CITIES
   } else if (selectedProvince.value === PROVINCES[13]) {
-    cities.value = GYEONGSANGBUK_CITIES
+    cities.value = JEOLLANAM_CITIES
   } else if (selectedProvince.value === PROVINCES[14]) {
-    cities.value = GYEONGSANGNAM_CITIES
+    cities.value = GYEONGSANGBUK_CITIES
   } else if (selectedProvince.value === PROVINCES[15]) {
+    cities.value = GYEONGSANGNAM_CITIES
+  } else if (selectedProvince.value === PROVINCES[16]) {
     cities.value = JEJU_CITIES
   }
 }
@@ -279,7 +283,7 @@ function searchBank() {
               service.value.getDetails(detailsRequest, (placeDetails, status) => {
                 if (status === google.maps.places.PlacesServiceStatus.OK) {
                   // 오늘의 운영시간 가져오기
-                  let todayOpeningHours = '운영시간 정보 없음';
+                  let todayOpeningHours = t('map--marker-box-openingHours');
                   if (placeDetails.opening_hours && placeDetails.opening_hours.weekday_text) {
                     // 현재 날짜 가져오기
                     const today = new Date();
