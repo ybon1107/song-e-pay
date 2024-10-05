@@ -20,7 +20,8 @@
     "prettify": "prettier --write .",
     "dev": "vite --host --port 5173",
     "build-vite": "vite build",
-    "preview-vite": "vite preview"
+    "preview-vite": "vite preview",
+    "generate-locales": "node ./src/locales/generateJson.js"
   },
   "dependencies": {
     "@fullcalendar/core": "^6.1.10",
