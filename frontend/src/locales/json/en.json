@@ -4,5 +4,22 @@
     "map--select-cityLabel": "City/Province",
     "map--select-districtLabel": "District/County/Gu",
     "map--button-search": "Find",
-    "map--address": "Address"
+    "map--address": "Address",
+    "provinces--seoul": "",
+    "provinces--busan": "",
+    "provinces--daegu": "",
+    "provinces--incheon": "",
+    "provinces--gwangju": "",
+    "provinces--daejeon": "",
+    "provinces--ulsan": "",
+    "provinces--sejong": "",
+    "provinces--gyeonggi": "",
+    "provinces--gangwon": "",
+    "provinces--chungcheongbuk": "",
+    "provinces--chungcheongnam": "",
+    "provinces--jeollabuk": "",
+    "provinces--jeollanam": "",
+    "provinces--gyeongsangbuk": "",
+    "provinces--gyeongsangnam": "",
+    "provinces--jeju": ""
 }

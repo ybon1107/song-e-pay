@@ -5,3 +5,20 @@ map--select-cityLabel,광역시/도,City/Province,Kota,Thành phố
 map--select-districtLabel,시/군/구,District/County/Gu,Pilih Kota/Kabupaten,Chọn quận/huyện
 map--button-search,찾기,Find,Cari,Tìm
 map--address,주소,Address,Alamat,Địa chỉ
+provinces--seoul,서울특별시,,
+provinces--busan,부산광역시,,
+provinces--daegu,대구광역시,,
+provinces--incheon,인천광역시,,
+provinces--gwangju,광주광역시,,
+provinces--daejeon,대전광역시,,
+provinces--ulsan,울산광역시,,
+provinces--sejong,세종특별자치시,,
+provinces--gyeonggi,경기도,,
+provinces--gangwon,강원도,,
+provinces--chungcheongbuk,충청북도,,
+provinces--chungcheongnam,충청남도,,
+provinces--jeollabuk,전라북도,,
+provinces--jeollanam,전라남도,,
+provinces--gyeongsangbuk,경상북도,,
+provinces--gyeongsangnam,경상남도,,
+provinces--jeju,제주특별자치도,,

@@ -4,5 +4,22 @@
     "map--select-cityLabel": "Kota",
     "map--select-districtLabel": "Pilih Kota/Kabupaten",
     "map--button-search": "Cari",
-    "map--address": "Alamat"
+    "map--address": "Alamat",
+    "provinces--seoul": "",
+    "provinces--busan": "",
+    "provinces--daegu": "",
+    "provinces--incheon": "",
+    "provinces--gwangju": "",
+    "provinces--daejeon": "",
+    "provinces--ulsan": "",
+    "provinces--sejong": "",
+    "provinces--gyeonggi": "",
+    "provinces--gangwon": "",
+    "provinces--chungcheongbuk": "",
+    "provinces--chungcheongnam": "",
+    "provinces--jeollabuk": "",
+    "provinces--jeollanam": "",
+    "provinces--gyeongsangbuk": "",
+    "provinces--gyeongsangnam": "",
+    "provinces--jeju": ""
 }
