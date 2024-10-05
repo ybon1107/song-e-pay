@@ -5,306 +5,320 @@ import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import { createEventId } from './event-utils';
+import EditEventModal from './EditEventModal';
+import EventListModal from './EventListModal';
+import MaintenanceModal from './MaintenanceModal'; // 모달 컴포넌트로 분리
 import moment from 'moment';
-// maintenance 상태를 ref로 정의
+
+const clickedDate = ref('');
 const maintenance = ref({
-  title: '',
-  description: '',
-  color: '',
-  startedAt: moment().format('YYYY-MM-DD HH:mm:ss'),
-  endedAt: moment().format('YYYY-MM-DD HH:mm:ss'),
+    title: '',
+    description: '',
+    color: '',
+    startedAt: moment().format('YYYY-MM-DD HH:mm:ss'),
+    endedAt: moment().format('YYYY-MM-DD HH:mm:ss'),
 });
 const calendarRef = ref(null);
-// 상태 관리
 const currentEvents = ref([]);
-// 모달 상태와 일정 제목, 선택된 정보 관리
+const selectedDateEvents = ref([]);
+const isEditEventModalVisible = ref(false);
+const isEventListModalVisible = ref(false); // EventListModal의 가시성 관리
+const isMaintenanceModalVisible = ref(false); // MaintenanceModal의 가시성 관리
 
-const selectedInfo = ref(null);
-function handleDateSelect(selectInfo: any) {
-  // 드래그된 날짜 범위의 시작 날짜와 끝 날짜를 가져옴
-  const startDate = selectInfo.startStr; // 드래그한 시작 날짜
-  const endDate = selectInfo.endStr ? selectInfo.endStr : startDate; // 드래그한 끝 날짜 (없으면 시작 날짜와 같음)
+// 이벤트 삭제 함수
+const deleteEvents = (selectedEventIds) => {
+    const calendarApi = calendarRef.value.getApi();
 
-  const calendarApi = selectInfo.view.calendar;
-  showModal();
+    selectedEventIds.forEach((eventId) => {
+        const event = calendarApi.getEventById(eventId);
+        if (event) {
+            event.remove(); // 이벤트 삭제
+        }
+    });
 
-  maintenance.value.title = ''; // 새 이벤트를 위한 초기화
-  maintenance.value.startedAt = startDate;
-  maintenance.value.endedAt = endDate;
+    // currentEvents 상태 업데이트
+    currentEvents.value = calendarApi.getEvents();
+};
 
-  // 선택 완료 후 선택 상태를 해제
-  calendarApi.unselect();
-}
+const handleDateSelect = (selectInfo: any) => {
+    const startDate = moment(selectInfo.startStr).format('YYYY-MM-DD');
+    const endDate = selectInfo.endStr
+        ? moment(selectInfo.endStr).format('YYYY-MM-DD')
+        : startDate;
+    const calendarApi = selectInfo.view.calendar;
 
-function save() {
-  // FullCalendar API 객체를 가져오기
-  const calendarApi = calendarRef.value.getApi();
+    maintenance.value.title = '';
+    maintenance.value.startedAt = startDate;
+    maintenance.value.endedAt = endDate;
+    isMaintenanceModalVisible.value = true; // 일정 추가 모달 열기
 
-  // 선택한 이벤트를 추가할 때 색상과 기타 정보 반영
-  calendarApi.addEvent({
-    id: createEventId(),
-    title: maintenance.value.title,
-    start: maintenance.value.startedAt,
-    end: maintenance.value.endedAt,
-    backgroundColor: getColor(maintenance.value.color), // 선택한 색상 적용
-    borderColor: getColor(maintenance.value.color),
-    allDay: true,
-  });
+    calendarApi.unselect(); // 선택 상태 해제
+};
 
-  // 모달 닫기
-  closeModal();
-}
+const handleDateClick = (info: any) => {
+    clickedDate.value = moment(info.dateStr).format('YYYY-MM-DD');
 
-// 선택한 색상에 따른 배경색 설정
-function getColor(colorName: string) {
-  switch (colorName) {
-    case 'primary':
-      return '#007bff';
-    case 'warning':
-      return '#ffc107';
-    case 'success':
-      return '#28a745';
-    case 'danger':
-      return '#dc3545';
-    case 'muted':
-      return '#6c757d';
-    default:
-      return '#007bff'; // 기본 색상
-  }
-}
+    selectedDateEvents.value = currentEvents.value.filter((event: any) => {
+        const eventStart = moment(event.start).format('YYYY-MM-DD');
+        const eventEnd = moment(event.end || event.start)
+            .subtract(1, 'day')
+            .format('YYYY-MM-DD'); // 종료일을 하루 줄임
+        return moment(clickedDate.value).isBetween(
+            eventStart,
+            eventEnd,
+            null,
+            '[]'
+        );
+    });
 
-// 이벤트 클릭 핸들러
+    if (selectedDateEvents.value.length > 0) {
+        isEventListModalVisible.value = true; // EventListModal 열기
+    } else {
+        maintenance.value.startedAt = clickedDate.value;
+        maintenance.value.endedAt = clickedDate.value;
+        isMaintenanceModalVisible.value = true; // MaintenanceModal 열기
+    }
+};
+
 const handleEventClick = (clickInfo) => {
-  if (confirm(`Are you sure you want to delete the event '${clickInfo.event.title}'`)) {
-    clickInfo.event.remove();
-  }
-};
-// 모달 닫기 함수
-function closeModal() {
-  const modal = document.getElementById('maintenance');
-  if (modal) {
-    modal.style.display = 'none';
-    modal.classList.remove('show');
-    modal.setAttribute('aria-hidden', 'true');
-  }
-}
-// 모달 열기 함수
-function showModal() {
-  const modal = document.getElementById('maintenance');
-  if (modal) {
-    modal.style.display = 'block';
-    modal.classList.add('show'); // 모달이 보여지도록 Bootstrap의 show 클래스 추가
-    modal.setAttribute('aria-hidden', 'false');
-    modal.style.background = 'rgba(0, 0, 0, 0.5)'; // 배경 색상 추가
-  }
-}
+    maintenance.value.id = clickInfo.event.id;
+    maintenance.value.title = clickInfo.event.title;
+    maintenance.value.description =
+        clickInfo.event.extendedProps.description || '';
+    maintenance.value.start = moment(clickInfo.event.start).format(
+        'YYYY-MM-DD'
+    );
+    maintenance.value.end = moment(
+        clickInfo.event.end || clickInfo.event.start
+    ).format('YYYY-MM-DD');
 
-// 이벤트 상태 업데이트 핸들러
-const handleEvents = (events) => {
-  currentEvents.value = events;
+    isEditEventModalVisible.value = true; // EditEventModal 열기
 };
 
-// 캘린더 옵션
+const closeModal = () => {
+    isEditEventModalVisible.value = false;
+    isEventListModalVisible.value = false;
+    isMaintenanceModalVisible.value = false;
+};
+
+const saveEvent = (updatedEvent) => {
+    const calendarApi = calendarRef.value.getApi();
+
+    const existingEvent = calendarApi.getEventById(updatedEvent.id);
+
+    if (existingEvent) {
+        // 기존 이벤트 업데이트
+        existingEvent.setProp('title', updatedEvent.title);
+        existingEvent.setExtendedProp('description', updatedEvent.description);
+        existingEvent.setStart(updatedEvent.startedAt);
+        existingEvent.setEnd(updatedEvent.endedAt);
+        existingEvent.setProp('backgroundColor', getColor(updatedEvent.color));
+        existingEvent.setProp('borderColor', getColor(updatedEvent.color));
+    } else {
+        // 새 이벤트 추가
+        calendarApi.addEvent({
+            id: updatedEvent.id || createEventId(), // id가 없을 경우 새로 생성
+            title: updatedEvent.title,
+            start: updatedEvent.startedAt,
+            end: updatedEvent.endedAt,
+            backgroundColor: getColor(updatedEvent.color),
+            borderColor: getColor(updatedEvent.color),
+            allDay: true,
+            extendedProps: {
+                description: updatedEvent.description,
+            },
+        });
+    }
+
+    // currentEvents 상태를 갱신하여 UI 업데이트
+    currentEvents.value = calendarApi.getEvents();
+
+    // 모달 닫기
+    closeEditEventModal();
+};
+
+const getColor = (colorName: string) => {
+    switch (colorName) {
+        case 'primary':
+            return '#8EEFEF'; // 더 밝은 청록색
+        case 'warning':
+            return '#FFD347'; // 더 밝은 노란색
+        case 'success':
+            return '#4DD36A'; // 더 밝은 연두색
+        case 'danger':
+            return '#FFA8E1'; // 더 밝은 핑크색
+        case 'muted':
+            return '#A1A5AB'; // 더 밝은 회색
+        default:
+            return '#8EEFEF'; // 기본 청록색을 더 밝게 수정
+    }
+};
 const calendarOptions = ref({
-  plugins: [
-    dayGridPlugin,
-    timeGridPlugin,
-    interactionPlugin, // needed for dateClick
-  ],
-  headerToolbar: {
-    left: 'prev,next today',
-    center: 'title',
-    right: 'dayGridMonth,timeGridWeek,timeGridDay',
-  },
-  initialView: 'dayGridMonth',
-  // initialEvents: INITIAL_EVENTS,
-  // alternatively, use the `events` setting to fetch from a feed
-  editable: true,
-  selectable: true,
-  selectMirror: true,
-  dayMaxEvents: true,
-  weekends: true,
-  select: handleDateSelect,
-  eventClick: handleEventClick,
-  eventsSet: handleEvents,
+    plugins: [dayGridPlugin, timeGridPlugin, interactionPlugin],
+    headerToolbar: {
+        left: 'prev,next today',
+        center: 'title',
+        right: 'dayGridMonth,timeGridWeek,timeGridDay',
+    },
+    initialView: 'dayGridMonth',
+    editable: true,
+    selectable: true,
+    dayMaxEvents: true,
+    weekends: true,
+    select: handleDateSelect,
+    dateClick: handleDateClick,
+    eventClick: handleEventClick,
 });
+
+const closeEditEventModal = () => {
+    isEditEventModalVisible.value = false;
+};
 </script>
 
 <template>
-  <div class="container-fluid" style="width: 85%" id="responsive-container">
-    <div class="card card-body demo-app d-flex flex-column flex-md-row">
-      <div class="demo-app-main col-md-9">
-        <FullCalendar ref="calendarRef" class="demo-app-calendar" :options="calendarOptions">
-          <template v-slot:eventContent="arg">
-            <b>{{ arg.timeText }}</b>
-            <i>{{ arg.event.title }}</i>
-          </template>
-        </FullCalendar>
-      </div>
-      <div class="demo-app-sidebar demo-app-sidebar-section col-md-3">
-        <h5>All Events ({{ currentEvents.length }})</h5>
-        <ul>
-          <li v-for="event in currentEvents" :key="event.id">
-            <b>{{ event.startStr }}</b>
-            <i>{{ event.title }}</i>
-          </li>
-        </ul>
-      </div>
+    <div class="container-fluid" style="width: 85%" id="responsive-container">
+        <div class="card card-body demo-app d-flex flex-column flex-md-row">
+            <div class="demo-app-main col-md-9">
+                <FullCalendar
+                    ref="calendarRef"
+                    class="demo-app-calendar"
+                    :options="calendarOptions"
+                >
+                    <template v-slot:eventContent="arg">
+                        <b>{{ arg.timeText }}</b>
+                        <i>{{ arg.event.title }}</i>
+                    </template>
+                </FullCalendar>
+            </div>
+            <div class="demo-app-sidebar demo-app-sidebar-section col-md-3">
+                <h5>All Events ({{ currentEvents.length }})</h5>
+                <ul>
+                    <li v-for="event in currentEvents" :key="event.id">
+                        <b>{{ event.startStr }}</b>
+                        <i>{{ event.title }}</i>
+                    </li>
+                </ul>
+            </div>
+        </div>
     </div>
-  </div>
-  <!-- Modal for event creation -->
-  <div id="maintenance" class="modal fade" tabindex="-1" aria-labelledby="maintenanceLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h4 class="modal-title" id="maintenanceLabel">이벤트 등록</h4>
-          <button type="button" class="close" @click="closeModal">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          <div class="row">
-            <label for="title" class="col-3">이벤트명</label>
-            <div class="col-9">
-              <input id="title" v-model="maintenance.title" class="form-control w-100" type="text" />
-            </div>
-          </div>
-          <div class="row">
-            <label for="color" class="col-3">색상선택</label>
-            <div class="col-9 btn-group w-100 my-20">
-              <!-- 색상 선택을 위한 버튼을 추가 -->
-              <button
-                v-for="color in ['primary', 'warning', 'success', 'danger', 'muted']"
-                :key="color"
-                @click="maintenance.color = color"
-                :style="{
-                  backgroundColor: getColor(color),
-                  width: '30px',
-                  height: '30px',
-                  marginRight: '5px',
-                }"
-                class="color-picker-btn"
-              ></button>
-            </div>
-          </div>
-          <div class="row">
-            <label for="description" class="col-3">이벤트 세부내용</label>
-            <div class="col-9">
-              <textarea id="description" v-model="maintenance.description" class="form-control" rows="3"></textarea>
-            </div>
-          </div>
-          <div class="row">
-            <label class="col-3">기간</label>
-            <div class="col-9">
-              <div class="row">
-                <div class="col-6">
-                  <input id="startDate" v-model="maintenance.startedAt" type="date" class="form-control" />
-                </div>
-                <div class="col-6">
-                  <input id="endDate" v-model="maintenance.endedAt" type="date" class="form-control" />
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="modal-footer justify-content-between">
-          <button type="button" class="btn btn-default" @click="closeModal">Close</button>
-          <button type="button" class="btn btn-primary" @click="save">Save changes</button>
-        </div>
-      </div>
-    </div>
-  </div>
+
+    <!-- 분리된 모달들 -->
+    <EditEventModal
+        v-if="isEditEventModalVisible"
+        :isVisible="isEditEventModalVisible"
+        :eventDetails="maintenance"
+        @saveEvent="saveEvent"
+        @closeModal="closeEditEventModal"
+    />
+
+    <EventListModal
+        v-if="isEventListModalVisible"
+        :isVisible="isEventListModalVisible"
+        :events="selectedDateEvents"
+        @closeModal="closeModal"
+        @deleteEvents="deleteEvents"
+    />
+
+    <MaintenanceModal
+        v-if="isMaintenanceModalVisible"
+        :isVisible="isMaintenanceModalVisible"
+        :maintenance="maintenance"
+        @saveEvent="saveEvent"
+        @closeModal="closeModal"
+    />
 </template>
 
 <style lang="css">
 h2 {
-  margin: 0;
-  font-size: 16px;
+    margin: 0;
+    font-size: 16px;
 }
 
 ul {
-  margin: 0;
-  padding-left: 1rem !important;
-  padding: 0 0 0 1.5em;
+    margin: 0;
+    padding-left: 1rem !important;
+    padding: 0 0 0 1.5em;
 }
 
-/* li {
-  margin: 1.5em 0;
-  padding: 0;
-} */
-
 b {
-  margin-right: 3px;
+    margin-right: 3px;
 }
 
 .demo-app {
-  display: flex;
-  min-height: 100%;
-  font-family:
-    Arial,
-    Helvetica Neue,
-    Helvetica,
-    sans-serif;
-  font-size: 14px;
-  background: #fff6ef !important;
+    display: flex;
+    min-height: 100%;
+    font-family:
+        Arial,
+        Helvetica Neue,
+        Helvetica,
+        sans-serif;
+    font-size: 14px;
+    background: #ffffff !important;
 }
 
 .demo-app-sidebar {
-  line-height: 1.5;
-  background: #fdf4bb !important;
-  border-right: 2px solid #ffeb69 !important ;
-  border-radius: 1rem;
+    line-height: 1.5;
+    background: #fdf4bb !important;
+    border-right: 2px solid #ffeb69 !important;
+    border-radius: 1rem;
 }
 
 .demo-app-sidebar-section {
-  padding: 1em;
-  margin-top: 1rem;
+    padding: 1em;
+    margin-top: 1rem;
 }
 
 .demo-app-main {
-  flex-grow: 1;
-  padding: 1em;
+    flex-grow: 1;
+    padding: 1em;
 }
 
 .fc {
-  max-width: 1100px;
-  margin: 0 auto;
+    max-width: 1100px;
+    margin: 0 auto;
 }
 
-/* FullCalendar toolbar 버튼 스타일 커스터마이징 */
 .fc-toolbar .fc-button {
-  background-color: #ffeb69 !important; /* 버튼의 배경색 */
-  color: white; /* 버튼 텍스트 색상 */
-  border: 0px !important;
+    background-color: #ffeb69 !important;
+    color: white;
+    border: 0px !important;
 }
 
 .fc-toolbar .fc-button:hover {
-  background-color: #ffeb69 !important; /* 마우스 오버 시 버튼 색상 */
-  color: black !important;
+    background-color: #ffeb69 !important;
+    color: black !important;
 }
 
 .fc-day-sun a {
-  /* 일요일 컬러 */
-  color: rgb(253, 150, 150) !important;
+    color: rgb(253, 150, 150) !important;
 }
 
 .fc-day-sat a {
-  /* 토요일 컬러 */
-  color: rgb(253, 150, 150) !important;
+    color: rgb(253, 150, 150) !important;
 }
+
 .fc .fc-toolbar.fc-header-toolbar {
-  margin-bottom: 1.5em !important;
-  background: #fdf4bb !important;
-  padding: 1rem !important;
-  border-radius: 1rem !important;
+    margin-bottom: 1.5em !important;
+    background: #fdf4bb !important;
+    padding: 1rem !important;
+    border-radius: 1rem !important;
 }
 
 .color-picker-btn {
-  border: none;
-  cursor: pointer;
+    border: none;
+    cursor: pointer;
+    margin-right: 10px;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    transition: box-shadow 0.3s ease;
 }
 
 .color-picker-btn:focus {
-  outline: none;
+    outline: none;
+}
+
+.color-picker-btn.active {
+    box-shadow: 0 0 0 4px rgba(0, 0, 0, 0.3);
 }
 </style>
