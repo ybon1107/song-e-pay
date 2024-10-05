@@ -109,7 +109,7 @@ const getRoute = () => {
                 >
                     <template v-slot:icon>
                         <i
-                            class="ni ni-pin-3 text-danger text-sm opacity-10"
+                            class="ni ni-calendar-grid-58 text-dark text-sm opacity-10"
                         ></i>
                     </template>
                 </sidenav-item>

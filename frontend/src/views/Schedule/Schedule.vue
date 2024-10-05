@@ -6,7 +6,6 @@ import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import { createEventId } from './event-utils';
 import EditEventModal from './EditEventModal';
-import EventListModal from './EventListModal';
 import MaintenanceModal from './MaintenanceModal'; // 모달 컴포넌트로 분리
 import moment from 'moment';
 
@@ -20,19 +19,31 @@ const maintenance = ref({
 });
 const calendarRef = ref(null);
 const currentEvents = ref([]);
-const selectedDateEvents = ref([]);
 const isEditEventModalVisible = ref(false);
-const isEventListModalVisible = ref(false); // EventListModal의 가시성 관리
 const isMaintenanceModalVisible = ref(false); // MaintenanceModal의 가시성 관리
 
 // 이벤트 삭제 함수
-const deleteEvents = (selectedEventIds) => {
+const deleteEvent = (selectedEventIds) => {
+    // 삭제 확인을 사용자에게 묻기
+    const confirmation = window.confirm('정말로 삭제하시겠습니까?');
+
+    if (!confirmation) {
+        // 사용자가 취소를 누르면 삭제하지 않음
+        return;
+    }
+
+    // selectedEventIds가 배열인지 확인하고 배열이 아니면 배열로 변환
+    if (!Array.isArray(selectedEventIds)) {
+        selectedEventIds = [selectedEventIds]; // 배열로 변환
+    }
+
     const calendarApi = calendarRef.value.getApi();
 
     selectedEventIds.forEach((eventId) => {
         const event = calendarApi.getEventById(eventId);
         if (event) {
             event.remove(); // 이벤트 삭제
+            closeModal();
         }
     });
 
@@ -58,26 +69,9 @@ const handleDateSelect = (selectInfo: any) => {
 const handleDateClick = (info: any) => {
     clickedDate.value = moment(info.dateStr).format('YYYY-MM-DD');
 
-    selectedDateEvents.value = currentEvents.value.filter((event: any) => {
-        const eventStart = moment(event.start).format('YYYY-MM-DD');
-        const eventEnd = moment(event.end || event.start)
-            .subtract(1, 'day')
-            .format('YYYY-MM-DD'); // 종료일을 하루 줄임
-        return moment(clickedDate.value).isBetween(
-            eventStart,
-            eventEnd,
-            null,
-            '[]'
-        );
-    });
-
-    if (selectedDateEvents.value.length > 0) {
-        isEventListModalVisible.value = true; // EventListModal 열기
-    } else {
-        maintenance.value.startedAt = clickedDate.value;
-        maintenance.value.endedAt = clickedDate.value;
-        isMaintenanceModalVisible.value = true; // MaintenanceModal 열기
-    }
+    maintenance.value.startedAt = clickedDate.value;
+    maintenance.value.endedAt = clickedDate.value;
+    isMaintenanceModalVisible.value = true; // MaintenanceModal 열기
 };
 
 const handleEventClick = (clickInfo) => {
@@ -97,10 +91,8 @@ const handleEventClick = (clickInfo) => {
 
 const closeModal = () => {
     isEditEventModalVisible.value = false;
-    isEventListModalVisible.value = false;
     isMaintenanceModalVisible.value = false;
 };
-
 const saveEvent = (updatedEvent) => {
     const calendarApi = calendarRef.value.getApi();
 
@@ -140,17 +132,17 @@ const saveEvent = (updatedEvent) => {
 const getColor = (colorName: string) => {
     switch (colorName) {
         case 'primary':
-            return '#8EEFEF'; // 더 밝은 청록색
+            return '#8EEFEF'; 
         case 'warning':
-            return '#FFD347'; // 더 밝은 노란색
+            return '#FFD347'; 
         case 'success':
-            return '#4DD36A'; // 더 밝은 연두색
+            return '#4DD36A'; 
         case 'danger':
-            return '#FFA8E1'; // 더 밝은 핑크색
+            return '#FFA8E1'; 
         case 'muted':
-            return '#A1A5AB'; // 더 밝은 회색
+            return '#A1A5AB'; 
         default:
-            return '#8EEFEF'; // 기본 청록색을 더 밝게 수정
+            return '#8EEFEF'; 
     }
 };
 const calendarOptions = ref({
@@ -172,6 +164,7 @@ const calendarOptions = ref({
 
 const closeEditEventModal = () => {
     isEditEventModalVisible.value = false;
+    maintenance.value.id = ''; // 이벤트 ID를 초기화하여 수정 상태 종료
 };
 </script>
 
@@ -184,10 +177,10 @@ const closeEditEventModal = () => {
                     class="demo-app-calendar"
                     :options="calendarOptions"
                 >
-                    <template v-slot:eventContent="arg">
-                        <b>{{ arg.timeText }}</b>
-                        <i>{{ arg.event.title }}</i>
-                    </template>
+                <template v-slot:eventContent="arg">
+                <b style="color: black;">{{ arg.timeText }}</b>
+                <span style="color: black;">{{ arg.event.title }}</span>
+                </template>
                 </FullCalendar>
             </div>
             <div class="demo-app-sidebar demo-app-sidebar-section col-md-3">
@@ -209,14 +202,7 @@ const closeEditEventModal = () => {
         :eventDetails="maintenance"
         @saveEvent="saveEvent"
         @closeModal="closeEditEventModal"
-    />
-
-    <EventListModal
-        v-if="isEventListModalVisible"
-        :isVisible="isEventListModalVisible"
-        :events="selectedDateEvents"
-        @closeModal="closeModal"
-        @deleteEvents="deleteEvents"
+        @deleteEvent="deleteEvent"
     />
 
     <MaintenanceModal

@@ -7,6 +7,12 @@ import ArgonPagination from '@/components/templates/ArgonPagination.vue';
 import ArgonPaginationItem from '@/components/templates/ArgonPaginationItem.vue';
 import FilterModal from './FilterModal.vue'; // FilterModal.vue 가져오기
 
+ // 유저 권한 
+import { useAuthStore } from '@/stores/auth';
+const auth = useAuthStore();
+const user = computed(() => auth.user);
+
+
 // 필터 모달 가시성 상태 관리
 const isFilterModalVisible = ref(false);
 const searchQuery = ref('');
@@ -71,7 +77,7 @@ const applyTransactionFilters = async (resetPage = false) => {
         typeCodesToSend = null;
     }
     const filterOptions = {
-        userNo: 1, // 로그인 구현시 바꿔줄것 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        userNo:  user.value.userNo, // 로그인 구현시 바꿔줄것 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         typeCode: typeCodesToSend,
         beginDate: startDate, // 이 부분이 null이 아닌 올바른 날짜로 설정되어야 함
         endDate: endDate, // 이 부분도 마찬가지로 제대로 설정되어야 함

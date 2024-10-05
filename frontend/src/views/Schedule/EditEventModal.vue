@@ -99,13 +99,9 @@
                     </div>
                 </div>
                 <div class="modal-footer justify-content-between">
-                    <button
-                        type="button"
-                        class="btn btn-default"
-                        @click="closeModal"
-                    >
-                        닫기
-                    </button>
+          <button type="button" class="btn btn-danger" @click="deleteEvent">
+            삭제
+          </button>
                     <button
                         type="button"
                         class="btn btn-primary"
@@ -157,6 +153,12 @@ const getColor = (colorName) => {
         default:
             return '#8EEFEF';
     }
+};
+
+
+// 삭제 버튼 클릭 시 이벤트 삭제 로직 호출
+const deleteEvent = () => {
+  emit('deleteEvent', eventDetailsCopy.value.id); // 부모에게 삭제할 이벤트의 ID 전달
 };
 
 const closeModal = () => {

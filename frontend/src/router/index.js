@@ -30,7 +30,6 @@ import SchedulePage from '../views/Schedule/Schedule.vue';
 // map 컴포넌트 추가
 import MapComponent from '../views/maps/MapComponent.vue';
 import ErrorPage from '../views/error/ErrorPage.vue';
-import SchedulePage from '../views/Schedule/Schedule.vue';
 const routes = [
     {
         path: '/',
