@@ -9,13 +9,19 @@ import SecondPasswordModal from '@/views/MyAccounts/SecondPasswordModal.vue';
 import axios from 'axios';
 import ExchangeRateChart from '@/views/Chart/ExchangeRateChart.vue';
 import Swal from 'sweetalert2';
-import { TRANSACTION_TYPES } from "@/constants/transactionType";
+import { TRANSACTION_TYPES, TRANSACTION_TYPES_KEY } from "@/constants/transactionType";
 import { CURRENCY_NAMES } from "@/constants/countryCode";
 
+//i18n
+import { useI18n } from 'vue-i18n';
+const { t } = useI18n();
+
+//user
 import { useAuthStore } from '@/stores/auth';
 const auth = useAuthStore();
 const user = computed(() => auth.user);
 
+//숫자 포맷팅
 import currencyFormatter from '../../js/currencyFormatter';
 const { formatNumber } = currencyFormatter;
 
@@ -39,6 +45,9 @@ const transferAmount = ref('');
 const reExchangeAmount = ref('');
 
 const customerunit = ref(CURRENCY_NAMES[user.value.countryCode]); //나라 설정에 따라 변경되게끔
+
+// const kwd = "?";
+// console.log(t('myAccount--swal-content', { kwd }));
 
 const sendEmail = ref('');
 const sendEmailConfirm = ref('');
@@ -72,52 +81,40 @@ const closeModal = () => {
 // 비밀번호가 확인되었을 때 호출되는 함수
 const handlePasswordVerified = async () => {
   showModal.value = false; // 모달 숨김
+  let kwd;
   switch (currentAction.value) {
     case TRANSACTION_TYPES.DEPOSIT:
       await deposit(); // deposit이 완료될 때까지 기다림
-      Swal.fire({
-        title: '성공!',
-        text: '입금이 완료되었습니다.',
-        icon: 'success',
-      });
+      kwd = TRANSACTION_TYPES_KEY[TRANSACTION_TYPES.DEPOSIT];
+
       break;
     case TRANSACTION_TYPES.EXCHANGE:
       await exchange(); // exchange가 완료될 때까지 기다림
-      Swal.fire({
-        title: '성공!',
-        text: '환전이 완료되었습니다.',
-        icon: 'success',
-      });
+      kwd = TRANSACTION_TYPES_KEY[TRANSACTION_TYPES.EXCHANGE];
       break;
     case TRANSACTION_TYPES.REFUND:
       await refund(); // refund가 완료될 때까지 기다림
-      Swal.fire({
-        title: '성공!',
-        text: '환불이 완료되었습니다.',
-        icon: 'success',
-      });
+      kwd = TRANSACTION_TYPES_KEY[TRANSACTION_TYPES.REFUND];
       break;
     case TRANSACTION_TYPES.TRANSFER:
       await transfer(); // transfer가 완료될 때까지 기다림
-      Swal.fire({
-        title: '성공!',
-        text: '송금이 완료되었습니다.',
-        icon: 'success',
-      });
+      kwd = TRANSACTION_TYPES_KEY[TRANSACTION_TYPES.TRANSFER];
       break;
     case TRANSACTION_TYPES.RE_EXCHANGE:
       await reExchange(); // reExchange가 완료될 때까지 기다림
-      Swal.fire({
-        title: '성공!',
-        text: '환급이 완료되었습니다.',
-        icon: 'success',
-      });
+      kwd = TRANSACTION_TYPES_KEY[TRANSACTION_TYPES.RE_EXCHANGE];
       break;
   }
+  kwd = t(kwd);
+  Swal.fire({
+    title: t('myAccount--swal-title'),
+    text: t('myAccount--swal-content', { kwd }),
+    icon: 'success',
+  });
   resetValue();
   await fetchBalances(); // 잔액을 다시 가져옴
 
-  // AccountsCard2의 fetchBalance 함수 호출
+  // AccountsCard의 fetchBalance 함수 호출
   if (songEMoneyCardRef.value) {
     await songEMoneyCardRef.value.fetchBalance();
   }
