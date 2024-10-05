@@ -22,3 +22,36 @@ provinces--jeollanam,전라남도,,
 provinces--gyeongsangbuk,경상북도,,
 provinces--gyeongsangnam,경상남도,,
 provinces--jeju,제주특별자치도,,
+myAccount--nav-songE-charge,충전,deposit,Setoran,Nạp tiền
+myAccount--nav-songE-exchange,환전,exchange,penukaran uang,sự đổi tiền
+myAccount--nav-songE-withdraw,환불,refund,Pengembalian,Hoàn tiền
+myAccount--wonE-transfer,송금,transfer,Transfer,Chuyển khoản
+myAccount--wonE-refund,환급,re-exchange,Tukar ulang,Đổi lại
+myAccount--songE-chargeAmount,충전 금액,Charge amount,Jumlah Setoran,Số tiền nạp
+myAccount--songE-chargeAccount,충전계좌,Charging account,Akun Setoran,Tài khoản nạp
+myAccount--songE-afterBalance,거래 후 잔액,Balance after transaction,Saldo setelah transaksi,Số dư sau giao dịch
+myAccount--songE-exchangeRate,현재 환율,Current exchange rate,Nilai tukar saat ini,Tỷ giá hiện tại
+myAccount--songE-sendingAmount,보내는 금액,Amount of money sent,Jumlah uang yang dikirim,Số tiền gửi
+myAccount--songE-receivedAmount,받는 금액,Amount received,Jumlah yang diterima,Số tiền nhận
+myAccount--songE-exchangeAccount,환급계좌,Refund account,Akun Pengembalian,Tài khoản hoàn tiền
+myAccount--songE-withdrawAmount,환불할 금액을 입력하세요,Please enter the amount you want to refund.,Masukkan jumlah yang akan dikembalikan,Nhập số tiền hoàn
+myAccount--songE-withdrawAccount,환불계좌,Refund account,Akun Pengembalian,Tài khoản hoàn tiền
+myAccount--songE-afterWithdrawBalance,거래 후 잔액,Balance after transaction,Saldo setelah transaksi,Số dư sau giao dịch
+myAccount--wonE-sendEmail,보낼 이메일,E-mail to be sent,Email untuk dikirim,Email cần gửi
+myAccount--wonE-emailConfirmButton,이메일 확인하기,Check your email,Periksa email Anda,Xác nhận email
+myAccount--wonE-enterEmail,받는 분의 이메일을 입력하세요,Enter the recipient's email,Masukkan email penerima,Nhập email người nhận
+myAccount--wonE-confirmEmail,이메일 확인,Check your email,Periksa email Anda,Xác nhận email
+myAccount--wonE-enterTransferAmount,송금할 금액을 입력하세요,Please enter the amount to be remitted.,Masukkan jumlah yang akan ditransfer,Nhập số tiền chuyển
+myAccount--wonE-afterTransferBalance,송금 후 잔액,Balance after remittance,Saldo setelah pengiriman,Số dư sau khi chuyển tiền
+myAccount--wonE-currentExchangeRate,현재 환율,Current exchange rate,Nilai tukar saat ini,Tỷ giá hiện tại
+myAccount--wonE-refundSendingAmount,보내는 금액,Amount of money sent,Jumlah uang yang dikirim,Số tiền gửi
+myAccount--wonE-refundReceivedAmount,받는 금액,Amount received,Jumlah yang diterima,Số tiền nhận
+myAccount--SecondPassword--modal-header-title,잠깐 !!!!,Wait a minute!!!!,Tunggu sebentar!!!!,Chờ một chút!!!!
+myAccount--SecondPassword--modal-warning,사칭사기에 주의하세요.,Be careful of impostor fraud.,Hati-hati dengan penipuan,Cẩn thận với lừa đảo giả mạo
+myAccount--SecondPassword--modal-passwordTitle,결제 비밀번호,Payment password,Kata sandi pembayaran,Mật khẩu thanh toán
+transaction_types_payment,결제,payment,Pembayaran,Thanh toán
+transaction_types_transfser,송금,transfer,Transfer,Chuyển khoản
+transaction_types_deposit,충전,deposit,Setoran,Nạp tiền
+transaction_types_refund,환불,refund,Pengembalian,Hoàn tiền
+transaction_types_exchange,환전,exchange,penukaran uang,sự đổi tiền
+transaction_types_reExchange,환급,re-exchange,Tukar ulang	Đổi lại
