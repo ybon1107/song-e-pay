@@ -1,7 +1,7 @@
 const fs = require('fs');
 const csv = require('csv-parser');
 
-const csvFilePath = './csv/locales.csv'; // CSV 파일 경로
+const csvFilePath = './src/locales/csv/locales.csv'; // CSV 파일 경로
 const languages = ['ko', 'en', 'id', 'vi'];
 const jsonData = {};
 
@@ -20,7 +20,7 @@ fs.createReadStream(csvFilePath)
   .on('end', () => {
     // 각 언어에 대한 JSON 파일 생성
     languages.forEach(lang => {
-      const jsonFilePath = `./json/${lang}.json`;
+      const jsonFilePath = `./src/locales/json/${lang}.json`;
       fs.writeFileSync(jsonFilePath, JSON.stringify(jsonData[lang], null, 4), 'utf-8');
     });
     console.log("JSON 파일이 성공적으로 생성되었습니다.");
