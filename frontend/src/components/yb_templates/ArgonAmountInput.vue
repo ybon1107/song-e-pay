@@ -1,21 +1,11 @@
 <template>
-  <div class="form-group">
+  <div class="form-group mb-0">
     <div :class="['input-group', hasIcon(icon)]">
       <span v-if="iconDir === 'left'" class="input-group-text">
         <i :class="getIcon(icon)"></i>
       </span>
-      <input
-        :id="id"
-        :type="type"
-        class="form-control"
-        :class="{ 'is-invalid': errorMessage }"
-        :name="name"
-        :value="formattedValue"
-        :placeholder="placeholder"
-        :unit="unit"
-        :required="isRequired"
-        @input="onInput"
-      />
+      <input :id="id" :type="type" class="form-control" :class="{ 'is-invalid': errorMessage }" :name="name"
+        :value="formattedValue" :placeholder="placeholder" :unit="unit" :required="isRequired" @input="onInput" />
       <span v-if="iconDir === 'right'" class="input-group-text">
         <i :class="getIcon(icon)"></i>
       </span>
@@ -171,7 +161,8 @@ const hasIcon = (icon) => (icon ? 'input-group' : null);
 input {
   padding: 8px;
   font-size: 16px;
-  width: calc(100% - 50px); /* "원"을 포함한 레이아웃 고려 */
+  width: calc(100% - 50px);
+  /* "원"을 포함한 레이아웃 고려 */
   box-sizing: border-box;
 }
 
