@@ -2,6 +2,10 @@
   max-width: 1200px;
 }
 
+.cursor-pointer {
+  cursor: pointer
+}
+
 .modal-backdrop {
   z-index: 1060 !important;
 }
@@ -190,6 +194,7 @@
   max-height: 100%;
   object-fit: contain;
 }
+
 
 
 
