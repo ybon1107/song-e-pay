@@ -4,7 +4,7 @@
             <div class="card-body d-flex align-items-end justify-content-end">
                 <div class="d-flex align-items-center">
                     <div class="icon-container me-2">
-                        <img :src=flagIcon alt="icon" class="icon-image">
+                        <img :src=flagIcon alt="icon" class="flag-icon-img">
                     </div>
                     <p class="fs-4 mb-0 me-2">{{ balance }}</p>
                     <p class="fs-6 mb-0">{{ displayCountry }}</p>
@@ -21,7 +21,7 @@
 <script setup>
 import { defineProps, ref, computed, onMounted } from 'vue';
 import myaccountApi from '../../api/myaccountApi';
-import { INTL_LOCALE, CURRENCY_NAMES } from "@/constants/countryCode";
+import { INTL_LOCALE, CURRENCY_NAME } from "@/constants/countryCode";
 
 import currencyFormatter from '../../js/currencyFormatter';
 const { formatNumber, formatCurrency } = currencyFormatter;
@@ -72,20 +72,20 @@ const flagIcon = computed(() => {
     return `/images/flag_${iconName}.png`;
 });
 const displayCountry = computed(() => {
-    return props.assetType === 'song-e' ? CURRENCY_NAMES[user.value.countryCode] : CURRENCY_NAMES[0];
+    return props.assetType === 'song-e' ? CURRENCY_NAME[user.value.countryCode] : CURRENCY_NAME[0];
 });
 
 const fetchBalance = async () => {
     if (props.assetType === 'song-e') {
         myaccountApi.fetchsongeAccountBalance(user.value.songNo).then((fetchedBalance) => {
             balance.value = formatNumber(fetchedBalance.toFixed(2));
-            // balance.value = formatCurrency(fetchedBalance,INTL_LOCALE[user.value.countryCode],CURRENCY_NAMES[user.value.countryCode]);
+            // balance.value = formatCurrency(fetchedBalance,INTL_LOCALE[user.value.countryCode],CURRENCY_NAME[user.value.countryCode]);
 
         });
     } else {
         myaccountApi.fetchkrwAccountBalance(user.value.krwNo).then((fetchedBalance) => {
             balance.value = formatNumber(fetchedBalance.toFixed(2));
-            // formatCurrency(fetchedBalance,INTL_LOCALE[0],CURRENCY_NAMES[0]);
+            // formatCurrency(fetchedBalance,INTL_LOCALE[0],CURRENCY_NAME[0]);
         });
     }
 };
@@ -106,26 +106,7 @@ defineExpose({ fetchBalance });
     }
 }
 
-.icon-container {
-    /* 뷰포트 너비의 3% */
-    width: 3vw;
-    height: 3vw;
-    /* 최소 크기 설정 */
-    min-width: 20px;
-    min-height: 20px;
-    /* 최대 크기 설정 */
-    max-width: 40px;
-    max-height: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
 
-.icon-image {
-    max-width: 100%;
-    max-height: 100%;
-    object-fit: contain;
-}
 
 @media (max-width: 768px) {
     .icon-container {
