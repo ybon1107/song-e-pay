@@ -6,9 +6,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
-import java.util.Map;
 
 @Slf4j
 @RestController
@@ -32,24 +30,24 @@ public class ReservationController {
         }
     }
 
-    @GetMapping("/{userNo}")
-    public ResponseEntity<List<ExchangeReservationDTO>> getExchangeReservation(@PathVariable Integer userNo) {
-        log.info("환전 예약 조회 요청. 사용자 번호: {}", userNo);
-        List<ExchangeReservationDTO> reservations = exchangeReservationService.getExchangeReservation(userNo);
+    @GetMapping("/{userId}")
+    public ResponseEntity<List<ExchangeReservationDTO>> getExchangeReservation(@PathVariable String userId) {
+        log.info("환전 예약 조회 요청. 사용자 번호: {}", userId);
+        List<ExchangeReservationDTO> reservations = exchangeReservationService.getExchangeReservation(userId);
         return ResponseEntity.ok(reservations);
     }
 
     @DeleteMapping("/{resNo}")
     public ResponseEntity<Void> removeExchangeReservation(@PathVariable Integer resNo) {
-        log.info("환전 예약 삭제 요청. 예약 번호: {}", resNo);
+        log.info("삭제 요청. 예약 번호: {}", resNo);
         exchangeReservationService.removeExchangeReservation(resNo);
         return ResponseEntity.ok().build();
     }
 
     @PostMapping("/count")
-    public ResponseEntity<Integer> countExchangeReservations(@RequestBody Integer userNo, Integer targetKrw) {
-        log.info("환전 예약 개수 조회 요청: {}",  userNo,  targetKrw);
-        int count = exchangeReservationService.countExchangeReservations(userNo, targetKrw);
+    public ResponseEntity<Integer> countExchangeReservations(@RequestBody String userId, Integer targetKrw) {
+        log.info("환전 예약 개수 조회 요청: {}",  userId,  targetKrw);
+        int count = exchangeReservationService.countExchangeReservations(userId, targetKrw);
         return ResponseEntity.ok(count);
     }
 
@@ -67,17 +65,17 @@ public class ReservationController {
         }
     }
 
-    @GetMapping("/setalert/{userNo}")
-    public ResponseEntity<List<ExchangeReservationDTO>> getAutoExchange(@PathVariable Integer userNo) {
-        log.info("자동 환전 예약 조회 요청. 사용자 번호: {}", userNo);
-        List<ExchangeReservationDTO> reservations = exchangeReservationService.getAutoExchange(userNo);
+    @GetMapping("/setalert/{userId}")
+    public ResponseEntity<List<ExchangeReservationDTO>> getAutoExchange(@PathVariable String userId) {
+        log.info("자동 환전 예약 조회 요청. 사용자 번호: {}", userId);
+        List<ExchangeReservationDTO> reservations = exchangeReservationService.getAutoExchange(userId);
         return ResponseEntity.ok(reservations);
     }
 
     @PostMapping("/setalert/count")
-    public ResponseEntity<Integer> countAutoExchange(@RequestBody Integer userNo, Integer targetKrw) {
-        log.info("환전 예약 개수 조회 요청: {}",  userNo,  targetKrw);
-        int count = exchangeReservationService.countAutoExchange(userNo, targetKrw);
+    public ResponseEntity<Integer> countAutoExchange(@RequestBody String userId, Integer targetKrw) {
+        log.info("환전 예약 개수 조회 요청: {}",  userId,  targetKrw);
+        int count = exchangeReservationService.countAutoExchange(userId, targetKrw);
         return ResponseEntity.ok(count);
     }
 }

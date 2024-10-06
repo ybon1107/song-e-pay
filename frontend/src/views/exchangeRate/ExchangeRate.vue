@@ -1,7 +1,7 @@
 <template>
   <div class="container-fluid">
     <div class="d-grid gap-5">
-      <h3 class="mb-0">Compare Exchange Rate</h3>
+      <h3 class="mb-0">{{ $t("exchangeRate--header-title") }}</h3>
       <SecondPasswordModal v-if="showModal" @close="closeModal" @password-verified="handlePasswordVerified" />
 
       <!-- USD to KRW Section -->
@@ -25,23 +25,25 @@
 
             <div class="col-md-5 d-flex flex-column justify-content-around">
               <div class="d-grid gap-3 max-margin-bottom">
-                <h5>환전</h5>
-                <div class="d-flex justify-content-between flex-column-min gap-3">
+                <h5>{{ $t("exchangeRate--header-CurrencyExchange") }}</h5>
+                <div class="d-flex justify-content-between flex-column-center gap-3">
                   <input type="number" class="form-control" v-model.number="usdAmount" @input="convertToKrw"
                     aria-label="Amount in USD" />
-                  <span class="text-center">=</span>
+                  <span class="mt-2">{{ customerunit }}</span>
+                  <span class="mt-2">=</span>
                   <input type="text" class="form-control" :value="krwAmount" readonly aria-label="Amount in KRW" />
+                  <span class="mt-2">KRW</span>
                 </div>
                 <button class="btn btn-info w-100" @click="openModal('exchange')">
-                  Buy
+                  {{ $t("exchangeRate--button-buy") }}
                 </button>
               </div>
 
               <!-- 환율 알림 Section -->
               <div class="d-grid gap-3">
                 <div>
-                  <h5>환율 알림 설정</h5>
-                  <p>목표 환율 입력하시오.</p>
+                  <h5>{{ $t("exchangeRate--notification-setAlert") }}</h5>
+                  <p>{{ $t("exchangeRate--placeholder-targetRate") }}</p>
                 </div>
                 <div class="d-flex justify-content-between align-items-center gap-3">
                   <span class="text-nowrap">1 {{ customerunit }} = </span>
@@ -49,7 +51,7 @@
                   <span>KRW</span>
                 </div>
                 <button class="btn btn-primary w-100" @click="saveAlertRate(1, 0, alertRateUsdToKrw)">
-                  알림 설정
+                  {{ $t("exchangeRate--button-confirmAlert") }}
                 </button>
               </div>
             </div>
@@ -79,13 +81,13 @@
 
             <div class="col-md-5 d-flex flex-column justify-content-around">
               <div class="d-grid gap-3 max-margin-bottom">
-                <h5>환급</h5>
+                <h5>{{ $t("exchangeRate--header-CurrencyExchange") }}</h5>
                 <div class="d-flex justify-content-between flex-column-min gap-3">
                   <input type="number" class="form-control" v-model.number="krwAmountReverse" @input="convertToUsd"
-                    aria-label="Amount in KRW" />
-                  <span class="text-center">=</span>
+                    aria-label="Amount in KRW" /><span class="mt-2">KRW</span>
+                  <span class="mt-2">=</span>
                   <input type="number" class="form-control" :value="usdAmountReverse" readonly
-                    aria-label="Amount in USD" />
+                    aria-label="Amount in USD" /><span class="mt-2">{{ customerunit }}</span>
                 </div>
                 <button class="btn btn-danger w-100" @click="openModal('reExchange')">
                   Sell
@@ -95,8 +97,8 @@
               <!-- 환율 알림 Section -->
               <div class="d-grid gap-3">
                 <div>
-                  <h5>환율 알림 설정</h5>
-                  <p>목표 환율 입력하시오.</p>
+                  <h5>{{ $t("exchangeRate--notification-setAlert") }}</h5>
+                  <p>{{ $t("exchangeRate--placeholder-targetRate") }}</p>
                 </div>
                 <div class="d-flex justify-content-between align-items-center gap-3">
                   <span class="text-nowrap">1000 KRW = </span>
@@ -105,7 +107,7 @@
                   <span>{{ customerunit }}</span>
                 </div>
                 <button @click="saveAlertRate(0, 1, alertRateKrwToUsd)" class="btn btn-primary w-100">
-                  알림 설정
+                  {{ $t("exchangeRate--button-confirmAlert") }}
                 </button>
               </div>
             </div>
@@ -116,27 +118,27 @@
       <div class="custom-spacer"></div>
 
       <!-- 자동 환전 설정 섹션 -->
-      <h3 class="mb-0">자동 환전 설정</h3>
+      <h3 class="mb-0">{{ $t("exchangeRate--header-autoExchange") }}</h3>
       <div class="card">
         <div class="card-body">
           <div class="d-flex justify-content-center">
             <div class="d-flex flex-column tab-content-width gap-3">
               <div class="input-group">
                 <span class="input-group-text">1 {{ customerunit }} =</span>
-                <input type="number" v-model="targetExchange" class="form-control" placeholder="목표 환율을 입력하세요."
-                  @input="validateTargetExchange" />
+                <input type="number" v-model="targetExchange" class="form-control"
+                  :placeholder="$t('exchangeRate--placeholder-targetRate')" @input="validateTargetExchange" />
                 <span class="input-group-text">KRW</span>
               </div>
 
               <div class="input-group">
-                <span class="input-group-text">목표 금액 =</span>
-                <input type="number" v-model="targetKrw" class="form-control" placeholder="자동 전환할 금액을 입력하세요.(최소 1000)"
-                  @input="validateTargetKrw" />
+                <span class="input-group-text">{{ $t("exchangeRate--text-targetKRW") }} =</span>
+                <input type="number" v-model="targetKrw" class="form-control"
+                  :placeholder="$t('exchangeRate--placeholder-targetAmount')" @input="validateTargetKrw" />
                 <span class="input-group-text">KRW</span>
               </div>
 
               <button class="btn btn-primary w-100 mb-0" @click="confirmAutoExchange(1, 0, targetExchange, targetKrw)">
-                자동 환전 설정
+                {{ $t("exchangeRate--button-confirmAlert") }}
               </button>
             </div>
           </div>
@@ -156,13 +158,14 @@ import axios from "axios";
 import myaccountApi from "../../api/myaccountApi";
 import { useRouter } from "vue-router";
 import Swal from "sweetalert2";
-
 import { useAuthStore } from "@/stores/auth";
+
 const auth = useAuthStore();
 const user = computed(() => auth.user);
 
-import { CURRENCY_NAME } from "@/constants/countryCode";
-const customerunit = ref(CURRENCY_NAME[user.value.countryCode]);
+const Id = computed(() => auth.userId);
+import { CURRENCY_NAMES } from "@/constants/countryCode";
+const customerunit = ref(CURRENCY_NAMES[user.value.countryCode]);
 import SecondPasswordModal from "@/views/MyAccounts/SecondPasswordModal.vue";
 
 // Data variables
@@ -235,7 +238,7 @@ const setFromPeriod = (period) => {
 // 환전 함수
 const handleExchange = async () => {
   try {
-    const userNo = "5"; // 실제 사용자 번호로 대체해야 합니다
+    const userId = "test@gamil.com"; // 실제 사용자 번호로 대체해야 합니다
     const krwNo = "1234"; // 실제 KRW 계좌 번호로 대체해야 합니다
     const songNo = "1234"; // 실제 송이 페이 계좌 번호로 대체해야 합니다
     const exchangeRate = currentToKrw.value;
@@ -251,7 +254,7 @@ const handleExchange = async () => {
         krwNo,
       },
       historyDTO: {
-        userNo,
+        userId,
         songNo,
         krwNo,
         typeCode: 5, // 환전 코드
@@ -285,7 +288,7 @@ const handleExchange = async () => {
 // 환급 함수
 const reExchange = async () => {
   try {
-    const userNo = "5"; // 실제 사용자 번호로 대체해야 합니다
+    const userId = Id; // 실제 사용자 번호로 대체해야 합니다
     const krwNo = "1234"; // 실제 KRW 계좌 번호로 대체해야 합니다
     const songNo = "1234"; // 실제 송이 페이 계좌 번호로 대체해야 합니다
     const exchangeRate = currentFromKrw.value * 1000; // 1000 KRW 기준
@@ -301,7 +304,7 @@ const reExchange = async () => {
         songNo,
       },
       historyDTO: {
-        userNo,
+        userId,
         songNo,
         krwNo,
         typeCode: 6, // 환급 코드
@@ -373,13 +376,13 @@ const saveAlertRate = async (baseCode, targetCode, targetExchange) => {
 
   try {
     // const token = localStorage.getItem("jwt_token"); // JWT 토큰 가져오기
-    const userNo = 1; // userNo를 추가(임시)
-    console.log(userNo, baseCode, targetCode, targetExchange);
+    const userId = Id; // userNo를 추가(임시)
+    console.log(userId, baseCode, targetCode, targetExchange);
     // 서버에 POST 요청 보내기
     const response = await axios.post(
       "/api/exchange-reservation",
       {
-        userNo: userNo,
+        userId: userId,
         baseCode: baseCode,
         targetCode: targetCode,
         targetExchange: targetExchange,
@@ -471,13 +474,13 @@ const confirmAutoExchange = async (
 
   try {
     // const token = localStorage.getItem("jwt_token"); // JWT 토큰 가져오기
-    const userNo = 1; // userNo를 추가(임시)
-    console.log(userNo, baseCode, targetCode, targetExchange, targetKrw);
+    const userId = Id; // userNo를 추가(임시)
+    console.log(userId, baseCode, targetCode, targetExchange, targetKrw);
     // 서버에 POST 요청 보내기
     const response = await axios.post(
       "/api/exchange-reservation/setalert",
       {
-        userNo: userNo,
+        userId: userId,
         baseCode: baseCode,
         targetCode: targetCode,
         targetExchange: targetExchange,

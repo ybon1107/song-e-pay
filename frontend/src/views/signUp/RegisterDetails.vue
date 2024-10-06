@@ -2,7 +2,6 @@
 import { ref, computed, onBeforeUnmount, onBeforeMount } from "vue";
 import { useStore } from "vuex";
 import { useRouter } from "vue-router";
-// import { useSignupStore } from "@/stores/signupStore";
 import axios from "axios";
 import ArgonInput from "@/components/templates/ArgonInput.vue";
 import ArgonButton from "@/components/templates/ArgonButton.vue";
@@ -13,7 +12,6 @@ import { parsePhoneNumberFromString } from "libphonenumber-js";
 
 const body = document.getElementsByTagName("body")[0];
 const store = useStore();
-// const signupStore = useSignupStore();
 const router = useRouter();
 
 // 에러 상태
@@ -106,7 +104,11 @@ const sendEmailCode = async () => {
       // 이메일 코드 전송 성공 시 타이머 시작
       if (response.data) {
         startTimer();
+        // 인증 코드 전송 성공
         alert("Verification code sent successfully.");
+      } else {
+        // 이미 등록된 이메일일 경우
+        alert("Already registered email. Please use another email.");
       }
     } catch (error) {
       console.error("Email code sending error:", error);
@@ -114,15 +116,12 @@ const sendEmailCode = async () => {
         // 서버가 응답했지만 상태 코드가 2xx 범위에 있지 않음
         console.error("Server responded with status:", error.response.status);
         console.error("Response data:", error.response.data);
-        alert(`Server error: ${error.response.status}`);
       } else if (error.request) {
         // 요청이 만들어졌으나 응답을 받지 못함
         console.error("No response received:", error.request);
-        alert("No response from server. Please try again.");
       } else {
         // 요청을 설정하는 중에 에러가 발생함
         console.error("Error setting up request:", error.message);
-        alert("Error setting up request. Please try again.");
       }
     }
   } else {
@@ -153,9 +152,11 @@ const verifyCode = async () => {
       );
 
       if (response.data) {
+        // 인증 코드 검증 성공
         isVerified.value = true;
         alert("Email verification successful.");
       } else {
+        // 인증 코드 검증 실패
         alert("Invalid verification code. Please try again.");
       }
     } catch (error) {
@@ -164,15 +165,12 @@ const verifyCode = async () => {
         // 서버가 응답했지만 상태 코드가 2xx 범위에 있지 않음
         console.error("Server responded with status:", error.response.status);
         console.error("Response data:", error.response.data);
-        alert(`Server error: ${error.response.status}`);
       } else if (error.request) {
         // 요청이 만들어졌으나 응답을 받지 못함
         console.error("No response received:", error.request);
-        alert("No response from server. Please try again.");
       } else {
         // 요청을 설정하는 중에 에러가 발생함
         console.error("Error setting up request:", error.message);
-        alert("Error setting up request. Please try again.");
       }
     }
   }
@@ -252,13 +250,30 @@ const handleSubmit = async () => {
   genderError.value = gender.value === "Gender";
   phoneNumberError.value = phoneNumber.value === "";
 
+  if (
+    emailError.value ||
+    emailCodeError.value ||
+    passwordError.value ||
+    confirmPasswordError.value ||
+    countryError.value ||
+    firstNameError.value ||
+    lastNameError.value ||
+    birthError.value ||
+    genderError.value ||
+    phoneNumberError.value
+  ) {
+    // 필수 입력값이 비어있을 경우
+    alert("Please fill out all required fields.");
+    return;
+  }
+
   if (isFormValid.value) {
     try {
       const phoneNumberE164 = parsePhoneNumberFromString(
         `${countryCallingCode.value}${phoneNumber.value}`
       ).format("E.164");
 
-      const response = await axios.post("/api/users/register", {
+      const requestData = {
         userId: email.value,
         password: password.value,
         countryCode: country.value,
@@ -267,16 +282,29 @@ const handleSubmit = async () => {
         birthday: birth.value,
         gender: gender.value,
         phoneNo: phoneNumberE164,
+      };
+
+      console.log(requestData);
+
+      const response = await axios.post("/api/users/register", requestData, {
+        headers: {
+          "Content-Type": "application/json",
+        },
       });
 
+      console.log(response);
+
+      console.log(response.data);
+
       if (response.data === "success") {
-        router.push("/login");
+        router.push("/register/success");
       } else {
         // 등록 실패
         alert("Registration failed. Please try again.");
       }
     } catch (error) {
       console.error("Registration error:", error);
+      // 등록 중 에러 발생
       alert("An error occurred during registration. Please try again.");
     }
   }
@@ -308,6 +336,7 @@ const handleSubmit = async () => {
                     >
                     <div class="row mb-0">
                       <argon-input
+                        isRequired
                         id="email"
                         type="email"
                         class="col-xl col-md col-sm"
@@ -317,12 +346,13 @@ const handleSubmit = async () => {
                         :class="{ 'is-invalid': emailError }"
                         :error="emailError"
                         errorText="Please provide a valid email address."
+                        :disabled="isVerified"
                       />
                       <!-- 인증 메일 전송/재전송 버튼 -->
                       <div class="col-xl-4 col-md-5">
                         <argon-button
                           fullWidth
-                          :disabled="!isButtonEnabled"
+                          :disabled="isVerified"
                           color="info"
                           variant="gradient"
                           class="mb-3"
@@ -354,7 +384,9 @@ const handleSubmit = async () => {
                         v-model="emailCode"
                         :class="{ 'is-invalid': emailCodeError }"
                         :success="!emailCodeError && isVerified"
-                        :error="emailCodeError"
+                        :error="
+                          emailCode === '' && emailCodeError && !isVerified
+                        "
                         errorText="Please enter the verification code."
                       ></argon-input>
                       <!-- 인증코드 확인 버튼 -->
@@ -363,7 +395,7 @@ const handleSubmit = async () => {
                           fullWidth
                           color="info"
                           variant="gradient"
-                          class="btn"
+                          class="mb-3"
                           type="button"
                           @click="verifyCode"
                           >Verify
@@ -408,21 +440,13 @@ const handleSubmit = async () => {
                       }"
                       :success="isPasswordMatch"
                       :error="
-                        confirmPasswordError &&
-                        confirmPassword.length < 8 &&
-                        !isPasswordMatch
+                        confirmPasswordError ||
+                        (confirmPassword !== '' &&
+                          confirmPassword.length < 8 &&
+                          !isPasswordMatch)
                       "
                       errorText="Passwords do not match or are less than 8 characters."
                     />
-                    <!-- <p
-                      v-if="
-                        confirmPasswordError ||
-                        (confirmPassword !== '' && !isPasswordMatch)
-                      "
-                      class="invalid-feedback text-xs"
-                    >
-                      Passwords do not match or are less than 8 characters.
-                    </p> -->
                   </div>
                   <!-- 거주 국가 입력 필드 -->
                   <div class="col-md-12">
@@ -468,9 +492,6 @@ const handleSubmit = async () => {
                       :error="firstNameError && firstName === ''"
                       errorText="Please provide your full legal first and middle name(s)."
                     />
-                    <!-- <p v-if="firstNameError" class="invalid-feedback text-xs">
-                      Please provide your full legal first and middle name(s).
-                    </p> -->
                   </div>
                   <!-- 성 입력 필드 -->
                   <div class="col-md-12">
@@ -489,9 +510,6 @@ const handleSubmit = async () => {
                       :error="lastNameError && lastName === ''"
                       errorText="Please provide your full legal last name(s)."
                     />
-                    <!-- <p v-if="lastNameError" class="invalid-feedback text-xs">
-                      Please provide your full legal last name(s).
-                    </p> -->
                   </div>
                   <!-- 생년월일 입력 필드 -->
                   <div class="col-md-12 form-group">
@@ -523,6 +541,7 @@ const handleSubmit = async () => {
                     >
                     <div class="form-group">
                       <select
+                        required
                         id="gender"
                         class="form-select"
                         v-model="gender"

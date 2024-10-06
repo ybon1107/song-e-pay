@@ -13,7 +13,7 @@ import java.util.Date;
 @Builder
 public class ExchangeReservationDTO {
     private Integer resNo;
-    private Integer userNo;
+    private String userId;
     private String songNo;
     private String krwNo;
     private Integer baseCode;
