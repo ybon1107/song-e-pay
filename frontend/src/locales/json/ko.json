@@ -51,10 +51,14 @@
     "myAccount--SecondPassword--modal-passwordTitle": "결제 비밀번호",
     "myAccount--swal-title": "성공!",
     "myAccount--swal-content": "{kwd}이 완료되었습니다.",
+    "myAccount--input-placeholder": "{kwd}할 금액을 입력하세요.",
     "transaction_types_payment": "결제",
     "transaction_types_transfser": "송금",
     "transaction_types_deposit": "충전",
     "transaction_types_refund": "환불",
     "transaction_types_exchange": "환전",
-    "transaction_types_reExchange": "환급"
+    "transaction_types_reExchange": "환급",
+    "country_us": "미국",
+    "country_id": "인도네시아아",
+    "country_vn": "베트남"
 }
