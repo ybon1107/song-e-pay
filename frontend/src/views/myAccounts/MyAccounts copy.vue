@@ -10,7 +10,7 @@ import axios from 'axios';
 import ExchangeRateChart from '@/views/Chart/ExchangeRateChart.vue';
 import Swal from 'sweetalert2';
 import { TRANSACTION_TYPES, TRANSACTION_TYPES_KEY } from "@/constants/transactionType";
-import { COUNTRY_CODE, COUNTRY_KEY, CURRENCY_NAME } from "@/constants/countryCode";
+import { COUNTRY_KEY, CURRENCY_NAME } from "@/constants/countryCode";
 
 //i18n
 import { useI18n } from 'vue-i18n';
@@ -31,18 +31,9 @@ const store = useExchangeStore();
 const SONGE = 'song-e';
 const WONE = 'won-e';
 
-const i18n_TRANSFER = TRANSACTION_TYPES_KEY[TRANSACTION_TYPES.TRANSFER];
-const i18n_DEPOSIT = TRANSACTION_TYPES_KEY[TRANSACTION_TYPES.DEPOSIT];
-const i18n_REFUND = TRANSACTION_TYPES_KEY[TRANSACTION_TYPES.REFUND];
-const i18n_EXCHANGE = TRANSACTION_TYPES_KEY[TRANSACTION_TYPES.EXCHANGE];
-const i18n_RE_EXCHANGE = TRANSACTION_TYPES_KEY[TRANSACTION_TYPES.RE_EXCHANGE];
-
 const songCoutryCode = user.value.countryCode;
-const wonCoutryCode = COUNTRY_CODE.KR;
-const customerunit = CURRENCY_NAME[songCoutryCode]; //나라 설정에 따라 변경되게끔
-const customerCountry = COUNTRY_KEY[songCoutryCode];
-const wonUnit = CURRENCY_NAME[wonCoutryCode];
-const wonCountry = COUNTRY_KEY[wonCoutryCode];
+const customerunit = ref(CURRENCY_NAME[songCoutryCode]); //나라 설정에 따라 변경되게끔
+const customerCountry = ref(COUNTRY_KEY[songCoutryCode]);
 
 const selectedAsset = ref(SONGE); // 기본적으로 Song-E Money가 선택됨
 
@@ -56,6 +47,11 @@ const exchangeAmount = ref('');
 const refundAmount = ref('');
 const transferAmount = ref('');
 const reExchangeAmount = ref('');
+
+
+
+// const kwd = "?";
+// console.log(t('myAccount--swal-content', { kwd }));
 
 const sendEmail = ref('');
 const sendEmailConfirm = ref('');
@@ -93,24 +89,24 @@ const handlePasswordVerified = async () => {
   switch (currentAction.value) {
     case TRANSACTION_TYPES.DEPOSIT:
       await deposit(); // deposit이 완료될 때까지 기다림
-      kwd = i18n_DEPOSIT;
+      kwd = TRANSACTION_TYPES_KEY[TRANSACTION_TYPES.DEPOSIT];
 
       break;
     case TRANSACTION_TYPES.EXCHANGE:
       await exchange(); // exchange가 완료될 때까지 기다림
-      kwd = i18n_EXCHANGE;
+      kwd = TRANSACTION_TYPES_KEY[TRANSACTION_TYPES.EXCHANGE];
       break;
     case TRANSACTION_TYPES.REFUND:
       await refund(); // refund가 완료될 때까지 기다림
-      kwd = i18n_REFUND;
+      kwd = TRANSACTION_TYPES_KEY[TRANSACTION_TYPES.REFUND];
       break;
     case TRANSACTION_TYPES.TRANSFER:
       await transfer(); // transfer가 완료될 때까지 기다림
-      kwd = i18n_TRANSFER;
+      kwd = TRANSACTION_TYPES_KEY[TRANSACTION_TYPES.TRANSFER];
       break;
     case TRANSACTION_TYPES.RE_EXCHANGE:
       await reExchange(); // reExchange가 완료될 때까지 기다림
-      kwd = i18n_RE_EXCHANGE;
+      kwd = TRANSACTION_TYPES_KEY[TRANSACTION_TYPES.RE_EXCHANGE];
       break;
   }
   kwd = t(kwd);
@@ -361,7 +357,6 @@ const convertToKrw = () => {
 const convertToUsd = () => {
   usdAmountReverse.value = (krwAmountReverse.value * currentFromKrw.value).toFixed(2);
 };
-
 // 환율 데이터를 가져오는 함수
 const fetchExchangeRates = async () => {
   try {
@@ -537,9 +532,9 @@ const deleteAlertCondition = async (resNo) => {
   }
 };
 
-const flagIcon = (code) => {
-  return `/images/flag_${code}.png`;
-};
+const flagIcon = computed(() => {
+  return `/images/flag_${songCoutryCode}.png`;
+});
 
 // 컴포넌트가 마운트될 때 데이터를 가져옴
 onMounted(() => {
@@ -610,12 +605,11 @@ onMounted(() => {
                 <div>
                   <labe class="d-flex align-items-center">
                     <div class="icon-container me-2">
-                      <img :src=flagIcon(songCoutryCode) alt="icon" class="flag-icon-img">
+                      <img :src=flagIcon alt="icon" class="flag-icon-img">
                     </div>
                     <div class="input-label-text">{{ $t(customerCountry) }} 계좌</div>
                   </labe>
-                  <ArgonAmountInput v-model="depositAmount"
-                    :placeholder="$t('myAccount--input-placeholder', { kwd: $t(i18n_DEPOSIT) })" :unit="customerunit" />
+                  <ArgonAmountInput v-model="depositAmount" placeholder="충전할 금액을 입력하세요" :unit="customerunit" />
                   <small class="text-muted">
                     충전계좌:
                     {{ selectedAsset === SONGE ? '내 계좌' : 'KRW 계좌' }}
@@ -624,7 +618,7 @@ onMounted(() => {
                 <div>
                   <labe class="d-flex align-items-center">
                     <div class="icon-container me-2">
-                      <img :src=flagIcon(songCoutryCode) alt="icon" class="flag-icon-img">
+                      <img :src=flagIcon alt="icon" class="flag-icon-img">
                     </div>
                     <div class="input-label-text">{{ $t('SONGE-E MONEY') }}</div>
                   </labe>
@@ -636,31 +630,8 @@ onMounted(() => {
 
               <div v-if="activeTab === TRANSACTION_TYPES.EXCHANGE">
                 <div>
-                  <labe class="d-flex align-items-center">
-                    <div class="icon-container me-2">
-                      <img :src=flagIcon(wonCoutryCode) alt="icon" class="flag-icon-img">
-                    </div>
-                    <div class="input-label-text">WON-E MONEY</div>
-                  </labe>
-                  <!-- customerunit변경해야함 -->
-                  <ArgonAmountInput v-model="exchangeAmount"
-                    :placeholder="$t('myAccount--input-placeholder', { kwd: $t(i18n_EXCHANGE) })" :unit="wonUnit"
-                    :selectedAsset="selectedAsset" :songEMoneyBalance="songEMoneyBalance" :activeTab="activeTab" />
                 </div>
-                <div>
-                  <labe class="d-flex align-items-center">
-                    <div class="icon-container me-2">
-                      <img :src=flagIcon(songCoutryCode) alt="icon" class="flag-icon-img">
-                    </div>
-                    <div class="input-label-text">{{ $t('SONGE-E MONEY') }}</div>
-                  </labe>
-                  <div class="balance-text">{{ processAfterBalance }}{{ customerunit }}</div>
-                  <small>현재 환율: 1 {{ customerunit }} = {{ }} {{ wonUnit }} </small>
-                </div>
-                <button type="submit" class="btn btn-primary w-100" @click="openModal"
-                  :disabled="!isValidAmount(exchangeAmount)" variant="gradient">원화계좌로 환전</button>
 
-                <h1>기존 코드</h1>
                 <p>
                   <small>현재 환율: </small>
                   1 KRW = {{ currentFromKrw }} {{ customerunit }}
