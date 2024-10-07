@@ -17,6 +17,14 @@ export const TRANSACTION_TYPES_KEY = [
     'transaction_types_reExchange',
 ];
 
+export const TRANSACTION_STATES_KEY = [
+    'none',
+    'transaction_states_completed',
+    'transaction_states_failed',
+    'transaction_states_cancelled',
+    'transaction_states_pending',
+];
+
 //historiesmodal에서 사용중, 추후에 제거해야함 
 export const TRANSACTION_TYPES_STRING_KO = {
     PAYMENT: '결제',
