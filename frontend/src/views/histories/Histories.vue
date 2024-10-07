@@ -6,26 +6,34 @@ import HistoriesDetailModal from './HistoriesDetailModal.vue';
 import ArgonPagination from '@/components/templates/ArgonPagination.vue';
 import ArgonPaginationItem from '@/components/templates/ArgonPaginationItem.vue';
 import FilterModal from './FilterModal.vue'; // FilterModal.vue 가져오기
-import {TRANSACTION_TYPES,TRANSACTION_TYPES_KEY, TRANSACTION_STATES_KEY} from '@/constants/transactionType';
+import { CURRENCY_NAME } from '@/constants/countryCode';
+import { TRANSACTION_TYPES, TRANSACTION_TYPES_KEY, TRANSACTION_STATES_KEY } from '@/constants/transactionType';
+
+//user
+import { useAuthStore } from '@/stores/auth';
+const auth = useAuthStore();
+const user = computed(() => auth.user);
+
 // 필터 모달 가시성 상태 관리
 const isFilterModalVisible = ref(false);
 const searchQuery = ref('');
 // 실제 필터가 저장될 변수 (확인 버튼 누르면 적용됨)
 
-const  i18n_PERIOD = [
-"histories--filters-period-today",
-"histories--filters-period-oneMonth",
-"histories--filters-period-lthreeMonth",
-"histories--filters-period-custom",
+const songCurrencyUnit = CURRENCY_NAME[user.value.countryCode];
+const i18n_PERIOD = [
+    "histories--filters-period-today",
+    "histories--filters-period-oneMonth",
+    "histories--filters-period-lthreeMonth",
+    "histories--filters-period-custom",
 ];
 const i18n_TYPE = [
-"histories--filters-type-all",
-"histories--filters-type-wone",
-"histories--filters-type-songe",
+    "histories--filters-type-all",
+    "histories--filters-type-wone",
+    "histories--filters-type-songe",
 ];
 const i18n_SORT = [
-"histories--filters-sort-newest",
-"histories--filters-sort-oldest",
+    "histories--filters-sort-newest",
+    "histories--filters-sort-oldest",
 ];
 
 const filters = ref({
@@ -107,8 +115,8 @@ const applyTransactionFilters = async (resetPage = false) => {
             transactions.value = response.list.map((transaction) => ({
                 ...transaction,
                 historyDate: formatUnixTimestamp(transaction.historyDate),
-                typeCode: TRANSACTION_TYPES_KEY[transaction.typeCode],
-                stateCode: TRANSACTION_STATES_KEY[transaction.stateCode]
+                i18nType: TRANSACTION_TYPES_KEY[transaction.typeCode],
+                i18nState: TRANSACTION_STATES_KEY[transaction.stateCode]
                 // typeCode: convertTransactionType(transaction.typeCode),
                 // stateCode: convertTransactionStatus(transaction.stateCode),
             }));
@@ -221,6 +229,7 @@ const openModal = (transaction) => {
 const closeModal = () => {
     isModalVisible.value = false;
 };
+
 </script>
 
 <template>
@@ -243,16 +252,15 @@ const closeModal = () => {
         </div>
         <!-- 테이블 부분 -->
         <div class="card p-5 mt-3">
-            <div class="table-responsive">
-                <table class="table table-bordered align-middle">
+            <div class="table-responsive p-0">
+                <table class="table align-items-center">
                     <thead>
                         <tr>
-                            <th style="width: 10%">날짜/시간</th>
-                            <th style="width: 20%">거래 유형</th>
-                            <th class="text-center d-none d-md-table-cell" style="width: 50%">
-                                거래 내역
-                            </th>
-                            <th style="width: 20%">거래 금액</th>
+                            <th style="width: 10%">{{ $t('histories--header-dateTime') }}'</th>
+                            <th style="width: 20%">{{ $t('histories--header-transactionType') }}</th>
+                            <th style="width: 50%" class="text-center d-none d-md-table-cell">{{
+                                $t('histories--header-transactionDetail') }}</th>
+                            <th style="width: 20%">{{ $t('histories--header-transactionAmount') }}</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -262,25 +270,26 @@ const closeModal = () => {
                                 {{ transaction.historyDate }}
                             </td>
                             <td class="text-center">
-                                {{ transaction.typeCode }}
+                                <span
+                                    v-if="[TRANSACTION_TYPES.DEPOSIT, TRANSACTION_TYPES.EXCHANGE, TRANSACTION_TYPES.REFUND].includes(transaction.typeCode)" class="badge badge-sm bg-gradient-success">
+                                    {{ $t(transaction.i18nType) }}
+                                </span>
+                                <span
+                                    v-else-if="[TRANSACTION_TYPES.RE_EXCHANGE, TRANSACTION_TYPES.TRANSFER, TRANSACTION_TYPES.PAYMENT].includes(transaction.typeCode)" class="badge badge-sm bg-gradient-secondary">
+                                    {{ $t(transaction.i18nType) }}
+                                </span>
                             </td>
                             <td class="text-center">
-                                {{ transaction.historyContent }}
+                                {{ $t(transaction.historyContent) }}
                             </td>
                             <td class="text-end">
                                 {{ transaction.amount.toLocaleString() }}
-                                <span v-if="
-                                    ['충전', '환전', '환불'].includes(
-                                        transaction.typeCode
-                                    )
-                                ">
-                                    USD
+                                <span
+                                    v-if="[TRANSACTION_TYPES.DEPOSIT, TRANSACTION_TYPES.EXCHANGE, TRANSACTION_TYPES.REFUND].includes(transaction.typeCode)">
+                                    {{ songCurrencyUnit }}
                                 </span>
-                                <span v-else-if="
-                                    ['환급', '송금'].includes(
-                                        transaction.typeCode
-                                    )
-                                ">
+                                <span
+                                    v-else-if="[TRANSACTION_TYPES.RE_EXCHANGE, TRANSACTION_TYPES.TRANSFER, TRANSACTION_TYPES.PAYMENT].includes(transaction.typeCode)">
                                     KRW
                                 </span>
                             </td>
@@ -291,7 +300,7 @@ const closeModal = () => {
 
             <!-- 페이지네이션 컨트롤 -->
             <div class="d-flex justify-content-center">
-                <argon-pagination class="mb-0">
+                <argon-pagination class="mb-0" :color="'warning'">
                     <argon-pagination-item prev @click="goToPage(pageRequest.page - 1)"
                         :disabled="pageRequest.page === 1" />
                     <argon-pagination-item v-for="item in paginationItems" :key="item.label" :label="item.label"
