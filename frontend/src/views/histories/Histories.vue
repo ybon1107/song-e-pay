@@ -256,7 +256,7 @@ const closeModal = () => {
                 <table class="table align-items-center">
                     <thead>
                         <tr>
-                            <th style="width: 10%">{{ $t('histories--header-dateTime') }}'</th>
+                            <th style="width: 10%">{{ $t('histories--header-dateTime') }}</th>
                             <th style="width: 20%">{{ $t('histories--header-transactionType') }}</th>
                             <th style="width: 50%" class="text-center d-none d-md-table-cell">{{
                                 $t('histories--header-transactionDetail') }}</th>

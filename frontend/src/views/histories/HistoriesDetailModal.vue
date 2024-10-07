@@ -3,14 +3,13 @@
         <h4>
             <span :class="getBadgeClass(transaction?.typeCode)">{{
                 $t(transaction?.i18nType)
-                }}</span>
+            }}</span>
         </h4>
         <p class="font-weight-bold mb-0 mt-3">
             {{ transaction?.historyContent }}
         </p>
         <p>
-            <span class="title me-1">{{ transaction?.amount }}</span
-            >
+            <span class="title me-1">{{ transaction?.amount }}</span>
             <span
                 v-if="[TRANSACTION_TYPES.DEPOSIT, TRANSACTION_TYPES.EXCHANGE, TRANSACTION_TYPES.REFUND].includes(transaction.typeCode)">
                 {{ songCurrencyUnit }}
@@ -23,20 +22,21 @@
         <hr />
 
         <div class="d-flex justify-content-between align-items-center mb-3">
-            <strong>{{$t('histories--modal-memo')}}</strong>
+            <strong>{{ $t('histories--modal-memo') }}</strong>
             <button @click="updateMemo" class="btn btn-secondary btn-sm mb-0">
                 {{ $t('btn-save') }}
             </button>
         </div>
         <argon-alert v-if="showAlert" class="mt-3" :color="alertColor">
-            {{ alertMessage }}
+            {{ $t(alertMessage) }}
         </argon-alert>
         <textarea v-model="localMemo" class="form-control fixed-textarea" id="memo" rows="3"
-        :placeholder="$t('histories--modal-enterMemo')"></textarea>
+            :placeholder="$t('histories--modal-enterMemo')"></textarea>
         <hr />
 
-        <div class="flex-justify-between" v-if="[TRANSACTION_TYPES.EXCHANGE, TRANSACTION_TYPES.RE_EXCHANGE].includes(transaction?.typeCode)">
-            <strong>환율</strong>
+        <div class="flex-justify-between"
+            v-if="[TRANSACTION_TYPES.EXCHANGE, TRANSACTION_TYPES.RE_EXCHANGE].includes(transaction?.typeCode)">
+            <strong>{{ $t('histories--modal-exchangeRate') }}</strong>
             <p>{{ transaction?.exchangeRate }}</p>
         </div>
         <!-- <div class="flex-justify-between" v-if="transaction?.typeCode === '송금'">
@@ -44,23 +44,22 @@
             <p>{{ transaction?.exchangeRate }}송금 보낸 이메일 보여주기 </p>
         </div> -->
         <div class="flex-justify-between">
-            <strong>{{$t('histories--modal-historyDate')}}</strong>
+            <strong>{{ $t('histories--modal-historyDate') }}</strong>
             <p>{{ transaction?.historyDate }}</p>
         </div>
         <div class="flex-justify-between">
-            <strong>{{$t('histories--modal-stateCode')}}</strong>
-            <p>{{ transaction?.i18nState }}</p>
+            <strong>{{ $t('histories--modal-stateCode') }}</strong>
+            <p>{{ $t(transaction?.i18nState) }}</p>
         </div>
     </Modal>
 </template>
 
 <script setup>
-import { ref, watch,computed } from 'vue';
+import { ref, watch, computed } from 'vue';
 import axios from 'axios';
 import Modal from '@/components/modal/Modal.vue';
 import {
     TRANSACTION_TYPES,
-    TRANSACTION_TYPES_STRING_KO,
 } from '@/constants/transactionType';
 import { CURRENCY_NAME } from '@/constants/countryCode';
 
@@ -72,6 +71,10 @@ import 'sweetalert2/dist/sweetalert2.min.css';
 import { useAuthStore } from '@/stores/auth';
 const auth = useAuthStore();
 const user = computed(() => auth.user);
+
+//i18n
+import { useI18n } from 'vue-i18n';
+const { t } = useI18n();
 
 const songCurrencyUnit = CURRENCY_NAME[user.value.countryCode];
 
@@ -137,7 +140,7 @@ const updateMemo = () => {
                     memo: localMemo.value,
                 });
                 showAlert.value = true;
-                alertMessage.value = '메모가 성공적으로 저장되었습니다.';
+                alertMessage.value = 'histories--modal-alert';
                 alertColor.value = 'success';
                 setTimeout(() => {
                     showAlert.value = false;
@@ -146,8 +149,8 @@ const updateMemo = () => {
             .catch((error) => {
                 console.error('메모 저장 중 오류 발생:', error);
                 Swal.fire({
-                    title: '실패',
-                    text: '메모 저장에 실패했습니다.',
+                    title: t('swal--title-fail'),
+                    text: t('histories--modal-swal-fail'),
                     icon: 'error',
                 });
             });
