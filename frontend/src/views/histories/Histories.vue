@@ -14,6 +14,11 @@ import { useAuthStore } from '@/stores/auth';
 const auth = useAuthStore();
 const user = computed(() => auth.user);
 
+// 유저 권한
+import { useAuthStore } from '@/stores/auth';
+const auth = useAuthStore();
+const user = computed(() => auth.user);
+
 // 필터 모달 가시성 상태 관리
 const isFilterModalVisible = ref(false);
 const searchQuery = ref('');
@@ -88,10 +93,14 @@ const applyTransactionFilters = async (resetPage = false) => {
     }
     // 선택된 유형에 따라 거래 유형 코드를 설정
     let typeCodesToSend = [];
-    if (filters.value.selectedType === i18n_TYPE[1]) {
-        typeCodesToSend = [1, 2, 5, 6]; // 원화 계좌
-    } else if (filters.value.selectedType === i18n_TYPE[2]) {
-        typeCodesToSend = [3, 4, 5, 6]; // 송이 계좌
+    // if (filters.value.selectedType === i18n_TYPE[1]) {
+    //     typeCodesToSend = [1, 2, 5, 6]; // 원화 계좌
+    // } else if (filters.value.selectedType === i18n_TYPE[2]) {
+    //     typeCodesToSend = [3, 4, 5, 6]; // 송이 계좌
+    if (filters.value.selectedType === 'KRaccount') {
+        typeCodesToSend = [1, 2, 5, 6, 7]; // 원화 계좌
+    } else if (filters.value.selectedType === 'SongEaccount') {
+        typeCodesToSend = [3, 4, 5, 6, 7]; // 송이 계좌
     } else {
         typeCodesToSend = null;
     }
