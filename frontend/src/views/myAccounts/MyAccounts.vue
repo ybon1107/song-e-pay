@@ -115,7 +115,7 @@ const handlePasswordVerified = async () => {
   }
   kwd = t(kwd);
   Swal.fire({
-    title: t('myAccount--swal-title'),
+    title: t('swal--title-success'),
     text: t('myAccount--swal-content', { kwd }),
     icon: 'success',
   });
