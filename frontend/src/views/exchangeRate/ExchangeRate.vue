@@ -41,7 +41,7 @@
               <div class="d-grid gap-3 max-margin-bottom">
                 <h5>환전</h5>
                 <div
-                  class="d-flex justify-content-between flex-column-min gap-3"
+                  class="d-flex justify-content-between flex-column-center gap-3"
                 >
                   <input
                     type="number"
@@ -50,7 +50,8 @@
                     @input="convertToKrw"
                     aria-label="Amount in USD"
                   />
-                  <span class="text-center">=</span>
+                  <span class="mt-2">{{ customerunit }}</span>
+                  <span class="mt-2">=</span>
                   <input
                     type="text"
                     class="form-control"
@@ -58,6 +59,7 @@
                     readonly
                     aria-label="Amount in KRW"
                   />
+                  <span class="mt-2">KRW</span>
                 </div>
                 <button
                   class="btn btn-info w-100"
@@ -139,15 +141,15 @@
                     v-model.number="krwAmountReverse"
                     @input="convertToUsd"
                     aria-label="Amount in KRW"
-                  />
-                  <span class="text-center">=</span>
+                  /><span class="mt-2">KRW</span>
+                  <span class="mt-2">=</span>
                   <input
                     type="number"
                     class="form-control"
                     :value="usdAmountReverse"
                     readonly
                     aria-label="Amount in USD"
-                  />
+                  /><span class="mt-2">{{ customerunit }}</span>
                 </div>
                 <button
                   class="btn btn-danger w-100"
