@@ -31,8 +31,9 @@
         WHERE event_no = #{eventNo}
     </update>
 
-    <select id="getScheduleById" parameterType="Long" resultType="ScheduleDTO">
-        SELECT * FROM schedule WHERE event_no = #{eventNo}
-    </select>
 
+    <!-- 일정 삭제 by ID -->
+    <delete id="deleteSchedule" parameterType="Integer">
+        DELETE FROM sepay.event WHERE event_no = #{eventNo}
+    </delete>
 </mapper>

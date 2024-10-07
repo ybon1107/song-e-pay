@@ -16,6 +16,6 @@ public interface ScheduleMapper {
 
     ScheduleDTO getScheduleById(Integer eventNo);
 
-
+    int deleteSchedule(Integer eventNo);
 }
 

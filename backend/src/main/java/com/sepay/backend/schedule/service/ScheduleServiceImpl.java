@@ -35,4 +35,13 @@ public class ScheduleServiceImpl implements ScheduleService {
         } else {
             throw new RuntimeException("Failed to update schedule with eventNo: " + scheduleDTO.getEventNo());
         }
-}}
+}
+
+    @Override
+    public void deleteSchedule(Integer eventNo) {
+        int rowsAffected = scheduleMapper.deleteSchedule(eventNo);
+        if (rowsAffected == 0) {
+            throw new RuntimeException("Failed to delete schedule with eventNo: " + eventNo);
+        }
+    }
+}
