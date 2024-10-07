@@ -36,8 +36,8 @@ public class UserDTO {
     private String address;
     private String postCode;
     private String stateCode;
-    private Date createAt;
-    private Date updateAt;
+    private Date createdAt;
+    private Date updatedAt;
 
     MultipartFile profilePicFile;
 
@@ -51,7 +51,7 @@ public class UserDTO {
                 .songNo(songNo)
                 .krwNo(krwNo)
                 .countryCode(countryCode)
-                .userId(userId)
+                .username(userId)
                 .password(password)
                 .firstName(firstName)
                 .lastName(lastName)
@@ -74,7 +74,7 @@ public class UserDTO {
                 .songNo(vo.getSongNo())
                 .krwNo(vo.getKrwNo())
                 .countryCode(vo.getCountryCode())
-                .userId(vo.getUserId())
+                .userId(vo.getUsername())
                 .password(vo.getPassword())
                 .firstName(vo.getFirstName())
                 .lastName(vo.getLastName())

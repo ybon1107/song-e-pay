@@ -28,7 +28,7 @@
         <result property="songNo" column="song_no"/>
         <result property="krwNo" column="krw_no"/>
         <result property="countryCode" column="country_code"/>
-        <result property="userId" column="user_id"/>
+        <result property="username" column="user_id"/>
         <result property="password" column="password"/>
         <result property="firstName" column="first_name"/>
         <result property="lastName" column="last_name"/>
@@ -42,10 +42,17 @@
 
     <!-- 특정 사용자 정보 조회 -->
     <select id="get" resultMap="userMap">
-        SELECT user_no, account_no, song_no, krw_no, country_code, u.user_id, password, first_name, last_name, birthday, gender, phone_no, second_pwd, profile_pic, post_code, state_code, created_at, updated_at, ua.auth
+        SELECT u.user_id, country_code, ua.auth
         FROM user u
-        LEFT OUTER JOIN user_auth ua ON u.user_id = ua.user_id
-        where u.user_id = #{userId}
+                 LEFT OUTER JOIN user_auth ua ON u.user_id = ua.user_id
+        where u.user_id = #{username}
+    </select>
+
+    <!-- 사용자 비밀번호 조회 -->
+    <select id="getPassword" parameterType="String" resultType="String">
+        SELECT password
+        FROM user
+        WHERE user_id = #{username}
     </select>
 
     <!-- 권한 부여 -->
@@ -67,9 +74,16 @@
         VALUES(#{userId}, #{password}, #{countryCode}, #{firstName}, #{lastName}, #{birthday}, #{gender}, #{phoneNo})
     </insert>
 
-    <!-- 이메일 중복 체크 -->
+    <!-- 이메일로 유저 조회 -->
     <select id="selectUserByEmail" parameterType="String" resultType="userDTO">
         select *
+        from user
+        where user_id = #{userId}
+    </select>
+
+    <!-- 이메일 중복 체크 -->
+    <select id="checkEmail" parameterType="String" resultType="int">
+        select count(*)
         from user
         where user_id = #{userId}
     </select>

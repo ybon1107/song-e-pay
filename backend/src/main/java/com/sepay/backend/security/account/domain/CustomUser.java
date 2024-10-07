@@ -17,7 +17,7 @@ public class CustomUser extends User {
     }
 
     public CustomUser(UserVO userVO) {
-        super(userVO.getUserId(), userVO.getPassword(), userVO.getAuthList());
+        super(userVO.getUsername(), userVO.getPassword(), userVO.getAuthList());
         this.userVO = userVO;
     }
 }

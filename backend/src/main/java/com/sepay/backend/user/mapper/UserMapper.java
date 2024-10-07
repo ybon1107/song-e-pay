@@ -14,6 +14,8 @@ public interface UserMapper {
 
     UserVO get(String username);
 
+    String getPassword(String username);
+
     int insertAuth(AuthVO authVO);
 
     UserDTO selectUser(Map map);
@@ -22,36 +24,6 @@ public interface UserMapper {
     int insertUser(UserVO userVO);
 
     UserDTO selectUserByEmail(String email);
-
-    default UserDTO toUserDTO(UserVO userVO) {
-        if (userVO == null) {
-            return null;
-        }
-
-        return UserDTO.builder()
-                .userNo(userVO.getUserNo())
-                .accountNo(userVO.getAccountNo())
-                .songNo(userVO.getSongNo())
-                .krwNo(userVO.getKrwNo())
-                .countryCode(userVO.getCountryCode())
-                .userId(userVO.getUserId())
-                .password(userVO.getPassword())
-                .firstName(userVO.getFirstName())
-                .lastName(userVO.getLastName())
-                .birthday(userVO.getBirthday())
-                .gender(userVO.getGender())
-                .phoneNo(userVO.getPhoneNo())
-                .secondPwd(userVO.getSecondPwd())
-                .profilePic(userVO.getProfilePic())
-                .address(userVO.getAddress())
-                .postCode(userVO.getPostCode())
-                .stateCode(userVO.getStateCode())
-                .createAt(userVO.getCreateAt())
-                .updateAt(userVO.getUpdateAt())
-                .authList(userVO.getAuthList()
-                        .stream()
-                        .map(AuthVO::getAuth)
-                        .toList())
-                .build();
-    }
+    
+    int checkEmail(String email);
 }

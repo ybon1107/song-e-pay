@@ -18,7 +18,7 @@
         <result property="songNo" column="song_no"/>
         <result property="krwNo" column="krw_no"/>
         <result property="countryCode" column="country_code"/>
-        <result property="userId" column="user_id"/>
+        <result property="username" column="user_id"/>
         <result property="password" column="password"/>
         <result property="firstName" column="first_name"/>
         <result property="lastName" column="last_name"/>
@@ -30,16 +30,16 @@
         <result property="address" column="address"/>
         <result property="postCode" column="post_code"/>
         <result property="stateCode" column="state_code"/>
-        <result property="createAt" column="create_at"/>
-        <result property="updateAt" column="update_at"/>
+        <result property="createAt" column="created_at"/>
+        <result property="updateAt" column="updated_at"/>
 
         <collection property="authList" resultMap="authMap"/>
     </resultMap>
 
     <select id="get" resultMap="userMap">
-        SELECT user_no, account_no, song_no, krw_no, country_code, u.user_id, password, first_name, last_name, birthday, gender, phone_no, second_pwd, profile_pic, address, post_code, state_code, create_at, update_at, ua.auth
+        SELECT user_no, account_no, song_no, krw_no, country_code, u.user_id, password, first_name, last_name, birthday, gender, phone_no, second_pwd, profile_pic, address, post_code, state_code, created_at, updated_at, ua.auth
         FROM user u
-        LEFT OUTER JOIN user_auth ua ON u.user_id = ua.user_id
-        WHERE u.user_id = #{userId}
+                 LEFT OUTER JOIN user_auth ua ON u.user_id = ua.user_id
+        WHERE u.user_id = #{username}
     </select>
 </mapper>

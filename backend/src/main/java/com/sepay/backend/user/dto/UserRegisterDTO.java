@@ -25,7 +25,7 @@ public class UserRegisterDTO {
 
     public UserVO toVO() {
         return UserVO.builder()
-                .userId(userId)
+                .username(userId)
                 .password(password)
                 .firstName(firstName)
                 .lastName(lastName)

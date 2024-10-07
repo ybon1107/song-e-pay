@@ -9,6 +9,7 @@ import com.sepay.backend.user.mapper.UserMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -49,13 +50,27 @@ public class UserServiceImpl implements UserService{
         return UserDTO.of(userVO);
     }
 
-    @Override
-    public UserDTO login(String userId, String password) {
-        HashMap map = new HashMap();
-        map.put("userId", userId);
-        map.put("password", password);
-        return mapper.selectUser(map);
-    }
+//    @Override
+//    public UserDTO login(String username, String password) {
+//        log.info("Login request for user: {}", username);
+//        // DB에서 가져온 사용자 Password
+//         String dbPassword = mapper.getPassword(username);
+//         log.info("DB Password: " + dbPassword);
+//
+//         if (passwordEncoder.matches(password, dbPassword)) {
+//             log.info("Login success for user: {}", username);
+//             log.info("User: {}", UserDTO.of(mapper.get(username)));
+//             return UserDTO.of(mapper.get(username));
+//         } else {
+//             return null;
+//         }
+//
+//
+////        HashMap map = new HashMap();
+////        map.put("userId", userId);
+////        map.put("password", password);
+////        return mapper.selectUser(map);
+//    }
 
     @Transactional
     @Override
@@ -67,14 +82,14 @@ public class UserServiceImpl implements UserService{
             mapper.insertUser(userVO);
 
             AuthVO authVO = new AuthVO();
-            authVO.setUsername(userVO.getUserId());
+            authVO.setUsername(userVO.getUsername());
             authVO.setAuth("ROLE_USER");
             mapper.insertAuth(authVO);
 
             log.info("userVO: " + userVO);
             log.info("authVO: " + authVO);
 
-            return get(userVO.getUserId());
+            return get(userVO.getUsername());
 //            return mapper.insertUser(userDTO);
         } catch (Exception e) {
             log.error("Error registering user: ", e);

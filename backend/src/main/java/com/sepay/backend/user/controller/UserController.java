@@ -20,19 +20,25 @@ public class UserController {
 //    final SMSService smsService;
 
     // 로그인
-    @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestParam String userId, @RequestParam String password) {
-        try {
-            UserDTO user = userService.login(userId, password);
-            if (user == null) {
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid credentials");
-            }
-            return ResponseEntity.ok(user);
-        } catch (Exception e) {
-            System.out.println("Login error: " + e.getMessage());
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred during login.");
-        }
-    }
+//    @PostMapping("/login")
+//    public ResponseEntity<?> login(@RequestBody UserDTO userDTO) {
+//        System.out.println("userDTO: " + userDTO);
+//        String userId = userDTO.getUserId();
+//        String password = userDTO.getPassword();
+//        log.info("Login request for user: {}", userId);
+//        log.info("Login request for user: {}", password);
+//        try {
+//            UserDTO user = userService.login(userId, password);
+//            if (user == null) {
+//                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid credentials");
+//            }
+//            log.info("User logged in successfully: {}", user);
+//            return ResponseEntity.ok(user);
+//        } catch (Exception e) {
+//            System.out.println("Login error: " + e.getMessage());
+//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred during login.");
+//        }
+//    }
 
 //    @PostMapping("/send-verification-code")
 //    public ResponseEntity<?> sendVerificationCode(@RequestParam("phoneNo") String phoneNo) {

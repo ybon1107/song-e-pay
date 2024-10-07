@@ -11,7 +11,7 @@ public interface UserService {
 
     UserDTO get(String username);
 
-    UserDTO login(String userId, String password);
+//    UserDTO login(String userId, String password);
 
     UserDTO register(UserRegisterDTO userRegisterDTO);
 
