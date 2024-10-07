@@ -1,6 +1,5 @@
 package com.sepay.backend.security.account.domain;
 
-import com.sepay.backend.user.dto.UserDTO;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
