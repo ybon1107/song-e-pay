@@ -1,8 +1,23 @@
 <template>
-  <div>
-    <!-- Sidenav 컴포넌트 -->
-    <Sidenav v-if="showSidenav" />
-  </div>
+
+<header class="p-3 bg-dark text-white">
+    <div class="container">
+      <div class="d-flex align-items-center justify-content-between">
+        <a href="/" class="mb-2 mb-lg-0 text-white text-decoration-none">
+          <!-- <img src="/favicon.png" alt="Song E Pay" class="logo-img d-none d-md-block"> -->
+          <img src="/favicon.png" alt="Song E Pay" class="logo-img d-block d-md-none">
+          <!-- <h1 class="text-white"> Song E Pay</h1> -->
+          <h4 class="text-white d-none d-md-block mb-0">Song E Pay</h4>
+          <!-- <svg class="bi me-2" width="40" height="32" role="img" aria-label="Bootstrap"><use xlink:href="#bootstrap"/></svg> -->
+        </a>
+
+        <div>
+          <a href="/register/legal" class="text-white text-decoration-none me-3 text-bold">Register</a>
+          <a href="/login" class="btn btn-primary mb-0">Sign in</a>
+        </div>
+      </div>
+    </div>
+  </header>
   <!-- 왼쪽 화면 -->
   <div class="section-container-beige">
     <!-- 모바일 버전 버튼 -->
@@ -190,17 +205,18 @@
 
 <script setup>
 import { useStore } from 'vuex';
-import { onMounted, computed } from 'vue';
+import { onBeforeMount, computed } from 'vue';
 
 const store = useStore();
 
-// 컴포넌트가 마운트될 때 checkSidenavVisibility 액션 호출
-onMounted(() => {
-  store.dispatch('checkSidenavVisibility'); // 문자열 끝에 괄호를 제거
+
+onBeforeMount(() => {
+  store.state.hideConfigButton = true;
+  store.state.showNavbar = false;
+  store.state.showSidenav = false;
+  store.state.showFooter = false;
 });
 
-// showSidenav 값을 computed로 가져오기
-const showSidenav = computed(() => store.state.showSidenav);
 </script>
 <style scoped>
 .flex-fill-column {
@@ -296,5 +312,10 @@ const showSidenav = computed(() => store.state.showSidenav);
   .left-section-main {
     order: 2; /* 나머지 컨텐츠 순서대로 */
   }
+}
+
+.logo-img {
+  height: 40px;
+  width: auto;
 }
 </style>

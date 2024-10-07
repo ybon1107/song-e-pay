@@ -58,7 +58,7 @@
               @blur="closeMenu"
             >
               <div class="icon-div">
-                <i class="cursor-pointer fa-solid fa-bell"></i>
+                <i class="cursor-pointer fa fa-bell"></i>
               </div>
             </a>
             <ul
@@ -175,7 +175,7 @@
               <a class="p-0 nav-link" href="/profile">
                 <div class="icon-div">
                   <!-- img-div 대신 icon-div 사용 -->
-                  <i class="fa-solid fa-user profile-icon"></i>
+                  <i class="fa fa-user profile-icon"></i>
                   <!-- FontAwesome 아이콘 추가 -->
                 </div>
               </a>
@@ -183,7 +183,7 @@
             <template v-else>
               <a class="p-0 nav-link" href="/login">
                 <div class="icon-div">
-                  <i class="fa-solid fa-user profile-icon"></i>
+                  <i class="fa fa-user profile-icon"></i>
                   <!-- 로그인 전에도 FontAwesome 아이콘 -->
                 </div>
               </a>

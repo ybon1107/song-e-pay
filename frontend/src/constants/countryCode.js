@@ -10,18 +10,18 @@ export const CURRENCY_CODE = {
     USD: 1,
     IDR: 2,
     VND: 3
-}
+};
 
 export const CURRENCY_NAMES = [
     "KRW",
     "USD",
     "IDR",
     "VND"
-]
+];
 
 export const INTL_LOCALE = [
     "ko-KR",
     "en-US",
     "id-ID",
     "vi-VN"
-]
+];

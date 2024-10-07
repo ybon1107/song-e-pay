@@ -109,6 +109,14 @@ onBeforeMount(() => {
   store.state.hideConfigButton = true;
   body.classList.add("profile-overview");
 });
+onBeforeUnmount(() => {
+  store.state.isAbsolute = false;
+  store.state.imageLayout = "default";
+  store.state.showNavbar = true;
+  store.state.showFooter = true;
+  store.state.hideConfigButton = false;
+  body.classList.remove("profile-overview");
+});
 </script>
 <template>
   <main>
