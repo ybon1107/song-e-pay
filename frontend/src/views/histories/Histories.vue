@@ -9,10 +9,6 @@ import FilterModal from './FilterModal.vue'; // FilterModal.vue 가져오기
 import { CURRENCY_NAME } from '@/constants/countryCode';
 import { TRANSACTION_TYPES, TRANSACTION_TYPES_KEY, TRANSACTION_STATES_KEY } from '@/constants/transactionType';
 
-//user
-import { useAuthStore } from '@/stores/auth';
-const auth = useAuthStore();
-const user = computed(() => auth.user);
 
 // 유저 권한
 import { useAuthStore } from '@/stores/auth';

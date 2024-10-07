@@ -52,7 +52,6 @@ const wonEMoneyBalance = ref(0); // Won-E Money의 잔액
 const activeTab = ref(TRANSACTION_TYPES.DEPOSIT); // 기본적으로 충전 탭이 선택됨
 
 const depositAmount = ref('');
-const exchangeAmount = ref('');
 const refundAmount = ref('');
 const transferAmount = ref('');
 const reExchangeAmount = ref('');
@@ -381,15 +380,32 @@ const fetchBalances = () => {
   });
 };
 
-// 받는 금액 계산
 const receivedAmount = computed(() => {
+  let amount = '0.00';
   if (selectedAsset.value === SONGE) {
-    return (parseFloat(exchangeAmount.value) * currentToKrw.value).toFixed(2);
+    const exchangeAmt = parseFloat(exchangeAmount.value);
+    amount = (exchangeAmt * 0.00074).toFixed(2);
   } else if (selectedAsset.value === WONE) {
-    return (parseFloat(reExchangeAmount.value) * currentFromKrw.value).toFixed(2);
+    const reExchangeAmt = parseFloat(reExchangeAmount.value);
+    amount = (reExchangeAmt * currentFromKrw.value).toFixed(2);
   }
-  return '0.00'; // 기본값 추가
+  return amount; // Default value
 });
+// const exchangeAmount = ref('');
+const exchangeAmount = computed(() => {
+  let amount = '0.00'; // 기본값
+  if (selectedInput.value === 'exchange') {
+    const receivedAmt = parseFloat(receivedAmount.value);
+    amount = (receivedAmt / 0.00074).toFixed(2);
+  }
+  return amount; // 반환값을 여기서 결정
+});
+const selectedInput = ref('exchange');
+// 입력 필드 선택하기
+const selectInput = (inputType) => {
+  selectedInput.value = inputType;
+};
+
 
 // 이메일 입력 유효성 검증
 let isconfirmed = false;
@@ -637,30 +653,38 @@ onMounted(() => {
                     </div>
                     <div class="input-label-text">WON-E</div>
                   </labe>
-                  <ArgonAmountInput v-model="exchangeAmount" :placeholder="$t('myAccount--input-placeholder')"
-                    :unit="wonUnit" :selectedAsset="selectedAsset" :songEMoneyBalance="songEMoneyBalance"
-                    :activeTab="activeTab" />
+                  <ArgonAmountInput
+                    v-model="exchangeAmount"
+                    :placeholder="$t('myAccount--input-placeholder')"
+                    :unit="wonUnit"
+                    :selectedAsset="selectedAsset"
+                    :songEMoneyBalance="songEMoneyBalance"
+                    :activeTab="activeTab"
+                    @blur="selectInput('exchange')"
+                  />
+
                   <!-- <small>보유: {{ wonEMoneyBalance }} {{ wonUnit }} </small> -->
                 </div>
                 <div>
                   <labe class="d-flex align-items-center">
                     <div class="icon-container me-2">
-                      <img :src=flagIcon(songCoutryCode) alt="icon" class="flag-icon-img">
+                      <img :src="flagIcon(songCoutryCode)" alt="icon" class="flag-icon-img" />
                     </div>
                     <div class="input-label-text">{{ $t('SONG-E') }}</div>
                   </labe>
                   <!-- 현재환율 * exchangeamount -->
-                  <ArgonAmountInput v-model="exchangeAmount" :unit="customerunit" />
+                  <!-- <input v-model="receivedAmount" /> -->
+                  <ArgonAmountInput v-model="receivedAmount" :unit="customerunit" @blur="selectInput('recieved')" />
                   <!-- <div class="balance-text">{{ receivedAmount }} {{ customerunit }}</div> -->
                   <small>현재 환율: 1 {{ wonUnit }} = {{ currentFromKrw }} {{ customerunit }} </small>
                 </div>
                 <!-- songe - 위에 보여주는 금액 -->
-                <div>예상 잔액: <span class="balance-text" :class="{ 'text-blue': exchangeAmount !== '' }">{{
-                    processAfterBalance
-                    }}</span>{{ customerunit }}</div>
+                <div>
+                  예상 잔액: <span class="balance-text" :class="{ 'text-blue': exchangeAmount !== '' }">{{ processAfterBalance }}</span
+                  >{{ customerunit }}
+                </div>
                 <!-- <div class="balance-text">예상 잔액: {{ processAfterBalance }}{{ customerunit }}</div> -->
-                <button type="submit" class="btn btn-primary w-100 fs-4" @click="openModal"
-                  :disabled="!isValidAmount(exchangeAmount)" variant="gradient">WON-E로 환전</button>
+                <button type="submit" class="btn btn-primary w-100 fs-4" @click="openModal" :disabled="!isValidAmount(exchangeAmount)" variant="gradient">WON-E로 환전</button>
 
                 <!-- <h1>기존 코드</h1>
                 <p>

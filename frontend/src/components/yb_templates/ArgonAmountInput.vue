@@ -100,11 +100,11 @@ const formatNumber = (num) => {
 
 const formattedValue = computed({
   get() {
-    let val = props.modelValue.replace(/[^\d]/g, ''); // 숫자만 추출
+    let val = props.modelValue.replace(/[^\d.]/g, ''); // 숫자만 추출
     return val ? formatNumber(val) : ''; // 천 단위 콤마와 "원" 추가
   },
   set(newValue) {
-    const rawValue = newValue.replace(/[^\d]/g, ''); // 숫자만 추출
+    const rawValue = newValue.replace(/[^\d.]/g, ''); // 숫자만 추출
     emit('update:modelValue', rawValue); // 부모 컴포넌트로 숫자만 전송
   },
 });
@@ -113,8 +113,8 @@ const errorMessage = ref('');
 
 // input 이벤트 핸들러
 const onInput = (event) => {
-  event.target.value = event.target.value.replace(/[^\d]/g, '');
-  let rawValue = event.target.value.replace(/[^\d]/g, ''); // 숫자만 추출
+  event.target.value = event.target.value.replace(/[^\d.]/g, '');
+  let rawValue = event.target.value.replace(/[^\d.]/g, ''); // 숫자만 추출
 
   if (rawValue.startsWith('0')) {
     errorMessage.value = '0이 아닌 값을 입력하세요';
