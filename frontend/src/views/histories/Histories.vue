@@ -6,15 +6,32 @@ import HistoriesDetailModal from './HistoriesDetailModal.vue';
 import ArgonPagination from '@/components/templates/ArgonPagination.vue';
 import ArgonPaginationItem from '@/components/templates/ArgonPaginationItem.vue';
 import FilterModal from './FilterModal.vue'; // FilterModal.vue 가져오기
-
+import {TRANSACTION_TYPES,TRANSACTION_TYPES_KEY, TRANSACTION_STATES_KEY} from '@/constants/transactionType';
 // 필터 모달 가시성 상태 관리
 const isFilterModalVisible = ref(false);
 const searchQuery = ref('');
 // 실제 필터가 저장될 변수 (확인 버튼 누르면 적용됨)
+
+const  i18n_PERIOD = [
+"histories--filters-period-today",
+"histories--filters-period-oneMonth",
+"histories--filters-period-lthreeMonth",
+"histories--filters-period-custom",
+];
+const i18n_TYPE = [
+"histories--filters-type-all",
+"histories--filters-type-wone",
+"histories--filters-type-songe",
+];
+const i18n_SORT = [
+"histories--filters-sort-newest",
+"histories--filters-sort-oldest",
+];
+
 const filters = ref({
-    selectedPeriod: 'Last 3 Month',
-    selectedType: 'All',
-    selectedSort: 'Newest',
+    selectedPeriod: i18n_PERIOD[2],
+    selectedType: i18n_TYPE[0],
+    selectedSort: i18n_SORT[0],
     startDate: '',
     endDate: '',
     historyContent: '',
@@ -36,7 +53,7 @@ const applyTransactionFilters = async (resetPage = false) => {
 
     // 정렬 조건 변환
     let sortOrder = 'DESC'; // 기본값을 최신순으로 설정 (내림차순)
-    if (filters.value.selectedSort === 'Oldest') {
+    if (filters.value.selectedSort === i18n_SORT[1]) {
         sortOrder = 'ASC'; // 과거순일 경우 오름차순으로 설정
     }
 
@@ -45,15 +62,15 @@ const applyTransactionFilters = async (resetPage = false) => {
     let endDate = moment().format('YYYY-MM-DD'); // 기본적으로 오늘로 설정
 
     // 필터에서 선택한 기간에 따라 시작일과 종료일 설정
-    if (filters.value.selectedPeriod === 'Today') {
+    if (filters.value.selectedPeriod === i18n_PERIOD[0]) {
         startDate = endDate; // 오늘이 시작일과 종료일 모두가 됨
-    } else if (filters.value.selectedPeriod === 'Last Month') {
+    } else if (filters.value.selectedPeriod === i18n_PERIOD[1]) {
         startDate = moment().subtract(1, 'months').startOf('day').toISOString();
         endDate = moment().endOf('day').toISOString(); // 23:59:59로 설정
-    } else if (filters.value.selectedPeriod === 'Last 3 Month') {
+    } else if (filters.value.selectedPeriod === i18n_PERIOD[2]) {
         startDate = moment().subtract(3, 'months').startOf('day').toISOString();
         endDate = moment().endOf('day').toISOString(); // 23:59:59로 설정
-    } else if (filters.value.selectedPeriod === '직접설정') {
+    } else if (filters.value.selectedPeriod === i18n_PERIOD[3]) {
         startDate = filters.value.startDate;
         endDate = filters.value.endDate
             ? moment(filters.value.endDate).endOf('day').toISOString()
@@ -63,9 +80,9 @@ const applyTransactionFilters = async (resetPage = false) => {
     }
     // 선택된 유형에 따라 거래 유형 코드를 설정
     let typeCodesToSend = [];
-    if (filters.value.selectedType === 'KRaccount') {
+    if (filters.value.selectedType === i18n_TYPE[1]) {
         typeCodesToSend = [1, 2, 5, 6]; // 원화 계좌
-    } else if (filters.value.selectedType === 'SongEaccount') {
+    } else if (filters.value.selectedType === i18n_TYPE[2]) {
         typeCodesToSend = [3, 4, 5, 6]; // 송이 계좌
     } else {
         typeCodesToSend = null;
@@ -90,8 +107,10 @@ const applyTransactionFilters = async (resetPage = false) => {
             transactions.value = response.list.map((transaction) => ({
                 ...transaction,
                 historyDate: formatUnixTimestamp(transaction.historyDate),
-                typeCode: convertTransactionType(transaction.typeCode),
-                stateCode: convertTransactionStatus(transaction.stateCode),
+                typeCode: TRANSACTION_TYPES_KEY[transaction.typeCode],
+                stateCode: TRANSACTION_STATES_KEY[transaction.stateCode]
+                // typeCode: convertTransactionType(transaction.typeCode),
+                // stateCode: convertTransactionStatus(transaction.stateCode),
             }));
         }
     } catch (error) {
@@ -131,53 +150,28 @@ const handleMemoUpdate = (updatedMemo) => {
     }
 };
 
-// const getTransactionList = async () => {
-//     try {
-//         const filterOptions = {
-//             userNo: filters.value.userNo, // userNo 전달
-//             pageRequest: {
-//                 page: pageRequest.value.page,
-//                 amount: pageRequest.value.amount,
-//             },
-//         };
-
-//         const response = await historyApi.getTransactionList(pageRequest.value);
-//         if (response && Array.isArray(response.list)) {
-//             totalItems.value = response.totalCount;
-//             transactions.value = response.list.map((transaction) => ({
-//                 ...transaction,
-//                 historyDate: formatUnixTimestamp(transaction.historyDate),
-//                 typeCode: convertTransactionType(transaction.typeCode),
-//                 stateCode: convertTransactionStatus(transaction.stateCode),
-//             }));
-//         }
-//     } catch (error) {
-//         console.error('Error fetching transaction list:', error);
-//     }
+// 거래 유형 및 상태 코드 변환
+// const convertTransactionType = (code) => {
+//     const types = {
+//         1: '결제',
+//         2: '송금',
+//         3: '충전',
+//         4: '환불',
+//         5: '환전',
+//         6: '환급',
+//     };
+//     return types[code] || '알 수 없는 거래 유형';
 // };
 
-// 거래 유형 및 상태 코드 변환
-const convertTransactionType = (code) => {
-    const types = {
-        1: '결제',
-        2: '송금',
-        3: '충전',
-        4: '환불',
-        5: '환전',
-        6: '환급',
-    };
-    return types[code] || '알 수 없는 거래 유형';
-};
-
-const convertTransactionStatus = (code) => {
-    const statuses = {
-        1: '성공',
-        2: '실패',
-        3: '취소',
-        4: '처리중',
-    };
-    return statuses[code] || '알 수 없는 상태';
-};
+// const convertTransactionStatus = (code) => {
+//     const statuses = {
+//         1: '성공',
+//         2: '실패',
+//         3: '취소',
+//         4: '처리중',
+//     };
+//     return statuses[code] || '알 수 없는 상태';
+// };
 
 // 페이지네이션 관련 함수
 const totalPages = computed(() =>
@@ -231,30 +225,19 @@ const closeModal = () => {
 
 <template>
     <div class="container-fluid">
-        <h3>이용 내역</h3>
+        <h3>{{ $t('histories--transactionHistory') }}</h3>
         <!-- 검색 필터와 정렬 드롭다운을 포함한 상단 -->
         <div class="d-flex justify-content-between align-items-center mb-3">
             <div class="input-group" style="width: 60%">
                 <span class="input-group-text">
                     <i class="fas fa-search"></i>
                 </span>
-                <input
-                    type="text"
-                    class="form-control"
-                    placeholder="검색어를 입력하세요"
-                    v-model="searchQuery"
-                    @keyup.enter="applyTransactionFilters(true)"
-                />
+                <input type="text" class="form-control" :placeholder="$t('histories--searchQuery')"
+                    v-model="searchQuery" @keyup.enter="applyTransactionFilters(true)" />
             </div>
-            <button
-                class="btn btn-outline-secondary btn-sm mt-2 mt-md-0"
-                type="button"
-                @click="toggleFilterModal"
-                style="padding: 4px 8px; font-size: 0.875rem"
-            >
-                {{ filters.selectedPeriod }} · {{ filters.selectedType }} ·{{
-                    filters.selectedSort
-                }}
+            <button class="btn btn-outline-secondary btn-sm mt-2 mt-md-0" type="button" @click="toggleFilterModal"
+                style="padding: 4px 8px; font-size: 0.875rem">
+                {{ $t(filters.selectedPeriod) }} · {{ $t(filters.selectedType) }} · {{ $t(filters.selectedSort) }}
                 <i class="fas fa-chevron-down"></i>
             </button>
         </div>
@@ -266,22 +249,15 @@ const closeModal = () => {
                         <tr>
                             <th style="width: 10%">날짜/시간</th>
                             <th style="width: 20%">거래 유형</th>
-                            <th
-                                class="text-center d-none d-md-table-cell"
-                                style="width: 50%"
-                            >
+                            <th class="text-center d-none d-md-table-cell" style="width: 50%">
                                 거래 내역
                             </th>
                             <th style="width: 20%">거래 금액</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr
-                            v-for="transaction in transactions"
-                            :key="transaction.historyNo"
-                            @click="openModal(transaction)"
-                            style="cursor: pointer"
-                        >
+                        <tr v-for="transaction in transactions" :key="transaction.historyNo"
+                            @click="openModal(transaction)" style="cursor: pointer">
                             <td class="text-center">
                                 {{ transaction.historyDate }}
                             </td>
@@ -293,22 +269,18 @@ const closeModal = () => {
                             </td>
                             <td class="text-end">
                                 {{ transaction.amount.toLocaleString() }}
-                                <span
-                                    v-if="
-                                        ['충전', '환전', '환불'].includes(
-                                            transaction.typeCode
-                                        )
-                                    "
-                                >
+                                <span v-if="
+                                    ['충전', '환전', '환불'].includes(
+                                        transaction.typeCode
+                                    )
+                                ">
                                     USD
                                 </span>
-                                <span
-                                    v-else-if="
-                                        ['환급', '송금'].includes(
-                                            transaction.typeCode
-                                        )
-                                    "
-                                >
+                                <span v-else-if="
+                                    ['환급', '송금'].includes(
+                                        transaction.typeCode
+                                    )
+                                ">
                                     KRW
                                 </span>
                             </td>
@@ -320,42 +292,22 @@ const closeModal = () => {
             <!-- 페이지네이션 컨트롤 -->
             <div class="d-flex justify-content-center">
                 <argon-pagination class="mb-0">
-                    <argon-pagination-item
-                        prev
-                        @click="goToPage(pageRequest.page - 1)"
-                        :disabled="pageRequest.page === 1"
-                    />
-                    <argon-pagination-item
-                        v-for="item in paginationItems"
-                        :key="item.label"
-                        :label="item.label"
-                        :active="item.active"
-                        :disabled="item.disabled"
-                        @click="goToPage(parseInt(item.label))"
-                    />
-                    <argon-pagination-item
-                        next
-                        @click="goToPage(pageRequest.page + 1)"
-                        :disabled="pageRequest.page === totalPages"
-                    />
+                    <argon-pagination-item prev @click="goToPage(pageRequest.page - 1)"
+                        :disabled="pageRequest.page === 1" />
+                    <argon-pagination-item v-for="item in paginationItems" :key="item.label" :label="item.label"
+                        :active="item.active" :disabled="item.disabled" @click="goToPage(parseInt(item.label))" />
+                    <argon-pagination-item next @click="goToPage(pageRequest.page + 1)"
+                        :disabled="pageRequest.page === totalPages" />
                 </argon-pagination>
             </div>
         </div>
         <!-- 필터 모달 -->
-        <FilterModal
-            :isVisible="isFilterModalVisible"
-            :filters="filters"
-            @closeModal="toggleFilterModal"
-            @applyFilters="handleFilterApply"
-        />
+        <FilterModal :isVisible="isFilterModalVisible" :filters="filters" @closeModal="toggleFilterModal"
+            @applyFilters="handleFilterApply" />
 
         <!-- 이용내역 상세 모달 -->
-        <HistoriesDetailModal
-            :transaction="selectedTransaction"
-            :isVisible="isModalVisible"
-            @updateMemo="handleMemoUpdate"
-            @close="closeModal"
-        />
+        <HistoriesDetailModal :transaction="selectedTransaction" :isVisible="isModalVisible"
+            @updateMemo="handleMemoUpdate" @close="closeModal" />
     </div>
 </template>
 
@@ -366,6 +318,7 @@ thead {
 }
 
 @media (max-width: 767px) {
+
     th:nth-child(3),
     td:nth-child(3) {
         display: none;
