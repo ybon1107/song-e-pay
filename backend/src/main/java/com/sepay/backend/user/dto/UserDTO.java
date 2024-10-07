@@ -2,6 +2,7 @@ package com.sepay.backend.user.dto;
 
 import com.sepay.backend.security.account.domain.AuthVO;
 import com.sepay.backend.security.account.domain.UserVO;
+import com.sepay.backend.user.mapper.UserMapper;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -10,8 +11,6 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.Collection;
-import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -42,7 +41,6 @@ public class UserDTO {
 
     MultipartFile profilePicFile;
 
-    private List<String> roles;
     private List<String> authList;
 
     // UserDTO -> UserVO
@@ -53,11 +51,18 @@ public class UserDTO {
                 .songNo(songNo)
                 .krwNo(krwNo)
                 .countryCode(countryCode)
-                .username(userId)
+                .userId(userId)
                 .password(password)
                 .firstName(firstName)
                 .lastName(lastName)
                 .birthday(birthday)
+                .gender(gender)
+                .phoneNo(phoneNo)
+                .secondPwd(secondPwd)
+                .profilePic(profilePic)
+                .address(address)
+                .postCode(postCode)
+                .stateCode(stateCode)
                 .build();
     }
 
@@ -69,11 +74,18 @@ public class UserDTO {
                 .songNo(vo.getSongNo())
                 .krwNo(vo.getKrwNo())
                 .countryCode(vo.getCountryCode())
-                .userId(vo.getUsername())
+                .userId(vo.getUserId())
                 .password(vo.getPassword())
                 .firstName(vo.getFirstName())
                 .lastName(vo.getLastName())
                 .birthday(vo.getBirthday())
+                .gender(vo.getGender())
+                .phoneNo(vo.getPhoneNo())
+                .secondPwd(vo.getSecondPwd())
+                .profilePic(vo.getProfilePic())
+                .address(vo.getAddress())
+                .postCode(vo.getPostCode())
+                .stateCode(vo.getStateCode())
                 .authList(vo.getAuthList()
                         .stream()
                         .map(a -> a.getAuth())

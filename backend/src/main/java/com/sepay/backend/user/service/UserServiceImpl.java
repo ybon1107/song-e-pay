@@ -1,16 +1,21 @@
 package com.sepay.backend.user.service;
 
 import com.sepay.backend.payment.dto.PasswordDTO;
+import com.sepay.backend.security.account.domain.AuthVO;
 import com.sepay.backend.security.account.domain.UserVO;
 import com.sepay.backend.user.dto.UserDTO;
+import com.sepay.backend.user.dto.UserRegisterDTO;
 import com.sepay.backend.user.mapper.UserMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashMap;
+import java.util.NoSuchElementException;
+import java.util.Optional;
 
 @Slf4j
 @Service
@@ -39,8 +44,9 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public UserDTO getUserId(String userId) {
-        return mapper.getUserInfo(userId);
+    public UserDTO get(String username) {
+        UserVO userVO = Optional.ofNullable(mapper.get(username)).orElseThrow(NoSuchElementException::new);
+        return UserDTO.of(userVO);
     }
 
     @Override
@@ -51,11 +57,25 @@ public class UserServiceImpl implements UserService{
         return mapper.selectUser(map);
     }
 
+    @Transactional
     @Override
-    public int register(UserDTO userDTO) {
+    public UserDTO register(UserRegisterDTO userRegisterDTO) {
         try {
             // 추후 password 암호화 추가(security & JWT)
-            return mapper.insertUser(userDTO);
+            UserVO userVO = userRegisterDTO.toVO();
+            userVO.setPassword(passwordEncoder.encode(userVO.getPassword()));
+            mapper.insertUser(userVO);
+
+            AuthVO authVO = new AuthVO();
+            authVO.setUsername(userVO.getUserId());
+            authVO.setAuth("ROLE_USER");
+            mapper.insertAuth(authVO);
+
+            log.info("userVO: " + userVO);
+            log.info("authVO: " + authVO);
+
+            return get(userVO.getUserId());
+//            return mapper.insertUser(userDTO);
         } catch (Exception e) {
             log.error("Error registering user: ", e);
             throw new RuntimeException("Registration failed");
@@ -65,7 +85,7 @@ public class UserServiceImpl implements UserService{
     // 이메일 중복 확인 메서드 추가
     @Override
     public boolean isEmailRegistered(String userId) {
-        UserVO user = mapper.getUserInfo(userId).toVO();
-        return user != null ? true : false;
+        UserDTO user = mapper.selectUserByEmail(userId);
+        return user != null;
     }
 }

@@ -18,7 +18,7 @@ public class UserVO {
     private String songNo;
     private String krwNo;
     private Integer countryCode;
-    private String username; // user_id, UserDTO.userId
+    private String userId; // = username = email = user_id
     private String password;
     private String firstName;
     private String lastName;
@@ -33,5 +33,5 @@ public class UserVO {
     private Date createAt;
     private Date updateAt;
 
-    private List<AuthVO> authList;
+    private List<AuthVO> authList; // user_auth 테이블과 JOIN 필요
 }
