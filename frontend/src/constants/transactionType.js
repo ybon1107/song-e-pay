@@ -26,11 +26,11 @@ export const TRANSACTION_STATES_KEY = [
 ];
 
 //historiesmodal에서 사용중, 추후에 제거해야함 
-export const TRANSACTION_TYPES_STRING_KO = {
-    PAYMENT: '결제',
-    TRANSFER: '송금',
-    DEPOSIT: '충전',
-    REFUND: '환불',
-    EXCHANGE: '환전',
-    RE_EXCHANGE: '환급',
-};
+// export const TRANSACTION_TYPES_STRING_KO = {
+//     PAYMENT: '결제',
+//     TRANSFER: '송금',
+//     DEPOSIT: '충전',
+//     REFUND: '환불',
+//     EXCHANGE: '환전',
+//     RE_EXCHANGE: '환급',
+// };
