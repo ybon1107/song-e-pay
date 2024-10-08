@@ -117,7 +117,7 @@
     "payment--button-pay": "결제하기",
     "payment--qrScan--button-submit": "확인",
     "payment--qrScan--imageAlt": "QR 코드",
-    "payment--qrScan--balanceLabel": "보유잔액"
+    "payment--qrScan--balanceLabel": "보유잔액",
     "exchangeRate--header-title": "환율 정보",
     "exchangeRate--button-buy": "구매",
     "exchangeRate--button-sell": "판매",

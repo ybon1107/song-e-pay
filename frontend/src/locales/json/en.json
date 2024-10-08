@@ -117,7 +117,7 @@
     "payment--button-pay": "Pay",
     "payment--qrScan--button-submit": "Confirm",
     "payment--qrScan--imageAlt": "QR Code",
-    "payment--qrScan--balanceLabel": "Balance"
+    "payment--qrScan--balanceLabel": "Balance",
     "exchangeRate--header-title": "Exchange Rate Information",
     "exchangeRate--button-buy": "Buy",
     "exchangeRate--button-sell": "Sell",

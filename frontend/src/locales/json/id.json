@@ -117,7 +117,7 @@
     "payment--button-pay": "Bayar",
     "payment--qrScan--button-submit": "Konfirmasi",
     "payment--qrScan--imageAlt": "Kode QR",
-    "payment--qrScan--balanceLabel": "Saldo"
+    "payment--qrScan--balanceLabel": "Saldo",
     "exchangeRate--header-title": "Bandingkan Nilai Tukar",
     "exchangeRate--button-buy": "Beli",
     "exchangeRate--button-sell": "Jual",

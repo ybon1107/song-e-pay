@@ -100,7 +100,7 @@
     "payment--button-pay": "Thanh toán",
     "payment--qrScan--button-submit": "Xác nhận",
     "payment--qrScan--imageAlt": "Mã QR",
-    "payment--qrScan--balanceLabel": "Số dư"
+    "payment--qrScan--balanceLabel": "Số dư",
     "exchangeRate--header-title": "So sánh tỷ giá",
     "exchangeRate--button-buy": "Mua",
     "exchangeRate--button-sell": "Bán",
