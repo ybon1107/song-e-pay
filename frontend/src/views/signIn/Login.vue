@@ -14,9 +14,9 @@ const router = useRouter();
 const auth = useAuthStore();
 
 const member = ref({
-  username: "",
-  password: "",
-});
+    username: "",
+    password: "",
+  },);
 
 const error = ref("");
 
@@ -110,7 +110,7 @@ const handleSubmit = async () => {
     try {
       await auth.login(member);
       if (localStorage.getItem("auth") != " ") {
-        window.location.href = "/";
+        window.location.href = "/my-accounts";
       }
     } catch (e) {
       // 로그인 에러
@@ -170,9 +170,7 @@ const handleSubmit = async () => {
                         size="lg"
                         v-model="username"
                         :class="{ 'is-invalid': emailError }"
-                        :error="
-                          (username !== '' || emailError) && !isEmailValid
-                        "
+                        :error="(username !== '' || emailError) && !isEmailValid"
                         errorText="Please provide a valid email."
                       />
                       <!-- <div v-if="emailError" class="invalid-feedback text-xs">

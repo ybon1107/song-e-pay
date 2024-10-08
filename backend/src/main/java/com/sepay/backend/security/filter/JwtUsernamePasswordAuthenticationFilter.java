@@ -36,7 +36,7 @@ public class JwtUsernamePasswordAuthenticationFilter extends UsernamePasswordAut
         this.userDetailsService = userDetailsService;
         this.passwordEncoder = passwordEncoder;
 
-//        setFilterProcessesUrl("/api/users/login");		          // POST 로그인 요청 url
+        //setFilterProcessesUrl("/api/users/login");		          // POST 로그인 요청 url
         setFilterProcessesUrl("/api/auth/login");		          // POST 로그인 요청 url
         setAuthenticationSuccessHandler(loginSuccessHandler);	// 로그인 성공 핸들러 등록
         setAuthenticationFailureHandler(loginFailureHandler);  // 로그인 실패 핸들러 등록

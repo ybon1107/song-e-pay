@@ -4,14 +4,10 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.sepay.backend.notification.mapper.NotificationMapper">
-    <insert id="insertNotification" parameterType="notificationDTO">
-        insert into notification (user_no, resve_no, noti_content, exchange_rate)
-        values (#{userNo}, #{resveNo}, #{notiContent}, #{exchangeRate})
-    </insert>
-
     <select id="selectByUserNo" parameterType="int" resultType="notificationDTO">
-        select noti_no, user_no, resve_no, noti_content, exchange_rate
+        select noti_no, resve_no, noti_content, exchange_rate, create_at
         from notification
         where user_no = #{userNo}
     </select>
+
 </mapper>

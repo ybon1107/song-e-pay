@@ -4,13 +4,27 @@
       <span v-if="iconDir === 'left'" class="input-group-text">
         <i :class="getIcon(icon)"></i>
       </span>
-      <input :id="id" :type="type" class="form-control" :class="{ 'is-invalid': errorMessage }" :name="name"
-        :value="formattedValue" :placeholder="placeholder" :unit="unit" :required="isRequired" @input="onInput" />
+      <input
+        :id="id"
+        :type="type"
+        class="form-control"
+        :class="{ 'is-invalid': errorMessage }"
+        :name="name"
+        :value="formattedValue"
+        :placeholder="placeholder"
+        :unit="unit"
+        :required="isRequired"
+        @input="onInput"
+      />
       <span v-if="iconDir === 'right'" class="input-group-text">
         <i :class="getIcon(icon)"></i>
       </span>
       <span class="input-group-text">{{ unit }}</span>
-      <div v-if="errorMessage" class="invalid-feedback text-xs mb-1">{{ errorMessage }}</div>
+      <div class="invalid-feedback text-xs mb-1">
+        <!-- errorAmountMessage가 빈 문자열일 때, 공백을 출력 -->
+        <span v-if="errorMessage">{{ errorMessage }}</span>
+        <span v-else>test</span>
+      </div>
     </div>
 
     <!-- 에러 메시지 표시 -->

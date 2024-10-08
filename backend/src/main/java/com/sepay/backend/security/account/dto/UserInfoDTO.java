@@ -13,11 +13,10 @@ import java.util.List;
 @AllArgsConstructor
 public class UserInfoDTO {
     String username;
-    Integer countryCode;
     List<String> roles;
 
     public static UserInfoDTO of(UserVO user){
-        return new UserInfoDTO(user.getUsername(), user.getCountryCode(),
+        return new UserInfoDTO(user.getUsername(),
                 user.getAuthList().stream()
                         .map(a -> a.getAuth())
                         .toList()

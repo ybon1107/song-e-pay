@@ -41,24 +41,17 @@
     </resultMap>
 
     <!-- 특정 사용자 정보 조회 -->
-    <select id="get" resultMap="userMap">
-        SELECT u.user_id, country_code, ua.auth
+    <select id="getUserInfo" resultMap="userMap">
+        SELECT user_no, account_no, song_no, krw_no, country_code, u.user_id, password, first_name, last_name, birthday, gender, phone_no, second_pwd, profile_pic, post_code, state_code, create_at, update_at, auth,
         FROM user u
-                 LEFT OUTER JOIN user_auth ua ON u.user_id = ua.user_id
-        where u.user_id = #{username}
-    </select>
-
-    <!-- 사용자 비밀번호 조회 -->
-    <select id="getPassword" parameterType="String" resultType="String">
-        SELECT password
-        FROM user
-        WHERE user_id = #{username}
+        LEFT OUTER JOIN user_auth ua ON u.user_id = ua.user_id
+        where u.user_id = #{userId}
     </select>
 
     <!-- 권한 부여 -->
     <insert id="insertAuth">
         INSERT INTO user_auth(user_id, auth)
-        VALUES(#{username}, #{auth})
+        VALUES(#{userId}, #{auth})
     </insert>
 
     <!-- 로그인 -->
@@ -69,22 +62,21 @@
     </select>
 
     <!-- 회원가입 -->
-    <insert id="insertUser">
+    <insert id="insertUser" parameterType="userDTO">
         INSERT INTO user(user_id, password, country_code, first_name, last_name, birthday, gender, phone_no)
         VALUES(#{userId}, #{password}, #{countryCode}, #{firstName}, #{lastName}, #{birthday}, #{gender}, #{phoneNo})
     </insert>
 
-    <!-- 이메일로 유저 조회 -->
+    <!-- 이메일 중복 체크 -->
     <select id="selectUserByEmail" parameterType="String" resultType="userDTO">
         select *
         from user
         where user_id = #{userId}
     </select>
 
-    <!-- 이메일 중복 체크 -->
-    <select id="checkEmail" parameterType="String" resultType="int">
-        select count(*)
-        from user
-        where user_id = #{userId}
+    <select id="selectUserImg" parameterType="string" resultType="string">
+        SELECT profile_pic
+        FROM user
+        WHERE user_id = #{userId}
     </select>
 </mapper>
