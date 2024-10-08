@@ -85,19 +85,4 @@ const navClasses = computed(() => {
 h1 {
   font-family: 'TTLaundryGothicB', sans-serif;
 }
-*/ .container-fluid {
-  max-width: 1200px;
-}
-
-.modal-backdrop {
-  z-index: 1060 !important;
-}
-
-.modal {
-  z-index: 1065 !important;
-}
-
-#sidenav-main {
-  z-index: 1050 !important;
-}
 </style>

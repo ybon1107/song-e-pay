@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import Home from '../views/home/Home.vue';
+// import Home from '../views/home/Home.vue';
 import MyAccounts from '../views/myAccounts/MyAccounts.vue';
 import Payment from '../views/payment/Payment.vue';
 import PassWordInputPage from '../views/payment/PasswordInputPage.vue';
@@ -30,18 +30,17 @@ import SchedulePage from '../views/Schedule/Schedule.vue';
 // map 컴포넌트 추가
 import MapComponent from '../views/maps/MapComponent.vue';
 import ErrorPage from '../views/error/ErrorPage.vue';
-
 const routes = [
     {
         path: '/',
         name: '/',
-        redirect: '/home',
+        redirect: '/my-accounts',
     },
-    {
-        path: '/home',
-        name: 'Home',
-        component: Home,
-    },
+    // {
+    //   path: '/home',
+    //   name: 'Home',
+    //   component: Home,
+    // },
     {
         path: '/my-accounts',
         name: 'MyAccounts',

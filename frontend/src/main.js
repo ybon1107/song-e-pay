@@ -8,7 +8,6 @@ import './assets/css/nucleo-svg.css';
 import ArgonDashboard from './argon-dashboard';
 import { createPinia } from 'pinia';
 import piniaPluginPersist from 'pinia-plugin-persistedstate';
-import '@fortawesome/fontawesome-free/css/all.css';
 
 const appInstance = createApp(App);
 

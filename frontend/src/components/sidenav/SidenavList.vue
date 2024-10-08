@@ -21,17 +21,13 @@ const getRoute = () => {
         id="sidenav-collapse-main"
     >
         <ul class="navbar-nav">
-            <li class="nav-item">
-                <sidenav-item
-                    to="/home"
-                    :class="getRoute() === 'home' ? 'active' : ''"
-                    :navText="isRTL ? 'لوحة القيادة' : '홈'"
-                >
-                    <template v-slot:icon>
-                        <i class="ni ni-tv-2 text-dark text-sm opacity-10"></i>
-                    </template>
-                </sidenav-item>
-            </li>
+            <!-- <li class="nav-item">
+        <sidenav-item to="/home" :class="getRoute() === 'home' ? 'active' : ''" :navText="isRTL ? 'لوحة القيادة' : '홈'">
+          <template v-slot:icon>
+            <i class="ni ni-tv-2 text-dark text-sm opacity-10"></i>
+          </template>
+        </sidenav-item>
+      </li> -->
 
             <li class="nav-item">
                 <sidenav-item
@@ -109,7 +105,7 @@ const getRoute = () => {
                 >
                     <template v-slot:icon>
                         <i
-                            class="ni ni-pin-3 text-danger text-sm opacity-10"
+                            class="ni ni-calendar-grid-58 text-dark text-sm opacity-10"
                         ></i>
                     </template>
                 </sidenav-item>

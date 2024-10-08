@@ -39,7 +39,7 @@
 
         <div
             class="flex-justify-between"
-            v-if="['환전', '환급'].includes(transaction?.typeCode)"
+            v-if="['환전', '환급', '자동 환전'].includes(transaction?.typeCode)"
         >
             <strong>환율</strong>
             <p>{{ transaction?.exchangeRate }}</p>

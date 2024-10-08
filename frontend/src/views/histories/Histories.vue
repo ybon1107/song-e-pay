@@ -7,6 +7,11 @@ import ArgonPagination from '@/components/templates/ArgonPagination.vue';
 import ArgonPaginationItem from '@/components/templates/ArgonPaginationItem.vue';
 import FilterModal from './FilterModal.vue'; // FilterModal.vue 가져오기
 
+// 유저 권한
+import { useAuthStore } from '@/stores/auth';
+const auth = useAuthStore();
+const user = computed(() => auth.user);
+
 // 필터 모달 가시성 상태 관리
 const isFilterModalVisible = ref(false);
 const searchQuery = ref('');
@@ -64,9 +69,9 @@ const applyTransactionFilters = async (resetPage = false) => {
     // 선택된 유형에 따라 거래 유형 코드를 설정
     let typeCodesToSend = [];
     if (filters.value.selectedType === 'KRaccount') {
-        typeCodesToSend = [1, 2, 5, 6]; // 원화 계좌
+        typeCodesToSend = [1, 2, 5, 6, 7]; // 원화 계좌
     } else if (filters.value.selectedType === 'SongEaccount') {
-        typeCodesToSend = [3, 4, 5, 6]; // 송이 계좌
+        typeCodesToSend = [3, 4, 5, 6, 7]; // 송이 계좌
     } else {
         typeCodesToSend = null;
     }
@@ -165,6 +170,7 @@ const convertTransactionType = (code) => {
         4: '환불',
         5: '환전',
         6: '환급',
+        7: '자동 환전',
     };
     return types[code] || '알 수 없는 거래 유형';
 };
@@ -295,9 +301,12 @@ const closeModal = () => {
                                 {{ transaction.amount.toLocaleString() }}
                                 <span
                                     v-if="
-                                        ['충전', '환전', '환불'].includes(
-                                            transaction.typeCode
-                                        )
+                                        [
+                                            '충전',
+                                            '환전',
+                                            '환불',
+                                            '자동 환전',
+                                        ].includes(transaction.typeCode)
                                     "
                                 >
                                     USD

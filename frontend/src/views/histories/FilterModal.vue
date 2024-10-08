@@ -59,25 +59,25 @@ const applyFilters = () => {
                             <label class="form-label">조회기간</label>
                             <div class="btn-group">
                                 <button
-                                    class="btn btn-outline-primary"
+                                    class="btn btn-outline-info"
                                     @click="selectPeriod('Today')"
                                 >
                                     오늘
                                 </button>
                                 <button
-                                    class="btn btn-outline-primary"
+                                    class="btn btn-outline-info"
                                     @click="selectPeriod('Last 3 Month')"
                                 >
                                     3개월
                                 </button>
                                 <button
-                                    class="btn btn-outline-primary"
+                                    class="btn btn-outline-info"
                                     @click="selectPeriod('Last Month')"
                                 >
                                     1개월
                                 </button>
                                 <button
-                                    class="btn btn-outline-primary"
+                                    class="btn btn-outline-info"
                                     @click="selectCustomDate"
                                 >
                                     직접설정

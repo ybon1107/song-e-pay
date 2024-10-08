@@ -54,6 +54,13 @@ watch(
   }
 );
 
+watch(
+  () => props.error,
+  (newValue) => {
+    internalError.value = newValue;
+  }
+);
+
 // 숫자만 입력되도록 설정하는 함수
 const handleInput = (event) => {
   event.target.value = event.target.value.replace(/\D/g, "");
@@ -90,7 +97,7 @@ const handleKeyPress = (event) => {
         aria-label="Phone number"
         v-model="internalPhoneNumber"
         :disabled="disabled"
-        :error="!internalError"
+        :error="internalError"
         errorText="Please enter a valid phone number."
         @input="handleInput"
         @keypress="handleKeyPress"

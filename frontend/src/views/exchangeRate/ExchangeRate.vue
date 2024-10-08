@@ -1,127 +1,242 @@
 <template>
-  <div class="container-fluid py-4">
-    <h3>Compare Exchange Rate</h3>
+  <div class="container-fluid">
+    <div class="d-grid gap-5">
+      <h3 class="mb-0">Compare Exchange Rate</h3>
+      <SecondPasswordModal
+        v-if="showModal"
+        @close="closeModal"
+        @password-verified="handlePasswordVerified"
+      />
 
-    <!-- USD to KRW Section -->
-    <div class="card my-4">
-      <div class="card-body">
-        <div class="row px-3">
-          <div class="col-md-8">
-            <h6 class="mt-3">1 USD = {{ currentToKrw }} KRW</h6>
-            <ExchangeRateChart chartId="toexchangeChart" :period="toSelectedPeriod" chartType="to" />
-            <div class="chart-button-container">
-              <template v-for="period in ['1y', '6m', '3m', '1m']" :key="period">
-                <button class="chart-btn" :class="{ selected: toSelectedPeriod === period }"
-                  @click="setToPeriod(period)">
-                  {{ period }}
-                </button>
-              </template>
-            </div>
-          </div>
-          <div class="col-md-4 d-flex flex-column justify-content-center mt-6">
-            <input type="number" class="form-control mb-1" v-model.number="usdAmount" @input="convertToKrw"
-              aria-label="Amount in USD" />
-            <span class="text-center mb-1">=</span>
-            <input type="text" class="form-control mb-3" :value="krwAmount" readonly aria-label="Amount in KRW" />
-            <button class="btn btn-primary w-100" @click="handleExchange">
-              Buy
-            </button>
-            <!-- 환율 알림 Section -->
-            <div class="exchange-alert-container">
-              <span class="alert-title">환율 알림 설정</span>
-              <span class="alert-content">목표 환율 입력하시오.</span>
-              <div class="exchange-input">
-                <span>1 USD</span>
-                <span class="equals-symbol">=</span>
-                <input type="number" v-model="alertRateUsdToKrw" class="form-control alert-input" />
-                <span>KRW</span>
+      <!-- USD to KRW Section -->
+      <div class="card">
+        <div class="card-body">
+          <div class="row px-3">
+            <div class="col-md-7 max-margin-bottom">
+              <h4 class="mt-3">
+                1 {{ customerunit }} = {{ currentToKrw.toFixed(2) }} KRW
+              </h4>
+              <ExchangeRateChart
+                chartId="toexchangeChart"
+                :period="toSelectedPeriod"
+                chartType="to"
+              />
+              <div class="chart-button-container">
+                <template
+                  v-for="period in ['1y', '6m', '3m', '1m']"
+                  :key="period"
+                >
+                  <button
+                    class="chart-btn"
+                    :class="{ selected: toSelectedPeriod === period }"
+                    @click="setToPeriod(period)"
+                  >
+                    {{ period }}
+                  </button>
+                </template>
               </div>
-              <button class="btn btn-warning w-100 mt-3" @click="saveAlertRate(1, 0, alertRateUsdToKrw)">
-                알림 설정
-              </button>
+            </div>
+
+            <div class="col-md-5 d-flex flex-column justify-content-around">
+              <div class="d-grid gap-3 max-margin-bottom">
+                <h5>환전</h5>
+                <div
+                  class="d-flex justify-content-between flex-column-min gap-3"
+                >
+                  <input
+                    type="number"
+                    class="form-control"
+                    v-model.number="usdAmount"
+                    @input="convertToKrw"
+                    aria-label="Amount in USD"
+                  />
+                  <span class="text-center">=</span>
+                  <input
+                    type="text"
+                    class="form-control"
+                    :value="krwAmount"
+                    readonly
+                    aria-label="Amount in KRW"
+                  />
+                </div>
+                <button
+                  class="btn btn-info w-100"
+                  @click="openModal('exchange')"
+                >
+                  Buy
+                </button>
+              </div>
+
+              <!-- 환율 알림 Section -->
+              <div class="d-grid gap-3">
+                <div>
+                  <h5>환율 알림 설정</h5>
+                  <p>목표 환율 입력하시오.</p>
+                </div>
+                <div
+                  class="d-flex justify-content-between align-items-center gap-3"
+                >
+                  <span class="text-nowrap">1 {{ customerunit }} = </span>
+                  <input
+                    type="number"
+                    v-model="alertRateUsdToKrw"
+                    class="form-control"
+                    @input="validateAlertRate"
+                  />
+                  <span>KRW</span>
+                </div>
+                <button
+                  class="btn btn-primary w-100"
+                  @click="saveAlertRate(1, 0, alertRateUsdToKrw)"
+                >
+                  알림 설정
+                </button>
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
 
-    <!-- KRW to USD Section -->
-    <div class="card my-4">
-      <div class="card-body">
-        <div class="row px-3">
-          <div class="col-md-8">
-            <h6 class="mt-3">1 KRW = {{ currentFromKrw }} USD</h6>
-            <ExchangeRateChart chartId="fromexchangeChart" :period="fromSelectedPeriod" chartType="from" />
-            <div class="chart-button-container">
-              <template v-for="period in ['1y', '6m', '3m', '1m']" :key="period">
-                <button class="chart-btn" :class="{ selected: fromSelectedPeriod === period }"
-                  @click="setFromPeriod(period)">
-                  {{ period }}
-                </button>
-              </template>
-            </div>
-          </div>
-          <div class="col-md-4 d-flex flex-column justify-content-center mt-6">
-            <input type="number" class="form-control mb-1" v-model.number="krwAmountReverse" @input="convertToUsd"
-              aria-label="Amount in KRW" />
-            <span class="text-center mb-1">=</span>
-            <input type="number" class="form-control mb-3" :value="usdAmountReverse" readonly
-              aria-label="Amount in USD" />
-            <button class="btn btn-danger w-100" @click="reExchange">
-              Sell
-            </button>
-            <!-- 환율 알림 Section -->
-            <div class="exchange-alert-container">
-              <span class="alert-title">환율 알림 설정</span>
-              <span class="alert-content">목표 환율 입력하시오.</span>
-              <div class="exchange-input">
-                <span>1 KRW</span>
-                <span class="equals-symbol">=</span>
-                <input type="number" v-model="alertRateKrwToUsd" class="form-control alert-input" />
-                <span>USD</span>
+      <!-- KRW to USD Section -->
+      <div class="card">
+        <div class="card-body">
+          <div class="row px-3">
+            <div class="col-md-7 max-margin-bottom">
+              <h4 class="mt-3">
+                1000 KRW = {{ (currentFromKrw * 1000).toFixed(2) }}
+                {{ customerunit }}
+              </h4>
+              <ExchangeRateChart
+                chartId="fromexchangeChart"
+                :period="fromSelectedPeriod"
+                chartType="from"
+              />
+              <div class="chart-button-container">
+                <template
+                  v-for="period in ['1y', '6m', '3m', '1m']"
+                  :key="period"
+                >
+                  <button
+                    class="chart-btn"
+                    :class="{ selected: fromSelectedPeriod === period }"
+                    @click="setFromPeriod(period)"
+                  >
+                    {{ period }}
+                  </button>
+                </template>
               </div>
-              <button @click="saveAlertRate(0, 1, alertRateKrwToUsd)" class="btn btn-warning w-100 mt-3">
-                알림 설정
-              </button>
+            </div>
+
+            <div class="col-md-5 d-flex flex-column justify-content-around">
+              <div class="d-grid gap-3 max-margin-bottom">
+                <h5>환급</h5>
+                <div
+                  class="d-flex justify-content-between flex-column-min gap-3"
+                >
+                  <input
+                    type="number"
+                    class="form-control"
+                    v-model.number="krwAmountReverse"
+                    @input="convertToUsd"
+                    aria-label="Amount in KRW"
+                  />
+                  <span class="text-center">=</span>
+                  <input
+                    type="number"
+                    class="form-control"
+                    :value="usdAmountReverse"
+                    readonly
+                    aria-label="Amount in USD"
+                  />
+                </div>
+                <button
+                  class="btn btn-danger w-100"
+                  @click="openModal('reExchange')"
+                >
+                  Sell
+                </button>
+              </div>
+
+              <!-- 환율 알림 Section -->
+              <div class="d-grid gap-3">
+                <div>
+                  <h5>환율 알림 설정</h5>
+                  <p>목표 환율 입력하시오.</p>
+                </div>
+                <div
+                  class="d-flex justify-content-between align-items-center gap-3"
+                >
+                  <span class="text-nowrap">1000 KRW = </span>
+                  <input
+                    type="number"
+                    v-model="alertRateKrwToUsd"
+                    class="form-control"
+                    @input="validateAlertRateReverse"
+                  />
+                  <span>{{ customerunit }}</span>
+                </div>
+                <button
+                  @click="saveAlertRate(0, 1, alertRateKrwToUsd)"
+                  class="btn btn-primary w-100"
+                >
+                  알림 설정
+                </button>
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
-  </div>
-  <!-- 자동 환전 설정 섹션 -->
-  <div class="container-fluid py-4">
-    <h3 class="mt-3">자동 환전 설정</h3>
-    <div class="card my-4">
-      <div class="card-body">
-        <div class="row px-3">
-          <div class="col-md-12">
-            <div class="exchange-input mb-3">
+
+      <div class="custom-spacer"></div>
+
+      <!-- 자동 환전 설정 섹션 -->
+      <h3 class="mb-0">자동 환전 설정</h3>
+      <div class="card">
+        <div class="card-body">
+          <div class="d-flex justify-content-center">
+            <div class="d-flex flex-column tab-content-width gap-3">
               <div class="input-group">
-                <span class="input-group-text">1 USD =</span>
-                <input type="number" v-model="targetExchange" class="form-control" placeholder="목표 환율을 입력하세요." />
+                <span class="input-group-text">1 {{ customerunit }} =</span>
+                <input
+                  type="number"
+                  v-model="targetExchange"
+                  class="form-control"
+                  placeholder="목표 환율을 입력하세요."
+                  @input="validateTargetExchange"
+                />
                 <span class="input-group-text">KRW</span>
               </div>
-            </div>
-            <div class="exchange-input mb-3">
+
               <div class="input-group">
                 <span class="input-group-text">목표 금액 =</span>
-                <input type="number" v-model="targetKrw" class="form-control" placeholder="자동 전환할 금액을 입력하세요." />
+                <input
+                  type="number"
+                  v-model="targetKrw"
+                  class="form-control"
+                  placeholder="자동 전환할 금액을 입력하세요.(최소 1000)"
+                  @input="validateTargetKrw"
+                />
                 <span class="input-group-text">KRW</span>
               </div>
+
+              <button
+                class="btn btn-primary w-100 mb-0"
+                @click="confirmAutoExchange(1, 0, targetExchange, targetKrw)"
+              >
+                자동 환전 설정
+              </button>
             </div>
-            <button class="btn btn-warning w-100" @click="confirmAutoExchange(1, 0, targetExchange, targetKrw)">
-              자동 환전 설정
-            </button>
           </div>
         </div>
       </div>
+
+      <div class="custom-spacer"></div>
     </div>
   </div>
 </template>
 
 <script setup>
-import { ref, onMounted, computed } from "vue";
+import { ref, computed, watch } from "vue";
 import { useExchangeStore } from "@/stores/exchangeStore";
 import ExchangeRateChart from "@/views/Chart/ExchangeRateChart.vue";
 import axios from "axios";
@@ -129,13 +244,52 @@ import myaccountApi from "../../api/myaccountApi";
 import { useRouter } from "vue-router";
 import Swal from "sweetalert2";
 
+import { useAuthStore } from "@/stores/auth";
+const auth = useAuthStore();
+const user = computed(() => auth.user);
+
+import { CURRENCY_NAMES } from "@/constants/countryCode";
+const customerunit = ref(CURRENCY_NAMES[user.value.countryCode]);
+import SecondPasswordModal from "@/views/MyAccounts/SecondPasswordModal.vue";
+
 // Data variables
 const usdAmount = ref(1);
-const krwAmount = ref(0);
+const krwAmount = computed(() => {
+  return (usdAmount.value * store.currentToKrw).toFixed(2);
+});
 const krwAmountReverse = ref(1000);
-const usdAmountReverse = ref(0);
+const usdAmountReverse = computed(() => {
+  return (krwAmountReverse.value * store.currentFromKrw).toFixed(2);
+});
 
 const store = useExchangeStore();
+
+const showModal = ref(false);
+let currentAction = ref("");
+
+// 비밀번호 입력 모달 열기
+const openModal = (action) => {
+  showModal.value = true;
+  currentAction.value = action;
+};
+
+// 비밀번호 입력 모달 닫기
+const closeModal = () => {
+  showModal.value = false;
+};
+
+// 비밀번호가 확인되었을 때 호출되는 함수
+const handlePasswordVerified = async () => {
+  showModal.value = false; // 모달 숨김
+  switch (currentAction.value) {
+    case "exchange":
+      await handleExchange();
+      break;
+    case "reExchange":
+      await reExchange();
+      break;
+  }
+};
 
 // 가져온 값을 Pinia에서 사용
 const currentToKrw = computed(() => store.currentToKrw);
@@ -150,16 +304,6 @@ const convertToUsd = () => {
   usdAmountReverse.value = (
     krwAmountReverse.value * currentFromKrw.value
   ).toFixed(2);
-};
-
-// 환율 데이터를 가져오는 함수
-const fetchExchangeRates = async () => {
-  try {
-    convertToKrw();
-    convertToUsd();
-  } catch (error) {
-    console.error("환율 데이터를 가져오는 중 오류 발생:", error);
-  }
 };
 
 // Period state
@@ -231,7 +375,7 @@ const reExchange = async () => {
     const userNo = "5"; // 실제 사용자 번호로 대체해야 합니다
     const krwNo = "1234"; // 실제 KRW 계좌 번호로 대체해야 합니다
     const songNo = "1234"; // 실제 송이 페이 계좌 번호로 대체해야 합니다
-    const exchangeRate = currentFromKrw.value;
+    const exchangeRate = currentFromKrw.value * 1000; // 1000 KRW 기준
     const amount = krwAmountReverse.value;
 
     const response = await myaccountApi.reExchange({
@@ -280,10 +424,43 @@ const alertRateUsdToKrw = ref(null); // USD -> KRW 알림 목표 환율
 const alertRateKrwToUsd = ref(null); // KRW -> USD 알림 목표 환율
 
 const saveAlertRate = async (baseCode, targetCode, targetExchange) => {
+  // 검증 로직
+  if (!targetExchange || isNaN(targetExchange)) {
+    Swal.fire({
+      title: "경고",
+      text: "유효한 목표 환율을 입력해주세요.",
+      icon: "warning",
+      confirmButtonText: "확인",
+    });
+    return;
+  }
+
+  if (baseCode === 1 && parseFloat(targetExchange) > currentToKrw.value) {
+    Swal.fire({
+      title: "경고",
+      text: "현재 환율보다 높은 값입니다.",
+      icon: "warning",
+      confirmButtonText: "확인",
+    });
+    return;
+  }
+
+  if (
+    baseCode === 0 &&
+    parseFloat(targetExchange) < currentFromKrw.value * 1000
+  ) {
+    Swal.fire({
+      title: "경고",
+      text: "현재 환율보다 낮은 값입니다.",
+      icon: "warning",
+      confirmButtonText: "확인",
+    });
+    return;
+  }
+
   try {
     // const token = localStorage.getItem("jwt_token"); // JWT 토큰 가져오기
-    // userNo를 추가(임시)
-    const userNo = 1;
+    const userNo = 1; // userNo를 추가(임시)
     console.log(userNo, baseCode, targetCode, targetExchange);
     // 서버에 POST 요청 보내기
     const response = await axios.post(
@@ -321,9 +498,13 @@ const saveAlertRate = async (baseCode, targetCode, targetExchange) => {
   }
 };
 
-// 컴포넌트가 마운트될 때 데이터를 가져옴
-onMounted(() => {
-  fetchExchangeRates();
+// watch 구문 수정
+watch([currentToKrw, usdAmount], () => {
+  convertToKrw();
+});
+
+watch([currentFromKrw, krwAmountReverse], () => {
+  convertToUsd();
 });
 
 const router = useRouter();
@@ -339,10 +520,45 @@ const confirmAutoExchange = async (
   targetExchange,
   targetKrw
 ) => {
+  // 검증 로직
+  if (
+    !targetExchange ||
+    isNaN(targetExchange) ||
+    !targetKrw ||
+    isNaN(targetKrw)
+  ) {
+    Swal.fire({
+      title: "경고",
+      text: "유효한 목표 환율과 목표 금액을 입력해주세요.",
+      icon: "warning",
+      confirmButtonText: "확인",
+    });
+    return;
+  }
+
+  if (parseFloat(targetExchange) > currentToKrw.value) {
+    Swal.fire({
+      title: "경고",
+      text: "현재 환율보다 높은 값입니다.",
+      icon: "warning",
+      confirmButtonText: "확인",
+    });
+    return;
+  }
+
+  if (parseFloat(targetKrw) < 1000) {
+    Swal.fire({
+      title: "경고",
+      text: "목표 금액은 1000 KRW 이상이어야 합니다.",
+      icon: "warning",
+      confirmButtonText: "확인",
+    });
+    return;
+  }
+
   try {
     // const token = localStorage.getItem("jwt_token"); // JWT 토큰 가져오기
-    // userNo를 추가(임시)
-    const userNo = 1;
+    const userNo = 1; // userNo를 추가(임시)
     console.log(userNo, baseCode, targetCode, targetExchange, targetKrw);
     // 서버에 POST 요청 보내기
     const response = await axios.post(
@@ -391,196 +607,5 @@ input[type="number"]::-webkit-inner-spin-button {
 
 input[type="number"] {
   -moz-appearance: textfield;
-}
-
-.clickable-alert {
-  text-align: center;
-  cursor: pointer;
-}
-
-.chart-button-container {
-  display: flex;
-  justify-content: center;
-  width: 100%;
-  padding: 1rem;
-}
-
-.chart-btn {
-  flex-grow: 1;
-  /* 버튼들이 남은 공간을 균등하게 차지 */
-  padding: 1px 0;
-  /* 버튼 높이 */
-  background-color: #e0e0e0;
-  /* 기본 배경 색상 */
-  color: #333;
-  /* 기본 텍스트 색상 */
-  border: none;
-  border-radius: 20px;
-  /* 둥근 모서리 */
-  text-align: center;
-  cursor: pointer;
-  margin: 0 5px;
-  /* 버튼 간 좌우 간격 */
-}
-
-.chart-btn.selected {
-  background-color: #ffd700;
-  /* 선택된 버튼의 배경색 */
-  color: #fff;
-  /* 선택된 버튼의 텍스트 색상 */
-}
-
-.chart-btn:hover {
-  background-color: #f0f0f0;
-  /* 호버 시 버튼 배경색 */
-}
-
-.exchange-alert-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-top: 1rem;
-  text-align: center;
-}
-
-.alert-title {
-  font-weight: bold;
-  margin-bottom: 0.5rem;
-  text-align: left;
-  width: 100%;
-}
-
-.alert-content {
-  margin-bottom: 0.5rem;
-  text-align: left;
-  width: 100%;
-  font-size: small;
-}
-
-.exchange-input {
-  display: flex;
-  /* align-items: center;
-  justify-content: center; */
-  gap: 0.5rem;
-  width: 100%;
-}
-
-.alert-input {
-  width: 60%;
-  text-align: center;
-  white-space: nowrap;
-}
-
-.equals-symbol {
-  margin: 0 0.2rem;
-  font-weight: bold;
-}
-
-.btn-warning {
-  background-color: #ffcc00;
-  border: none;
-}
-
-.btn-warning:hover {
-  background-color: #ffbb00;
-}
-
-.delete-btn {
-  flex-grow: 1;
-  padding: 8px 16px;
-  /* 적당한 크기로 버튼 높이 조정 */
-  background-color: #f44336;
-  /* 기본 배경 색상: 밝은 빨간색 */
-  color: white;
-  /* 텍스트 색상: 흰색 */
-  border: none;
-  border-radius: 20px;
-  /* 둥근 모서리 */
-  text-align: center;
-  cursor: pointer;
-  margin: 0 5px;
-  /* 버튼 간 좌우 간격 */
-  font-size: 14px;
-  /* 텍스트 크기 */
-  transition: background-color 0.3s ease;
-  /* 배경색 전환 효과 */
-}
-
-.delete-btn:hover {
-  background-color: #d32f2f;
-  /* 호버 시 더 짙은 빨간색 */
-}
-
-.delete-btn:active {
-  background-color: #b71c1c;
-  /* 클릭 시 색상 */
-}
-
-.delete-btn:disabled {
-  background-color: #e0e0e0;
-  /* 비활성화된 버튼 색상 */
-  color: #9e9e9e;
-  /* 비활성화된 텍스트 색상 */
-  cursor: not-allowed;
-  /* 비활성화 상태에서는 커서 변경 */
-}
-
-.list-group-item {
-  background-color: #f9f9f9;
-  border-radius: 10px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-}
-
-.list-group-item p {
-  font-size: 0.9rem;
-}
-
-.btn-primary {
-  background-color: #5a9;
-  border-color: #5a9;
-}
-
-.btn-danger {
-  background-color: #e57373;
-  border-color: #e57373;
-}
-
-.targetbox {
-  font-size: 14px;
-  color: #666;
-  margin-bottom: 5px;
-}
-
-.exchange-input {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-.exchange-input input {
-  flex-grow: 1;
-}
-
-.btn-warning {
-  background-color: #ffcc00;
-  border: none;
-  color: #333;
-}
-
-.btn-warning:hover {
-  background-color: #ffbb00;
-}
-
-.exchange-input .input-group {
-  width: 100%;
-}
-
-.exchange-input .input-group-text {
-  background-color: #f8f9fa;
-  border-color: #ced4da;
-}
-
-.exchange-input .form-control {
-  flex: 1;
 }
 </style>
