@@ -12,11 +12,20 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserInfoDTO {
+<<<<<<< HEAD
     String username;
     List<String> roles;
 
     public static UserInfoDTO of(UserVO user){
         return new UserInfoDTO(user.getUsername(),
+=======
+    String userId;
+    Integer countryCode;
+    List<String> roles;
+
+    public static UserInfoDTO of(UserVO user){
+        return new UserInfoDTO(user.getUsername(),user.getCountryCode(),
+>>>>>>> LBY
                 user.getAuthList().stream()
                         .map(a -> a.getAuth())
                         .toList()

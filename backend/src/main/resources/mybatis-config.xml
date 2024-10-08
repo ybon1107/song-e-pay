@@ -16,6 +16,7 @@
         <package name="com.sepay.backend.exchangereservation.dto"/>
         <package name="com.sepay.backend.notification.dto"/>
         <package name="com.sepay.backend.security.account.domain"/>
+        <package name="com.sepay.backend.exchange.dto"/>
     </typeAliases>
 
     <mappers>
@@ -27,6 +28,11 @@
         <mapper resource="mapper/NotificationMapper.xml"/>
         <mapper resource="mapper/SettingMapper.xml"/>
         <mapper resource="mapper/UserDetailsMapper.xml"/>
+<<<<<<< HEAD
+=======
+        <mapper resource="mapper/ExchangeMapper.xml"/>
+        <mapper resource="mapper/UserDetailsMapper.xml"/>
+>>>>>>> LBY
     </mappers>
 
 </configuration>

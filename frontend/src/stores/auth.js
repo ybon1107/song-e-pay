@@ -1,27 +1,36 @@
-import { ref, computed } from 'vue';
-import { defineStore } from 'pinia';
-import axios from 'axios';
+import { ref, computed } from "vue";
+import { defineStore } from "pinia";
+import axios from "axios";
 
 const initState = {
-  token: '',
+  token: "",
   user: {
+<<<<<<< HEAD
     username: '',
     countryCode: '',
+=======
+    userId: "",
+    countryCode: "",
+>>>>>>> LBY
     roles: [],
   },
 };
 
-export const useAuthStore = defineStore('auth', () => {
+export const useAuthStore = defineStore("auth", () => {
   const state = ref({ ...initState });
 
   const isLogin = computed(() => !!state.value.user.username);
 
+<<<<<<< HEAD
   const userId = computed(() => state.value.user.username);
+=======
+  const userId = computed(() => state.value.user.userId);
+>>>>>>> LBY
 
   const user = computed(() => state.value.user);
 
   const load = () => {
-    const auth = localStorage.getItem('auth');
+    const auth = localStorage.getItem("auth");
     if (auth != null) {
       state.value = JSON.parse(auth);
     }
@@ -33,63 +42,69 @@ export const useAuthStore = defineStore('auth', () => {
     console.log("password: ", member.value.password);
 
     try {
+<<<<<<< HEAD
       
       const response = await axios.post('/api/auth/login', member.value );
       console.log("response : ", response)
       console.log("response.data : ", response.data)
+=======
+      const response = await axios.post("/api/auth/login", member.value);
+      console.log("response : ", response);
+      console.log("response.data : ", response.data);
+>>>>>>> LBY
       state.value = { ...response.data };
       switch (state.value.user.countryCode) {
         case 0:
-          state.value.user.country = '한국';
-          state.value.user.language = 'ko';
+          state.value.user.country = "한국";
+          state.value.user.language = "ko";
           break;
         case 1:
-          state.value.user.country = '미국';
-          state.value.user.language = 'en';
+          state.value.user.country = "미국";
+          state.value.user.language = "en";
           break;
         case 2:
-          state.value.user.country = '인도네시아';
-          state.value.user.language = 'id';
+          state.value.user.country = "인도네시아";
+          state.value.user.language = "id";
           break;
         case 3:
-          state.value.user.country = '베트남';
-          state.value.user.language = 'vi';
+          state.value.user.country = "베트남";
+          state.value.user.language = "vi";
           break;
       }
-      localStorage.setItem('auth', JSON.stringify(state.value));
+      localStorage.setItem("auth", JSON.stringify(state.value));
     } catch (error) {
       console.error(error);
-      throw error
+      throw error;
     }
   };
 
   // 프로필 변경 시 state 업데이트 및 localStorage 저장
   const updateProfileState = (updatedData) => {
     Object.assign(state.value.user, updatedData);
-    console.log("updateProfileState : ", updatedData)
+    console.log("updateProfileState : ", updatedData);
 
     // countryCode에 따른 국가와 언어 설정
     switch (state.value.user.countryCode) {
       case 0:
-        state.value.user.country = '한국';
-        state.value.user.language = 'ko';
+        state.value.user.country = "한국";
+        state.value.user.language = "ko";
         break;
       case 1:
-        state.value.user.country = '미국';
-        state.value.user.language = 'en';
+        state.value.user.country = "미국";
+        state.value.user.language = "en";
         break;
       case 2:
-        state.value.user.country = '인도네시아';
-        state.value.user.language = 'id';
+        state.value.user.country = "인도네시아";
+        state.value.user.language = "id";
         break;
       case 3:
-        state.value.user.country = '베트남';
-        state.value.user.language = 'vi';
+        state.value.user.country = "베트남";
+        state.value.user.language = "vi";
         break;
     }
 
     // localStorage에 업데이트된 사용자 정보 저장
-    localStorage.setItem('auth', JSON.stringify(state.value));
+    localStorage.setItem("auth", JSON.stringify(state.value));
   };
 
   const logout = () => {
@@ -101,7 +116,7 @@ export const useAuthStore = defineStore('auth', () => {
 
   const changeProfile = (member) => {
     state.value.user.userId = member.email;
-    localStorage.setItem('auth', JSON.stringify(state.value));
+    localStorage.setItem("auth", JSON.stringify(state.value));
   };
 
   load();
@@ -112,5 +127,19 @@ export const useAuthStore = defineStore('auth', () => {
   // load(): 페이지가 로드될 때 localStorage에서 저장된 인증 정보를 불러와 state에 설정
 
   //   return { state, username, email, isLogin, changeProfile, login, logout, getToken };
+<<<<<<< HEAD
   return { state, userId, user, isLogin, changeProfile, login, logout, updateProfileState };
 });
+=======
+  return {
+    state,
+    userId,
+    user,
+    isLogin,
+    changeProfile,
+    login,
+    logout,
+    updateProfileState,
+  };
+});
+>>>>>>> LBY
