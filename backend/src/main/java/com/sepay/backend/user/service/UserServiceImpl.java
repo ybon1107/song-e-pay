@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashMap;
+import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
@@ -102,5 +103,11 @@ public class UserServiceImpl implements UserService{
     public boolean isEmailRegistered(String userId) {
         UserDTO user = mapper.selectUserByEmail(userId);
         return user != null;
+    }
+
+    // 자동환전에서 사용
+    @Override
+    public Map<String, String> getUserAccounts(Integer userNo) {
+        return mapper.selectUserAccounts(userNo);
     }
 }
