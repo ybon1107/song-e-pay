@@ -5,12 +5,14 @@
 
 <mapper namespace="com.sepay.backend.security.account.mapper.UserDetailsMapper">
 
-    <resultMap id="authMap" type="com.sepay.backend.security.account.domain.AuthVO">
-        <id property="username" column="user_id"/>
+    <!-- AuthVO 매핑 -->
+    <resultMap id="authMap" type="AuthVO">
+        <result property="username" column="user_id"/>
         <result property="auth" column="auth"/>
     </resultMap>
 
-    <resultMap id="userMap" type="com.sepay.backend.security.account.domain.UserVO">
+    <!-- UserVO 매핑 -->
+    <resultMap id="userMap" type="UserVO">
         <id property="userNo" column="user_no"/>
         <result property="accountNo" column="account_no"/>
         <result property="songNo" column="song_no"/>
@@ -21,14 +23,23 @@
         <result property="firstName" column="first_name"/>
         <result property="lastName" column="last_name"/>
         <result property="birthday" column="birthday"/>
+        <result property="gender" column="gender"/>
+        <result property="phoneNo" column="phone_no"/>
+        <result property="secondPwd" column="second_pwd"/>
+        <result property="profilePic" column="profile_pic"/>
+        <result property="address" column="address"/>
+        <result property="postCode" column="post_code"/>
+        <result property="stateCode" column="state_code"/>
+        <result property="createAt" column="created_at"/>
+        <result property="updateAt" column="updated_at"/>
 
         <collection property="authList" resultMap="authMap"/>
     </resultMap>
 
-    <select id="getUserInfo" resultMap="userMap">
-        SELECT user_no, account_no, song_no, krw_no, country_code, u.user_id, password, first_name, last_name
+    <select id="get" resultMap="userMap">
+        SELECT user_no, account_no, song_no, krw_no, country_code, u.user_id, password, first_name, last_name, birthday, gender, phone_no, second_pwd, profile_pic, address, post_code, state_code, created_at, updated_at, ua.auth
         FROM user u
-        LEFT OUTER JOIN user_auth ua ON u.user_id = ua.user_id
-        where u.user_id = #{userId}
+                 LEFT OUTER JOIN user_auth ua ON u.user_id = ua.user_id
+        WHERE u.user_id = #{username}
     </select>
 </mapper>
