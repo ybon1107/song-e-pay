@@ -62,7 +62,6 @@
 
 /* 나의 자산 tab 디자인 */
 .custom-nav {
-
   .nav-link {
     cursor: pointer;
     color: $text-brown-300;
@@ -95,6 +94,7 @@
   /* 비율 8.56 / 5.398 */
   background-size: cover;
   cursor: pointer;
+  background-color: $primary-yellow;
 }
 
 //acountscard가 선택됐을 때
@@ -167,8 +167,6 @@
 // .chart-btn:hover {
 //   background-color: #f0f0f0;
 // }
-
-
 
 /* 반응형 스타일 */
 @media (max-width: 768px) {
