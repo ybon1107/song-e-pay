@@ -3,8 +3,9 @@ export const TRANSACTION_TYPES = {
     TRANSFER: 2,
     DEPOSIT: 3,
     REFUND: 4,
-    EXCHANGE: 5,
-    RE_EXCHANGE: 6,
+    EXCHANGE: 5, //song -> won
+    RE_EXCHANGE: 6, //won -> song
+    AUTO_EXCHANGE:7 //song -> won
 };
 
 export const TRANSACTION_TYPES_KEY = [
@@ -15,6 +16,7 @@ export const TRANSACTION_TYPES_KEY = [
     'transaction_types_refund',
     'transaction_types_exchange',
     'transaction_types_reExchange',
+    'transaction_types_autoExchange'
 ];
 
 export const TRANSACTION_STATES_KEY = [
