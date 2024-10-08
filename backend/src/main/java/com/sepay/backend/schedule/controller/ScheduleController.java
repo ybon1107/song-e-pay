@@ -41,4 +41,12 @@ public class ScheduleController {
         log.info("Updated Schedule: {}", updatedSchedule); // 업데이트된 데이터 로그 출력
         return updatedSchedule; // 업데이트된 데이터 반환
     }
+
+    @ResponseBody
+    @DeleteMapping("/delete/{eventNo}")
+    public ResponseEntity<String> deleteSchedule(@PathVariable Integer eventNo) {
+        scheduleService.deleteSchedule(eventNo);
+        log.info("Deleted Schedule with eventNo: {}", eventNo);
+        return ResponseEntity.ok("Schedule deleted successfully");
+    }
 }

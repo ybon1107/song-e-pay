@@ -118,4 +118,15 @@
     "payment--qrScan--button-submit": "Confirm",
     "payment--qrScan--imageAlt": "QR Code",
     "payment--qrScan--balanceLabel": "Balance"
+    "exchangeRate--header-title": "Exchange Rate Information",
+    "exchangeRate--button-buy": "Buy",
+    "exchangeRate--button-sell": "Sell",
+    "exchangeRate--notification-setAlert": "Exchange Rate Alert Settings",
+    "exchangeRate--header-autoExchange": "Automatic Currency Exchange Settings",
+    "exchangeRate--header-CurrencyExchange": "Currency Exchange",
+    "exchangeRate--placeholder-targetRate": "Please enter the target exchange rate.",
+    "exchangeRate--button-confirmAlert": "Set",
+    "exchangeRate--text-targetKRW": "Exchange Amount",
+    "exchangeRate--placeholder-targetAmount": "Please enter the amount to exchange automatically.",
+    "exchangeRate--limited": "Enter an amount greater than 1"
 }

@@ -121,3 +121,14 @@ payment--qrScan--imageAlt,QR 코드,QR Code,Kode QR,Mã QR
 payment--qrScan--balanceLabel,보유잔액,Balance,Saldo,Số dư
 payment--swal-password-wrong-title,다시 입력하세요,,,
 payment--swal-password-wrong-text,비밀번호가 틀렸습니다.,,,
+exchangeRate--header-title,환율 정보,Exchange Rate Information,Bandingkan Nilai Tukar,So sánh tỷ giá
+exchangeRate--button-buy,구매,Buy,Beli,Mua
+exchangeRate--button-sell,판매,Sell,Jual,Bán
+exchangeRate--notification-setAlert,환율 알람 설정,Exchange Rate Alert Settings,Pengaturan Pemberitahuan Nilai Tukar,Cài đặt cảnh báo tỷ giá hối đoái
+exchangeRate--header-autoExchange,자동 환전 설정,Automatic Currency Exchange Settings,Pengaturan Penukaran Mata Uang Otomatis,Cài đặt đổi tiền tự động
+exchangeRate--header-CurrencyExchange,환전,Currency Exchange,Penukaran Mata Uang,Đổi tiền
+exchangeRate--placeholder-targetRate,목표 환율을 입력하세요.,Please enter the target exchange rate.,Silakan masukkan nilai tukar yang ditargetkan.,Vui lòng nhập tỷ giá hối đoái mục tiêu.
+exchangeRate--button-confirmAlert,설정하기,Set,Atur,Cài đặt
+exchangeRate--text-targetKRW,환전 금액,Exchange Amount,Jumlah Penukaran,Số tiền đổi
+exchangeRate--placeholder-targetAmount,자동 환전할 금액을 입력하세요.,Please enter the amount to exchange automatically.,Masukkan jumlah yang akan dikonversi secara otomatis.,Vui lòng nhập số tiền cần chuyển đổi tự động.
+exchangeRate--limited,1000원 이상 입력,Enter an amount greater than 1,000 KRW.,Nhập số tiền lớn hơn 1,000 KRW.,Masukkan jumlah yang lebih besar dari 1,000 KRW.

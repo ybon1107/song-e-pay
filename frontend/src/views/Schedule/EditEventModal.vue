@@ -1,62 +1,3 @@
-<script setup>
-import { ref, watch, defineProps, defineEmits, nextTick } from 'vue';
-
-const props = defineProps({
-    isVisible: Boolean,
-    maintenance: {
-        type: Object,
-        default: () => ({
-            id: '',
-            title: '',
-            description: '',
-            color: '',
-        }),
-    },
-});
-
-const emit = defineEmits(['saveEvent', 'closeModal', 'deleteEvent']);
-const maintenanceCopy = ref({ ...props.maintenance });
-
-watch(
-    () => props.maintenance,
-    (newDetails) => {
-        if (newDetails) {
-            maintenanceCopy.value = { ...newDetails };
-            nextTick(() => {
-                document.getElementById('title')?.focus();
-            });
-        }
-    },
-    { immediate: true }
-);
-
-const getColor = (colorName) => {
-    switch (colorName) {
-        case 'primary':
-            return '#8EEFEF';
-        case 'warning':
-            return '#FFD347';
-        case 'success':
-            return '#4DD36A';
-        case 'danger':
-            return '#FFA8E1';
-        case 'muted':
-            return '#A1A5AB';
-        default:
-            return '#8EEFEF';
-    }
-};
-
-const closeModal = () => {
-    emit('closeModal');
-};
-
-const saveEvent = () => {
-    emit('saveEvent', maintenanceCopy.value);
-    closeModal();
-};
-</script>
-
 <template>
     <div
         v-if="isVisible"
@@ -169,6 +110,66 @@ const saveEvent = () => {
         </div>
     </div>
 </template>
+
+<script setup>
+import { ref, watch, nextTick, defineProps, defineEmits } from 'vue';
+
+const props = defineProps({
+    isVisible: Boolean,
+    maintenance: {
+        type: Object,
+        default: () => ({
+            id: '',
+            title: '',
+            description: '',
+            color: '',
+        }),
+    },
+});
+
+const emit = defineEmits(['saveEvent', 'closeModal', 'deleteEvent']);
+const maintenanceCopy = ref({ ...props.maintenance });
+
+watch(
+    () => props.isVisible,
+    (newVisible) => {
+        if (newVisible) {
+            maintenanceCopy.value = { ...props.maintenance };
+            nextTick(() => {
+                document.getElementById('title')?.focus();
+            });
+        }
+    },
+    { immediate: true }
+);
+
+const getColor = (colorName) => {
+    switch (colorName) {
+        case 'primary':
+            return '#8EEFEF';
+        case 'warning':
+            return '#FFD347';
+        case 'success':
+            return '#4DD36A';
+        case 'danger':
+            return '#FFA8E1';
+        case 'muted':
+            return '#A1A5AB';
+        default:
+            return '#8EEFEF';
+    }
+};
+
+const closeModal = () => {
+    emit('closeModal');
+};
+
+const saveEvent = () => {
+    emit('saveEvent', maintenanceCopy.value);
+    closeModal();
+};
+</script>
+
 <style scoped>
 .modal {
     background-color: rgba(0, 0, 0, 0.5);

@@ -11,4 +11,6 @@ public interface ScheduleService {
     List<ScheduleDTO> getAllSchedules();
 
     ScheduleDTO updateSchedule(ScheduleDTO scheduleDTO); // 업데이트 메서드 추가
+
+    void deleteSchedule(Integer eventNo);
 }

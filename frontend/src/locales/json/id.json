@@ -118,4 +118,15 @@
     "payment--qrScan--button-submit": "Konfirmasi",
     "payment--qrScan--imageAlt": "Kode QR",
     "payment--qrScan--balanceLabel": "Saldo"
+    "exchangeRate--header-title": "Bandingkan Nilai Tukar",
+    "exchangeRate--button-buy": "Beli",
+    "exchangeRate--button-sell": "Jual",
+    "exchangeRate--notification-setAlert": "Pengaturan Pemberitahuan Nilai Tukar",
+    "exchangeRate--header-autoExchange": "Pengaturan Penukaran Mata Uang Otomatis",
+    "exchangeRate--header-CurrencyExchange": "Penukaran Mata Uang",
+    "exchangeRate--placeholder-targetRate": "Silakan masukkan nilai tukar yang ditargetkan.",
+    "exchangeRate--button-confirmAlert": "Atur",
+    "exchangeRate--text-targetKRW": "Jumlah Penukaran",
+    "exchangeRate--placeholder-targetAmount": "Masukkan jumlah yang akan dikonversi secara otomatis.",
+    "exchangeRate--limited": "000 KRW."
 }
