@@ -7,7 +7,7 @@
 
     <!-- AuthVO 매핑 -->
     <resultMap id="authMap" type="AuthVO">
-        <id property="username" column="user_id"/>
+        <result property="username" column="user_id"/>
         <result property="auth" column="auth"/>
     </resultMap>
 

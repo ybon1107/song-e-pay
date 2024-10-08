@@ -4,6 +4,8 @@ import com.sepay.backend.payment.dto.PasswordDTO;
 import com.sepay.backend.user.dto.UserDTO;
 import com.sepay.backend.user.dto.UserRegisterDTO;
 
+import java.util.Map;
+
 public interface UserService {
     UserDTO getInfo(Integer userNo);
 
@@ -16,4 +18,7 @@ public interface UserService {
     UserDTO register(UserRegisterDTO userRegisterDTO);
 
     boolean isEmailRegistered(String email);
+
+    // 자동환전에서 사용
+    Map<String, String> getUserAccounts(Integer userNo);
 }

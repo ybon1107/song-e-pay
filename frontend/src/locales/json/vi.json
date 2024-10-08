@@ -36,5 +36,17 @@
     "transaction_types_transfser": "Chuyển khoản",
     "transaction_types_deposit": "Nạp tiền",
     "transaction_types_refund": "Hoàn tiền",
-    "transaction_types_exchange": "sự đổi tiền"
+    "transaction_types_exchange": "sự đổi tiền",
+    "transaction_types_reExchange": "Đổi lại",
+    "exchangeRate--header-title": "So sánh tỷ giá",
+    "exchangeRate--button-buy": "Mua",
+    "exchangeRate--button-sell": "Bán",
+    "exchangeRate--notification-setAlert": "Cài đặt cảnh báo tỷ giá hối đoái",
+    "exchangeRate--header-autoExchange": "Cài đặt đổi tiền tự động",
+    "exchangeRate--header-CurrencyExchange": "Đổi tiền",
+    "exchangeRate--placeholder-targetRate": "Vui lòng nhập tỷ giá hối đoái mục tiêu.",
+    "exchangeRate--button-confirmAlert": "Cài đặt",
+    "exchangeRate--text-targetKRW": "Số tiền đổi",
+    "exchangeRate--placeholder-targetAmount": "Vui lòng nhập số tiền cần chuyển đổi tự động.",
+    "exchangeRate--limited": "Nhập số tiền lớn hơn 1"
 }
