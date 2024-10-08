@@ -14,10 +14,8 @@ const router = useRouter();
 const auth = useAuthStore();
 
 const member = ref({
-  user: {
-    email: "",
-    password: "",
-  },
+  username: "",
+  password: "",
 });
 
 const error = ref("");
@@ -57,13 +55,13 @@ onMounted(() => {
 });
 
 // 이메일과 비밀번호 입력 필드 상태
-const email = ref("");
+const username = ref("");
 const password = ref("");
 
 // 이메일 유효성 검사
 const isEmailValid = computed(() => {
   const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  return emailPattern.test(email.value);
+  return emailPattern.test(username.value);
 });
 
 // 비밀번호 유효성 검사
@@ -83,10 +81,10 @@ const isFormValid = computed(() => {
 // 폼 제출 처리
 const handleSubmit = async () => {
   // member 객체에 이메일과 비밀번호 할당
-  member.value.user.email = email.value;
-  member.value.user.password = password.value;
+  member.value.username = username.value;
+  member.value.password = password.value;
 
-  console.log("try login: ", member.value);
+  console.log("try login: ", member);
   emailError.value = !isEmailValid.value;
   passwordError.value = !isPasswordValid.value;
 
@@ -110,7 +108,7 @@ const handleSubmit = async () => {
   // }
   if (isFormValid.value) {
     try {
-      await auth.login(member.value);
+      await auth.login(member);
       if (localStorage.getItem("auth") != " ") {
         window.location.href = "/";
       }
@@ -168,11 +166,13 @@ const handleSubmit = async () => {
                         id="email"
                         type="email"
                         placeholder="Email"
-                        name="email"
+                        name="username"
                         size="lg"
-                        v-model="email"
+                        v-model="username"
                         :class="{ 'is-invalid': emailError }"
-                        :error="(email !== '' || emailError) && !isEmailValid"
+                        :error="
+                          (username !== '' || emailError) && !isEmailValid
+                        "
                         errorText="Please provide a valid email."
                       />
                       <!-- <div v-if="emailError" class="invalid-feedback text-xs">
