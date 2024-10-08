@@ -28,6 +28,7 @@ import javax.sql.DataSource;
         "com.sepay.backend.user.mapper",
         "com.sepay.backend.setting.mapper",
         "com.sepay.backend.payment.mapper",
+        "com.sepay.backend.schedule.mapper",
 })
 @Slf4j
 @EnableTransactionManagement
