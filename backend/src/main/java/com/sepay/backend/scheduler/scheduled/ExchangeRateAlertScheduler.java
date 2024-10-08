@@ -32,9 +32,8 @@ public class ExchangeRateAlertScheduler {
         log.info("환율 알림 확인 작업 시작");
 
         try {
-            Integer userNo = 1;
             // 예약된 모든 환율 알림 가져오기
-            List<ExchangeReservationDTO> allReservations = exchangeReservationService.getExchangeReservation(userNo);
+            List<ExchangeReservationDTO> allReservations = exchangeReservationService.getAllAutoExchange();
             log.info("전체 예약 수: {}", allReservations.size());
 
             List<ExchangeReservationDTO> alertReservations = allReservations.stream()
@@ -105,7 +104,7 @@ public class ExchangeRateAlertScheduler {
         notificationService.saveNotification(notificationDTO);
 
         log.info("환율 {} 알림 저장. 예약 ID: {}, 사용자 번호: {}, 현재 환율: {}, 목표 환율: {}",
-                direction, reservation.getResNo(), reservation.getUserNo(), currentRate, reservation.getTargetExchange());
+                direction, reservation.getResNo(), reservation.getUserId(), currentRate, reservation.getTargetExchange());
         exchangeReservationService.removeExchangeReservation(reservation.getResNo());
     }
 }

@@ -115,20 +115,20 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 // 로그인 및 회원가입은 인증되지 않은 사람도 접근 가능해야 함
                 .antMatchers(HttpMethod.POST, "/api/users/login", "/api/register/**").permitAll()
                 // TODO: 인증 필요한 경로 추가
-//                .antMatchers(HttpMethod.POST, "/").access("hasRole('ROLE_USER')")
-
 
 //                .antMatchers(HttpMethod.POST, "/api/auth/login").authenticated()
-//                .antMatchers(HttpMethod.GET, "/").authenticated()
-//
-//                .antMatchers(HttpMethod.POST, "/api/my-accounts").authenticated()
-//                .antMatchers(HttpMethod.POST, "/api/my-accounts").access("hasRole('ROLE_USER')")
+//                .antMatchers(HttpMethod.POST, "/api/my-accounts/**").authenticated()
+                .antMatchers(HttpMethod.POST, "/api/my-accounts/**").access("hasRole('ROLE_USER')")
 //                .antMatchers(HttpMethod.POST, "/api/exchange-reservation/**").authenticated()
 //                .antMatchers(HttpMethod.POST, "/api/histories/**").authenticated()
 //                .antMatchers(HttpMethod.POST, "/api/payment/**").authenticated()
-//                .antMatchers(HttpMethod.POST, "/api/setting/**").authenticated()/
+//                .antMatchers(HttpMethod.POST, "/api/setting/**").authenticated()
+
 
                 .anyRequest().authenticated();
+
+
+        ;
 
         http
                 .cors().and() // CORS 설정

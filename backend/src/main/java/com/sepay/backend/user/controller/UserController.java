@@ -91,4 +91,9 @@ public class UserController {
                     .body("Registration failed.");
         }
     }
+
+    @GetMapping("/profile-img/{userId}")
+    public ResponseEntity<?> getProfileImg(@PathVariable String userId) {
+        return ResponseEntity.ok(userService.getUserImg(userId));
+    }
 }

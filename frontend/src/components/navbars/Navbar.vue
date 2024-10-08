@@ -171,23 +171,11 @@
           </li>
           <!-- 프로필 -->
           <li class="nav-item d-flex align-items-center">
-            <template v-if="isLogin">
-              <a class="p-0 nav-link" href="/profile">
-                <div class="icon-div">
-                  <!-- img-div 대신 icon-div 사용 -->
-                  <i class="fa fa-user profile-icon"></i>
-                  <!-- FontAwesome 아이콘 추가 -->
-                </div>
-              </a>
-            </template>
-            <template v-else>
-              <a class="p-0 nav-link" href="/login">
-                <div class="icon-div">
-                  <i class="fa fa-user profile-icon"></i>
-                  <!-- 로그인 전에도 FontAwesome 아이콘 -->
-                </div>
-              </a>
-            </template>
+            <a class="p-0 nav-link" href="/profile">
+              <div class="icon-div">
+                <img :src="userImg" class="user-profile-img" />
+              </div>
+            </a>
           </li>
         </ul>
       </div>
@@ -202,17 +190,20 @@ import { useStore } from "vuex";
 import { useExchangeStore } from "@/stores/exchangeStore";
 
 import { useAuthStore } from "@/stores/auth";
+import userApi from "@/api/userApi";
 import axios from "axios";
 
 const auth = useAuthStore();
 const exchangeStore = useExchangeStore();
 
+const userImg = ref("");
+
 const isLogin = computed(() => auth.isLogin);
-const userNo = computed(() => auth.userNo);
+const userId = computed(() => auth.userId);
 const user = computed(() => auth.user);
 
 console.log("nav isLogin : ", isLogin);
-console.log("nav userNo : ", userNo);
+console.log("nav userId : ", userId);
 console.log("nav user : ", user);
 
 const showMenu = ref(false);
@@ -296,8 +287,18 @@ const saveExchangeRates = async (rates) => {
   }
 };
 
-onMounted(() => {
+onMounted(async () => {
   fetchExchangeRates();
+
+  // 사용자 이미지 가져오기
+  try {
+    userImg.value = await userApi.getUserImg(auth.userId);
+    console.log("userImg : ", userImg.value);
+  } catch (error) {
+    console.error("사용자 이미지를 가져오는 데 실패했습니다:", error);
+    // 기본 이미지 URL을 설정하거나 다른 오류 처리를 수행할 수 있습니다.
+    userImg.value = "/path/to/default/image.jpg";
+  }
 });
 </script>
 
@@ -308,13 +309,11 @@ onMounted(() => {
   position: relative;
 }
 
-.nav-lmg {
-  position: absolute;
-  top: 0;
-  left: 0;
+.user-profile-img {
   width: 100%;
   height: 100%;
-  border-radius: 10px;
+  object-fit: cover;
+  border-radius: 50%;
 }
 
 @font-face {

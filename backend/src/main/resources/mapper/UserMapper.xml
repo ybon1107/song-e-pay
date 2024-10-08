@@ -87,4 +87,10 @@
         from user
         where user_id = #{userId}
     </select>
+
+    <select id="selectUserImg" parameterType="string" resultType="string">
+        SELECT profile_pic
+        FROM user
+        WHERE user_id = #{userId}
+    </select>
 </mapper>

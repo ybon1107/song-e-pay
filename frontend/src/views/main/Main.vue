@@ -18,9 +18,9 @@
           <a
             href="/register/legal"
             class="text-white text-decoration-none me-3 text-bold"
-            >Register</a
+            >회원가입</a
           >
-          <a href="/login" class="btn btn-primary mb-0">Sign in</a>
+          <a href="/login" class="btn btn-primary mb-0">로그인</a>
         </div>
       </div>
     </div>
@@ -51,7 +51,7 @@
         <a
           href="https://leeyebon7929.wixsite.com/my-site-1"
           class="btn web-btn col-md-3 mb-4"
-          >Get Started</a
+          >시작하기</a
         >
 
         <!-- 아이콘 섹션 -->

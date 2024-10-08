@@ -36,7 +36,7 @@ public class JwtUsernamePasswordAuthenticationFilter extends UsernamePasswordAut
         this.userDetailsService = userDetailsService;
         this.passwordEncoder = passwordEncoder;
 
-//        setFilterProcessesUrl("/api/users/login");		          // POST 로그인 요청 url
+        //setFilterProcessesUrl("/api/users/login");		          // POST 로그인 요청 url
         setFilterProcessesUrl("/api/auth/login");		          // POST 로그인 요청 url
         setAuthenticationSuccessHandler(loginSuccessHandler);	// 로그인 성공 핸들러 등록
         setAuthenticationFailureHandler(loginFailureHandler);  // 로그인 실패 핸들러 등록
@@ -47,7 +47,7 @@ public class JwtUsernamePasswordAuthenticationFilter extends UsernamePasswordAut
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response)
             throws AuthenticationException {
 
-        // 요청 BODY의 JSON에서 username, password  LoginDTO
+        // 요청 BODY의 JSON에서 userId, password  LoginDTO
         LoginDTO login = LoginDTO.of(request);
         String password = login.getPassword(); // 입력받은 비밀번호
         UserDetails userDB = userDetailsService.loadUserByUsername(login.getUsername()); // DB에서 가져온 사용자 정보

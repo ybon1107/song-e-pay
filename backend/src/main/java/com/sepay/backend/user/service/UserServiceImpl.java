@@ -52,16 +52,16 @@ public class UserServiceImpl implements UserService{
     }
 
 //    @Override
-//    public UserDTO login(String username, String password) {
-//        log.info("Login request for user: {}", username);
+//    public UserDTO login(String userId, String password) {
+//        log.info("Login request for user: {}", userId);
 //        // DB에서 가져온 사용자 Password
-//         String dbPassword = mapper.getPassword(username);
+//         String dbPassword = mapper.getPassword(userId);
 //         log.info("DB Password: " + dbPassword);
 //
 //         if (passwordEncoder.matches(password, dbPassword)) {
-//             log.info("Login success for user: {}", username);
-//             log.info("User: {}", UserDTO.of(mapper.get(username)));
-//             return UserDTO.of(mapper.get(username));
+//             log.info("Login success for user: {}", userId);
+//             log.info("User: {}", UserDTO.of(mapper.get(userId)));
+//             return UserDTO.of(mapper.get(userId));
 //         } else {
 //             return null;
 //         }
@@ -109,5 +109,10 @@ public class UserServiceImpl implements UserService{
     @Override
     public Map<String, String> getUserAccounts(Integer userNo) {
         return mapper.selectUserAccounts(userNo);
+    }
+
+    @Override
+    public String getUserImg(String userId) {
+        return mapper.selectUserImg(userId);
     }
 }

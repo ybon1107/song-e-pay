@@ -30,8 +30,8 @@
         <result property="address" column="address"/>
         <result property="postCode" column="post_code"/>
         <result property="stateCode" column="state_code"/>
-        <result property="createAt" column="created_at"/>
-        <result property="updateAt" column="updated_at"/>
+        <result property="createdAt" column="created_at"/>
+        <result property="updatedAt" column="updated_at"/>
 
         <collection property="authList" resultMap="authMap"/>
     </resultMap>
