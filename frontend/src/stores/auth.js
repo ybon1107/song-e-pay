@@ -5,57 +5,39 @@ import axios from 'axios';
 const initState = {
   token: '',
   user: {
-    userNo: '',
-    accountNo: '',
-    songNo: '',
-    krwNo: '',
+    username: '',
     countryCode: '',
-    userId: '',
-    firstName: '',
-    lastName: '',
-    birthday: '',
-    gender: '',
-    phoneNo: '',
-    secondPwd: '',
-    profilePic: '',
-    address: '',
-    country: '',
-    language: '',
-    createAt: '',
-    updateAt: '',
+    roles: [],
   },
 };
 
 export const useAuthStore = defineStore('auth', () => {
   const state = ref({ ...initState });
 
-  const isLogin = computed(() => !!state.value.user.userNo);
+  const isLogin = computed(() => !!state.value.user.username);
 
-  const userNo = computed(() => state.value.user.userNo);
+  const userId = computed(() => state.value.user.username);
 
   const user = computed(() => state.value.user);
-
-  // 이메일 가져오기 (여기서는 userId가 이메일 역할)
-  const email = computed(() => state.value.user.userId);
 
   const load = () => {
     const auth = localStorage.getItem('auth');
     if (auth != null) {
-      // Object.assign을 사용해 로컬 스토리지의 데이터를 state.value에 병합
-      Object.assign(state.value, JSON.parse(auth)); // 전체 객체를 reactive에 적용할 때는 Object.assign이 필요
+      state.value = JSON.parse(auth);
     }
   };
 
   const login = async (member) => {
-    // state.value.token = 'test token';
-    // state.value.user = { username: member.username, email: member.username + '@test.com' }   ;
-    const formData = new FormData();
-    formData.append('userId', member.user.email); // 이메일을 userId로 전송
-    formData.append('password', member.user.password); // 비밀번호 추가
+    console.log("login: ", member);
+    console.log("username: ", member.value.username);
+    console.log("password: ", member.value.password);
 
     try {
-      const response = await axios.post('/api/users/login', formData);
-      Object.assign(state.value.user, { ...response.data });
+      
+      const response = await axios.post('/api/auth/login', member.value );
+      console.log("response : ", response)
+      console.log("response.data : ", response.data)
+      state.value = { ...response.data };
       switch (state.value.user.countryCode) {
         case 0:
           state.value.user.country = '한국';
@@ -112,7 +94,7 @@ export const useAuthStore = defineStore('auth', () => {
 
   const logout = () => {
     localStorage.clear();
-    Object.assign(state.value, initState);
+    state.value = { ...initState };
   };
 
   //const getToken = () => state.value.token;
@@ -130,5 +112,5 @@ export const useAuthStore = defineStore('auth', () => {
   // load(): 페이지가 로드될 때 localStorage에서 저장된 인증 정보를 불러와 state에 설정
 
   //   return { state, username, email, isLogin, changeProfile, login, logout, getToken };
-  return { state, userNo, user, email, isLogin, changeProfile, login, logout, updateProfileState };
+  return { state, userId, user, isLogin, changeProfile, login, logout, updateProfileState };
 });

@@ -117,6 +117,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 // TODO: 인증 필요한 경로 추가
 
 //                .antMatchers(HttpMethod.POST, "/api/auth/login").authenticated()
+//                .antMatchers(HttpMethod.POST, "/api/my-accounts/**").authenticated()
                 .antMatchers(HttpMethod.POST, "/api/my-accounts/**").access("hasRole('ROLE_USER')")
 //                .antMatchers(HttpMethod.POST, "/api/exchange-reservation/**").authenticated()
 //                .antMatchers(HttpMethod.POST, "/api/histories/**").authenticated()

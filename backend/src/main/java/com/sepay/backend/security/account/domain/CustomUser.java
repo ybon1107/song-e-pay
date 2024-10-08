@@ -1,6 +1,5 @@
 package com.sepay.backend.security.account.domain;
 
-import com.sepay.backend.user.dto.UserDTO;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
@@ -13,7 +12,8 @@ import java.util.Collection;
 public class CustomUser extends User {
     private UserVO userVO;
 
-    public CustomUser(String username, String password, Collection<? extends GrantedAuthority> authorities) {
+    public CustomUser(String username, String password,
+                      Collection<? extends GrantedAuthority> authorities) {
         super(username, password, authorities);
     }
 

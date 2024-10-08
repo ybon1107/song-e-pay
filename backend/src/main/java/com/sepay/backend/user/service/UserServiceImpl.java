@@ -68,4 +68,9 @@ public class UserServiceImpl implements UserService{
         UserVO user = mapper.getUserInfo(userId).toVO();
         return user != null ? true : false;
     }
+
+    @Override
+    public String getUserImg(String userId) {
+        return mapper.selectUserImg(userId);
+    }
 }
