@@ -70,7 +70,7 @@
                   <input
                     id="startDate"
                     v-model="maintenanceCopy.startedAt"
-                    type="datetime-local"
+                    type="date"
                     class="form-control"
                     style="width: 100%"
                   />
@@ -79,7 +79,7 @@
                   <input
                     id="endDate"
                     v-model="maintenanceCopy.endedAt"
-                    type="datetime-local"
+                    type="date"
                     class="form-control"
                     style="width: 100%"
                   />

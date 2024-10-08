@@ -74,9 +74,9 @@ function handleEventClick(clickInfo) {
     description: event.extendedProps.description || '',
     color: event.backgroundColor || '000000',
     startedAt: event.start
-      ? moment(event.start).format('YYYY-MM-DD HH:mm:ss')
+      ? moment(event.start).format('YYYY-MM-DD') // 날짜만 표시
       : '',
-    endedAt: event.end ? moment(event.end).format('YYYY-MM-DD HH:mm:ss') : '',
+    endedAt: event.end ? moment(event.end).format('YYYY-MM-DD') : '', // 날짜만 표시
   };
 
   console.log(
@@ -224,7 +224,7 @@ const calendarOptions = ref({
         </FullCalendar>
       </div>
       <div class="demo-app-sidebar demo-app-sidebar-section col-md-3">
-        <h5>All Events ({{ currentEvents.length }})</h5>
+        <h5>이번 달 이벤트 ({{ currentEvents.length }})</h5>
         <ul>
           <li v-for="event in currentEvents" :key="event.id">
             <b>{{ event.startStr }}</b>
