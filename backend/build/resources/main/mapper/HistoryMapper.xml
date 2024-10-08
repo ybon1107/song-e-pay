@@ -52,14 +52,14 @@
     </select>
 
 
-    <!--    <select id="selectAllHistories" resultType="HistoryDTO">-->
-    <!--        SELECT * FROM history ORDER BY history_date DESC-->
-    <!--        limit #{offset}, #{amount}-->
-    <!--    </select>-->
+<!--    <select id="selectAllHistories" resultType="HistoryDTO">-->
+<!--        SELECT * FROM history ORDER BY history_date DESC-->
+<!--        limit #{offset}, #{amount}-->
+<!--    </select>-->
 
-    <!--    <select id="getTotalCount" resultType="java.lang.Integer">-->
-    <!--        select count(*) from history-->
-    <!--    </select>-->
+<!--    <select id="getTotalCount" resultType="java.lang.Integer">-->
+<!--        select count(*) from history-->
+<!--    </select>-->
 
     <update id="updateMemo" parameterType="HistoryDTO">
         UPDATE history

@@ -50,4 +50,18 @@
         from exchange_reservation
         where user_no = #{userNo} and target_krw != #{targetKrw}
     </select>
+
+    <!-- 환율 달성한 자동 환전 예약 갯수 -->
+    <select id="countAutoExchange" parameterType="map" resultType="Integer">
+        select count(*)
+        from exchange_reservation
+        where <![CDATA[targetExchange <= #{targetExchange} and target_krw != #{targetKrw}]]>
+    </select>
+
+    <!-- 자동 환전 완료한 후 삭제 -->
+    <delete id="deleteAutoExchange">
+        DELETE from exchange_reservation
+        where res_no = #{resNo}
+    </delete>
+
 </mapper>
