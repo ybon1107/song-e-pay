@@ -11,11 +11,11 @@
         <p>
             <span class="title me-1">{{ transaction?.amount }}</span>
             <span
-                v-if="[TRANSACTION_TYPES.DEPOSIT, TRANSACTION_TYPES.EXCHANGE, TRANSACTION_TYPES.REFUND].includes(transaction.typeCode)">
+                v-if="songTransactionType.includes(transaction.typeCode)">
                 {{ songCurrencyUnit }}
             </span>
             <span
-                v-else-if="[TRANSACTION_TYPES.RE_EXCHANGE, TRANSACTION_TYPES.TRANSFER, TRANSACTION_TYPES.PAYMENT].includes(transaction.typeCode)">
+                v-else-if="wonTransactionType.includes(transaction.typeCode)">
                 KRW
             </span>
         </p>
@@ -24,7 +24,7 @@
         <div class="d-flex justify-content-between align-items-center mb-3">
             <strong>{{ $t('histories--modal-memo') }}</strong>
             <button @click="updateMemo" class="btn btn-secondary btn-sm mb-0">
-                {{ $t('btn-save') }}
+                {{ $t('common-btn-save') }}
             </button>
         </div>
         <argon-alert v-if="showAlert" class="mt-3" :color="alertColor">
@@ -84,6 +84,8 @@ const props = defineProps({
         default: () => ({}),
     },
     isVisible: Boolean,
+    songTransactionType: Array,
+    wonTransactionType: Array,
 });
 
 const emit = defineEmits(['close', 'updateMemo']);
@@ -104,7 +106,6 @@ const getBadgeClass = (typeCode) => {
     if (
         [
             TRANSACTION_TYPES.DEPOSIT,
-            TRANSACTION_TYPES.EXCHANGE,
         ].includes(typeCode)
     ) {
         return `${baseClasses} bg-primary`;

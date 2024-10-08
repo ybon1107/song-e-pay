@@ -9,11 +9,6 @@ import FilterModal from './FilterModal.vue'; // FilterModal.vue 가져오기
 import { CURRENCY_NAME } from '@/constants/countryCode';
 import { TRANSACTION_TYPES, TRANSACTION_TYPES_KEY, TRANSACTION_STATES_KEY } from '@/constants/transactionType';
 
-//user
-import { useAuthStore } from '@/stores/auth';
-const auth = useAuthStore();
-const user = computed(() => auth.user);
-
 // 유저 권한
 import { useAuthStore } from '@/stores/auth';
 const auth = useAuthStore();
@@ -28,7 +23,7 @@ const songCurrencyUnit = CURRENCY_NAME[user.value.countryCode];
 const i18n_PERIOD = [
     "histories--filters-period-today",
     "histories--filters-period-oneMonth",
-    "histories--filters-period-lthreeMonth",
+    "histories--filters-period-threeMonth",
     "histories--filters-period-custom",
 ];
 const i18n_TYPE = [
@@ -40,6 +35,9 @@ const i18n_SORT = [
     "histories--filters-sort-newest",
     "histories--filters-sort-oldest",
 ];
+
+const songTransactionType = [TRANSACTION_TYPES.DEPOSIT, TRANSACTION_TYPES.REFUND, TRANSACTION_TYPES.EXCHANGE, TRANSACTION_TYPES.AUTO_EXCHANGE];
+const wonTransactionType = [TRANSACTION_TYPES.PAYMENT, TRANSACTION_TYPES.TRANSFER, TRANSACTION_TYPES.RE_EXCHANGE];
 
 const filters = ref({
     selectedPeriod: i18n_PERIOD[2],
@@ -93,14 +91,10 @@ const applyTransactionFilters = async (resetPage = false) => {
     }
     // 선택된 유형에 따라 거래 유형 코드를 설정
     let typeCodesToSend = [];
-    // if (filters.value.selectedType === i18n_TYPE[1]) {
-    //     typeCodesToSend = [1, 2, 5, 6]; // 원화 계좌
-    // } else if (filters.value.selectedType === i18n_TYPE[2]) {
-    //     typeCodesToSend = [3, 4, 5, 6]; // 송이 계좌
-    if (filters.value.selectedType === 'KRaccount') {
-        typeCodesToSend = [1, 2, 5, 6, 7]; // 원화 계좌
-    } else if (filters.value.selectedType === 'SongEaccount') {
-        typeCodesToSend = [3, 4, 5, 6, 7]; // 송이 계좌
+    if (filters.value.selectedType === i18n_TYPE[1]) {
+        typeCodesToSend = wonTransactionType; // 원화 계좌
+    } else if (filters.value.selectedType === i18n_TYPE[2]) {
+        typeCodesToSend = songTransactionType; // 송이 계좌
     } else {
         typeCodesToSend = null;
     }
@@ -167,29 +161,6 @@ const handleMemoUpdate = (updatedMemo) => {
     }
 };
 
-// 거래 유형 및 상태 코드 변환
-// const convertTransactionType = (code) => {
-//     const types = {
-//         1: '결제',
-//         2: '송금',
-//         3: '충전',
-//         4: '환불',
-//         5: '환전',
-//         6: '환급',
-//     };
-//     return types[code] || '알 수 없는 거래 유형';
-// };
-
-// const convertTransactionStatus = (code) => {
-//     const statuses = {
-//         1: '성공',
-//         2: '실패',
-//         3: '취소',
-//         4: '처리중',
-//     };
-//     return statuses[code] || '알 수 없는 상태';
-// };
-
 // 페이지네이션 관련 함수
 const totalPages = computed(() =>
     Math.ceil(totalItems.value / pageRequest.value.amount)
@@ -239,6 +210,31 @@ const closeModal = () => {
     isModalVisible.value = false;
 };
 
+const getBadgeClass = (typeCode) => {
+    const baseClasses = 'badge rounded-pill';
+    if (
+        [
+            TRANSACTION_TYPES.DEPOSIT,
+        ].includes(typeCode)
+    ) {
+        return `${baseClasses} bg-primary`;
+    } else if (
+        [
+            TRANSACTION_TYPES.REFUND,
+            TRANSACTION_TYPES.RE_EXCHANGE,
+        ].includes(typeCode)
+    ) {
+        return `${baseClasses} bg-danger`;
+    } else if (
+        [
+            TRANSACTION_TYPES.PAYMENT,
+            TRANSACTION_TYPES.TRANSFER,
+        ].includes(typeCode)
+    ) {
+        return `${baseClasses} bg-success`;
+    }
+    return `${baseClasses} bg-secondary`;
+};
 </script>
 
 <template>
@@ -260,47 +256,54 @@ const closeModal = () => {
             </button>
         </div>
         <!-- 테이블 부분 -->
-        <div class="card p-5 mt-3">
+        <div class="card p-5">
             <div class="table-responsive p-0">
                 <table class="table align-items-center">
                     <thead>
                         <tr>
-                            <th style="width: 10%">{{ $t('histories--header-dateTime') }}</th>
-                            <th style="width: 20%">{{ $t('histories--header-transactionType') }}</th>
-                            <th style="width: 50%" class="text-center d-none d-md-table-cell">{{
+                            <th style="width: 40%" class="text-secondary text-xxs font-weight-bolder opacity-7">{{
                                 $t('histories--header-transactionDetail') }}</th>
-                            <th style="width: 20%">{{ $t('histories--header-transactionAmount') }}</th>
+                            <th style="width: 30%"
+                                class="text-secondary text-xxs font-weight-bolder opacity-7 text-center">{{
+                                    $t('histories--header-transactionType') }}</th>
+                            <th style="width: 20%" class="text-secondary text-xxs font-weight-bolder opacity-7">{{
+                                $t('histories--header-transactionAmount') }}</th>
+                            <th style="width: 10%" class="text-secondary text-xxs font-weight-bolder opacity-7">{{
+                                $t('histories--header-dateTime') }}</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr v-for="transaction in transactions" :key="transaction.historyNo"
                             @click="openModal(transaction)" style="cursor: pointer">
-                            <td class="text-center">
-                                {{ transaction.historyDate }}
-                            </td>
-                            <td class="text-center">
-                                <span
-                                    v-if="[TRANSACTION_TYPES.DEPOSIT, TRANSACTION_TYPES.EXCHANGE, TRANSACTION_TYPES.REFUND].includes(transaction.typeCode)" class="badge badge-sm bg-gradient-success">
-                                    {{ $t(transaction.i18nType) }}
-                                </span>
-                                <span
-                                    v-else-if="[TRANSACTION_TYPES.RE_EXCHANGE, TRANSACTION_TYPES.TRANSFER, TRANSACTION_TYPES.PAYMENT].includes(transaction.typeCode)" class="badge badge-sm bg-gradient-secondary">
-                                    {{ $t(transaction.i18nType) }}
-                                </span>
-                            </td>
-                            <td class="text-center">
+                            <td>
                                 {{ $t(transaction.historyContent) }}
                             </td>
-                            <td class="text-end">
-                                {{ transaction.amount.toLocaleString() }}
+                            <td class="text-center">
+                                <span :class="getBadgeClass(transaction?.typeCode)">{{
+                                    $t(transaction.i18nType)
+                                }}</span>
+                                <!-- <span
+                                    v-if="[TRANSACTION_TYPES.DEPOSIT, TRANSACTION_TYPES.EXCHANGE, TRANSACTION_TYPES.REFUND].includes(transaction.typeCode)"
+                                    class="badge badge-sm bg-gradient-success">
+                                    {{ $t(transaction.i18nType) }}
+                                </span>
                                 <span
-                                    v-if="[TRANSACTION_TYPES.DEPOSIT, TRANSACTION_TYPES.EXCHANGE, TRANSACTION_TYPES.REFUND].includes(transaction.typeCode)">
+                                    v-else-if="[TRANSACTION_TYPES.RE_EXCHANGE, TRANSACTION_TYPES.TRANSFER, TRANSACTION_TYPES.PAYMENT].includes(transaction.typeCode)"
+                                    class="badge badge-sm bg-gradient-secondary">
+                                    {{ $t(transaction.i18nType) }}
+                                </span> -->
+                            </td>
+                            <td>
+                                {{ transaction.amount.toLocaleString() }}
+                                <span v-if="songTransactionType.includes(transaction.typeCode)">
                                     {{ songCurrencyUnit }}
                                 </span>
-                                <span
-                                    v-else-if="[TRANSACTION_TYPES.RE_EXCHANGE, TRANSACTION_TYPES.TRANSFER, TRANSACTION_TYPES.PAYMENT].includes(transaction.typeCode)">
+                                <span v-else-if="wonTransactionType.includes(transaction.typeCode)">
                                     KRW
                                 </span>
+                            </td>
+                            <td>
+                                {{ transaction.historyDate }}
                             </td>
                         </tr>
                     </tbody>
@@ -309,7 +312,7 @@ const closeModal = () => {
 
             <!-- 페이지네이션 컨트롤 -->
             <div class="d-flex justify-content-center">
-                <argon-pagination class="mb-0" :color="'warning'">
+                <argon-pagination class="mb-0" :color="'secondary'">
                     <argon-pagination-item prev @click="goToPage(pageRequest.page - 1)"
                         :disabled="pageRequest.page === 1" />
                     <argon-pagination-item v-for="item in paginationItems" :key="item.label" :label="item.label"
@@ -320,20 +323,21 @@ const closeModal = () => {
             </div>
         </div>
         <!-- 필터 모달 -->
-        <FilterModal :isVisible="isFilterModalVisible" :filters="filters" @closeModal="toggleFilterModal"
-            @applyFilters="handleFilterApply" />
+        <FilterModal :isVisible="isFilterModalVisible" :filters="filters" :periods="i18n_PERIOD" :types="i18n_TYPE"
+            :sorts="i18n_SORT" @closeModal="toggleFilterModal" @applyFilters="handleFilterApply" />
 
         <!-- 이용내역 상세 모달 -->
         <HistoriesDetailModal :transaction="selectedTransaction" :isVisible="isModalVisible"
+            :songTransactionType=songTransactionType :wonTransactionType=wonTransactionType
             @updateMemo="handleMemoUpdate" @close="closeModal" />
     </div>
 </template>
 
 <style scoped>
-thead {
+/* thead {
     background-color: #f4f4f4;
     text-align: center;
-}
+} */
 
 @media (max-width: 767px) {
 
