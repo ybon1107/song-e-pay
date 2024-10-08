@@ -6,7 +6,7 @@
 <mapper namespace="com.sepay.backend.security.account.mapper.UserDetailsMapper">
 
     <resultMap id="authMap" type="com.sepay.backend.security.account.domain.AuthVO">
-        <id property="username" column="user_id"/>
+        <result property="username" column="user_id"/>
         <result property="auth" column="auth"/>
     </resultMap>
 
@@ -25,7 +25,7 @@
         <collection property="authList" resultMap="authMap"/>
     </resultMap>
 
-    <select id="getUserInfo" resultMap="userMap">
+    <select id="get" resultMap="userMap">
         SELECT user_no, account_no, song_no, krw_no, country_code, u.user_id, password, first_name, last_name
         FROM user u
         LEFT OUTER JOIN user_auth ua ON u.user_id = ua.user_id

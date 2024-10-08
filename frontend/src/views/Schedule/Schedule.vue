@@ -40,12 +40,12 @@ function openMaintenanceModal(startDate, endDate) {
 
 // 새 이벤트 추가
 function addEvent(eventData) {
-  const colorWithoutHash = eventData.color.replace('#', ''); // 색깔 Hex코드 저장
+  const colorWithoutHash = eventData.color.replace('#', '');
 
   const scheduleData = {
     userNo: 1,
     beginDate: eventData.startedAt,
-    endDate: eventData.endedAt,
+    endDate: moment(eventData.endedAt).add(1, 'days').format('YYYY-MM-DD'),
     title: eventData.title,
     todo: eventData.description,
     color: colorWithoutHash || '000000',
@@ -53,29 +53,15 @@ function addEvent(eventData) {
 
   axios
     .post('/api/schedule/add', scheduleData)
-    .then((response) => {
-      // FullCalendar 인스턴스에 접근
-      const calendarApi = calendarRef.value.getApi();
-
-      // 응답 데이터에 접근하기 전에 response가 성공적으로 받아졌는지 확인
+    .then(async (response) => {
       if (response && response.data) {
-        const createdEvent = response.data;
-        calendarApi.addEvent({
-          title: createdEvent.title,
-          start: createdEvent.beginDate,
-          end: createdEvent.endDate,
-          backgroundColor: `#${createdEvent.color}`, // 색상 속성 수정
-          borderColor: `#${createdEvent.color}`, // 색상 속성 추가
-          allDay: true,
-          extendedProps: {
-            description: createdEvent.todo,
-          },
-        });
+        // 일정 추가 후 모든 일정을 다시 로딩
+        await loadEvents();
       }
       closeMaintenanceModal();
     })
     .catch((error) => {
-      console.error('Error adding event:', error);
+      console.error('일정 추가 중 오류 발생:', error);
     });
 }
 
@@ -154,27 +140,32 @@ function handleDateSelect(selectInfo) {
 }
 
 // Load events from the backend
-function loadEvents() {
-  axios
-    .get('/api/schedule/list')
-    .then((response) => {
-      const events = response.data;
-      events.forEach((event) => {
-        calendarRef.value.getApi().addEvent({
-          id: event.eventNo,
-          title: event.title,
-          start: event.beginDate,
-          end: event.endDate,
-          backgroundColor: `#${event.color}`,
-          borderColor: event.color,
-          allDay: true,
+async function loadEvents() {
+  try {
+    const response = await axios.get('/api/schedule/list');
+    const events = response.data;
+    const calendarApi = calendarRef.value.getApi();
+
+    // 기존 모든 이벤트 제거
+    calendarApi.removeAllEvents();
+
+    events.forEach((event) => {
+      calendarApi.addEvent({
+        id: event.eventNo,
+        title: event.title,
+        start: event.beginDate,
+        end: event.endDate,
+        backgroundColor: `#${event.color}`,
+        borderColor: `#${event.color}`,
+        allDay: true,
+        extendedProps: {
           description: event.todo,
-        });
+        },
       });
-    })
-    .catch((error) => {
-      console.error('Error loading events:', error);
     });
+  } catch (error) {
+    console.error('이벤트 로딩 중 오류 발생:', error);
+  }
 }
 
 onMounted(() => {
