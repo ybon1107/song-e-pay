@@ -1,4 +1,8 @@
 key,ko,en,id,vi
+common--btn-save,저장,,,
+common--btn-confirm,확인,confirm,Konfirmasi,Xác nhận
+common--btn-close,닫기,close,Tutup,Đóng
+common--btn-edit,수정,edit,Ubah,Chỉnh sửa
 setting--title,프로필,Profile,Profil,Hồ sơ
 map--title,금융 지도,Financial Map,Peta Keuangan,Bản đồ tài chính
 map--select-cityLabel,광역시/도,City/Province,Kota,Thành phố
@@ -96,4 +100,24 @@ exchangeRate--SetAlert--label-targetRate,목표 환율,Target exchange rate,Nila
 exchangeRate--SetAlert--placeholder-targetRate,목표 환율을 입력하세요.,Please enter the target exchange rate.,Masukkan nilai tukar target.,Vui lòng nhập tỷ giá mục tiêu.
 exchangeRate--SetAlert--label-targetAmount,자동 전환할 금액,Amount to exchange automatically,Jumlah untuk dikonversi secara otomatis,Số tiền tự động chuyển đổi
 exchangeRate--SetAlert--placeholder-targetAmount,자동 환전할 금액을 입력하세요.,Please enter the amount to exchange automatically.,Masukkan jumlah yang akan dikonversi secara otomatis.,Vui lòng nhập số tiền cần chuyển đổi tự động.
-
+histories--filters-period-today,오늘,,,
+histories--filters-period-oneMonth,1개월,,,
+histories--filters-period-threeMonth,3개월,,,
+histories--filters-period-custom,직접설정,,,
+histories--filters-type-all,전체,,,
+histories--filters-type-wone,won-e,,,
+histories--filters-type-songe,song-e,,,
+histories--filters-sort-newest,최신순,,,
+histories--filters-sort-oldest,과거순,,,
+histories--searchQuery,검색어를 입력하세요.,,,
+histories--filter-modal-title,필터링 옵션,,,
+payment--passwordInput--title,비밀번호 입력,Enter Password,Masukkan Kata Sandi,Nhập mật khẩu
+payment--passwordInput--instruction,6자리 비밀번호를 입력해주세요,Please enter a 6-digit password,Masukkan kata sandi 6 digit,Vui lòng nhập mật khẩu 6 chữ số
+payment--passwordInput--submit,제출,Submit,Kirim,Gửi
+payment--message-desktop,모바일 환경에서 접속해 주세요.,Our payment system is only available in a mobile environment.,Sistem pembayaran kami hanya tersedia di lingkungan seluler.,Hệ thống thanh toán của chúng tôi chỉ có sẵn trong môi trường di động.
+payment--button-pay,결제하기,Pay,Bayar,Thanh toán
+payment--qrScan--button-submit,확인,Confirm,Konfirmasi,Xác nhận
+payment--qrScan--imageAlt,QR 코드,QR Code,Kode QR,Mã QR
+payment--qrScan--balanceLabel,보유잔액,Balance,Saldo,Số dư
+payment--swal-password-wrong-title,다시 입력하세요,,,
+payment--swal-password-wrong-text,비밀번호가 틀렸습니다.,,,
