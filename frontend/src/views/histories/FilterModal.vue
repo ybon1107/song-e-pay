@@ -40,8 +40,15 @@ const applyFilters = () => {
 </script>
 
 <template>
-    <div v-if="isVisible" class="modal fade show d-block" tabindex="-1" role="dialog" aria-labelledby="filterModalLabel"
-        aria-hidden="false" @click.self="closeModal">
+    <div
+        v-if="isVisible"
+        class="modal fade show d-block"
+        tabindex="-1"
+        role="dialog"
+        aria-labelledby="filterModalLabel"
+        aria-hidden="false"
+        @click.self="closeModal"
+    >
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <h4 class="modal-title" id="filterModalLabel">필터링 옵션</h4>
@@ -51,16 +58,28 @@ const applyFilters = () => {
                         <div class="row mb-3">
                             <label class="form-label">조회기간</label>
                             <div class="btn-group">
-                                <button class="btn btn-outline-info" @click="selectPeriod('Today')">
+                                <button
+                                    class="btn btn-outline-info"
+                                    @click="selectPeriod('Today')"
+                                >
                                     오늘
                                 </button>
-                                <button class="btn btn-outline-info" @click="selectPeriod('Last 3 Month')">
+                                <button
+                                    class="btn btn-outline-info"
+                                    @click="selectPeriod('Last 3 Month')"
+                                >
                                     3개월
                                 </button>
-                                <button class="btn btn-outline-info" @click="selectPeriod('Last Month')">
+                                <button
+                                    class="btn btn-outline-info"
+                                    @click="selectPeriod('Last Month')"
+                                >
                                     1개월
                                 </button>
-                                <button class="btn btn-outline-info" @click="selectCustomDate">
+                                <button
+                                    class="btn btn-outline-info"
+                                    @click="selectCustomDate"
+                                >
                                     직접설정
                                 </button>
                             </div>
@@ -69,11 +88,20 @@ const applyFilters = () => {
                         <!-- 직접설정 기간 선택 탭 -->
                         <div class="row mb-3" v-if="isCustomDateSelected">
                             <div class="col-6">
-                                <input type="date" v-model="filters.startDate" class="form-control"
-                                    placeholder="시작 날짜" />
+                                <input
+                                    type="date"
+                                    v-model="filters.startDate"
+                                    class="form-control"
+                                    placeholder="시작 날짜"
+                                />
                             </div>
                             <div class="col-6">
-                                <input type="date" v-model="filters.endDate" class="form-control" placeholder="종료 날짜" />
+                                <input
+                                    type="date"
+                                    v-model="filters.endDate"
+                                    class="form-control"
+                                    placeholder="종료 날짜"
+                                />
                             </div>
                         </div>
 
@@ -81,15 +109,24 @@ const applyFilters = () => {
                         <div class="row mb-3">
                             <label class="form-label">유형선택</label>
                             <div class="btn-group">
-                                <button class="btn btn-outline-secondary" @click="filters.selectedType = 'All'">
+                                <button
+                                    class="btn btn-outline-secondary"
+                                    @click="filters.selectedType = 'All'"
+                                >
                                     전체
                                 </button>
-                                <button class="btn btn-outline-secondary" @click="
-                                    filters.selectedType = 'SongEaccount'
-                                    ">
+                                <button
+                                    class="btn btn-outline-secondary"
+                                    @click="
+                                        filters.selectedType = 'SongEaccount'
+                                    "
+                                >
                                     송이계좌
                                 </button>
-                                <button class="btn btn-outline-secondary" @click="filters.selectedType = 'KRaccount'">
+                                <button
+                                    class="btn btn-outline-secondary"
+                                    @click="filters.selectedType = 'KRaccount'"
+                                >
                                     원화계좌
                                 </button>
                             </div>
@@ -99,10 +136,16 @@ const applyFilters = () => {
                         <div class="row mb-3">
                             <label class="form-label">정렬선택</label>
                             <div class="btn-group">
-                                <button class="btn btn-outline-secondary" @click="filters.selectedSort = 'Newest'">
+                                <button
+                                    class="btn btn-outline-secondary"
+                                    @click="filters.selectedSort = 'Newest'"
+                                >
                                     최신순
                                 </button>
-                                <button class="btn btn-outline-secondary" @click="filters.selectedSort = 'Oldest'">
+                                <button
+                                    class="btn btn-outline-secondary"
+                                    @click="filters.selectedSort = 'Oldest'"
+                                >
                                     과거순
                                 </button>
                             </div>
@@ -110,10 +153,18 @@ const applyFilters = () => {
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button class="btn btn-primary" type="button" @click="applyFilters">
+                    <button
+                        class="btn btn-primary"
+                        type="button"
+                        @click="applyFilters"
+                    >
                         확인
                     </button>
-                    <button type="button" class="btn btn-secondary" @click="closeModal">
+                    <button
+                        type="button"
+                        class="btn btn-secondary"
+                        @click="closeModal"
+                    >
                         닫기
                     </button>
                 </div>

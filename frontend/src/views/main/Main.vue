@@ -36,30 +36,49 @@
         <!-- 아이콘 섹션 -->
         <div class="icon-item d-flex flex-wrap mt-3">
           <div class="icon-item col-md-3 d-flex align-items-center">
-            <svg width="50" height="50">
-              <circle cx="25" cy="25" r="20" fill="#1D0E03" />
-            </svg>
+            <div style="position: relative; width: 50px; height: 50px">
+              <!-- Rectangle -->
+              <svg width="50" height="50">
+                <rect x="5" y="5" width="40" height="40" rx="10" ry="10" fill="#1D0E03" />
+              </svg>
+
+              <!-- Icon -->
+              <i class="fa-solid fa-shield-halved" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 23px; color: #fff6ef"></i>
+            </div>
+
             <div class="ms-2">
-              <div style="font-size: 10px">Speed &</div>
-              <div style="font-size: 10px">Security</div>
+              <div style="font-size: 12px">Speed &</div>
+              <div style="font-size: 12px">Security</div>
             </div>
           </div>
           <div class="icon-item col-md-3 d-flex align-items-center">
-            <svg width="50" height="50">
-              <circle cx="25" cy="25" r="20" fill="#1D0E03" />
-            </svg>
+            <div style="position: relative; width: 50px; height: 50px">
+              <!-- Circle -->
+              <svg width="50" height="50">
+                <rect x="5" y="5" width="40" height="40" rx="10" ry="10" fill="#1D0E03" />
+              </svg>
+
+              <!-- Icon -->
+              <i class="fa-solid fa-hand-holding" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 23px; color: #fff6ef"></i>
+            </div>
             <div class="ms-2">
-              <div style="font-size: 10px">Conventional &</div>
-              <div style="font-size: 10px">Simple</div>
+              <div style="font-size: 12px">Convenient &</div>
+              <div style="font-size: 12px">Simple</div>
             </div>
           </div>
           <div class="icon-item col-md-3 d-flex align-items-center">
-            <svg width="50" height="50">
-              <circle cx="25" cy="25" r="20" fill="#1D0E03" />
-            </svg>
+            <div style="position: relative; width: 50px; height: 50px">
+              <!-- Circle -->
+              <svg width="50" height="50">
+                <rect x="5" y="5" width="40" height="40" rx="10" ry="10" fill="#1D0E03" />
+              </svg>
+
+              <!-- Icon -->
+              <i class="fa-solid fa-earth-americas" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 23px; color: #fff6ef"></i>
+            </div>
             <div class="ms-2">
-              <div style="font-size: 10px">Global &</div>
-              <div style="font-size: 10px">Local</div>
+              <div style="font-size: 12px">Global &</div>
+              <div style="font-size: 12px">Local</div>
             </div>
           </div>
         </div>
@@ -95,16 +114,17 @@
   <div class="section-container-beige">
     <!-- 실시간 환율 조회 섹션 -->
 
-    <div class="d-flex flex-wrap mb-3 justify-content-center">
+    <div class="d-flex flex-wrap mb-3">
       <!-- What We Offer 섹션 -->
       <div class="mt-2 col-md-12">
         <h2 class="font_2 mb-4">What We Offer</h2>
         <p class="font_8 mb-7">실시간 환율 조회와 자동 환전, 그리고 알림 서비스로 언제든지 유리한 환전 기회를 놓치지 않도록 사용해보세요.</p>
       </div>
-      <div class="p-4 flex-fill-column">
+      <div class="flex-fill-column me-4">
         <div class="image-container">
           <img
             class="flex_item_image"
+            style="border: 2px solid; border-radius: 2cap"
             src="https://static.wixstatic.com/media/c837a6_07cdd24cb9e84acdb41d8c3568867354~mv2.jpg/v1/fill/w_284,h_376,al_c,q_80,usm_0.66_1.00_0.01,enc_auto/Artboard%2048%20copy%204_5x-100.jpg"
             alt="실시간 환율 조회"
           />
@@ -114,10 +134,11 @@
           <p>여행 중 언제든지 최신 환율을 확인하고, 환율 변동에 맞춰 최적의 환전을 진행하세요.</p>
         </div>
       </div>
-      <div class="p-4 flex-fill-column">
+      <div class="flex-fill-column mx-4">
         <div class="image-container">
           <img
             class="flex_item_image"
+            style="border: 2px solid; border-radius: 2cap"
             src="https://static.wixstatic.com/media/c837a6_ef6bbe6808334282ab6c74203e782f28~mv2.jpg/v1/fill/w_284,h_374,al_c,q_80,usm_0.66_1.00_0.01,enc_auto/Artboard%2048%20copy%207_5x-100.jpg"
             alt="자동 환전 서비스"
           />
@@ -127,10 +148,11 @@
           <p>환율이 가장 좋을 때 자동으로 환전을 완료해 드립니다. 손쉬운 환전으로 환율 고민을 덜어보세요.</p>
         </div>
       </div>
-      <div class="p-4 flex-fill-column">
+      <div class="flex-fill-column mx-4">
         <div class="image-container">
           <img
             class="flex_item_image"
+            style="border: 2px solid; border-radius: 2cap"
             src="https://static.wixstatic.com/media/c837a6_070e2f97109e4b4ba2e079e8f7f18f4f~mv2.jpg/v1/fill/w_284,h_374,al_c,q_80,usm_0.66_1.00_0.01,enc_auto/Artboard%2048%20copy%205_5x-100.jpg"
             alt="환율 알림 서비스"
           />
@@ -140,10 +162,11 @@
           <p>원하는 환율에 도달하면 즉시 알림을 받아 최적의 시기에 환전을 할 수 있습니다.</p>
         </div>
       </div>
-      <div class="p-4 flex-fill-column">
+      <div class="flex-fill-column mx-4">
         <div class="image-container">
           <img
             class="flex_item_image"
+            style="border: 2px solid; border-radius: 2cap"
             src="https://static.wixstatic.com/media/c837a6_1f658b7b98b846d4865a783d52c8b43c~mv2.jpg/v1/fill/w_284,h_374,al_c,q_80,usm_0.66_1.00_0.01,enc_auto/Artboard%2048%20copy%206_5x-100.jpg"
             alt="No 수수료! 자유로운 환전"
           />
@@ -171,7 +194,7 @@
     </div>
   </section>
   <!-- 곡선 -->
-  <div class="curve-container" style="background-color: #fff6ef">
+  <div class="curve-container" style="background-color: #f8f9fa">
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320" class="curve">
       <path
         fill="#B0AB99"
@@ -191,9 +214,6 @@
         <p>가까운 국민은행을 찾고 ATM 위치를 빠르게 확인할 수 있습니다. 지도를 통해 가장 가까운 금융 서비스를 이용하세요.</p>
       </div>
     </div>
-  </section>
-  <!-- 다섯 번째 섹션 -->
-  <section class="section-container-beige">
     <div class="lastpage d-flex justify-content-between align-items-center flex-column mb-3">
       <h2 class="title text-center">Prepare for Your Trip to Korea With Our SongEpay</h2>
       <br />
@@ -220,10 +240,10 @@ onBeforeMount(() => {
 </script>
 <style scoped>
 .flex-fill-column {
-  flex-basis: 3%;
+  flex-basis: 18%;
 }
 .section-container-beige {
-  background-color: #fff6ef;
+  background: linear-gradient(to bottom, #f8f9fa, #fff6ef);
   padding-top: 8rem;
   padding-left: 13rem;
   padding-right: 8rem;
@@ -280,7 +300,7 @@ onBeforeMount(() => {
 @media (max-width: 768px) {
   /* Adjust the max-width value as needed for your breakpoint */
   .section-container-beige {
-    background-color: #fff6ef;
+    background: linear-gradient(to bottom, #f8f9fa, #fff6ef);
     padding-top: 5rem;
     padding-left: 5rem;
     padding-right: 5rem;
