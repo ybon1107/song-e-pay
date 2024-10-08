@@ -14,15 +14,9 @@ const router = useRouter();
 const auth = useAuthStore();
 
 const member = ref({
-<<<<<<< HEAD
-    username: "",
-    password: "",
-  },);
-=======
   username: "",
   password: "",
 });
->>>>>>> LBY
 
 const error = ref("");
 
@@ -176,13 +170,9 @@ const handleSubmit = async () => {
                         size="lg"
                         v-model="username"
                         :class="{ 'is-invalid': emailError }"
-<<<<<<< HEAD
-                        :error="(username !== '' || emailError) && !isEmailValid"
-=======
                         :error="
                           (username !== '' || emailError) && !isEmailValid
                         "
->>>>>>> LBY
                         errorText="Please provide a valid email."
                       />
                       <!-- <div v-if="emailError" class="invalid-feedback text-xs">

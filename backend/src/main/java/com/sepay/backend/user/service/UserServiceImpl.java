@@ -115,9 +115,4 @@ public class UserServiceImpl implements UserService{
     public String getUserImg(String userId) {
         return mapper.selectUserImg(userId);
     }
-
-    @Override
-    public String getUserImg(String userId) {
-        return mapper.selectUserImg(userId);
-    }
 }

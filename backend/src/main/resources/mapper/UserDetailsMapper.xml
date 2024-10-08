@@ -36,27 +36,10 @@
         <collection property="authList" resultMap="authMap"/>
     </resultMap>
 
-<<<<<<< HEAD
-    <!-- JWT 로그인 -->
-    <select id="get" resultMap="userMap">
-        SELECT user_no, account_no, song_no, krw_no, country_code, u.user_id, password, first_name, last_name, birthday, gender, phone_no, second_pwd, profile_pic, address, post_code, state_code, created_at, updated_at, ua.auth
-        FROM user u
-        LEFT OUTER JOIN user_auth ua
-        ON u.user_id = ua.user_id
-        WHERE u.user_id = #{username}
-    </select>
-
-    <!-- 권한 테스트 -->
-    <select id="getAuths" resultType="AuthVO" parameterType="string">
-        select *
-        from user_auth
-        where user_id = #{userId}
-=======
     <select id="get" resultMap="userMap">
         SELECT user_no, account_no, song_no, krw_no, country_code, u.user_id, password, first_name, last_name, birthday, gender, phone_no, second_pwd, profile_pic, address, post_code, state_code, created_at, updated_at, ua.auth
         FROM user u
                  LEFT OUTER JOIN user_auth ua ON u.user_id = ua.user_id
         WHERE u.user_id = #{username}
->>>>>>> LBY
     </select>
 </mapper>

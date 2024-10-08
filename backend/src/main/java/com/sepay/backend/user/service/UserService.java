@@ -19,11 +19,8 @@ public interface UserService {
 
     boolean isEmailRegistered(String email);
 
-<<<<<<< HEAD
-=======
     // 자동환전에서 사용
     Map<String, String> getUserAccounts(Integer userNo);
 
->>>>>>> LBY
     String getUserImg(String userId);
 }

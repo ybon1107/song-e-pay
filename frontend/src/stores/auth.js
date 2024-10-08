@@ -5,13 +5,8 @@ import axios from "axios";
 const initState = {
   token: "",
   user: {
-<<<<<<< HEAD
-    username: '',
-    countryCode: '',
-=======
     userId: "",
     countryCode: "",
->>>>>>> LBY
     roles: [],
   },
 };
@@ -21,11 +16,7 @@ export const useAuthStore = defineStore("auth", () => {
 
   const isLogin = computed(() => !!state.value.user.username);
 
-<<<<<<< HEAD
-  const userId = computed(() => state.value.user.username);
-=======
   const userId = computed(() => state.value.user.userId);
->>>>>>> LBY
 
   const user = computed(() => state.value.user);
 
@@ -42,16 +33,9 @@ export const useAuthStore = defineStore("auth", () => {
     console.log("password: ", member.value.password);
 
     try {
-<<<<<<< HEAD
-      
-      const response = await axios.post('/api/auth/login', member.value );
-      console.log("response : ", response)
-      console.log("response.data : ", response.data)
-=======
       const response = await axios.post("/api/auth/login", member.value);
       console.log("response : ", response);
       console.log("response.data : ", response.data);
->>>>>>> LBY
       state.value = { ...response.data };
       switch (state.value.user.countryCode) {
         case 0:
@@ -127,10 +111,6 @@ export const useAuthStore = defineStore("auth", () => {
   // load(): 페이지가 로드될 때 localStorage에서 저장된 인증 정보를 불러와 state에 설정
 
   //   return { state, username, email, isLogin, changeProfile, login, logout, getToken };
-<<<<<<< HEAD
-  return { state, userId, user, isLogin, changeProfile, login, logout, updateProfileState };
-});
-=======
   return {
     state,
     userId,
@@ -142,4 +122,3 @@ export const useAuthStore = defineStore("auth", () => {
     updateProfileState,
   };
 });
->>>>>>> LBY

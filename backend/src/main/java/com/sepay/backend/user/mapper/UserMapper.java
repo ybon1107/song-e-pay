@@ -25,10 +25,6 @@ public interface UserMapper {
     int insertUser(UserVO userVO);
 
     UserDTO selectUserByEmail(String email);
-<<<<<<< HEAD
-
-    String selectUserImg(String userId);
-=======
     
     int checkEmail(String email);
 
@@ -37,5 +33,4 @@ public interface UserMapper {
     // 자동환전에서 사용
     @Select("SELECT song_no, krw_no FROM user WHERE user_no = #{userNo}")
     Map<String, String> selectUserAccounts(Integer userNo);
->>>>>>> LBY
 }

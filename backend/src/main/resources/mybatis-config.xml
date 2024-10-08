@@ -28,11 +28,8 @@
         <mapper resource="mapper/NotificationMapper.xml"/>
         <mapper resource="mapper/SettingMapper.xml"/>
         <mapper resource="mapper/UserDetailsMapper.xml"/>
-<<<<<<< HEAD
-=======
         <mapper resource="mapper/ExchangeMapper.xml"/>
         <mapper resource="mapper/UserDetailsMapper.xml"/>
->>>>>>> LBY
     </mappers>
 
 </configuration>

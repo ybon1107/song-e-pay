@@ -94,10 +94,6 @@ public class UserController {
 
     @GetMapping("/profile-img/{userId}")
     public ResponseEntity<?> getProfileImg(@PathVariable String userId) {
-<<<<<<< HEAD
-        System.out.println("Profile img: " + userId);
-=======
->>>>>>> LBY
         return ResponseEntity.ok(userService.getUserImg(userId));
     }
 }

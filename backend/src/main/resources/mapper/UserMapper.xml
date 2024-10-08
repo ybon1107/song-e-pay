@@ -81,8 +81,6 @@
         where user_id = #{userId}
     </select>
 
-<<<<<<< HEAD
-=======
     <!-- 이메일 중복 체크 -->
     <select id="checkEmail" parameterType="String" resultType="int">
         select count(*)
@@ -90,7 +88,6 @@
         where user_id = #{userId}
     </select>
 
->>>>>>> LBY
     <select id="selectUserImg" parameterType="string" resultType="string">
         SELECT profile_pic
         FROM user
