@@ -155,6 +155,7 @@ const closeModal = () => {
 };
 
 const saveEvent = () => {
+    maintenanceCopy.value.color = getColor(maintenanceCopy.value.color);
     emit('saveEvent', maintenanceCopy.value);
     closeModal();
 };

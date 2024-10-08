@@ -15,7 +15,6 @@
     <!-- 일정 목록 조회 -->
     <select id="findAll" resultType="com.sepay.backend.schedule.dto.ScheduleDTO">
         SELECT * FROM event
-
     </select>
 
     <!-- 기존 일정 업데이트 -->
