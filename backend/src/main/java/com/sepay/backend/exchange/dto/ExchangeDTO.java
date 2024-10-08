@@ -15,5 +15,5 @@ public class ExchangeDTO {
     private Integer baseCode;
     private Integer targetCode;
     private Double exchangeRate;
-    private Date updateAt;
+    private Date updatedAt;
 }

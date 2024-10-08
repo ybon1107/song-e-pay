@@ -6,9 +6,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
-import java.util.Map;
 
 @Slf4j
 @RestController
@@ -41,7 +39,7 @@ public class ReservationController {
 
     @DeleteMapping("/{resNo}")
     public ResponseEntity<Void> removeExchangeReservation(@PathVariable Integer resNo) {
-        log.info("환전 예약 삭제 요청. 예약 번호: {}", resNo);
+        log.info("삭제 요청. 예약 번호: {}", resNo);
         exchangeReservationService.removeExchangeReservation(resNo);
         return ResponseEntity.ok().build();
     }

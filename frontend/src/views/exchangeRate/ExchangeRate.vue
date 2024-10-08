@@ -1,7 +1,7 @@
 <template>
   <div class="container-fluid">
     <div class="d-grid gap-5">
-      <h3 class="mb-0">Compare Exchange Rate</h3>
+      <h3 class="mb-0">{{ $t("exchangeRate--header-title") }}</h3>
       <SecondPasswordModal
         v-if="showModal"
         @close="closeModal"
@@ -39,7 +39,7 @@
 
             <div class="col-md-5 d-flex flex-column justify-content-around">
               <div class="d-grid gap-3 max-margin-bottom">
-                <h5>환전</h5>
+                <h5>{{ $t("exchangeRate--header-CurrencyExchange") }}</h5>
                 <div
                   class="d-flex justify-content-between flex-column-center gap-3"
                 >
@@ -65,15 +65,15 @@
                   class="btn btn-info w-100"
                   @click="openModal('exchange')"
                 >
-                  Buy
+                  {{ $t("exchangeRate--button-buy") }}
                 </button>
               </div>
 
               <!-- 환율 알림 Section -->
               <div class="d-grid gap-3">
                 <div>
-                  <h5>환율 알림 설정</h5>
-                  <p>목표 환율 입력하시오.</p>
+                  <h5>{{ $t("exchangeRate--notification-setAlert") }}</h5>
+                  <p>{{ $t("exchangeRate--placeholder-targetRate") }}</p>
                 </div>
                 <div
                   class="d-flex justify-content-between align-items-center gap-3"
@@ -91,7 +91,7 @@
                   class="btn btn-primary w-100"
                   @click="saveAlertRate(1, 0, alertRateUsdToKrw)"
                 >
-                  알림 설정
+                  {{ $t("exchangeRate--button-confirmAlert") }}
                 </button>
               </div>
             </div>
@@ -131,7 +131,7 @@
 
             <div class="col-md-5 d-flex flex-column justify-content-around">
               <div class="d-grid gap-3 max-margin-bottom">
-                <h5>환급</h5>
+                <h5>{{ $t("exchangeRate--header-CurrencyExchange") }}</h5>
                 <div
                   class="d-flex justify-content-between flex-column-min gap-3"
                 >
@@ -162,8 +162,8 @@
               <!-- 환율 알림 Section -->
               <div class="d-grid gap-3">
                 <div>
-                  <h5>환율 알림 설정</h5>
-                  <p>목표 환율 입력하시오.</p>
+                  <h5>{{ $t("exchangeRate--notification-setAlert") }}</h5>
+                  <p>{{ $t("exchangeRate--placeholder-targetRate") }}</p>
                 </div>
                 <div
                   class="d-flex justify-content-between align-items-center gap-3"
@@ -181,7 +181,7 @@
                   @click="saveAlertRate(0, 1, alertRateKrwToUsd)"
                   class="btn btn-primary w-100"
                 >
-                  알림 설정
+                  {{ $t("exchangeRate--button-confirmAlert") }}
                 </button>
               </div>
             </div>
@@ -192,7 +192,7 @@
       <div class="custom-spacer"></div>
 
       <!-- 자동 환전 설정 섹션 -->
-      <h3 class="mb-0">자동 환전 설정</h3>
+      <h3 class="mb-0">{{ $t("exchangeRate--header-autoExchange") }}</h3>
       <div class="card">
         <div class="card-body">
           <div class="d-flex justify-content-center">
@@ -203,19 +203,21 @@
                   type="number"
                   v-model="targetExchange"
                   class="form-control"
-                  placeholder="목표 환율을 입력하세요."
+                  :placeholder="$t('exchangeRate--placeholder-targetRate')"
                   @input="validateTargetExchange"
                 />
                 <span class="input-group-text">KRW</span>
               </div>
 
               <div class="input-group">
-                <span class="input-group-text">목표 금액 =</span>
+                <span class="input-group-text"
+                  >{{ $t("exchangeRate--text-targetKRW") }} =</span
+                >
                 <input
                   type="number"
                   v-model="targetKrw"
                   class="form-control"
-                  placeholder="자동 전환할 금액을 입력하세요.(최소 1000)"
+                  :placeholder="$t('exchangeRate--placeholder-targetAmount')"
                   @input="validateTargetKrw"
                 />
                 <span class="input-group-text">KRW</span>
@@ -225,7 +227,7 @@
                 class="btn btn-primary w-100 mb-0"
                 @click="confirmAutoExchange(1, 0, targetExchange, targetKrw)"
               >
-                자동 환전 설정
+                {{ $t("exchangeRate--button-confirmAlert") }}
               </button>
             </div>
           </div>

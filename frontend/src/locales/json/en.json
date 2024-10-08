@@ -54,5 +54,16 @@
     "transaction_types_deposit": "deposit",
     "transaction_types_refund": "refund",
     "transaction_types_exchange": "exchange",
-    "transaction_types_reExchange": "re-exchange"
+    "transaction_types_reExchange": "re-exchange",
+    "exchangeRate--header-title": "Exchange Rate Information",
+    "exchangeRate--button-buy": "Buy",
+    "exchangeRate--button-sell": "Sell",
+    "exchangeRate--notification-setAlert": "Exchange Rate Alert Settings",
+    "exchangeRate--header-autoExchange": "Automatic Currency Exchange Settings",
+    "exchangeRate--header-CurrencyExchange": "Currency Exchange",
+    "exchangeRate--placeholder-targetRate": "Please enter the target exchange rate.",
+    "exchangeRate--button-confirmAlert": "Set",
+    "exchangeRate--text-targetKRW": "Exchange Amount",
+    "exchangeRate--placeholder-targetAmount": "Please enter the amount to exchange automatically.",
+    "exchangeRate--limited": "Enter an amount greater than 1"
 }

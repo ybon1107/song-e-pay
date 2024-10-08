@@ -1,5 +1,6 @@
 package com.sepay.backend.exchange.service;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import com.sepay.backend.exchange.mapper.ExchangeMapper;
 import com.sepay.backend.exchange.dto.ExchangeDTO;
@@ -7,17 +8,14 @@ import com.sepay.backend.exchange.dto.ExchangeDTO;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class ExchangeServiceImpl implements ExchangeService {
 
-    private final ExchangeMapper exchangeMapper;
-
-    public ExchangeServiceImpl(ExchangeMapper exchangeMapper) {
-        this.exchangeMapper = exchangeMapper;
-    }
+    final ExchangeMapper exchangeMapper;
 
     @Override
     public List<ExchangeDTO> getExchange(Integer baseCode, Integer targetCode) {
-        return exchangeMapper.getExchange(baseCode, targetCode);
+        return exchangeMapper.selectExchange(baseCode, targetCode);
     }
 
     @Override

@@ -54,5 +54,16 @@
     "transaction_types_deposit": "Setoran",
     "transaction_types_refund": "Pengembalian",
     "transaction_types_exchange": "penukaran uang",
-    "transaction_types_reExchange": "Tukar ulang\tĐổi lại"
+    "transaction_types_reExchange": "Tukar ulang",
+    "exchangeRate--header-title": "Bandingkan Nilai Tukar",
+    "exchangeRate--button-buy": "Beli",
+    "exchangeRate--button-sell": "Jual",
+    "exchangeRate--notification-setAlert": "Pengaturan Pemberitahuan Nilai Tukar",
+    "exchangeRate--header-autoExchange": "Pengaturan Penukaran Mata Uang Otomatis",
+    "exchangeRate--header-CurrencyExchange": "Penukaran Mata Uang",
+    "exchangeRate--placeholder-targetRate": "Silakan masukkan nilai tukar yang ditargetkan.",
+    "exchangeRate--button-confirmAlert": "Atur",
+    "exchangeRate--text-targetKRW": "Jumlah Penukaran",
+    "exchangeRate--placeholder-targetAmount": "Masukkan jumlah yang akan dikonversi secara otomatis.",
+    "exchangeRate--limited": "000 KRW."
 }
