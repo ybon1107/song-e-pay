@@ -9,6 +9,9 @@ import PhoneInput from "@/components/signUp/PhoneInput.vue";
 import flatPickr from "vue-flatpickr-component";
 import "flatpickr/dist/flatpickr.css";
 import { parsePhoneNumberFromString } from "libphonenumber-js";
+import { useI18n } from "vue-i18n";
+
+const { t } = useI18n();
 
 const body = document.getElementsByTagName("body")[0];
 const store = useStore();
@@ -195,7 +198,7 @@ const isPasswordMatch = computed(() => {
 });
 
 // 거주 국가 상태
-const country = ref("Country");
+const country = ref(t("signUp--countryCodeLabel"));
 
 // 성 및 이름 입력 필드 상태
 const firstName = ref("");
@@ -212,7 +215,7 @@ function calculateDateYearsAgo(years) {
 }
 
 // 성별 상태
-const gender = ref("Gender");
+const gender = ref(t("signUp--genderLabel"));
 
 // 전화번호와 국가 코드 상태
 const countryCallingCode = ref("+1");
@@ -324,23 +327,25 @@ const handleSubmit = async () => {
             <div class="card card-plain">
               <!-- 카드 헤더: 제목 -->
               <div class="pb-0 card-header text-center">
-                <h4 class="font-weight-bolder">Tell us about yourself</h4>
+                <h4 class="font-weight-bolder">
+                  {{ $t("signUp--Title-page") }}
+                </h4>
               </div>
               <!-- 카드 본문 -->
               <div class="card-body container-fluid">
                 <form @submit.prevent="handleSubmit">
                   <!-- 사용자 이메일 필드 -->
                   <div class="col-md-12">
-                    <label for="email" class="form-control-label"
-                      >Your email address</label
-                    >
+                    <label for="email" class="form-control-label">{{
+                      $t("signUp--email")
+                    }}</label>
                     <div class="row mb-0">
                       <argon-input
                         isRequired
                         id="email"
                         type="email"
                         class="col-xl col-md col-sm"
-                        placeholder="Email"
+                        :placeholder="$t('signUp--emailPlaceholder')"
                         aria-label="Email"
                         v-model="email"
                         :class="{ 'is-invalid': emailError }"
@@ -359,9 +364,12 @@ const handleSubmit = async () => {
                           type="button"
                           @click="sendEmailCode"
                         >
-                          <span v-if="isButtonEnabled">Send code</span>
+                          <span v-if="isButtonEnabled">{{
+                            $t("signUp--button-sendCode")
+                          }}</span>
                           <span v-else
-                            >Resend {{ Math.floor(timer / 60) }}:{{
+                            >{{ $t("signUp--button-emailResend") }}
+                            {{ Math.floor(timer / 60) }}:{{
                               (timer % 60).toString().padStart(2, "0")
                             }}</span
                           >
@@ -371,16 +379,16 @@ const handleSubmit = async () => {
                   </div>
                   <!-- 인증 코드 입력 -->
                   <div class="col-md-12">
-                    <label for="emailCode" class="form-label"
-                      >Email verification code</label
-                    >
+                    <label for="emailCode" class="form-label">{{
+                      $t("signUp--emailCode")
+                    }}</label>
                     <div class="row mb-0">
                       <argon-input
                         isRequired
                         id="emailCode"
                         type="text"
                         class="col-xl col-md col-sm"
-                        placeholder="Verification code"
+                        :placeholder="$t('signUp--emailCodePlaceholder')"
                         v-model="emailCode"
                         :class="{ 'is-invalid': emailCodeError }"
                         :success="!emailCodeError && isVerified"
@@ -398,21 +406,21 @@ const handleSubmit = async () => {
                           class="mb-3"
                           type="button"
                           @click="verifyCode"
-                          >Verify
+                          >{{ $t("signUp--verify") }}
                         </argon-button>
                       </div>
                     </div>
                   </div>
                   <!-- 비밀번호 입력 필드 -->
                   <div class="col-md-12">
-                    <label for="password" class="form-control-label"
-                      >Your password</label
-                    >
+                    <label for="password" class="form-control-label">{{
+                      $t("signUp--pw")
+                    }}</label>
                     <argon-input
                       isRequired
                       id="password"
                       type="password"
-                      placeholder="Password"
+                      :placeholder="$t('signUp--pwPlaceholder')"
                       v-model="password"
                       @input="handlePasswordInput"
                       :class="{
@@ -422,14 +430,14 @@ const handleSubmit = async () => {
                       errorText="Please provide a password with at least 8 characters."
                     ></argon-input>
                     <!-- 비밀번호 입력 확인 필드 -->
-                    <label for="confirm-password" class="form-control-label"
-                      >Confirm your password</label
-                    >
+                    <label for="confirm-password" class="form-control-label">{{
+                      $t("signUp--confirmPw")
+                    }}</label>
                     <argon-input
                       isRequired
                       id="confirm-password"
                       type="password"
-                      placeholder="Confirm password"
+                      :placeholder="$t('signUp--confirmPwPlaceholder')"
                       v-model="confirmPassword"
                       @input="handleConfirmPasswordInput"
                       :class="{
@@ -450,9 +458,9 @@ const handleSubmit = async () => {
                   </div>
                   <!-- 거주 국가 입력 필드 -->
                   <div class="col-md-12">
-                    <label for="country" class="form-control-label"
-                      >Country of residence</label
-                    >
+                    <label for="country" class="form-control-label">{{
+                      $t("signUp--country")
+                    }}</label>
                     <div class="form-group">
                       <select
                         id="country"
@@ -462,10 +470,18 @@ const handleSubmit = async () => {
                           'is-invalid': country === 'Country' && countryError,
                         }"
                       >
-                        <option disabled hidden>Country</option>
-                        <option value="1">🇺🇸 United States</option>
-                        <option value="2">🇮🇩 Indonesia</option>
-                        <option value="3">🇻🇳 Vietnam</option>
+                        <option disabled hidden>
+                          {{ $t("signUp--countryCodeLabel") }}
+                        </option>
+                        <option value="1">
+                          🇺🇸 {{ $t("signUp--countryUS") }}
+                        </option>
+                        <option value="2">
+                          🇮🇩 {{ $t("signUp--countryID") }}
+                        </option>
+                        <option value="3">
+                          🇻🇳 {{ $t("signUp--countryVI") }}
+                        </option>
                       </select>
                       <p
                         v-if="country === 'Country'"
@@ -477,14 +493,14 @@ const handleSubmit = async () => {
                   </div>
                   <!-- 이름 입력 필드 -->
                   <div class="col-md-12">
-                    <label for="first-name" class="form-control-label"
-                      >Full legal first and middle name(s)</label
-                    >
+                    <label for="first-name" class="form-control-label">{{
+                      $t("signUp--firstName")
+                    }}</label>
                     <argon-input
                       isRequired
                       id="first-name"
                       type="text"
-                      placeholder="First name and middle name(s)"
+                      :placeholder="$t('signUp--firstNamePlaceholder')"
                       v-model="firstName"
                       :class="{
                         'is-invalid': firstNameError && firstName === '',
@@ -495,14 +511,14 @@ const handleSubmit = async () => {
                   </div>
                   <!-- 성 입력 필드 -->
                   <div class="col-md-12">
-                    <label for="last-name" class="form-control-label"
-                      >Full legal last name(s)</label
-                    >
+                    <label for="last-name" class="form-control-label">{{
+                      $t("signUp--lastName")
+                    }}</label>
                     <argon-input
                       isRequired
                       id="last-name"
                       type="text"
-                      placeholder="Last name"
+                      :placeholder="$t('signUp--lastNamePlaceholder')"
                       v-model="lastName"
                       :class="{
                         'is-invalid': lastNameError && lastName === '',
@@ -513,9 +529,9 @@ const handleSubmit = async () => {
                   </div>
                   <!-- 생년월일 입력 필드 -->
                   <div class="col-md-12 form-group">
-                    <label for="birth" class="form-control-label"
-                      >Date of birth</label
-                    >
+                    <label for="birth" class="form-control-label">{{
+                      $t("signUp--birthday")
+                    }}</label>
                     <flat-pickr
                       id="birth"
                       v-model="birth"
@@ -536,9 +552,9 @@ const handleSubmit = async () => {
                   </div>
                   <!-- 성별 입력 필드 -->
                   <div class="col-md-12">
-                    <label for="gender" class="form-control-label"
-                      >Gender</label
-                    >
+                    <label for="gender" class="form-control-label">{{
+                      $t("signUp--gender")
+                    }}</label>
                     <div class="form-group">
                       <select
                         required
@@ -549,9 +565,15 @@ const handleSubmit = async () => {
                           'is-invalid': gender === 'Gender' && genderError,
                         }"
                       >
-                        <option disabled hidden>Gender</option>
-                        <option value="1">Male</option>
-                        <option value="2">Female</option>
+                        <option disabled hidden>
+                          {{ $t("signUp--genderLabel") }}
+                        </option>
+                        <option value="1">
+                          {{ $t("signUp--genderMale") }}
+                        </option>
+                        <option value="2">
+                          {{ $t("signUp--genderFemale") }}
+                        </option>
                       </select>
                       <p
                         v-if="gender === 'Gender'"
@@ -562,9 +584,9 @@ const handleSubmit = async () => {
                     </div>
                     <!-- 전화번호 입력 필드 -->
                     <div class="col-md-12">
-                      <label for="name" class="form-control-label"
-                        >Your phone number</label
-                      >
+                      <label for="name" class="form-control-label">{{
+                        $t("signUp--phone")
+                      }}</label>
                       <PhoneInput
                         v-model="phoneNumber"
                         :error="phoneNumberError"
@@ -585,7 +607,7 @@ const handleSubmit = async () => {
                         variant="gradient"
                         class="my-4 mb-2"
                         type="submit"
-                        >Continue</argon-button
+                        >{{ $t("signUp--button-submit") }}</argon-button
                       >
                     </div>
                   </div>
