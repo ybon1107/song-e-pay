@@ -218,9 +218,9 @@ const user = computed(() => auth.user);
 
 
 const Id = computed(() => auth.userId);
-import { CURRENCY_NAMES } from "@/constants/countryCode";
+import { CURRENCY_NAME } from "@/constants/countryCode";
 const countryCode = user.value.countryCode;
-const customerunit = ref(CURRENCY_NAMES[user.value.countryCode]);
+const customerunit = ref(CURRENCY_NAME[user.value.countryCode]);
 
 import SecondPasswordModal from "@/views/MyAccounts/SecondPasswordModal.vue";
 
