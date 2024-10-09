@@ -88,9 +88,16 @@ public class ExchangeReservationServiceImpl implements ExchangeReservationServic
         return mapper.countAutoexchange(map);
     }
 
+    // 모든 알림 내역 가지고 오기
+    @Override
+    public List<ExchangeReservationDTO> getAllExchangeReservation() {
+        return mapper.selectAllReservation();
+    }
+
+    // 모든 자동 환전 내역 가지고오기
     @Override
     public List<ExchangeReservationDTO> getAllAutoExchange() {
-        return mapper.selectAll();
+        return mapper.selectAllAutoExchange();
     }
 }
 
