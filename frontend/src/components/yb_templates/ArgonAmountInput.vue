@@ -1,5 +1,5 @@
 <template>
-  <div class="form-group">
+  <div class="form-group mb-0">
     <div :class="['input-group', hasIcon(icon)]">
       <span v-if="iconDir === 'left'" class="input-group-text">
         <i :class="getIcon(icon)"></i>
@@ -8,7 +8,7 @@
         :id="id"
         :type="type"
         class="form-control"
-        :class="getClasses(size, success, error)"
+        :class="{ 'is-invalid': errorMessage }"
         :name="name"
         :value="formattedValue"
         :placeholder="placeholder"
@@ -20,8 +20,13 @@
         <i :class="getIcon(icon)"></i>
       </span>
       <span class="input-group-text">{{ unit }}</span>
+      <div class="invalid-feedback text-xs mb-1">
+        <!-- errorAmountMessage가 빈 문자열일 때, 공백을 출력 -->
+        <span v-if="errorMessage">{{ errorMessage }}</span>
+        <span v-else>test</span>
+      </div>
     </div>
-    <p v-if="errorMessage" class="error">{{ errorMessage }}</p>
+
     <!-- 에러 메시지 표시 -->
   </div>
 </template>
@@ -93,15 +98,15 @@ const props = defineProps({
     default: 0,
   },
   activeTab: {
-    type: String,
-    default: '',
+    type: Number,
+    default: 0,
   },
 });
 
 const emit = defineEmits(['update:modelValue']);
 // Helper function to get the current balance based on the selected asset
 const getBalance = () => {
-  return props.selectedAsset === 'Won-E Money' ? props.wonEMoneyBalance : props.songEMoneyBalance;
+  return props.selectedAsset === 'won-e' ? props.wonEMoneyBalance : props.songEMoneyBalance;
 };
 const formatNumber = (num) => {
   return num.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
@@ -109,11 +114,11 @@ const formatNumber = (num) => {
 
 const formattedValue = computed({
   get() {
-    let val = props.modelValue.replace(/[^\d]/g, ''); // 숫자만 추출
+    let val = props.modelValue.replace(/[^\d.]/g, ''); // 숫자만 추출
     return val ? formatNumber(val) : ''; // 천 단위 콤마와 "원" 추가
   },
   set(newValue) {
-    const rawValue = newValue.replace(/[^\d]/g, ''); // 숫자만 추출
+    const rawValue = newValue.replace(/[^\d.]/g, ''); // 숫자만 추출
     emit('update:modelValue', rawValue); // 부모 컴포넌트로 숫자만 전송
   },
 });
@@ -122,19 +127,18 @@ const errorMessage = ref('');
 
 // input 이벤트 핸들러
 const onInput = (event) => {
-  event.target.value = event.target.value.replace(/[^\d]/g, '');
-  let rawValue = event.target.value.replace(/[^\d]/g, ''); // 숫자만 추출
+  event.target.value = event.target.value.replace(/[^\d.]/g, '');
+  let rawValue = event.target.value.replace(/[^\d.]/g, ''); // 숫자만 추출
 
   if (rawValue.startsWith('0')) {
     errorMessage.value = '0이 아닌 값을 입력하세요';
     rawValue = ''; // input 필드 값을 빈 문자열로 초기화
     event.target.value = ''; // 실제 입력 필드의 값도 초기화
   } else if (
-    (Number(rawValue) > getBalance() && props.activeTab == 'exchange') ||
-    (Number(rawValue) > getBalance() && props.activeTab == 'withdraw') ||
-    (Number(rawValue) > getBalance() && props.activeTab == 'transfer') ||
-    (Number(rawValue) > getBalance() && props.activeTab == 'refund') ||
-    (Number(rawValue) > getBalance() && props.activeTab == 'reExchange')
+    (Number(rawValue) > getBalance() && props.activeTab == 2) ||
+    (Number(rawValue) > getBalance() && props.activeTab == 4) ||
+    (Number(rawValue) > getBalance() && props.activeTab == 5) ||
+    (Number(rawValue) > getBalance() && props.activeTab == 6)
   ) {
     // If the input value exceeds the balance, show error and prevent further input
     errorMessage.value = '잔액을 초과합니다';
@@ -171,7 +175,8 @@ const hasIcon = (icon) => (icon ? 'input-group' : null);
 input {
   padding: 8px;
   font-size: 16px;
-  width: calc(100% - 50px); /* "원"을 포함한 레이아웃 고려 */
+  width: calc(100% - 50px);
+  /* "원"을 포함한 레이아웃 고려 */
   box-sizing: border-box;
 }
 
@@ -180,11 +185,5 @@ input {
   background-color: #e9ecef;
   border: 1px solid #ced4da;
   border-radius: 0.375rem;
-}
-
-.error {
-  color: red;
-  font-size: 14px;
-  margin-top: 4px;
 }
 </style>

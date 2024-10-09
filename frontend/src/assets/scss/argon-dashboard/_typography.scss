@@ -223,6 +223,9 @@ p {
   &.text-dark {
     background-image: $text-gradient-bg-dark;
   }
+  &.text-brown {
+    background-image: $text-brown;
+  }
 }
 
 .blockquote {

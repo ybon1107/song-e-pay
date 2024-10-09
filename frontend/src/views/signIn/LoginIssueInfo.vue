@@ -4,6 +4,7 @@ import { useStore } from "vuex";
 import { useRouter } from "vue-router";
 import ArgonButton from "@/components/templates/ArgonButton.vue";
 import Accordion from "@/components/signIn/Accordion.vue";
+import { useI18n } from "vue-i18n";
 
 const body = document.getElementsByTagName("body")[0];
 const store = useStore();
@@ -24,41 +25,37 @@ onBeforeUnmount(() => {
   body.classList.add("bg-gray-100");
 });
 
+const { t } = useI18n();
+
 const accordionItems = ref([
   {
-    title: "I've forgotten my password",
-    content:
-      "If you've forgotten your password, you can reset it by clicking the 'Forgot password?' link on the login page.",
+    title: t("SignIn--LoginIssueInfo--ForgotMyPassword-title"),
+    content: t("SignIn--LoginIssueInfo--ForgotMyPassword-content"),
     expanded: false,
   },
   {
-    title: "2-step verification isn't working",
-    content:
-      "If you can't remember the email address you used to sign up, please contact our support team.",
+    title: t("SignIn--LoginIssueInfo--2stepNotworking-title"),
+    content: t("SignIn--LoginIssueInfo--2stepNotworking-content"),
     expanded: false,
   },
   {
-    title: "I need to change my phone number",
-    content:
-      "If you're not receiving the SMS code, please check that you've entered the correct phone number. If you're still having trouble, please contact our support team.",
+    title: t("SignIn--LoginIssueInfo--changePhoneNumber-title"),
+    content: t("SignIn--LoginIssueInfo--changePhoneNumber-content"),
     expanded: false,
   },
   {
-    title: "I need to change my email",
-    content:
-      "If you're not receiving the email code, please check your spam folder. If you're still having trouble, please contact our support team.",
+    title: t("SignIn--LoginIssueInfo--changeMyEmail-title"),
+    content: t("SignIn--LoginIssueInfo--changeMyEmail-content"),
     expanded: false,
   },
   {
-    title: "Logging in with a new device",
-    content:
-      "If you're logging in from a new device, you may be asked to verify your identity. Please check your email or SMS for a verification code. If you don't receive a code, please contact our support team.",
+    title: t("SignIn--LoginIssueInfo--newDevice-title"),
+    content: t("SignIn--LoginIssueInfo--newDevice-content"),
     expanded: false,
   },
   {
-    title: "My account was deactivated",
-    content:
-      "If your account was deactivated, please contact our support team for assistance.",
+    title: t("SignIn--LoginIssueInfo--wasDeactivated-title"),
+    content: t("SignIn--LoginIssueInfo--wasDeactivated-content"),
     expanded: false,
   },
 ]);
@@ -77,17 +74,21 @@ const goBack = () => {
           <div class="row justify-content-center">
             <!-- 로그인 폼을 담고 있는 카드 컨테이너 -->
             <div
-              class="mx-auto col-xl-4 col-lg-5 col-md-7 col-sm-9 d-flex flex-column mx-lg-0"
+              class="mx-auto col-xl-6 col-lg-7 col-md-8 col-sm-8 d-flex flex-column mx-lg-0"
             >
               <div class="card card-plain">
                 <!-- 카드 헤더: 제목 -->
                 <div class="card-header text-center">
-                  <h4 class="font-weight-bolder">Trouble Logging in</h4>
+                  <h4 class="font-weight-bolder">
+                    {{ $t("SignIn--LoginIssueInfo--header-title") }}
+                  </h4>
                 </div>
                 <!-- 카드 본문 -->
                 <div class="card-body">
                   <div class="px-3">
-                    <strong>Select an issue</strong>
+                    <strong>{{
+                      $t("SignIn--LoginIssueInfo--body-selectIssue")
+                    }}</strong>
                     <hr />
                   </div>
                   <!-- 아코디언 컴포넌트 -->

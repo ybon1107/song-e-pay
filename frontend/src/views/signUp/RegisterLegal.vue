@@ -47,7 +47,7 @@ watch(agreeAll, (newAgreeAll) => {
 // 다음 버튼 클릭 핸들러
 const handleNext = () => {
   if (agreeTerms.value && agreePrivacy.value) {
-    router.push("/register/email");
+    router.push("/register/detail");
   } else {
     console.log("Please agree to the required terms.");
   }
@@ -74,21 +74,36 @@ const privacy =
               <div class="card card-plain">
                 <!-- 카드 헤더: 제목 -->
                 <div class="pb-0 card-header text-center">
-                  <h4 class="font-weight-bolder">Our agreements with you</h4>
+                  <h4 class="font-weight-bolder">
+                    {{ $t("signUp--Title-agreements") }}
+                  </h4>
+                </div>
+                <!-- 카드 푸터: 로그인 링크 -->
+                <div class="py-0 text-center card-footer">
+                  <p class="mx-auto text-sm">
+                    {{ $t("signUp--loginPrompt") }}
+                    <router-link
+                      to="/register/legal"
+                      class="text-success text-gradient font-weight-bold"
+                      >{{ $t("common--text-login") }}</router-link
+                    >
+                  </p>
                 </div>
                 <!-- 카드 본문: 이용 약관 동의 폼 -->
                 <div class="card-body">
                   <form role="form">
                     <!-- 전체 동의 체크박스 -->
                     <argon-checkbox v-model="agreeAll" id="agreeAll"
-                      ><strong>Agree with all terms and conditions</strong>
+                      ><strong>{{ $t("signUp--agreeAllTermsLabel") }}</strong>
                     </argon-checkbox>
                     <!-- 이용약관 동의 -->
                     <div class="form-group">
                       <argon-checkbox v-model="agreeTerms" id="agreeTerms"
                         ><strong
-                          ><span class="text-success">[Required]</span> I agree
-                          the Terms of Service</strong
+                          ><span class="text-success"
+                            >[{{ $t("signUp--requireText") }}]</span
+                          >
+                          {{ $t("signUp--agreeTermsOfServiceLabel") }}</strong
                         ></argon-checkbox
                       >
                       <textarea
@@ -96,15 +111,17 @@ const privacy =
                         disabled
                         class="form-control bg-white"
                         rows="3"
-                        >{{ terms }}</textarea
-                      >
+                        v-model="terms"
+                      ></textarea>
                     </div>
                     <!-- 개인정보 보호정책 동의 -->
                     <div class="form-group">
                       <argon-checkbox v-model="agreePrivacy" id="agreePrivacy"
                         ><strong>
-                          <span class="text-success">[Required]</span> I agree
-                          the Privacy Policy</strong
+                          <span class="text-success"
+                            >[{{ $t("signUp--requireText") }}]</span
+                          >
+                          {{ $t("signUp--agreePrivacyPolicyLabel") }}</strong
                         ></argon-checkbox
                       >
                       <textarea
@@ -112,8 +129,8 @@ const privacy =
                         disabled
                         class="form-control bg-white"
                         rows="3"
-                        >{{ privacy }}</textarea
-                      >
+                        v-model="privacy"
+                      ></textarea>
                     </div>
                     <!-- 다음 버튼 -->
                     <div class="text-center">
@@ -124,7 +141,7 @@ const privacy =
                         variant="gradient"
                         class="my-4 mb-2"
                         @click="handleNext"
-                        >Next</argon-button
+                        >{{ $t("common--text-next") }}</argon-button
                       >
                     </div>
                   </form>

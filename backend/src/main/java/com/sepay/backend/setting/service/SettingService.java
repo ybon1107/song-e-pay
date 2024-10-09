@@ -4,21 +4,27 @@ import com.sepay.backend.user.dto.UserDTO;
 import org.springframework.web.multipart.MultipartFile;
 
 public interface SettingService {
-    UserDTO modifyUser(UserDTO user);
+    int modifyUser(UserDTO user);
 
-    int addAccount(String accountNo, Integer userNo);
+    int addAccount(String accountNo, String userId);
 
-    int cancelAccount(Integer userNo);
+    int cancelAccount(String userId);
 
-    int changePassword(String password, Integer userNo);
+    int changePassword(String newPw, String userId);
 
-    int modifySecondPassword(String secondPwd, Integer userNo);
+    String checkPassword(String userId);
+
+    int modifySecondPassword(String secondPwd, String userId);
+
+    boolean checkSecondPassword(String userId, String secondPwd);
 
     int deleteSonge(String songNo);
 
     int deleteKrw(String krwNo);
 
-    int deleteUser(Integer userNo);
+    int deleteUser(String userId);
 
-    String updateProfileImage(MultipartFile profileImg);
+    String updateProfileImage(String userId, MultipartFile profileImg);
+
+    String getProfileImage(String userId);
 }

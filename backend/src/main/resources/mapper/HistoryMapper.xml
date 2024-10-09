@@ -4,41 +4,67 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.sepay.backend.history.mapper.HistoryMapper">
-    <select id="getFilter" parameterType="SearchItem" resultType="HistoryDTO">
+    <select id="getFilter" resultType="HistoryDTO">
         SELECT *
         FROM history h
-        --         LEFT JOIN song_account sa ON h.song_no = sa.song_no
-        WHERE h.user_no = #{userNo}
-        <!-- 거래 유형 필터링 -->
-        <if test="typeCode != null and typeCode.size > 0">
+        WHERE h.user_id = #{searchItem.userId}
+        <if test="searchItem.typeCode != null and searchItem.typeCode.size() > 0">
+            AND h.type_code IN
+            <foreach item="item" collection="searchItem.typeCode" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+        <if test="searchItem.stateCode != null">
+            AND h.state_code = #{searchItem.stateCode}
+        </if>
+        <if test="searchItem.beginDate != null and searchItem.endDate != null">
+            <!-- 날짜만 비교 (DATE() 사용) -->
+            AND DATE(h.history_date) BETWEEN DATE(#{searchItem.beginDate}) AND DATE(#{searchItem.endDate})
+        </if>
+        <if test="searchItem.historyContent != null and searchItem.historyContent != ''">
+            AND h.history_content LIKE CONCAT('%', #{searchItem.historyContent}, '%')
+        </if>
+        <!-- ORDER BY 절을 동적으로 처리 -->
+        ORDER BY h.history_date ${searchItem.sortOrder}
+        LIMIT #{pageRequest.offset}, #{pageRequest.amount}
+    </select>
+
+
+    <select id="getTotalCountForFilter" parameterType="SearchItem" resultType="java.lang.Integer">
+        SELECT COUNT(*)
+        FROM history h
+        WHERE h.user_id = #{userId}
+        <if test="typeCode != null and typeCode.size() > 0">
             AND h.type_code IN
             <foreach item="item" collection="typeCode" open="(" separator="," close=")">
                 #{item}
             </foreach>
         </if>
-        <!-- 거래 상태 필터링 -->
         <if test="stateCode != null">
             AND h.state_code = #{stateCode}
         </if>
-        <!-- 날짜 범위 필터링 -->
         <if test="beginDate != null and endDate != null">
-            AND h.history_date BETWEEN #{beginDate} AND #{endDate}
+            AND DATE(h.history_date) BETWEEN DATE(#{beginDate}) AND DATE(#{endDate})
         </if>
-        <!-- 검색 쿼리 필터링 -->
         <if test="historyContent != null and historyContent != ''">
             AND h.history_content LIKE CONCAT('%', #{historyContent}, '%')
         </if>
-
-        ORDER BY h.history_date DESC
     </select>
 
-    <select id="selectAllHistories" resultType="HistoryDTO">
-        SELECT * FROM history ORDER BY history_date DESC
-    </select>
+
+    <!--    <select id="selectAllHistories" resultType="HistoryDTO">-->
+    <!--        SELECT * FROM history ORDER BY history_date DESC-->
+    <!--        limit #{offset}, #{amount}-->
+    <!--    </select>-->
+
+    <!--    <select id="getTotalCount" resultType="java.lang.Integer">-->
+    <!--        select count(*) from history-->
+    <!--    </select>-->
 
     <update id="updateMemo" parameterType="HistoryDTO">
         UPDATE history
         SET memo = #{memo}
         WHERE history_no = #{historyNo}
     </update>
+
 </mapper>

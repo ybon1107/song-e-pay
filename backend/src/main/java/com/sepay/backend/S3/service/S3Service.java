@@ -6,9 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import software.amazon.awssdk.core.sync.RequestBody;
 import software.amazon.awssdk.services.s3.S3Client;
-import software.amazon.awssdk.services.s3.model.ObjectCannedACL;
-import software.amazon.awssdk.services.s3.model.PutObjectRequest;
-import software.amazon.awssdk.services.s3.model.PutObjectResponse;
+import software.amazon.awssdk.services.s3.model.*;
 
 import java.util.UUID;
 
@@ -45,6 +43,23 @@ public class S3Service {
         return "profile/" + UUID.randomUUID()
                 .toString()
                 .concat(fileName.substring(fileName.lastIndexOf(".")));
+    }
+
+    public String deleteFile(String fileName) {
+        System.out.println("Delete profile file: " + fileName);
+        try {
+            DeleteObjectRequest deleteObjectRequest = DeleteObjectRequest.builder()
+                    .bucket(bucketName)
+                    .key(fileName)
+                    .build();
+
+            DeleteObjectResponse deleteObjectResponse = s3Client.deleteObject(deleteObjectRequest);
+
+            return String.format("File %s has been deleted successfully.", fileName);
+        } catch (Exception e) {
+            System.out.println("error: " + e.getMessage());
+            throw new RuntimeException("Failed to delete file from S3", e);
+        }
     }
 }
 

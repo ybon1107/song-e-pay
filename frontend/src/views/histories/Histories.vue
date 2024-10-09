@@ -1,301 +1,350 @@
 <script setup>
 import { ref, computed, onMounted } from 'vue';
-import Modal from './Modal.vue'; // 모달 창
-import axios from 'axios';
-import moment from 'moment'; // moment.js를 통해 unix timeStamp를 변환
+import moment from 'moment'; // moment.js로 Unix Timestamp를 변환
+import historyApi from '../../api/historiesApi.js'; // API 파일 import
+import HistoriesDetailModal from './HistoriesDetailModal.vue';
+import ArgonPagination from '@/components/templates/ArgonPagination.vue';
+import ArgonPaginationItem from '@/components/templates/ArgonPaginationItem.vue';
+import FilterModal from './FilterModal.vue'; // FilterModal.vue 가져오기
+import { CURRENCY_NAME } from '@/constants/countryCode';
+import { TRANSACTION_TYPES, TRANSACTION_TYPES_KEY, TRANSACTION_STATES_KEY } from '@/constants/transactionType';
 
-const selectedCurrency = ref('');
-const transactionType = ref('');
-const transactionStatus = ref('');
-const startDate = ref('');
-const endDate = ref('');
+// 유저 권한
+import { useAuthStore } from '@/stores/auth';
+const auth = useAuthStore();
+const user = computed(() => auth.user);
+
+// 필터 모달 가시성 상태 관리
+const isFilterModalVisible = ref(false);
 const searchQuery = ref('');
-//history filter 로직
-const getTransactionTypeCodes = (types) => {
-    const typeCodes = {
-        결제: 1,
-        송금: 2,
-        충전: 3,
-        환불: 4,
-        환전: 5,
-        환급: 6,
-    };
-    return types
-        .map((type) => typeCodes[type])
-        .filter((code) => code !== undefined);
+// 실제 필터가 저장될 변수 (확인 버튼 누르면 적용됨)
+
+const songCurrencyUnit = CURRENCY_NAME[user.value.countryCode];
+const i18n_PERIOD = [
+    "histories--filters-period-today",
+    "histories--filters-period-oneMonth",
+    "histories--filters-period-threeMonth",
+    "histories--filters-period-custom",
+];
+const i18n_TYPE = [
+    "histories--filters-type-all",
+    "histories--filters-type-wone",
+    "histories--filters-type-songe",
+];
+const i18n_SORT = [
+    "histories--filters-sort-newest",
+    "histories--filters-sort-oldest",
+];
+
+const songTransactionType = [TRANSACTION_TYPES.DEPOSIT, TRANSACTION_TYPES.REFUND, TRANSACTION_TYPES.EXCHANGE, TRANSACTION_TYPES.AUTO_EXCHANGE];
+const wonTransactionType = [TRANSACTION_TYPES.PAYMENT, TRANSACTION_TYPES.TRANSFER, TRANSACTION_TYPES.RE_EXCHANGE];
+
+const filters = ref({
+    selectedPeriod: i18n_PERIOD[2],
+    selectedType: i18n_TYPE[0],
+    selectedSort: i18n_SORT[0],
+    startDate: '',
+    endDate: '',
+    historyContent: '',
+});
+
+// 모달을 열고 닫는 함수
+const toggleFilterModal = () => {
+    isFilterModalVisible.value = !isFilterModalVisible.value;
 };
-const applyFilters = () => {
-    let typeCodesToSend = [];
-    // 거래 유형이 선택되었는지 확인
-    if (transactionType.value) {
-        // 선택된 거래 유형을 코드로 변환하여 배열로 생성
-        typeCodesToSend = getTransactionTypeCodes([transactionType.value]);
+
+// 필터된 거래 내역 가져오기
+const applyTransactionFilters = async (resetPage = false) => {
+    if (resetPage) {
+        pageRequest.value.page = 1;
+    }
+
+    // 검색어를 필터에 반영
+    filters.value.historyContent = searchQuery.value;
+
+    // 정렬 조건 변환
+    let sortOrder = 'DESC'; // 기본값을 최신순으로 설정 (내림차순)
+    if (filters.value.selectedSort === i18n_SORT[1]) {
+        sortOrder = 'ASC'; // 과거순일 경우 오름차순으로 설정
+    }
+
+    // 날짜 처리 로직
+    let startDate = null;
+    let endDate = moment().format('YYYY-MM-DD'); // 기본적으로 오늘로 설정
+
+    // 필터에서 선택한 기간에 따라 시작일과 종료일 설정
+    if (filters.value.selectedPeriod === i18n_PERIOD[0]) {
+        startDate = endDate; // 오늘이 시작일과 종료일 모두가 됨
+    } else if (filters.value.selectedPeriod === i18n_PERIOD[1]) {
+        startDate = moment().subtract(1, 'months').startOf('day').toISOString();
+        endDate = moment().endOf('day').toISOString(); // 23:59:59로 설정
+    } else if (filters.value.selectedPeriod === i18n_PERIOD[2]) {
+        startDate = moment().subtract(3, 'months').startOf('day').toISOString();
+        endDate = moment().endOf('day').toISOString(); // 23:59:59로 설정
+    } else if (filters.value.selectedPeriod === i18n_PERIOD[3]) {
+        startDate = filters.value.startDate;
+        endDate = filters.value.endDate
+            ? moment(filters.value.endDate).endOf('day').toISOString()
+            : null; // 직접 설정된 날짜의 23:59:59로 설정
     } else {
-        // 거래 유형이 선택되지 않았으면 계좌 종류에 따라 기본 typeCode 배열 설정
-        if (selectedCurrency.value === 'KoreaAccount') {
-            typeCodesToSend = [1, 2, 5, 6]; // 원화 머니 계좌일 때의 거래 유형 코드
-        } else if (selectedCurrency.value === 'ForeignAccount') {
-            typeCodesToSend = [3, 4, 5, 6]; // 외화 머니 계좌일 때의 거래 유형 코드
+        console.log('직접 설정 기간이 누락되었습니다.');
+    }
+    // 선택된 유형에 따라 거래 유형 코드를 설정
+    let typeCodesToSend = [];
+    if (filters.value.selectedType === i18n_TYPE[1]) {
+        typeCodesToSend = wonTransactionType; // 원화 계좌
+    } else if (filters.value.selectedType === i18n_TYPE[2]) {
+        typeCodesToSend = songTransactionType; // 송이 계좌
+    } else {
+        typeCodesToSend = null;
+    }
+    const filterOptions = {
+        // userNo: 1, // 나중에 바꿀것
+        userId: "test@gmail.com", // 로그인 구현시 바꿔줄것 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        typeCode: typeCodesToSend,
+        beginDate: startDate, // 이 부분이 null이 아닌 올바른 날짜로 설정되어야 함
+        endDate: endDate, // 이 부분도 마찬가지로 제대로 설정되어야 함
+        sortOrder: sortOrder, // ASC 또는 DESC 전송
+        historyContent: filters.value.historyContent || '', // 검색어 추가
+    };
+
+    try {
+        const response = await historyApi.applyFilters(
+            filterOptions,
+            pageRequest.value
+        );
+        if (response && Array.isArray(response.list)) {
+            totalItems.value = response.totalCount;
+            // 정렬 기준에 따라 데이터를 정렬
+            transactions.value = response.list.map((transaction) => ({
+                ...transaction,
+                historyDate: formatUnixTimestamp(transaction.historyDate),
+                i18nType: TRANSACTION_TYPES_KEY[transaction.typeCode],
+                i18nState: TRANSACTION_STATES_KEY[transaction.stateCode]
+                // typeCode: convertTransactionType(transaction.typeCode),
+                // stateCode: convertTransactionStatus(transaction.stateCode),
+            }));
         }
+    } catch (error) {
+        console.error('Error fetching filtered transactions:', error);
     }
-    axios
-        .post('/api/histories/filter', {
-            userNo: 1, // 사용자 번호 예시
-            krwNo: null,
-            songNo: null,
-            typeCode: typeCodesToSend.length > 0 ? typeCodesToSend : null, // typeCode 배열 전송
-            stateCode: getTransactionStateCode(transactionStatus.value) || null,
-            beginDate: startDate.value
-                ? new Date(startDate.value).toISOString()
-                : null, // ISO 형식으로 변환
-            endDate: endDate.value
-                ? new Date(endDate.value).toISOString()
-                : null, // ISO 형식으로 변환
-            historyContent: searchQuery.value || null,
-        })
-        .then((response) => {
-            transactions.value = response.data.map((transaction) => ({
-                ...transaction,
-                historyDate: formatUnixTimestamp(transaction.historyDate), // moment.js로 날짜 포맷팅
-                typeCode: convertTransactionType(transaction.typeCode),
-                stateCode: convertTransactionStatus(transaction.stateCode),
-            }));
-        })
-        .catch((error) => {
-            console.error('필터링된 거래 내역을 가져오는 중 오류 발생:', error);
-        });
 };
 
-const getTransactionStateCode = (status) => {
-    const stateCodes = {
-        완료: 1,
-        실패: 2,
-        취소: 3,
-        처리중: 4,
-    };
-    return stateCodes[status] || null;
+// 필터 적용 처리 함수 (applyFilters 이벤트 처리)
+const handleFilterApply = async (filters) => {
+    console.log('필터 적용됨:', filters);
+    filters.value = { ...filters }; // 전달받은 필터 데이터를 저장
+    isFilterModalVisible.value = false; // 모달 닫기
+
+    await applyTransactionFilters(true); // 필터 적용 후 거래 내역 필터링
 };
 
-// 페이지 로드 시 기본 거래 내역 가져오기
+// 거래 내역 관련 기본 코드
 const transactions = ref([]);
-onMounted(() => {
-    getTransactionList();
+const totalItems = ref(0);
+const pageRequest = ref({
+    page: 1,
+    amount: 10,
 });
 
-// 기본 거래 내역을 백엔드에서 가져오는 함수
-const getTransactionList = () => {
-    axios
-        .get('/api/histories/getList') // 기본 리스트를 GET 요청으로 가져옴
-        .then((response) => {
-            // 거래 코드와 상태 코드 변환 후 데이터 저장
-            transactions.value = response.data.map((transaction) => ({
-                ...transaction,
-                historyDate: formatUnixTimestamp(transaction.historyDate), // moment.js로 날짜 포맷팅
-                typeCode: convertTransactionType(transaction.typeCode),
-                stateCode: convertTransactionStatus(transaction.stateCode),
-            }));
-        })
-        .catch((error) => {
-            console.error('API 호출 중 오류 발생:', error);
+// 페이지 로드 시 거래 내역 가져오기
+onMounted(async () => {
+    await applyTransactionFilters();
+});
+
+// 메모 업데이트 처리 함수
+const handleMemoUpdate = (updatedMemo) => {
+    const transaction = transactions.value.find(
+        (item) => item.historyNo === updatedMemo.historyNo
+    );
+    if (transaction) {
+        transaction.memo = updatedMemo.memo;
+    }
+};
+
+// 페이지네이션 관련 함수
+const totalPages = computed(() =>
+    Math.ceil(totalItems.value / pageRequest.value.amount)
+);
+
+const goToPage = async (pageNum) => {
+    if (pageNum > 0 && pageNum <= totalPages.value) {
+        pageRequest.value.page = pageNum;
+        await applyTransactionFilters(false); // 항상 필터를 유지한 상태로 페이지 이동
+    }
+};
+
+const paginationItems = computed(() => {
+    const items = [];
+    const maxVisiblePages = 5;
+    const halfVisible = Math.floor(maxVisiblePages / 2);
+    let startPage = Math.max(pageRequest.value.page - halfVisible, 1);
+    let endPage = Math.min(startPage + maxVisiblePages - 1, totalPages.value);
+    if (endPage - startPage + 1 < maxVisiblePages) {
+        startPage = Math.max(endPage - maxVisiblePages + 1, 1);
+    }
+    for (let i = startPage; i <= endPage; i++) {
+        items.push({
+            label: i.toString(),
+            active: i === pageRequest.value.page,
+            disabled: false,
         });
-};
-
-// Unix Timestamp를 포맷팅하는 함수
-const formatUnixTimestamp = (unixTimestamp) => {
-    if (unixTimestamp) {
-        return moment(unixTimestamp).format('YYYY-MM-DD hh:mm');
     }
-    return '';
-};
-
-// 상태 코드 변환
-function convertTransactionStatus(code) {
-    const transactionStatuses = {
-        1: '성공',
-        2: '실패',
-        3: '취소',
-        4: '처리중',
-    };
-    return transactionStatuses[code] || '알 수 없는 상태';
-}
-
-// 거래 코드 변환
-function convertTransactionType(code) {
-    const transactionTypes = {
-        1: '결제',
-        2: '송금',
-        3: '충전',
-        4: '환불',
-        5: '환전',
-        6: '환급',
-    };
-    return transactionTypes[code] || '알 수 없는 거래 유형';
-}
-
-// 거래 유형 옵션 (계좌 종류에 따라 다르게 설정)
-const transactionTypes = computed(() => {
-    if (selectedCurrency.value === 'KoreaAccount') {
-        return ['송금', '환전', '환급', '결제']; // 한국 계좌 거래 유형
-    } else if (selectedCurrency.value === 'ForeignAccount') {
-        return ['충전', '환전', '환급', '환불']; // 외화 계좌 거래 유형
-    }
-    return ['충전', '환전', '환급', '결제', '환불', '송금']; // 전체 선택 시 빈 배열
+    return items;
 });
 
-// 선택된 거래 내역 상태 관리
-const selectedTransaction = ref(null);
-const isModalVisible = ref(false);
-
-// 메모 업데이트 기능
-const updateMemo = (newMemo) => {
-    if (selectedTransaction.value) {
-        // 기존 객체를 복사하고 memo만 수정
-        selectedTransaction.value = {
-            ...selectedTransaction.value,
-            memo: newMemo,
-        };
-    }
+// Unix Timestamp 포맷팅 함수
+const formatUnixTimestamp = (unixTimestamp) => {
+    return unixTimestamp ? moment(unixTimestamp).format('YYYY-MM-DD') : '';
 };
 
-// 거래 내역을 클릭하면 모달을 열고 해당 거래를 선택
+// 모달 관련 상태 관리
+const isModalVisible = ref(false);
+const selectedTransaction = ref(null);
+
 const openModal = (transaction) => {
     selectedTransaction.value = transaction;
     isModalVisible.value = true;
 };
 
-// 모달을 닫는 함수
 const closeModal = () => {
     isModalVisible.value = false;
 };
 
-// 날짜 선택 창 열기
-const openDatePicker = (event) => {
-    event.target.showPicker();
-};
-
-// 메모 업데이트 처리 함수
-const MemoUpdate = ({ historyNo, memo }) => {
-    const index = transactions.value.findIndex(
-        (t) => t.historyNo === historyNo
-    );
-    if (index !== -1) {
-        transactions.value[index].memo = memo; // 업데이트된 메모 반영
+const getBadgeClass = (typeCode) => {
+    const baseClasses = 'badge rounded-pill';
+    if (
+        [
+            TRANSACTION_TYPES.DEPOSIT,
+        ].includes(typeCode)
+    ) {
+        return `${baseClasses} bg-primary`;
+    } else if (
+        [
+            TRANSACTION_TYPES.REFUND,
+            TRANSACTION_TYPES.RE_EXCHANGE,
+        ].includes(typeCode)
+    ) {
+        return `${baseClasses} bg-danger`;
+    } else if (
+        [
+            TRANSACTION_TYPES.PAYMENT,
+            TRANSACTION_TYPES.TRANSFER,
+        ].includes(typeCode)
+    ) {
+        return `${baseClasses} bg-success`;
     }
+    return `${baseClasses} bg-secondary`;
 };
 </script>
 
 <template>
     <div class="container-fluid">
-        <h3>이용 내역</h3>
-        <div class="card p-5 mt-3">
-            <div class="mb-3">
-                <!-- 첫 번째 줄: 계좌 종류와 상세 내용 검색 -->
-
-                <div class="row">
-                    <div class="col-md-3 mb-3">
-                        <label for="account-kind">계좌 종류</label>
-                        <select id="account-kind" v-model="selectedCurrency" class="form-select">
-                            <option value="">전체 내역</option>
-                            <option value="KoreaAccount">원화 머니 계좌</option>
-                            <option value="ForeignAccount">
-                                외화 머니 계좌
-                            </option>
-                        </select>
-                    </div>
-                    <div class="col-md-3 mb-3">
-                        <label for="transType">거래 유형</label>
-                        <select id="transType" v-model="transactionType" class="form-select">
-                            <option value="">모두</option>
-                            <option v-for="type in transactionTypes" :key="type" :value="type">
-                                {{ type }}
-                            </option>
-                        </select>
-                    </div>
-                    <div class="col-md-3 mb-3">
-                        <label for="transactionStatus">거래 상태</label>
-                        <select id="transactionStatus" v-model="transactionStatus" class="form-select">
-                            <option value="">모두</option>
-                            <option value="완료">완료</option>
-                            <option value="취소">취소</option>
-                            <option value="처리중">처리중</option>
-                            <option value="진행 중">진행 중</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-3 mb-3">
-                        <label for="startDate">시작 날짜</label>
-                        <input id="startDate" type="date" v-model="startDate" @click="openDatePicker"
-                            class="form-control" />
-                    </div>
-                    <div class="col-md-3 mb-3">
-                        <label for="endDate">끝 날짜</label>
-                        <input id="endDate" type="date" v-model="endDate" :min="startDate" @click="openDatePicker"
-                            class="form-control" />
-                    </div>
-                    <div class="col-md-4 d-flex align-items-end mb-3">
-                        <input type="text" class="form-control" placeholder="상세 내용 검색" v-model="searchQuery"
-                            @keyup.enter="applyFilters" />
-                    </div>
-                    <div class="col-md-2 d-flex align-items-end mb-3">
-                        <button @click="applyFilters" class="btn btn-success mb-0">Apply</button>
-                    </div>
-                </div>
+        <h3>{{ $t('histories--transactionHistory') }}</h3>
+        <!-- 검색 필터와 정렬 드롭다운을 포함한 상단 -->
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <div class="input-group" style="width: 60%">
+                <span class="input-group-text">
+                    <i class="fas fa-search"></i>
+                </span>
+                <input type="text" class="form-control" :placeholder="$t('histories--searchQuery')"
+                    v-model="searchQuery" @keyup.enter="applyTransactionFilters(true)" />
             </div>
-
-            <div class="table-responsive">
-                <table class="table table-bordered align-middle">
+            <button class="btn btn-outline-secondary btn-sm mt-2 mt-md-0" type="button" @click="toggleFilterModal"
+                style="padding: 4px 8px; font-size: 0.875rem">
+                {{ $t(filters.selectedPeriod) }} · {{ $t(filters.selectedType) }} · {{ $t(filters.selectedSort) }}
+                <i class="fas fa-chevron-down"></i>
+            </button>
+        </div>
+        <!-- 테이블 부분 -->
+        <div class="card p-5">
+            <div class="table-responsive p-0">
+                <table class="table align-items-center">
                     <thead>
                         <tr>
-                            <th style="width: 20%">날짜/시간</th>
-                            <th style="width: 10%">거래 유형</th>
-                            <th style="width: 40%">거래 상세</th>
-                            <th style="width: 20%">거래 금액</th>
-                            <th style="width: 10%">거래 상태</th>
+                            <th style="width: 40%" class="text-secondary text-xxs font-weight-bolder opacity-7">{{
+                                $t('histories--header-transactionDetail') }}</th>
+                            <th style="width: 30%"
+                                class="text-secondary text-xxs font-weight-bolder opacity-7 text-center">{{
+                                    $t('histories--header-transactionType') }}</th>
+                            <th style="width: 20%" class="text-secondary text-xxs font-weight-bolder opacity-7">{{
+                                $t('histories--header-transactionAmount') }}</th>
+                            <th style="width: 10%" class="text-secondary text-xxs font-weight-bolder opacity-7">{{
+                                $t('histories--header-dateTime') }}</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr v-for="transaction in transactions" :key="transaction.historyNo"
                             @click="openModal(transaction)" style="cursor: pointer">
-                            <td>{{ transaction.historyDate }}</td>
-                            <td>{{ transaction.typeCode }}</td>
-                            <td>{{ transaction.historyContent }}</td>
-                            <!-- <td :style="{ color: transaction.amountColor }"></td> -->
-                            <td>{{ transaction.amount }}</td>
-                            <td>{{ transaction.stateCode }}</td>
+                            <td>
+                                {{ $t(transaction.historyContent) }}
+                            </td>
+                            <td class="text-center">
+                                <span :class="getBadgeClass(transaction?.typeCode)">{{
+                                    $t(transaction.i18nType)
+                                }}</span>
+                                <!-- <span
+                                    v-if="[TRANSACTION_TYPES.DEPOSIT, TRANSACTION_TYPES.EXCHANGE, TRANSACTION_TYPES.REFUND].includes(transaction.typeCode)"
+                                    class="badge badge-sm bg-gradient-success">
+                                    {{ $t(transaction.i18nType) }}
+                                </span>
+                                <span
+                                    v-else-if="[TRANSACTION_TYPES.RE_EXCHANGE, TRANSACTION_TYPES.TRANSFER, TRANSACTION_TYPES.PAYMENT].includes(transaction.typeCode)"
+                                    class="badge badge-sm bg-gradient-secondary">
+                                    {{ $t(transaction.i18nType) }}
+                                </span> -->
+                            </td>
+                            <td>
+                                {{ transaction.amount.toLocaleString() }}
+                                <span v-if="songTransactionType.includes(transaction.typeCode)">
+                                    {{ songCurrencyUnit }}
+                                </span>
+                                <span v-else-if="wonTransactionType.includes(transaction.typeCode)">
+                                    KRW
+                                </span>
+                            </td>
+                            <td>
+                                {{ transaction.historyDate }}
+                            </td>
                         </tr>
                     </tbody>
                 </table>
             </div>
 
-            <!-- 모달 컴포넌트  -->
-            <Modal :transaction="selectedTransaction" :isVisible="isModalVisible" @close="closeModal"
-                @updateMemo="MemoUpdate" />
+            <!-- 페이지네이션 컨트롤 -->
+            <div class="d-flex justify-content-center">
+                <argon-pagination class="mb-0" :color="'secondary'">
+                    <argon-pagination-item prev @click="goToPage(pageRequest.page - 1)"
+                        :disabled="pageRequest.page === 1" />
+                    <argon-pagination-item v-for="item in paginationItems" :key="item.label" :label="item.label"
+                        :active="item.active" :disabled="item.disabled" @click="goToPage(parseInt(item.label))" />
+                    <argon-pagination-item next @click="goToPage(pageRequest.page + 1)"
+                        :disabled="pageRequest.page === totalPages" />
+                </argon-pagination>
+            </div>
         </div>
-    </div>
+        <!-- 필터 모달 -->
+        <FilterModal :isVisible="isFilterModalVisible" :filters="filters" :periods="i18n_PERIOD" :types="i18n_TYPE"
+            :sorts="i18n_SORT" @closeModal="toggleFilterModal" @applyFilters="handleFilterApply" />
 
+        <!-- 이용내역 상세 모달 -->
+        <HistoriesDetailModal :transaction="selectedTransaction" :isVisible="isModalVisible"
+            :songTransactionType=songTransactionType :wonTransactionType=wonTransactionType
+            @updateMemo="handleMemoUpdate" @close="closeModal" />
+    </div>
 </template>
 
 <style scoped>
-button:hover {
-    background-color: #21af71;
-}
-
-thead {
+/* thead {
     background-color: #f4f4f4;
     text-align: center;
-}
+} */
 
-/* 반응형: 작은 화면에서는 필터를 세로로 배치 */
 @media (max-width: 767px) {
-    button {
-        width: 100%;
-    }
 
     th:nth-child(3),
     td:nth-child(3) {
         display: none;
-        /* 거래 상세를 숨김 */
     }
 }
 </style>

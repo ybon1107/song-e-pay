@@ -4,10 +4,71 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.sepay.backend.exchangereservation.mapper.ExchangeReservationMapper">
-    <select id="selectByUserNo" parameterType="int" resultType="exchangeReservationDTO">
-        select resNo, targetExchange, targetKrw, createAT
+
+    <!-- 알람 내역 저장 -->
+    <insert id="insertReservation" parameterType="exchangeReservationDTO">
+        insert into exchange_reservation(user_id, base_code, target_code, target_exchange)
+        values (#{userId}, #{baseCode}, #{targetCode}, #{targetExchange})
+    </insert>
+
+    <!-- 알람 내역 화면에 보여주기 -->
+    <select id="selectReservation" parameterType="int" resultType="exchangeReservationDTO">
+        select res_no, base_code, target_code, target_exchange
         from exchange_reservation
-        where user_no = #{userNo}
+        where user_id = #{userId} and target_krw = 0
+    </select>
+
+    <!-- 알람 내역 및 자동 환전 예약 삭제 -->
+    <delete id="deleteReservation">
+        DELETE from exchange_reservation
+        where res_no = #{resNo}
+    </delete>
+
+    <!-- 알람 내역 갯수 -->
+    <select id="countReservation" parameterType="map" resultType="Integer">
+        select count(*)
+        from exchange_reservation
+        where user_id = #{userId} and target_krw = #{targetKrw}
+    </select>
+
+    <!-- 자동 환전 예약 -->
+    <insert id="insertAutoexchange" parameterType="exchangeReservationDTO">
+        insert into exchange_reservation(user_id, base_code, target_code, target_exchange, target_krw)
+        values (#{userId}, #{baseCode}, #{targetCode}, #{targetExchange}, #{targetKrw})
+    </insert>
+
+    <!-- 자동 환전 예약 화면에 보여주기 -->
+    <select id="selectAutoexchange" parameterType="int" resultType="exchangeReservationDTO">
+        select res_no, base_code, target_code, target_exchange, target_krw
+        from exchange_reservation
+        where user_id = #{userId} and target_krw != 0
+    </select>
+
+    <!-- 자동 환전 예약 갯수 -->
+    <select id="countAutoexchange" parameterType="map" resultType="Integer">
+        select count(*)
+        from exchange_reservation
+        where user_id = #{userId} and target_krw != #{targetKrw}
+    </select>
+
+    <!-- 자동 환전 완료한 후 삭제 -->
+    <delete id="deleteAutoExchange">
+        DELETE from exchange_reservation
+        where res_no = #{resNo}
+    </delete>
+
+    <!-- 모든 알림 내역 가지고 오기-->
+    <select id="selectAllReservation" resultType="exchangeReservationDTO">
+        select res_no, base_code, target_code, target_exchange
+        from exchange_reservation
+        where target_krw = 0
+    </select>
+
+    <!-- 모든 자동 환전 내역 가지고 오기-->
+    <select id="selectAllAutoExchange" resultType="exchangeReservationDTO">
+        select res_no, base_code, target_code, target_exchange, target_krw
+        from exchange_reservation
+        where target_krw != 0
     </select>
 
 </mapper>

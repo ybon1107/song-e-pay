@@ -1,15 +1,16 @@
 <script setup>
 import { ref, computed, onBeforeUnmount, onBeforeMount } from "vue";
 import { useStore } from "vuex";
-import { useSigninStore } from "@/stores/signinStore";
+import { useSignupStore } from "@/stores/signupStore";
 import ArgonAlert from "@/components/templates/ArgonAlert.vue";
 import ArgonButton from "@/components/templates/ArgonButton.vue";
+import ArgonInput from "@/components/templates/ArgonInput.vue";
 
 const body = document.getElementsByTagName("body")[0];
 const store = useStore();
-const signinStore = useSigninStore();
+const signupStore = useSignupStore();
 
-const email = computed(() => signinStore.email);
+const email = computed(() => signupStore.email);
 
 const isButtonEnabled = ref(false); // 버튼 활성화 상태
 // const timer = ref(60); // 1분 카운트다운
@@ -69,7 +70,7 @@ onBeforeUnmount(() => {
                   <!-- 인증 메일 안내 메시지 -->
                   <argon-alert color="info" icon="ni ni-send">
                     <span
-                      >Follow the link in the email we sent to
+                      >Check the verification code in the email we sent to
                       <strong class="text-dark">{{ email }}</strong
                       >.<br />
                       The email can take up to
@@ -77,6 +78,17 @@ onBeforeUnmount(() => {
                       arrive.</span
                     >
                   </argon-alert>
+                  <!-- 인증 코드 입력 -->
+                  <div class="mt-4">
+                    <label for="digitCode" class="form-label"
+                      >Verification code</label
+                    >
+                    <argon-input
+                      isRequired
+                      id="digitCode"
+                      type="text"
+                    ></argon-input>
+                  </div>
                   <!-- 인증 메일 재전송 버튼 -->
                   <div class="text-center">
                     <argon-button

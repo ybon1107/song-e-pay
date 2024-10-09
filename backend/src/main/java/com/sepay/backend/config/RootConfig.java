@@ -28,6 +28,9 @@ import javax.sql.DataSource;
         "com.sepay.backend.user.mapper",
         "com.sepay.backend.setting.mapper",
         "com.sepay.backend.payment.mapper",
+        "com.sepay.backend.exchange.mapper",
+        "com.sepay.backend.admin.mapper",
+        "com.sepay.backend.schedule.mapper",
 })
 @Slf4j
 @EnableTransactionManagement
@@ -67,5 +70,4 @@ public class RootConfig {
         DataSourceTransactionManager manager = new DataSourceTransactionManager(dataSource());
         return manager;
     }
-
 }

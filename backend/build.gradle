@@ -26,6 +26,9 @@ tasks.withType(JavaCompile) {
 }
 
 dependencies {
+
+    implementation 'commons-fileupload:commons-fileupload:1.4'
+
     // 스프링
     implementation ("org.springframework:spring-context:${springVersion}")
             { exclude group: 'commons-logging', module: 'commons-logging' }
@@ -34,6 +37,10 @@ dependencies {
 
     // AWS S3
     implementation 'software.amazon.awssdk:s3:2.16.82'
+
+    // Commons FileUpload 의존성
+    implementation group: 'commons-fileupload', name: 'commons-fileupload', version: '1.5'
+    implementation group: 'commons-io', name: 'commons-io', version: '2.17.0'
 
     // AOP
     implementation 'org.aspectj:aspectjrt:1.9.20'
@@ -91,6 +98,13 @@ dependencies {
     runtimeOnly("io.jsonwebtoken:jjwt-impl:0.11.5")
     implementation("io.jsonwebtoken:jjwt-jackson:0.11.5")
 
+    // google email smtp
+    implementation ("org.springframework:spring-context-support:${springVersion}")
+    implementation ("javax.mail:javax.mail-api:1.6.2")
+    implementation 'javax.activation:activation:1.1.1'
+    implementation ("com.sun.mail:javax.mail:1.6.2")
+
+
     // 테스트
     testImplementation "org.springframework:spring-test:${springVersion}"
     testCompileOnly"org.projectlombok:lombok:${lombokVersion}"
@@ -98,6 +112,9 @@ dependencies {
 
     testImplementation("org.junit.jupiter:junit-jupiter-api:${junitVersion}")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:${junitVersion}")
+
+    // sms 인증 처리
+    implementation 'net.nurigo:sdk:4.3.0'
 }
 
 test {
