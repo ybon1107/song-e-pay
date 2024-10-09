@@ -28,8 +28,6 @@ public interface UserMapper {
     
     int checkEmail(String email);
 
-    String selectUserImg(String userid);
-
     // 자동환전에서 사용
     @Select("SELECT song_no, krw_no FROM user WHERE user_no = #{userNo}")
     Map<String, String> selectUserAccounts(Integer userNo);
