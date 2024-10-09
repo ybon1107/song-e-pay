@@ -16,7 +16,9 @@ export const useAuthStore = defineStore("auth", () => {
 
   const isLogin = computed(() => !!state.value.user.username);
 
+
   const userId = computed(() => state.value.user.userId);
+
 
   const user = computed(() => state.value.user);
 
@@ -33,6 +35,7 @@ export const useAuthStore = defineStore("auth", () => {
     console.log("password: ", member.value.password);
 
     try {
+
       const response = await axios.post("/api/auth/login", member.value);
       console.log("response : ", response);
       console.log("response.data : ", response.data);
@@ -111,6 +114,7 @@ export const useAuthStore = defineStore("auth", () => {
   // load(): 페이지가 로드될 때 localStorage에서 저장된 인증 정보를 불러와 state에 설정
 
   //   return { state, username, email, isLogin, changeProfile, login, logout, getToken };
+
   return {
     state,
     userId,

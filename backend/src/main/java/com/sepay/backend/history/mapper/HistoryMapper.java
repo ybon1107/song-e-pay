@@ -1,4 +1,3 @@
-
 package com.sepay.backend.history.mapper;
 
 
@@ -14,11 +13,13 @@ import java.util.List;
 public interface HistoryMapper {
     List<HistoryDTO> getFilter(@Param("searchItem") SearchItem searchItem, @Param("pageRequest") PageRequest pageRequest);
 
+//    List<HistoryDTO> getFilter(SearchItem searchItem, PageRequest pageRequest, String sortOrder);
+
     int getTotalCountForFilter(SearchItem searchItem);
 
-    List<HistoryDTO> selectAllHistories(PageRequest pageRequest);
+//    List<HistoryDTO> selectAllHistories(PageRequest pageRequest);
 
-    int getTotalCount();
+//    int getTotalCount();
 
 
     void updateMemo(HistoryDTO historyDTO);

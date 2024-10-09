@@ -57,30 +57,49 @@
         <!-- 아이콘 섹션 -->
         <div class="icon-item d-flex flex-wrap mt-3">
           <div class="icon-item col-md-3 d-flex align-items-center">
-            <svg width="50" height="50">
-              <circle cx="25" cy="25" r="20" fill="#1D0E03" />
-            </svg>
+            <div style="position: relative; width: 50px; height: 50px">
+              <!-- Rectangle -->
+              <svg width="50" height="50">
+                <rect x="5" y="5" width="40" height="40" rx="10" ry="10" fill="#1D0E03" />
+              </svg>
+
+              <!-- Icon -->
+              <i class="fa-solid fa-shield-halved" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 23px; color: #fff6ef"></i>
+            </div>
+
             <div class="ms-2">
-              <div style="font-size: 10px">Speed &</div>
-              <div style="font-size: 10px">Security</div>
+              <div style="font-size: 12px">Speed &</div>
+              <div style="font-size: 12px">Security</div>
             </div>
           </div>
           <div class="icon-item col-md-3 d-flex align-items-center">
-            <svg width="50" height="50">
-              <circle cx="25" cy="25" r="20" fill="#1D0E03" />
-            </svg>
+            <div style="position: relative; width: 50px; height: 50px">
+              <!-- Circle -->
+              <svg width="50" height="50">
+                <rect x="5" y="5" width="40" height="40" rx="10" ry="10" fill="#1D0E03" />
+              </svg>
+
+              <!-- Icon -->
+              <i class="fa-solid fa-hand-holding" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 23px; color: #fff6ef"></i>
+            </div>
             <div class="ms-2">
-              <div style="font-size: 10px">Conventional &</div>
-              <div style="font-size: 10px">Simple</div>
+              <div style="font-size: 12px">Convenient &</div>
+              <div style="font-size: 12px">Simple</div>
             </div>
           </div>
           <div class="icon-item col-md-3 d-flex align-items-center">
-            <svg width="50" height="50">
-              <circle cx="25" cy="25" r="20" fill="#1D0E03" />
-            </svg>
+            <div style="position: relative; width: 50px; height: 50px">
+              <!-- Circle -->
+              <svg width="50" height="50">
+                <rect x="5" y="5" width="40" height="40" rx="10" ry="10" fill="#1D0E03" />
+              </svg>
+
+              <!-- Icon -->
+              <i class="fa-solid fa-earth-americas" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 23px; color: #fff6ef"></i>
+            </div>
             <div class="ms-2">
-              <div style="font-size: 10px">Global &</div>
-              <div style="font-size: 10px">Local</div>
+              <div style="font-size: 12px">Global &</div>
+              <div style="font-size: 12px">Local</div>
             </div>
           </div>
         </div>
@@ -137,7 +156,7 @@
   <div class="section-container-beige">
     <!-- 실시간 환율 조회 섹션 -->
 
-    <div class="d-flex flex-wrap mb-3 justify-content-center">
+    <div class="d-flex flex-wrap mb-3">
       <!-- What We Offer 섹션 -->
       <div class="mt-2 col-md-12">
         <h2 class="font_2 mb-4">Song-E Pay는!</h2>
@@ -147,7 +166,7 @@
           변동을 놓치지 않고, 원하는 환율에 맞춰 최적의 환전을 경험해보세요.
         </p>
       </div>
-      <div class="p-4 flex-fill-column">
+      <div class="flex-fill-column me-4">
         <div class="image-container">
           <img
             class="flex_item_image"
@@ -163,7 +182,7 @@
           </p>
         </div>
       </div>
-      <div class="p-4 flex-fill-column">
+      <div class="flex-fill-column mx-4">
         <div class="image-container">
           <img
             class="flex_item_image"
@@ -179,7 +198,7 @@
           </p>
         </div>
       </div>
-      <div class="p-4 flex-fill-column">
+      <div class="flex-fill-column mx-4">
         <div class="image-container">
           <img
             class="flex_item_image"
@@ -195,7 +214,7 @@
           </p>
         </div>
       </div>
-      <div class="p-4 flex-fill-column">
+      <div class="flex-fill-column mx-4">
         <div class="image-container">
           <img
             class="flex_item_image"
@@ -320,10 +339,10 @@ onBeforeMount(() => {
 </script>
 <style scoped>
 .flex-fill-column {
-  flex-basis: 3%;
+  flex-basis: 18%;
 }
 .section-container-beige {
-  background-color: #fff6ef;
+  background: linear-gradient(to bottom, #f8f9fa, #fff6ef);
   padding-top: 8rem;
   padding-left: 13rem;
   padding-right: 8rem;
@@ -380,7 +399,7 @@ onBeforeMount(() => {
 @media (max-width: 768px) {
   /* Adjust the max-width value as needed for your breakpoint */
   .section-container-beige {
-    background-color: #fff6ef;
+    background: linear-gradient(to bottom, #f8f9fa, #fff6ef);
     padding-top: 5rem;
     padding-left: 5rem;
     padding-right: 5rem;

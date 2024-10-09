@@ -12,4 +12,4 @@ export default {
         const img = (await api.get(`/profile-img/${userId}`)).data;
         return img;
       },
-}
+};
