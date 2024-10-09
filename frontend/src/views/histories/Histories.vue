@@ -99,7 +99,8 @@ const applyTransactionFilters = async (resetPage = false) => {
         typeCodesToSend = null;
     }
     const filterOptions = {
-        userNo: 1, // 로그인 구현시 바꿔줄것 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        // userNo: 1, // 나중에 바꿀것
+        userId: "test@gmail.com", // 로그인 구현시 바꿔줄것 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         typeCode: typeCodesToSend,
         beginDate: startDate, // 이 부분이 null이 아닌 올바른 날짜로 설정되어야 함
         endDate: endDate, // 이 부분도 마찬가지로 제대로 설정되어야 함
