@@ -14,6 +14,7 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 public class SearchItem {
+    String userId;
     Integer userNo;
     String songNo;
     String krwNo;
@@ -22,4 +23,18 @@ public class SearchItem {
     Integer stateCode;
     Date beginDate;
     Date endDate;
+    int page;
+    int amount;
+
+    private String sortOrder;  // 정렬 기준 필드 추가
+    // 기타 필드들
+
+    // Getters and Setters
+    public String getSortOrder() {
+        return sortOrder;
+    }
+
+    public void setSortOrder(String sortOrder) {
+        this.sortOrder = sortOrder;
+    }
 }

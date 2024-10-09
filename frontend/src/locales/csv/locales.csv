@@ -46,23 +46,21 @@ myAccount--wonE-afterTransferBalance,송금 후 잔액,Balance after remittance,
 myAccount--wonE-currentExchangeRate,현재 환율,Current exchange rate,Nilai tukar saat ini,Tỷ giá hiện tại
 myAccount--wonE-refundSendingAmount,보내는 금액,Amount of money sent,Jumlah uang yang dikirim,Số tiền gửi
 myAccount--wonE-refundReceivedAmount,받는 금액,Amount received,Jumlah yang diterima,Số tiền nhận
+myAccount--input-placeholder,할 금액을 입력하세요.,Please enter the amount,Silakan masukkan jumlahnya,Vui lòng nhập số tiền
+myAccount--header-exchangeRate,실시간 환율 ,Real-time exchange rates,Nilai tukar waktu nyata,Tỷ giá hối đoái theo thời gian thực
+myAccount--nav-songE-vacate,비우기,vacate,mengosongkan,dọn đi
+myAccount--nav-songE-fill,채우기,fill,mengisi,điền vào
+myAccount--header-autoExchange,자동환전 및 알람,Automatic currency exchange and alert,Penukaran dan peringatan mata uang otomatis,Trao đổi tiền tệ tự động và cảnh báo
+myAccount--songE-title,SONG-E,SONG-E,SONG-E,SONG-E
+myAccount--wonE-title,WON-E,WON-E,WON-E,WON-E
+myAccount--swal-title,성공,success,kesuksesan,thành công
+myAccount--swal-content,{kwd}이 완료되었습니다.,{kwd} has been completed,{kwd} telah selesai,{kwd} chuyển tiền đã hoàn tất
 myAccount--SecondPassword--modal-header-title,잠깐 !!!!,Wait a minute!!!!,Tunggu sebentar!!!!,Chờ một chút!!!!
 myAccount--SecondPassword--modal-warning,사칭사기에 주의하세요.,Be careful of impostor fraud.,Hati-hati dengan penipuan,Cẩn thận với lừa đảo giả mạo
 myAccount--SecondPassword--modal-passwordTitle,결제 비밀번호,Payment password,Kata sandi pembayaran,Mật khẩu thanh toán
 transaction_types_payment,결제,payment,Pembayaran,Thanh toán
-transaction_types_transfser,송금,transfer,Transfer,Chuyển khoản
+transaction_types_transfer,송금,transfer,Transfer,Chuyển khoản
 transaction_types_deposit,충전,deposit,Setoran,Nạp tiền
 transaction_types_refund,환불,refund,Pengembalian,Hoàn tiền
 transaction_types_exchange,환전,exchange,penukaran uang,sự đổi tiền
 transaction_types_reExchange,환급,re-exchange,Tukar ulang,Đổi lại
-exchangeRate--header-title,환율 정보,Exchange Rate Information,Bandingkan Nilai Tukar,So sánh tỷ giá
-exchangeRate--button-buy,구매,Buy,Beli,Mua
-exchangeRate--button-sell,판매,Sell,Jual,Bán
-exchangeRate--notification-setAlert,환율 알람 설정,Exchange Rate Alert Settings,Pengaturan Pemberitahuan Nilai Tukar,Cài đặt cảnh báo tỷ giá hối đoái
-exchangeRate--header-autoExchange,자동 환전 설정,Automatic Currency Exchange Settings,Pengaturan Penukaran Mata Uang Otomatis,Cài đặt đổi tiền tự động
-exchangeRate--header-CurrencyExchange,환전,Currency Exchange,Penukaran Mata Uang,Đổi tiền
-exchangeRate--placeholder-targetRate,목표 환율을 입력하세요.,Please enter the target exchange rate.,Silakan masukkan nilai tukar yang ditargetkan.,Vui lòng nhập tỷ giá hối đoái mục tiêu.
-exchangeRate--button-confirmAlert,설정하기,Set,Atur,Cài đặt
-exchangeRate--text-targetKRW,환전 금액,Exchange Amount,Jumlah Penukaran,Số tiền đổi
-exchangeRate--placeholder-targetAmount,자동 환전할 금액을 입력하세요.,Please enter the amount to exchange automatically.,Masukkan jumlah yang akan dikonversi secara otomatis.,Vui lòng nhập số tiền cần chuyển đổi tự động.
-exchangeRate--limited,1000원 이상 입력,Enter an amount greater than 1,000 KRW.,Nhập số tiền lớn hơn 1,000 KRW.,Masukkan jumlah yang lebih besar dari 1,000 KRW.

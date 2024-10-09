@@ -16,21 +16,11 @@
               <h4 class="mt-3">
                 1 {{ customerunit }} = {{ currentToKrw.toFixed(2) }} KRW
               </h4>
-              <ExchangeRateChart
-                chartId="toexchangeChart"
-                :period="toSelectedPeriod"
-                chartType="to"
-              />
+              <ExchangeRateChart chartId="toexchangeChart" :period="toSelectedPeriod" chartType="to" />
               <div class="chart-button-container">
-                <template
-                  v-for="period in ['1y', '6m', '3m', '1m']"
-                  :key="period"
-                >
-                  <button
-                    class="chart-btn"
-                    :class="{ selected: toSelectedPeriod === period }"
-                    @click="setToPeriod(period)"
-                  >
+                <template v-for="period in ['1y', '6m', '3m', '1m']" :key="period">
+                  <button class="chart-btn" :class="{ selected: toSelectedPeriod === period }"
+                    @click="setToPeriod(period)">
                     {{ period }}
                   </button>
                 </template>
@@ -75,16 +65,9 @@
                   <h5>{{ $t("exchangeRate--notification-setAlert") }}</h5>
                   <p>{{ $t("exchangeRate--placeholder-targetRate") }}</p>
                 </div>
-                <div
-                  class="d-flex justify-content-between align-items-center gap-3"
-                >
+                <div class="d-flex justify-content-between align-items-center gap-3">
                   <span class="text-nowrap">1 {{ customerunit }} = </span>
-                  <input
-                    type="number"
-                    v-model="alertRateUsdToKrw"
-                    class="form-control"
-                    @input="validateAlertRate"
-                  />
+                  <input type="number" v-model="alertRateUsdToKrw" class="form-control" @input="validateAlertRate" />
                   <span>KRW</span>
                 </div>
                 <button
@@ -108,21 +91,11 @@
                 1000 KRW = {{ (currentFromKrw * 1000).toFixed(2) }}
                 {{ customerunit }}
               </h4>
-              <ExchangeRateChart
-                chartId="fromexchangeChart"
-                :period="fromSelectedPeriod"
-                chartType="from"
-              />
+              <ExchangeRateChart chartId="fromexchangeChart" :period="fromSelectedPeriod" chartType="from" />
               <div class="chart-button-container">
-                <template
-                  v-for="period in ['1y', '6m', '3m', '1m']"
-                  :key="period"
-                >
-                  <button
-                    class="chart-btn"
-                    :class="{ selected: fromSelectedPeriod === period }"
-                    @click="setFromPeriod(period)"
-                  >
+                <template v-for="period in ['1y', '6m', '3m', '1m']" :key="period">
+                  <button class="chart-btn" :class="{ selected: fromSelectedPeriod === period }"
+                    @click="setFromPeriod(period)">
                     {{ period }}
                   </button>
                 </template>
@@ -151,10 +124,7 @@
                     aria-label="Amount in USD"
                   /><span class="mt-2">{{ customerunit }}</span>
                 </div>
-                <button
-                  class="btn btn-danger w-100"
-                  @click="openModal('reExchange')"
-                >
+                <button class="btn btn-danger w-100" @click="openModal('reExchange')">
                   Sell
                 </button>
               </div>
@@ -165,16 +135,10 @@
                   <h5>{{ $t("exchangeRate--notification-setAlert") }}</h5>
                   <p>{{ $t("exchangeRate--placeholder-targetRate") }}</p>
                 </div>
-                <div
-                  class="d-flex justify-content-between align-items-center gap-3"
-                >
+                <div class="d-flex justify-content-between align-items-center gap-3">
                   <span class="text-nowrap">1000 KRW = </span>
-                  <input
-                    type="number"
-                    v-model="alertRateKrwToUsd"
-                    class="form-control"
-                    @input="validateAlertRateReverse"
-                  />
+                  <input type="number" v-model="alertRateKrwToUsd" class="form-control"
+                    @input="validateAlertRateReverse" />
                   <span>{{ customerunit }}</span>
                 </div>
                 <button
@@ -252,9 +216,11 @@ import { useAuthStore } from "@/stores/auth";
 const auth = useAuthStore();
 const user = computed(() => auth.user);
 
+
 const Id = computed(() => auth.userId);
 import { CURRENCY_NAMES } from "@/constants/countryCode";
 const customerunit = ref(CURRENCY_NAMES[user.value.countryCode]);
+
 import SecondPasswordModal from "@/views/MyAccounts/SecondPasswordModal.vue";
 
 // Data variables

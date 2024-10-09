@@ -190,13 +190,17 @@ import { useStore } from "vuex";
 import { useExchangeStore } from "@/stores/exchangeStore";
 
 import { useAuthStore } from "@/stores/auth";
+
 import userApi from "@/api/userApi";
 import axios from "axios";
+
 
 const auth = useAuthStore();
 const exchangeStore = useExchangeStore();
 
+
 const userImg = ref("");
+
 
 const isLogin = computed(() => auth.isLogin);
 const userId = computed(() => auth.userId);
@@ -227,8 +231,6 @@ const closeMenu = () => {
     showMenu.value = false;
   }, 100);
 };
-const noLoginImg =
-  "https://song-e-pay.s3.ap-northeast-2.amazonaws.com/profile/noLogin.png";
 
 const usdToKrwUrl = `https://v6.exchangerate-api.com/v6/${import.meta.env.VITE_EXCHANGE_RATE_API_KEY}/pair/USD/KRW`;
 const krwToUsdUrl = `https://v6.exchangerate-api.com/v6/${import.meta.env.VITE_EXCHANGE_RATE_API_KEY}/pair/KRW/USD`;
@@ -249,64 +251,42 @@ const fetchExchangeRates = async () => {
       krwToUsdResponse.json(),
     ]);
 
-    const currentToKrw = usdToKrwData.conversion_rate;
-    const currentFromKrw = krwToUsdData.conversion_rate;
-
-    exchangeStore.setCurrentToKrw(currentToKrw);
-    exchangeStore.setCurrentFromKrw(currentFromKrw);
+    exchangeStore.setCurrentToKrw(usdToKrwData.conversion_rate);
+    exchangeStore.setCurrentFromKrw(krwToUsdData.conversion_rate);
 
     console.log("환율 데이터가 성공적으로 로드되었습니다.");
-
-    // 백엔드로 환율 데이터 전송
-    await saveExchangeRates([
-      {
-        baseCode: 0, // USD 코드
-        targetCode: 1, // KRW 코드
-        exchangeRate: currentToKrw,
-      },
-      {
-        baseCode: 1, // KRW 코드
-        targetCode: 0, // USD 코드
-        exchangeRate: currentFromKrw,
-      },
-    ]);
+    return {
+      currentToKrw: usdToKrwData.conversion_rate,
+      currentFromKrw: krwToUsdData.conversion_rate,
+    };
   } catch (error) {
     console.error("Error fetching exchange rate data", error);
-  }
-};
-
-const saveExchangeRates = async (rates) => {
-  try {
-    const response = await axios.post("/api/exchange/rates", rates);
-    console.log("환율 데이터가 성공적으로 저장되었습니다:", response.data);
-  } catch (error) {
-    console.error(
-      "환율 데이터 저장 중 오류 발생:",
-      error.response ? error.response.data : error.message
-    );
   }
 };
 
 onMounted(async () => {
   fetchExchangeRates();
 
-  // 사용자 이미지 가져오기
-  try {
+    // 사용자 이미지 가져오기
+    try {
     userImg.value = await userApi.getUserImg(auth.userId);
     console.log("userImg : ", userImg.value);
   } catch (error) {
     console.error("사용자 이미지를 가져오는 데 실패했습니다:", error);
     // 기본 이미지 URL을 설정하거나 다른 오류 처리를 수행할 수 있습니다.
-    userImg.value = "/path/to/default/image.jpg";
+    userImg.value = '/path/to/default/image.jpg';
   }
+
 });
 </script>
 
 <style>
 .img-div {
-  width: 20px;
-  height: 20px;
+  width: 36px;
+  height: 36px;
   position: relative;
+  overflow: hidden;
+  border-radius: 50%;
 }
 
 .user-profile-img {
