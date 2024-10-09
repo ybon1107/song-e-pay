@@ -30,6 +30,7 @@
         <mapper resource="mapper/UserDetailsMapper.xml"/>
         <mapper resource="mapper/ExchangeMapper.xml"/>
         <mapper resource="mapper/UserDetailsMapper.xml"/>
+        <mapper resource="mapper/ScheduleMapper.xml"/>
     </mappers>
 
 </configuration>
