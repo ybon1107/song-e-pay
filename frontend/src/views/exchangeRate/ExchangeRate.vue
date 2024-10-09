@@ -50,7 +50,7 @@
                   <input type="number" v-model="alertRateUsdToKrw" class="form-control" @input="validateAlertRate" />
                   <span>KRW</span>
                 </div>
-                <button class="btn btn-primary w-100" @click="saveAlertRate(1, 0, alertRateUsdToKrw)">
+                <button class="btn btn-primary w-100" @click="saveAlertRate(countryCode, 0, alertRateUsdToKrw)">
                   {{ $t("exchangeRate--button-confirmAlert") }}
                 </button>
               </div>
@@ -106,7 +106,7 @@
                     @input="validateAlertRateReverse" />
                   <span>{{ customerunit }}</span>
                 </div>
-                <button @click="saveAlertRate(0, 1, alertRateKrwToUsd)" class="btn btn-primary w-100">
+                <button @click="saveAlertRate(0, countryCode, alertRateKrwToUsd)" class="btn btn-primary w-100">
                   {{ $t("exchangeRate--button-confirmAlert") }}
                 </button>
               </div>
@@ -137,7 +137,8 @@
                 <span class="input-group-text">KRW</span>
               </div>
 
-              <button class="btn btn-primary w-100 mb-0" @click="confirmAutoExchange(1, 0, targetExchange, targetKrw)">
+              <button class="btn btn-primary w-100 mb-0"
+                @click="confirmAutoExchange(countryCode, 0, targetExchange, targetKrw)">
                 {{ $t("exchangeRate--button-confirmAlert") }}
               </button>
             </div>
@@ -163,10 +164,14 @@ import { useAuthStore } from "@/stores/auth";
 const auth = useAuthStore();
 const user = computed(() => auth.user);
 
+
 const Id = computed(() => auth.userId);
-import { CURRENCY_NAME } from "@/constants/countryCode";
-const customerunit = ref(CURRENCY_NAME[user.value.countryCode]);
+import { CURRENCY_NAMES } from "@/constants/countryCode";
+const countryCode = user.value.countryCode;
+const customerunit = ref(CURRENCY_NAMES[user.value.countryCode]);
+
 import SecondPasswordModal from "@/views/MyAccounts/SecondPasswordModal.vue";
+
 
 // Data variables
 const usdAmount = ref(1);
@@ -238,7 +243,7 @@ const setFromPeriod = (period) => {
 // 환전 함수
 const handleExchange = async () => {
   try {
-    const userId = "test@gamil.com"; // 실제 사용자 번호로 대체해야 합니다
+    const userId = Id; // 실제 사용자 번호로 대체해야 합니다
     const krwNo = "1234"; // 실제 KRW 계좌 번호로 대체해야 합니다
     const songNo = "1234"; // 실제 송이 페이 계좌 번호로 대체해야 합니다
     const exchangeRate = currentToKrw.value;

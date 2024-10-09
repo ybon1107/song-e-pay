@@ -14,9 +14,9 @@ const router = useRouter();
 const auth = useAuthStore();
 
 const member = ref({
-  username: "",
-  password: "",
-});
+    username: "",
+    password: "",
+  },);
 
 const error = ref("");
 
@@ -172,9 +172,7 @@ const handleSubmit = async () => {
                         size="lg"
                         v-model="username"
                         :class="{ 'is-invalid': emailError }"
-                        :error="
-                          (username !== '' || emailError) && !isEmailValid
-                        "
+                        :error="(username !== '' || emailError) && !isEmailValid"
                         errorText="Please provide a valid email."
                       />
                     </div>

@@ -139,9 +139,7 @@
       </div>
       <div class="flex-fill-column me-4">
         <div class="image-container">
-          <img class="flex_item_image" style="border: 2px solid; border-radius: 2cap"
-            src="https://static.wixstatic.com/media/c837a6_07cdd24cb9e84acdb41d8c3568867354~mv2.jpg/v1/fill/w_284,h_376,al_c,q_80,usm_0.66_1.00_0.01,enc_auto/Artboard%2048%20copy%204_5x-100.jpg"
-            alt="실시간 환율 조회" />
+          <img class="flex_item_image" src="../../../public/images/image1.png" alt="실시간 환율 조회" />
         </div>
         <div class="text-container">
           <h5 class="font_5 pt-3 pb-2 pl-0 pr-0">실시간 환율 조회</h5>
@@ -153,9 +151,7 @@
       </div>
       <div class="flex-fill-column mx-4">
         <div class="image-container">
-          <img class="flex_item_image" style="border: 2px solid; border-radius: 2cap"
-            src="https://static.wixstatic.com/media/c837a6_ef6bbe6808334282ab6c74203e782f28~mv2.jpg/v1/fill/w_284,h_374,al_c,q_80,usm_0.66_1.00_0.01,enc_auto/Artboard%2048%20copy%207_5x-100.jpg"
-            alt="자동 환전 서비스" />
+          <img class="flex_item_image" src="../../../public/images/image2.png" alt="자동 환전 서비스" />
         </div>
         <div class="text-container">
           <h5 class="font_5 pt-3 pb-2 pl-0 pr-0">자동 환전 서비스</h5>
@@ -167,9 +163,7 @@
       </div>
       <div class="flex-fill-column mx-4">
         <div class="image-container">
-          <img class="flex_item_image" style="border: 2px solid; border-radius: 2cap"
-            src="https://static.wixstatic.com/media/c837a6_070e2f97109e4b4ba2e079e8f7f18f4f~mv2.jpg/v1/fill/w_284,h_374,al_c,q_80,usm_0.66_1.00_0.01,enc_auto/Artboard%2048%20copy%205_5x-100.jpg"
-            alt="환율 알림 서비스" />
+          <img class="flex_item_image" src="../../../public/images/image3.png" alt="환율 알림 서비스" />
         </div>
         <div class="text-container">
           <h5 class="font_5 pt-3 pb-2 pl-0 pr-0">환율 알림 서비스</h5>
@@ -181,9 +175,7 @@
       </div>
       <div class="flex-fill-column mx-4">
         <div class="image-container">
-          <img class="flex_item_image" style="border: 2px solid; border-radius: 2cap"
-            src="https://static.wixstatic.com/media/c837a6_1f658b7b98b846d4865a783d52c8b43c~mv2.jpg/v1/fill/w_284,h_374,al_c,q_80,usm_0.66_1.00_0.01,enc_auto/Artboard%2048%20copy%206_5x-100.jpg"
-            alt="No 수수료! 자유로운 환전" />
+          <img class="flex_item_image" src="../../../public/images/image4.png" alt="No 수수료! 자유로운 환전" />
         </div>
         <div class="text-container">
           <h5 class="font_5 pt-3 pb-2 pl-0 pr-0">No 수수료! 자유로운 환전</h5>
@@ -226,7 +218,7 @@
     </div>
   </section>
   <!-- 곡선 -->
-  <div class="curve-container" style="background-color: #f8f9fa">
+  <div class="curve-container" style="background-color: #fff6ef">
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320" class="curve">
       <path fill="#B0AB99" fill-opacity="1"
         d="M0,320L48,288C96,256,192,192,288,165.3C384,139,480,149,576,176C672,203,768,245,864,256C960,267,1056,245,1152,218.7C1248,192,1344,160,1392,144L1440,128L1440,0L1392,0C1344,0,1248,0,1152,0C1056,0,960,0,864,0C768,0,672,0,576,0C480,0,384,0,288,0C192,0,96,0,48,0L0,0Z">
@@ -249,8 +241,13 @@
         </p>
       </div>
     </div>
+  </section>
+  <!-- 다섯 번째 섹션 -->
+  <section class="section-container-beige">
     <div class="lastpage d-flex justify-content-between align-items-center flex-column mb-3">
-      <h2 class="title text-center">Prepare for Your Trip to Korea With Our SongEpay</h2>
+      <h2 class="title text-center">
+        Prepare for Your Trip to Korea With Our SongEpay
+      </h2>
       <br />
       <a href="/home" class="btn">get started</a>
       <br />

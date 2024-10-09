@@ -14,6 +14,7 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 public class SearchItem {
+    String userId;
     Integer userNo;
     String songNo;
     String krwNo;

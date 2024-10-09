@@ -29,5 +29,10 @@ public interface ExchangeReservationMapper {
     // 자동 환전 예약 카운트
     int countAutoexchange(Map map);
 
-    List<ExchangeReservationDTO> selectAll();
+    // 모든 알림 내역 가지고 오기
+    List<ExchangeReservationDTO> selectAllReservation();
+
+    // 모든 환전 내역 가지고 오기
+    List<ExchangeReservationDTO> selectAllAutoExchange();
+
 }

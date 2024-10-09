@@ -1,4 +1,3 @@
-
 package com.sepay.backend.common.pagination;
 
 import lombok.AccessLevel;
@@ -24,4 +23,3 @@ public class PageRequest {
         return Math.max(page * amount, 0); // offset이 음수가 되지 않도록
     }
 }
-

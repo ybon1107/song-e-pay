@@ -4,13 +4,27 @@
       <span v-if="iconDir === 'left'" class="input-group-text">
         <i :class="getIcon(icon)"></i>
       </span>
-      <input :id="id" :type="type" class="form-control" :class="{ 'is-invalid': errorMessage }" :name="name"
-        :value="formattedValue" :placeholder="placeholder" :unit="unit" :required="isRequired" @input="onInput" />
+      <input
+        :id="id"
+        :type="type"
+        class="form-control"
+        :class="{ 'is-invalid': errorMessage }"
+        :name="name"
+        :value="formattedValue"
+        :placeholder="placeholder"
+        :unit="unit"
+        :required="isRequired"
+        @input="onInput"
+      />
       <span v-if="iconDir === 'right'" class="input-group-text">
         <i :class="getIcon(icon)"></i>
       </span>
       <span class="input-group-text">{{ unit }}</span>
-      <div v-if="errorMessage" class="invalid-feedback text-xs mb-1">{{ errorMessage }}</div>
+      <div class="invalid-feedback text-xs mb-1">
+        <!-- errorAmountMessage가 빈 문자열일 때, 공백을 출력 -->
+        <span v-if="errorMessage">{{ errorMessage }}</span>
+        <span v-else>test</span>
+      </div>
     </div>
 
     <!-- 에러 메시지 표시 -->
@@ -100,11 +114,11 @@ const formatNumber = (num) => {
 
 const formattedValue = computed({
   get() {
-    let val = props.modelValue.replace(/[^\d]/g, ''); // 숫자만 추출
+    let val = props.modelValue.replace(/[^\d.]/g, ''); // 숫자만 추출
     return val ? formatNumber(val) : ''; // 천 단위 콤마와 "원" 추가
   },
   set(newValue) {
-    const rawValue = newValue.replace(/[^\d]/g, ''); // 숫자만 추출
+    const rawValue = newValue.replace(/[^\d.]/g, ''); // 숫자만 추출
     emit('update:modelValue', rawValue); // 부모 컴포넌트로 숫자만 전송
   },
 });
@@ -113,8 +127,8 @@ const errorMessage = ref('');
 
 // input 이벤트 핸들러
 const onInput = (event) => {
-  event.target.value = event.target.value.replace(/[^\d]/g, '');
-  let rawValue = event.target.value.replace(/[^\d]/g, ''); // 숫자만 추출
+  event.target.value = event.target.value.replace(/[^\d.]/g, '');
+  let rawValue = event.target.value.replace(/[^\d.]/g, ''); // 숫자만 추출
 
   if (rawValue.startsWith('0')) {
     errorMessage.value = '0이 아닌 값을 입력하세요';

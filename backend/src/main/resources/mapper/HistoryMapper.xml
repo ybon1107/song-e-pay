@@ -7,7 +7,7 @@
     <select id="getFilter" resultType="HistoryDTO">
         SELECT *
         FROM history h
-        WHERE h.user_no = #{searchItem.userNo}
+        WHERE h.user_id = #{searchItem.userId}
         <if test="searchItem.typeCode != null and searchItem.typeCode.size() > 0">
             AND h.type_code IN
             <foreach item="item" collection="searchItem.typeCode" open="(" separator="," close=")">
@@ -33,7 +33,7 @@
     <select id="getTotalCountForFilter" parameterType="SearchItem" resultType="java.lang.Integer">
         SELECT COUNT(*)
         FROM history h
-        WHERE h.user_no = #{userNo}
+        WHERE h.user_id = #{userId}
         <if test="typeCode != null and typeCode.size() > 0">
             AND h.type_code IN
             <foreach item="item" collection="typeCode" open="(" separator="," close=")">

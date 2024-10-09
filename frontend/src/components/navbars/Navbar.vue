@@ -188,6 +188,7 @@ import { computed, ref, onMounted } from "vue";
 import { useStore } from "vuex";
 // import { useRoute } from "vue-router";
 import { useExchangeStore } from "@/stores/exchangeStore";
+import { CURRENCY_NAMES } from "@/constants/countryCode";
 
 import { useAuthStore } from "@/stores/auth";
 import userApi from "@/api/userApi";
@@ -201,6 +202,8 @@ const userImg = ref("");
 const isLogin = computed(() => auth.isLogin);
 const userId = computed(() => auth.userId);
 const user = computed(() => auth.user);
+const countryCode = user.value.countryCode;
+const countryName = CURRENCY_NAMES[countryCode];
 
 console.log("nav isLogin : ", isLogin);
 console.log("nav userId : ", userId);
@@ -227,11 +230,11 @@ const closeMenu = () => {
     showMenu.value = false;
   }, 100);
 };
-const noLoginImg =
-  "https://song-e-pay.s3.ap-northeast-2.amazonaws.com/profile/noLogin.png";
+// const noLoginImg =
+//   "https://song-e-pay.s3.ap-northeast-2.amazonaws.com/profile/noLogin.png";
 
-const usdToKrwUrl = `https://v6.exchangerate-api.com/v6/${import.meta.env.VITE_EXCHANGE_RATE_API_KEY}/pair/USD/KRW`;
-const krwToUsdUrl = `https://v6.exchangerate-api.com/v6/${import.meta.env.VITE_EXCHANGE_RATE_API_KEY}/pair/KRW/USD`;
+const usdToKrwUrl = `https://v6.exchangerate-api.com/v6/${import.meta.env.VITE_EXCHANGE_RATE_API_KEY}/pair/${countryName}/KRW`;
+const krwToUsdUrl = `https://v6.exchangerate-api.com/v6/${import.meta.env.VITE_EXCHANGE_RATE_API_KEY}/pair/KRW/${countryName}`;
 
 const fetchExchangeRates = async () => {
   try {
@@ -260,14 +263,14 @@ const fetchExchangeRates = async () => {
     // 백엔드로 환율 데이터 전송
     await saveExchangeRates([
       {
-        baseCode: 0, // USD 코드
-        targetCode: 1, // KRW 코드
+        baseCode: countryCode, // 외화 코드
+        targetCode: 0, // KRW 코드
         exchangeRate: currentToKrw,
       },
       {
-        baseCode: 1, // KRW 코드
-        targetCode: 0, // USD 코드
-        exchangeRate: currentFromKrw,
+        baseCode: 0, // KRW 코드
+        targetCode: countryCode, // 외와 코드
+        exchangeRate: currentFromKrw * 1000,
       },
     ]);
   } catch (error) {

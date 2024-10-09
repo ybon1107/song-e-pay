@@ -13,7 +13,7 @@ import java.util.Date;
 @Builder
 public class NotificationDTO {
     private Integer notiNo;
-    private Integer userNo;
+    private String userId;
     private Integer resveNo;
     private String notiContent;
     private Double exchangeRate;

@@ -112,23 +112,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .authorizeRequests()
                 .antMatchers(HttpMethod.OPTIONS).permitAll()
-                // 로그인 및 회원가입은 인증되지 않은 사람도 접근 가능해야 함
                 .antMatchers(HttpMethod.POST, "/api/users/login", "/api/register/**").permitAll()
-                // TODO: 인증 필요한 경로 추가
-
-//                .antMatchers(HttpMethod.POST, "/api/auth/login").authenticated()
-//                .antMatchers(HttpMethod.POST, "/api/my-accounts/**").authenticated()
-                .antMatchers(HttpMethod.POST, "/api/my-accounts/**").access("hasRole('ROLE_USER')")
-//                .antMatchers(HttpMethod.POST, "/api/exchange-reservation/**").authenticated()
-//                .antMatchers(HttpMethod.POST, "/api/histories/**").authenticated()
-//                .antMatchers(HttpMethod.POST, "/api/payment/**").authenticated()
-//                .antMatchers(HttpMethod.POST, "/api/setting/**").authenticated()
-
-
-                .anyRequest().authenticated();
-
-
-        ;
+                .anyRequest().permitAll(); // 모든 요청을 인증 없이 허용
 
         http
                 .cors().and() // CORS 설정

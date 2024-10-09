@@ -14,8 +14,6 @@ public interface ScheduleMapper {
     // 일정 업데이트
     int updateSchedule(ScheduleDTO scheduleDTO);
 
-    ScheduleDTO getScheduleById(Integer eventNo);
-
     int deleteSchedule(Integer eventNo);
 }
 

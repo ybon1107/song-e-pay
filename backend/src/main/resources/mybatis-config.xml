@@ -17,7 +17,6 @@
         <package name="com.sepay.backend.notification.dto"/>
         <package name="com.sepay.backend.security.account.domain"/>
         <package name="com.sepay.backend.exchange.dto"/>
-        <package name="com.sepay.backend.schedule.dto"/>
     </typeAliases>
 
     <mappers>
@@ -28,11 +27,11 @@
         <mapper resource="mapper/ExchangeReservationMapper.xml"/>
         <mapper resource="mapper/NotificationMapper.xml"/>
         <mapper resource="mapper/SettingMapper.xml"/>
-        <mapper resource="mapper/ScheduleMapper.xml"/>
         <mapper resource="mapper/UserDetailsMapper.xml"/>
         <mapper resource="mapper/ExchangeMapper.xml"/>
         <mapper resource="mapper/UserDetailsMapper.xml"/>
         <mapper resource="mapper/AdminMapper.xml"/>
+        <mapper resource="mapper/ScheduleMapper.xml"/>
 
     </mappers>
 
