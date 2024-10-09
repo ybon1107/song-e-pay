@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
 import java.util.Map;
 
 @Slf4j
@@ -18,13 +19,16 @@ import java.util.Map;
 public class AdminController {
     final AdminService adminService;
 
-    @GetMapping("/user/gender")
-    public void gender(){
-        try{
-            Map<String, Object> aa= adminService.getUserStatistics();
-            System.out.println(aa);
-        } catch (Exception e) {
-            log.error("Error analyze user: {}", e);
-        }
+    @GetMapping("/statistics")
+    public Map<String, Object> statistics(){
+        return adminService.getStatistics();
+//        try{
+//            Map<String, Object> aa= adminService.getUserStatistics();
+//            System.out.println(aa);
+//
+//        } catch (Exception e) {
+//            log.error("Error analyze user: {}", e);
+//        }
+//        return aa;
     }
 }
