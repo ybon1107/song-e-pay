@@ -93,7 +93,7 @@ const handleKeyPress = (event) => {
       <argon-input
         id="phoneNumber"
         type="tel"
-        placeholder="Phone number"
+        :placeholder="$t('signUp--phonePlaceholder')"
         aria-label="Phone number"
         v-model="internalPhoneNumber"
         :disabled="disabled"
