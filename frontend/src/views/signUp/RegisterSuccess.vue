@@ -45,13 +45,15 @@ const loginHandler = () => {
                 <!-- 카드 헤더: 제목 -->
                 <div class="pb-0 card-header text-center">
                   <img src="@/assets/img/check.png" width="150px" />
-                  <h2 class="font-weight-bolder">WELCOME ABOARD!</h2>
+                  <h2 class="font-weight-bolder">
+                    {{ $t("signUp--Title-success") }}
+                  </h2>
                 </div>
                 <!-- 카드 푸터 -->
                 <div class="pt-0 text-center card-footer">
                   <p class="mx-auto text-sm">
-                    Your account has been successfully created.<br />Now you can
-                    start using Song-E Pay!
+                    {{ $t("signUp--successText1") }}<br />
+                    {{ $t("signUp--successText2") }}
                   </p>
                 </div>
                 <!-- 카드 본문-->
@@ -63,7 +65,7 @@ const loginHandler = () => {
                       variant="gradient"
                       class="my-4 mb-2"
                       @click="loginHandler"
-                      >Login
+                      >{{ $t("common--text-login") }}
                     </argon-button>
                   </div>
                 </div>
