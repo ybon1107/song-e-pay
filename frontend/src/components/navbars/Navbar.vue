@@ -171,11 +171,11 @@
           </li>
           <!-- 프로필 -->
           <li class="nav-item d-flex align-items-center">
-              <a class="p-0 nav-link" href="/profile">
-                <div class="icon-div">
-                  <img :src="userImg" class="user-profile-img">
-                </div>
-              </a>
+            <a class="p-0 nav-link" href="/profile">
+              <div class="icon-div">
+                <img :src="userImg" class="user-profile-img" />
+              </div>
+            </a>
           </li>
         </ul>
       </div>
@@ -190,12 +190,17 @@ import { useStore } from "vuex";
 import { useExchangeStore } from "@/stores/exchangeStore";
 
 import { useAuthStore } from "@/stores/auth";
-import userApi from '@/api/userApi';
+
+import userApi from "@/api/userApi";
+import axios from "axios";
+
 
 const auth = useAuthStore();
 const exchangeStore = useExchangeStore();
 
-const userImg = ref(''); 
+
+const userImg = ref("");
+
 
 const isLogin = computed(() => auth.isLogin);
 const userId = computed(() => auth.userId);
@@ -271,6 +276,7 @@ onMounted(async () => {
     // 기본 이미지 URL을 설정하거나 다른 오류 처리를 수행할 수 있습니다.
     userImg.value = '/path/to/default/image.jpg';
   }
+
 });
 </script>
 

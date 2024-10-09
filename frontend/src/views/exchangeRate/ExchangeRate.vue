@@ -211,13 +211,16 @@ import axios from "axios";
 import myaccountApi from "../../api/myaccountApi";
 import { useRouter } from "vue-router";
 import Swal from "sweetalert2";
-
 import { useAuthStore } from "@/stores/auth";
+
 const auth = useAuthStore();
 const user = computed(() => auth.user);
 
-import { CURRENCY_NAME } from "@/constants/countryCode";
-const customerunit = ref(CURRENCY_NAME[user.value.countryCode]);
+
+const Id = computed(() => auth.userId);
+import { CURRENCY_NAMES } from "@/constants/countryCode";
+const customerunit = ref(CURRENCY_NAMES[user.value.countryCode]);
+
 import SecondPasswordModal from "@/views/MyAccounts/SecondPasswordModal.vue";
 
 // Data variables
@@ -290,7 +293,7 @@ const setFromPeriod = (period) => {
 // 환전 함수
 const handleExchange = async () => {
   try {
-    const userNo = "5"; // 실제 사용자 번호로 대체해야 합니다
+    const userId = "test@gamil.com"; // 실제 사용자 번호로 대체해야 합니다
     const krwNo = "1234"; // 실제 KRW 계좌 번호로 대체해야 합니다
     const songNo = "1234"; // 실제 송이 페이 계좌 번호로 대체해야 합니다
     const exchangeRate = currentToKrw.value;
@@ -306,7 +309,7 @@ const handleExchange = async () => {
         krwNo,
       },
       historyDTO: {
-        userNo,
+        userId,
         songNo,
         krwNo,
         typeCode: 5, // 환전 코드
@@ -340,7 +343,7 @@ const handleExchange = async () => {
 // 환급 함수
 const reExchange = async () => {
   try {
-    const userNo = "5"; // 실제 사용자 번호로 대체해야 합니다
+    const userId = Id; // 실제 사용자 번호로 대체해야 합니다
     const krwNo = "1234"; // 실제 KRW 계좌 번호로 대체해야 합니다
     const songNo = "1234"; // 실제 송이 페이 계좌 번호로 대체해야 합니다
     const exchangeRate = currentFromKrw.value * 1000; // 1000 KRW 기준
@@ -356,7 +359,7 @@ const reExchange = async () => {
         songNo,
       },
       historyDTO: {
-        userNo,
+        userId,
         songNo,
         krwNo,
         typeCode: 6, // 환급 코드
@@ -428,13 +431,13 @@ const saveAlertRate = async (baseCode, targetCode, targetExchange) => {
 
   try {
     // const token = localStorage.getItem("jwt_token"); // JWT 토큰 가져오기
-    const userNo = 1; // userNo를 추가(임시)
-    console.log(userNo, baseCode, targetCode, targetExchange);
+    const userId = Id; // userNo를 추가(임시)
+    console.log(userId, baseCode, targetCode, targetExchange);
     // 서버에 POST 요청 보내기
     const response = await axios.post(
       "/api/exchange-reservation",
       {
-        userNo: userNo,
+        userId: userId,
         baseCode: baseCode,
         targetCode: targetCode,
         targetExchange: targetExchange,
@@ -526,13 +529,13 @@ const confirmAutoExchange = async (
 
   try {
     // const token = localStorage.getItem("jwt_token"); // JWT 토큰 가져오기
-    const userNo = 1; // userNo를 추가(임시)
-    console.log(userNo, baseCode, targetCode, targetExchange, targetKrw);
+    const userId = Id; // userNo를 추가(임시)
+    console.log(userId, baseCode, targetCode, targetExchange, targetKrw);
     // 서버에 POST 요청 보내기
     const response = await axios.post(
       "/api/exchange-reservation/setalert",
       {
-        userNo: userNo,
+        userId: userId,
         baseCode: baseCode,
         targetCode: targetCode,
         targetExchange: targetExchange,
