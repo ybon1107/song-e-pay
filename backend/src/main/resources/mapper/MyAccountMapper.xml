@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.sepay.backend.myaccount.mapper.MyAccountMapper">
+
+    <!-- 계좌 잔액 확인 -->
+    <select id="selectAccountBalance" parameterType="string" resultType="double">
+        select balance
+        from account
+        where account_no = #{accountNo}
+        for update
+    </select>
+
+    <!-- 송이 계좌 잔액 확인 -->
+    <select id="selectSongBalance" parameterType="string" resultType="double">
+        select balance
+        from song_account
+        where song_no = #{songNo}
+        for update
+    </select>
+
+    <!-- 원화 계좌 잔액 확인 -->
+    <select id="selectKrwBalance" parameterType="string" resultType="double">
+        select balance
+        from krw_account
+        where krw_no = #{krwNo}
+        for update
+    </select>
+
+    <!--  회원 이메일 확인  -->
+    <select id="selectUserEmail" parameterType="string" resultType="string">
+        select user_id
+        from user
+        where user_id = #{userId}
+    </select>
+
+    <!-- 계좌 잔액 수정 -->
+    <update id="updateAccount" parameterType="accountDTO">
+        UPDATE account
+        SET balance = #{balance}
+        WHERE account_no = #{accountNo}
+    </update>
+
+    <!-- 송이 계좌 잔액 수정 -->
+    <update id="updateSongAccount" parameterType="songAccountDTO">
+        UPDATE song_account
+        SET balance = #{balance}
+        WHERE song_no = #{songNo}
+    </update>
+
+    <!-- 원화 잔액 수정 -->
+    <update id="updateKrwAccount" parameterType="krwAccountDTO">
+        UPDATE krw_account
+        SET balance = #{balance}
+        WHERE krw_no = #{krwNo}
+    </update>
+    <!-- 이용내역 추가-->
+    <insert id="insertHistory" parameterType="historyDTO">
+        INSERT INTO sepay.history
+        (user_no, song_no, krw_no, type_code, state_code, history_content, amount, exchange_rate)
+        VALUES
+            (#{userNo}, #{songNo}, #{krwNo}, #{typeCode}, #{stateCode}, #{historyContent}, #{amount}, #{exchangeRate})
+    </insert>
+    <!--  userNo에 따른 2차 비밀번호 조회  -->
+    <select id="selectSecondPwd" parameterType="integer" resultType="string">
+        select second_pwd
+        from user
+        where user_no = #{userNo}
+    </select>
+</mapper>

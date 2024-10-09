@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.sepay.backend.security.account.mapper.UserDetailsMapper">
+
+    <resultMap id="authMap" type="com.sepay.backend.security.account.domain.AuthVO">
+        <result property="username" column="user_id"/>
+        <result property="auth" column="auth"/>
+    </resultMap>
+
+    <resultMap id="userMap" type="com.sepay.backend.security.account.domain.UserVO">
+        <id property="userNo" column="user_no"/>
+        <result property="accountNo" column="account_no"/>
+        <result property="songNo" column="song_no"/>
+        <result property="krwNo" column="krw_no"/>
+        <result property="countryCode" column="country_code"/>
+        <result property="username" column="user_id"/>
+        <result property="password" column="password"/>
+        <result property="firstName" column="first_name"/>
+        <result property="lastName" column="last_name"/>
+        <result property="birthday" column="birthday"/>
+
+        <collection property="authList" resultMap="authMap"/>
+    </resultMap>
+
+    <select id="get" resultMap="userMap">
+        SELECT user_no, account_no, song_no, krw_no, country_code, u.user_id, password, first_name, last_name
+        FROM user u
+        LEFT OUTER JOIN user_auth ua ON u.user_id = ua.user_id
+        where u.user_id = #{userId}
+    </select>
+</mapper>
