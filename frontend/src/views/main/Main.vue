@@ -1,27 +1,49 @@
 <template>
-  <header class="p-3 bg-dark text-white">
+  <header class="p-3" style="background-color:#fff6ef; position: fixed; top: 0; left: 0; right: 0; z-index: 1000;">
     <div class="container">
       <div class="d-flex align-items-center justify-content-between">
         <a href="/" class="mb-2 mb-lg-0 text-white text-decoration-none">
           <!-- <img src="/favicon.png" alt="Song E Pay" class="logo-img d-none d-md-block"> -->
-          <img src="/favicon.png" alt="Song E Pay" class="logo-img d-block d-md-none" />
-          <!-- <h1 class="text-white"> Song E Pay</h1> -->
-          <h4 class="text-white d-none d-md-block mb-0">Song E Pay</h4>
+          <img
+            src="/favicon.png"
+            alt="Song E Pay"
+            class="logo-img d-block d-md-none"
+          />
+
+          <!-- <h4 class="text-white d-none d-md-block mb-0">Song E Pay</h4> -->
+          <h4 class="d-none d-md-block mb-0">
+          <img
+            class="ld-none d-md-block mb-0" 
+            src="../../../public/images/3D_SongE.png" 
+            alt="Illustration"
+            style="height: 40px; width: auto;" 
+          />
+        </h4>
           <!-- <svg class="bi me-2" width="40" height="32" role="img" aria-label="Bootstrap"><use xlink:href="#bootstrap"/></svg> -->
         </a>
 
         <div>
-          <a href="/register/legal" class="text-white text-decoration-none me-3 text-bold">회원가입</a>
+          <a
+            href="/register/legal"
+            class="text-decoration-none me-3 text-bold"
+            >회원가입</a
+          >
           <a href="/login" class="btn btn-primary mb-0">로그인</a>
         </div>
       </div>
     </div>
   </header>
   <!-- 왼쪽 화면 -->
-  <div class="section-container-beige">
+  <div class="section-container-beige" >
     <!-- 모바일 버전 버튼 -->
-    <a href="https://leeyebon7929.wixsite.com/my-site-1" class="btn mobile-btn col-md-3 mb-4">Get Started</a>
-    <div class="d-flex justify-content-between flex-column flex-md-row align-items-start">
+    <a
+      href="https://leeyebon7929.wixsite.com/my-site-1"
+      class="btn mobile-btn col-md-3 mb-4"
+      >시작하기</a
+    >
+    <div
+      class="d-flex justify-content-between flex-column flex-md-row align-items-start"
+    >
       <!-- 왼쪽 섹션 -->
       <div class="left-section-main d-flex flex-column mt-2 col-md-6">
         <h3 class="col-md-9 mb-4">
@@ -114,7 +136,7 @@
       </div>
       <div class="right-section d-flex align-items-center p-5 mt-2 col-md-7">
         <p class="col-md-12">
-          여행의 금융을 간편하게, 한국에서 더 스마트하게<br />
+          여행의 금융을 간편하게, 한국에서 더 스마트하게<br /><br/>
           Song-E Pay는 한국을 여행하는 외국인에게 실시간 환율 조회, 자동 환전,
           간편한 송금 등 다양한 금융 기능을 제공합니다. 환전과 결제를 쉽게
           관리할 수 있는 페이 머니 계좌와 은행 지도 서비스로 현지에서의 금융
@@ -257,7 +279,7 @@
 
 <script setup>
 import { useStore } from "vuex";
-import { onBeforeMount, computed } from "vue";
+import { onBeforeMount } from "vue";
 
 const store = useStore();
 
@@ -274,8 +296,8 @@ onBeforeMount(() => {
 }
 
 .section-container-beige {
-  background: linear-gradient(to bottom, #f8f9fa, #fff6ef);
-  padding-top: 8rem;
+  background: #fff6ef;
+  padding-top: 13rem;
   padding-left: 13rem;
   padding-right: 8rem;
   padding-bottom: 6rem;
@@ -319,8 +341,8 @@ onBeforeMount(() => {
 }
 
 .web-btn {
-  display: block;
-  /* 웹에서는 보임 */
+  display: block; /* 웹에서는 보임 */
+  max-width: 100%;
 }
 
 .mobile-btn {
@@ -347,7 +369,7 @@ onBeforeMount(() => {
 
   /* Adjust the max-width value as needed for your breakpoint */
   .section-container-beige {
-    background: linear-gradient(to bottom, #f8f9fa, #fff6ef);
+    background: #fff6ef;
     padding-top: 5rem;
     padding-left: 5rem;
     padding-right: 5rem;
@@ -363,10 +385,8 @@ onBeforeMount(() => {
   }
 
   .mobile-btn {
-    display: block;
-    /* 모바일에서는 보임 */
-    order: 1;
-    /* 첫 번째로 오도록 설정 */
+    display: block; /* 모바일에서는 보임 */
+    order: 3; /*첫 번째로 오도록 설정*/
   }
 
   .web-btn {
