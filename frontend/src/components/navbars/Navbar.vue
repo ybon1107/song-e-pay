@@ -188,23 +188,22 @@ import { computed, ref, onMounted } from "vue";
 import { useStore } from "vuex";
 // import { useRoute } from "vue-router";
 import { useExchangeStore } from "@/stores/exchangeStore";
+import { CURRENCY_NAMES } from "@/constants/countryCode";
 
 import { useAuthStore } from "@/stores/auth";
-
 import userApi from "@/api/userApi";
 import axios from "axios";
-
 
 const auth = useAuthStore();
 const exchangeStore = useExchangeStore();
 
-
 const userImg = ref("");
-
 
 const isLogin = computed(() => auth.isLogin);
 const userId = computed(() => auth.userId);
 const user = computed(() => auth.user);
+const countryCode = user.value.countryCode;
+const countryName = CURRENCY_NAMES[countryCode];
 
 console.log("nav isLogin : ", isLogin);
 console.log("nav userId : ", userId);
@@ -231,9 +230,11 @@ const closeMenu = () => {
     showMenu.value = false;
   }, 100);
 };
+// const noLoginImg =
+//   "https://song-e-pay.s3.ap-northeast-2.amazonaws.com/profile/noLogin.png";
 
-const usdToKrwUrl = `https://v6.exchangerate-api.com/v6/${import.meta.env.VITE_EXCHANGE_RATE_API_KEY}/pair/USD/KRW`;
-const krwToUsdUrl = `https://v6.exchangerate-api.com/v6/${import.meta.env.VITE_EXCHANGE_RATE_API_KEY}/pair/KRW/USD`;
+const usdToKrwUrl = `https://v6.exchangerate-api.com/v6/${import.meta.env.VITE_EXCHANGE_RATE_API_KEY}/pair/${countryName}/KRW`;
+const krwToUsdUrl = `https://v6.exchangerate-api.com/v6/${import.meta.env.VITE_EXCHANGE_RATE_API_KEY}/pair/KRW/${countryName}`;
 
 const fetchExchangeRates = async () => {
   try {
@@ -251,42 +252,64 @@ const fetchExchangeRates = async () => {
       krwToUsdResponse.json(),
     ]);
 
-    exchangeStore.setCurrentToKrw(usdToKrwData.conversion_rate);
-    exchangeStore.setCurrentFromKrw(krwToUsdData.conversion_rate);
+    const currentToKrw = usdToKrwData.conversion_rate;
+    const currentFromKrw = krwToUsdData.conversion_rate;
+
+    exchangeStore.setCurrentToKrw(currentToKrw);
+    exchangeStore.setCurrentFromKrw(currentFromKrw);
 
     console.log("환율 데이터가 성공적으로 로드되었습니다.");
-    return {
-      currentToKrw: usdToKrwData.conversion_rate,
-      currentFromKrw: krwToUsdData.conversion_rate,
-    };
+
+    // 백엔드로 환율 데이터 전송
+    await saveExchangeRates([
+      {
+        baseCode: countryCode, // 외화 코드
+        targetCode: 0, // KRW 코드
+        exchangeRate: currentToKrw,
+      },
+      {
+        baseCode: 0, // KRW 코드
+        targetCode: countryCode, // 외와 코드
+        exchangeRate: currentFromKrw * 1000,
+      },
+    ]);
   } catch (error) {
     console.error("Error fetching exchange rate data", error);
+  }
+};
+
+const saveExchangeRates = async (rates) => {
+  try {
+    const response = await axios.post("/api/exchange/rates", rates);
+    console.log("환율 데이터가 성공적으로 저장되었습니다:", response.data);
+  } catch (error) {
+    console.error(
+      "환율 데이터 저장 중 오류 발생:",
+      error.response ? error.response.data : error.message
+    );
   }
 };
 
 onMounted(async () => {
   fetchExchangeRates();
 
-    // 사용자 이미지 가져오기
-    try {
+  // 사용자 이미지 가져오기
+  try {
     userImg.value = await userApi.getUserImg(auth.userId);
     console.log("userImg : ", userImg.value);
   } catch (error) {
     console.error("사용자 이미지를 가져오는 데 실패했습니다:", error);
     // 기본 이미지 URL을 설정하거나 다른 오류 처리를 수행할 수 있습니다.
-    userImg.value = '/path/to/default/image.jpg';
+    userImg.value = "/path/to/default/image.jpg";
   }
-
 });
 </script>
 
 <style>
 .img-div {
-  width: 36px;
-  height: 36px;
+  width: 20px;
+  height: 20px;
   position: relative;
-  overflow: hidden;
-  border-radius: 50%;
 }
 
 .user-profile-img {

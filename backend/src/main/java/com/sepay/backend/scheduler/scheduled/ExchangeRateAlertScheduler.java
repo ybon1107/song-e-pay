@@ -33,7 +33,7 @@ public class ExchangeRateAlertScheduler {
 
         try {
             // 예약된 모든 환율 알림 가져오기
-            List<ExchangeReservationDTO> allReservations = exchangeReservationService.getAllAutoExchange();
+            List<ExchangeReservationDTO> allReservations = exchangeReservationService.getAllExchangeReservation();
             log.info("전체 예약 수: {}", allReservations.size());
 
             List<ExchangeReservationDTO> alertReservations = allReservations.stream()
@@ -69,7 +69,7 @@ public class ExchangeRateAlertScheduler {
 
             // 환율 알림 로직 (기준 통화가 외화인지 확인하고, 목표 환율 도달 여부 체크)
             if (isTargetRateReached(reservation, currentRate)) {
-                saveAlert(reservation, currentRate);
+                saveAlert(reservation, currentRate, reservation.getUserId());
             }
 
         } catch (Exception e) {
@@ -86,8 +86,7 @@ public class ExchangeRateAlertScheduler {
         return (isFromForeignToKRW && currentRate <= targetRate) || (!isFromForeignToKRW && currentRate >= targetRate);
     }
 
-    private void saveAlert(ExchangeReservationDTO reservation, double currentRate) {
-        Integer userNo = 1;
+    private void saveAlert(ExchangeReservationDTO reservation, double currentRate, String userId) {
 
         String direction = reservation.getBaseCode() != 0 ? "하락" : "상승";
         String message = String.format("현재 환율(%s)이 목표 환율(%s) %s했습니다.",
@@ -95,7 +94,7 @@ public class ExchangeRateAlertScheduler {
                 direction.equals("하락") ? "이하" : "이상");
 
         NotificationDTO notificationDTO = new NotificationDTO();
-        notificationDTO.setUserNo(userNo);
+        notificationDTO.setUserId(userId);
         notificationDTO.setResveNo(reservation.getResNo());
         notificationDTO.setNotiContent(message);
         notificationDTO.setExchangeRate(currentRate);

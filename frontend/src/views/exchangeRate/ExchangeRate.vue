@@ -72,7 +72,7 @@
                 </div>
                 <button
                   class="btn btn-primary w-100"
-                  @click="saveAlertRate(1, 0, alertRateUsdToKrw)"
+                  @click="saveAlertRate(countryCode, 0, alertRateUsdToKrw)"
                 >
                   {{ $t("exchangeRate--button-confirmAlert") }}
                 </button>
@@ -142,7 +142,7 @@
                   <span>{{ customerunit }}</span>
                 </div>
                 <button
-                  @click="saveAlertRate(0, 1, alertRateKrwToUsd)"
+                  @click="saveAlertRate(0, countryCode, alertRateKrwToUsd)"
                   class="btn btn-primary w-100"
                 >
                   {{ $t("exchangeRate--button-confirmAlert") }}
@@ -189,7 +189,7 @@
 
               <button
                 class="btn btn-primary w-100 mb-0"
-                @click="confirmAutoExchange(1, 0, targetExchange, targetKrw)"
+                @click="confirmAutoExchange(countryCode, 0, targetExchange, targetKrw)"
               >
                 {{ $t("exchangeRate--button-confirmAlert") }}
               </button>
@@ -219,9 +219,11 @@ const user = computed(() => auth.user);
 
 const Id = computed(() => auth.userId);
 import { CURRENCY_NAMES } from "@/constants/countryCode";
+const countryCode = user.value.countryCode;
 const customerunit = ref(CURRENCY_NAMES[user.value.countryCode]);
 
 import SecondPasswordModal from "@/views/MyAccounts/SecondPasswordModal.vue";
+
 
 // Data variables
 const usdAmount = ref(1);
@@ -293,7 +295,7 @@ const setFromPeriod = (period) => {
 // 환전 함수
 const handleExchange = async () => {
   try {
-    const userId = "test@gamil.com"; // 실제 사용자 번호로 대체해야 합니다
+    const userId = Id; // 실제 사용자 번호로 대체해야 합니다
     const krwNo = "1234"; // 실제 KRW 계좌 번호로 대체해야 합니다
     const songNo = "1234"; // 실제 송이 페이 계좌 번호로 대체해야 합니다
     const exchangeRate = currentToKrw.value;
