@@ -18,7 +18,7 @@ public class UserVO {
     private String songNo;
     private String krwNo;
     private Integer countryCode;
-    private String username; // = username = email = user_id
+    private String username; // = userId = email = user_id
     private String password;
     private String firstName;
     private String lastName;

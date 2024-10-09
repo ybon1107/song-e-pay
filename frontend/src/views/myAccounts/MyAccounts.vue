@@ -18,9 +18,10 @@ import { useI18n } from 'vue-i18n';
 const { t } = useI18n();
 
 //user
-// import { useAuthStore } from '@/stores/auth';
-// const auth = useAuthStore();
-// const user = computed(() => auth.user);
+import { useAuthStore } from '@/stores/auth';
+const auth = useAuthStore();
+const userId = computed(() => auth.user);
+
 const user = { krwNo: '1234', countryCode: '1', songNo: '1234', userNo: '1234' };
 
 //숫자 포맷팅

@@ -8,13 +8,10 @@
     <!-- 정보 변경 -->
     <update id="updateUser">
         UPDATE user SET
-        <if test="profilePic != null">
             profile_pic = #{profilePic},
-        </if>
             address = #{address},
             post_code = #{postCode},
-            country_code = #{countryCode},
-            updated_at = now()
+            country_code = #{coutryCode}
         WHERE user_no = #{userNo}
     </update>
 
@@ -35,16 +32,9 @@
     <!-- 비밀번호 변경 -->
     <update id="updatePassword" parameterType="map">
         UPDATE user SET
-            password = #{newPw}
+            password = #{password}
         WHERE user_no = #{userNo}
     </update>
-
-    <!-- 비밀번호 확인 -->
-    <select id="selectPassword" parameterType="int" resultType="String">
-        select password
-        from user
-        where user_no = #{userNo}
-    </select>
 
     <!-- 2차 비밀번호 변경 -->
     <update id="updateSecondPassword" parameterType="map">
@@ -52,13 +42,6 @@
             second_pwd = #{secondPwd}
         WHERE user_no = #{userNo}
     </update>
-
-    <!-- 2차 비밀번호 확인 -->
-    <select id="selectSecondPassword" parameterType="int" resultType="String">
-        select secondPwd
-        from user
-        where user_no = #{userNo}
-    </select>
 
     <!-- 송이 계좌 삭제 -->
     <delete id="deleteSonge">
@@ -73,15 +56,9 @@
     </delete>
 
     <!-- 유저 삭제 -->
-    <update id="deleteUser" parameterType="int">
-        UPDATE user SET
-            stateCode = '10'
+    <delete id="deleteUser">
+        DELETE FROM user
         WHERE user_no = #{userNo}
-    </update>
+    </delete>
 
-    <select id="selectUserProfileImg" parameterType="Integer" resultType="String">
-        SELECT profile_pic
-        FROM user
-        WHERE user_no = #{userNo}
-    </select>
 </mapper>
