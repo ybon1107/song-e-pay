@@ -17,4 +17,6 @@ public interface UserMapper {
     int insertUser(UserDTO userDTO);
 
     UserDTO selectUserByEmail(String email);
+
+    String selectUserImg(String userId);
 }

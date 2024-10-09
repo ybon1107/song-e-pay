@@ -46,54 +46,21 @@ myAccount--wonE-afterTransferBalance,송금 후 잔액,Balance after remittance,
 myAccount--wonE-currentExchangeRate,현재 환율,Current exchange rate,Nilai tukar saat ini,Tỷ giá hiện tại
 myAccount--wonE-refundSendingAmount,보내는 금액,Amount of money sent,Jumlah uang yang dikirim,Số tiền gửi
 myAccount--wonE-refundReceivedAmount,받는 금액,Amount received,Jumlah yang diterima,Số tiền nhận
+myAccount--input-placeholder,할 금액을 입력하세요.,Please enter the amount,Silakan masukkan jumlahnya,Vui lòng nhập số tiền
+myAccount--header-exchangeRate,실시간 환율 ,Real-time exchange rates,Nilai tukar waktu nyata,Tỷ giá hối đoái theo thời gian thực
+myAccount--nav-songE-vacate,비우기,vacate,mengosongkan,dọn đi
+myAccount--nav-songE-fill,채우기,fill,mengisi,điền vào
+myAccount--header-autoExchange,자동환전 및 알람,Automatic currency exchange and alert,Penukaran dan peringatan mata uang otomatis,Trao đổi tiền tệ tự động và cảnh báo
+myAccount--songE-title,SONG-E,SONG-E,SONG-E,SONG-E
+myAccount--wonE-title,WON-E,WON-E,WON-E,WON-E
+myAccount--swal-title,성공,success,kesuksesan,thành công
+myAccount--swal-content,{kwd}이 완료되었습니다.,{kwd} has been completed,{kwd} telah selesai,{kwd} chuyển tiền đã hoàn tất
 myAccount--SecondPassword--modal-header-title,잠깐 !!!!,Wait a minute!!!!,Tunggu sebentar!!!!,Chờ một chút!!!!
 myAccount--SecondPassword--modal-warning,사칭사기에 주의하세요.,Be careful of impostor fraud.,Hati-hati dengan penipuan,Cẩn thận với lừa đảo giả mạo
 myAccount--SecondPassword--modal-passwordTitle,결제 비밀번호,Payment password,Kata sandi pembayaran,Mật khẩu thanh toán
 transaction_types_payment,결제,payment,Pembayaran,Thanh toán
-transaction_types_transfser,송금,transfer,Transfer,Chuyển khoản
+transaction_types_transfer,송금,transfer,Transfer,Chuyển khoản
 transaction_types_deposit,충전,deposit,Setoran,Nạp tiền
 transaction_types_refund,환불,refund,Pengembalian,Hoàn tiền
 transaction_types_exchange,환전,exchange,penukaran uang,sự đổi tiền
 transaction_types_reExchange,환급,re-exchange,Tukar ulang,Đổi lại
-histories--transactionHistory,이용 내역,Details of use,Riwayat Penggunaan,Lịch sử sử dụng
-histories--accountType,계좌 종류,Account Type,Jenis Akun,Loại tài khoản
-histories--searchDetail,상세 내용 검색,Search for details,Cari Rincian,Tìm kiếm chi tiết
-histories--startDate,시작 날짜,Start Date,Tanggal Mulai,Ngày bắt đầu
-histories--endDate,끝 날짜,Last Date,Tanggal Akhir,Ngày kết thúc
-histories--transactionType,거래 유형,Type of transaction,Jenis Transaksi,Loại giao dịch
-histories--transactionStatus,거래 상태,Transaction Status,Status Transaksi,Trạng thái giao dịch
-histories--completed,완료,Completion,Selesai,Hoàn thành
-histories--canceled,취소,Cancellation,Pembatalan,Hủy bỏ
-histories--inProgress,처리중,Processing in progress,Proses Berlangsung,Đang xử lý
-histories--ongoing,진행 중,Ongoing,Berlangsung,Đang diễn ra
-histories--apply,적용,Application,Aplikasi,Ứng dụng
-histories--header-dateTime,날짜/시간,Date/Time,Tanggal/Waktu,Ngày/Giờ
-histories--header-transactionType,거래 유형,Type of Transaction,Jenis Transaksi,Loại giao dịch
-histories--header-transactionDetail,거래 상세,Transaction Details,Rincian Transaksi,Chi tiết giao dịch
-histories--header-transactionAmount,거래 금액,Transaction Amount,Jumlah Transaksi,Số tiền giao dịch
-histories--header-transactionDetail,거래 상세 보기,Details,Rincian,Chi tiết
-histories--modal-exchangeRate,환율,Exchange Rate,Nilai Tukar,Tỷ giá
-histories--modal-historyDate,결제 일시,Payment Date and Time,Tanggal dan Waktu Pembayaran,Ngày và giờ thanh toán
-histories--modal-stateCode,거래 상태,Transaction Status,Status Transaksi,Trạng thái giao dịch
-histories--modal-memo,메모,Memo,Memo,Ghi chú
-histories--modal-enterMemo,메모를 입력하세요,Please enter a note.,Masukkan Catatan,Vui lòng nhập ghi chú
-histories--modal-button-close,닫기,Close,Tutup,Đóng
-histories--modal-button-save,저장,Save,Simpan,Lưu
-exchangeRate--header-title,환율 비교,Compare Exchange Rate,Bandingkan Nilai Tukar,So sánh tỷ giá
-exchangeRate--label-ForeignAmount,USD,USD Amount,IDR,VND
-exchangeRate--label-krwAmount,KRW,KRW Amount,KRW,KRW
-exchangeRate--button-buy,사기,Buy,Beli,Mua
-exchangeRate--button-sell,팔기,Sell,Jual,Bán
-exchangeRate--notification-setAlert,환율 알람 설정,Set an alert for exchange rates,Atur peringatan nilai tukar,Đặt cảnh báo tỷ giá
-exchangeRate--autoSettings-label-autoCondition,자동 환전,Auto Exchange,Kondisi Otomatis,Điều kiện tự động
-exchangeRate--autoSettings-label-targetRate1,목표 환율 1,Target Rate 1,Target Nilai Tukar 1,Tỷ giá mục tiêu 1
-exchangeRate--autoSettings-label-targetRate2,목표 환율 2,Target Rate 2,Target Nilai Tukar 2,Tỷ giá mục tiêu 2
-exchangeRate--SetAlert--header-receiveAlert,환율 알림 받기,Get Exchange Rate Notifications,Dapatkan Pemberitahuan Nilai Tukar,Nhận thông báo tỷ giá
-exchangeRate--SetAlert--label-ForeignToKrwAlert,1 USD =,1 USD =,1 IDR =,1 vnd =
-exchangeRate--SetAlert--button-confirmAlert,확인,Check,Periksa,Kiểm tra
-exchangeRate--SetAlert--header-autoExchange,자동 환전 설정,Automatic currency exchange settings,Pengaturan konversi mata uang otomatis,Cài đặt chuyển đổi tiền tệ tự động
-exchangeRate--SetAlert--label-targetRate,목표 환율,Target exchange rate,Nilai tukar target,Tỷ giá mục tiêu
-exchangeRate--SetAlert--placeholder-targetRate,목표 환율을 입력하세요.,Please enter the target exchange rate.,Masukkan nilai tukar target.,Vui lòng nhập tỷ giá mục tiêu.
-exchangeRate--SetAlert--label-targetAmount,자동 전환할 금액,Amount to exchange automatically,Jumlah untuk dikonversi secara otomatis,Số tiền tự động chuyển đổi
-exchangeRate--SetAlert--placeholder-targetAmount,자동 환전할 금액을 입력하세요.,Please enter the amount to exchange automatically.,Masukkan jumlah yang akan dikonversi secara otomatis.,Vui lòng nhập số tiền cần chuyển đổi tự động.
-

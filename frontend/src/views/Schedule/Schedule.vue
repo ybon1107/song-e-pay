@@ -40,29 +40,38 @@ function openMaintenanceModal(startDate, endDate) {
 
 // 새 이벤트 추가
 function addEvent(eventData) {
+    const colorWithoutHash = eventData.color.replace('#', ''); // 색깔 Hex코드 저장
+
     const scheduleData = {
         userNo: 1,
         beginDate: eventData.startedAt,
         endDate: eventData.endedAt,
         title: eventData.title,
         todo: eventData.description,
-        color: eventData.color || '000000',
+        color: colorWithoutHash || '000000',
     };
 
     axios
         .post('/api/schedule/add', scheduleData)
         .then((response) => {
-            calendarRef.value.getApi().addEvent({
-                title: scheduleData.title,
-                start: scheduleData.beginDate,
-                end: scheduleData.endDate,
-                backgroundColor: scheduleData.color,
-                borderColor: scheduleData.color,
-                allDay: true,
-                extendedProps: {
-                    description: scheduleData.todo,
-                },
-            });
+            // FullCalendar 인스턴스에 접근
+            const calendarApi = calendarRef.value.getApi();
+
+            // 응답 데이터에 접근하기 전에 response가 성공적으로 받아졌는지 확인
+            if (response && response.data) {
+                const createdEvent = response.data;
+                calendarApi.addEvent({
+                    title: createdEvent.title,
+                    start: createdEvent.beginDate,
+                    end: createdEvent.endDate,
+                    backgroundColor: `#${createdEvent.color}`, // 색상 속성 수정
+                    borderColor: `#${createdEvent.color}`, // 색상 속성 추가
+                    allDay: true,
+                    extendedProps: {
+                        description: createdEvent.todo,
+                    },
+                });
+            }
             closeMaintenanceModal();
         })
         .catch((error) => {
@@ -96,6 +105,7 @@ function handleEventClick(clickInfo) {
 
 // 기존 이벤트 업데이트
 function updateEvent(updatedEvent) {
+    const colorWithoutHash = updatedEvent.color.replace('#', ''); // 색깔 Hex코드 저장
     console.log('Updated Event Data:', updatedEvent); // updatedEvent 객체 확인
 
     const scheduleData = {
@@ -104,13 +114,30 @@ function updateEvent(updatedEvent) {
         todo: updatedEvent.description || '',
         beginDate: updatedEvent.startedAt || moment().format('YYYY-MM-DD'),
         endDate: updatedEvent.endedAt || moment().format('YYYY-MM-DD'),
-        color: updatedEvent.color,
+        color: colorWithoutHash || '000000',
+        // backgroundColor: `#${createdEvent.color}`, // 색상 속성 수정
+        // borderColor: `#${createdEvent.color}`, // 색상 속성 추가
     };
 
     axios
         .post(`/api/schedule/update/${updatedEvent.id}`, scheduleData)
         .then((response) => {
-            console.log('Event updated successfully:', response.data);
+            const calendarApi = calendarRef.value?.getApi();
+            if (calendarApi) {
+                const event = calendarApi.getEventById(updatedEvent.id);
+                if (event) {
+                    event.setProp('title', updatedEvent.title);
+                    event.setStart(updatedEvent.startedAt);
+                    event.setEnd(updatedEvent.endedAt);
+                    event.setProp('backgroundColor', `#${colorWithoutHash}`);
+                    event.setProp('borderColor', `#${colorWithoutHash}`);
+                    event.setExtendedProp(
+                        'description',
+                        updatedEvent.description
+                    );
+                }
+            }
+            closeEditEventModal();
         })
         .catch((error) => {
             console.error('Error updating event:', error);
@@ -143,7 +170,7 @@ function loadEvents() {
                     title: event.title,
                     start: event.beginDate,
                     end: event.endDate,
-                    backgroundColor: event.color,
+                    backgroundColor: `#${event.color}`,
                     borderColor: event.color,
                     allDay: true,
                     description: event.todo,
@@ -159,6 +186,24 @@ onMounted(() => {
     loadEvents();
 });
 
+// 삭제
+function deleteEvent(eventId) {
+    axios
+        .delete(`/api/schedule/delete/${eventId}`)
+        .then((response) => {
+            console.log('Event deleted successfully:', response.data);
+            // 캘린더에서 삭제된 이벤트 제거
+            const calendarApi = calendarRef.value.getApi();
+            const event = calendarApi.getEventById(eventId);
+            if (event) {
+                event.remove();
+            }
+            closeEditEventModal();
+        })
+        .catch((error) => {
+            console.error('Error deleting event:', error);
+        });
+}
 const calendarOptions = ref({
     plugins: [dayGridPlugin, timeGridPlugin, interactionPlugin],
     headerToolbar: {
@@ -215,6 +260,7 @@ const calendarOptions = ref({
         :isVisible="isEditEventModalVisible"
         :maintenance="maintenance"
         @closeModal="closeEditEventModal"
+        @deleteEvent="deleteEvent"
         @saveEvent="updateEvent"
     />
 </template>

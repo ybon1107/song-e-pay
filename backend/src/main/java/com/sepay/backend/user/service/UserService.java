@@ -15,4 +15,6 @@ public interface UserService {
     int register(UserDTO userDTO);
 
     boolean isEmailRegistered(String email);
+
+    String getUserImg(String userId);
 }

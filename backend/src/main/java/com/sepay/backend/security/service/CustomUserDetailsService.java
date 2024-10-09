@@ -25,6 +25,8 @@ public class CustomUserDetailsService implements UserDetailsService {
             log.error("User with username: " + username + " not found");
             throw new UsernameNotFoundException("User not found");
         }
+        log.debug("UserVO loaded: {}", userVO);
+       log.debug("AuthList: {}", userVO.getAuthList());
         return new CustomUser(userVO);
     }
 }

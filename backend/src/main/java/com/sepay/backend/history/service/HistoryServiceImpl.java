@@ -20,14 +20,11 @@ public class HistoryServiceImpl implements HistoryService{
     @Override
     public Page<HistoryDTO> getFilter(SearchItem searchItem, PageRequest pageRequest) {
         log.info("getFilter called with searchItem: {} and pageRequest: {}", searchItem, pageRequest);
-
         try {
-            // sortOrder는 이제 SearchItem 내에서 처리됨
+            // 필터링된 결과와 페이지네이션 처리
             List<HistoryDTO> filteredHistories = mapper.getFilter(searchItem, pageRequest);
             int totalCount = mapper.getTotalCountForFilter(searchItem);  // 필터된 데이터의 총 개수
-
             log.info("Filtered Histories: {}, Total Count: {}", filteredHistories, totalCount);
-
             return Page.of(pageRequest, totalCount, filteredHistories);
         } catch (Exception e) {
             log.error("Error occurred in getFilter method", e);
@@ -35,18 +32,17 @@ public class HistoryServiceImpl implements HistoryService{
         }
     }
 
+    @Override
+    public Page<HistoryDTO> getAllHistories(PageRequest pageRequest) {
+        // 페이지 요청에 맞는 거래 내역을 가져옴
+        List<HistoryDTO> histories = mapper.selectAllHistories(pageRequest);
 
-//    @Override
-//    public Page<HistoryDTO> getAllHistories(PageRequest pageRequest) {
-//        // 페이지 요청에 맞는 거래 내역을 가져옴
-//        List<HistoryDTO> histories = mapper.selectAllHistories(pageRequest);
-//
-//        // 전체 거래 내역 수를 가져옴
-//        int totalCount = mapper.getTotalCount();
-//
-//        // Page 객체를 생성하여 반환
-//        return Page.of(pageRequest, totalCount, histories);
-//    }
+        // 전체 거래 내역 수를 가져옴
+        int totalCount = mapper.getTotalCount();
+
+        // Page 객체를 생성하여 반환
+        return Page.of(pageRequest, totalCount, histories);
+    }
 
     @Override
     public void updateMemo(HistoryDTO historyDTO) {

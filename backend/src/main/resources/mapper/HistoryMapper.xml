@@ -18,14 +18,12 @@
             AND h.state_code = #{searchItem.stateCode}
         </if>
         <if test="searchItem.beginDate != null and searchItem.endDate != null">
-            <!-- 날짜만 비교 (DATE() 사용) -->
-            AND DATE(h.history_date) BETWEEN DATE(#{searchItem.beginDate}) AND DATE(#{searchItem.endDate})
+            AND h.history_date BETWEEN #{searchItem.beginDate} AND #{searchItem.endDate}
         </if>
         <if test="searchItem.historyContent != null and searchItem.historyContent != ''">
             AND h.history_content LIKE CONCAT('%', #{searchItem.historyContent}, '%')
         </if>
-        <!-- ORDER BY 절을 동적으로 처리 -->
-        ORDER BY h.history_date ${searchItem.sortOrder}
+        ORDER BY h.history_date DESC
         LIMIT #{pageRequest.offset}, #{pageRequest.amount}
     </select>
 
@@ -44,7 +42,7 @@
             AND h.state_code = #{stateCode}
         </if>
         <if test="beginDate != null and endDate != null">
-            AND DATE(h.history_date) BETWEEN DATE(#{beginDate}) AND DATE(#{endDate})
+            AND h.history_date BETWEEN #{beginDate} AND #{endDate}
         </if>
         <if test="historyContent != null and historyContent != ''">
             AND h.history_content LIKE CONCAT('%', #{historyContent}, '%')
@@ -52,14 +50,14 @@
     </select>
 
 
-<!--    <select id="selectAllHistories" resultType="HistoryDTO">-->
-<!--        SELECT * FROM history ORDER BY history_date DESC-->
-<!--        limit #{offset}, #{amount}-->
-<!--    </select>-->
+    <select id="selectAllHistories" resultType="HistoryDTO">
+        SELECT * FROM history ORDER BY history_date DESC
+        limit #{offset}, #{amount}
+    </select>
 
-<!--    <select id="getTotalCount" resultType="java.lang.Integer">-->
-<!--        select count(*) from history-->
-<!--    </select>-->
+    <select id="getTotalCount" resultType="java.lang.Integer">
+        select count(*) from history
+    </select>
 
     <update id="updateMemo" parameterType="HistoryDTO">
         UPDATE history
