@@ -26,5 +26,9 @@ public interface ExchangeReservationService {
     // 자동 환전 예약 카운트
     int countAutoExchange(String userId, Integer targetKrw);
 
+    // 모든 알림 내역 불러오기
+    List<ExchangeReservationDTO> getAllExchangeReservation();
+
+    // 모든 자동 환전 내역 불러오기
     List<ExchangeReservationDTO> getAllAutoExchange();
 }

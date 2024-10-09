@@ -3,7 +3,10 @@ import { ref, computed } from "vue";
 import { useRouter } from "vue-router";
 import paymentApi from "../../api/paymentApi";
 import Swal from "sweetalert2";
-import "sweetalert2/dist/sweetalert2.min.css";
+
+//i18n
+import { useI18n } from 'vue-i18n';
+const { t } = useI18n();
 
 const router = useRouter();
 
@@ -59,8 +62,8 @@ const onSubmit = async () => {
         router.push("/payment/qr");
       } else {
         Swal.fire({
-          title: "다시 입력하세요",
-          text: response.data.message || "비밀번호가 틀렸습니다.",
+          title: t("payment--swal-password-wrong-title"),
+          text: t("payment--swal-password-wrong-text"),
           icon: "error",
         });
         resetPassword(); // 비밀번호 초기화 함수 호출
@@ -86,8 +89,8 @@ const resetPassword = () => {
 
 <template>
   <div class="password-input-page">
-    <h1 class="title">비밀번호 입력</h1>
-    <p class="instruction">6자리 비밀번호를 입력해주세요</p>
+    <h1 class="title">{{$t('payment--passwordInput--title')}}</h1>
+    <p class="instruction">{{ $t('payment--passwordInput--instruction') }}</p>
 
     <form @submit.prevent="onSubmit" class="text-center">
       <div class="password-input-container">
@@ -96,7 +99,7 @@ const resetPassword = () => {
           class="password-digit" />
       </div>
       <button type="submit" :disabled="!isPasswordComplete" class="btn btn-primary">
-        제출
+        {{ $t('common-btn--submit') }}
       </button>
     </form>
   </div>

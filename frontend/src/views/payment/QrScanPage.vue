@@ -13,7 +13,7 @@
           </div>
 
           <div class="btn btn-sm btn-warning mb-0 mx-4 d-flex justify-content-between">
-            <p class="mb-0">보유잔액</p>
+            <p class="mb-0">{{$t('payment--qrScan--balanceLabel')}}</p>
             <p class="mb-0">{{ woneMoneyBalance }} KRW</p>
           </div>
         </div>
@@ -34,6 +34,10 @@ import { useAuthStore } from '@/stores/auth';
 const auth = useAuthStore();
 const user = computed(() => auth.user);
 
+//i18n
+import { useI18n } from 'vue-i18n';
+const { t } = useI18n();
+
 const router = useRouter(); // Router 사용
 
 const REFRESH_INTERVAL = 60; // 갱신 기간 60초
@@ -52,9 +56,6 @@ const fetchKrwBalance = async () => {
     console.error('KRW 계좌 잔액 조회 중 오류 발생:', error);
   }
 };
-
-
-
 
 const generateQRCode = () => {
   const url = encodeURIComponent(`/api/payment/qr-scan`);
@@ -91,17 +92,15 @@ const handleQRScan = async () => {
   try {
     const response = await paymentApi.scanQRCode(req);
     Swal.fire({
-      title: "성공!",
-      text: response.data.message || "결제가 완료되었습니다.",
+      title: t("swal--title-success"),
+      text: t("payment--swal-success-text"),
       icon: "success",
     });
     router.push("/"); // 홈으로 이동
   } catch (error) {
     Swal.fire({
-      title: "실패",
-      text:
-        "오류가 발생했습니다: " +
-        (error.response?.data?.message || error.message),
+      title: t("swal--title-fail"),
+      text: t("payment--swal-fail-text"),
       icon: "error",
     });
   }

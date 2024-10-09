@@ -40,8 +40,7 @@
 //        log.info("자동 환전 예약 확인 및 실행 작업 시작");
 //
 //        try {
-//            Integer userNo = 1;
-//            List<ExchangeReservationDTO> allReservations = exchangeReservationService.getAutoExchange(userId);
+//            List<ExchangeReservationDTO> allReservations = exchangeReservationService.getAllAutoExchange();
 //            log.info("전체 예약 수: {}", allReservations.size());
 //            List<ExchangeReservationDTO> autoExchangeReservations = allReservations.stream()
 //                    .collect(Collectors.toList());
@@ -93,13 +92,13 @@
 //                reservation.getResNo(), reservation.getTargetExchange(), latestExchangeRate.getExchangeRate(), reservation.getTargetKrw());
 //
 //        try {
-//            Integer userNo = 1; // 테스트용 고정 값
-//            Map<String, String> userAccounts = userService.getUserAccounts(userNo);
+//            String userId = reservation.getUserId();
+//            Map<String, String> userAccounts = userService.getUserAccounts(userId);
 //            String songNo = userAccounts.get("song_no");
 //            String krwNo = userAccounts.get("krw_no");
 //
 //            if (songNo == null || krwNo == null) {
-//                log.error("사용자 계좌 정보를 찾을 수 없습니다. 예약 ID: {}, 사용자 번호: {}", reservation.getResNo(), userNo);
+//                log.error("사용자 계좌 정보를 찾을 수 없습니다. 예약 ID: {}, 사용자 번호: {}", reservation.getResNo(), userId);
 //                return;
 //            }
 //
@@ -113,7 +112,7 @@
 //            krwAccountDTO.setKrwNo(krwNo);
 //
 //            HistoryDTO historyDTO = HistoryDTO.builder()
-//                    .userNo(userNo)
+//                    .userId(userId)
 //                    .songNo(songNo)
 //                    .krwNo(krwNo)
 //                    .typeCode(7) // 환전 타입 코드

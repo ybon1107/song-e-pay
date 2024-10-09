@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.sepay.backend.admin.mapper.AdminMapper">
+    <!--성별 통계-->
+    <select id="selectUserGender" resultType="map">
+        SELECT
+            IFNULL(country_code, 'all') AS country_code,
+            COUNT(*) AS total_users,
+            COUNT(CASE WHEN gender = 1 THEN 1 END) AS man,
+            COUNT(CASE WHEN gender = 2 THEN 1 END) AS woman
+        FROM user
+        GROUP BY country_code WITH ROLLUP;
+    </select>
+
+    <select id="selectUserAge" resultType="map">
+        SELECT
+            CASE
+                WHEN FLOOR(DATEDIFF(CURDATE(), birthday) / 365) BETWEEN 0 AND 19 THEN 'age_0_19'
+                WHEN FLOOR(DATEDIFF(CURDATE(), birthday) / 365) BETWEEN 20 AND 29 THEN 'age_20_29'
+                WHEN FLOOR(DATEDIFF(CURDATE(), birthday) / 365) BETWEEN 30 AND 39 THEN 'age_30_39'
+                WHEN FLOOR(DATEDIFF(CURDATE(), birthday) / 365) BETWEEN 40 AND 49 THEN 'age_40_49'
+                ELSE 'age_50_plus'
+                END AS age_group,
+            COUNT(*) AS user_count
+        FROM
+            user
+        GROUP BY
+            age_group;
+    </select>
+
+    <select id="selectUserAgeByCountry" resultType="map">
+        SELECT
+            country_code,
+            CASE
+                WHEN TIMESTAMPDIFF(YEAR, birthday, CURDATE()) BETWEEN 0 AND 19 THEN 'age_0_19'
+                WHEN TIMESTAMPDIFF(YEAR, birthday, CURDATE()) BETWEEN 20 AND 29 THEN 'age_20_29'
+                WHEN TIMESTAMPDIFF(YEAR, birthday, CURDATE()) BETWEEN 30 AND 39 THEN 'age_30_39'
+                WHEN TIMESTAMPDIFF(YEAR, birthday, CURDATE()) BETWEEN 40 AND 49 THEN 'age_40_49'
+                ELSE 'age_50_plus'
+                END AS age_group,
+            COUNT(*) AS user_count
+        FROM
+            user
+        GROUP BY
+            country_code, age_group;
+    </select>
+
+
+</mapper>
