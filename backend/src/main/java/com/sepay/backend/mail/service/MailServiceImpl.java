@@ -113,14 +113,30 @@ public class MailServiceImpl implements MailService {
             MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
             helper.setFrom("noreplysongepay@account.google.com");
             helper.setTo(userId);
-            helper.setSubject("[Song-E Pay] Registration Verification Email");
-            String body = "<h2>Your verification code is: </h2>";
-            helper.setText(body, true); // true를 설정해서 HTML을 사용 가능하게 함
+            helper.setSubject("[Song-E Pay] Transaction Notification");
+            String body = """
+    <div style="font-family: Arial, sans-serif; color: #333; line-height: 1.6;">
+        <h2>Thank you for using Song-E Pay!</h2>
+        <p>Hello,</p>
+        <p>This is a notification that a transaction has been made from your account, <strong>userId</strong>.</p>
+        <p>To complete your registration, please click the button below:</p>
+        <div style="text-align: center; margin: 20px;">
+            <a href="http://localhost:5173/register/legal" style="background-color: #4CAF50; color: white; padding: 12px 24px; text-decoration: none; border-radius: 4px;">
+                Complete Registration
+            </a>
+        </div>
+        <p>We sincerely thank you for choosing our service!</p>
+        <p>Best regards,<br>Song-E Pay Team</p>
+        <hr>
+        <p style="font-size: 12px; color: #777;">This is an automated message, please do not reply.</p>
+    </div>
+""";
+
+            helper.setText(body, true); // HTML로 내용을 설정
             helper.setReplyTo("noreplysongepay@account.google.com"); // 회신 불가능한 메일 주소 설정
 
             emailSender.send(message);
             log.info("Mail sent successfully: {}", userId);
-
         } catch (MessagingException e) {
             log.info("userId : ", userId);
             log.error("Error occurred while sending mail", e);
