@@ -10,7 +10,7 @@ import java.util.Map;
 
 public interface UserMapper {
 
-    String getSecondaryPassword(int userNo);
+    String getSecondaryPassword(String userId);
 
     UserVO get(String username);
 
@@ -27,8 +27,6 @@ public interface UserMapper {
     UserDTO selectUserByEmail(String email);
     
     int checkEmail(String email);
-
-    String selectUserImg(String userid);
 
     // 자동환전에서 사용
     @Select("SELECT song_no, krw_no FROM user WHERE user_no = #{userNo}")

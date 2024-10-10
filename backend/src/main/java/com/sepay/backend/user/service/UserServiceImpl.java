@@ -30,7 +30,7 @@ public class UserServiceImpl implements UserService{
     @Override
     public boolean checkSecondaryPassword(PasswordDTO passwordDTO) {
         //추후에 userNo  동적 변경
-        String userPassword = mapper.getSecondaryPassword(1);
+        String userPassword = mapper.getSecondaryPassword(passwordDTO.getUserId());
 
         if(passwordDTO.getPassword().equals(userPassword)){
             return true;
@@ -111,8 +111,4 @@ public class UserServiceImpl implements UserService{
         return mapper.selectUserAccounts(userNo);
     }
 
-    @Override
-    public String getUserImg(String userId) {
-        return mapper.selectUserImg(userId);
-    }
 }

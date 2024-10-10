@@ -14,7 +14,7 @@
       <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
           <div class="modal-header border-0">
-            <h2 class="modal-title fs-5" id="exampleModalLabel">{{ title }}</h2>
+            <h2 class="modal-title fs-5" id="exampleModalLabel">{{ $t(title) }}</h2>
             <button
               type="button"
               class="btn-close"
@@ -27,10 +27,10 @@
           </div>
           <div v-if="showFooter" class="modal-footer border-0">
             <button type="button" class="btn btn-secondary" @click="close">
-              {{ cancelText }}
+              {{ $t(cancelText) }}
             </button>
             <button type="button" class="btn btn-primary" @click="confirm">
-              {{ confirmText }}
+              {{ $t(confirmText) }}
             </button>
           </div>
         </div>

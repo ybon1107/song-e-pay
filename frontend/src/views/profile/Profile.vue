@@ -25,18 +25,19 @@ const userInfo = reactive({
 
 watchEffect(() => {
   if (user.value) {
-    userInfo.userId = user.value.userId;
+    userInfo.userId = auth.userId;
     userInfo.address = user.value.address;
     userInfo.postCode = user.value.postCode;
     userInfo.countryCode = user.value.countryCode;
   }
 });
 
-const originalProfilePic = computed(() => user.value?.profilePic);
+const originalProfilePic = ref(null);
 
 onMounted(async () => {
   if (auth.userId) {
     await auth.fetchUser(auth.userId);
+    originalProfilePic.value = user.value?.profilePic;
   } else {
     console.error('사용자 ID를 찾을 수 없습니다.');
   }
@@ -78,6 +79,8 @@ const updateProfile = async () => {
     await settingApi.updateProfile(userInfo);
     console.log("프로필 업데이트 성공");
     alert("프로필 업데이트 성공");
+
+    window.location.reload();
   } catch (error) {
     console.error("프로필 업데이트 실패:", error.response.data);
     alert("프로필 업데이트 실패");
@@ -96,8 +99,8 @@ const handleWithdraw = () => {
 
   if (confirmed) {
     // 사용자가 확인을 클릭했을 경우 특정 주소로 이동
-    console.log("탈퇴 : ", user.value.userNo);
-    settingApi.delete(user.value.userNo);
+    console.log("탈퇴 : ", user.value.userId);
+    settingApi.delete(user.value.userId);
     auth.logout();
   }
 };
@@ -277,8 +280,9 @@ onBeforeUnmount(() => {
                     <label for="country" class="form-control-label">국가</label>
                     <select
                       id="country"
-                      class="form-select"
+                      class="form-select no-arrow"
                       v-model="userInfo.countryCode"
+                      disabled
                     >
                       <option value="0">한국</option>
                       <option value="1">미국</option>
@@ -358,7 +362,22 @@ onBeforeUnmount(() => {
     </div>
   </main>
 </template>
-<style>
+<style scoped>
+.no-arrow {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-image: none;
+}
+
+.no-arrow::-ms-expand {
+  display: none;
+}
+
+.no-arrow:disabled {
+  background-color: transparent;
+}
+
 .btn-logout {
   width: fit-content !important;
 }

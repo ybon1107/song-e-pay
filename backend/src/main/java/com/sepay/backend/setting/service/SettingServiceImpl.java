@@ -56,8 +56,8 @@ public class SettingServiceImpl implements SettingService {
     }
 
     @Override
-    public boolean checkPassword(String userId, String currentPw) {
-        return currentPw.equals(mapper.selectPassword(userId));
+    public String checkPassword(String userId) {
+        return mapper.selectPassword(userId);
     }
 
     // 2차 비밀번호 변경
@@ -89,9 +89,9 @@ public class SettingServiceImpl implements SettingService {
     // 유저 삭제
     @Override
     public int deleteUser(String userId) {
-        UserDTO user = userMapper.selectUserByEmail(userId);
-        mapper.deleteKrw(user.getKrwNo());
-        mapper.deleteSonge(user.getSongNo());
+//        UserDTO user = userMapper.selectUserByEmail(userId);
+//        mapper.deleteKrw(user.getKrwNo());
+//        mapper.deleteSonge(user.getSongNo());
         return mapper.deleteUser(userId);
     }
 

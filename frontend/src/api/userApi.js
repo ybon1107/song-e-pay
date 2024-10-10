@@ -14,9 +14,4 @@ export default {
     return user;
   },
 
-  async getUserImg(userId) {
-    console.log('userId: ', userId);
-    const img = (await api.get(`/profile-img/${userId}`)).data;
-    return img;
-  },
 }

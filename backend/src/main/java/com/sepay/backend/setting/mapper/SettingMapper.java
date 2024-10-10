@@ -37,6 +37,6 @@ public interface SettingMapper {
     // 회원 삭제
     int deleteUser(String userId);
 
-    // 프로필 이미지 주소
+    // 프로필 이미지 확인
     String selectUserProfileImg(String userId);
 }

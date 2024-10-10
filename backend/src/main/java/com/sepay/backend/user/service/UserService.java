@@ -23,5 +23,4 @@ public interface UserService {
     // 자동환전에서 사용
     Map<String, String> getUserAccounts(Integer userNo);
 
-    String getUserImg(String userId);
 }

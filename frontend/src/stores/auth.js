@@ -68,7 +68,6 @@ export const useAuthStore = defineStore("auth", () => {
       }
       localStorage.setItem("auth", JSON.stringify(state.value));
       await fetchUser(state.value.user.userId);
-      console.log("login user : ", user.value);
     } catch (error) {
       console.error(error);
       throw error;
@@ -125,6 +124,7 @@ export const useAuthStore = defineStore("auth", () => {
   // load(): 페이지가 로드될 때 localStorage에서 저장된 인증 정보를 불러와 state에 설정
 
   //   return { state, username, email, isLogin, changeProfile, login, logout, getToken };
+
   return {
     state,
     userId,

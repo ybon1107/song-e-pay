@@ -8,9 +8,12 @@ import com.sepay.backend.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -24,6 +27,9 @@ public class SettingController {
 
     final SettingService settingService;
     final UserService userService;
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
 
     @Autowired
     private S3Service s3Service;
@@ -65,13 +71,15 @@ public class SettingController {
         String newPw = (String) requestData.get("newPw");
         String userId = (String) requestData.get("userId");
 
-        log.info("settingService.checkPassword(userNo, currentPassword) : " + settingService.checkPassword(userId, currentPassword));
-        if (!settingService.checkPassword(userId, currentPassword)) {
-            return ResponseEntity.badRequest().body("비밀번호가 일치하지 않습니다");
-        }
+        String encodedNewPw = passwordEncoder().encode(newPw);
+        String dbPassword = settingService.checkPassword(userId);
+
+    if (!passwordEncoder().matches(currentPassword, dbPassword)) {
+        return ResponseEntity.badRequest().body("비밀번호가 일치하지 않습니다");
+    }
 
         // 비밀번호 변경 작업 수행
-        return ResponseEntity.ok(settingService.changePassword(newPw, userId));
+        return ResponseEntity.ok(settingService.changePassword(encodedNewPw, userId));
     }
 
 
@@ -87,5 +95,5 @@ public class SettingController {
         log.info("userId : ", userId);
         return ResponseEntity.ok(settingService.deleteUser(userId));
     }
-    
+
 }

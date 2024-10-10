@@ -14,7 +14,7 @@ export default {
 
     const formData = new FormData();
 
-    formData.append('userIo', userInfo.userId);
+    formData.append('userId', userInfo.userId);
     formData.append('address', userInfo. address);
     formData.append('postCode', userInfo.postCode);
     formData.append('countryCode', userInfo.countryCode);
@@ -23,13 +23,14 @@ export default {
       formData.append('profilePicFile', userInfo.profilePic);
       console.log('profilePic: ', userInfo.profilePic);
     }
-    console.log('---------------야');
+
     const { data } = await api.post('/', formData, { headers });
     console.log('updateProfile: ', data);
     
     
     const auth = useAuthStore();
     auth.updateProfileState(data);
+    await auth.fetchUser(data.userId);
     return data;
   },
 
@@ -40,9 +41,9 @@ export default {
     return data;
   },
 
-  async delete(userNo) {
-    console.log('userNo: ', userNo);
-    const { data } = await api.delete(`/bye/${userNo}`);
+  async delete(userId) {
+    console.log('userId: ', userId);
+    const { data } = await api.delete(`/bye/${userId}`);
     console.log('delete: ', data);
     window.location.href = '/';
   },

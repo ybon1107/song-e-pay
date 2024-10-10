@@ -11,10 +11,10 @@
         <if test="profilePic != null">
             profile_pic = #{profilePic},
         </if>
-            address = #{address},
-            post_code = #{postCode},
-            country_code = #{countryCode},
-            updated_at = now()
+        address = #{address},
+        post_code = #{postCode},
+        country_code = #{countryCode},
+        updated_at = now()
         WHERE user_id = #{userId}
     </update>
 
@@ -40,7 +40,7 @@
     </update>
 
     <!-- 비밀번호 확인 -->
-    <select id="selectPassword" parameterType="int" resultType="String">
+    <select id="selectPassword" parameterType="String" resultType="String">
         select password
         from user
         WHERE user_id = #{userId}
@@ -54,7 +54,7 @@
     </update>
 
     <!-- 2차 비밀번호 확인 -->
-    <select id="selectSecondPassword" parameterType="int" resultType="String">
+    <select id="selectSecondPassword" parameterType="String" resultType="String">
         select secondPwd
         from user
         WHERE user_id = #{userId}
@@ -79,7 +79,8 @@
         WHERE user_id = #{userId}
     </update>
 
-    <select id="selectUserProfileImg" parameterType="Integer" resultType="String">
+    <!-- 유저 프로필 이미지 확인 -->
+    <select id="selectUserProfileImg" parameterType="String" resultType="String">
         SELECT profile_pic
         FROM user
         WHERE user_id = #{userId}

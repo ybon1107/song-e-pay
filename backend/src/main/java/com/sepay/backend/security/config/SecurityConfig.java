@@ -113,7 +113,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers(HttpMethod.OPTIONS).permitAll()
                 .antMatchers(HttpMethod.POST, "/api/users/login", "/api/register/**").permitAll()
-                .antMatchers(HttpMethod.POST, "/api/upload/**").permitAll()
                 .anyRequest().permitAll(); // 모든 요청을 인증 없이 허용
 
         http
@@ -123,5 +122,4 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .formLogin().disable() // 폼 로그인 비활성화
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS); // 세션 생성 모드 설정
     }
-
 }

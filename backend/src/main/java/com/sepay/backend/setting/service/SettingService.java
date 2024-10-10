@@ -12,7 +12,7 @@ public interface SettingService {
 
     int changePassword(String newPw, String userId);
 
-    boolean checkPassword(String userId, String currentPw);
+    String checkPassword(String userId);
 
     int modifySecondPassword(String secondPwd, String userId);
 

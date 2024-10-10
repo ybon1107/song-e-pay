@@ -5,14 +5,14 @@
 
 <mapper namespace="com.sepay.backend.user.mapper.UserMapper">
 
-    <select id="getSecondaryPassword" parameterType="int" resultType="String">
+    <select id="getSecondaryPassword" parameterType="String" resultType="String">
         select second_pwd
         from user
-        where user_no = #{userNo}
+        where user_id = #{userId}
     </select>
 
     <resultMap id="authMap" type="com.sepay.backend.security.account.domain.AuthVO">
-        <id property="username" column="user_id"/>
+        <result property="username" column="user_id"/>
         <result property="auth" column="auth"/>
     </resultMap>
 
@@ -83,10 +83,4 @@
         where user_id = #{userId}
     </select>
 
-    <!-- 유저 이미지 가져오기 -->
-    <select id="selectUserImg" parameterType="string" resultType="string">
-        SELECT profile_pic
-        FROM user
-        WHERE user_id = #{userId}
-    </select>
 </mapper>

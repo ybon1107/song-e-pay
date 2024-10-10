@@ -14,9 +14,9 @@ const router = useRouter();
 const auth = useAuthStore();
 
 const member = ref({
-  username: "",
-  password: "",
-});
+    username: "",
+    password: "",
+  },);
 
 const error = ref("");
 
@@ -110,7 +110,7 @@ const handleSubmit = async () => {
     try {
       await auth.login(member);
       if (localStorage.getItem("auth") != " ") {
-        // window.location.href = "/my-accounts";
+        window.location.href = "/my-accounts";
       }
     } catch (e) {
       // 로그인 에러
@@ -135,16 +135,18 @@ const handleSubmit = async () => {
               <div class="card card-plain">
                 <!-- 카드 헤더: 제목 -->
                 <div class="pb-0 card-header text-center">
-                  <h4 class="font-weight-bolder">Welcome back!</h4>
+                  <h4 class="font-weight-bolder">
+                    {{ $t("SignIn--header-welcome") }}
+                  </h4>
                 </div>
                 <!-- 카드 푸터: 회원가입 링크 -->
                 <div class="pt-0 text-center card-footer">
                   <p class="mx-auto text-sm">
-                    Don't have Song-E Pay account?
+                    {{ $t("SignIn--footer-signUpLink") }}
                     <router-link
                       to="/register/legal"
                       class="text-success text-gradient font-weight-bold"
-                      >Sign up</router-link
+                      >{{ $t("SignIn--footer-signUp") }}</router-link
                     >
                   </p>
                 </div>
@@ -158,37 +160,32 @@ const handleSubmit = async () => {
                     <!-- <form action="http://localhost:8080/login" method="post"> -->
                     <!-- 이메일 입력 필드 -->
                     <div class="mb-3">
-                      <label key="email" for="email" class="form-label"
-                        >Your email address</label
-                      >
+                      <label key="email" for="email" class="form-label">{{
+                        $t("SignIn--form-emailLabel")
+                      }}</label>
                       <argon-input
                         isRequired
                         id="email"
                         type="email"
-                        placeholder="Email"
+                        :placeholder="$t('SignIn--form-emailPlaceholder')"
                         name="username"
                         size="lg"
                         v-model="username"
                         :class="{ 'is-invalid': emailError }"
-                        :error="
-                          (username !== '' || emailError) && !isEmailValid
-                        "
+                        :error="(username !== '' || emailError) && !isEmailValid"
                         errorText="Please provide a valid email."
                       />
-                      <!-- <div v-if="emailError" class="invalid-feedback text-xs">
-                        Please provide a valid email.
-                      </div> -->
                     </div>
                     <!-- 비밀번호 입력 필드 -->
                     <div class="mb-3">
-                      <label key="password" for="password" class="form-label"
-                        >Your password</label
-                      >
+                      <label key="password" for="password" class="form-label">{{
+                        $t("SignIn--form-passwordLabel")
+                      }}</label>
                       <argon-input
                         isRequired
                         id="password"
                         type="password"
-                        placeholder="Password"
+                        :placeholder="$t('SignIn--form-passwordPlaceholder')"
                         name="password"
                         size="lg"
                         v-model="password"
@@ -198,13 +195,6 @@ const handleSubmit = async () => {
                         "
                         errorText="Please fill in the password field with at least 8 characters."
                       />
-                      <!-- <div
-                        v-if="passwordError"
-                        class="invalid-feedback text-xs"
-                      >
-                        Please fill in the password field with at least 8
-                        characters.
-                      </div> -->
                     </div>
                     <!-- "Remember me" 토글 스위치 (일단 주석 처리 해둠) -->
                     <!-- <argon-switch id="rememberMe" name="remember-me"
@@ -220,7 +210,7 @@ const handleSubmit = async () => {
                         fullWidth
                         size="lg"
                         type="submit"
-                        >Sign in</argon-button
+                        >{{ $t("common--text-login") }}</argon-button
                       >
                     </div>
                   </form>
@@ -229,7 +219,7 @@ const handleSubmit = async () => {
                     <router-link
                       to="/login/issue-info"
                       class="text-success text-gradient font-weight-bold"
-                      >Trouble logging in?</router-link
+                      >{{ $t("SignIn--link-troubleLoggingIn") }}</router-link
                     >
                   </p>
                 </div>
