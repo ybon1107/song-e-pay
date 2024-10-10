@@ -222,7 +222,7 @@
 </template>
 
 <script setup>
-import { computed, ref, onMounted } from "vue";
+import { computed, ref, onMounted, watchEffect } from "vue";
 import { useStore } from "vuex";
 // import { useRoute } from "vue-router";
 import { useExchangeStore } from "@/stores/exchangeStore";
@@ -243,10 +243,13 @@ const userImg = ref("");
 const isLogin = computed(() => auth.isLogin);
 const userId = computed(() => auth.userId);
 
-// const countryCode = user.value.countryCode;
-// const countryName = CURRENCY_NAME[countryCode];
-const countryCode = computed(() => user.value?.countryCode || 1);
-const countryName = CURRENCY_NAME[countryCode];
+const countryCode = ref(1);
+
+watchEffect(() => {
+  if (user.value?.countryCode) {
+    countryCode.value = user.value.countryCode;
+  }
+});
 
 console.log("nav isLogin : ", isLogin);
 console.log("nav userId : ", userId);
@@ -289,14 +292,12 @@ const closeMenu = () => {
     showMenu.value = false;
   }, 100);
 };
-// const noLoginImg =
-//   "https://song-e-pay.s3.ap-northeast-2.amazonaws.com/profile/noLogin.png";
-
-const usdToKrwUrl = `https://v6.exchangerate-api.com/v6/${import.meta.env.VITE_EXCHANGE_RATE_API_KEY}/pair/${countryName}/KRW`;
-const krwToUsdUrl = `https://v6.exchangerate-api.com/v6/${import.meta.env.VITE_EXCHANGE_RATE_API_KEY}/pair/KRW/${countryName}`;
 
 const fetchExchangeRates = async () => {
   try {
+    const countryName = CURRENCY_NAME[countryCode.value];
+    const usdToKrwUrl = `https://v6.exchangerate-api.com/v6/${import.meta.env.VITE_EXCHANGE_RATE_API_KEY}/pair/${countryName}/KRW`;
+    const krwToUsdUrl = `https://v6.exchangerate-api.com/v6/${import.meta.env.VITE_EXCHANGE_RATE_API_KEY}/pair/KRW/${countryName}`;
     const [usdToKrwResponse, krwToUsdResponse] = await Promise.all([
       fetch(usdToKrwUrl),
       fetch(krwToUsdUrl),
@@ -322,13 +323,13 @@ const fetchExchangeRates = async () => {
     // 백엔드로 환율 데이터 전송
     await saveExchangeRates([
       {
-        baseCode: countryCode, // 외화 코드
+        baseCode: countryCode.value, // 외화 코드
         targetCode: 0, // KRW 코드
         exchangeRate: currentToKrw,
       },
       {
         baseCode: 0, // KRW 코드
-        targetCode: countryCode, // 외와 코드
+        targetCode: countryCode.value, // 외와 코드
         exchangeRate: currentFromKrw * 1000,
       },
     ]);
@@ -350,10 +351,10 @@ const saveExchangeRates = async (rates) => {
 };
 
 onMounted(async () => {
-  fetchExchangeRates();
   if (auth.userId) {
     await auth.fetchUser(auth.userId);
     userImg.value = user.value?.profilePic;
+    fetchExchangeRates();
   } else {
     console.error("사용자 ID를 찾을 수 없습니다.");
   }
