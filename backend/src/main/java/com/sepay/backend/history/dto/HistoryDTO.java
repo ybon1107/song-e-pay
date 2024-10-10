@@ -13,7 +13,7 @@ import java.util.Date;
 @Builder
 public class HistoryDTO {
     private Integer historyNo;
-    private Integer userNo;
+    private String userId;
     private String songNo;
     private String krwNo;
     private Integer typeCode;

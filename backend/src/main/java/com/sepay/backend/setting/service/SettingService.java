@@ -18,8 +18,6 @@ public interface SettingService {
 
     boolean checkSecondPassword(String userId, String secondPwd);
 
-    boolean checkSecondPassword(int useNo, String secondPwd);
-
     int deleteSonge(String songNo);
 
     int deleteKrw(String krwNo);
