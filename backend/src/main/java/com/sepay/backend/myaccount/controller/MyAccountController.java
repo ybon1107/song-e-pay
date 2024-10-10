@@ -5,6 +5,8 @@ import com.sepay.backend.myaccount.dto.DTORequest;
 import com.sepay.backend.myaccount.dto.KrwAccountDTO;
 import com.sepay.backend.myaccount.dto.SongAccountDTO;
 import com.sepay.backend.myaccount.service.MyAccountService;
+import com.sepay.backend.payment.dto.PasswordDTO;
+import com.sepay.backend.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +21,7 @@ import java.util.Map;
 public class MyAccountController {
 
     final MyAccountService myAccountService;
-
+    final UserService userService;
     //송이 계좌 잔액 조회
     @PostMapping("/krwbalance")
     public ResponseEntity<?> getKrwAccountBalance(@RequestParam String krwNo) {
@@ -39,9 +41,10 @@ public class MyAccountController {
 
     //2차 비밀번호 확인
     @PostMapping("/check")
-    public ResponseEntity<?> checkAccount(@RequestParam Integer userNo) {
-        return ResponseEntity.ok(myAccountService.selectSecondPwd(userNo));
+    public ResponseEntity<?> checkAccount(@RequestParam String userId) {
+        return ResponseEntity.ok(userService.selectSecondPwd(userId));
     }
+
     // 충전
     @PostMapping("/deposit")
     public ResponseEntity<?> deposit(@RequestBody DTORequest request) {

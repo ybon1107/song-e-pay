@@ -67,6 +67,6 @@
     <select id="selectSecondPwd" parameterType="integer" resultType="string">
         select second_pwd
         from user
-        where user_no = #{userNo}
+        where user_id = #{userId}
     </select>
 </mapper>
