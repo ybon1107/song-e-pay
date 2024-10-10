@@ -365,6 +365,7 @@ const resetValue = () => {
   sendEmail.value = '';
   sendEmailConfirm.value = '';
   success = false;
+  isMember.value = '';
   isconfirmed = false;
   checkSucess = false;
 };
