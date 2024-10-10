@@ -17,6 +17,7 @@ public class S3Controller {
 
     @PostMapping("/upload")
     public String uploadFile(@RequestParam MultipartFile profileImg,  Model model) {
+        System.out.println("한글 출력");
         try {
             String fileUrl = s3Service.uploadFile(profileImg, profileImg.getOriginalFilename());
             System.out.println("fileUrl:" + fileUrl);

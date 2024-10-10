@@ -1,13 +1,109 @@
 <script setup>
-import { computed, ref, reactive } from "vue";
+import { computed, ref, reactive, watchEffect } from "vue";
 import { onBeforeMount, onMounted, onBeforeUnmount } from "vue";
 import { useStore } from "vuex";
 
 import setNavPills from "@/assets/js/nav-pills.js";
 import setTooltip from "@/assets/js/tooltip.js";
-// import ProfileCard from "@/components/viewsComponents/ProfileCard.vue";
-// import ArgonInput from "@/components/templates/ArgonInput.vue";
 import ArgonButton from "@/components/templates/ArgonButton.vue";
+import settingApi from "@/api/settingApi";
+import { useAuthStore } from "@/stores/auth";
+
+const auth = useAuthStore();
+const isLogin = computed(() => auth.isLogin);
+const user = computed(() => auth.user);
+
+const profilePic = ref(null);
+
+const userInfo = reactive({
+  userId: '',
+  address: '',
+  postCode: '',
+  countryCode: '',
+  profilePic: null,
+});
+
+watchEffect(() => {
+  if (user.value) {
+    userInfo.userId = auth.userId;
+    userInfo.address = user.value.address;
+    userInfo.postCode = user.value.postCode;
+    userInfo.countryCode = user.value.countryCode;
+  }
+});
+
+const originalProfilePic = ref(null);
+
+onMounted(async () => {
+  if (auth.userId) {
+    await auth.fetchUser(auth.userId);
+    originalProfilePic.value = user.value?.profilePic;
+  } else {
+    console.error('사용자 ID를 찾을 수 없습니다.');
+  }
+  console.log("프로필 사용자 : ", user.value);
+});
+
+const triggerFileInput = () => {
+  if (profilePic.value) {
+    profilePic.value.value = ""; // 파일 입력 필드 초기화
+  }
+  profilePic.value.click();
+};
+
+const cancelProfilePic = () => {
+  user.value.profilePic = originalProfilePic.value;
+  userInfo.profilePic = null; // 선택된 파일 제거
+  if (profilePic.value) {
+    profilePic.value.value = ""; // 파일 입력 필드 초기화
+  }
+};
+
+const handleFileChange = (event) => {
+  const file = event.target.files[0];
+  if (file) {
+    userInfo.profilePic = file;
+    console.log("선택된 파일:", file.name);
+
+    // 파일 미리보기 생성
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      user.value.profilePic = e.target.result;
+    };
+    reader.readAsDataURL(file);
+  }
+};
+
+const updateProfile = async () => {
+  try {
+    await settingApi.updateProfile(userInfo);
+    console.log("프로필 업데이트 성공");
+    alert("프로필 업데이트 성공");
+
+    window.location.reload();
+  } catch (error) {
+    console.error("프로필 업데이트 실패:", error.response.data);
+    alert("프로필 업데이트 실패");
+  }
+};
+
+const logout = (e) => {
+  // 로그아웃
+  auth.logout();
+  window.location.href = "/main";
+};
+
+// 회원탈퇴 클릭 이벤트 핸들러
+const handleWithdraw = () => {
+  const confirmed = confirm("정말로 회원탈퇴 하시겠습니까?");
+
+  if (confirmed) {
+    // 사용자가 확인을 클릭했을 경우 특정 주소로 이동
+    console.log("탈퇴 : ", user.value.userId);
+    settingApi.delete(user.value.userId);
+    auth.logout();
+  }
+};
 
 import settingApi from "@/api/settingApi";
 import { useAuthStore } from "@/stores/auth";
@@ -109,6 +205,7 @@ onBeforeMount(() => {
   store.state.hideConfigButton = true;
   body.classList.add("profile-overview");
 });
+
 onBeforeUnmount(() => {
   store.state.isAbsolute = false;
   store.state.imageLayout = "default";
@@ -117,6 +214,7 @@ onBeforeUnmount(() => {
   store.state.hideConfigButton = false;
   body.classList.remove("profile-overview");
 });
+
 </script>
 <template>
   <main>
@@ -141,7 +239,7 @@ onBeforeUnmount(() => {
               <!-- 유저 프로필 이미지 -->
               <div class="avatar avatar-xl position-relative">
                 <img
-                  :src="user.profilePic"
+                  :src="user?.profilePic"
                   alt="profile_image"
                   class="profile-img shadow-sm w-100 border-radius-lg"
                   @click="triggerFileInput"
@@ -166,7 +264,7 @@ onBeforeUnmount(() => {
             <div class="col-auto my-auto">
               <div class="h-100">
                 <!-- 유저 닉네임 나오는 곳 -->
-                <h5 class="mb-1">{{ user.userId }}</h5>
+                <h5 class="mb-1">{{ user?.userId }}</h5>
               </div>
             </div>
             <div
@@ -207,7 +305,7 @@ onBeforeUnmount(() => {
                   <input
                     class="form-control info-input"
                     id="last-name"
-                    :value="user.firstName"
+                    :value="user?.firstName"
                     disabled
                   />
                 </div>
@@ -216,7 +314,7 @@ onBeforeUnmount(() => {
                   <input
                     class="form-control info-input"
                     id="first-name"
-                    :value="user.lastName"
+                    :value="user?.lastName"
                     disabled
                   />
                 </div>
@@ -225,7 +323,7 @@ onBeforeUnmount(() => {
                   <input
                     class="form-control info-input"
                     id="birthday"
-                    :value="user.birthday"
+                    :value="user?.birthday"
                     disabled
                   />
                 </div>
@@ -234,7 +332,7 @@ onBeforeUnmount(() => {
                   <input
                     class="form-control info-input"
                     id="phone"
-                    :value="user.phoneNo"
+                    :value="user?.phoneNo"
                     disabled
                   />
                 </div>
@@ -265,8 +363,9 @@ onBeforeUnmount(() => {
                     <label for="country" class="form-control-label">국가</label>
                     <select
                       id="country"
-                      class="form-select"
+                      class="form-select no-arrow"
                       v-model="userInfo.countryCode"
+                      disabled
                     >
                       <option value="0">한국</option>
                       <option value="1">미국</option>
@@ -346,7 +445,22 @@ onBeforeUnmount(() => {
     </div>
   </main>
 </template>
-<style>
+<style scoped>
+.no-arrow {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-image: none;
+}
+
+.no-arrow::-ms-expand {
+  display: none;
+}
+
+.no-arrow:disabled {
+  background-color: transparent;
+}
+
 .btn-logout {
   width: fit-content !important;
 }

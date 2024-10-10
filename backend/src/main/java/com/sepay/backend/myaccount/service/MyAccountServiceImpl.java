@@ -8,6 +8,7 @@ import com.sepay.backend.myaccount.mapper.MyAccountMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
 @Service
@@ -38,6 +39,7 @@ public class MyAccountServiceImpl implements MyAccountService {
 
     // 충전 : 계좌 -> 송이
     @Override
+    @Transactional
     public String deposit(AccountDTO accountDTO, SongAccountDTO songAccountDTO, HistoryDTO historyDTO, Double amount) {
         String message = "계좌에 잔액이 부족합니다";
         // 계좌에 충전 금액보다 많을 때
@@ -59,6 +61,7 @@ public class MyAccountServiceImpl implements MyAccountService {
 
     // 환불 : 송이 -> 계좌
     @Override
+    @Transactional
     public String refund(AccountDTO accountDTO, SongAccountDTO songAccountDTO, HistoryDTO historyDTO, Double amount) {
         String message = "계좌에 잔액이 부족합니다";
         // 송이 계좌에 환불 금액보다 많을 때
@@ -81,6 +84,7 @@ public class MyAccountServiceImpl implements MyAccountService {
 
     // 환전 : 송이 -> 원화
     @Override
+    @Transactional
     public String exchange(SongAccountDTO songAccountDTO, KrwAccountDTO krwAccountDTO, HistoryDTO historyDTO , Double amount, Double exchangeRate) {
         String message = "계좌에 잔액이 부족합니다";
         // 송이 계좌에 환전 금액보다 많을 때
@@ -104,6 +108,7 @@ public class MyAccountServiceImpl implements MyAccountService {
 
     // 환급 : 원화 -> 송이
     @Override
+    @Transactional
     public String reExchange(SongAccountDTO songAccountDTO, KrwAccountDTO krwAccountDTO, HistoryDTO historyDTO , Double amount, Double exchangeRate) {
         String message = "계좌에 잔액이 부족합니다";
         // 원화 계좌에 환급 금액보다 많을 때
@@ -127,6 +132,7 @@ public class MyAccountServiceImpl implements MyAccountService {
 
     // 송금
     @Override
+    @Transactional
     public String transfer(KrwAccountDTO myKrwAccount, HistoryDTO historyDTO, Double amount, String target_krwNo) {
         String message = "계좌에 잔액이 부족합니다";
         // 원화 계좌에 송금 금액보다 많을 때

@@ -20,17 +20,35 @@
               <span v-else class="d-sm-inline d-none">Sign In</span>
             </router-link>
           </li> -->
-          <li class="nav-item d-xl-none ps-3 d-flex align-items-center">
+          <li class="nav-item d-xl-none ps-3 d-flex align-items-center me-3">
             <a href="#" @click="minimizeSidebar" class="p-0 nav-link" id="iconNavbarSidenav">
               <div class="sidenav-toggler-inner">
+                <i class="sidenav-toggler-line fixed-width"></i>
                 <i class="sidenav-toggler-line"></i>
-                <i class="sidenav-toggler-line"></i>
-                <i class="sidenav-toggler-line"></i>
+                <i class="sidenav-toggler-line fixed-width"></i>
               </div>
             </a>
           </li>
+
+          <!-- 언어 선택 -->
+          <li class="nav-item dropdown language-dropdown border rounded">
+            <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="languageDropdown" role="button"
+              data-bs-toggle="dropdown" aria-expanded="false">
+              <img :src="getFlagSrc(currentLanguage)" alt="Flag" class="me-2 flag-icon">
+              {{ currentLanguage }}
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="languageDropdown">
+              <li v-for="lang in languages" :key="lang.code">
+                <a class="dropdown-item d-flex align-items-center" href="#" @click="changeLanguage(lang.code)">
+                  <img :src="lang.flag" :alt="`${lang.name} Flag`" class="me-2 flag-icon">
+                  {{ lang.name }}
+                </a>
+              </li>
+            </ul>
+          </li>
+
           <!-- 알림 -->
-          <li class="px-3 nav-item dropdown d-flex align-items-center">
+          <li class="px-3 nav-item dropdown d-flex align-items-center notification-dropdown">
             <a href="#" class="p-0 nav-link" :class="[showMenu ? 'show' : '']" id="dropdownMenuButton"
               data-bs-toggle="dropdown" aria-expanded="false" @click="showMenu = !showMenu" @blur="closeMenu">
               <div class="icon-div">
@@ -138,16 +156,21 @@ import { CURRENCY_NAME } from "@/constants/countryCode";
 import { useAuthStore } from "@/stores/auth";
 import userApi from "@/api/userApi";
 import axios from "axios";
+import { useI18n } from 'vue-i18n';
+import { languages } from '@/constants/languages';
 
 const auth = useAuthStore();
-const exchangeStore = useExchangeStore();
+const user = computed(() => auth.user);
 
-const userImg = ref("");
+const exchangeStore = useExchangeStore();
+const userImg = ref('');
 
 const isLogin = computed(() => auth.isLogin);
 const userId = computed(() => auth.userId);
-const user = computed(() => auth.user);
-const countryCode = user.value.countryCode;
+
+// const countryCode = user.value.countryCode;
+// const countryName = CURRENCY_NAME[countryCode];
+const countryCode = computed(() => user.value?.countryCode || 1);
 const countryName = CURRENCY_NAME[countryCode];
 
 console.log("nav isLogin : ", isLogin);
@@ -157,6 +180,22 @@ console.log("nav user : ", user);
 const showMenu = ref(false);
 const store = useStore();
 const isRTL = computed(() => store.state.isRTL);
+
+const { locale } = useI18n();
+
+const currentLanguage = computed(() => {
+  const currentLang = languages.find(lang => lang.code === locale.value);
+  return currentLang ? currentLang.name : 'Unknown';
+});
+
+const changeLanguage = (langCode) => {
+  locale.value = langCode;
+};
+
+const getFlagSrc = (languageName) => {
+  const lang = languages.find(lang => lang.name === languageName);
+  return lang ? lang.flag : '';
+};
 
 // const route = useRoute();
 
@@ -237,20 +276,16 @@ const saveExchangeRates = async (rates) => {
 
 onMounted(async () => {
   fetchExchangeRates();
-
-  // 사용자 이미지 가져오기
-  try {
-    userImg.value = await userApi.getUserImg(auth.userId);
-    console.log("userImg : ", userImg.value);
-  } catch (error) {
-    console.error("사용자 이미지를 가져오는 데 실패했습니다:", error);
-    // 기본 이미지 URL을 설정하거나 다른 오류 처리를 수행할 수 있습니다.
-    userImg.value = "/path/to/default/image.jpg";
+  if (auth.userId) {
+    await auth.fetchUser(auth.userId);
+    userImg.value = user.value?.profilePic
+  } else {
+    console.error('사용자 ID를 찾을 수 없습니다.');
   }
 });
 </script>
 
-<style>
+<style scoped>
 .img-div {
   width: 20px;
   height: 20px;
@@ -270,4 +305,46 @@ onMounted(async () => {
   font-weight: 700;
   font-style: normal;
 }
+
+.sidenav-toggler-line {
+  transform: none !important;
+}
+
+.sidenav-toggler-line.fixed-width {
+  width: 100% !important;
+}
+
+.flag-icon {
+  width: 20px;
+  height: 15px;
+  object-fit: cover;
+}
+
+.language-dropdown {
+  padding: 5px;
+  border-color: #e9ecef;
+}
+
+.language-dropdown .dropdown-toggle::after {
+  display: none;
+}
+
+.language-dropdown .nav-link {
+  padding: 0.25rem 0.5rem;
+  font-size: 0.875rem;
+  display: flex;
+  align-items: center;
+}
+
+.language-dropdown .language-menu {
+  min-width: 120px;
+}
+
+.language-dropdown .dropdown-item {
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+  display: flex;
+  align-items: center;
+}
+
 </style>

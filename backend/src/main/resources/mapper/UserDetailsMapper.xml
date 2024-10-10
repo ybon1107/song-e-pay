@@ -42,4 +42,11 @@
                  LEFT OUTER JOIN user_auth ua ON u.user_id = ua.user_id
         WHERE u.user_id = #{username}
     </select>
+
+    <!-- 회원 상태 확인 -->
+    <select id="checkUserStatus" parameterType="String" resultType="String">
+        select state_code
+        from user
+        where user_id = #{userId}
+    </select>
 </mapper>

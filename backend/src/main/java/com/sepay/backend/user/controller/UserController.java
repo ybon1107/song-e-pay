@@ -92,8 +92,9 @@ public class UserController {
         }
     }
 
-    @GetMapping("/profile-img/{userId}")
-    public ResponseEntity<?> getProfileImg(@PathVariable String userId) {
-        return ResponseEntity.ok(userService.getUserImg(userId));
+    // 유저 이메일로 유저 정보 가져오기
+    @GetMapping("/{userId}")
+    public ResponseEntity<?> getUser(@PathVariable String userId) {
+        return ResponseEntity.ok(userService.getUserByEmail(userId));
     }
 }

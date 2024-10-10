@@ -39,7 +39,8 @@ dependencies {
     implementation 'software.amazon.awssdk:s3:2.16.82'
 
     // Commons FileUpload 의존성
-    implementation 'commons-fileupload:commons-fileupload:1.4'
+    implementation group: 'commons-fileupload', name: 'commons-fileupload', version: '1.5'
+    implementation group: 'commons-io', name: 'commons-io', version: '2.17.0'
 
     // AOP
     implementation 'org.aspectj:aspectjrt:1.9.20'
