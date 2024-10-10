@@ -7,5 +7,5 @@ import java.util.List;
 
 public interface UserDetailsMapper {
     public UserVO get(String username);
-    List<AuthVO> getAuths(String username);
+    String checkUserStatus(String username);
 }

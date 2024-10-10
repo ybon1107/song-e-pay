@@ -1,5 +1,6 @@
 <script setup>
 import { ref, computed, watch } from "vue";
+import { onMounted } from "vue";
 import { useAuthStore } from '@/stores/auth';
 import settingApi from '@/api/settingApi';
 import ArgonInput from "@/components/templates/ArgonInput.vue";
@@ -17,6 +18,16 @@ const newPwCheck = ref("");
 const passwordMessage = ref('');
 const isPasswordMatch = ref(false); // 비밀번호 일치 여부
 const isPasswordValid = ref(false); // 비밀번호 유효성 여부
+
+onMounted(async () => {
+     try {
+       await auth.fetchUser(auth.userId); // 사용자 정보를 가져오는 메서드 (구현 필요)
+     } catch (error) {
+       console.error('사용자 정보 로드 실패:', error);
+     } finally {
+       isUserLoading.value = false;
+     }
+   });
 
 // 비밀번호 비교하는 함수
 watch([newPw, newPwCheck], () => {
@@ -36,11 +47,11 @@ watch([newPw, newPwCheck], () => {
 
 // 비밀번호 변경 함수
 const changePassword = async () => {
-
+    console.log('user: ', user.value);
     const formData = {
         currentPw: currentPw.value,
         newPw: newPw.value,
-        userNo: user.value.userNo,
+        userId: user.value.userId,
     };
 
     try {
