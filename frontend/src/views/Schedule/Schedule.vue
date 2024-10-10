@@ -43,7 +43,7 @@ function addEvent(eventData) {
   const colorWithoutHash = eventData.color.replace('#', '');
 
   const scheduleData = {
-    userNo: 1,
+    userId: 'test@gmail.com',
     beginDate: eventData.startedAt,
     endDate: moment(eventData.endedAt).add(1, 'days').format('YYYY-MM-DD'),
     title: eventData.title,
@@ -79,10 +79,7 @@ function handleEventClick(clickInfo) {
     endedAt: event.end ? moment(event.end).format('YYYY-MM-DD') : '', // 날짜만 표시
   };
 
-  console.log(
-    'Clicked Event Details:',
-    JSON.stringify(maintenance.value, null, 2)
-  );
+  console.log('Clicked Event Details:', JSON.stringify(maintenance.value, null, 2));
   // 데이터 확인
   isEditEventModalVisible.value = true; // 모달 표시
 }
@@ -212,11 +209,7 @@ const calendarOptions = ref({
   <div class="container-fluid" style="width: 85%" id="responsive-container">
     <div class="card card-body demo-app d-flex flex-column flex-md-row">
       <div class="demo-app-main col-md-9">
-        <FullCalendar
-          ref="calendarRef"
-          class="demo-app-calendar"
-          :options="calendarOptions"
-        >
+        <FullCalendar ref="calendarRef" class="demo-app-calendar" :options="calendarOptions">
           <template v-slot:eventContent="arg">
             <b>{{ arg.timeText }}</b>
             <i>{{ arg.event.title }}</i>
@@ -234,13 +227,7 @@ const calendarOptions = ref({
       </div>
     </div>
   </div>
-  <MaintenanceModal
-    v-if="isMaintenanceModalVisible"
-    :isVisible="isMaintenanceModalVisible"
-    :maintenance="maintenance"
-    @closeModal="closeMaintenanceModal"
-    @saveEvent="addEvent"
-  />
+  <MaintenanceModal v-if="isMaintenanceModalVisible" :isVisible="isMaintenanceModalVisible" :maintenance="maintenance" @closeModal="closeMaintenanceModal" @saveEvent="addEvent" />
   <EditEventModal
     v-if="isEditEventModalVisible"
     :isVisible="isEditEventModalVisible"

@@ -1,30 +1,16 @@
 <template>
   <div class="modal-body">
-    <Modal
-      :isVisible="showModal"
-      :showFooter="false"
-      title="⚠️ 경고"
-      @close="closeModal"
-      v-if="showPasswordInput"
-    >
+    <Modal :isVisible="showModal" :showFooter="false" title="⚠️ 경고" @close="closeModal" v-if="showPasswordInput">
       <p class="warning-text">사칭사기에 주의하세요.</p>
       <h3 class="password-title">결제 비밀번호</h3>
       <!-- 비밀번호 도트 -->
       <div class="password-dots">
-        <span
-          v-for="(digit, index) in 6"
-          :key="index"
-          :class="{ dot: true, filled: password.length >= index + 1 }"
-        ></span>
+        <span v-for="(digit, index) in 6" :key="index" :class="{ dot: true, filled: password.length >= index + 1 }"></span>
       </div>
 
       <!-- 숫자 키패드 -->
       <div class="keypad">
-        <button
-          v-for="num in shuffledNumbers"
-          :key="num"
-          @click="enterDigit(num)"
-        >
+        <button v-for="num in shuffledNumbers" :key="num" @click="enterDigit(num)">
           {{ num }}
         </button>
         <button @click="clearAll" class="function-key">C</button>
@@ -37,17 +23,17 @@
 </template>
 
 <script setup>
-import { ref, defineEmits, onMounted } from "vue";
-import myaccountApi from "../../api/myaccountApi";
-import Modal from "../../components/modal/Modal.vue";
-import Swal from "sweetalert2";
-import "sweetalert2/dist/sweetalert2.min.css";
+import { ref, defineEmits, onMounted } from 'vue';
+import myaccountApi from '../../api/myaccountApi';
+import Modal from '../../components/modal/Modal.vue';
+import Swal from 'sweetalert2';
+import 'sweetalert2/dist/sweetalert2.min.css';
 
 // 이벤트 설정
-const emit = defineEmits(["close", "password-verified"]);
+const emit = defineEmits(['close', 'password-verified']);
 
 const showModal = ref(true);
-const password = ref(""); // 비밀번호는 최대 6자리
+const password = ref(''); // 비밀번호는 최대 6자리
 const userNo = 1;
 const showPasswordInput = ref(true);
 
@@ -87,7 +73,7 @@ const clearLast = () => {
 
 // 전체 입력 지우기
 const clearAll = () => {
-  password.value = "";
+  password.value = '';
 };
 
 // 비밀번호 검증 함수 수정
@@ -95,28 +81,28 @@ const verifyPassword = async (userNo) => {
   try {
     const correctPassword = await myaccountApi.checkSecondPassword(userNo);
     if (password.value == correctPassword) {
-      emit("password-verified");
+      emit('password-verified');
       closeModal();
     } else {
       showPasswordInput.value = false;
       Swal.fire({
-        title: "다시 입력하세요",
-        text: "비밀번호가 틀렸습니다.",
-        icon: "error",
+        title: '다시 입력하세요',
+        text: '비밀번호가 틀렸습니다.',
+        icon: 'error',
       }).then(() => {
-        password.value = "";
+        password.value = '';
         showPasswordInput.value = true;
       });
     }
   } catch (error) {
-    console.error("비밀번호 검증 중 오류 발생:", error);
+    console.error('비밀번호 검증 중 오류 발생:', error);
     showPasswordInput.value = false;
     Swal.fire({
-      title: "다시 입력하세요",
-      text: "비밀번호 확인에 실패했습니다. 다시 시도해 주세요.",
-      icon: "error",
+      title: '다시 입력하세요',
+      text: '비밀번호 확인에 실패했습니다. 다시 시도해 주세요.',
+      icon: 'error',
     }).then(() => {
-      password.value = "";
+      password.value = '';
       showPasswordInput.value = true;
     });
   }
@@ -124,7 +110,7 @@ const verifyPassword = async (userNo) => {
 
 const closeModal = () => {
   showModal.value = false;
-  emit("close");
+  emit('close');
 };
 </script>
 
