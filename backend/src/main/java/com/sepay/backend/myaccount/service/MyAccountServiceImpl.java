@@ -134,7 +134,11 @@ public class MyAccountServiceImpl implements MyAccountService {
     // 송금
     @Override
     @Transactional
+<<<<<<< Updated upstream
     public String transfer(KrwAccountDTO myKrwAccount, HistoryDTO historyDTO, Double amount, String target_krwNo, String targetHistoryContent) {
+=======
+    public String transfer(KrwAccountDTO myKrwAccount, HistoryDTO historyDTO, Double amount, String target_krwNo) {
+>>>>>>> Stashed changes
         String message = "계좌에 잔액이 부족합니다";
         // 원화 계좌에 송금 금액보다 많을 때
         if(mapper.selectKrwBalance(myKrwAccount.getKrwNo()) >= amount) {

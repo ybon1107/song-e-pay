@@ -4,7 +4,20 @@ const api = axios.create({
   headers: { "Content-Type": "application/json" }, // 기본 헤더
 });
 export default {
-  async save(submitData, calendarRef, closeModal, getColor, userNo) {
+
+  async getEvents(userId, year, month) {
+    try {
+      const response = await api.get(`/list/${userId}`, {
+        params: { year, month }
+      });
+      return response.data;
+    } catch (error) {
+      console.error('이벤트 로딩 중 오류 발생:', error);
+      throw error;
+    }
+  },
+
+  async save(submitData, calendarRef, closeModal, getColor, userId) {
     try {
       // FullCalendar API 객체를 가져오기
       const calendarApi = calendarRef.value.getApi();

@@ -91,10 +91,13 @@ public class MyAccountController {
         }
 
     }
+<<<<<<< Updated upstream
 
     // 보내는 사람(회원)의 krw_no 값 가져오기
     @PostMapping("/krwno")
     public ResponseEntity<?> getKrwNo(@RequestParam String userId) {
         return ResponseEntity.ok(myAccountService.getKrwno(userId));
     }
+=======
+>>>>>>> Stashed changes
 }
