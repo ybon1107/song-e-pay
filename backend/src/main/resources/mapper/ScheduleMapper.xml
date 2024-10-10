@@ -7,9 +7,9 @@
     <!-- 일정 저장 -->
     <insert id="saveSchedule" parameterType="com.sepay.backend.schedule.dto.ScheduleDTO">
         INSERT INTO sepay.event
-        (user_no, begin_date, end_date, title, todo, color, created_at, updated_at)
+        (user_id, begin_date, end_date, title, todo, color, created_at, updated_at)
         VALUES
-        (#{userNo}, #{beginDate}, #{endDate}, #{title}, #{todo}, #{color}, NOW(), NOW())
+            (#{userId}, #{beginDate}, #{endDate}, #{title}, #{todo}, #{color}, NOW(), NOW())
     </insert>
 
     <!-- 일정 목록 조회 -->
@@ -22,12 +22,12 @@
     <update id="updateSchedule" parameterType="com.sepay.backend.schedule.dto.ScheduleDTO">
         UPDATE event
         SET
-        begin_date = #{beginDate},
-        end_date = #{endDate},
-        title = #{title},
-        todo = #{todo},
-        color = #{color},
-        updated_at = NOW()
+            begin_date = #{beginDate},
+            end_date = #{endDate},
+            title = #{title},
+            todo = #{todo},
+            color = #{color},
+            updated_at = NOW()
         WHERE event_no = #{eventNo}
     </update>
 
