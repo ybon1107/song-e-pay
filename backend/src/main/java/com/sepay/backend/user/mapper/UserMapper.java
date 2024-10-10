@@ -9,9 +9,8 @@ import org.apache.ibatis.annotations.Select;
 import java.util.Map;
 
 public interface UserMapper {
-    UserDTO selectUserByUserNo(Integer userNo);
 
-    String getSecondaryPassword(int userNo);
+    String getSecondaryPassword(String userId);
 
     UserVO get(String username);
 
@@ -24,11 +23,10 @@ public interface UserMapper {
     // 회원가입
     int insertUser(UserVO userVO);
 
+    // 이메일로 유저 정보
     UserDTO selectUserByEmail(String email);
     
     int checkEmail(String email);
-
-    String selectUserImg(String userid);
 
     // 자동환전에서 사용
     @Select("SELECT song_no, krw_no FROM user WHERE user_no = #{userNo}")

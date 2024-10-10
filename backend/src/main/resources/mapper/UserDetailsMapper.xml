@@ -39,7 +39,14 @@
     <select id="get" resultMap="userMap">
         SELECT user_no, account_no, song_no, krw_no, country_code, u.user_id, password, first_name, last_name, birthday, gender, phone_no, second_pwd, profile_pic, address, post_code, state_code, created_at, updated_at, ua.auth
         FROM user u
-                 LEFT OUTER JOIN user_auth ua ON u.user_id = ua.user_id
+                LEFT OUTER JOIN user_auth ua ON u.user_id = ua.user_id
         WHERE u.user_id = #{username}
+    </select>
+
+    <!-- 회원 상태 확인 -->
+    <select id="checkUserStatus" parameterType="String" resultType="String">
+        select state_code
+        from user
+        where user_id = #{userId}
     </select>
 </mapper>
