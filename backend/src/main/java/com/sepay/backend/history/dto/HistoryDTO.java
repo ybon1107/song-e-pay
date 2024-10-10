@@ -12,8 +12,9 @@ import java.util.Date;
 @AllArgsConstructor
 @Builder
 public class HistoryDTO {
-    private Integer historyNo;
     private String userId;
+    private Integer historyNo;
+    private Integer userNo;
     private String songNo;
     private String krwNo;
     private Integer typeCode;

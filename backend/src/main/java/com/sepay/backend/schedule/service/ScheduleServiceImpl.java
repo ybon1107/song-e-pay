@@ -35,7 +35,7 @@ public class ScheduleServiceImpl implements ScheduleService {
         } else {
             throw new RuntimeException("Failed to update schedule with eventNo: " + scheduleDTO.getEventNo());
         }
-}
+    }
 
     @Override
     public void deleteSchedule(Integer eventNo) {

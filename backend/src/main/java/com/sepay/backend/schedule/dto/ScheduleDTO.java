@@ -12,6 +12,7 @@ import java.util.Date;
 @AllArgsConstructor
 @Builder
 public class ScheduleDTO {
+    private String userId;
     private Integer eventNo;
     private Integer userNo;
     private String beginDate;  // 시작 날짜 (형식: "yyyy-MM-dd HH:mm:ss")
