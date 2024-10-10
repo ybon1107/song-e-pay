@@ -7,11 +7,9 @@ import com.sepay.backend.user.dto.UserRegisterDTO;
 import java.util.Map;
 
 public interface UserService {
-<<<<<<< Updated upstream
-    String selectSecondPwd(String userId);
-=======
 
->>>>>>> Stashed changes
+    String selectSecondPwd(String userId);
+    
     boolean checkSecondaryPassword(PasswordDTO passwordDTO);
 
     UserDTO get(String username);
