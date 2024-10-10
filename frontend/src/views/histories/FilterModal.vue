@@ -8,6 +8,11 @@ const props = defineProps({
   periods: Array,
   types: Array,
   sorts: Array,
+  isVisible: Boolean,
+  filters: Object,
+  periods: Array,
+  types: Array,
+  sorts: Array,
 });
 
 // 이벤트 emit 정의
@@ -24,6 +29,10 @@ const selectCustomDate = () => {
 
 // 기간 선택 시 호출되는 함수
 const selectPeriod = (period) => {
+  props.filters.selectedPeriod = period;
+  isCustomDateSelected.value = false; // 다른 기간을 선택하면 직접 설정 탭 숨기기
+  props.filters.startDate = null;
+  props.filters.endDate = null;
   props.filters.selectedPeriod = period;
   isCustomDateSelected.value = false; // 다른 기간을 선택하면 직접 설정 탭 숨기기
   props.filters.startDate = null;
@@ -128,15 +137,26 @@ const applyFilters = () => {
   width: 70%;
   background-color: white;
   z-index: 1000;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 70%;
+  background-color: white;
+  z-index: 1000;
 }
 
 .modal-content {
   background-color: white;
   padding: 20px;
   border-radius: 10px;
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
 }
 
 .btn-group button {
+  margin-right: 5px;
   margin-right: 5px;
 }
 </style>

@@ -14,7 +14,7 @@ import java.util.Date;
 public class HistoryDTO {
     private String userId;
     private Integer historyNo;
-    private Integer userNo;
+    private String userId;
     private String songNo;
     private String krwNo;
     private Integer typeCode;

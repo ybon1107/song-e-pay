@@ -76,6 +76,13 @@ const props = defineProps({
   isVisible: Boolean,
   songTransactionType: Array,
   wonTransactionType: Array,
+  transaction: {
+    type: Object,
+    default: () => ({}),
+  },
+  isVisible: Boolean,
+  songTransactionType: Array,
+  wonTransactionType: Array,
 });
 
 const emit = defineEmits(['close', 'updateMemo']);
@@ -145,14 +152,21 @@ const closeModal = () => {
   line-height: 1.3;
   font-weight: 700;
   color: #344767;
+  font-size: 2.25rem;
+  line-height: 1.3;
+  font-weight: 700;
+  color: #344767;
 }
 
 .flex-justify-between {
   display: flex;
   justify-content: space-between;
+  display: flex;
+  justify-content: space-between;
 }
 
 .fixed-textarea {
+  resize: none;
   resize: none;
 }
 </style>

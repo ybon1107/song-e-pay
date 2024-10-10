@@ -1,7 +1,7 @@
 import { ref, computed } from "vue";
 import { defineStore } from "pinia";
 import axios from "axios";
-import userApi from '@/api/userApi';
+import userApi from "@/api/userApi";
 
 const initState = {
   token: "",
@@ -25,7 +25,7 @@ export const useAuthStore = defineStore("auth", () => {
       user.value = userData;
       console.log("fetch user : ", user.value);
     } catch (error) {
-      console.error('사용자 정보를 가져오는 데 실패했습니다:', error);
+      console.error("사용자 정보를 가져오는 데 실패했습니다:", error);
     }
   };
 
@@ -45,7 +45,7 @@ export const useAuthStore = defineStore("auth", () => {
       const response = await axios.post("/api/auth/login", member.value);
       console.log("response : ", response);
       console.log("response.data : ", response.data);
-      
+
       state.value = { ...response.data };
 
       switch (state.value.user.countryCode) {
@@ -134,6 +134,6 @@ export const useAuthStore = defineStore("auth", () => {
     login,
     logout,
     updateProfileState,
-    fetchUser
+    fetchUser,
   };
 });

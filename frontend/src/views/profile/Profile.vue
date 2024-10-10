@@ -16,10 +16,10 @@ const user = computed(() => auth.user);
 const profilePic = ref(null);
 
 const userInfo = reactive({
-  userId: '',
-  address: '',
-  postCode: '',
-  countryCode: '',
+  userId: "",
+  address: "",
+  postCode: "",
+  countryCode: "",
   profilePic: null,
 });
 
@@ -39,7 +39,7 @@ onMounted(async () => {
     await auth.fetchUser(auth.userId);
     originalProfilePic.value = user.value?.profilePic;
   } else {
-    console.error('사용자 ID를 찾을 수 없습니다.');
+    console.error("사용자 ID를 찾을 수 없습니다.");
   }
   console.log("프로필 사용자 : ", user.value);
 });
@@ -131,7 +131,6 @@ onBeforeUnmount(() => {
   store.state.hideConfigButton = false;
   body.classList.remove("profile-overview");
 });
-
 </script>
 <template>
   <main>
