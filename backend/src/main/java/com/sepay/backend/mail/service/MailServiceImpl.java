@@ -106,4 +106,27 @@ public class MailServiceImpl implements MailService {
         }
         return false;
     }
+    @Override
+    public boolean transferTo (String userId){
+        try {
+            MimeMessage message = emailSender.createMimeMessage();
+            MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
+            helper.setFrom("noreplysongepay@account.google.com");
+            helper.setTo(userId);
+            helper.setSubject("[Song-E Pay] Registration Verification Email");
+            String body = "<h2>Your verification code is: </h2>";
+            helper.setText(body, true); // true를 설정해서 HTML을 사용 가능하게 함
+            helper.setReplyTo("noreplysongepay@account.google.com"); // 회신 불가능한 메일 주소 설정
+
+            emailSender.send(message);
+            log.info("Mail sent successfully: {}", userId);
+
+        } catch (MessagingException e) {
+            log.info("userId : ", userId);
+            log.error("Error occurred while sending mail", e);
+
+            return false;
+        }
+        return true;
+    }
 }
