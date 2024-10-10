@@ -10,6 +10,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
+
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -53,9 +55,18 @@ public class MyAccountServiceImpl implements MyAccountService {
             mapper.updateSongAccount(songAccountDTO);
 
             // history insert
-            mapper.insertHistory(historyDTO);
+//            mapper.insertHistory(historyDTO);
             message = "success";
+
+            historyDTO.setTypeCode(3); // 환전 타입 코드
+            historyDTO.setStateCode(1); // 성공 상태 코드
+            historyDTO.setHistoryDate(new Date()); // 현재 날짜로 설정
+            historyDTO.setHistoryContent("충전"); // 내용 설정
+            historyDTO.setAmount(amount); // 금액 설정
+            System.out.println(historyDTO);
+            mapper.insertHistory(historyDTO);
         }
+
         return message;
     }
 
