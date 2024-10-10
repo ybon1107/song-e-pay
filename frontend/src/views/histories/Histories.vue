@@ -1,26 +1,22 @@
 <script setup>
-import { ref, computed, onMounted } from "vue";
-import moment from "moment"; // moment.js로 Unix Timestamp를 변환
-import historyApi from "../../api/historiesApi.js"; // API 파일 import
-import HistoriesDetailModal from "./HistoriesDetailModal.vue";
-import ArgonPagination from "@/components/templates/ArgonPagination.vue";
-import ArgonPaginationItem from "@/components/templates/ArgonPaginationItem.vue";
-import FilterModal from "./FilterModal.vue"; // FilterModal.vue 가져오기
-import { CURRENCY_NAME } from "@/constants/countryCode";
-import {
-  TRANSACTION_TYPES,
-  TRANSACTION_TYPES_KEY,
-  TRANSACTION_STATES_KEY,
-} from "@/constants/transactionType";
+import { ref, computed, onMounted } from 'vue';
+import moment from 'moment'; // moment.js로 Unix Timestamp를 변환
+import historyApi from '../../api/historiesApi.js'; // API 파일 import
+import HistoriesDetailModal from './HistoriesDetailModal.vue';
+import ArgonPagination from '@/components/templates/ArgonPagination.vue';
+import ArgonPaginationItem from '@/components/templates/ArgonPaginationItem.vue';
+import FilterModal from './FilterModal.vue'; // FilterModal.vue 가져오기
+import { CURRENCY_NAME } from '@/constants/countryCode';
+import { TRANSACTION_TYPES, TRANSACTION_TYPES_KEY, TRANSACTION_STATES_KEY } from '@/constants/transactionType';
 
 // 유저 권한
-import { useAuthStore } from "@/stores/auth";
+import { useAuthStore } from '@/stores/auth';
 const auth = useAuthStore();
 const user = computed(() => auth.user);
 
 // 필터 모달 가시성 상태 관리
 const isFilterModalVisible = ref(false);
-const searchQuery = ref("");
+const searchQuery = ref('');
 // 실제 필터가 저장될 변수 (확인 버튼 누르면 적용됨)
 
 const songCurrencyUnit = CURRENCY_NAME[user.value.countryCode];
@@ -28,17 +24,8 @@ const i18n_PERIOD = ['histories--filters-period-today', 'histories--filters-peri
 const i18n_TYPE = ['histories--filters-type-all', 'histories--filters-type-wone', 'histories--filters-type-songe'];
 const i18n_SORT = ['histories--filters-sort-newest', 'histories--filters-sort-oldest'];
 
-const songTransactionType = [
-  TRANSACTION_TYPES.DEPOSIT,
-  TRANSACTION_TYPES.REFUND,
-  TRANSACTION_TYPES.EXCHANGE,
-  TRANSACTION_TYPES.AUTO_EXCHANGE,
-];
-const wonTransactionType = [
-  TRANSACTION_TYPES.PAYMENT,
-  TRANSACTION_TYPES.TRANSFER,
-  TRANSACTION_TYPES.RE_EXCHANGE,
-];
+const songTransactionType = [TRANSACTION_TYPES.DEPOSIT, TRANSACTION_TYPES.REFUND, TRANSACTION_TYPES.EXCHANGE, TRANSACTION_TYPES.AUTO_EXCHANGE];
+const wonTransactionType = [TRANSACTION_TYPES.PAYMENT, TRANSACTION_TYPES.TRANSFER, TRANSACTION_TYPES.RE_EXCHANGE];
 
 const filters = ref({
   selectedPeriod: i18n_PERIOD[2],
@@ -52,7 +39,6 @@ const filters = ref({
 // 모달을 열고 닫는 함수
 const toggleFilterModal = () => {
   isFilterModalVisible.value = !isFilterModalVisible.value;
-  isFilterModalVisible.value = !isFilterModalVisible.value;
 };
 
 // 필터된 거래 내역 가져오기
@@ -60,12 +46,7 @@ const applyTransactionFilters = async (resetPage = false) => {
   if (resetPage) {
     pageRequest.value.page = 1;
   }
-  if (resetPage) {
-    pageRequest.value.page = 1;
-  }
 
-  // 검색어를 필터에 반영
-  filters.value.historyContent = searchQuery.value;
   // 검색어를 필터에 반영
   filters.value.historyContent = searchQuery.value;
 
@@ -139,7 +120,6 @@ const handleFilterApply = async (filters) => {
   isFilterModalVisible.value = false; // 모달 닫기
 
   await applyTransactionFilters(true); // 필터 적용 후 거래 내역 필터링
-  await applyTransactionFilters(true); // 필터 적용 후 거래 내역 필터링
 };
 
 // 거래 내역 관련 기본 코드
@@ -148,13 +128,10 @@ const totalItems = ref(0);
 const pageRequest = ref({
   page: 1,
   amount: 10,
-  page: 1,
-  amount: 10,
 });
 
 // 페이지 로드 시 거래 내역 가져오기
 onMounted(async () => {
-  await applyTransactionFilters();
   await applyTransactionFilters();
 });
 
@@ -174,29 +151,9 @@ const goToPage = async (pageNum) => {
     pageRequest.value.page = pageNum;
     await applyTransactionFilters(false); // 항상 필터를 유지한 상태로 페이지 이동
   }
-  if (pageNum > 0 && pageNum <= totalPages.value) {
-    pageRequest.value.page = pageNum;
-    await applyTransactionFilters(false); // 항상 필터를 유지한 상태로 페이지 이동
-  }
 };
 
 const paginationItems = computed(() => {
-  const items = [];
-  const maxVisiblePages = 5;
-  const halfVisible = Math.floor(maxVisiblePages / 2);
-  let startPage = Math.max(pageRequest.value.page - halfVisible, 1);
-  let endPage = Math.min(startPage + maxVisiblePages - 1, totalPages.value);
-  if (endPage - startPage + 1 < maxVisiblePages) {
-    startPage = Math.max(endPage - maxVisiblePages + 1, 1);
-  }
-  for (let i = startPage; i <= endPage; i++) {
-    items.push({
-      label: i.toString(),
-      active: i === pageRequest.value.page,
-      disabled: false,
-    });
-  }
-  return items;
   const items = [];
   const maxVisiblePages = 5;
   const halfVisible = Math.floor(maxVisiblePages / 2);
@@ -227,12 +184,9 @@ const selectedTransaction = ref(null);
 const openModal = (transaction) => {
   selectedTransaction.value = transaction;
   isModalVisible.value = true;
-  selectedTransaction.value = transaction;
-  isModalVisible.value = true;
 };
 
 const closeModal = () => {
-  isModalVisible.value = false;
   isModalVisible.value = false;
 };
 
@@ -347,16 +301,6 @@ const getBadgeClass = (typeCode) => {
       @close="closeModal"
     />
   </div>
-    <!-- 이용내역 상세 모달 -->
-    <HistoriesDetailModal
-      :transaction="selectedTransaction"
-      :isVisible="isModalVisible"
-      :songTransactionType="songTransactionType"
-      :wonTransactionType="wonTransactionType"
-      @updateMemo="handleMemoUpdate"
-      @close="closeModal"
-    />
-  </div>
 </template>
 
 <style scoped>
@@ -366,10 +310,6 @@ const getBadgeClass = (typeCode) => {
 } */
 
 @media (max-width: 767px) {
-  th:nth-child(3),
-  td:nth-child(3) {
-    display: none;
-  }
   th:nth-child(3),
   td:nth-child(3) {
     display: none;
