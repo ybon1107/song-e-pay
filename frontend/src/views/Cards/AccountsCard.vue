@@ -28,7 +28,7 @@ const { formatNumber, formatCurrency } = currencyFormatter;
 import { useAuthStore } from '@/stores/auth';
 // const auth = useAuthStore();
 // const user = computed(() => auth.user);
-const user = { krwNo: '1234', countryCode: '1', songNo: '1234', userNo: '1234' };
+const user = { krwNo: 'krw_test', countryCode: '1', songNo: 'song_test', userNo: '1234' };
 const isFocused = ref(false);
 const balance = ref(0);
 

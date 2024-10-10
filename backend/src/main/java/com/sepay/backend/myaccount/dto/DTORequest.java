@@ -3,6 +3,8 @@ package com.sepay.backend.myaccount.dto;
 import com.sepay.backend.history.dto.HistoryDTO;
 
 public class DTORequest {
+    private String targetHistoryContent;
+    private String isMember;
     private double amount;
     private AccountDTO accountDTO;
     private SongAccountDTO songAccountDTO;
@@ -11,6 +13,19 @@ public class DTORequest {
     private double exchageRate;
     private String target_krwNo;
     // Getter와 Setter
+    public String getTargetHistoryContent() {
+        return targetHistoryContent;
+    }
+
+    public void setTargetHistoryContent(String targetHistoryContent) {
+        this.targetHistoryContent = targetHistoryContent;
+    }
+    public String getIsMember() {
+        return isMember;
+    }
+    public void setIsMember(String isMember) {
+        this.isMember = isMember;
+    }
     public double getAmount() {
         return amount;
     }
