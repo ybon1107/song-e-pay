@@ -7,7 +7,7 @@ import com.sepay.backend.user.dto.UserRegisterDTO;
 import java.util.Map;
 
 public interface UserService {
-
+    String selectSecondPwd(String userId);
     boolean checkSecondaryPassword(PasswordDTO passwordDTO);
 
     UserDTO get(String username);

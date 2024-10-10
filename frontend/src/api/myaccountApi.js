@@ -88,9 +88,9 @@ export default {
     }
   },
   //2차 비밀번호 확인
-  async checkSecondPassword(userNo) {
+  async checkSecondPassword(userId) {
     try {
-      const response = await api.post(`/check?userNo=${userNo}`);
+      const response = await api.post(`/check?userId=${userId}`);
       return response.data;
     } catch (error) {
       console.error('2차 비밀번호 확인 중 오류 발생:', error);
