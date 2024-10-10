@@ -24,12 +24,7 @@ public class MyAccountController {
     final MyAccountService myAccountService;
     final UserService userService;
     private final MailService mailService;
-    //비회원 송금 이메일 전송
-    @PostMapping("/email")
-    public boolean sendMailTransfer(@RequestBody Map<String, String> request) throws Exception {
-        String userId = request.get("userId");
-        return mailService.transferTo(userId);
-    }
+
     //송이 계좌 잔액 조회
     @PostMapping("/krwbalance")
     public ResponseEntity<?> getKrwAccountBalance(@RequestParam String krwNo) {
@@ -84,7 +79,7 @@ public class MyAccountController {
     public ResponseEntity<?> transfer(@RequestBody DTORequest request) throws Exception {
         log.info("확인 : {}" , request.getTargetHistoryContent());
         if("no-member".equals(request.getIsMember())){
-            return ResponseEntity.ok(mailService.transferTo(request.getTarget_krwNo()));
+            return ResponseEntity.ok(mailService.transferTo(request.getTarget_krwNo(), request.getHistoryDTO()));
         }
         else{
             return ResponseEntity.ok(myAccountService.transfer(request.getKrwAccountDTO(), request.getHistoryDTO(), request.getAmount(), request.getTarget_krwNo(), request.getTargetHistoryContent()));
