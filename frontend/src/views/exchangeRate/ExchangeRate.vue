@@ -2,7 +2,11 @@
   <div class="container-fluid">
     <div class="d-grid gap-5">
       <h3 class="mb-0">{{ $t("exchangeRate--header-title") }}</h3>
-      <SecondPasswordModal v-if="showModal" @close="closeModal" @password-verified="handlePasswordVerified" />
+      <SecondPasswordModal
+        v-if="showModal"
+        @close="closeModal"
+        @password-verified="handlePasswordVerified"
+      />
 
       <!-- USD to KRW Section -->
       <div class="card">
@@ -12,11 +16,21 @@
               <h4 class="mt-3">
                 1 {{ customerunit }} = {{ currentToKrw.toFixed(2) }} KRW
               </h4>
-              <ExchangeRateChart chartId="toexchangeChart" :period="toSelectedPeriod" chartType="to" />
+              <ExchangeRateChart
+                chartId="toexchangeChart"
+                :period="toSelectedPeriod"
+                chartType="to"
+              />
               <div class="chart-button-container">
-                <template v-for="period in ['1y', '6m', '3m', '1m']" :key="period">
-                  <button class="chart-btn" :class="{ selected: toSelectedPeriod === period }"
-                    @click="setToPeriod(period)">
+                <template
+                  v-for="period in ['1y', '6m', '3m', '1m']"
+                  :key="period"
+                >
+                  <button
+                    class="chart-btn"
+                    :class="{ selected: toSelectedPeriod === period }"
+                    @click="setToPeriod(period)"
+                  >
                     {{ period }}
                   </button>
                 </template>
@@ -26,15 +40,31 @@
             <div class="col-md-5 d-flex flex-column justify-content-around">
               <div class="d-grid gap-3 max-margin-bottom">
                 <h5>{{ $t("exchangeRate--header-CurrencyExchange") }}</h5>
-                <div class="d-flex justify-content-between flex-column-center gap-3">
-                  <input type="number" class="form-control" v-model.number="usdAmount" @input="convertToKrw"
-                    aria-label="Amount in USD" />
+                <div
+                  class="d-flex justify-content-between flex-column-center gap-3"
+                >
+                  <input
+                    type="number"
+                    class="form-control"
+                    v-model.number="usdAmount"
+                    @input="convertToKrw"
+                    aria-label="Amount in USD"
+                  />
                   <span class="mt-2">{{ customerunit }}</span>
                   <span class="mt-2">=</span>
-                  <input type="text" class="form-control" :value="krwAmount" readonly aria-label="Amount in KRW" />
+                  <input
+                    type="text"
+                    class="form-control"
+                    :value="krwAmount"
+                    readonly
+                    aria-label="Amount in KRW"
+                  />
                   <span class="mt-2">KRW</span>
                 </div>
-                <button class="btn btn-info w-100" @click="openModal('exchange')">
+                <button
+                  class="btn btn-info w-100"
+                  @click="openModal('exchange')"
+                >
                   {{ $t("exchangeRate--button-buy") }}
                 </button>
               </div>
@@ -45,12 +75,22 @@
                   <h5>{{ $t("exchangeRate--notification-setAlert") }}</h5>
                   <p>{{ $t("exchangeRate--placeholder-targetRate") }}</p>
                 </div>
-                <div class="d-flex justify-content-between align-items-center gap-3">
+                <div
+                  class="d-flex justify-content-between align-items-center gap-3"
+                >
                   <span class="text-nowrap">1 {{ customerunit }} = </span>
-                  <input type="number" v-model="alertRateUsdToKrw" class="form-control" @input="validateAlertRate" />
+                  <input
+                    type="number"
+                    v-model="alertRateUsdToKrw"
+                    class="form-control"
+                    @input="validateAlertRate"
+                  />
                   <span>KRW</span>
                 </div>
-                <button class="btn btn-primary w-100" @click="saveAlertRate(countryCode, 0, alertRateUsdToKrw)">
+                <button
+                  class="btn btn-primary w-100"
+                  @click="saveAlertRate(countryCode, 0, alertRateUsdToKrw)"
+                >
                   {{ $t("exchangeRate--button-confirmAlert") }}
                 </button>
               </div>
@@ -68,11 +108,21 @@
                 1000 KRW = {{ (currentFromKrw * 1000).toFixed(2) }}
                 {{ customerunit }}
               </h4>
-              <ExchangeRateChart chartId="fromexchangeChart" :period="fromSelectedPeriod" chartType="from" />
+              <ExchangeRateChart
+                chartId="fromexchangeChart"
+                :period="fromSelectedPeriod"
+                chartType="from"
+              />
               <div class="chart-button-container">
-                <template v-for="period in ['1y', '6m', '3m', '1m']" :key="period">
-                  <button class="chart-btn" :class="{ selected: fromSelectedPeriod === period }"
-                    @click="setFromPeriod(period)">
+                <template
+                  v-for="period in ['1y', '6m', '3m', '1m']"
+                  :key="period"
+                >
+                  <button
+                    class="chart-btn"
+                    :class="{ selected: fromSelectedPeriod === period }"
+                    @click="setFromPeriod(period)"
+                  >
                     {{ period }}
                   </button>
                 </template>
@@ -82,14 +132,29 @@
             <div class="col-md-5 d-flex flex-column justify-content-around">
               <div class="d-grid gap-3 max-margin-bottom">
                 <h5>{{ $t("exchangeRate--header-CurrencyExchange") }}</h5>
-                <div class="d-flex justify-content-between flex-column-min gap-3">
-                  <input type="number" class="form-control" v-model.number="krwAmountReverse" @input="convertToUsd"
-                    aria-label="Amount in KRW" /><span class="mt-2">KRW</span>
+                <div
+                  class="d-flex justify-content-between flex-column-min gap-3"
+                >
+                  <input
+                    type="number"
+                    class="form-control"
+                    v-model.number="krwAmountReverse"
+                    @input="convertToUsd"
+                    aria-label="Amount in KRW"
+                  /><span class="mt-2">KRW</span>
                   <span class="mt-2">=</span>
-                  <input type="number" class="form-control" :value="usdAmountReverse" readonly
-                    aria-label="Amount in USD" /><span class="mt-2">{{ customerunit }}</span>
+                  <input
+                    type="number"
+                    class="form-control"
+                    :value="usdAmountReverse"
+                    readonly
+                    aria-label="Amount in USD"
+                  /><span class="mt-2">{{ customerunit }}</span>
                 </div>
-                <button class="btn btn-danger w-100" @click="openModal('reExchange')">
+                <button
+                  class="btn btn-danger w-100"
+                  @click="openModal('reExchange')"
+                >
                   Sell
                 </button>
               </div>
@@ -100,13 +165,22 @@
                   <h5>{{ $t("exchangeRate--notification-setAlert") }}</h5>
                   <p>{{ $t("exchangeRate--placeholder-targetRate") }}</p>
                 </div>
-                <div class="d-flex justify-content-between align-items-center gap-3">
+                <div
+                  class="d-flex justify-content-between align-items-center gap-3"
+                >
                   <span class="text-nowrap">1000 KRW = </span>
-                  <input type="number" v-model="alertRateKrwToUsd" class="form-control"
-                    @input="validateAlertRateReverse" />
+                  <input
+                    type="number"
+                    v-model="alertRateKrwToUsd"
+                    class="form-control"
+                    @input="validateAlertRateReverse"
+                  />
                   <span>{{ customerunit }}</span>
                 </div>
-                <button @click="saveAlertRate(0, countryCode, alertRateKrwToUsd)" class="btn btn-primary w-100">
+                <button
+                  @click="saveAlertRate(0, countryCode, alertRateKrwToUsd)"
+                  class="btn btn-primary w-100"
+                >
                   {{ $t("exchangeRate--button-confirmAlert") }}
                 </button>
               </div>
@@ -125,20 +199,36 @@
             <div class="d-flex flex-column tab-content-width gap-3">
               <div class="input-group">
                 <span class="input-group-text">1 {{ customerunit }} =</span>
-                <input type="number" v-model="targetExchange" class="form-control"
-                  :placeholder="$t('exchangeRate--placeholder-targetRate')" @input="validateTargetExchange" />
+                <input
+                  type="number"
+                  v-model="targetExchange"
+                  class="form-control"
+                  :placeholder="$t('exchangeRate--placeholder-targetRate')"
+                  @input="validateTargetExchange"
+                />
                 <span class="input-group-text">KRW</span>
               </div>
 
               <div class="input-group">
-                <span class="input-group-text">{{ $t("exchangeRate--text-targetKRW") }} =</span>
-                <input type="number" v-model="targetKrw" class="form-control"
-                  :placeholder="$t('exchangeRate--placeholder-targetAmount')" @input="validateTargetKrw" />
+                <span class="input-group-text"
+                  >{{ $t("exchangeRate--text-targetKRW") }} =</span
+                >
+                <input
+                  type="number"
+                  v-model="targetKrw"
+                  class="form-control"
+                  :placeholder="$t('exchangeRate--placeholder-targetAmount')"
+                  @input="validateTargetKrw"
+                />
                 <span class="input-group-text">KRW</span>
               </div>
 
-              <button class="btn btn-primary w-100 mb-0"
-                @click="confirmAutoExchange(countryCode, 0, targetExchange, targetKrw)">
+              <button
+                class="btn btn-primary w-100 mb-0"
+                @click="
+                  confirmAutoExchange(countryCode, 0, targetExchange, targetKrw)
+                "
+              >
                 {{ $t("exchangeRate--button-confirmAlert") }}
               </button>
             </div>
@@ -152,7 +242,7 @@
 </template>
 
 <script setup>
-import { ref, computed, watch } from "vue";
+import { ref, computed, watch, watchEffect } from "vue";
 import { useExchangeStore } from "@/stores/exchangeStore";
 import ExchangeRateChart from "@/views/Chart/ExchangeRateChart.vue";
 import axios from "axios";
@@ -164,14 +254,19 @@ import { useAuthStore } from "@/stores/auth";
 const auth = useAuthStore();
 const user = computed(() => auth.user);
 
-
 const Id = computed(() => auth.userId);
 import { CURRENCY_NAME } from "@/constants/countryCode";
-const countryCode = user.value.countryCode;
-const customerunit = ref(CURRENCY_NAME[user.value.countryCode]);
+
+const countryCode = computed(() => user.value?.countryCode || 1); // 기본값으로 1 설정
+const customerunit = ref("USD"); // 기본값 설정
+
+watchEffect(() => {
+  if (user.value?.countryCode) {
+    customerunit.value = CURRENCY_NAME[user.value.countryCode];
+  }
+});
 
 import SecondPasswordModal from "@/views/MyAccounts/SecondPasswordModal.vue";
-
 
 // Data variables
 const usdAmount = ref(1);

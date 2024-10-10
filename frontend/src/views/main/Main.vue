@@ -1,5 +1,15 @@
 <template>
-  <header class="p-3" style="background-color:#fff6ef; position: fixed; top: 0; left: 0; right: 0; z-index: 1000;">
+  <header
+    class="p-3"
+    style="
+      background-color: #fff6ef;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+    "
+  >
     <div class="container">
       <div class="d-flex align-items-center justify-content-between">
         <a href="/" class="mb-2 mb-lg-0 text-white text-decoration-none">
@@ -12,20 +22,18 @@
 
           <!-- <h4 class="text-white d-none d-md-block mb-0">Song E Pay</h4> -->
           <h4 class="d-none d-md-block mb-0">
-          <img
-            class="ld-none d-md-block mb-0" 
-            src="../../../public/images/3D_SongE.png" 
-            alt="Illustration"
-            style="height: 40px; width: auto;" 
-          />
-        </h4>
+            <img
+              class="ld-none d-md-block mb-0"
+              src="../../../images/3D_SongE.png"
+              alt="Illustration"
+              style="height: 40px; width: auto"
+            />
+          </h4>
           <!-- <svg class="bi me-2" width="40" height="32" role="img" aria-label="Bootstrap"><use xlink:href="#bootstrap"/></svg> -->
         </a>
 
         <div>
-          <a
-            href="/register/legal"
-            class="text-decoration-none me-3 text-bold"
+          <a href="/register/legal" class="text-decoration-none me-3 text-bold"
             >회원가입</a
           >
           <a href="/login" class="btn btn-primary mb-0">로그인</a>
@@ -34,7 +42,7 @@
     </div>
   </header>
   <!-- 왼쪽 화면 -->
-  <div class="section-container-beige" >
+  <div class="section-container-beige">
     <!-- 모바일 버전 버튼 -->
     <a
       href="https://leeyebon7929.wixsite.com/my-site-1"
@@ -56,7 +64,11 @@
         </p>
 
         <!-- 웹 버전 버튼 -->
-        <a href="https://leeyebon7929.wixsite.com/my-site-1" class="btn web-btn col-md-3 mb-4">시작하기</a>
+        <a
+          href="https://leeyebon7929.wixsite.com/my-site-1"
+          class="btn web-btn col-md-3 mb-4"
+          >시작하기</a
+        >
 
         <!-- 아이콘 섹션 -->
         <div class="icon-item d-flex flex-wrap mt-3">
@@ -64,12 +76,29 @@
             <div style="position: relative; width: 50px; height: 50px">
               <!-- Rectangle -->
               <svg width="50" height="50">
-                <rect x="5" y="5" width="40" height="40" rx="10" ry="10" fill="#1D0E03" />
+                <rect
+                  x="5"
+                  y="5"
+                  width="40"
+                  height="40"
+                  rx="10"
+                  ry="10"
+                  fill="#1D0E03"
+                />
               </svg>
 
               <!-- Icon -->
-              <i class="fa-solid fa-shield-halved"
-                style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 23px; color: #fff6ef"></i>
+              <i
+                class="fa-solid fa-shield-halved"
+                style="
+                  position: absolute;
+                  top: 50%;
+                  left: 50%;
+                  transform: translate(-50%, -50%);
+                  font-size: 23px;
+                  color: #fff6ef;
+                "
+              ></i>
             </div>
 
             <div class="ms-2">
@@ -81,12 +110,29 @@
             <div style="position: relative; width: 50px; height: 50px">
               <!-- Circle -->
               <svg width="50" height="50">
-                <rect x="5" y="5" width="40" height="40" rx="10" ry="10" fill="#1D0E03" />
+                <rect
+                  x="5"
+                  y="5"
+                  width="40"
+                  height="40"
+                  rx="10"
+                  ry="10"
+                  fill="#1D0E03"
+                />
               </svg>
 
               <!-- Icon -->
-              <i class="fa-solid fa-hand-holding"
-                style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 23px; color: #fff6ef"></i>
+              <!-- <i
+                class="fa-solid fa-hand-holding"
+                style="
+                  position: absolute;
+                  top: 50%;
+                  left: 50%;
+                  transform: translate(-50%, -50%);
+                  font-size: 23px;
+                  color: #fff6ef;
+                "
+              ></i> -->
             </div>
             <div class="ms-2">
               <div style="font-size: 12px">Convenient &</div>
@@ -97,12 +143,29 @@
             <div style="position: relative; width: 50px; height: 50px">
               <!-- Circle -->
               <svg width="50" height="50">
-                <rect x="5" y="5" width="40" height="40" rx="10" ry="10" fill="#1D0E03" />
+                <rect
+                  x="5"
+                  y="5"
+                  width="40"
+                  height="40"
+                  rx="10"
+                  ry="10"
+                  fill="#1D0E03"
+                />
               </svg>
 
               <!-- Icon -->
-              <i class="fa-solid fa-earth-americas"
-                style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 23px; color: #fff6ef"></i>
+              <i
+                class="fa-solid fa-earth-americas"
+                style="
+                  position: absolute;
+                  top: 50%;
+                  left: 50%;
+                  transform: translate(-50%, -50%);
+                  font-size: 23px;
+                  color: #fff6ef;
+                "
+              ></i>
             </div>
             <div class="ms-2">
               <div style="font-size: 12px">Global &</div>
@@ -113,16 +176,30 @@
       </div>
 
       <!-- 오른쪽 섹션 -->
-      <div class="right-section-main d-flex justify-content-center mt-2 col-md-6 align-self-end">
-        <img class="main-img" src="../../../public/images/mainpage-1.png" alt="Illustration"
-          style="max-width: 100%; height: auto" />
+      <div
+        class="right-section-main d-flex justify-content-center mt-2 col-md-6 align-self-end"
+      >
+        <img
+          class="main-img"
+          src="../../../images/mainpage-1.png"
+          alt="Illustration"
+          style="max-width: 100%; height: auto"
+        />
       </div>
     </div>
   </div>
 
   <section class="curved-section">
-    <svg viewBox="0 0 1440 200" xmlns="http://www.w3.org/2000/svg" style="transform: scaleX(-1)">
-      <path fill="#fff6ef" fill-opacity="1" d="M0,150L1440,90L1440,0L0,0Z"></path>
+    <svg
+      viewBox="0 0 1440 200"
+      xmlns="http://www.w3.org/2000/svg"
+      style="transform: scaleX(-1)"
+    >
+      <path
+        fill="#fff6ef"
+        fill-opacity="1"
+        d="M0,150L1440,90L1440,0L0,0Z"
+      ></path>
     </svg>
   </section>
   <div class="section-container-green">
@@ -136,7 +213,7 @@
       </div>
       <div class="right-section d-flex align-items-center p-5 mt-2 col-md-7">
         <p class="col-md-12">
-          여행의 금융을 간편하게, 한국에서 더 스마트하게<br /><br/>
+          여행의 금융을 간편하게, 한국에서 더 스마트하게<br /><br />
           Song-E Pay는 한국을 여행하는 외국인에게 실시간 환율 조회, 자동 환전,
           간편한 송금 등 다양한 금융 기능을 제공합니다. 환전과 결제를 쉽게
           관리할 수 있는 페이 머니 계좌와 은행 지도 서비스로 현지에서의 금융
@@ -161,7 +238,11 @@
       </div>
       <div class="flex-fill-column me-4">
         <div class="image-container">
-          <img class="flex_item_image" src="../../../public/images/image1.png" alt="실시간 환율 조회" />
+          <img
+            class="flex_item_image"
+            src="../../../images/image1.png"
+            alt="실시간 환율 조회"
+          />
         </div>
         <div class="text-container">
           <h5 class="font_5 pt-3 pb-2 pl-0 pr-0">실시간 환율 조회</h5>
@@ -173,7 +254,11 @@
       </div>
       <div class="flex-fill-column mx-4">
         <div class="image-container">
-          <img class="flex_item_image" src="../../../public/images/image2.png" alt="자동 환전 서비스" />
+          <img
+            class="flex_item_image"
+            src="../../../images/image2.png"
+            alt="자동 환전 서비스"
+          />
         </div>
         <div class="text-container">
           <h5 class="font_5 pt-3 pb-2 pl-0 pr-0">자동 환전 서비스</h5>
@@ -185,7 +270,11 @@
       </div>
       <div class="flex-fill-column mx-4">
         <div class="image-container">
-          <img class="flex_item_image" src="../../../public/images/image3.png" alt="환율 알림 서비스" />
+          <img
+            class="flex_item_image"
+            src="../../../images/image3.png"
+            alt="환율 알림 서비스"
+          />
         </div>
         <div class="text-container">
           <h5 class="font_5 pt-3 pb-2 pl-0 pr-0">환율 알림 서비스</h5>
@@ -197,7 +286,11 @@
       </div>
       <div class="flex-fill-column mx-4">
         <div class="image-container">
-          <img class="flex_item_image" src="../../../public/images/image4.png" alt="No 수수료! 자유로운 환전" />
+          <img
+            class="flex_item_image"
+            src="../../../images/image4.png"
+            alt="No 수수료! 자유로운 환전"
+          />
         </div>
         <div class="text-container">
           <h5 class="font_5 pt-3 pb-2 pl-0 pr-0">No 수수료! 자유로운 환전</h5>
@@ -211,7 +304,9 @@
   </div>
   <!-- 세 번째 섹션 -->
   <section class="section-container-brown">
-    <div class="d-flex justify-content-between align-items-center flex-column flex-md-row mb-3">
+    <div
+      class="d-flex justify-content-between align-items-center flex-column flex-md-row mb-3"
+    >
       <div class="mesh-left col-md-5 d-flex flex-column">
         <h2 class="font_2 mb-0">페이 머니 계좌</h2>
         <h2 class="font_2 mb-4">& 한국 원화 전용 계좌 간 송금</h2>
@@ -233,26 +328,46 @@
           송금하세요.
         </p>
       </div>
-      <div class="mesh-right col-md-7 col-12 d-flex justify-content-center align-items-center">
-        <img src="../../../public/images/Coin.png" alt="송금 이미지" class="img-fluid"
-          style="max-width: 160%; height: auto; object-fit: cover" />
+      <div
+        class="mesh-right col-md-7 col-12 d-flex justify-content-center align-items-center"
+      >
+        <img
+          src="../../../images/Coin.png"
+          alt="송금 이미지"
+          class="img-fluid"
+          style="max-width: 160%; height: auto; object-fit: cover"
+        />
       </div>
     </div>
   </section>
   <!-- 곡선 -->
   <div class="curve-container" style="background-color: #fff6ef">
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320" class="curve">
-      <path fill="#B0AB99" fill-opacity="1"
-        d="M0,320L48,288C96,256,192,192,288,165.3C384,139,480,149,576,176C672,203,768,245,864,256C960,267,1056,245,1152,218.7C1248,192,1344,160,1392,144L1440,128L1440,0L1392,0C1344,0,1248,0,1152,0C1056,0,960,0,864,0C768,0,672,0,576,0C480,0,384,0,288,0C192,0,96,0,48,0L0,0Z">
-      </path>
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 1440 320"
+      class="curve"
+    >
+      <path
+        fill="#B0AB99"
+        fill-opacity="1"
+        d="M0,320L48,288C96,256,192,192,288,165.3C384,139,480,149,576,176C672,203,768,245,864,256C960,267,1056,245,1152,218.7C1248,192,1344,160,1392,144L1440,128L1440,0L1392,0C1344,0,1248,0,1152,0C1056,0,960,0,864,0C768,0,672,0,576,0C480,0,384,0,288,0C192,0,96,0,48,0L0,0Z"
+      ></path>
     </svg>
   </div>
   <!-- 네 번째 섹션 -->
   <section class="section-container-beige">
-    <div class="d-flex justify-content-between align-items-center flex-column flex-md-row mb-3">
-      <div class="mesh-right col-md-5 col-12 d-flex justify-content-center align-items-center">
-        <img src="../../../public/images/Map.png" alt="지도 이미지" class="img-fluid"
-          style="max-width: 100%; height: auto" />
+    <div
+      class="d-flex justify-content-between align-items-center flex-column flex-md-row mb-3"
+    >
+      <div
+        class="mesh-right col-md-5 col-12 d-flex justify-content-center align-items-center"
+      >
+        <img
+          src="../../../images/Map.png"
+          alt="지도 이미지"
+          class="img-fluid"
+          style="max-width: 100%; height: auto"
+        />
       </div>
       <div class="mesh-left col-md-6 d-flex flex-column">
         <h2 class="font_2 mb-4 text-start">은행 지도</h2>
@@ -266,7 +381,9 @@
   </section>
   <!-- 다섯 번째 섹션 -->
   <section class="section-container-beige">
-    <div class="lastpage d-flex justify-content-between align-items-center flex-column mb-3">
+    <div
+      class="lastpage d-flex justify-content-between align-items-center flex-column mb-3"
+    >
       <h2 class="title text-center">
         Prepare for Your Trip to Korea With Our SongEpay
       </h2>
@@ -366,7 +483,6 @@ onBeforeMount(() => {
 
 /* Mobile styles */
 @media (max-width: 768px) {
-
   /* Adjust the max-width value as needed for your breakpoint */
   .section-container-beige {
     background: #fff6ef;
