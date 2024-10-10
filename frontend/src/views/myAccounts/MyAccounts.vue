@@ -364,6 +364,9 @@ const resetValue = () => {
   depositAmount.value = '';
   sendEmail.value = '';
   sendEmailConfirm.value = '';
+  success = false;
+  isconfirmed = false;
+  checkSucess = false;
 };
 
 const convertToKrw = () => {
@@ -409,6 +412,8 @@ const onblur = () => {
   exchangeAmount.value = '';
   reExchangeAmount.value = '';
   errorAmountMessage.value = '';
+  errorMessage.value = '';
+  errorMessageCheck.value = '';
 };
 
 const songEMoneyBalance_toKRW = computed(() => {
