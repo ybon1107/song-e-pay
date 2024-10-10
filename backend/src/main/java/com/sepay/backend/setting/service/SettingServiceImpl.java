@@ -33,45 +33,45 @@ public class SettingServiceImpl implements SettingService {
 
     // 계좌 등록
     @Override
-    public int addAccount(String accountNo, Integer userNo) {
+    public int addAccount(String accountNo, String userId) {
         HashMap map = new HashMap();
         map.put("accountNo", accountNo);
-        map.put("userNo", userNo);
+        map.put("userId", userId);
         return mapper.updateAccount(map);
     }
 
     // 계좌 해지
     @Override
-    public int cancelAccount(Integer userNo) {
-        return mapper.deleteAccount(userNo);
+    public int cancelAccount(String userId) {
+        return mapper.deleteAccount(userId);
     }
 
     // 비밀번호 변경
     @Override
-    public int changePassword(String newPw, Integer userNo) {
+    public int changePassword(String newPw, String userId) {
         HashMap map = new HashMap();
         map.put("newPw", newPw);
-        map.put("userNo", userNo);
+        map.put("userId", userId);
         return mapper.updatePassword(map);
     }
 
     @Override
-    public boolean checkPassword(int useNo, String currentPw) {
-        return currentPw.equals(mapper.selectPassword(useNo));
+    public boolean checkPassword(String userId, String currentPw) {
+        return currentPw.equals(mapper.selectPassword(userId));
     }
 
     // 2차 비밀번호 변경
     @Override
-    public int modifySecondPassword(String secondPwd, Integer userNo) {
+    public int modifySecondPassword(String secondPwd, String userId) {
         HashMap map = new HashMap();
         map.put("secondPwd", secondPwd);
-        map.put("userNo", userNo);
+        map.put("userId", userId);
         return mapper.updateSecondPassword(map);
     }
 
     @Override
-    public boolean checkSecondPassword(int useNo, String secondPwd) {
-        return secondPwd.equals(mapper.selectSecondPassword(useNo));
+    public boolean checkSecondPassword(String userId, String secondPwd) {
+        return secondPwd.equals(mapper.selectSecondPassword(userId));
     }
 
     // 송이 계좌 삭제
@@ -88,17 +88,17 @@ public class SettingServiceImpl implements SettingService {
 
     // 유저 삭제
     @Override
-    public int deleteUser(Integer userNo) {
-        UserDTO user = userMapper.selectUserByUserNo(userNo);
+    public int deleteUser(String userId) {
+        UserDTO user = userMapper.selectUserByEmail(userId);
         mapper.deleteKrw(user.getKrwNo());
         mapper.deleteSonge(user.getSongNo());
-        return mapper.deleteUser(userNo);
+        return mapper.deleteUser(userId);
     }
 
     // 프로필 이미지 업로드
     @Override
-    public String updateProfileImage(Integer userNo, MultipartFile profileImg) {
-        String fileName = mapper.selectUserProfileImg(userNo).replace(bucketUrl, "");
+    public String updateProfileImage(String userId, MultipartFile profileImg) {
+        String fileName = mapper.selectUserProfileImg(userId).replace(bucketUrl, "");
         System.out.println("fileName = " + fileName);
         if (!fileName.equals("profile/default.jpg")) {
             s3Service.deleteFile(fileName);
@@ -108,7 +108,7 @@ public class SettingServiceImpl implements SettingService {
 
     // 프로필 이미지 주소 가져오기
     @Override
-    public String getProfileImage(Integer userNo) {
-        return mapper.selectUserProfileImg(userNo);
+    public String getProfileImage(String userId) {
+        return mapper.selectUserProfileImg(userId);
     }
 }

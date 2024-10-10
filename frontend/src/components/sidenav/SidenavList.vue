@@ -1,101 +1,78 @@
 <script setup>
-import { computed } from "vue";
-import { useRoute } from "vue-router";
-import { useStore } from "vuex";
+import { computed } from 'vue';
+import { useRoute } from 'vue-router';
+import { useStore } from 'vuex';
 
-import SidenavItem from "./SidenavItem.vue";
-import SidenavCard from "./SidenavCard.vue";
+import SidenavItem from './SidenavItem.vue';
+import SidenavCard from './SidenavCard.vue';
 
 const store = useStore();
 const isRTL = computed(() => store.state.isRTL);
 
 const getRoute = () => {
   const route = useRoute();
-  const routeArr = route.path.split("/");
+  const routeArr = route.path.split('/');
   return routeArr[1];
 };
 </script>
 <template>
-  <div
-    class="collapse navbar-collapse w-auto h-auto h-100"
-    id="sidenav-collapse-main"
-  >
+  <div class="collapse navbar-collapse w-auto h-auto h-100" id="sidenav-collapse-main">
     <ul class="navbar-nav">
-      <li class="nav-item">
-        <sidenav-item
-          to="/home"
-          :class="getRoute() === 'home' ? 'active' : ''"
-          :navText="isRTL ? 'لوحة القيادة' : '홈'"
-        >
+      <!-- <li class="nav-item">
+        <sidenav-item to="/home" :class="getRoute() === 'home' ? 'active' : ''" :navText="isRTL ? 'لوحة القيادة' : '홈'">
           <template v-slot:icon>
-            <i class="ni ni-tv-2 text-primary text-sm opacity-10"></i>
+            <i class="ni ni-tv-2 text-dark text-sm opacity-10"></i>
+          </template>
+        </sidenav-item>
+      </li> -->
+
+      <li class="nav-item">
+        <sidenav-item to="/my-accounts" :class="getRoute() === 'my-accounts' ? 'active' : ''" :navText="isRTL ? 'الجداول' : '나의 자산'">
+          <template v-slot:icon>
+            <i class="ni ni-money-coins text-dark text-sm opacity-10"></i>
           </template>
         </sidenav-item>
       </li>
 
       <li class="nav-item">
-        <sidenav-item
-          to="/my-accounts"
-          :class="getRoute() === 'my-accounts' ? 'active' : ''"
-          :navText="isRTL ? 'الجداول' : '나의 자산'"
-        >
+        <sidenav-item to="/exchange-rate" :class="getRoute() === 'exchange-rate' ? 'active' : ''" :navText="isRTL ? 'الفواتیر' : '환율'">
           <template v-slot:icon>
-            <i
-              class="ni ni-money-coins text-warning text-sm opacity-10"
-            ></i>
+            <i class="ni ni-chart-bar-32 text-dark text-sm opacity-10"></i>
           </template>
         </sidenav-item>
       </li>
 
       <li class="nav-item">
-        <sidenav-item
-          to="/exchange-rate"
-          :class="getRoute() === 'exchange-rate' ? 'active' : ''"
-          :navText="isRTL ? 'الفواتیر' : '환율'"
-        >
+        <sidenav-item to="/payment" :class="getRoute() === 'payment' ? 'active' : ''" :navText="isRTL ? 'الواقع الافتراضي' : '결제'">
           <template v-slot:icon>
-            <i class="ni ni-chart-bar-32 text-success text-sm opacity-10"></i>
+            <i class="ni ni-credit-card text-dark text-sm opacity-10"></i>
           </template>
         </sidenav-item>
       </li>
 
       <li class="nav-item">
-        <sidenav-item
-          to="/payment"
-          :class="getRoute() === 'payment' ? 'active' : ''"
-          :navText="isRTL ? 'الواقع الافتراضي' : '결제'"
-        >
+        <sidenav-item to="/histories" :class="getRoute() === 'histories' ? 'active' : ''" :navText="isRTL ? 'الواقع الافتراضي' : '이용내역'">
           <template v-slot:icon>
-            <i class="ni ni-credit-card text-info text-sm opacity-10"></i>
+            <i class="ni ni-collection text-dark text-sm opacity-10"></i>
           </template>
         </sidenav-item>
       </li>
 
       <li class="nav-item">
-        <sidenav-item
-          to="/histories"
-          :class="getRoute() === 'histories' ? 'active' : ''"
-          :navText="isRTL ? 'الواقع الافتراضي' : '이용내역'"
-        >
+        <sidenav-item to="/maps" :class="getRoute() === 'maps' ? 'active' : ''" :navText="isRTL ? 'الواقع الافتراضي' : '금융지도'">
           <template v-slot:icon>
-            <i class="ni ni-collection text-danger text-sm opacity-10"></i>
+            <i class="ni ni-pin-3 text-dark text-sm opacity-10"></i>
           </template>
         </sidenav-item>
       </li>
 
       <li class="nav-item">
-        <sidenav-item
-          to="/maps"
-          :class="getRoute() === 'maps' ? 'active' : ''"
-          :navText="isRTL ? 'الواقع الافتراضي' : '금융지도'"
-        >
+        <sidenav-item to="/schedule" :class="getRoute() === 'schedule' ? 'active' : ''" :navText="isRTL ? 'الواقع الافتراضي' : '스케줄'">
           <template v-slot:icon>
-            <i class="ni ni-pin-3 text-danger text-sm opacity-10"></i>
+            <i class="ni ni-calendar-grid-58 text-dark text-sm opacity-10"></i>
           </template>
         </sidenav-item>
       </li>
-
-
       <!-- <li class="mt-3 nav-item">
         <h6
           v-if="isRTL"

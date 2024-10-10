@@ -8,16 +8,14 @@ import ArgonInput from "@/components/templates/ArgonInput.vue";
 import ArgonSwitch from "@/components/templates/ArgonSwitch.vue";
 import ArgonButton from "@/components/templates/ArgonButton.vue";
 
-const body = document.getElementsByTagName('body')[0];
+const body = document.getElementsByTagName("body")[0];
 const store = useStore();
 const router = useRouter();
 const auth = useAuthStore();
 
 const member = ref({
-  user: {
-    email: "",
-    password: "",
-  },
+  username: "",
+  password: "",
 });
 
 const error = ref("");
@@ -27,14 +25,14 @@ onBeforeMount(() => {
   store.state.showNavbar = false;
   store.state.showSidenav = false;
   store.state.showFooter = false;
-  body.classList.remove('bg-gray-100');
+  body.classList.remove("bg-gray-100");
 });
 onBeforeUnmount(() => {
   store.state.hideConfigButton = false;
   store.state.showNavbar = true;
   store.state.showSidenav = true;
   store.state.showFooter = true;
-  body.classList.add('bg-gray-100');
+  body.classList.add("bg-gray-100");
 });
 // 부트스트랩 유효성 검사 스크립트
 onMounted(() => {
@@ -57,13 +55,13 @@ onMounted(() => {
 });
 
 // 이메일과 비밀번호 입력 필드 상태
-const email = ref('');
-const password = ref('');
+const username = ref("");
+const password = ref("");
 
 // 이메일 유효성 검사
 const isEmailValid = computed(() => {
   const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  return emailPattern.test(email.value);
+  return emailPattern.test(username.value);
 });
 
 // 비밀번호 유효성 검사
@@ -83,10 +81,10 @@ const isFormValid = computed(() => {
 // 폼 제출 처리
 const handleSubmit = async () => {
   // member 객체에 이메일과 비밀번호 할당
-  member.value.user.email = email.value;
-  member.value.user.password = password.value;
+  member.value.username = username.value;
+  member.value.password = password.value;
 
-  console.log("try login: ", member.value);
+  console.log("try login: ", member);
   emailError.value = !isEmailValid.value;
   passwordError.value = !isPasswordValid.value;
 
@@ -110,9 +108,9 @@ const handleSubmit = async () => {
   // }
   if (isFormValid.value) {
     try {
-      await auth.login(member.value);
+      await auth.login(member);
       if (localStorage.getItem("auth") != " ") {
-        window.location.href = '/';
+        // window.location.href = "/my-accounts";
       }
     } catch (e) {
       // 로그인 에러
@@ -164,19 +162,22 @@ const handleSubmit = async () => {
                         >Your email address</label
                       >
                       <argon-input
+                        isRequired
                         id="email"
                         type="email"
                         placeholder="Email"
-                        name="email"
+                        name="username"
                         size="lg"
-                        v-model="email"
+                        v-model="username"
                         :class="{ 'is-invalid': emailError }"
-                        :error="(email !== '' || emailError) && !isEmailValid"
-                        isRequired
+                        :error="
+                          (username !== '' || emailError) && !isEmailValid
+                        "
+                        errorText="Please provide a valid email."
                       />
-                      <div v-if="emailError" class="invalid-feedback text-xs">
+                      <!-- <div v-if="emailError" class="invalid-feedback text-xs">
                         Please provide a valid email.
-                      </div>
+                      </div> -->
                     </div>
                     <!-- 비밀번호 입력 필드 -->
                     <div class="mb-3">
@@ -184,6 +185,7 @@ const handleSubmit = async () => {
                         >Your password</label
                       >
                       <argon-input
+                        isRequired
                         id="password"
                         type="password"
                         placeholder="Password"
@@ -194,15 +196,15 @@ const handleSubmit = async () => {
                         :error="
                           (password !== '' || passwordError) && !isPasswordValid
                         "
-                        isRequired
+                        errorText="Please fill in the password field with at least 8 characters."
                       />
-                      <div
+                      <!-- <div
                         v-if="passwordError"
                         class="invalid-feedback text-xs"
                       >
                         Please fill in the password field with at least 8
                         characters.
-                      </div>
+                      </div> -->
                     </div>
                     <!-- "Remember me" 토글 스위치 (일단 주석 처리 해둠) -->
                     <!-- <argon-switch id="rememberMe" name="remember-me"

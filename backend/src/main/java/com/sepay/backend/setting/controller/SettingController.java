@@ -34,12 +34,12 @@ public class SettingController {
 
         try {
             if (userDTO.getProfilePicFile() != null) {
-                String fileUrl = settingService.updateProfileImage(userDTO.getUserNo(), userDTO.getProfilePicFile());
+                String fileUrl = settingService.updateProfileImage(userDTO.getUserId(), userDTO.getProfilePicFile());
                 System.out.println("fileUrl: " + fileUrl);
                 userDTO.setProfilePic(fileUrl);
             }
             settingService.modifyUser(userDTO);
-            return ResponseEntity.ok(userService.getInfo(userDTO.getUserNo()));
+            return ResponseEntity.ok(userService.getUserByEmail(userDTO.getUserId()));
         } catch (Exception e) {
             System.out.println("error: " + e.getMessage());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
@@ -48,14 +48,14 @@ public class SettingController {
 
     // 계좌 등록
     @PatchMapping("/register-account")
-    public ResponseEntity<?> registerAccount(String accountNo, Integer userNo) {
-        return ResponseEntity.ok(settingService.addAccount(accountNo, userNo));
+    public ResponseEntity<?> registerAccount(String accountNo, String userId) {
+        return ResponseEntity.ok(settingService.addAccount(accountNo, userId));
     }
 
     // 계좌 해지
     @PatchMapping("/close-account")
-    public ResponseEntity<?> closeAccount(String accountNo, Integer userNo) {
-        return ResponseEntity.ok(settingService.cancelAccount(userNo));
+    public ResponseEntity<?> closeAccount(String accountNo, String userId) {
+        return ResponseEntity.ok(settingService.cancelAccount(userId));
     }
 
     // 비밀번호 변경
@@ -63,29 +63,29 @@ public class SettingController {
     public ResponseEntity<?> changePassword(@RequestBody Map<String, Object> requestData) throws Exception {
         String currentPassword = (String) requestData.get("currentPw");
         String newPw = (String) requestData.get("newPw");
-        Integer userNo = (Integer) requestData.get("userNo");
+        String userId = (String) requestData.get("userId");
 
-        log.info("settingService.checkPassword(userNo, currentPassword) : " + settingService.checkPassword(userNo, currentPassword));
-        if (!settingService.checkPassword(userNo, currentPassword)) {
+        log.info("settingService.checkPassword(userNo, currentPassword) : " + settingService.checkPassword(userId, currentPassword));
+        if (!settingService.checkPassword(userId, currentPassword)) {
             return ResponseEntity.badRequest().body("비밀번호가 일치하지 않습니다");
         }
 
         // 비밀번호 변경 작업 수행
-        return ResponseEntity.ok(settingService.changePassword(newPw, userNo));
+        return ResponseEntity.ok(settingService.changePassword(newPw, userId));
     }
 
 
     // 2차 비밀번호 변경
     @PatchMapping("/change-secpwd")
-    public ResponseEntity<?> modifySecondPassword(String secondPwd, Integer userNo) {
-        return ResponseEntity.ok(settingService.modifySecondPassword(secondPwd, userNo));
+    public ResponseEntity<?> modifySecondPassword(String secondPwd, String userId) {
+        return ResponseEntity.ok(settingService.modifySecondPassword(secondPwd, userId));
     }
 
     // 회원 탈퇴
     @DeleteMapping("/bye/{userNo}")
-    public ResponseEntity<?> bye(@PathVariable Integer userNo) {
-        log.info("userNo : ", userNo);
-        return ResponseEntity.ok(settingService.deleteUser(userNo));
+    public ResponseEntity<?> bye(@PathVariable String userId) {
+        log.info("userId : ", userId);
+        return ResponseEntity.ok(settingService.deleteUser(userId));
     }
     
 }

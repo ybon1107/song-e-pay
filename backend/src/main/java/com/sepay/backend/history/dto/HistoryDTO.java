@@ -17,7 +17,7 @@ public class HistoryDTO {
     private String songNo;
     private String krwNo;
     private Integer typeCode;
-    private Integer historyStateCode;
+    private Integer stateCode;
     private Date historyDate;
     private String historyContent;
     private Double amount;

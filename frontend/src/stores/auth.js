@@ -1,125 +1,120 @@
-import { ref, computed } from 'vue';
-import { defineStore } from 'pinia';
-import axios from 'axios';
+import { ref, computed } from "vue";
+import { defineStore } from "pinia";
+import axios from "axios";
+import userApi from '@/api/userApi';
 
 const initState = {
-  token: '',
+  token: "",
   user: {
-    userNo: '',
-    accountNo: '',
-    songNo: '',
-    krwNo: '',
-    countryCode: '',
-    userId: '',
-    firstName: '',
-    lastName: '',
-    birthday: '',
-    gender: '',
-    phoneNo: '',
-    secondPwd: '',
-    profilePic: '',
-    address: '',
-    country: '',
-    language: '',
-    createAt: '',
-    updateAt: '',
+    userId: "",
+    countryCode: "",
+    roles: [],
   },
 };
 
-export const useAuthStore = defineStore('auth', () => {
+export const useAuthStore = defineStore("auth", () => {
   const state = ref({ ...initState });
+  const user = ref(null);
 
-  const isLogin = computed(() => !!state.value.user.userNo);
+  const isLogin = computed(() => !!state.value.user.username);
+  const userId = computed(() => state.value.user.userId);
 
-  const userNo = computed(() => state.value.user.userNo);
+  const fetchUser = async (userId) => {
+    try {
+      const userData = await userApi.getUser(userId);
+      user.value = userData;
+      console.log("fetch user : ", user.value);
+    } catch (error) {
+      console.error('사용자 정보를 가져오는 데 실패했습니다:', error);
+    }
+  };
 
-  const user = computed(() => state.value.user);
-
-  // 이메일 가져오기 (여기서는 userId가 이메일 역할)
-  const email = computed(() => state.value.user.userId);
-
-  const load = () => {
-    const auth = localStorage.getItem('auth');
+  const load = async () => {
+    const auth = localStorage.getItem("auth");
     if (auth != null) {
-      // Object.assign을 사용해 로컬 스토리지의 데이터를 state.value에 병합
-      Object.assign(state.value, JSON.parse(auth)); // 전체 객체를 reactive에 적용할 때는 Object.assign이 필요
+      state.value = JSON.parse(auth);
+      if (state.value.token && state.value.userId) {
+        await fetchUser(state.value.user.userId);
+        console.log("load user : ", user.value);
+      }
     }
   };
 
   const login = async (member) => {
-    // state.value.token = 'test token';
-    // state.value.user = { username: member.username, email: member.username + '@test.com' }   ;
-    const formData = new FormData();
-    formData.append('userId', member.user.email); // 이메일을 userId로 전송
-    formData.append('password', member.user.password); // 비밀번호 추가
-
     try {
-      const response = await axios.post('/api/users/login', formData);
-      Object.assign(state.value.user, { ...response.data });
+      const response = await axios.post("/api/auth/login", member.value);
+      console.log("response : ", response);
+      console.log("response.data : ", response.data);
+      
+      state.value = { ...response.data };
+
       switch (state.value.user.countryCode) {
         case 0:
-          state.value.user.country = '한국';
-          state.value.user.language = 'ko';
+          state.value.user.country = "한국";
+          state.value.user.language = "ko";
           break;
         case 1:
-          state.value.user.country = '미국';
-          state.value.user.language = 'en';
+          state.value.user.country = "미국";
+          state.value.user.language = "en";
           break;
         case 2:
-          state.value.user.country = '인도네시아';
-          state.value.user.language = 'id';
+          state.value.user.country = "인도네시아";
+          state.value.user.language = "id";
           break;
         case 3:
-          state.value.user.country = '베트남';
-          state.value.user.language = 'vi';
+          state.value.user.country = "베트남";
+          state.value.user.language = "vi";
           break;
       }
-      localStorage.setItem('auth', JSON.stringify(state.value));
+      localStorage.setItem("auth", JSON.stringify(state.value));
+      await fetchUser(state.value.user.userId);
+      console.log("login user : ", user.value);
     } catch (error) {
       console.error(error);
-      throw error
+      throw error;
     }
   };
 
   // 프로필 변경 시 state 업데이트 및 localStorage 저장
   const updateProfileState = (updatedData) => {
     Object.assign(state.value.user, updatedData);
-    console.log("updateProfileState : ", updatedData)
+    console.log("updateProfileState : ", updatedData);
 
     // countryCode에 따른 국가와 언어 설정
     switch (state.value.user.countryCode) {
       case 0:
-        state.value.user.country = '한국';
-        state.value.user.language = 'ko';
+        state.value.user.country = "한국";
+        state.value.user.language = "ko";
         break;
       case 1:
-        state.value.user.country = '미국';
-        state.value.user.language = 'en';
+        state.value.user.country = "미국";
+        state.value.user.language = "en";
         break;
       case 2:
-        state.value.user.country = '인도네시아';
-        state.value.user.language = 'id';
+        state.value.user.country = "인도네시아";
+        state.value.user.language = "id";
         break;
       case 3:
-        state.value.user.country = '베트남';
-        state.value.user.language = 'vi';
+        state.value.user.country = "베트남";
+        state.value.user.language = "vi";
         break;
     }
 
     // localStorage에 업데이트된 사용자 정보 저장
-    localStorage.setItem('auth', JSON.stringify(state.value));
+    localStorage.setItem("auth", JSON.stringify(state.value));
   };
 
   const logout = () => {
     localStorage.clear();
-    Object.assign(state.value, initState);
+    state.value = { ...initState };
+    user.value = null;
   };
 
   //const getToken = () => state.value.token;
 
   const changeProfile = (member) => {
     state.value.user.userId = member.email;
-    localStorage.setItem('auth', JSON.stringify(state.value));
+    localStorage.setItem("auth", JSON.stringify(state.value));
   };
 
   load();
@@ -130,5 +125,15 @@ export const useAuthStore = defineStore('auth', () => {
   // load(): 페이지가 로드될 때 localStorage에서 저장된 인증 정보를 불러와 state에 설정
 
   //   return { state, username, email, isLogin, changeProfile, login, logout, getToken };
-  return { state, userNo, user, email, isLogin, changeProfile, login, logout, updateProfileState };
+  return {
+    state,
+    userId,
+    user,
+    isLogin,
+    changeProfile,
+    login,
+    logout,
+    updateProfileState,
+    fetchUser
+  };
 });

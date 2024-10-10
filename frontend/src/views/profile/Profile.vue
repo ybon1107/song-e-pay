@@ -1,50 +1,60 @@
 <script setup>
-import { computed, ref, reactive } from "vue";
+import { computed, ref, reactive, watchEffect } from "vue";
 import { onBeforeMount, onMounted, onBeforeUnmount } from "vue";
 import { useStore } from "vuex";
 
 import setNavPills from "@/assets/js/nav-pills.js";
 import setTooltip from "@/assets/js/tooltip.js";
-// import ProfileCard from "@/components/viewsComponents/ProfileCard.vue";
-// import ArgonInput from "@/components/templates/ArgonInput.vue";
 import ArgonButton from "@/components/templates/ArgonButton.vue";
-
-import settingApi from '@/api/settingApi';
-import { useAuthStore } from '@/stores/auth';
+import settingApi from "@/api/settingApi";
+import { useAuthStore } from "@/stores/auth";
 
 const auth = useAuthStore();
 const isLogin = computed(() => auth.isLogin);
-const userNo = computed(() => auth.userNo);
 const user = computed(() => auth.user);
-
-console.log("profile isLogin : ", isLogin)
-console.log("profile userNo : ", userNo)
-console.log("profile user : ", user)
 
 const profilePic = ref(null);
 
 const userInfo = reactive({
-  userNo: auth.user.userNo,
-  address: auth.user.address,
-  postCode: auth.user.postCode,
-  countryCode: auth.user.countryCode,
+  userId: '',
+  address: '',
+  postCode: '',
+  countryCode: '',
   profilePic: null,
 });
 
-const originalProfilePic = ref(auth.user.profilePic);
+watchEffect(() => {
+  if (user.value) {
+    userInfo.userId = user.value.userId;
+    userInfo.address = user.value.address;
+    userInfo.postCode = user.value.postCode;
+    userInfo.countryCode = user.value.countryCode;
+  }
+});
+
+const originalProfilePic = computed(() => user.value?.profilePic);
+
+onMounted(async () => {
+  if (auth.userId) {
+    await auth.fetchUser(auth.userId);
+  } else {
+    console.error('사용자 ID를 찾을 수 없습니다.');
+  }
+  console.log("프로필 사용자 : ", user.value);
+});
 
 const triggerFileInput = () => {
   if (profilePic.value) {
-    profilePic.value.value = ''; // 파일 입력 필드 초기화
+    profilePic.value.value = ""; // 파일 입력 필드 초기화
   }
   profilePic.value.click();
 };
 
 const cancelProfilePic = () => {
-  user.value.profilePic = originalProfilePic.value
+  user.value.profilePic = originalProfilePic.value;
   userInfo.profilePic = null; // 선택된 파일 제거
   if (profilePic.value) {
-    profilePic.value.value = ''; // 파일 입력 필드 초기화
+    profilePic.value.value = ""; // 파일 입력 필드 초기화
   }
 };
 
@@ -52,7 +62,7 @@ const handleFileChange = (event) => {
   const file = event.target.files[0];
   if (file) {
     userInfo.profilePic = file;
-    console.log('선택된 파일:', file.name);
+    console.log("선택된 파일:", file.name);
 
     // 파일 미리보기 생성
     const reader = new FileReader();
@@ -66,18 +76,18 @@ const handleFileChange = (event) => {
 const updateProfile = async () => {
   try {
     await settingApi.updateProfile(userInfo);
-    console.log('프로필 업데이트 성공');
-    alert('프로필 업데이트 성공');
+    console.log("프로필 업데이트 성공");
+    alert("프로필 업데이트 성공");
   } catch (error) {
-    console.error('프로필 업데이트 실패:', error.response.data);
-    alert('프로필 업데이트 실패');
+    console.error("프로필 업데이트 실패:", error.response.data);
+    alert("프로필 업데이트 실패");
   }
 };
 
 const logout = (e) => {
   // 로그아웃
   auth.logout();
-  window.location.href = '/';
+  window.location.href = "/main";
 };
 
 // 회원탈퇴 클릭 이벤트 핸들러
@@ -86,7 +96,7 @@ const handleWithdraw = () => {
 
   if (confirmed) {
     // 사용자가 확인을 클릭했을 경우 특정 주소로 이동
-    console.log("탈퇴 : ", user.value.userNo)
+    console.log("탈퇴 : ", user.value.userNo);
     settingApi.delete(user.value.userNo);
     auth.logout();
   }
@@ -109,19 +119,32 @@ onBeforeMount(() => {
   store.state.hideConfigButton = true;
   body.classList.add("profile-overview");
 });
+
+onBeforeUnmount(() => {
+  store.state.isAbsolute = false;
+  store.state.imageLayout = "default";
+  store.state.showNavbar = true;
+  store.state.showFooter = true;
+  store.state.hideConfigButton = false;
+  body.classList.remove("profile-overview");
+});
+
 </script>
 <template>
   <main>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
       integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
-      crossorigin="anonymous" referrerpolicy="no-referrer" />
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
     <div class="container-fluid">
-      <div class="page-header min-height-300 bg-success" style="
-          /* background-image: url(&quot;https://images.unsplash.com/photo-1531512073830-ba890ca4eba2?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80&quot;); */
-          margin-right: -24px;
-          margin-left: -34%;
-        ">
-        <span class="mask bg-gradient-success opacity-6"></span>
+      <div
+        class="page-header min-height-300 bg-yellow"
+        style="margin-right: -34%; margin-left: -34%"
+      >
+        <!-- <span class="mask bg-gradient-success opacity-6"></span> -->
       </div>
       <div class="card shadow-lg mt-n6 page-size">
         <div class="card-body p-3">
@@ -129,31 +152,54 @@ onBeforeMount(() => {
             <div class="col-auto">
               <!-- 유저 프로필 이미지 -->
               <div class="avatar avatar-xl position-relative">
-                <img :src="user.profilePic" alt="profile_image" class="profile-img shadow-sm w-100 border-radius-lg"
-                  @click="triggerFileInput" />
-                <input type="file" class="form-control visually-hidden" ref="profilePic" id="avatar"
-                  accept="image/png, image/jpeg" @change="handleFileChange" />
-                <button v-if="userInfo.profilePic" @click="cancelProfilePic" class="btn cancel-btn">
+                <img
+                  :src="user?.profilePic"
+                  alt="profile_image"
+                  class="profile-img shadow-sm w-100 border-radius-lg"
+                  @click="triggerFileInput"
+                />
+                <input
+                  type="file"
+                  class="form-control visually-hidden"
+                  ref="profilePic"
+                  id="avatar"
+                  accept="image/png, image/jpeg"
+                  @change="handleFileChange"
+                />
+                <button
+                  v-if="userInfo.profilePic"
+                  @click="cancelProfilePic"
+                  class="btn cancel-btn"
+                >
                   <i class="fa-solid fa-x"></i>
                 </button>
               </div>
-
-
             </div>
             <div class="col-auto my-auto">
               <div class="h-100">
                 <!-- 유저 닉네임 나오는 곳 -->
-                <h5 class="mb-1">{{ user.userId }}</h5>
+                <h5 class="mb-1">{{ user?.userId }}</h5>
               </div>
             </div>
-            <div class="mx-auto mt-3 col-lg-4 col-md-6 my-sm-auto ms-sm-auto me-sm-0 btn-logout"
-              style="margin-right: 40px !important;">
+            <div
+              class="mx-auto mt-3 col-lg-4 col-md-6 my-sm-auto ms-sm-auto me-sm-0 btn-logout"
+              style="margin-right: 40px !important"
+            >
               <div class="nav-wrapper position-relative end-0">
-                <a class="px-0 py-1 mb-0 nav-link" data-bs-toggle="tab" href="javascript:;" role="tab"
-                  aria-selected="false" @click.prevent="logout">
+                <a
+                  class="px-0 py-1 mb-0 nav-link"
+                  data-bs-toggle="tab"
+                  href="javascript:;"
+                  role="tab"
+                  aria-selected="false"
+                  @click.prevent="logout"
+                >
                   <span class="ms-1">logout</span>
                   <!-- <i class="fa-solid fa-right-from-bracket" style="margin-left: 5px;"></i> -->
-                  <i class="fa-solid fa-angles-right" style="margin-left: 5px;"></i>
+                  <i
+                    class="fa-solid fa-angles-right"
+                    style="margin-left: 5px"
+                  ></i>
                 </a>
               </div>
             </div>
@@ -170,19 +216,39 @@ onBeforeMount(() => {
               <div class="row">
                 <div class="col-md-6">
                   <label for="last-name" class="form-control-label">이름</label>
-                  <input class="form-control info-input" id="last-name" :value="user.firstName" disabled />
+                  <input
+                    class="form-control info-input"
+                    id="last-name"
+                    :value="user?.firstName"
+                    disabled
+                  />
                 </div>
                 <div class="col-md-6">
                   <label for="first-name" class="form-control-label">성</label>
-                  <input class="form-control info-input" id="first-name" :value="user.lastName" disabled />
+                  <input
+                    class="form-control info-input"
+                    id="first-name"
+                    :value="user?.lastName"
+                    disabled
+                  />
                 </div>
                 <div class="col-md-6">
                   <label for="birthday" class="form-control-label">생일</label>
-                  <input class="form-control info-input" id="birthday" :value="user.birthday" disabled />
+                  <input
+                    class="form-control info-input"
+                    id="birthday"
+                    :value="user?.birthday"
+                    disabled
+                  />
                 </div>
                 <div class="col-md-6">
                   <label for="phone" class="form-control-label">전화번호</label>
-                  <input class="form-control info-input" id="phone" :value="user.phoneNo" disabled />
+                  <input
+                    class="form-control info-input"
+                    id="phone"
+                    :value="user?.phoneNo"
+                    disabled
+                  />
                 </div>
               </div>
               <br />
@@ -191,15 +257,29 @@ onBeforeMount(() => {
                 <div class="row">
                   <div class="col-md-6 input-address">
                     <label for="address" class="form-control-label">주소</label>
-                    <input class="form-control" id="address" v-model="userInfo.address" />
+                    <input
+                      class="form-control"
+                      id="address"
+                      v-model="userInfo.address"
+                    />
                   </div>
                   <div class="col-md-6">
-                    <label for="postal-code" class="form-control-label">우편번호</label>
-                    <input class="form-control" id="postal-code" v-model="userInfo.postCode" />
+                    <label for="postal-code" class="form-control-label"
+                      >우편번호</label
+                    >
+                    <input
+                      class="form-control"
+                      id="postal-code"
+                      v-model="userInfo.postCode"
+                    />
                   </div>
                   <div class="col-md-6">
                     <label for="country" class="form-control-label">국가</label>
-                    <select id="country" class="form-select" v-model="userInfo.countryCode">
+                    <select
+                      id="country"
+                      class="form-select"
+                      v-model="userInfo.countryCode"
+                    >
                       <option value="0">한국</option>
                       <option value="1">미국</option>
                       <option value="2">인도네시아</option>
@@ -207,9 +287,11 @@ onBeforeMount(() => {
                     </select>
                   </div>
                 </div>
-                <div class="card-header pb-0" style="padding-right: 0;">
+                <div class="card-header pb-0" style="padding-right: 0">
                   <div class="d-flex align-items-center">
-                    <argon-button color="success" size="sm" class="ms-auto">Settings</argon-button>
+                    <argon-button color="success" size="sm" class="ms-auto"
+                      >Settings</argon-button
+                    >
                   </div>
                 </div>
               </form>
@@ -219,7 +301,9 @@ onBeforeMount(() => {
               <ul class="navbar-nav nav-fill">
                 <li class="pvt-item">
                   <a class="pvt-link">
-                    <div class="pvt-icon"><i class="fa-solid fa-file-invoice"></i></div>
+                    <div class="pvt-icon">
+                      <i class="fa-solid fa-file-invoice"></i>
+                    </div>
                     <span>계좌</span>
                     <i class="fa-solid fa-angle-right"></i>
                   </a>
@@ -243,16 +327,22 @@ onBeforeMount(() => {
               <!-- <hr /> -->
               <ul class="navbar-nav nav-fill">
                 <li class="pvt-item">
-                  <div class="pvt-icon"><i class="fa-solid fa-circle-half-stroke fa-flip-horizontal"></i></div>
+                  <div class="pvt-icon">
+                    <i
+                      class="fa-solid fa-circle-half-stroke fa-flip-horizontal"
+                    ></i>
+                  </div>
                   <span>테마</span>
-                  <input type="checkbox" id="toggle" hidden>
+                  <input type="checkbox" id="toggle" hidden />
                   <label for="toggle" class="toggleSwitch">
                     <span class="toggleButton"></span>
                   </label>
                 </li>
                 <li class="pvt-item" @click="handleWithdraw">
                   <a class="pvt-link">
-                    <div class="pvt-icon"><i class="fa-regular fa-circle-xmark fa-lg"></i></div>
+                    <div class="pvt-icon">
+                      <i class="fa-regular fa-circle-xmark fa-lg"></i>
+                    </div>
                     <span>회원탈퇴</span>
                     <i class="fa-solid fa-angle-right"></i>
                   </a>
@@ -301,13 +391,13 @@ onBeforeMount(() => {
   color: black;
 }
 
-.pvt-link>i:last-child {
+.pvt-link > i:last-child {
   margin-left: auto;
 }
 
 .pvt-icon {
   border-radius: 50%;
-  background-color: #D9D9D9;
+  background-color: #d9d9d9;
   width: 30px;
   height: 30px;
   display: flex;
@@ -316,7 +406,7 @@ onBeforeMount(() => {
   margin-right: 10px;
 }
 
-.pvt-icon>i {
+.pvt-icon > i {
   font-size: 20px;
   color: black;
 }
@@ -344,11 +434,11 @@ onBeforeMount(() => {
   background: black;
 }
 
-#toggle:checked~.toggleSwitch {
+#toggle:checked ~ .toggleSwitch {
   background: black;
 }
 
-#toggle:checked~.toggleSwitch .toggleButton {
+#toggle:checked ~ .toggleSwitch .toggleButton {
   left: calc(100% - 25px);
   background: #fff;
 }

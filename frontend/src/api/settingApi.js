@@ -9,18 +9,19 @@ const api = axios.create({
 export default {
 
   async updateProfile(userInfo) {
-
+    console.log('userInfo: ', userInfo);
     let headers = { 'Content-Type': 'multipart/form-data' };
 
     const formData = new FormData();
 
-    formData.append('userNo', userInfo.userNo);
+    formData.append('userIo', userInfo.userId);
     formData.append('address', userInfo. address);
     formData.append('postCode', userInfo.postCode);
     formData.append('countryCode', userInfo.countryCode);
     
     if (userInfo.profilePic) {
       formData.append('profilePicFile', userInfo.profilePic);
+      console.log('profilePic: ', userInfo.profilePic);
     }
     console.log('---------------야');
     const { data } = await api.post('/', formData, { headers });

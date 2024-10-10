@@ -5,11 +5,14 @@ import com.google.zxing.WriterException;
 import com.google.zxing.client.j2se.MatrixToImageWriter;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.QRCodeWriter;
-import com.sepay.backend.payment.dto.PasswordDTO;
-import com.sepay.backend.payment.mapper.PaymentMapper;
+import com.sepay.backend.history.dto.HistoryDTO;
+import com.sepay.backend.myaccount.dto.KrwAccountDTO;
+import com.sepay.backend.myaccount.mapper.MyAccountMapper;
+import com.sepay.backend.user.dto.UserDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -18,7 +21,8 @@ import java.io.IOException;
 @Service
 @RequiredArgsConstructor
 public class PaymentServiceImpl implements PaymentService {
-    private final PaymentMapper mapper;
+//    private final PaymentMapper mapper;
+    private final MyAccountMapper mapper;
 
     @Override
     public byte[] createQR(String url) throws WriterException, IOException {
@@ -36,5 +40,56 @@ public class PaymentServiceImpl implements PaymentService {
             return out.toByteArray();
         }
     }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void payment(Double amount, UserDTO user) {
+        if (amount <= 0) {
+            throw new IllegalArgumentException("Amount must be positive");
+        }
+        if (user == null || user.getKrwNo() == null) {
+            throw new IllegalArgumentException("Invalid user information");
+        }
+
+        String krwNo = user.getKrwNo();
+        double krwBalance = mapper.selectKrwBalance(krwNo);
+
+        if (krwBalance < amount) {
+            throw new Error("Insufficient KRW balance");
+        }
+
+        try {
+            // 원화 금액 감소
+            KrwAccountDTO krwDTO = KrwAccountDTO.builder()
+                    .krwNo(krwNo)
+                    .balance(krwBalance - amount)
+                    .build();
+            int resKrw = mapper.updateKrwAccount(krwDTO);
+
+            if (resKrw <= 0) {
+                throw new Error("Failed to update KRW account");
+            }
+
+            // 내역 추가
+            HistoryDTO historyDTO = HistoryDTO.builder()
+                    .userNo(user.getUserNo())
+                    .songNo(user.getSongNo())
+                    .krwNo(user.getKrwNo())
+                    .typeCode(1)
+                    .stateCode(1)
+                    .historyContent("USD → KRW 환전")
+                    .amount(amount)
+                    .build();
+            int resHistory = mapper.insertHistory(historyDTO);
+
+            if (resHistory <= 0) {
+                throw new Error("Failed to insert payment history");
+            }
+        } catch (Exception e) {
+//            logger.error("Payment processing error: ", e);
+            throw new Error("An error occurred during payment processing", e);
+        }
+    }
+
 
 }

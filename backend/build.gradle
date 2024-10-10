@@ -10,7 +10,6 @@ repositories {
     mavenCentral()
 }
 
-
 ext {
     junitVersion = '5.9.2'
     springVersion = '5.3.37'
@@ -27,8 +26,6 @@ tasks.withType(JavaCompile) {
 
 dependencies {
 
-    implementation 'commons-fileupload:commons-fileupload:1.4'
-
     // 스프링
     implementation ("org.springframework:spring-context:${springVersion}")
             { exclude group: 'commons-logging', module: 'commons-logging' }
@@ -40,6 +37,8 @@ dependencies {
 
     // Commons FileUpload 의존성
     implementation 'commons-fileupload:commons-fileupload:1.4'
+
+    implementation 'commons-io:commons-io:2.11.0'
 
     // AOP
     implementation 'org.aspectj:aspectjrt:1.9.20'

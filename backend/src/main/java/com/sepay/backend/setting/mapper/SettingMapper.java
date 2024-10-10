@@ -14,19 +14,19 @@ public interface SettingMapper {
     int updateAccount(Map map);
 
     // 계좌 해지
-    int deleteAccount(Integer userNo);
+    int deleteAccount(String userId);
 
     // 비밀번호 변경
     int updatePassword(Map map);
 
     // 비밀번호 확인
-    String selectPassword(Integer userNo);
+    String selectPassword(String userId);
 
     // 2차 비밀번호 변경
     int updateSecondPassword(Map map);
 
     // 2차 비밀번호 확인
-    String selectSecondPassword(Integer userNo);
+    String selectSecondPassword(String userId);
 
     // 송이 계좌 삭제
     int deleteSonge(String songNo);
@@ -35,8 +35,8 @@ public interface SettingMapper {
     int deleteKrw(String krwNo);
 
     // 회원 삭제
-    int deleteUser(Integer userNo);
+    int deleteUser(String userId);
 
     // 프로필 이미지 주소
-    String selectUserProfileImg(Integer userNo);
+    String selectUserProfileImg(String userId);
 }

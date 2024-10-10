@@ -1,0 +1,189 @@
+.container-fluid {
+  max-width: 1200px;
+}
+
+.modal-backdrop {
+  z-index: 1060 !important;
+}
+
+.modal {
+  z-index: 1065 !important;
+}
+
+#sidenav-main {
+  z-index: 1050 !important;
+}
+
+.bg-custom {
+  background-color: $white !important;
+}
+
+.bg-yellow {
+  background-color: $primary-yellow;
+}
+
+// 공통으로 사용할 공백
+.custom-spacer {
+  padding: 3rem;
+}
+
+// input태그에 들어가는 달력 아이콘
+/* FontAwesome 아이콘을 감싸는 div */
+.icon-div {
+  width: 40px;
+  height: 40px;
+  background-color: $text-brown-100;
+  /* 회색 배경 */
+  border-radius: 50%;
+  /* 둥근 모양 */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* FontAwesome 아이콘 */
+.fa-solid {
+  font-size: 20px;
+  /* 아이콘 크기 */
+  color: $text-brown;
+  /* 아이콘 색상 */
+  line-height: 1;
+  /* 아이콘의 라인 높이를 1로 설정하여 중앙 정렬 */
+}
+
+.input-flag-icon {
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+  width: 24px;
+  height: 16px;
+}
+
+/* 나의 자산 tab 디자인 */
+.custom-nav {
+  .nav-link {
+    cursor: pointer;
+    color: $text-brown-300;
+    transition: background-color 0.3s ease;
+  }
+
+  /* 탭 활성화 스타일 */
+  .nav-link.active {
+    /* background-color: #ffd700; */
+    color: $text-brown;
+  }
+
+  /* 비활성화된 탭 스타일 */
+  // .nav-link:hover {
+  //   color: $primary-aqua;
+  // }
+}
+
+// 웹 화면에서는 카드 바디 크기 50프로만 차지
+.tab-content-width {
+  width: 50%;
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+}
+
+//acountscard 배경 이미지
+.card-img-bg {
+  width: 8.56cm;
+  aspect-ratio: 1.585;
+  /* 비율 8.56 / 5.398 */
+  background-size: cover;
+  cursor: pointer;
+  background-color: $primary-yellow;
+}
+
+//acountscard가 선택됐을 때
+.selected .card {
+  border: 3px solid $light-brown;
+  /* 선택된 카드에 녹색 테두리 추가 */
+  box-shadow: 0 0 15px $light-brown;
+  /* 선택된 카드에 그림자 효과 추가 */
+}
+
+// 자동 환전 및 알람 라우터 이동 버튼
+.alert-text:hover,
+.alert-text:focus {
+  padding: 1rem;
+  background-color: $primary-blue;
+  border-radius: 0.375rem;
+  color: white;
+}
+
+.alert-text {
+  font-size: 1.875rem;
+  line-height: 1.375;
+  font-weight: 700;
+}
+
+.alert-icon {
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.alert-text:hover .alert-icon,
+.alert-text:focus .alert-icon {
+  opacity: 1;
+  color: white;
+}
+
+.chart-button-container {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  padding: 1rem;
+}
+
+// 환율 페이지 그래프 년도 버튼
+.chart-btn {
+  flex-grow: 1;
+  /* 버튼들이 남은 공간을 균등하게 차지 */
+  padding: 1px 0;
+  /* 버튼 높이 */
+  background-color: $text-brown-300;
+  /* 기본 배경 색상 */
+  color: $dark-brown;
+  /* 기본 텍스트 색상 */
+  border: none;
+  border-radius: 20px;
+  /* 둥근 모서리 */
+  text-align: center;
+  cursor: pointer;
+  margin: 0 5px;
+  /* 버튼 간 좌우 간격 */
+}
+
+.chart-btn.selected {
+  background-color: $dark-brown;
+  /* 선택된 버튼의 배경색 */
+  color: #fff;
+  /* 선택된 버튼의 텍스트 색상 */
+}
+
+// .chart-btn:hover {
+//   background-color: #f0f0f0;
+// }
+
+/* 반응형 스타일 */
+@media (max-width: 768px) {
+  .max-margin-bottom {
+    margin-bottom: 1rem;
+  }
+
+  .tab-content-width {
+    width: 100%;
+  }
+
+  .alert-icon {
+    opacity: 1;
+  }
+
+  //flex세로 정렬
+  .flex-column-min {
+    flex-direction: column;
+  }
+}

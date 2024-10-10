@@ -34,11 +34,16 @@ public class ServletConfig  implements WebMvcConfigurer {
                 .addResourceLocations("/resources/assets/");
     }
 
+//    @Bean
+//    public CommonsMultipartResolver multipartResolver() {
+//        CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver();
+//        multipartResolver.setMaxUploadSize(5242880); // 파일 최대 크기 5MB
+//        multipartResolver.setDefaultEncoding("UTF-8"); // 인코딩 설정
+//        return multipartResolver;
+//    }
+
     @Bean
-    public CommonsMultipartResolver multipartResolver() {
-        CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver();
-        multipartResolver.setMaxUploadSize(5242880); // 파일 최대 크기 5MB
-        multipartResolver.setDefaultEncoding("UTF-8"); // 인코딩 설정
-        return multipartResolver;
+    public StandardServletMultipartResolver multipartResolver() {
+        return new StandardServletMultipartResolver();
     }
 }
