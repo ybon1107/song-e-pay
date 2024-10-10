@@ -5,7 +5,7 @@ export const COUNTRY_CODE = {
     VN: 3
 };
 
-export const COUNTRY_KEY = ["", "country_us", "country_id", "country_vn"];
+export const COUNTRY_KEY = ["country_kr", "country_us", "country_id", "country_vn"];
 
 export const CURRENCY_CODE = {
     KRW: 0,
