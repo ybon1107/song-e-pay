@@ -72,7 +72,7 @@ public class PaymentServiceImpl implements PaymentService {
 
             // 내역 추가
             HistoryDTO historyDTO = HistoryDTO.builder()
-                    .userNo(user.getUserNo())
+                    .userId(user.getUserId())
                     .songNo(user.getSongNo())
                     .krwNo(user.getKrwNo())
                     .typeCode(1)

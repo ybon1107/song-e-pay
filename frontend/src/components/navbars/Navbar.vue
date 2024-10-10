@@ -351,6 +351,7 @@ const saveExchangeRates = async (rates) => {
 };
 
 onMounted(async () => {
+  fetchExchangeRates();
   if (auth.userId) {
     await auth.fetchUser(auth.userId);
     userImg.value = user.value?.profilePic;
