@@ -1,6 +1,6 @@
 <template>
   <div v-if="user">
-    <div class="card card-img-bg" :style="{ backgroundImage: `url(${backgroundImage})` }">
+    <div class="card card-img-bg" :id="props.assetType === 'song-e' ? 'card-songe' : 'card-wone'" :style="{ backgroundImage: `url(${backgroundImage})` }" :class="props.assetType === 'song-e' ? 'bg-primary' : 'bg-info'">
       <div class="card-body d-flex align-items-end justify-content-end">
         <div class="d-flex align-items-center">
           <div class="icon-container me-2">
@@ -13,95 +13,89 @@
     </div>
   </div>
   <div v-else>
-    <div class="card card-img-bg" :style="{ bacgroundColor: gray }"></div>
+    <div class="card card-img-bg" :style="{ backgroundColor: gray }"></div>
   </div>
 </template>
 
 <script setup>
-import { defineProps, ref, computed, onMounted } from 'vue';
+import { defineProps, ref, computed,watchEffect } from 'vue';
 import myaccountApi from '../../api/myaccountApi';
-import { INTL_LOCALE, CURRENCY_NAME } from '@/constants/countryCode';
+import { CURRENCY_NAME } from '@/constants/countryCode';
 
 import currencyFormatter from '../../js/currencyFormatter';
-const { formatNumber, formatCurrency } = currencyFormatter;
+const { formatNumber } = currencyFormatter;
 
 import { useAuthStore } from '@/stores/auth';
-// const auth = useAuthStore();
-// const user = computed(() => auth.user);
-const user = {
-  krwNo: 'krw_test',
-  countryCode: '1',
-  songNo: 'song_test',
-  userNo: '1234',
-};
-const isFocused = ref(false);
+const auth = useAuthStore();
+const user = computed(() => auth.user);
 const balance = ref(0);
 
 const props = defineProps({
-  // title: {
-  //     type: String,
-  //     default: ''
-  // },
-  // balance: {
-  //     type: Number,
-  //     default: 0
-  // },
   assetType: {
     type: String,
     required: true,
   },
-  // value: {
-  //     type: String,
-  //     default: "",
-  // },
-  // backgroundImage: {
-  //     type: String,
-  //     default: ''
-  // },
-  // icon: {
-  //     type: String,
-  //     default: ''
-  // },
-  // isSelected: {
-  //     type: Boolean,
-  //     default: false
-  // }
 });
 
 //추후에 i18n키값 구분 로직으로 변경
 const backgroundImage = computed(() => `/images/${props.assetType}-money.png`);
-// const icon = computed(() => `/images/${props.currency}.png`);
+
 const flagIcon = computed(() => {
-  const iconName = props.assetType === 'song-e' ? user.countryCode : '0';
+  const iconName = props.assetType === 'song-e' ? user.value?.countryCode : '0';
   return `/images/flag_c${iconName}.png`;
 });
 const displayCountry = computed(() => {
-  return props.assetType === 'song-e' ? CURRENCY_NAME[user.countryCode] : CURRENCY_NAME[0];
+  return props.assetType === 'song-e' ? CURRENCY_NAME[user.value?.countryCode] : CURRENCY_NAME[0];
 });
 
 const fetchBalance = async () => {
+  if (!user.value) return; // user 데이터가 없으면 함수 실행을 중단
+
   if (props.assetType === 'song-e') {
-    myaccountApi.fetchsongeAccountBalance(user.songNo).then((fetchedBalance) => {
+    try {
+      const fetchedBalance = await myaccountApi.fetchsongeAccountBalance(user.value.songNo);
       balance.value = formatNumber(fetchedBalance.toFixed(2));
-      // balance.value = formatCurrency(fetchedBalance,INTL_LOCALE[user.value.countryCode],CURRENCY_NAME[user.value.countryCode]);
-    });
+      // balance.value = formatCurrency(fetchedBalance, INTL_LOCALE[user.value.countryCode], CURRENCY_NAME[user.value.countryCode]);
+    } catch (error) {
+      console.error("Error fetching song-e balance:", error);
+    }
   } else {
-    myaccountApi.fetchkrwAccountBalance(user.krwNo).then((fetchedBalance) => {
+    try {
+      const fetchedBalance = await myaccountApi.fetchkrwAccountBalance(user.value.krwNo);
       balance.value = formatNumber(fetchedBalance.toFixed(2));
-      // formatCurrency(fetchedBalance,INTL_LOCALE[0],CURRENCY_NAME[0]);
-    });
+      // formatCurrency(fetchedBalance, INTL_LOCALE[0], CURRENCY_NAME[0]);
+    } catch (error) {
+      console.error("Error fetching KRW balance:", error);
+    }
   }
 };
 
-onMounted(() => {
-  fetchBalance();
+// watchEffect를 사용하여 user 데이터가 준비되면 fetchBalance를 호출
+watchEffect(() => {
+  if (user.value) {
+    fetchBalance();
+  }
 });
 
-// fetchBalance 함수를 외부에서 접근 가능하게 만듭니다.
+// fetchBalance 함수를 외부에서 접근 가능
 defineExpose({ fetchBalance });
 </script>
 
 <style scoped>
+ /* acountscard가 선택됐을 때 */
+ .selected #card-songe {
+    border: 3px solid #FFD166; 
+   box-shadow: 0 0 30px #FFD166;
+   transform: scale(1.08);
+   transition: all 0.3s ease;
+ }
+ .selected #card-wone {
+    border: 3px solid #5C9EA6 ;
+   box-shadow: 0 0 30px #5C9EA6 ;
+   transform: scale(1.08);
+   transition: all 0.3s ease;
+ }
+
 @media (max-width: 500px) {
   .card {
     width: 90%;
