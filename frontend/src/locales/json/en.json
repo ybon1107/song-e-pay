@@ -1,4 +1,10 @@
 {
+    "sidenavList--myPage": "My Page",
+    "sidenavList--exchangeRate": "Exchange rates",
+    "sidenavList--payment": "Payments",
+    "sidenavList--history": "Usage History",
+    "sidenavList--map": "Financial Map",
+    "sidenavList--schedule": "Schedule",
     "country_kr": "South Korea",
     "country_us": "United States",
     "country_id": "Indonesia",
@@ -527,5 +533,13 @@
     "myAccount--error-overAmount": "Exceeds balance.",
     "myAccount--error-notZero": "Please enter a non-zero value.",
     "myAccount-transferto-emailNotCorrect": "It does not match the email you entered.",
-    "profile--personaladdress": "Personal address"
+    "profile--personaladdress": "Personal address",
+    "myAccount--autoExchange-title": "Auto Exchange Settings",
+    "myAccount--autoExchange-noReservationAuto": "No auto exchange reservations.",
+    "myAccount--exchangeRate-settingHistory": "Exchange Rate Alert Settings",
+    "myAccount--exchangeRate-baseCurrency": "Base Currency",
+    "myAccount--exchangeRate-targetCurrency": "Target Currency",
+    "myAccount--exchangeRate-targetExchangeRate": "Target Exchange Rate",
+    "myAccount--exchangeRate-targetKrw": "Target KRW Amount",
+    "myAccount--exchangeRate-noReservationAlert": "No exchange rate alert reservations."
 }

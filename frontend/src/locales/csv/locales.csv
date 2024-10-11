@@ -727,3 +727,11 @@ myAccount--error-overAmount,잔액을 초과합니다.,Exceeds balance.,Melebihi
 myAccount--error-notZero,0이 아닌 값을 입력하세요.,Please enter a non-zero value.,Harap masukkan nilai selain nol.,Vui lòng nhập giá trị khác 0.
 myAccount-transferto-emailNotCorrect,입력하신 이메일과 일치하지 않습니다.,It does not match the email you entered.,Ini tidak cocok dengan email yang Anda masukkan.,Nó không khớp với email bạn đã nhập.,,
 profile--personaladdress,개인 거주지 주소,Personal address,Alamat pribadi,Địa chỉ cá nhân
+myAccount--autoExchange-title,자동 환전 설정 내역,Auto Exchange Settings,Pengaturan Tukar Otomatis,Cài đặt đổi tiền tự động
+myAccount--autoExchange-noReservationAuto,자동 환전 예약 내역이 없습니다.,No auto exchange reservations.,Tidak ada reservasi tukar otomatis.,Không có lịch đổi tiền tự động.
+myAccount--exchangeRate-settingHistory,환율 알림 설정 내역,Exchange Rate Alert Settings,Pengaturan Peringatan Kurs,Cài đặt cảnh báo tỷ giá
+myAccount--exchangeRate-baseCurrency,기준 통화,Base Currency,Mata Uang Dasar,Tiền tệ Cơ bản
+myAccount--exchangeRate-targetCurrency,대상 통화,Target Currency,Mata Uang Tujuan,Tiền tệ Mục tiêu
+myAccount--exchangeRate-targetExchangeRate,목표 환율,Target Exchange Rate,Kurs Target,Tỷ giá Mục tiêu
+myAccount--exchangeRate-targetKrw,목표 KRW 금액,Target KRW Amount,Jumlah KRW Target,Số tiền KRW Mục tiêu
+myAccount--exchangeRate-noReservationAlert,환율 알림 예약 내역이 없습니다.,No exchange rate alert reservations.,Tidak ada reservasi peringatan kurs.,Không có lịch cảnh báo tỷ giá.

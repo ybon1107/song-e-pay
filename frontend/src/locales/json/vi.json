@@ -1,4 +1,10 @@
 {
+    "sidenavList--myPage": "Trang của tôi",
+    "sidenavList--exchangeRate": "Tỷ giá hối đoái",
+    "sidenavList--payment": "Thanh toán",
+    "sidenavList--history": "Lịch sử sử dụng",
+    "sidenavList--map": "Bản đồ tài chính",
+    "sidenavList--schedule": "Lịch trình",
     "country_kr": "Hàn Quốc",
     "country_us": "Hoa Kỳ",
     "country_id": "In-đô-nê-xi-a",
@@ -527,5 +533,13 @@
     "myAccount--error-overAmount": "Vượt quá số dư.",
     "myAccount--error-notZero": "Vui lòng nhập giá trị khác 0.",
     "myAccount-transferto-emailNotCorrect": "Nó không khớp với email bạn đã nhập.",
-    "profile--personaladdress": "Địa chỉ cá nhân"
+    "profile--personaladdress": "Địa chỉ cá nhân",
+    "myAccount--autoExchange-title": "Cài đặt đổi tiền tự động",
+    "myAccount--autoExchange-noReservationAuto": "Không có lịch đổi tiền tự động.",
+    "myAccount--exchangeRate-settingHistory": "Cài đặt cảnh báo tỷ giá",
+    "myAccount--exchangeRate-baseCurrency": "Tiền tệ Cơ bản",
+    "myAccount--exchangeRate-targetCurrency": "Tiền tệ Mục tiêu",
+    "myAccount--exchangeRate-targetExchangeRate": "Tỷ giá Mục tiêu",
+    "myAccount--exchangeRate-targetKrw": "Số tiền KRW Mục tiêu",
+    "myAccount--exchangeRate-noReservationAlert": "Không có lịch cảnh báo tỷ giá."
 }

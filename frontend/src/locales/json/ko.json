@@ -1,4 +1,10 @@
 {
+    "sidenavList--myPage": "마이페이지",
+    "sidenavList--exchangeRate": "환율",
+    "sidenavList--payment": "결제",
+    "sidenavList--history": "이용내역",
+    "sidenavList--map": "금융지도",
+    "sidenavList--schedule": "스케쥴",
     "country_kr": "대한민국",
     "country_us": "미국",
     "country_id": "인도네시아아",
@@ -527,5 +533,13 @@
     "myAccount--error-overAmount": "잔액을 초과합니다.",
     "myAccount--error-notZero": "0이 아닌 값을 입력하세요.",
     "myAccount-transferto-emailNotCorrect": "입력하신 이메일과 일치하지 않습니다.",
-    "profile--personaladdress": "개인 거주지 주소"
+    "profile--personaladdress": "개인 거주지 주소",
+    "myAccount--autoExchange-title": "자동 환전 설정 내역",
+    "myAccount--autoExchange-noReservationAuto": "자동 환전 예약 내역이 없습니다.",
+    "myAccount--exchangeRate-settingHistory": "환율 알림 설정 내역",
+    "myAccount--exchangeRate-baseCurrency": "기준 통화",
+    "myAccount--exchangeRate-targetCurrency": "대상 통화",
+    "myAccount--exchangeRate-targetExchangeRate": "목표 환율",
+    "myAccount--exchangeRate-targetKrw": "목표 KRW 금액",
+    "myAccount--exchangeRate-noReservationAlert": "환율 알림 예약 내역이 없습니다."
 }

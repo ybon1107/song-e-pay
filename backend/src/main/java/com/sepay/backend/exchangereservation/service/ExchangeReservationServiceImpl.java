@@ -38,7 +38,7 @@ public class ExchangeReservationServiceImpl implements ExchangeReservationServic
 
     @Override
     public List<ExchangeReservationDTO> getExchangeReservation (String userId) {
-        log.info("알림 내역을 조회합니다. userNo: {}", userId);
+        log.info("알림 내역을 조회합니다. userId: {}", userId);
         return mapper.selectReservation(userId);
     }
 

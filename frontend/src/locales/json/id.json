@@ -1,4 +1,10 @@
 {
+    "sidenavList--myPage": "Halaman Saya",
+    "sidenavList--exchangeRate": "Nilai tukar",
+    "sidenavList--payment": "Pembayaran",
+    "sidenavList--history": "Riwayat Penggunaan",
+    "sidenavList--map": "Peta Keuangan",
+    "sidenavList--schedule": "Jadwal",
     "country_kr": "Korea Selatan",
     "country_us": "Amerika Serikat",
     "country_id": "Indonesia",
@@ -527,5 +533,13 @@
     "myAccount--error-overAmount": "Melebihi saldo.",
     "myAccount--error-notZero": "Harap masukkan nilai selain nol.",
     "myAccount-transferto-emailNotCorrect": "Ini tidak cocok dengan email yang Anda masukkan.",
-    "profile--personaladdress": "Alamat pribadi"
+    "profile--personaladdress": "Alamat pribadi",
+    "myAccount--autoExchange-title": "Pengaturan Tukar Otomatis",
+    "myAccount--autoExchange-noReservationAuto": "Tidak ada reservasi tukar otomatis.",
+    "myAccount--exchangeRate-settingHistory": "Pengaturan Peringatan Kurs",
+    "myAccount--exchangeRate-baseCurrency": "Mata Uang Dasar",
+    "myAccount--exchangeRate-targetCurrency": "Mata Uang Tujuan",
+    "myAccount--exchangeRate-targetExchangeRate": "Kurs Target",
+    "myAccount--exchangeRate-targetKrw": "Jumlah KRW Target",
+    "myAccount--exchangeRate-noReservationAlert": "Tidak ada reservasi peringatan kurs."
 }
