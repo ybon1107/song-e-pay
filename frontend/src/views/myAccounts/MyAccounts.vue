@@ -294,7 +294,7 @@ const refund = async () => {
 // 환전 처리
 const exchange = async () => {
   // const amount = exchangeAmount.value; // 환전하려는 금액
-  const amount = receiveAmount.value;
+  const amount = receiveAmount.value; //외화기준 금액 넣어주는 걸로 변경
   const exchangeRate = currentFromKrw.value;
   // const exchangeRate = 0.00074;
   // console.log("???" + amount);
@@ -309,7 +309,8 @@ const exchange = async () => {
 
 // 환급 처리
 const reExchange = async () => {
-  const amount = reExchangeAmount.value; // 환급하려는 금액
+  // const amount = reExchangeAmount.value; // 환급하려는 금액
+  const amount = receiveAmount.value; //외화기준 금액 넣어주는 걸로 변경
   const exchangeRate = currentToKrw.value;
   const params = {
     ...ACCOUNT.value,
@@ -960,7 +961,7 @@ watchEffect(() => {
                     :unit="customerunit" :selectedAsset="selectedAsset" :wonEMoneyBalance="wonEMoneyBalance_FromKRW"
                     :activeTab="activeTab" :errorAmountMessage="errorAmountMessage"
                     @update:errorAmountMessage="errorAmountMessage = $event" @focus="onfocus('receive')"
-                    @blur="onblur" />
+                    @blur="onblurReceive" />
                 </div>
                 <div>
                   <label class="d-flex align-items-center">
@@ -974,7 +975,7 @@ watchEffect(() => {
                       :wonEMoneyBalance="wonEMoneyBalance" :activeTab="activeTab"
                       :placeholder="`${$t('transaction_types_exchange')} ${$t('myAccount--input-placeholder')}`"
                       :errorMessage="errorAmountMessage" @update:errorAmountMessage="errorAmountMessage = $event"
-                      @focus="onfocus('reExchange')" @blur="onblur('reExchange')" />
+                      @focus="onfocus('reExchange')" @blur="onblurReExchange" />
                   </div>
 
                   <small>{{ t('myAccount--wonE-currentExchangeRate') }}: 1 {{ customerunit }} = {{ currentToKrw }}
