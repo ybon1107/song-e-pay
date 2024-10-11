@@ -90,7 +90,7 @@ public class SettingController {
     }
 
     // 회원 탈퇴
-    @DeleteMapping("/bye/{userNo}")
+    @DeleteMapping("/bye/{userId}")
     public ResponseEntity<?> bye(@PathVariable String userId) {
         log.info("userId : ", userId);
         return ResponseEntity.ok(settingService.deleteUser(userId));
