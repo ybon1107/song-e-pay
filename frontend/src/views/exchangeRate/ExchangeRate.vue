@@ -14,7 +14,7 @@
           <div class="row px-3">
             <div class="col-md-7 max-margin-bottom">
               <h4 class="mt-3">
-                1 {{ customerunit }} = {{ currentToKrw.toFixed(2) }} KRW
+                1 {{ customerunit }} = {{ currentToKrw.toFixed(5) }} KRW
               </h4>
               <ExchangeRateChart
                 chartId="toexchangeChart"
@@ -105,7 +105,7 @@
           <div class="row px-3">
             <div class="col-md-7 max-margin-bottom">
               <h4 class="mt-3">
-                1000 KRW = {{ (currentFromKrw * 1000).toFixed(2) }}
+                1 KRW = {{ currentFromKrw.toFixed(5) }}
                 {{ customerunit }}
               </h4>
               <ExchangeRateChart
@@ -168,7 +168,7 @@
                 <div
                   class="d-flex justify-content-between align-items-center gap-3"
                 >
-                  <span class="text-nowrap">1000 KRW = </span>
+                  <span class="text-nowrap">1 KRW = </span>
                   <input
                     type="number"
                     v-model="alertRateKrwToUsd"
@@ -271,11 +271,11 @@ import SecondPasswordModal from "@/views/MyAccounts/SecondPasswordModal.vue";
 // Data variables
 const usdAmount = ref(1);
 const krwAmount = computed(() => {
-  return (usdAmount.value * store.currentToKrw).toFixed(2);
+  return (usdAmount.value * store.currentToKrw).toFixed(5);
 });
-const krwAmountReverse = ref(1000);
+const krwAmountReverse = ref(1);
 const usdAmountReverse = computed(() => {
-  return (krwAmountReverse.value * store.currentFromKrw).toFixed(2);
+  return (krwAmountReverse.value * store.currentFromKrw).toFixed(5);
 });
 
 const store = useExchangeStore();
@@ -313,13 +313,13 @@ const currentFromKrw = computed(() => store.currentFromKrw);
 
 // Conversion functions
 const convertToKrw = () => {
-  krwAmount.value = (usdAmount.value * currentToKrw.value).toFixed(2);
+  krwAmount.value = (usdAmount.value * currentToKrw.value).toFixed(5);
 };
 
 const convertToUsd = () => {
   usdAmountReverse.value = (
     krwAmountReverse.value * currentFromKrw.value
-  ).toFixed(2);
+  ).toFixed(5);
 };
 
 // Period state
@@ -391,7 +391,7 @@ const reExchange = async () => {
     const userId = Id; // 실제 사용자 번호로 대체해야 합니다
     const krwNo = "1234"; // 실제 KRW 계좌 번호로 대체해야 합니다
     const songNo = "1234"; // 실제 송이 페이 계좌 번호로 대체해야 합니다
-    const exchangeRate = currentFromKrw.value * 1000; // 1000 KRW 기준
+    const exchangeRate = currentFromKrw.value;
     const amount = krwAmountReverse.value;
 
     const response = await myaccountApi.reExchange({
@@ -463,7 +463,7 @@ const saveAlertRate = async (baseCode, targetCode, targetExchange) => {
 
   if (
     baseCode === 0 &&
-    parseFloat(targetExchange) < currentFromKrw.value * 1000
+    parseFloat(targetExchange) < currentFromKrw.value
   ) {
     Swal.fire({
       title: "경고",

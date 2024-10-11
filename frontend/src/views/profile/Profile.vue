@@ -8,7 +8,8 @@ import setTooltip from '@/assets/js/tooltip.js';
 import ArgonButton from '@/components/templates/ArgonButton.vue';
 import settingApi from '@/api/settingApi';
 import { useAuthStore } from '@/stores/auth';
-import Set2nd from './Set2nd.vue';
+
+import Swal from 'sweetalert2';
 
 const auth = useAuthStore();
 const isLogin = computed(() => auth.isLogin);
@@ -91,12 +92,22 @@ const updateProfile = async () => {
     try {
         await settingApi.updateProfile(userInfo);
         console.log('프로필 업데이트 성공');
-        alert('프로필 업데이트 성공');
+        Swal.fire({
+            title: '성공!',
+            text: '프로필 업데이트 성공',
+            icon: 'success',
+            confirmButtonText: '확인',
+        });
 
         window.location.reload();
     } catch (error) {
         console.error('프로필 업데이트 실패:', error.response.data);
-        alert('프로필 업데이트 실패');
+        Swal.fire({
+            title: '실패',
+            html: `프로필 업데이트 실패`,
+            icon: 'error',
+            confirmButtonText: '확인',
+        });
     }
 };
 
@@ -108,14 +119,34 @@ const logout = (e) => {
 
 // 회원탈퇴 클릭 이벤트 핸들러
 const handleWithdraw = () => {
-    const confirmed = confirm('정말로 회원탈퇴 하시겠습니까?');
-
-    if (confirmed) {
-        // 사용자가 확인을 클릭했을 경우 특정 주소로 이동
-        console.log('탈퇴 : ', user.value.userId);
-        settingApi.delete(user.value.userId);
-        auth.logout();
-    }
+    Swal.fire({
+        title: '정말로 회원탈퇴 하시겠습니까?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: '확인',
+        cancelButtonText: '취소',
+    }).then((result) => {
+        if (result.isConfirmed) {
+            // 사용자가 확인을 클릭했을 경우 탈퇴 처리
+            console.log('탈퇴 : ', user.value.userId);
+            settingApi.delete(user.value.userId).then(() => {
+                auth.logout();
+                Swal.fire({
+                    title: '탈퇴 확인',
+                    text: '회원탈퇴가 완료되었습니다.',
+                    icon: 'success',
+                    confirmButtonText: '확인',
+                });
+            });
+        } else {
+            Swal.fire({
+                title: '취소됨',
+                text: '회원탈퇴가 취소되었습니다.',
+                icon: 'info',
+                confirmButtonText: '확인',
+            });
+        }
+    });
 };
 
 const body = document.getElementsByTagName('body')[0];
@@ -209,7 +240,9 @@ onBeforeUnmount(() => {
                                     aria-selected="false"
                                     @click.prevent="logout"
                                 >
-                                    <span class="ms-1">logout</span>
+                                    <span class="ms-1">{{
+                                        $t('profile--button-logout')
+                                    }}</span>
                                     <!-- <i class="fa-solid fa-right-from-bracket" style="margin-left: 5px;"></i> -->
                                     <i
                                         class="fa-solid fa-angles-right"
@@ -228,14 +261,16 @@ onBeforeUnmount(() => {
                     <div class="card">
                         <div class="card-body">
                             <p class="text-uppercase text-sm">
-                                Personal information
+                                {{ $t('profile--personalInfoTitle') }}
                             </p>
                             <div class="row">
                                 <div class="col-md-6">
                                     <label
                                         for="last-name"
                                         class="form-control-label"
-                                        >이름</label
+                                        >{{
+                                            $t('profile--lastNameLabel')
+                                        }}</label
                                     >
                                     <input
                                         class="form-control info-input"
@@ -248,7 +283,9 @@ onBeforeUnmount(() => {
                                     <label
                                         for="first-name"
                                         class="form-control-label"
-                                        >성</label
+                                        >{{
+                                            $t('profile--firstNameLabel')
+                                        }}</label
                                     >
                                     <input
                                         class="form-control info-input"
@@ -261,7 +298,9 @@ onBeforeUnmount(() => {
                                     <label
                                         for="birthday"
                                         class="form-control-label"
-                                        >생일</label
+                                        >{{
+                                            $t('profile--birthdayLabel')
+                                        }}</label
                                     >
                                     <input
                                         class="form-control info-input"
@@ -274,7 +313,7 @@ onBeforeUnmount(() => {
                                     <label
                                         for="phone"
                                         class="form-control-label"
-                                        >전화번호</label
+                                        >{{ $t('profile--phoneLabel') }}</label
                                     >
                                     <input
                                         class="form-control info-input"
@@ -286,7 +325,7 @@ onBeforeUnmount(() => {
                             </div>
                             <br />
                             <p class="text-uppercase text-sm">
-                                Personal address
+                                {{ $t('profile--personaladdress') }}
                             </p>
                             <form @submit.prevent="updateProfile">
                                 <div class="row">
@@ -294,7 +333,9 @@ onBeforeUnmount(() => {
                                         <label
                                             for="address"
                                             class="form-control-label"
-                                            >주소</label
+                                            >{{
+                                                $t('profile--addressLabel')
+                                            }}</label
                                         >
                                         <input
                                             class="form-control"
@@ -306,7 +347,9 @@ onBeforeUnmount(() => {
                                         <label
                                             for="postal-code"
                                             class="form-control-label"
-                                            >우편번호</label
+                                            >{{
+                                                $t('profile--postalCodeLabel')
+                                            }}</label
                                         >
                                         <input
                                             class="form-control"
@@ -318,7 +361,9 @@ onBeforeUnmount(() => {
                                         <label
                                             for="country"
                                             class="form-control-label"
-                                            >국가</label
+                                            >{{
+                                                $t('profile--countryLabel')
+                                            }}</label
                                         >
                                         <select
                                             id="country"
@@ -326,12 +371,18 @@ onBeforeUnmount(() => {
                                             v-model="userInfo.countryCode"
                                             disabled
                                         >
-                                            <option value="0">한국</option>
-                                            <option value="1">미국</option>
-                                            <option value="2">
-                                                인도네시아
+                                            <option value="0">
+                                                {{ $t('country_kr') }}
                                             </option>
-                                            <option value="3">베트남</option>
+                                            <option value="1">
+                                                {{ $t('country_us') }}
+                                            </option>
+                                            <option value="2">
+                                                {{ $t('country_id') }}
+                                            </option>
+                                            <option value="3">
+                                                {{ $t('country_vn') }}
+                                            </option>
                                         </select>
                                     </div>
                                 </div>
@@ -344,7 +395,9 @@ onBeforeUnmount(() => {
                                             color="success"
                                             size="sm"
                                             class="ms-auto"
-                                            >Settings</argon-button
+                                            >{{
+                                                $t('profile--button-settings')
+                                            }}</argon-button
                                         >
                                     </div>
                                 </div>
@@ -352,7 +405,7 @@ onBeforeUnmount(() => {
                             <hr class="horizontal dark" />
                             <!-- <hr /> -->
                             <p class="text-uppercase text-sm">
-                                Privacy and security
+                                {{ $t('profile--privacySecurityTitle') }}
                             </p>
                             <ul class="navbar-nav nav-fill">
                                 <li class="pvt-item">
@@ -362,7 +415,9 @@ onBeforeUnmount(() => {
                                                 class="fa-solid fa-file-invoice"
                                             ></i>
                                         </div>
-                                        <span>계좌</span>
+                                        <span>{{
+                                            $t('profile--accountLabel')
+                                        }}</span>
                                         <i class="fa-solid fa-angle-right"></i>
                                     </a>
                                 </li>
@@ -371,19 +426,22 @@ onBeforeUnmount(() => {
                                         <div class="pvt-icon">
                                             <i class="fa-solid fa-lock"></i>
                                         </div>
-                                        <span>비밀번호 변경</span>
+                                        <span>{{
+                                            $t('profile--changePasswordLabel')
+                                        }}</span>
                                         <i class="fa-solid fa-angle-right"></i>
                                     </a>
                                 </li>
                                 <li class="pvt-item">
-                                    <a
-                                        class="pvt-link"
-                                        @click="openSet2ndModal"
-                                    >
+                                    <a class="pvt-link">
                                         <div class="pvt-icon">
                                             <i class="fa-solid fa-lock"></i>
                                         </div>
-                                        <span>2차 비밀번호</span>
+                                        <span>{{
+                                            $t(
+                                                'profile--secondaryPasswordLabel'
+                                            )
+                                        }}</span>
                                         <i class="fa-solid fa-angle-right"></i>
                                     </a>
                                 </li>
@@ -391,18 +449,18 @@ onBeforeUnmount(() => {
                             <hr class="horizontal dark" />
                             <!-- <hr /> -->
                             <ul class="navbar-nav nav-fill">
-                                <li class="pvt-item">
-                                    <div class="pvt-icon">
-                                        <i
-                                            class="fa-solid fa-circle-half-stroke fa-flip-horizontal"
-                                        ></i>
-                                    </div>
-                                    <span>테마</span>
-                                    <input type="checkbox" id="toggle" hidden />
-                                    <label for="toggle" class="toggleSwitch">
-                                        <span class="toggleButton"></span>
-                                    </label>
-                                </li>
+                                <!-- <li class="pvt-item">
+                  <div class="pvt-icon">
+                    <i
+                      class="fa-solid fa-circle-half-stroke fa-flip-horizontal"
+                    ></i>
+                  </div>
+                  <span>{{ $t("profile--themeLabel") }}</span>
+                  <input type="checkbox" id="toggle" hidden />
+                  <label for="toggle" class="toggleSwitch">
+                    <span class="toggleButton"></span>
+                  </label>
+                </li> -->
                                 <li class="pvt-item" @click="handleWithdraw">
                                     <a class="pvt-link">
                                         <div class="pvt-icon">
@@ -410,7 +468,9 @@ onBeforeUnmount(() => {
                                                 class="fa-regular fa-circle-xmark fa-lg"
                                             ></i>
                                         </div>
-                                        <span>회원탈퇴</span>
+                                        <span>{{
+                                            $t('profile--deleteAccountLabel')
+                                        }}</span>
                                         <i class="fa-solid fa-angle-right"></i>
                                     </a>
                                 </li>
