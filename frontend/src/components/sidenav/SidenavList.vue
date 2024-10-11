@@ -33,7 +33,7 @@ const getRoute = () => {
                 <sidenav-item
                     to="/my-accounts"
                     :class="getRoute() === 'my-accounts' ? 'active' : ''"
-                    :navText="isRTL ? 'الجداول' : '나의 자산'"
+                    :navText="isRTL ? 'الجداول' : 'sidenavList--myPage'"
                 >
                     <template v-slot:icon>
                         <i
@@ -47,7 +47,7 @@ const getRoute = () => {
                 <sidenav-item
                     to="/exchange-rate"
                     :class="getRoute() === 'exchange-rate' ? 'active' : ''"
-                    :navText="isRTL ? 'الفواتیر' : '환율'"
+                    :navText="isRTL ? 'الفواتیر' : 'sidenavList--exchangeRate'"
                 >
                     <template v-slot:icon>
                         <i
@@ -61,7 +61,7 @@ const getRoute = () => {
                 <sidenav-item
                     to="/payment"
                     :class="getRoute() === 'payment' ? 'active' : ''"
-                    :navText="isRTL ? 'الواقع الافتراضي' : '결제'"
+                    :navText="isRTL ? 'الواقع الافتراضي' : 'sidenavList--payment'"
                 >
                     <template v-slot:icon>
                         <i
@@ -75,7 +75,7 @@ const getRoute = () => {
                 <sidenav-item
                     to="/histories"
                     :class="getRoute() === 'histories' ? 'active' : ''"
-                    :navText="isRTL ? 'الواقع الافتراضي' : '이용내역'"
+                    :navText="isRTL ? 'الواقع الافتراضي' : 'sidenavList--history'"
                 >
                     <template v-slot:icon>
                         <i
@@ -89,7 +89,7 @@ const getRoute = () => {
                 <sidenav-item
                     to="/maps"
                     :class="getRoute() === 'maps' ? 'active' : ''"
-                    :navText="isRTL ? 'الواقع الافتراضي' : '금융지도'"
+                    :navText="isRTL ? 'الواقع الافتراضي' : 'sidenavList--map'"
                 >
                     <template v-slot:icon>
                         <i class="ni ni-pin-3 text-dark text-sm opacity-10"></i>
@@ -101,7 +101,7 @@ const getRoute = () => {
                 <sidenav-item
                     to="/schedule"
                     :class="getRoute() === 'schedule' ? 'active' : ''"
-                    :navText="isRTL ? 'الواقع الافتراضي' : '스케줄'"
+                    :navText="isRTL ? 'الواقع الافتراضي' : 'sidenavList--schedule'"
                 >
                     <template v-slot:icon>
                         <i

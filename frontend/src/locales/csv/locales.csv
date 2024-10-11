@@ -3,6 +3,12 @@ country_kr,대한민국,,,
 country_us,미국,,,
 country_id,인도네시아아,,,
 country_vn,베트남,,,
+sidenavList--myPage,마이페이지,My Page,Halaman Saya,Trang của tôi
+sidenavList--exchangeRate,환율,Exchange rates,Nilai tukar,Tỷ giá hối đoái
+sidenavList--payment,결제,Payments,Pembayaran,Thanh toán
+sidenavList--history,이용내역,Usage History,Riwayat Penggunaan,Lịch sử sử dụng
+sidenavList--map,금융지도,Financial Map,Peta Keuangan,Bản đồ tài chính
+sidenavList--schedule,스케쥴,Schedule,Jadwal,Lịch trình
 common-btn-back,뒤로가기,Go back,Kembali,Quay lại,,
 common--btn-save,저장,Save,Simpan,Lưu
 common--btn-confirm,확인,confirm,Konfirmasi,Xác nhận

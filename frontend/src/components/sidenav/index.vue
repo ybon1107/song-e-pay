@@ -2,8 +2,7 @@
 import { computed } from 'vue';
 import { useStore } from 'vuex';
 import SidenavList from './SidenavList.vue';
-import logo from '@/assets/img/songepay_logo.png';
-import logoWhite from '@/assets/img/logo-ct.png';
+import songelogo from '@/assets/img/logos/SongE_pay.svg';
 
 const store = useStore();
 const isRTL = computed(() => store.state.isRTL);
@@ -19,7 +18,8 @@ const darkMode = computed(() => store.state.darkMode);
     :class="`${darkMode ? 'bg-transparent' : 'bg-success'}`"
   /> -->
 
-  <aside class="my-3 bg-custom overflow-auto border-end sidenav navbar navbar-vertical navbar-expand-xs border-radius-xl"
+  <aside
+    class="my-3 bg-custom overflow-auto border-end sidenav navbar navbar-vertical navbar-expand-xs border-radius-xl"
     :class="`${isRTL ? 'me-3 rotate-caret fixed-end' : 'fixed-start ms-3'}    
       ${layout === 'landing' ? 'bg-transparent shadow-none' : ' '
       } ${sidebarType}`" id="sidenav-main">
@@ -33,12 +33,13 @@ const darkMode = computed(() => store.state.darkMode);
           alt="main_logo" /> -->
         <!-- <span class="ms-2 font-weight-bold me-2">song-E-pay</span> -->
         <!-- <h3>SongE</h3> -->
-        <img
+        <!-- <img
               class="ld-none d-md-block"
               src="../../../images/3D_SongE.png"
               alt="Illustration"
               style="height: 40px; width: auto"
-            />
+            /> -->
+        <img class="ld-none d-md-block" :src="songelogo" alt="Illustration" style="height: 40px; width: auto" />
       </router-link>
     </div>
 
