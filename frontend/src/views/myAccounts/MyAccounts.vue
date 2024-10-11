@@ -294,8 +294,10 @@ const refund = async () => {
 
 // 환전 처리
 const exchange = async () => {
-  const amount = exchangeAmount.value; // 환전하려는 금액
+  // const amount = exchangeAmount.value; // 환전하려는 금액
+  const amount = receiveAmount.value;
   const exchangeRate = currentFromKrw.value;
+  // const exchangeRate = 0.00074;
   // console.log("???" + amount);
   // console.log("???" + exchangeRate);
   const params = {
