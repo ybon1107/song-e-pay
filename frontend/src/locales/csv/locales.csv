@@ -13,7 +13,7 @@ common--text-logout,로그아웃,Log out,Keluar,Đăng xuất
 common--text-password,비밀번호,Password,Kata sandi,Mật khẩu
 common--text-secondary-password,2차 비밀번호,Secondary Password,Kata sandi kedua,Mật khẩu thứ hai
 transaction_types_payment,결제,Payment,Pembayaran,Thanh toán
-transaction_types_transfser,송금,Transfer,Transfer,Chuyển khoản
+transaction_types_transfer,송금,Transfer,Transfer,Chuyển khoản
 transaction_types_deposit,SongE 채우기,SongE Top Up,SongE Isi Ulang,SongE Nạp
 transaction_types_refund,SongE 비우기,SongE Withdraw,SongE Penarikan,SongE Rút tiền
 transaction_types_exchange,환전,Exchange,penukaran uang,sự đổi tiền
@@ -27,7 +27,6 @@ transaction_states_pending,처리중,Processing,Sedang diproses,Đang xử lý
 swal--title-success,성공,Success,Sukses,Thành công
 swal--title-fail,실패,Failure,Gagal,Thất bại
 setting--title,프로필,Profile,Profil,Hồ sơ
-,,,,
 map--title,금융 지도,Financial Map,Peta Keuangan,Bản đồ tài chính
 map--select-cityLabel,광역시/도,City/Province,Kota,Thành phố
 map--select-districtLabel,시/군/구,District/County/Gu,Pilih Kota/Kabupaten,Chọn quận/huyện
@@ -47,10 +46,6 @@ payment--swal-password-wrong-title,다시 입력하세요,Please enter again.,Si
 payment--swal-password-wrong-text,비밀번호가 틀렸습니다.,The password is incorrect.,Kata sandi salah.,Mật khẩu không chính xác.
 payment--swal-success-text,결제가 완료되었습니다.,The payment is complete.,Pembayaran telah selesai.,Thanh toán đã hoàn thành.
 payment--swal-fail-text,결제가 실패했습니다.,The payment failed.,Pembayaran gagal.,Thanh toán thất bại.
-,,,,
-,,,,
-,,,,
-,,,,
 profile--passwordLabel,비밀번호,Password,Kata Sandi,Mật khẩu
 profile--confirmPasswordLabel,비밀번호 확인,Confirm Password,Konfirmasi Kata Sandi,Xác nhận mật khẩu
 profile--button-submit,확인,Confirm,Konfirmasi,Xác nhận
@@ -140,10 +135,10 @@ myAccount--nav-songE-fill,채우기,fill,mengisi,điền vào
 myAccount--header-autoExchange,자동환전 및 알람,Automatic currency exchange and alert,Penukaran dan peringatan mata uang otomatis,Trao đổi tiền tệ tự động và cảnh báo
 myAccount--songE-title,SONG-E,SONG-E,SONG-E,SONG-E
 myAccount--wonE-title,WON-E,WON-E,WON-E,WON-E
-myAccount--songE-button-fill,SONG-E 채우기,SONG-E fill,,
-myAccount--songE-button-vacate,SONG-E 비우기,SONG-E vacate,,
-myAccount--songE-button-exchange,SONG-E로 환전,Exchange money to SONG-E,,
-myAccount--wonE-button-exchange,WON-E로 환전,Exchange money to WON-E,,
+myAccount--songE-button-fill,SONG-E 채우기,SONG-E fill,SONG-E mengisi,
+myAccount--songE-button-vacate,SONG-E 비우기,SONG-E take out,SONG-E kosong,
+myAccount--songE-button-exchange,SONG-E로 환전,Exchange money to SONG-E,Tukarkan uang dengan WON-E,Đổi tiền sang SONG-E
+myAccount--wonE-button-exchange,WON-E로 환전,Exchange money to WON-E,Tukarkan uang dengan SONG-E,Đổi tiền sang WON-E
 myAccount--wonE-button-transfer,WON-E간 송금,Transfer money between WON-E,Transfer uang antar WON-E,Chuyển tiền giữa WON-E
 myAccount--swal-title,성공,success,kesuksesan,thành công
 myAccount--swal-content,{kwd}이 완료되었습니다.,{kwd} has been completed,{kwd} telah selesai,{kwd} chuyển tiền đã hoàn tất
@@ -195,7 +190,7 @@ signUp--loginPrompt,이미 계정이 있으신가요?,Already have an account?,S
 signUp--agreeAllTermsLabel,모든 약관에 동의합니다.,Agree with all terms and conditions,Setujui semua syarat dan ketentuan,Đồng ý với tất cả các điều khoản và điều kiện
 signUp--requireText,필수,Required,Diperlukan,Bắt buộc
 signUp--agreeTermsOfServiceLabel,이용약관에 동의합니다.,I agree the Terms of Service,Saya setuju dengan Syarat Layanan,Tôi đồng ý với Điều khoản Dịch vụ
-signUp--termsOfService,"<strong>여러분을 환영합니다.</strong><br/>
+signUp--termsOfService,"""<strong>여러분을 환영합니다.</strong><br/>
 송이페이(이하 ‘서비스’)를 이용해 주셔서 감사합니다. 본 약관은 송이페이 서비스 이용과 관련하여 송이페이(이하 ‘회사’)와 이를 이용하는 사용자(이하 ‘회원’) 간의 권리, 의무, 책임 사항을 규정합니다. 서비스를 이용하시거나 회원으로 가입하실 경우 본 약관에 동의한 것으로 간주되오니, 주의 깊게 읽어주시기 바랍니다.<br/>
 <br/>
 <strong>다양한 송이페이 서비스를 이용해보세요.</strong><br/>
@@ -214,7 +209,7 @@ signUp--termsOfService,"<strong>여러분을 환영합니다.</strong><br/>
 회사는 기술적 문제 또는 운영상의 이유로 서비스의 전부 또는 일부를 변경하거나 중단할 수 있습니다. 이 경우, 사전에 고지하며, 무료로 제공되는 서비스의 중단에 대해서는 별도의 보상이 이루어지지 않습니다.<br/>
 <br/>
 <strong>약관의 개정</strong><br/>
-본 약관은 서비스 초기 화면에 게시되며, 관련 법령을 준수하는 범위 내에서 개정될 수 있습니다. 중요한 사항의 변경 시 사전 공지하며, 변경된 약관에 동의하지 않으실 경우 서비스 이용이 제한될 수 있습니다.","<strong>Welcome!</strong><br/>
+본 약관은 서비스 초기 화면에 게시되며, 관련 법령을 준수하는 범위 내에서 개정될 수 있습니다. 중요한 사항의 변경 시 사전 공지하며, 변경된 약관에 동의하지 않으실 경우 서비스 이용이 제한될 수 있습니다.""","""<strong>Welcome!</strong><br/>
 Thank you for using Song-E Pay (hereinafter referred to as the ""Service""). These terms outline the rights, responsibilities, and obligations between Song-E Pay (hereinafter referred to as the ""Company"") and users (hereinafter referred to as ""Members"") of the Service. By using the Service or signing up as a Member, you agree to these terms, so please read them carefully.<br/>
 <br/>
 <strong>Enjoy the Various Services of Song-E Pay</strong><br/>
@@ -233,7 +228,7 @@ If a Member violates these terms or applicable laws, the Company may restrict or
 The Company may change or discontinue parts of the Service due to technical issues or operational reasons. In such cases, prior notice will be provided, and there will be no compensation for the discontinuation of free services.<br/>
 <br/>
 <strong>Amendment of Terms</strong><br/>
-These terms are posted on the Service’s main page and may be amended as necessary in compliance with applicable laws. In the case of significant changes, prior notice will be given. If you do not agree to the amended terms, you may lose access to the Service.","<strong>Selamat Datang!</strong><br/>
+These terms are posted on the Service’s main page and may be amended as necessary in compliance with applicable laws. In the case of significant changes, prior notice will be given. If you do not agree to the amended terms, you may lose access to the Service.""","""<strong>Selamat Datang!</strong><br/>
 Terima kasih telah menggunakan Song-E Pay (selanjutnya disebut ""Layanan""). Syarat-syarat ini menguraikan hak, tanggung jawab, dan kewajiban antara Song-E Pay (selanjutnya disebut ""Perusahaan"") dan pengguna (selanjutnya disebut ""Anggota"") Layanan. Dengan menggunakan Layanan atau mendaftar sebagai Anggota, Anda setuju dengan syarat-syarat ini, jadi harap baca dengan cermat.<br/><br/>
 
 <strong>Nikmati Berbagai Layanan Song-E Pay</strong><br/>
@@ -252,7 +247,7 @@ Jika seorang Anggota melanggar syarat-syarat ini atau hukum yang berlaku, Perusa
 Perusahaan dapat mengubah atau menghentikan bagian dari Layanan karena masalah teknis atau alasan operasional. Dalam hal ini, pemberitahuan sebelumnya akan diberikan, dan tidak akan ada kompensasi untuk penghentian layanan gratis.<br/><br/>
 
 <strong>Perubahan Syarat</strong><br/>
-Syarat-syarat ini diposting di halaman utama Layanan dan dapat diubah sesuai kebutuhan sesuai dengan hukum yang berlaku. Dalam hal perubahan signifikan, pemberitahuan sebelumnya akan diberikan. Jika Anda tidak setuju dengan syarat yang diubah, Anda mungkin kehilangan akses ke Layanan.","<strong>Chào Mừng Bạn!</strong><br/>
+Syarat-syarat ini diposting di halaman utama Layanan dan dapat diubah sesuai kebutuhan sesuai dengan hukum yang berlaku. Dalam hal perubahan signifikan, pemberitahuan sebelumnya akan diberikan. Jika Anda tidak setuju dengan syarat yang diubah, Anda mungkin kehilangan akses ke Layanan.""","""<strong>Chào Mừng Bạn!</strong><br/>
 Cảm ơn bạn đã sử dụng Song-E Pay (sau đây gọi là ""Dịch Vụ""). Các điều khoản này nêu rõ quyền, trách nhiệm và nghĩa vụ giữa Song-E Pay (sau đây gọi là ""Công Ty"") và người dùng (sau đây gọi là ""Thành Viên"") của Dịch Vụ. Bằng cách sử dụng Dịch Vụ hoặc đăng ký làm Thành Viên, bạn đồng ý với các điều khoản này, vì vậy hãy đọc kỹ.<br/><br/>
 
 <strong>Thưởng Thức Các Dịch Vụ Của Song-E Pay</strong><br/>
@@ -271,9 +266,9 @@ Nếu một Thành Viên vi phạm các điều khoản này hoặc các quy đ�
 Công Ty có thể thay đổi hoặc ngừng một phần của Dịch Vụ do các vấn đề kỹ thuật hoặc lý do vận hành. Trong trường hợp này, sẽ có thông báo trước, và sẽ không có bất kỳ khoản bồi thường nào cho việc ngừng cung cấp dịch vụ miễn phí.<br/><br/>
 
 <strong>Sửa Đổi Điều Khoản</strong><br/>
-Các điều khoản này được đăng trên trang chính của Dịch Vụ và có thể được sửa đổi khi cần thiết tuân theo luật pháp hiện hành. Trong trường hợp có thay đổi quan trọng, thông báo trước sẽ được đưa ra. Nếu bạn không đồng ý với các điều khoản đã sửa đổi, bạn có thể mất quyền truy cập vào Dịch Vụ."
+Các điều khoản này được đăng trên trang chính của Dịch Vụ và có thể được sửa đổi khi cần thiết tuân theo luật pháp hiện hành. Trong trường hợp có thay đổi quan trọng, thông báo trước sẽ được đưa ra. Nếu bạn không đồng ý với các điều khoản đã sửa đổi, bạn có thể mất quyền truy cập vào Dịch Vụ."""
 signUp--agreePrivacyPolicyLabel,개인정보 수집 및 이용 정책에 동의합니다.,I agree the Privacy Policy,Saya setuju dengan Kebijakan Privasi,Tôi đồng ý với Chính sách Bảo mật
-signUp--privacyPolicy,"송이페이(이하 ""회사"")는 전자지갑 서비스 제공을 위하여 개인정보를 수집하고 있으며, 회원님의 개인정보는 관련 법령에 따라 안전하게 관리됩니다. 본 개인정보 수집 및 이용 동의서는 회사가 제공하는 서비스와 관련하여 개인정보를 어떻게 수집하고, 어떻게 이용하는지에 대해 설명합니다.<br/>
+signUp--privacyPolicy,"""송이페이(이하 ""회사"")는 전자지갑 서비스 제공을 위하여 개인정보를 수집하고 있으며, 회원님의 개인정보는 관련 법령에 따라 안전하게 관리됩니다. 본 개인정보 수집 및 이용 동의서는 회사가 제공하는 서비스와 관련하여 개인정보를 어떻게 수집하고, 어떻게 이용하는지에 대해 설명합니다.<br/>
 <br/>
 <strong>1. 수집하는 개인정보</strong><br/>
 회사는 회원가입, 서비스 이용, 고객 상담 등을 위해 아래와 같은 개인정보를 수집할 수 있습니다.<br/>
@@ -302,7 +297,7 @@ signUp--privacyPolicy,"송이페이(이하 ""회사"")는 전자지갑 서비스
 - 법령에 따라 정부 기관 또는 사법 기관의 요청이 있는 경우<br/>
 <br/>
 <strong>5. 개인정보의 파기</strong><br/>
-회사는 개인정보 보유 기간이 만료되거나 이용 목적이 달성된 경우, 지체 없이 해당 정보를 파기합니다. 파기 절차 및 방법은 회사의 내부 방침에 따라 안전하게 이루어집니다.","Song-E Pay (hereinafter referred to as the ""Company"") collects personal information to provide its electronic wallet services, and all personal information is managed securely in accordance with applicable laws. This Personal Information Collection and Use Consent outlines how the Company collects and uses personal data in connection with its services.<br/>
+회사는 개인정보 보유 기간이 만료되거나 이용 목적이 달성된 경우, 지체 없이 해당 정보를 파기합니다. 파기 절차 및 방법은 회사의 내부 방침에 따라 안전하게 이루어집니다.""","""Song-E Pay (hereinafter referred to as the ""Company"") collects personal information to provide its electronic wallet services, and all personal information is managed securely in accordance with applicable laws. This Personal Information Collection and Use Consent outlines how the Company collects and uses personal data in connection with its services.<br/>
 <br/>
 <strong>1. Personal Information Collected</strong><br/>
 The Company may collect the following personal information for purposes such as membership registration, service use, and customer support:<br/>
@@ -331,7 +326,7 @@ The Company does not share personal information with external parties. However, 
 - If it is required by law or requested by government or judicial authorities<br/>
 <br/>
 <strong>5. Destruction of Personal Information</strong><br/>
-The Company will promptly destroy personal information when the retention period expires or the purposes of collection have been achieved. The destruction process will be carried out securely in accordance with the Company’s internal procedures.","Song-E Pay (selanjutnya disebut sebagai ""Perusahaan"") mengumpulkan informasi pribadi untuk menyediakan layanan dompet elektroniknya, dan semua informasi pribadi dikelola dengan aman sesuai dengan undang-undang yang berlaku. Persetujuan Pengumpulan dan Penggunaan Informasi Pribadi ini menjelaskan bagaimana Perusahaan mengumpulkan dan menggunakan data pribadi terkait dengan layanannya.<br/><br/>
+The Company will promptly destroy personal information when the retention period expires or the purposes of collection have been achieved. The destruction process will be carried out securely in accordance with the Company’s internal procedures.""","""Song-E Pay (selanjutnya disebut sebagai ""Perusahaan"") mengumpulkan informasi pribadi untuk menyediakan layanan dompet elektroniknya, dan semua informasi pribadi dikelola dengan aman sesuai dengan undang-undang yang berlaku. Persetujuan Pengumpulan dan Penggunaan Informasi Pribadi ini menjelaskan bagaimana Perusahaan mengumpulkan dan menggunakan data pribadi terkait dengan layanannya.<br/><br/>
 
 <strong>1. Informasi Pribadi yang Dikumpulkan</strong><br/>
 Perusahaan dapat mengumpulkan informasi pribadi berikut untuk keperluan seperti pendaftaran keanggotaan, penggunaan layanan, dan dukungan pelanggan:<br/>
@@ -360,7 +355,7 @@ Perusahaan tidak membagikan informasi pribadi dengan pihak eksternal. Namun, inf
 - Jika diwajibkan oleh hukum atau diminta oleh otoritas pemerintah atau pengadilan<br/><br/>
 
 <strong>5. Penghancuran Informasi Pribadi</strong><br/>
-Perusahaan akan segera menghancurkan informasi pribadi ketika periode retensi berakhir atau tujuan pengumpulan telah tercapai. Proses penghancuran akan dilakukan dengan aman sesuai dengan prosedur internal Perusahaan.","Song-E Pay (sau đây gọi là ""Công Ty"") thu thập thông tin cá nhân để cung cấp các dịch vụ ví điện tử của mình, và tất cả thông tin cá nhân đều được quản lý an toàn theo quy định pháp luật hiện hành. Bản Đồng Ý Thu Thập và Sử Dụng Thông Tin Cá Nhân này nêu rõ cách Công Ty thu thập và sử dụng dữ liệu cá nhân liên quan đến các dịch vụ của mình.<br/><br/>
+Perusahaan akan segera menghancurkan informasi pribadi ketika periode retensi berakhir atau tujuan pengumpulan telah tercapai. Proses penghancuran akan dilakukan dengan aman sesuai dengan prosedur internal Perusahaan.""","""Song-E Pay (sau đây gọi là ""Công Ty"") thu thập thông tin cá nhân để cung cấp các dịch vụ ví điện tử của mình, và tất cả thông tin cá nhân đều được quản lý an toàn theo quy định pháp luật hiện hành. Bản Đồng Ý Thu Thập và Sử Dụng Thông Tin Cá Nhân này nêu rõ cách Công Ty thu thập và sử dụng dữ liệu cá nhân liên quan đến các dịch vụ của mình.<br/><br/>
 
 <strong>1. Thông Tin Cá Nhân Được Thu Thập</strong><br/>
 Công Ty có thể thu thập các thông tin cá nhân sau đây cho các mục đích như đăng ký thành viên, sử dụng dịch vụ và hỗ trợ khách hàng:<br/>
@@ -389,7 +384,7 @@ Công Ty không chia sẻ thông tin cá nhân với các bên bên ngoài. Tuy 
 - Nếu được yêu cầu bởi luật pháp hoặc bởi các cơ quan chính phủ hoặc tòa án<br/><br/>
 
 <strong>5. Hủy Thông Tin Cá Nhân</strong><br/>
-Công Ty sẽ nhanh chóng hủy thông tin cá nhân khi thời gian lưu trữ kết thúc hoặc mục đích thu thập đã đạt được. Quá trình hủy sẽ được thực hiện an toàn theo các quy trình nội bộ của Công Ty."
+Công Ty sẽ nhanh chóng hủy thông tin cá nhân khi thời gian lưu trữ kết thúc hoặc mục đích thu thập đã đạt được. Quá trình hủy sẽ được thực hiện an toàn theo các quy trình nội bộ của Công Ty."""
 signUp--Title-page,개인정보를 입력해주세요,Tell us about yourself,Beritahu kami tentang diri Anda,Cho chúng tôi biết về bản thân bạn
 signUp--email,이메일,Your email address,Alamat email Anda,Địa chỉ email của bạn
 signUp--emailPlaceholder,이메일,Email,Email,Email
