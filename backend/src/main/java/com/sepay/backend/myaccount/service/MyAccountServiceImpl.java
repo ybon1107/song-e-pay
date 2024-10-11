@@ -85,7 +85,7 @@ public class MyAccountServiceImpl implements MyAccountService {
             mapper.updateAccount(accountDTO);
 
             // history insert
-            historyDTO.setTypeCode(4); // 환전 타입 코드
+            historyDTO.setTypeCode(4); //환불
             historyDTO.setStateCode(1); // 성공 상태 코드
             historyDTO.setHistoryDate(new Date()); // 현재 날짜로 설정
             historyDTO.setHistoryContent("SongE → My Account"); // 내용 설정
@@ -109,13 +109,19 @@ public class MyAccountServiceImpl implements MyAccountService {
             mapper.updateSongAccount(songAccountDTO);
 
             // 원화 금액 증가
-            amount *= exchangeRate;
-            krwAccountDTO.setBalance(mapper.selectKrwBalance(krwAccountDTO.getKrwNo()) + amount);
+            double krwAmount = amount * exchangeRate;
+            krwAccountDTO.setBalance(mapper.selectKrwBalance(krwAccountDTO.getKrwNo()) + krwAmount);
             mapper.updateKrwAccount(krwAccountDTO);
 
             // history insert
-            mapper.insertHistory(historyDTO);
+            historyDTO.setTypeCode(5); // 환전 타입 코드
+            historyDTO.setStateCode(1); // 성공 상태 코드
+            historyDTO.setHistoryDate(new Date()); // 현재 날짜로 설정
+            historyDTO.setHistoryContent("SongE → WonE"); // 내용 설정
+            historyDTO.setAmount(amount); // 금액 설정
+            historyDTO.setExchangeRate(exchangeRate); //환율 설정
 
+            mapper.insertHistory(historyDTO);
             message = "success";
         }
         return message;
