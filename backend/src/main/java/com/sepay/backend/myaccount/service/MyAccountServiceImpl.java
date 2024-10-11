@@ -107,12 +107,12 @@ public class MyAccountServiceImpl implements MyAccountService {
             // 송이 계좌 감소
             double songAmount = amount * exchangeRate;
             songAccountDTO.setBalance(mapper.selectSongBalance(songAccountDTO.getSongNo())  - songAmount);
-            songAccountDTO.setUpdateAt(new Date());
+            songAccountDTO.setUpdatedAt(new Date());
             mapper.updateSongAccount(songAccountDTO);
 
             // 원화 금액 증가
             krwAccountDTO.setBalance(mapper.selectKrwBalance(krwAccountDTO.getKrwNo()) + amount);
-            krwAccountDTO.setUpdateAt(new Date());
+            krwAccountDTO.setUpdatedAt(new Date());
             mapper.updateKrwAccount(krwAccountDTO);
 
             // history insert
