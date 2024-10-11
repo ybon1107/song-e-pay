@@ -13,14 +13,12 @@
     <div class="container">
       <div class="d-flex align-items-center justify-content-between">
         <a href="/" class="mb-2 mb-lg-0 text-white text-decoration-none">
-          <!-- <img src="/favicon.png" alt="Song E Pay" class="logo-img d-none d-md-block"> -->
           <img
-            src="/favicon.png"
+            src="/images/song.png"
             alt="Song E Pay"
             class="logo-img d-block d-md-none"
           />
 
-          <!-- <h4 class="text-white d-none d-md-block mb-0">Song E Pay</h4> -->
           <h4 class="d-none d-md-block mb-0">
             <img
               class="ld-none d-md-block mb-0"
@@ -29,14 +27,13 @@
               style="height: 40px; width: auto"
             />
           </h4>
-          <!-- <svg class="bi me-2" width="40" height="32" role="img" aria-label="Bootstrap"><use xlink:href="#bootstrap"/></svg> -->
         </a>
 
         <div>
           <a href="/register/legal" class="text-decoration-none me-3 text-bold"
-            >회원가입</a
+            >Sign Up</a
           >
-          <a href="/login" class="btn btn-primary mb-0">로그인</a>
+          <a href="/login" class="btn btn-primary mb-0">Log in</a>
         </div>
       </div>
     </div>
@@ -47,7 +44,7 @@
     <a
       href="https://leeyebon7929.wixsite.com/my-site-1"
       class="btn mobile-btn col-md-3 mb-4"
-      >시작하기</a
+      >Get Started</a
     >
     <div
       class="d-flex justify-content-between flex-column flex-md-row align-items-start"
@@ -55,50 +52,38 @@
       <!-- 왼쪽 섹션 -->
       <div class="left-section-main d-flex flex-column mt-2 col-md-6">
         <h3 class="col-md-9 mb-4">
-          한국에서의 여행을 더 편리하게, 간편한 전자지갑 서비스로
+          Make traveling in Korea more convenient with our easy to use E-wallet
+          service
         </h3>
         <p class="col-md-9 mb-4">
-          한국을 여행하는 외국인들을 위해, 안전하고 빠른 결제 및 환전 서비스를
-          제공합니다. 실시간 환율 조회부터 친구에게 송금까지, 모든 금융 서비스를
-          한 곳에서 쉽게 이용하세요.
+          For foreigners traveling to South Korea, we provide secure and fast
+          payment and currency exchange services. From checking live exchange
+          rates to sending money to friends, you can easily access all your
+          financial services in one place.
         </p>
 
         <!-- 웹 버전 버튼 -->
         <a
           href="https://leeyebon7929.wixsite.com/my-site-1"
           class="btn web-btn col-md-3 mb-4"
-          >시작하기</a
+          >Get Started</a
         >
 
         <!-- 아이콘 섹션 -->
         <div class="icon-item d-flex flex-wrap mt-3">
           <div class="icon-item col-md-3 d-flex align-items-center">
             <div style="position: relative; width: 50px; height: 50px">
-              <!-- Rectangle -->
-              <svg width="50" height="50">
-                <rect
-                  x="5"
-                  y="5"
-                  width="40"
-                  height="40"
-                  rx="10"
-                  ry="10"
-                  fill="#1D0E03"
-                />
-              </svg>
-
-              <!-- Icon -->
-              <i
-                class="fa-solid fa-shield-halved"
+              <img
+                src="/images/main1.png"
+                alt="Hand holding icon"
                 style="
                   position: absolute;
                   top: 50%;
                   left: 50%;
                   transform: translate(-50%, -50%);
-                  font-size: 23px;
-                  color: #fff6ef;
+                  width: 30px;
                 "
-              ></i>
+              />
             </div>
 
             <div class="ms-2">
@@ -108,68 +93,40 @@
           </div>
           <div class="icon-item col-md-3 d-flex align-items-center">
             <div style="position: relative; width: 50px; height: 50px">
-              <!-- Circle -->
-              <svg width="50" height="50">
-                <rect
-                  x="5"
-                  y="5"
-                  width="40"
-                  height="40"
-                  rx="10"
-                  ry="10"
-                  fill="#1D0E03"
-                />
-              </svg>
-
-              <!-- Icon -->
-              <!-- <i
-                class="fa-solid fa-hand-holding"
+              <img
+                src="/images/main2.png"
+                alt="Hand holding icon"
                 style="
                   position: absolute;
                   top: 50%;
                   left: 50%;
                   transform: translate(-50%, -50%);
-                  font-size: 23px;
-                  color: #fff6ef;
+                  width: 30px;
                 "
-              ></i> -->
+              />
             </div>
             <div class="ms-2">
-              <div style="font-size: 12px">Convenient &</div>
+              <div style="font-size: 12px">Easy &</div>
               <div style="font-size: 12px">Simple</div>
             </div>
           </div>
           <div class="icon-item col-md-3 d-flex align-items-center">
             <div style="position: relative; width: 50px; height: 50px">
-              <!-- Circle -->
-              <svg width="50" height="50">
-                <rect
-                  x="5"
-                  y="5"
-                  width="40"
-                  height="40"
-                  rx="10"
-                  ry="10"
-                  fill="#1D0E03"
-                />
-              </svg>
-
-              <!-- Icon -->
-              <i
-                class="fa-solid fa-earth-americas"
+              <img
+                src="/images/main3.png"
+                alt="Hand holding icon"
                 style="
                   position: absolute;
                   top: 50%;
                   left: 50%;
                   transform: translate(-50%, -50%);
-                  font-size: 23px;
-                  color: #fff6ef;
+                  width: 30px;
                 "
-              ></i>
+              />
             </div>
             <div class="ms-2">
-              <div style="font-size: 12px">Global &</div>
-              <div style="font-size: 12px">Local</div>
+              <div style="font-size: 12px">Local &</div>
+              <div style="font-size: 12px">Global</div>
             </div>
           </div>
         </div>
@@ -205,20 +162,22 @@
   <div class="section-container-green">
     <!-- 두 번째 섹션 -->
     <div class="d-flex justify-content-between flex-column flex-md-row">
-      <div class="left-section d-flex align-items-center mt-2 col-md-5">
+      <div class="left-section d-flex align-items-center mt-2 col-md-6">
         <h3 class="col-md-8">
-          "여행의 필수 파트너가<br />
-          되어 드립니다"
+          “ Your essential <br />travel partner be your essential travel partner
+          ”
         </h3>
       </div>
       <div class="right-section d-flex align-items-center p-5 mt-2 col-md-7">
         <p class="col-md-12">
-          여행의 금융을 간편하게, 한국에서 더 스마트하게<br /><br />
-          Song-E Pay는 한국을 여행하는 외국인에게 실시간 환율 조회, 자동 환전,
-          간편한 송금 등 다양한 금융 기능을 제공합니다. 환전과 결제를 쉽게
-          관리할 수 있는 페이 머니 계좌와 은행 지도 서비스로 현지에서의 금융
-          업무를 간편하게 해결하세요. 결제 내역을 기반으로 자동 기록되는 여행
-          캘린더로 소중한 추억도 손쉽게 관리할 수 있습니다.
+          'Make travel finance easier, smarter in Korea'<br /><br />Simplify
+          your finances Song-E Pay provides foreigners traveling to Korea with
+          real-time exchange rates, automatic currency conversion, automatic
+          currency conversion, and easy money transfer. Exchange money and make
+          payments easily Manage your Pay Money account and bank map service to
+          make your local financial Make your life easier with automatic trip
+          logs based on your payment history Calendar makes it easy to organize
+          your memories.
         </p>
       </div>
     </div>
@@ -229,11 +188,12 @@
     <div class="d-flex flex-wrap mb-3">
       <!-- What We Offer 섹션 -->
       <div class="mt-2 col-md-12">
-        <h2 class="font_2 mb-4">Song-E Pay는!</h2>
+        <h2 class="font_2 mb-4">About Song-E Pay!</h2>
         <p class="font_8 mb-7">
-          실시간 환율 조회부터 자동 환전, 알림 서비스까지! 언제든지 유리한 환전
-          기회를 포착하고, 쉽고 빠르게 환전할 수 있도록 도와드립니다. 환율
-          변동을 놓치지 않고, 원하는 환율에 맞춰 최적의 환전을 경험해보세요.
+          From live exchange rates to automated conversions and alerts, we're
+          here to help you find the best deals and make your currency exchange
+          quick and easy. Stay on top of currency fluctuations and get the best
+          exchange rate for your money.
         </p>
       </div>
       <div class="flex-fill-column me-4">
@@ -245,10 +205,13 @@
           />
         </div>
         <div class="text-container">
-          <h5 class="font_5 pt-3 pb-2 pl-0 pr-0">실시간 환율 조회</h5>
+          <h5 class="font_5 pt-3 pb-2 pl-0 pr-0">
+            Get live currency exchange rates
+          </h5>
           <p>
-            여행 전, 중, 후 언제든지 최신 환율을 확인하고, 환율 변동에 맞춰
-            최적의 환전을 진행하세요.
+            Get the latest exchange rates anytime before, during, or after your
+            trip, and make the best currency conversions as exchange rates
+            fluctuate.
           </p>
         </div>
       </div>
@@ -261,10 +224,12 @@
           />
         </div>
         <div class="text-container">
-          <h5 class="font_5 pt-3 pb-2 pl-0 pr-0">자동 환전 서비스</h5>
+          <h5 class="font_5 pt-3 pb-2 pl-0 pr-0">
+            Automatic currency exchange service
+          </h5>
           <p>
-            원하는 환율에 자동으로 환전을 완료해 드립니다. 손쉬운 환전으로 환율
-            고민을 덜어보세요.
+            We'll automatically complete your conversion at the rate you want.
+            Take the guesswork out of currency exchange.
           </p>
         </div>
       </div>
@@ -277,10 +242,12 @@
           />
         </div>
         <div class="text-container">
-          <h5 class="font_5 pt-3 pb-2 pl-0 pr-0">환율 알림 서비스</h5>
+          <h5 class="font_5 pt-3 pb-2 pl-0 pr-0">
+            Exchange Rate Alert Service
+          </h5>
           <p>
-            원하는 환율에 도달하면 즉시 알림을 받아 최적의 시기에 환전을 할 수
-            있습니다.
+            Get instant notifications when your desired exchange rate is reached
+            so you can make your conversion at the optimal time.
           </p>
         </div>
       </div>
@@ -293,10 +260,12 @@
           />
         </div>
         <div class="text-container">
-          <h5 class="font_5 pt-3 pb-2 pl-0 pr-0">No 수수료! 자유로운 환전</h5>
+          <h5 class="font_5 pt-3 pb-2 pl-0 pr-0">
+            No fees! Free currency exchange
+          </h5>
           <p>
-            환전한 금액을 관리할 수 있는 페이 머니 계좌를 제공해 드립니다.
-            수수료 걱정 없이 언제 어디서든 환전하세요.
+            We'll give you a Pay Money account to manage the money you exchange.
+            Exchange money anytime, anywhere, without worrying about fees.
           </p>
         </div>
       </div>
@@ -304,38 +273,43 @@
   </div>
   <!-- 세 번째 섹션 -->
   <section class="section-container-brown">
+    <h2 class="font_2 mb-2">
+      Pay Money account &<br />
+      Send money between Korean won-only accounts
+    </h2>
     <div
       class="d-flex justify-content-between align-items-center flex-column flex-md-row mb-3"
     >
-      <div class="mesh-left col-md-5 d-flex flex-column">
-        <h2 class="font_2 mb-0">페이 머니 계좌</h2>
-        <h2 class="font_2 mb-4">& 한국 원화 전용 계좌 간 송금</h2>
-        <p class="fw-bold fs-5">환전한 금액, 한 곳에서 관리!</p>
+      <div class="mesh-left col-md-6 d-flex flex-column">
+        <p class="fw-bold fs-5">Manage your money in one place!</p>
         <p>
-          페이 머니 계좌를 통해 다양한 통화를 간편하게 관리하세요. 환전한 금액을
-          저장하고, 필요할 때 언제든 빠르게 결제와 송금이 가능합니다.
+          Manage multiple currencies easily with a Pay Money account. Store your
+          currency conversions and make quick payments and transfers whenever
+          you need them.
         </p>
-        <p class="fw-bold fs-5">간편한 한국 원화 송금!</p>
+        <p class="fw-bold fs-5">Easily send money in Korean won!</p>
         <p>
-          한국 원화 전용 계좌를 통해 현지에서 손쉽게 친구에게 송금하세요. 은행
-          계좌 없이도, 페이 머니만 있으면 몇 번의 클릭으로 빠르고 안전하게
-          송금이 가능합니다.
+          Easily send money to friends locally with a dedicated Korean Won
+          account. No bank account required, all you need is Pay Money to send
+          money quickly and securely with just a few clicks.
         </p>
-        <p class="fw-bold fs-5">쉽고 빠른 결제와 송금 여행 중에도 걱정 없이!</p>
+        <p class="fw-bold fs-5">
+          Quick and easy payments and transfers on the go!
+        </p>
         <p>
-          환전한 금액을 스마트하게 관리하고, 필요한 순간 간편하게 사용할 수 있는
-          기능을 제공합니다. 한국 내에서도, 환율 걱정 없이 바로 원화로 결제하고
-          송금하세요.
+          Smartly manage your currency conversion and have it at your fingertips
+          when you need it. Pay and send money in KRW instantly, even in Korea,
+          without worrying about exchange rates.
         </p>
       </div>
       <div
-        class="mesh-right col-md-7 col-12 d-flex justify-content-center align-items-center"
+        class="mesh-right col-md-6 col-12 d-flex justify-content-center align-items-center"
       >
         <img
           src="../../../images/Coin.png"
           alt="송금 이미지"
           class="img-fluid"
-          style="max-width: 160%; height: auto; object-fit: cover"
+          style="max-width: 100%; height: auto; object-fit: cover"
         />
       </div>
     </div>
@@ -360,7 +334,7 @@
       class="d-flex justify-content-between align-items-center flex-column flex-md-row mb-3"
     >
       <div
-        class="mesh-right col-md-5 col-12 d-flex justify-content-center align-items-center"
+        class="mesh-right col-md-4 col-12 d-flex justify-content-center align-items-center"
       >
         <img
           src="../../../images/Map.png"
@@ -369,12 +343,13 @@
           style="max-width: 100%; height: auto"
         />
       </div>
-      <div class="mesh-left col-md-6 d-flex flex-column">
-        <h2 class="font_2 mb-4 text-start">은행 지도</h2>
+      <div class="mesh-left col-md-7 d-flex flex-column">
+        <h2 class="font_2 mb-4 text-start">Map of bank branches</h2>
         <p>
-          가까운 국민은행 위치를 손쉽게 찾아보세요. <br />
-          지도를 통해 가장 가까운 지점을 확인하고, <br />필요한 금융 업무를
-          신속하게 처리할 수 있습니다.
+          Easily find a Kookmin Bank location near you. <br />
+          Use our map to find your nearest branch and get your financial
+          needs<br />
+          taken care of quickly.
         </p>
       </div>
     </div>
@@ -385,7 +360,7 @@
       class="lastpage d-flex justify-content-between align-items-center flex-column mb-3"
     >
       <h2 class="title text-center">
-        Prepare for Your Trip to Korea With Our SongEpay
+        " Prepare for Your Trip to Korea With Our Song-E pay "
       </h2>
       <br />
       <a href="/home" class="btn">get started</a>
@@ -523,7 +498,7 @@ onBeforeMount(() => {
 }
 
 .logo-img {
-  height: 40px;
+  height: 50px;
   width: auto;
 }
 
