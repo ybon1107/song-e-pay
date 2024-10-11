@@ -58,7 +58,7 @@ public class MyAccountServiceImpl implements MyAccountService {
             historyDTO.setTypeCode(3); // 환전 타입 코드
             historyDTO.setStateCode(1); // 성공 상태 코드
             historyDTO.setHistoryDate(new Date()); // 현재 날짜로 설정
-            historyDTO.setHistoryContent("충전"); // 내용 설정
+            historyDTO.setHistoryContent("My Account → SongE"); // 내용 설정
             historyDTO.setAmount(amount); // 금액 설정
 
             // history insert
@@ -88,7 +88,7 @@ public class MyAccountServiceImpl implements MyAccountService {
             historyDTO.setTypeCode(4); // 환전 타입 코드
             historyDTO.setStateCode(1); // 성공 상태 코드
             historyDTO.setHistoryDate(new Date()); // 현재 날짜로 설정
-            historyDTO.setHistoryContent("환불"); // 내용 설정
+            historyDTO.setHistoryContent("SongE → My Account"); // 내용 설정
             historyDTO.setAmount(amount); // 금액 설정
 
             mapper.insertHistory(historyDTO);
