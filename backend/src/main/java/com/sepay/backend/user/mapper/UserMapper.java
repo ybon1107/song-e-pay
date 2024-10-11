@@ -31,4 +31,9 @@ public interface UserMapper {
     // 자동환전에서 사용
     @Select("SELECT song_no, krw_no FROM user WHERE user_no = #{userNo}")
     Map<String, String> selectUserAccounts(Integer userNo);
+
+    int checkNumberExists(String number);
+
+    void insertSongAccount(UserVO userVO);
+    void insertKrwAccount(UserVO userVO);
 }
