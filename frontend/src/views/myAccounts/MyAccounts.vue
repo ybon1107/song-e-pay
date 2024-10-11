@@ -17,14 +17,10 @@ import { COUNTRY_CODE, COUNTRY_KEY, CURRENCY_NAME } from '@/constants/countryCod
 import { useI18n } from 'vue-i18n';
 const { t } = useI18n();
 
+//user
 import { useAuthStore } from '@/stores/auth';
 const auth = useAuthStore();
 const user = computed(() => auth.user);
-// const userId = computed(() => auth.user.userId);
-// console.log('check the userId : ', user.value);
-// console.log('check the user : ', user.value.songNo);
-
-// const userStatic = { krwNo: '1234', countryCode: '1', songNo: '1234', userNo: '1234' };
 
 //숫자 포맷팅
 import currencyFormatter from '../../js/currencyFormatter';
@@ -564,7 +560,7 @@ const deleteAlertCondition = async (resNo) => {
 };
 
 const flagIcon = (code) => {
-  return `/images/flag_c${code}.png`;
+  return `/images/flag_${code}.png`;
 };
 
 watchEffect(() => {
@@ -599,7 +595,7 @@ onMounted(() => {
         <div class="col-lg-4 col-md-5 max-margin-bottom d-flex justify-content-center">
           <!-- Song-E Money 카드 -->
           <AccountsCard ref="songEMoneyCardRef" :assetType="SONGE" @click="selectAsset(SONGE)"
-            :class="{ selected: selectedAsset === SONGE }" />
+            :class="{ selected: selectedAsset === SONGE}"/>
         </div>
 
         <!-- KRW Wallet -->
@@ -847,7 +843,7 @@ onMounted(() => {
                 <div>
                   <label class="d-flex align-items-center">
                     <div class="icon-container me-2">
-                      <img :src="flagIcon(songCoutryCode)" alt="icon" class="flag-icon-img" />
+                      <img v-if="songCountryCode" :src="flagIcon(songCountryCode)" alt="icon" class="flag-icon-img" />
                     </div>
                     <div class="input-label-text">
                       {{ $t('myAccount--songE-title') }}
