@@ -4,6 +4,7 @@ map--title,금융 지도,Financial Map,Peta Keuangan,Bản đồ tài chính
 map--select-cityLabel,광역시/도,City/Province,Kota,Thành phố
 map--select-districtLabel,시/군/구,District/County/Gu,Pilih Kota/Kabupaten,Chọn quận/huyện
 map--button-search,찾기,Find,Cari,Tìm
+map--mylocation, 내 위치에서 찾기, Find nearby, Cari dari lokasi saya, Tìm từ vị trí của tôi
 map--address,주소,Address,Alamat,Địa chỉ
 provinces--seoul,서울특별시,,
 provinces--busan,부산광역시,,
