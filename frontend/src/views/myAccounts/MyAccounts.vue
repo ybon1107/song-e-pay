@@ -809,7 +809,7 @@ onMounted(() => {
                     <div class="icon-container me-2">
                       <img :src="flagIcon(songCoutryCode)" alt="icon" class="flag-icon-img" />
                     </div>
-                    <div class="input-label-text">내 연결 계좌</div>
+                    <div class="input-label-text">{{ t('myAccount-deposit-myaccountNo') }}</div>
                   </label>
                   <ArgonAmountInput
                     v-model="refundAmount"
@@ -864,13 +864,13 @@ onMounted(() => {
                 <div>
                   <div class="mb-3">
                     <div class="d-flex align-items-center mb-1">
-                      <small class="me-3">받는 사람</small>
+                      <small class="me-3">{{ t('myAccount-transferto-sendtoEmail') }}</small>
                       <button class="btn btn-sm btn-secondary mb-0" @click="emailConfirm" size="sm" variant="outline" :disabled="sendEmail === ''">
                         {{ t('myAccount--wonE-emailConfirmButton') }}
                       </button>
                       <!-- 회원/비회원 표시 -->
-                      <small v-if="isMember === 'member'">회원 이메일</small>
-                      <small v-else-if="isMember === 'no-member'">비회원 이메일</small>
+                      <small v-if="isMember === 'member'">{{ t('myAccount-transferto-member') }}</small>
+                      <small v-else-if="isMember === 'no-member'">{{ t('myAccount-transferto-noMember') }}</small>
                     </div>
                     <ArgonInput
                       v-model="sendEmail"
@@ -889,7 +889,7 @@ onMounted(() => {
                     <small>{{ t('myAccount--wonE-confirmEmail') }}</small>
                     <ArgonInput
                       v-model="sendEmailConfirm"
-                      placeholder="이메일을 다시 입력하세요"
+                      :placeholder="t('myAccount-transferto-checkEmailAgain')"
                       :class="{ 'is-invalid': errorMessageCheck }"
                       :error="errorMessageCheck !== ''"
                       :success="checkSucess"

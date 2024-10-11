@@ -1,6 +1,6 @@
 <template>
   <div class="modal-body">
-    <Modal :isVisible="showModal" :showFooter="false" title="$t('myAccount--SecondPassword--modal-header')" @close="closeModal" v-if="showPasswordInput">
+    <Modal :isVisible="showModal" :showFooter="false" :title="$t('myAccount--SecondPassword--modal-header')" @close="closeModal" v-if="showPasswordInput">
       <p class="warning-text">{{ $t('myAccount--SecondPassword--modal-header-title') }}</p>
       <h3 class="password-title">{{ $t('myAccount--SecondPassword--modal-warning') }}</h3>
       <!-- 비밀번호 도트 -->
