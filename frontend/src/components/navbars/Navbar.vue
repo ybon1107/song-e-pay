@@ -282,7 +282,7 @@ onMounted(async () => {
 
 .flag-icon {
   width: 20px;
-  height: 15px;
+  height: 20px;
   object-fit: cover;
 }
 
