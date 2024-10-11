@@ -28,7 +28,12 @@ const { formatNumber, formatCurrency } = currencyFormatter;
 import { useAuthStore } from '@/stores/auth';
 // const auth = useAuthStore();
 // const user = computed(() => auth.user);
-const user = { krwNo: 'krw_test', countryCode: '1', songNo: 'song_test', userNo: '1234' };
+const user = {
+  krwNo: 'krw_test',
+  countryCode: '1',
+  songNo: 'song_test',
+  userNo: '1234',
+};
 const isFocused = ref(false);
 const balance = ref(0);
 
@@ -68,7 +73,7 @@ const backgroundImage = computed(() => `/images/${props.assetType}-money.png`);
 // const icon = computed(() => `/images/${props.currency}.png`);
 const flagIcon = computed(() => {
   const iconName = props.assetType === 'song-e' ? user.countryCode : '0';
-  return `/images/flag_${iconName}.png`;
+  return `/images/flag_c${iconName}.png`;
 });
 const displayCountry = computed(() => {
   return props.assetType === 'song-e' ? CURRENCY_NAME[user.countryCode] : CURRENCY_NAME[0];

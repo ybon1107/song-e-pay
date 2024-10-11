@@ -365,6 +365,7 @@ const resetValue = () => {
   sendEmail.value = '';
   sendEmailConfirm.value = '';
   success = false;
+  isMember.value = '';
   isconfirmed = false;
   checkSucess = false;
 };
@@ -611,7 +612,7 @@ const deleteAlertCondition = async (resNo) => {
 };
 
 const flagIcon = (code) => {
-  return `/images/flag_${code}.png`;
+  return `/images/flag_c${code}.png`;
 };
 
 // 컴포넌트가 마운트될 때 데이터를 가져옴
@@ -698,14 +699,17 @@ onMounted(() => {
                     <div class="icon-container me-2">
                       <img :src="flagIcon(songCoutryCode)" alt="icon" class="flag-icon-img" />
                     </div>
-                    <div class="input-label-text">{{ $t('myAccount--songE-title') }}</div>
+                    <div class="input-label-text">
+                      {{ $t('myAccount--songE-title') }}
+                    </div>
                   </label>
                   <div style="height: 30px">
                     <ArgonAmountInput v-model="depositAmount" :placeholder="`${$t('transaction_types_deposit')} ${$t('myAccount--input-placeholder')}`" :unit="customerunit" />
                   </div>
                 </div>
                 <div>
-                  예상 잔액: <span class="balance-text" :class="{ 'text-danger': depositAmount !== '' }">{{ processAfterBalance }}</span
+                  예상 잔액:
+                  <span class="balance-text" :class="{ 'text-danger': depositAmount !== '' }">{{ processAfterBalance }}</span
                   >{{ customerunit }}
                 </div>
                 <button type="submit" class="btn btn-primary w-100 fs-4" @click="openModal" :disabled="!isValidAmount(depositAmount)" variant="gradient">SONG-E 채우기</button>
@@ -739,7 +743,9 @@ onMounted(() => {
                     <div class="icon-container me-2">
                       <img :src="flagIcon(songCoutryCode)" alt="icon" class="flag-icon-img" />
                     </div>
-                    <div class="input-label-text">{{ $t('myAccount--songE-title') }}</div>
+                    <div class="input-label-text">
+                      {{ $t('myAccount--songE-title') }}
+                    </div>
                   </label>
                   <!-- 현재환율 * exchangeamount -->
                   <div style="height: 60px">
@@ -758,11 +764,15 @@ onMounted(() => {
                   </div>
 
                   <!-- <div class="balance-text">{{ receivedAmount }} {{ customerunit }}</div> -->
-                  <small>현재 환율: 1 {{ wonUnit }} = {{ currentFromKrw }} {{ customerunit }} </small>
+                  <small
+                    >현재 환율: 1 {{ wonUnit }} = {{ currentFromKrw }}
+                    {{ customerunit }}
+                  </small>
                 </div>
                 <!-- songe - 위에 보여주는 금액 -->
                 <div>
-                  예상 잔액: <span class="balance-text" :class="{ 'text-blue': exchangeAmount !== '' }">{{ processAfterBalance }}</span
+                  예상 잔액:
+                  <span class="balance-text" :class="{ 'text-blue': exchangeAmount !== '' }">{{ processAfterBalance }}</span
                   >{{ customerunit }}
                 </div>
                 <!-- <div class="balance-text">예상 잔액: {{ processAfterBalance }}{{ customerunit }}</div> -->
@@ -794,7 +804,7 @@ onMounted(() => {
                   :disabled="!isValidAmount(exchangeAmount)" variant="gradient">환전하기</button> -->
               </div>
               <div v-if="activeTab === TRANSACTION_TYPES.REFUND" class="d-grid gap-4">
-                <div style="height: 30px">
+                <div style="height: 90px">
                   <label class="d-flex align-items-center">
                     <div class="icon-container me-2">
                       <img :src="flagIcon(songCoutryCode)" alt="icon" class="flag-icon-img" />
@@ -815,10 +825,13 @@ onMounted(() => {
                     <div class="icon-container me-2">
                       <img :src="flagIcon(songCoutryCode)" alt="icon" class="flag-icon-img" />
                     </div>
-                    <div class="input-label-text">{{ $t('myAccount--songE-title') }}</div>
+                    <div class="input-label-text">
+                      {{ $t('myAccount--songE-title') }}
+                    </div>
                   </label>
                   <div>
-                    예상 잔액: <span class="balance-text" :class="{ 'text-blue': refundAmount !== '' }">{{ processAfterBalance }}</span
+                    예상 잔액:
+                    <span class="balance-text" :class="{ 'text-blue': refundAmount !== '' }">{{ processAfterBalance }}</span
                     >{{ customerunit }}
                   </div>
                   <!-- <div class="balance-text">{{ processAfterBalance }}{{ customerunit }}</div> -->
@@ -865,7 +878,9 @@ onMounted(() => {
                       :error="errorMessage !== ''"
                       :success="success"
                     />
-                    <div v-if="errorMessage !== ''" class="invalid-feedback text-xs">{{ errorMessage }}</div>
+                    <div v-if="errorMessage !== ''" class="invalid-feedback text-xs">
+                      {{ errorMessage }}
+                    </div>
                   </div>
                   <div class="mb-3">
                     <small>이메일 확인</small>
@@ -877,7 +892,9 @@ onMounted(() => {
                       :success="checkSucess"
                       @input="onInputCheck"
                     />
-                    <div v-if="errorMessageCheck" class="invalid-feedback text-xs mb-1">{{ errorMessageCheck }}</div>
+                    <div v-if="errorMessageCheck" class="invalid-feedback text-xs mb-1">
+                      {{ errorMessageCheck }}
+                    </div>
                   </div>
                 </div>
 
@@ -891,7 +908,7 @@ onMounted(() => {
                       <img :src="flagIcon(wonCoutryCode)" alt="icon" class="flag-icon-img" />
                     </div>
                   </label>
-                  <div style="height: 30px">
+                  <div style="height: 50px">
                     <ArgonAmountInput
                       v-model="transferAmount"
                       :placeholder="`${$t('transaction_types_transfer')} ${$t('myAccount--input-placeholder')}`"
@@ -908,10 +925,13 @@ onMounted(() => {
                     <div class="icon-container me-2">
                       <img :src="flagIcon(wonCoutryCode)" alt="icon" class="flag-icon-img" />
                     </div>
-                    <div class="input-label-text">{{ $t('myAccount--wonE-title') }}</div>
+                    <div class="input-label-text">
+                      {{ $t('myAccount--wonE-title') }}
+                    </div>
                   </label>
                   <div>
-                    예상 잔액: <span class="balance-text" :class="{ 'text-blue': transferAmount !== '' }">{{ processAfterWonBalance }}</span
+                    예상 잔액:
+                    <span class="balance-text" :class="{ 'text-blue': transferAmount !== '' }">{{ processAfterWonBalance }}</span
                     >{{ wonUnit }}
                   </div>
                   <!-- <div class="balance-text">{{ processAfterWonBalance }}{{ wonUnit }}</div> -->
@@ -934,7 +954,9 @@ onMounted(() => {
                     <div class="icon-container me-2">
                       <img :src="flagIcon(songCoutryCode)" alt="icon" class="flag-icon-img" />
                     </div>
-                    <div class="input-label-text">{{ $t('myAccount--songE-title') }}</div>
+                    <div class="input-label-text">
+                      {{ $t('myAccount--songE-title') }}
+                    </div>
                   </label>
                   <ExchangeAmountInput
                     v-model="receiveAmount"
@@ -957,7 +979,7 @@ onMounted(() => {
                     </div>
                     <div class="input-label-text">WON-E</div>
                   </label>
-                  <div style="height: 60px">
+                  <div style="height: 80px">
                     <ExchangeAmountInput
                       v-model="reExchangeAmount"
                       :placeholder="`${$t('transaction_types_exchange')} ${$t('myAccount--input-placeholder')}`"
@@ -972,10 +994,14 @@ onMounted(() => {
                     />
                   </div>
 
-                  <small>현재 환율: 1 {{ customerunit }} = {{ currentToKrw }} {{ wonUnit }} </small>
+                  <small
+                    >현재 환율: 1 {{ customerunit }} = {{ currentToKrw }}
+                    {{ wonUnit }}
+                  </small>
                 </div>
                 <div>
-                  예상 잔액: <span class="balance-text" :class="{ 'text-blue': reExchangeAmount !== '' }">{{ processAfterWonBalance }}</span
+                  예상 잔액:
+                  <span class="balance-text" :class="{ 'text-blue': reExchangeAmount !== '' }">{{ processAfterWonBalance }}</span
                   >{{ wonUnit }}
                 </div>
                 <button type="submit" class="btn btn-primary w-100 fs-4" @click="openModal" :disabled="!isValidAmount(exchangeAmount)" variant="gradient">SONG-E로 환전</button>
@@ -1025,7 +1051,10 @@ onMounted(() => {
 
             <div class="col-lg-5 col-md-12 d-flex flex-column justify-content-center my-3">
               <div class="mb-3">
-                <h6>{{ customerunit }} <i class="fa-solid fa-arrow-right"></i> {{ wonUnit }}</h6>
+                <h6>
+                  {{ customerunit }} <i class="fa-solid fa-arrow-right"></i>
+                  {{ wonUnit }}
+                </h6>
                 <div class="d-flex align-items-center">
                   <div class="position-relative flex-grow-1">
                     <input type="number" class="form-control" v-model.number="usdAmount" @input="convertToKrw" aria-label="Amount in USD" />
@@ -1039,7 +1068,10 @@ onMounted(() => {
                 </div>
               </div>
               <div>
-                <h6>{{ wonUnit }} <i class="fa-solid fa-arrow-right"></i> {{ customerunit }}</h6>
+                <h6>
+                  {{ wonUnit }} <i class="fa-solid fa-arrow-right"></i>
+                  {{ customerunit }}
+                </h6>
                 <div class="d-flex align-items-center">
                   <div class="position-relative flex-grow-1">
                     <input type="number" class="form-control" v-model.number="krwAmountReverse" @input="convertToUsd" />
@@ -1081,7 +1113,9 @@ onMounted(() => {
                       <div>목표 환율: {{ autoConditions[0]?.targetExchange }}</div>
                       <div>목표 KRW 금액: {{ autoConditions[0]?.targetKrw }}</div>
                     </div>
-                    <div class="cursor-pointer" @click="confirmDelete(autoConditions[0]?.resNo)"><i class="ni ni-fat-remove text-danger"></i></div>
+                    <div class="cursor-pointer" @click="confirmDelete(autoConditions[0]?.resNo)">
+                      <i class="ni ni-fat-remove text-danger"></i>
+                    </div>
                     <!-- <button class="btn btn-sm btn-danger mb-0"
                       @click="confirmDelete(autoConditions[0]?.resNo)">삭제</button> -->
                   </div>

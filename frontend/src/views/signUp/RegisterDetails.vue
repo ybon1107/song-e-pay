@@ -29,7 +29,7 @@ const countryError = ref(false);
 const genderError = ref(false);
 const phoneNumberError = ref(false);
 
-const TIMER_VALUE = 5;
+const TIMER_VALUE = 60;
 const isButtonEnabled = ref(true); // 버튼 활성화 상태
 // const timer = ref(TIMER_VALUE); // 1분 카운트다운
 const timer = ref(TIMER_VALUE); // 5초 카운트다운
@@ -350,7 +350,7 @@ const handleSubmit = async () => {
                         v-model="email"
                         :class="{ 'is-invalid': emailError }"
                         :error="emailError"
-                        errorText="Please provide a valid email address."
+                        :errorText="$t('signUp--errorText-email')"
                         :disabled="isVerified"
                       />
                       <!-- 인증 메일 전송/재전송 버튼 -->
@@ -395,7 +395,7 @@ const handleSubmit = async () => {
                         :error="
                           emailCode === '' && emailCodeError && !isVerified
                         "
-                        errorText="Please enter the verification code."
+                        :errorText="$t('signUp--errorText-emailCode')"
                       ></argon-input>
                       <!-- 인증코드 확인 버튼 -->
                       <div class="col-xl-4 col-md-4">
@@ -427,7 +427,7 @@ const handleSubmit = async () => {
                         'is-invalid': passwordError && password.length < 8,
                       }"
                       :error="passwordError && password.length < 8"
-                      errorText="Please provide a password with at least 8 characters."
+                      :errorText="$t('signUp--errorText-pw')"
                     ></argon-input>
                     <!-- 비밀번호 입력 확인 필드 -->
                     <label for="confirm-password" class="form-control-label">{{
@@ -453,7 +453,7 @@ const handleSubmit = async () => {
                           confirmPassword.length < 8 &&
                           !isPasswordMatch)
                       "
-                      errorText="Passwords do not match or are less than 8 characters."
+                      :errorText="$t('signUp--errorText-confirmPw')"
                     />
                   </div>
                   <!-- 거주 국가 입력 필드 -->
@@ -467,7 +467,9 @@ const handleSubmit = async () => {
                         class="form-select"
                         v-model="country"
                         :class="{
-                          'is-invalid': country === 'Country' && countryError,
+                          'is-invalid':
+                            country === $t('signUp--countryCodeLabel') &&
+                            countryError,
                         }"
                       >
                         <option disabled hidden>
@@ -484,7 +486,7 @@ const handleSubmit = async () => {
                         </option>
                       </select>
                       <p
-                        v-if="country === 'Country'"
+                        v-if="country === $t('signUp--countryCodeLabel')"
                         class="invalid-feedback text-xs"
                       >
                         Please select a country.
@@ -506,7 +508,7 @@ const handleSubmit = async () => {
                         'is-invalid': firstNameError && firstName === '',
                       }"
                       :error="firstNameError && firstName === ''"
-                      errorText="Please provide your full legal first and middle name(s)."
+                      :errorText="$t('signUp--errorText-firstName')"
                     />
                   </div>
                   <!-- 성 입력 필드 -->
@@ -524,7 +526,7 @@ const handleSubmit = async () => {
                         'is-invalid': lastNameError && lastName === '',
                       }"
                       :error="lastNameError && lastName === ''"
-                      errorText="Please provide your full legal last name(s)."
+                      :errorText="$t('signUp--errorText-lastName')"
                     />
                   </div>
                   <!-- 생년월일 입력 필드 -->
@@ -547,7 +549,7 @@ const handleSubmit = async () => {
                       }"
                     />
                     <p v-if="birthError" class="invalid-feedback text-xs">
-                      Please provide a valid date of birth.
+                      {{ $t("signUp--errorText-birth") }}
                     </p>
                   </div>
                   <!-- 성별 입력 필드 -->
@@ -562,7 +564,8 @@ const handleSubmit = async () => {
                         class="form-select"
                         v-model="gender"
                         :class="{
-                          'is-invalid': gender === 'Gender' && genderError,
+                          'is-invalid':
+                            gender === $t('signUp--genderLabel') && genderError,
                         }"
                       >
                         <option disabled hidden>
@@ -576,10 +579,10 @@ const handleSubmit = async () => {
                         </option>
                       </select>
                       <p
-                        v-if="gender === 'Gender'"
+                        v-if="gender === $t('signUp--genderLabel')"
                         class="invalid-feedback text-xs"
                       >
-                        Please select a gender.
+                        {{ $t("signUp--errorText-gender") }}
                       </p>
                     </div>
                     <!-- 전화번호 입력 필드 -->
@@ -592,12 +595,6 @@ const handleSubmit = async () => {
                         :error="phoneNumberError"
                         :countryCallingCode="countryCallingCode"
                       />
-                      <p
-                        v-if="!phoneNumberError"
-                        class="invalid-feedback text-xs"
-                      >
-                        Please provide a valid phone number.
-                      </p>
                     </div>
                     <!-- 다음 버튼 -->
                     <div class="text-center">
