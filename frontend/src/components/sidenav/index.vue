@@ -32,7 +32,13 @@ const darkMode = computed(() => store.state.darkMode);
         <!-- <img :src="darkMode || sidebarType === 'bg-default' ? logoWhite : logo" class="navbar-brand-img h-100"
           alt="main_logo" /> -->
         <!-- <span class="ms-2 font-weight-bold me-2">song-E-pay</span> -->
-        <h3>SongE</h3>
+        <!-- <h3>SongE</h3> -->
+        <img
+              class="ld-none d-md-block"
+              src="../../../images/3D_SongE.png"
+              alt="Illustration"
+              style="height: 40px; width: auto"
+            />
       </router-link>
     </div>
 
