@@ -7,11 +7,13 @@ import com.sepay.backend.exchangereservation.service.ExchangeReservationService;
 import com.sepay.backend.notification.dto.NotificationDTO;
 import com.sepay.backend.notification.service.NotificationService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.stream.Collectors;
+
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -26,6 +28,9 @@ public class ExchangeRateAlertScheduler {
 
     @Autowired
     private NotificationService notificationService;
+
+    @Autowired
+    private SimpMessagingTemplate messagingTemplate;
 
     @Scheduled(fixedRate = 30000) // 30초마다 실행
     public void checkAndSendExchangeRateAlerts() {
@@ -70,6 +75,7 @@ public class ExchangeRateAlertScheduler {
             // 환율 알림 로직 (기준 통화가 외화인지 확인하고, 목표 환율 도달 여부 체크)
             if (isTargetRateReached(reservation, currentRate)) {
                 saveAlert(reservation, currentRate, reservation.getUserId());
+
             }
 
         } catch (Exception e) {
@@ -98,6 +104,12 @@ public class ExchangeRateAlertScheduler {
         notificationDTO.setContent(message);
 
         notificationService.saveNotification(notificationDTO);
+
+        messagingTemplate.convertAndSendToUser(
+                userId,
+                "/topic/notifications",
+                notificationDTO
+        );
 
         log.info("환율 {} 알림 저장. 예약 ID: {}, 사용자 번호: {}, 현재 환율: {}, 목표 환율: {}",
                 direction, reservation.getResNo(), reservation.getUserId(), currentRate, reservation.getTargetExchange());
