@@ -4,6 +4,9 @@ import { useStore } from "vuex";
 import { useRouter } from "vue-router";
 import ArgonCheckbox from "@/components/templates/ArgonCheckbox.vue";
 import ArgonButton from "@/components/templates/ArgonButton.vue";
+import { useI18n } from "vue-i18n";
+
+const { t } = useI18n();
 
 const body = document.getElementsByTagName("body")[0];
 const store = useStore();
@@ -53,11 +56,9 @@ const handleNext = () => {
   }
 };
 
-const terms =
-  "이용 약관 내용이 들어갑니다. 이용 약관 내용이 들어갑니다. 이용 약관 내용이 들어갑니다. 이용 약관 내용이 들어갑니다. 이용 약관 내용이 들어갑니다. 이용 약관 내용이 들어갑니다. 이용 약관 내용이 들어갑니다. 이용 약관 내용이 들어갑니다.";
-
-const privacy =
-  "개인정보 보호정책 내용이 들어갑니다. 개인정보 보호정책 내용이 들어갑니다. 개인정보 보호정책 내용이 들어갑니다. 개인정보 보호정책 내용이 들어갑니다. 개인정보 보호정책 내용이 들어갑니다. 개인정보 보호정책 내용이 들어갑니다. 개인정보 보호정책 내용이 들어갑니다.";
+// 이용 약관과 개인정보 보호정책(다국어 지원)
+const termsOfUse = t("signUp--termsOfUse");
+const privacyPolicy = t("signUp--privacyPolicy");
 </script>
 <template>
   <!-- 메인 콘텐츠 섹션 -->
@@ -106,13 +107,11 @@ const privacy =
                           {{ $t("signUp--agreeTermsOfServiceLabel") }}</strong
                         ></argon-checkbox
                       >
-                      <textarea
-                        readonly
-                        disabled
+                      <div
                         class="form-control bg-white"
-                        rows="3"
-                        v-model="terms"
-                      ></textarea>
+                        style="height: 72px; overflow-y: auto"
+                        v-html="termsOfUse"
+                      ></div>
                     </div>
                     <!-- 개인정보 보호정책 동의 -->
                     <div class="form-group">
@@ -124,13 +123,11 @@ const privacy =
                           {{ $t("signUp--agreePrivacyPolicyLabel") }}</strong
                         ></argon-checkbox
                       >
-                      <textarea
-                        readonly
-                        disabled
+                      <div
                         class="form-control bg-white"
-                        rows="3"
-                        v-model="privacy"
-                      ></textarea>
+                        style="height: 72px; overflow-y: auto"
+                        v-html="privacyPolicy"
+                      ></div>
                     </div>
                     <!-- 다음 버튼 -->
                     <div class="text-center">
