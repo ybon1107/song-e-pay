@@ -367,20 +367,20 @@ const onblur = () => {
 };
 
 const songEMoneyBalance_toKRW = computed(() => {
-  return songEMoneyBalance.value / currentToKrw.value;
+  return songEMoneyBalance.value * currentToKrw.value;
 });
 const wonEMoneyBalance_FromKRW = computed(() => {
-  return wonEMoneyBalance.value / currentFromKrw.value;
+  return wonEMoneyBalance.value * currentFromKrw.value;
 });
 // 받는 금액 계산
 const receiveAmount = computed({
   get() {
     if (selectInput.value === 'exchange' && exchangeInput.value) {
       const exchangeAmt = parseFloat(exchangeInput.value);
-      return !isNaN(exchangeAmt) ? (exchangeAmt / currentToKrw.value).toFixed(2) : '';
+      return !isNaN(exchangeAmt) ? (exchangeAmt * currentToKrw.value).toFixed(2) : '';
     } else if (selectInput.value === 'reExchange' && reExchangeInput.value) {
       const reExchangeAmt = parseFloat(reExchangeInput.value);
-      return !isNaN(reExchangeAmt) ? (reExchangeAmt / currentFromKrw.value).toFixed(2) : '';
+      return !isNaN(reExchangeAmt) ? (reExchangeAmt * currentFromKrw.value).toFixed(2) : '';
     }
     return receiveInput.value; // 현재 값 반환
   },
@@ -394,7 +394,7 @@ const exchangeAmount = computed({
   get() {
     if (selectInput.value === 'receive' && receiveInput.value) {
       const receiveAmt = parseFloat(receiveInput.value);
-      return !isNaN(receiveAmt) ? (receiveAmt * currentToKrw.value).toFixed(2) : '';
+      return !isNaN(receiveAmt) ? (receiveAmt / currentToKrw.value).toFixed(2) : '';
     }
     return exchangeInput.value; // 현재 값 반환
   },
@@ -407,7 +407,7 @@ const reExchangeAmount = computed({
   get() {
     if (selectInput.value === 'receive' && receiveInput.value) {
       const receiveAmt = parseFloat(receiveInput.value);
-      return !isNaN(receiveAmt) ? (receiveAmt * currentFromKrw.value).toFixed(2) : '';
+      return !isNaN(receiveAmt) ? (receiveAmt / currentFromKrw.value).toFixed(2) : '';
     }
     return reExchangeInput.value; // 현재 값 반환
   },
@@ -671,8 +671,9 @@ watchEffect(() => {
                   <span class="balance-text" :class="{ 'text-danger': depositAmount !== '' }">{{ processAfterBalance }}</span
                   >{{ customerunit }}
                 </div>
-                <button type="submit" class="btn btn-primary w-100 fs-4" @click="openModal"
-                  :disabled="!isValidAmount(depositAmount)" variant="gradient">SONG-E 채우기</button>
+                <button type="submit" class="btn btn-primary w-100 fs-4" @click="openModal" :disabled="!isValidAmount(depositAmount)" variant="gradient">
+                  {{ t('myAccount--songE-button-fill') }}
+                </button>
               </div>
 
               <div v-if="activeTab === TRANSACTION_TYPES.EXCHANGE" class="d-grid gap-4">
@@ -685,10 +686,16 @@ watchEffect(() => {
                   </label>
                   <ExchangeAmountInput v-model="receiveAmount"
                     :placeholder="`${$t('transaction_types_exchange')} ${$t('myAccount--input-placeholder')}`"
-                    :unit="customerunit" :selectedAsset="selectedAsset" :songEMoneyBalance="songEMoneyBalance_toKRW"
-                    :activeTab="activeTab" :errorMessage="errorAmountMessage"
-                    @update:errorAmountMessage="errorAmountMessage = $event" @focus="onfocus('receive')"
-                    @blur="onblur('receive')" />
+                    :unit="wonUnit"
+                    :selectedAsset="selectedAsset"
+                    :songEMoneyBalance="songEMoneyBalance_toKRW"
+                    :activeTab="activeTab"
+                    :errorAmountMessage="errorAmountMessage"
+                    @update:errorAmountMessage="errorAmountMessage = $event"
+                    @focus="onfocus('receive')"
+                    @blur="onblur"
+                  />
+                  <!-- <small>보유: {{ wonEMoneyBalance }} {{ wonUnit }} </small> -->
                 </div>
                 <div>
                   <label class="d-flex align-items-center">
@@ -702,19 +709,56 @@ watchEffect(() => {
                   <!-- 현재환율 * exchangeamount -->
                   <ExchangeAmountInput v-model="exchangeAmount"
                       :placeholder="`${$t('transaction_types_exchange')} ${$t('myAccount--input-placeholder')}`"
-                      :unit="wonUnit" :selectedAsset="selectedAsset" :songEMoneyBalance="songEMoneyBalance"
-                      :activeTab="activeTab" :errorAmountMessage="errorAmountMessage"
-                      @update:errorAmountMessage="errorAmountMessage = $event" @focus="onfocus('exchange')"
-                      @blur="onblur" class="mb-1"/>
-                  <small>현재 환율: 1 {{ wonUnit }} = {{ currentFromKrw }} {{ customerunit }} </small>
+                      :unit="customerunit"
+                      :selectedAsset="selectedAsset"
+                      :songEMoneyBalance="songEMoneyBalance"
+                      :activeTab="activeTab"
+                      :errorMessage="errorAmountMessage"
+                      @update:errorAmountMessage="errorAmountMessage = $event"
+                      @focus="onfocus('exchange')"
+                      @blur="onblur('exchange')"
+                    />
+                  </div>
+                  <!-- <div class="balance-text">{{ receivedAmount }} {{ customerunit }}</div> -->
+                  <small
+                    >현재 환율: 1 {{ wonUnit }} = {{ currentFromKrw }}
+                    {{ customerunit }}
+                  </small>
                 </div>
                 <div>
                   예상 잔액: <span class="balance-text" :class="{ 'text-blue': exchangeAmount !== '' }">{{
                     processAfterBalance
                   }}</span>{{ customerunit }}
                 </div>
-                <button type="submit" class="btn btn-primary w-100 fs-4" @click="openModal"
-                  :disabled="!isValidAmount(exchangeAmount)" variant="gradient">WON-E로 환전</button>
+                <!-- <div class="balance-text">예상 잔액: {{ processAfterBalance }}{{ customerunit }}</div> -->
+                <button type="submit" class="btn btn-primary w-100 fs-4" @click="openModal" :disabled="!isValidAmount(exchangeAmount)" variant="gradient">
+                  {{ t('myAccount--wonE-button-exchange') }}
+                </button>
+
+                <!-- <h1>기존 코드</h1>
+                <p>
+                  <small>현재 환율: </small>
+                  1 KRW = {{ currentFromKrw }} {{ customerunit }}
+                </p>
+                <p>
+                  <small>보내는 금액</small>
+                  <ArgonAmountInput v-model="exchangeAmount" placeholder="얼마를 환전할까요?" :unit="customerunit"
+                    :selectedAsset="selectedAsset" :songEMoneyBalance="songEMoneyBalance" :activeTab="activeTab" />
+                </p>
+                <p>
+                  <small>받는 금액: </small>
+                  {{ receivedAmount }} KRW
+                </p>
+                <p>
+                  <small>환급계좌:</small>
+                  {{ selectedAsset === SONGE ? '내 계좌' : 'KRW 계좌' }}
+                </p>
+                <p>
+                  <small>거래 후 잔액:</small>
+                  {{ processAfterBalance }} {{ customerunit }}
+                </p>
+                <button type="submit" class="btn btn-primary w-100" @click="openModal"
+                  :disabled="!isValidAmount(exchangeAmount)" variant="gradient">환전하기</button> -->
               </div>
 
 
@@ -746,8 +790,22 @@ watchEffect(() => {
                     }}</span>{{ customerunit }}
                   </div>
                 </div>
-                <button type="submit" class="btn btn-primary w-100 fs-4" @click="openModal"
-                  :disabled="!isValidAmount(refundAmount)" variant="gradient">SONG-E 비우기</button>
+                <!-- <p>
+                  <small>환불할 금액을 입력하세요</small>
+                  <ArgonAmountInput v-model="refundAmount" placeholder="얼마를 환불할까요?" :unit="customerunit"
+                    :selectedAsset="selectedAsset" :songEMoneyBalance="songEMoneyBalance" :activeTab="activeTab" />
+                </p>
+                <p>
+                  <small> 환불계좌: </small>
+                  {{ selectedAsset === SONGE ? '내 계좌' : 'KRW 계좌' }}
+                </p>
+                <p>
+                  <small> 거래 후 잔액:</small>
+                  {{ processAfterBalance }} {{ customerunit }}
+                </p> -->
+                <button type="submit" class="btn btn-primary w-100 fs-4" @click="openModal" :disabled="!isValidAmount(refundAmount)" variant="gradient">
+                  {{ t('myAccount--songE-button-vacate') }}
+                </button>
               </div>
             </div>
           </div>
@@ -835,8 +893,9 @@ watchEffect(() => {
 
                 <button type="submit" class="btn btn-primary w-100 fs-4" @click="openModal"
                   :disabled="!isValidAmount(transferAmount) || errorMessage !== '' || errorMessageCheck !== ''"
-                  variant="gradient">
-                  WON-E간 송금
+                  variant="gradient"
+                >
+                  {{ t('myAccount--wonE-button-transfer') }}
                 </button>
               </div>
 
@@ -850,13 +909,20 @@ watchEffect(() => {
                       {{ $t('myAccount--songE-title') }}
                     </div>
                   </label>
-                  <ExchangeAmountInput v-model="receiveAmount" :unit="customerunit" :selectedAsset="selectedAsset"
-                    :wonEMoneyBalance="wonEMoneyBalance_FromKRW" :activeTab="activeTab"
-                    :placeholder="`${$t('transaction_types_exchange')} ${$t('myAccount--input-placeholder')}`"
-                    :errorMessage="errorAmountMessage" @update:errorAmountMessage="errorAmountMessage = $event"
-                    @focus="onfocus('receive')" @blur="onblur('receive')" />
-                </div>
 
+                  <ExchangeAmountInput
+                    v-model="receiveAmount"
+                    :placeholder="`${$t('transaction_types_exchange')} ${$t('myAccount--input-placeholder')}`"
+                    :unit="customerunit"
+                    :selectedAsset="selectedAsset"
+                    :wonEMoneyBalance="wonEMoneyBalance_FromKRW"
+                    :activeTab="activeTab"
+                    :errorAmountMessage="errorAmountMessage"
+                    @update:errorAmountMessage="errorAmountMessage = $event"
+                    @focus="onfocus('receive')"
+                    @blur="onblur"
+                  />
+                </div>
                 <div>
                   <label class="d-flex align-items-center">
                     <div class="icon-container me-2">
@@ -867,11 +933,16 @@ watchEffect(() => {
                   <div style="height: 80px">
                     <ExchangeAmountInput
                       v-model="reExchangeAmount"
+                      :unit="wonUnit"
+                      :selectedAsset="selectedAsset"
+                      :wonEMoneyBalance="wonEMoneyBalance"
+                      :activeTab="activeTab"
                       :placeholder="`${$t('transaction_types_exchange')} ${$t('myAccount--input-placeholder')}`"
-                      :unit="wonUnit" :selectedAsset="selectedAsset" :wonEMoneyBalance="wonEMoneyBalance"
-                      :activeTab="activeTab" :errorAmountMessage="errorAmountMessage"
-                      @update:errorAmountMessage="errorAmountMessage = $event" @focus="onfocus('reExchange')"
-                      @blur="onblur" />
+                      :errorMessage="errorAmountMessage"
+                      @update:errorAmountMessage="errorAmountMessage = $event"
+                      @focus="onfocus('reExchange')"
+                      @blur="onblur('reExchange')"
+                    />
                   </div>
 
                   <small
@@ -884,8 +955,31 @@ watchEffect(() => {
                   <span class="balance-text" :class="{ 'text-blue': reExchangeAmount !== '' }">{{ processAfterWonBalance }}</span
                   >{{ wonUnit }}
                 </div>
-                <button type="submit" class="btn btn-primary w-100 fs-4" @click="openModal"
-                  :disabled="!isValidAmount(exchangeAmount)" variant="gradient">SONG-E로 환전</button>
+                <button type="submit" class="btn btn-primary w-100 fs-4" @click="openModal" :disabled="!isValidAmount(exchangeAmount)" variant="gradient">
+                  {{ t('myAccount--songE-button-exchange') }}
+                </button>
+
+                <!-- <p>
+                  <small>현재 환율: </small>
+                  1{{ customerunit }} = {{ currentToKrw }} KRW
+                </p>
+                <p>
+                  <small>보내는 금액</small>
+                  <ArgonAmountInput v-model="reExchangeAmount" placeholder="얼마를 환급할까요?" unit="KRW"
+                    :selectedAsset="selectedAsset" :wonEMoneyBalance="wonEMoneyBalance" :activeTab="activeTab" />
+                </p>
+                <p>
+                  <small>받는 금액</small>
+                  {{ receivedAmount }} USD
+                </p>
+
+                <p>
+                  <small>거래 후 잔액: </small>
+                  {{ processAfterWonBalance }} KRW
+                </p>
+
+                <button type="submit" class="btn btn-primary w-100" @click="openModal"
+                  :disabled="!isValidAmount(reExchangeAmount)" variant="gradient">환급하기</button> -->
               </div>
             </div>
           </div>
