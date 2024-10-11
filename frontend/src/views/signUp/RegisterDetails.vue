@@ -31,8 +31,7 @@ const phoneNumberError = ref(false);
 
 const TIMER_VALUE = 60;
 const isButtonEnabled = ref(true); // 버튼 활성화 상태
-// const timer = ref(TIMER_VALUE); // 1분 카운트다운
-const timer = ref(TIMER_VALUE); // 5초 카운트다운
+const timer = ref(TIMER_VALUE); // 1분 카운트다운
 let interval = null;
 
 const startTimer = () => {
