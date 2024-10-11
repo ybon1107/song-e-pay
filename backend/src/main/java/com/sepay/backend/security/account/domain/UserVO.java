@@ -35,3 +35,6 @@ public class UserVO {
 
     private List<AuthVO> authList; // user_auth 테이블과 JOIN 필요
 }
+
+
+
