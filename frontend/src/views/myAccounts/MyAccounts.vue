@@ -78,7 +78,6 @@ const wonEMoneyCardRef = ref(null);
 //비밀번호 관련 기능
 // 비밀번호 입력 모달 열기
 const openModal = () => {
-  console.log("????");
   showModal.value = true;
   currentAction.value = activeTab.value;
 };
@@ -376,6 +375,7 @@ const transfer = async () => {
 };
 
 const resetValue = () => {
+  console.log("reset????");
   refundAmount.value = '';
   reExchangeAmount.value = '';
   transferAmount.value = '';
@@ -387,6 +387,8 @@ const resetValue = () => {
   isMember.value = '';
   isconfirmed = false;
   checkSucess = false;
+  receiveInput.value = '';
+
 };
 
 const convertToKrw = () => {
@@ -603,7 +605,7 @@ const alertConditions = ref([]);
 // 자동 환전 예약 데이터를 가져오는 함수
 const fetchAutoExchange = async () => {
   try {
-    const response = await axios.get(`/api/exchange-reservation/setalert/${userId}`);
+    const response = await axios.get(`/api/exchange-reservation/setalert/${userId.value}`);
     if (response.status === 200) {
       // 응답 데이터가 존재하면 autoConditions에 저장
       const reservations = response.data;
@@ -617,7 +619,7 @@ const fetchAutoExchange = async () => {
 // 환율 알림 데이터를 가져오는 함수
 const fetchAlertConditions = async () => {
   try {
-    const response = await axios.get(`/api/exchange-reservation/${userId}`);
+    const response = await axios.get(`/api/exchange-reservation/${userId.value}`);
     if (response.status === 200) {
       // 응답 데이터가 존재하면 alertConditions에 최대 2개 저장
       const alerts = response.data.slice(0, 2); // 최대 2개만 가져옴
