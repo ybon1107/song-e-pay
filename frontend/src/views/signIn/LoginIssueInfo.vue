@@ -29,33 +29,33 @@ const { t } = useI18n();
 
 const accordionItems = ref([
   {
-    title: t("SignIn--LoginIssueInfo--ForgotMyPassword-title"),
-    content: t("SignIn--LoginIssueInfo--ForgotMyPassword-content"),
+    title: t("signIn--LoginIssueInfo--ForgotMyPassword-title"),
+    content: t("signIn--LoginIssueInfo--ForgotMyPassword-content"),
     expanded: false,
   },
   {
-    title: t("SignIn--LoginIssueInfo--2stepNotworking-title"),
-    content: t("SignIn--LoginIssueInfo--2stepNotworking-content"),
+    title: t("signIn--LoginIssueInfo--2stepNotworking-title"),
+    content: t("signIn--LoginIssueInfo--2stepNotworking-content"),
     expanded: false,
   },
   {
-    title: t("SignIn--LoginIssueInfo--changePhoneNumber-title"),
-    content: t("SignIn--LoginIssueInfo--changePhoneNumber-content"),
+    title: t("signIn--LoginIssueInfo--changePhoneNumber-title"),
+    content: t("signIn--LoginIssueInfo--changePhoneNumber-content"),
     expanded: false,
   },
   {
-    title: t("SignIn--LoginIssueInfo--changeMyEmail-title"),
-    content: t("SignIn--LoginIssueInfo--changeMyEmail-content"),
+    title: t("signIn--LoginIssueInfo--changeMyEmail-title"),
+    content: t("signIn--LoginIssueInfo--changeMyEmail-content"),
     expanded: false,
   },
   {
-    title: t("SignIn--LoginIssueInfo--newDevice-title"),
-    content: t("SignIn--LoginIssueInfo--newDevice-content"),
+    title: t("signIn--LoginIssueInfo--newDevice-title"),
+    content: t("signIn--LoginIssueInfo--newDevice-content"),
     expanded: false,
   },
   {
-    title: t("SignIn--LoginIssueInfo--wasDeactivated-title"),
-    content: t("SignIn--LoginIssueInfo--wasDeactivated-content"),
+    title: t("signIn--LoginIssueInfo--wasDeactivated-title"),
+    content: t("signIn--LoginIssueInfo--wasDeactivated-content"),
     expanded: false,
   },
 ]);
@@ -80,14 +80,14 @@ const goBack = () => {
                 <!-- 카드 헤더: 제목 -->
                 <div class="card-header text-center">
                   <h4 class="font-weight-bolder">
-                    {{ $t("SignIn--LoginIssueInfo--header-title") }}
+                    {{ $t("signIn--LoginIssueInfo--header-title") }}
                   </h4>
                 </div>
                 <!-- 카드 본문 -->
                 <div class="card-body">
                   <div class="px-3">
                     <strong>{{
-                      $t("SignIn--LoginIssueInfo--body-selectIssue")
+                      $t("signIn--LoginIssueInfo--body-selectIssue")
                     }}</strong>
                     <hr />
                   </div>

@@ -1,12 +1,13 @@
 package com.sepay.backend.mail.service;
 
+import com.sepay.backend.history.dto.HistoryDTO;
 import com.sepay.backend.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 import lombok.extern.slf4j.Slf4j;
-
+import com.sepay.backend.myaccount.mapper.MyAccountMapper;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 
@@ -16,7 +17,7 @@ import java.time.Duration;
 @Slf4j
 @Service
 public class MailServiceImpl implements MailService {
-
+    private final MyAccountMapper mapper;
     private final JavaMailSender emailSender;
     private final UserService userService;
 
@@ -25,7 +26,8 @@ public class MailServiceImpl implements MailService {
     private static final long CODE_VALID_DURATION = 3; // 인증 코드 유효 시간: 3분(분단위)
 
     @Autowired
-    public MailServiceImpl(JavaMailSender mailSender, UserService userService) {
+    public MailServiceImpl(MyAccountMapper mapper, JavaMailSender mailSender, UserService userService) {
+        this.mapper = mapper;
         this.emailSender = mailSender;
         this.userService = userService;
     }
@@ -107,30 +109,33 @@ public class MailServiceImpl implements MailService {
         return false;
     }
     @Override
-    public boolean transferTo (String userId){
+    public boolean transferTo (String userId, HistoryDTO historyDTO){
         try {
+            mapper.insertHistory(historyDTO);
+            String transferFromUserId = historyDTO.getUserId();
+            Double transferAmount = historyDTO.getAmount();
             MimeMessage message = emailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
             helper.setFrom("noreplysongepay@account.google.com");
             helper.setTo(userId);
             helper.setSubject("[Song-E Pay] Transaction Notification");
-            String body = """
-    <div style="font-family: Arial, sans-serif; color: #333; line-height: 1.6;">
-        <h2>Thank you for using Song-E Pay!</h2>
-        <p>Hello,</p>
-        <p>This is a notification that a transaction has been made from your account, <strong>userId</strong>.</p>
-        <p>To complete your registration, please click the button below:</p>
-        <div style="text-align: center; margin: 20px;">
-            <a href="http://localhost:5173/register/legal" style="background-color: #4CAF50; color: white; padding: 12px 24px; text-decoration: none; border-radius: 4px;">
-                Complete Registration
-            </a>
-        </div>
-        <p>We sincerely thank you for choosing our service!</p>
-        <p>Best regards,<br>Song-E Pay Team</p>
-        <hr>
-        <p style="font-size: 12px; color: #777;">This is an automated message, please do not reply.</p>
-    </div>
-""";
+            String body = "<div style=\"font-family: Arial, sans-serif; color: #333; line-height: 1.6;\">"
+                    + "<h2>Thank you for your interest in our service, Song-E Pay!</h2>"
+                    + "<p>We appreciate your interest in Song-E Pay.</p>"
+                    + "<p>Dear user, <strong>" + transferFromUserId + "</strong> has transferred an amount of <strong>₩ "
+                    + transferAmount + "</strong> to <strong>" + userId + "</strong> using our service.</p>"
+                    + "<p>To claim this amount, please complete the registration process using your email, <strong>" + userId + "</strong>.</p>"
+                    + "<div style=\"text-align: center; margin: 20px;\">"
+                    + "<a href=\"http://localhost:5173/register/legal\" style=\"background-color: #4CAF50; color: white; padding: 12px 24px; text-decoration: none; border-radius: 4px;\">"
+                    + "Complete Registration"
+                    + "</a>"
+                    + "</div>"
+                    + "<p>For security reasons, please keep this information confidential and do not share it with others.</p>"
+                    + "<p>Best regards,<br>Song-E Pay Team</p>"
+                    + "<hr>"
+                    + "<p style=\"font-size: 12px; color: #777;\">This is an automated message, please do not reply.</p>"
+                    + "</div>";
+
 
             helper.setText(body, true); // HTML로 내용을 설정
             helper.setReplyTo("noreplysongepay@account.google.com"); // 회신 불가능한 메일 주소 설정
