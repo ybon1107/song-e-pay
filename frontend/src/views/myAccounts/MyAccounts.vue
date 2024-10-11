@@ -205,10 +205,11 @@ const ACCOUNT = computed(() => {
     accountDTO: { accountNo },
     songAccountDTO: { songNo },
     krwAccountDTO: { krwNo },
-    historyDTO: { userId,songNo,krwNo }
+    historyDTO: { userId, songNo, krwNo }
   };
 });
 
+// 충전 함수 정의
 const deposit = async () => {
   const amount = depositAmount.value // 충전하려는 금액
   const params = {
@@ -218,175 +219,94 @@ const deposit = async () => {
   return callAccountApi(myaccountApi.deposit, params);
 }
 
-// // 충전 함수 정의
-// const deposit = async () => {
-//   const userId = 'test@gmail.com';
-//   const accountNo = '123'; // 실제 계좌 번호 사용
-//   const songNo = '1234'; // 송이 페이 계좌 번호
-//   const krwNo = '1234';
-//   const amount = depositAmount.value; // 충전하려는 금액
-//   // 송이 페이머니 충전 요청
-//   const response = await myaccountApi.deposit({
-//     amount,
-//     accountDTO: {
-//       accountNo,
-//     },
-//     songAccountDTO: {
-//       songNo,
-//     },
-//     historyDTO: {
-//       userId,
-//       songNo,
-//       krwNo,
-//       typeCode: 3, //거래 코드 충전 3
-//       stateCode: 1,
-//       historyContent: `My Account → ${customerunit} 충전`,
-//       amount,
-//     },
-//   });
-
-//   if (response != '') {
-//     console.log(response);
-//   }
-// };
-
-// 환전 처리
-// const exchange = async () => {
-//   const userId = 'test@gmail.com';
-//   const krwNo = '1234'; // krw 계좌 번호 사용
-//   const songNo = '1234'; // 송이 페이 계좌 번호
-//   const exchangeRate = currentFromKrw.value * 1000;
-//   const amount = exchangeAmount.value; // 환전하려는 금액
-//   const response = await myaccountApi.exchange({
-//     amount,
-//     exchangeRate,
-//     songAccountDTO: {
-//       songNo,
-//     },
-//     krwAccountDTO: {
-//       krwNo,
-//     },
-//     historyDTO: {
-//       userId,
-//       songNo,
-//       krwNo,
-//       typeCode: 5,
-//       stateCode: 1,
-//       historyContent: `${customerunit} → KRW 환전`,
-//       amount,
-//       exchangeRate,
-//     },
-//   });
-
-//   if (response != '') {
-//     console.log(response);
-//   }
-// };
-
 // 환불 처리
 const refund = async () => {
-  const userId = 'test@gmail.com';
-  const accountNo = '123'; // 실제 계좌 번호 사용
-  const songNo = 'song_test'; // 송이 페이 계좌 번호
-  const krwNo = 'krw_test'; // krw 계좌 번호 사용
-  const amount = refundAmount.value; // 충전하려는 금액
-  // 송이 페이머니 충전 요청
-  const response = await myaccountApi.refund({
+  const amount = refundAmount.value // 충전하려는 금액
+  const params = {
+    ...ACCOUNT.value,
     amount,
-    accountDTO: {
-      accountNo,
-    },
-    songAccountDTO: {
-      songNo,
-    },
-    historyDTO: {
-      userId,
-      songNo,
-      krwNo,
-      typeCode: 4,
-      stateCode: 1,
-      historyContent: `${customerunit} → My Account 환불`,
-      amount,
-    },
-  });
-
-  if (response != '') {
-    console.log(response);
   }
-};
+  return callAccountApi(myaccountApi.refund, params);
+}
 
-// 송금 처리
-const transfer = async () => {
-  const userId = 'test@gmail.com'; //나의 userId
-  const songNo = 'song_test'; // 송이 페이 계좌 번호
-  const krwNo = 'krw_test'; // krw 계좌 번호 사용
-  let target_krwNo;
-  const amount = transferAmount.value; // 송금하려는 금액
-  const stateCode = isMember.value === 'no-member' ? 4 : 1;
-  const targetHistoryContent = `${userId} → KRW  입금`;
-  if (isMember.value === 'no-member') {
-    target_krwNo = sendEmail.value;
-  } else {
-    target_krwNo = await myaccountApi.getKrwNo(sendEmail.value);
-  }
-  // 송이 페이머니 충전 요청
-  const response = await myaccountApi.transfer({
-    targetHistoryContent,
-    isMember: isMember.value,
+// 환전 처리
+const exchange = async () => {
+  const amount = exchangeAmount.value; // 환전하려는 금액
+  const exchangeRate = currentFromKrw.value * 1000;
+  const params = {
+    ...ACCOUNT.value,
     amount,
-    target_krwNo,
-    krwAccountDTO: {
-      krwNo,
-    },
-    historyDTO: {
-      userId,
-      songNo,
-      krwNo,
-      typeCode: 2, //거래 코드 충전 2
-      stateCode: stateCode,
-      historyContent: `KRW → ${sendEmail.value} 송금`,
-      amount,
-    },
-  });
-
-  if (response != '') {
-    console.log(response);
+    exchangeRate
   }
-};
+  return callAccountApi(myaccountApi.exchange, params);
+}
 
 // 환급 처리
 const reExchange = async () => {
-  const userId = 'test@gmail.com';
-  const krwNo = 'krw_test'; // krw 계좌 번호 사용
-  const songNo = 'song_test'; // 송이 페이 계좌 번호
-  const exchangeRate = currentToKrw.value;
   const amount = reExchangeAmount.value; // 환급하려는 금액
-  console.log('exchangeRate 확인' + exchangeRate);
-  const response = await myaccountApi.reExchange({
+  const exchangeRate = currentToKrw.value;
+  const params = {
+    ...ACCOUNT.value,
     amount,
-    exchangeRate,
-    krwAccountDTO: {
-      krwNo,
-    },
-    songAccountDTO: {
-      songNo,
-    },
-    historyDTO: {
-      userId,
-      songNo,
-      krwNo,
-      typeCode: 6,
-      stateCode: 1,
-      historyContent: `KRW → ${customerunit} 환급`,
-      amount,
-      exchangeRate,
-    },
-  });
-
-  if (response != '') {
-    console.log(response);
+    exchangeRate
   }
-};
+  return callAccountApi(myaccountApi.reExchange, params);
+}
+
+// 송금 처리
+// const transfer = async () => {
+//   let target_krwNo;
+//   if (isMember.value === 'no-member') {
+//     target_krwNo = sendEmail.value;
+//   } else {
+//     target_krwNo = await myaccountApi.getKrwNo(sendEmail.value);
+//   }
+//   const amount = transferAmount.value; // 송금하려는 금액
+//   // const stateCode = isMember.value === 'no-member' ? 4 : 1;
+
+//   const params = {
+//     ...ACCOUNT.value,
+//     isMember: isMember.value,
+//     amount,
+//     target_krwNo,
+//   }
+//   return callAccountApi(myaccountApi.transfer, params);
+// }
+const transfer = async () => {
+  const { userId, songNo, krwNo } = user.value; // 구조 분해 할당 사용
+    let target_krwNo;
+    const amount = transferAmount.value; // 송금하려는 금액
+    const stateCode = isMember.value === 'no-member' ? 4 : 1;
+    const targetHistoryContent = `${userId} → KRW  입금`;
+    if (isMember.value === 'no-member') {
+      target_krwNo = sendEmail.value;
+    } else {
+      target_krwNo = await myaccountApi.getKrwNo(sendEmail.value);
+    }
+    // 송이 페이머니 충전 요청
+    const response = await myaccountApi.transfer({
+      targetHistoryContent,
+      isMember: isMember.value,
+      amount,
+      target_krwNo,
+      krwAccountDTO: {
+        krwNo,
+      },
+      historyDTO: {
+        userId,
+        songNo,
+        krwNo,
+        typeCode: 2, //거래 코드 충전 2
+        stateCode: stateCode,
+        historyContent: `KRW → ${sendEmail.value} 송금`,
+        amount,
+      },
+    });
+  
+    if (response != '') {
+      console.log(response);
+    }
+  };
 
 const resetValue = () => {
   refundAmount.value = '';

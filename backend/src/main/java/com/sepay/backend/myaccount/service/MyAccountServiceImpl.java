@@ -55,17 +55,15 @@ public class MyAccountServiceImpl implements MyAccountService {
             songAccountDTO.setBalance(mapper.selectSongBalance(songAccountDTO.getSongNo()) + amount);
             mapper.updateSongAccount(songAccountDTO);
 
-            // history insert
-//            mapper.insertHistory(historyDTO);
-            message = "success";
-
             historyDTO.setTypeCode(3); // 환전 타입 코드
             historyDTO.setStateCode(1); // 성공 상태 코드
             historyDTO.setHistoryDate(new Date()); // 현재 날짜로 설정
             historyDTO.setHistoryContent("충전"); // 내용 설정
             historyDTO.setAmount(amount); // 금액 설정
-            System.out.println(historyDTO);
+
+            // history insert
             mapper.insertHistory(historyDTO);
+            message = "success";
         }
 
         return message;
@@ -87,8 +85,13 @@ public class MyAccountServiceImpl implements MyAccountService {
             mapper.updateAccount(accountDTO);
 
             // history insert
-            mapper.insertHistory(historyDTO);
+            historyDTO.setTypeCode(4); // 환전 타입 코드
+            historyDTO.setStateCode(1); // 성공 상태 코드
+            historyDTO.setHistoryDate(new Date()); // 현재 날짜로 설정
+            historyDTO.setHistoryContent("환불"); // 내용 설정
+            historyDTO.setAmount(amount); // 금액 설정
 
+            mapper.insertHistory(historyDTO);
             message = "success";
         }
         return message;
