@@ -21,6 +21,7 @@ const { t } = useI18n();
 import { useAuthStore } from '@/stores/auth';
 const auth = useAuthStore();
 const user = computed(() => auth.user);
+const userId = computed(() => auth.user.userId);
 
 //숫자 포맷팅
 import currencyFormatter from '../../js/currencyFormatter';
@@ -569,15 +570,18 @@ watchEffect(() => {
     customerunit.value = CURRENCY_NAME[songCountryCode.value];
     customerCountry.value = COUNTRY_KEY[songCountryCode.value];
     fetchBalances();
+    fetchExchangeRates();
+  fetchAutoExchange();
+  fetchAlertConditions();
   }
 });
 
 // 컴포넌트가 마운트될 때 데이터를 가져옴
-onMounted(() => {
-  fetchExchangeRates();
-  fetchAutoExchange();
-  fetchAlertConditions();
-});
+// onMounted(() => {
+//   fetchExchangeRates();
+//   fetchAutoExchange();
+//   fetchAlertConditions();
+// });
 </script>
 
 <template>
@@ -696,17 +700,14 @@ onMounted(() => {
                     </div>
                   </label>
                   <!-- 현재환율 * exchangeamount -->
-                  <div style="height: 60px">
-                    <ExchangeAmountInput v-model="exchangeAmount"
+                  <ExchangeAmountInput v-model="exchangeAmount"
                       :placeholder="`${$t('transaction_types_exchange')} ${$t('myAccount--input-placeholder')}`"
                       :unit="wonUnit" :selectedAsset="selectedAsset" :songEMoneyBalance="songEMoneyBalance"
                       :activeTab="activeTab" :errorAmountMessage="errorAmountMessage"
                       @update:errorAmountMessage="errorAmountMessage = $event" @focus="onfocus('exchange')"
-                      @blur="onblur" />
-                  </div>
+                      @blur="onblur" class="mb-1"/>
                   <small>현재 환율: 1 {{ wonUnit }} = {{ currentFromKrw }} {{ customerunit }} </small>
                 </div>
-                <!-- songe - 위에 보여주는 금액 -->
                 <div>
                   예상 잔액: <span class="balance-text" :class="{ 'text-blue': exchangeAmount !== '' }">{{
                     processAfterBalance
@@ -885,28 +886,6 @@ onMounted(() => {
                 </div>
                 <button type="submit" class="btn btn-primary w-100 fs-4" @click="openModal"
                   :disabled="!isValidAmount(exchangeAmount)" variant="gradient">SONG-E로 환전</button>
-
-                <!-- <p>
-                  <small>현재 환율: </small>
-                  1{{ customerunit }} = {{ currentToKrw }} KRW
-                </p>
-                <p>
-                  <small>보내는 금액</small>
-                  <ArgonAmountInput v-model="reExchangeAmount" placeholder="얼마를 환급할까요?" unit="KRW"
-                    :selectedAsset="selectedAsset" :wonEMoneyBalance="wonEMoneyBalance" :activeTab="activeTab" />
-                </p>
-                <p>
-                  <small>받는 금액</small>
-                  {{ receivedAmount }} USD
-                </p>
-
-                <p>
-                  <small>거래 후 잔액: </small>
-                  {{ processAfterWonBalance }} KRW
-                </p>
-
-                <button type="submit" class="btn btn-primary w-100" @click="openModal"
-                  :disabled="!isValidAmount(reExchangeAmount)" variant="gradient">환급하기</button> -->
               </div>
             </div>
           </div>
