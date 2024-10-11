@@ -98,7 +98,7 @@ const handleKeyPress = (event) => {
         v-model="internalPhoneNumber"
         :disabled="disabled"
         :error="internalError"
-        errorText="Please enter a valid phone number."
+        :errorText="$t('signUp--errorText-phone')"
         @input="handleInput"
         @keypress="handleKeyPress"
       />

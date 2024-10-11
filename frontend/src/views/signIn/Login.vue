@@ -1,22 +1,19 @@
 <script setup>
 import { ref, computed, onBeforeUnmount, onBeforeMount, onMounted } from "vue";
 import { useStore } from "vuex";
-import { useRouter } from "vue-router";
 import { useAuthStore } from "@/stores/auth";
-import axios from "axios";
 import ArgonInput from "@/components/templates/ArgonInput.vue";
 import ArgonSwitch from "@/components/templates/ArgonSwitch.vue";
 import ArgonButton from "@/components/templates/ArgonButton.vue";
 
 const body = document.getElementsByTagName("body")[0];
 const store = useStore();
-const router = useRouter();
 const auth = useAuthStore();
 
 const member = ref({
-    username: "",
-    password: "",
-  },);
+  username: "",
+  password: "",
+});
 
 const error = ref("");
 
@@ -88,24 +85,6 @@ const handleSubmit = async () => {
   emailError.value = !isEmailValid.value;
   passwordError.value = !isPasswordValid.value;
 
-  // if (isFormValid.value) {
-  //   try {
-  //     const response = await axios.post("http://localhost:8080/login", {
-  //       email: email.value,
-  //       password: password.value,
-  //     });
-
-  //     if (response.data.success) {
-  //       router.push("/login/phone");
-  //     } else {
-  //       // 로그인 실패 처리
-  //       alert("Invalid email or password");
-  //     }
-  //   } catch (error) {
-  //     console.error("Login error:", error);
-  //     alert("An error occurred during login. Please try again.");
-  //   }
-  // }
   if (isFormValid.value) {
     try {
       await auth.login(member);
@@ -115,7 +94,6 @@ const handleSubmit = async () => {
     } catch (e) {
       // 로그인 에러
       console.log("에러=======", e);
-      error.value = e.response.data;
     }
   }
 };
@@ -136,17 +114,17 @@ const handleSubmit = async () => {
                 <!-- 카드 헤더: 제목 -->
                 <div class="pb-0 card-header text-center">
                   <h4 class="font-weight-bolder">
-                    {{ $t("SignIn--header-welcome") }}
+                    {{ $t("signIn--header-welcome") }}
                   </h4>
                 </div>
                 <!-- 카드 푸터: 회원가입 링크 -->
                 <div class="pt-0 text-center card-footer">
                   <p class="mx-auto text-sm">
-                    {{ $t("SignIn--footer-signUpLink") }}
+                    {{ $t("signIn--footer-signUpLink") }}
                     <router-link
                       to="/register/legal"
                       class="text-success text-gradient font-weight-bold"
-                      >{{ $t("SignIn--footer-signUp") }}</router-link
+                      >{{ $t("signIn--footer-signUp") }}</router-link
                     >
                   </p>
                 </div>
@@ -157,35 +135,36 @@ const handleSubmit = async () => {
                     class="needs-validation"
                     novalidate
                   >
-                    <!-- <form action="http://localhost:8080/login" method="post"> -->
                     <!-- 이메일 입력 필드 -->
                     <div class="mb-3">
                       <label key="email" for="email" class="form-label">{{
-                        $t("SignIn--form-emailLabel")
+                        $t("signIn--form-emailLabel")
                       }}</label>
                       <argon-input
                         isRequired
                         id="email"
                         type="email"
-                        :placeholder="$t('SignIn--form-emailPlaceholder')"
+                        :placeholder="$t('signIn--form-emailPlaceholder')"
                         name="username"
                         size="lg"
                         v-model="username"
                         :class="{ 'is-invalid': emailError }"
-                        :error="(username !== '' || emailError) && !isEmailValid"
-                        errorText="Please provide a valid email."
+                        :error="
+                          (username !== '' || emailError) && !isEmailValid
+                        "
+                        :errorText="$t('signIn--errorText-email')"
                       />
                     </div>
                     <!-- 비밀번호 입력 필드 -->
                     <div class="mb-3">
                       <label key="password" for="password" class="form-label">{{
-                        $t("SignIn--form-passwordLabel")
+                        $t("signIn--form-passwordLabel")
                       }}</label>
                       <argon-input
                         isRequired
                         id="password"
                         type="password"
-                        :placeholder="$t('SignIn--form-passwordPlaceholder')"
+                        :placeholder="$t('signIn--form-passwordPlaceholder')"
                         name="password"
                         size="lg"
                         v-model="password"
@@ -193,7 +172,7 @@ const handleSubmit = async () => {
                         :error="
                           (password !== '' || passwordError) && !isPasswordValid
                         "
-                        errorText="Please fill in the password field with at least 8 characters."
+                        :errorText="$t('signIn--errorText-pw')"
                       />
                     </div>
                     <!-- "Remember me" 토글 스위치 (일단 주석 처리 해둠) -->
@@ -219,7 +198,7 @@ const handleSubmit = async () => {
                     <router-link
                       to="/login/issue-info"
                       class="text-success text-gradient font-weight-bold"
-                      >{{ $t("SignIn--link-troubleLoggingIn") }}</router-link
+                      >{{ $t("signIn--link-troubleLoggingIn") }}</router-link
                     >
                   </p>
                 </div>
