@@ -1,6 +1,6 @@
 <script setup>
-import { ref, watch } from "vue";
-import ArgonInput from "@/components/templates/ArgonInput.vue";
+import { ref, watch } from 'vue';
+import ArgonInput from '@/components/templates/ArgonInput.vue';
 
 // Props 정의
 const props = defineProps({
@@ -23,7 +23,7 @@ const props = defineProps({
 });
 
 // Emits 정의
-const emit = defineEmits(["update:modelValue", "update:countryCallingCode"]);
+const emit = defineEmits(['update:modelValue', 'update:countryCallingCode']);
 
 // 내부 상태 정의
 const internalPhoneNumber = ref(props.modelValue);
@@ -32,12 +32,12 @@ const internalError = ref(props.error);
 
 // 전화번호 입력 변경 감지
 watch(internalPhoneNumber, (newValue) => {
-  emit("update:modelValue", newValue);
+  emit('update:modelValue', newValue);
 });
 
 // 국가 코드 변경 감지
 watch(internalCountryCallingCode, (newValue) => {
-  emit("update:countryCallingCode", newValue);
+  emit('update:countryCallingCode', newValue);
 });
 
 watch(
@@ -63,7 +63,7 @@ watch(
 
 // 숫자만 입력되도록 설정하는 함수
 const handleInput = (event) => {
-  event.target.value = event.target.value.replace(/\D/g, "");
+  event.target.value = event.target.value.replace(/\D/g, '');
   internalPhoneNumber.value = event.target.value;
 };
 
@@ -98,11 +98,7 @@ const handleKeyPress = (event) => {
         v-model="internalPhoneNumber"
         :disabled="disabled"
         :error="internalError"
-<<<<<<< HEAD
-        :errorText="$t('signUp--errorText-phone')"
-=======
         errorText="Please enter a valid phone number."
->>>>>>> 59aa309e4cbc61504bfe42cdb43cc5b4b7d664ff
         @input="handleInput"
         @keypress="handleKeyPress"
       />

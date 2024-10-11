@@ -1,32 +1,4 @@
 <script setup lang="ts">
-<<<<<<< HEAD
-import { ref, onMounted, computed } from "vue";
-import FullCalendar from "@fullcalendar/vue3";
-import dayGridPlugin from "@fullcalendar/daygrid";
-import timeGridPlugin from "@fullcalendar/timegrid";
-import interactionPlugin from "@fullcalendar/interaction";
-import { createEventId } from "./event-utils";
-import moment from "moment";
-import axios from "axios";
-import EditEventModal from "./EditEventModal.vue";
-import MaintenanceModal from "./MaintenanceModal.vue";
-import scheduleApi from "@/api/scheduleApi";
-import { useAuthStore } from "@/stores/auth";
-
-const isMaintenanceModalVisible = ref(false);
-const isEditEventModalVisible = ref(false);
-
-const auth = useAuthStore();
-const userId = computed(() => auth.userId);
-
-const maintenance = ref({
-  id: "",
-  title: "",
-  description: "",
-  color: "",
-  startedAt: moment().format("YYYY-MM-DD"),
-  endedAt: moment().format("YYYY-MM-DD"),
-=======
 import { ref, onMounted } from 'vue';
 import FullCalendar from '@fullcalendar/vue3';
 import dayGridPlugin from '@fullcalendar/daygrid';
@@ -48,7 +20,6 @@ const maintenance = ref({
   color: '',
   startedAt: moment().format('YYYY-MM-DD'),
   endedAt: moment().format('YYYY-MM-DD'),
->>>>>>> 59aa309e4cbc61504bfe42cdb43cc5b4b7d664ff
 });
 
 const calendarRef = ref(null);
@@ -57,17 +28,10 @@ const currentEvents = ref([]);
 // Maintenance modal 열기
 function openMaintenanceModal(startDate, endDate) {
   maintenance.value = {
-<<<<<<< HEAD
-    id: "",
-    title: "",
-    description: "",
-    color: "",
-=======
     id: '',
     title: '',
     description: '',
     color: '',
->>>>>>> 59aa309e4cbc61504bfe42cdb43cc5b4b7d664ff
     startedAt: startDate,
     endedAt: endDate,
   };
@@ -76,39 +40,6 @@ function openMaintenanceModal(startDate, endDate) {
 
 // 새 이벤트 추가
 function addEvent(eventData) {
-<<<<<<< HEAD
-  const colorWithoutHash = eventData.color.replace("#", "");
-
-  const scheduleData = {
-    userId: userId.value,
-    beginDate: eventData.startedAt,
-    endDate: moment(eventData.endedAt).add(1, "days").format("YYYY-MM-DD"),
-    title: eventData.title,
-    todo: eventData.description,
-    color: colorWithoutHash || "000000",
-  };
-
-  axios
-    .post("/api/schedule/add", scheduleData)
-    .then((response) => {
-      if (response && response.data) {
-        // 캘린더 API를 통해 현재 날짜 가져오기
-        const calendarApi = calendarRef.value.getApi();
-
-        // 새로 추가된 이벤트를 캘린더에 직접 추가
-        calendarApi.addEvent({
-          id: response.data.eventNo, // 서버에서 반환된 이벤트 ID
-          title: eventData.title,
-          start: eventData.startedAt,
-          end: moment(eventData.endedAt).add(1, "days").format("YYYY-MM-DD"),
-          backgroundColor: `#${colorWithoutHash}`,
-          borderColor: `#${colorWithoutHash}`,
-          allDay: true,
-          extendedProps: {
-            description: eventData.description,
-          },
-        });
-=======
   const colorWithoutHash = eventData.color.replace('#', '');
 
   const scheduleData = {
@@ -126,16 +57,11 @@ function addEvent(eventData) {
       if (response && response.data) {
         // 일정 추가 후 모든 일정을 다시 로딩
         await loadEvents();
->>>>>>> 59aa309e4cbc61504bfe42cdb43cc5b4b7d664ff
       }
       closeMaintenanceModal();
     })
     .catch((error) => {
-<<<<<<< HEAD
-      console.error("일정 추가 중 오류 발생:", error);
-=======
       console.error('일정 추가 중 오류 발생:', error);
->>>>>>> 59aa309e4cbc61504bfe42cdb43cc5b4b7d664ff
     });
 }
 
@@ -143,20 +69,6 @@ function handleEventClick(clickInfo) {
   const event = clickInfo.event;
 
   maintenance.value = {
-<<<<<<< HEAD
-    id: event.id || "", // id가 null 또는 undefined일 경우 빈 문자열을 사용
-    title: event.title || "",
-    description: event.extendedProps.description || "",
-    color: event.backgroundColor || "000000",
-    startedAt: event.start
-      ? moment(event.start).format("YYYY-MM-DD") // 날짜만 표시
-      : "",
-    endedAt: event.end ? moment(event.end).format("YYYY-MM-DD") : "", // 날짜만 표시
-  };
-
-  console.log(
-    "Clicked Event Details:",
-=======
     id: event.id || '', // id가 null 또는 undefined일 경우 빈 문자열을 사용
     title: event.title || '',
     description: event.extendedProps.description || '',
@@ -169,7 +81,6 @@ function handleEventClick(clickInfo) {
 
   console.log(
     'Clicked Event Details:',
->>>>>>> 59aa309e4cbc61504bfe42cdb43cc5b4b7d664ff
     JSON.stringify(maintenance.value, null, 2)
   );
   // 데이터 확인
@@ -178,16 +89,16 @@ function handleEventClick(clickInfo) {
 
 // 기존 이벤트 업데이트
 function updateEvent(updatedEvent) {
-  const colorWithoutHash = updatedEvent.color.replace("#", ""); // 색깔 Hex코드 저장
-  console.log("Updated Event Data:", updatedEvent); // updatedEvent 객체 확인
+  const colorWithoutHash = updatedEvent.color.replace('#', ''); // 색깔 Hex코드 저장
+  console.log('Updated Event Data:', updatedEvent); // updatedEvent 객체 확인
 
   const scheduleData = {
     id: maintenance.value.id,
     title: updatedEvent.title,
-    todo: updatedEvent.description || "",
-    beginDate: updatedEvent.startedAt || moment().format("YYYY-MM-DD"),
-    endDate: updatedEvent.endedAt || moment().format("YYYY-MM-DD"),
-    color: colorWithoutHash || "000000",
+    todo: updatedEvent.description || '',
+    beginDate: updatedEvent.startedAt || moment().format('YYYY-MM-DD'),
+    endDate: updatedEvent.endedAt || moment().format('YYYY-MM-DD'),
+    color: colorWithoutHash || '000000',
     // backgroundColor: `#${createdEvent.color}`, // 색상 속성 수정
     // borderColor: `#${createdEvent.color}`, // 색상 속성 추가
   };
@@ -199,18 +110,18 @@ function updateEvent(updatedEvent) {
       if (calendarApi) {
         const event = calendarApi.getEventById(maintenance.value.id); // 여기도 수정했습니다
         if (event) {
-          event.setProp("title", updatedEvent.title);
+          event.setProp('title', updatedEvent.title);
           event.setStart(updatedEvent.startedAt);
           event.setEnd(updatedEvent.endedAt);
-          event.setProp("backgroundColor", `#${colorWithoutHash}`);
-          event.setProp("borderColor", `#${colorWithoutHash}`);
-          event.setExtendedProp("description", updatedEvent.description);
+          event.setProp('backgroundColor', `#${colorWithoutHash}`);
+          event.setProp('borderColor', `#${colorWithoutHash}`);
+          event.setExtendedProp('description', updatedEvent.description);
         }
       }
       closeEditEventModal();
     })
     .catch((error) => {
-      console.error("이벤트 업데이트 중 오류 발생:", error);
+      console.error('이벤트 업데이트 중 오류 발생:', error);
     });
 }
 // 모달 닫기 함수
@@ -255,21 +166,12 @@ async function loadEvents(date) {
       });
     });
   } catch (error) {
-<<<<<<< HEAD
-    console.error("이벤트 로딩 중 오류 발생:", error);
-=======
     console.error('이벤트 로딩 중 오류 발생:', error);
->>>>>>> 59aa309e4cbc61504bfe42cdb43cc5b4b7d664ff
   }
 }
 
 onMounted(() => {
-<<<<<<< HEAD
-  const calendarApi = calendarRef.value.getApi();
-  loadEvents(calendarApi.getDate());
-=======
   loadEvents();
->>>>>>> 59aa309e4cbc61504bfe42cdb43cc5b4b7d664ff
 });
 
 // 삭제
@@ -277,11 +179,7 @@ function deleteEvent(eventId) {
   axios
     .delete(`/api/schedule/delete/${eventId}`)
     .then((response) => {
-<<<<<<< HEAD
-      console.log("Event deleted successfully:", response.data);
-=======
       console.log('Event deleted successfully:', response.data);
->>>>>>> 59aa309e4cbc61504bfe42cdb43cc5b4b7d664ff
       // 캘린더에서 삭제된 이벤트 제거
       const calendarApi = calendarRef.value.getApi();
       const event = calendarApi.getEventById(eventId);
@@ -291,29 +189,17 @@ function deleteEvent(eventId) {
       closeEditEventModal();
     })
     .catch((error) => {
-<<<<<<< HEAD
-      console.error("Error deleting event:", error);
-=======
       console.error('Error deleting event:', error);
->>>>>>> 59aa309e4cbc61504bfe42cdb43cc5b4b7d664ff
     });
 }
 const calendarOptions = ref({
   plugins: [dayGridPlugin, timeGridPlugin, interactionPlugin],
   headerToolbar: {
-<<<<<<< HEAD
-    left: "prev,next today",
-    center: "title",
-    right: "dayGridMonth,timeGridWeek,timeGridDay",
-  },
-  initialView: "dayGridMonth",
-=======
     left: 'prev,next today',
     center: 'title',
     right: 'dayGridMonth,timeGridWeek,timeGridDay',
   },
   initialView: 'dayGridMonth',
->>>>>>> 59aa309e4cbc61504bfe42cdb43cc5b4b7d664ff
   editable: true,
   selectable: true,
   dayMaxEvents: true,
@@ -321,13 +207,6 @@ const calendarOptions = ref({
   select: handleDateSelect,
   eventClick: handleEventClick,
   eventsSet: (events) => (currentEvents.value = events),
-<<<<<<< HEAD
-  datesSet: (dateInfo) => {
-    // 달력의 날짜 범위가 변경될 때마다 이벤트를 다시 로드합니다.
-    loadEvents(dateInfo.view.currentStart);
-  },
-=======
->>>>>>> 59aa309e4cbc61504bfe42cdb43cc5b4b7d664ff
 });
 </script>
 

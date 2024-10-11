@@ -1,13 +1,13 @@
 <script setup>
-import { computed, ref, reactive, watchEffect } from "vue";
-import { onBeforeMount, onMounted, onBeforeUnmount } from "vue";
-import { useStore } from "vuex";
+import { computed, ref, reactive, watchEffect } from 'vue';
+import { onBeforeMount, onMounted, onBeforeUnmount } from 'vue';
+import { useStore } from 'vuex';
 
-import setNavPills from "@/assets/js/nav-pills.js";
-import setTooltip from "@/assets/js/tooltip.js";
-import ArgonButton from "@/components/templates/ArgonButton.vue";
-import settingApi from "@/api/settingApi";
-import { useAuthStore } from "@/stores/auth";
+import setNavPills from '@/assets/js/nav-pills.js';
+import setTooltip from '@/assets/js/tooltip.js';
+import ArgonButton from '@/components/templates/ArgonButton.vue';
+import settingApi from '@/api/settingApi';
+import { useAuthStore } from '@/stores/auth';
 
 const auth = useAuthStore();
 const isLogin = computed(() => auth.isLogin);
@@ -16,10 +16,10 @@ const user = computed(() => auth.user);
 const profilePic = ref(null);
 
 const userInfo = reactive({
-  userId: "",
-  address: "",
-  postCode: "",
-  countryCode: "",
+  userId: '',
+  address: '',
+  postCode: '',
+  countryCode: '',
   profilePic: null,
 });
 
@@ -39,14 +39,14 @@ onMounted(async () => {
     await auth.fetchUser(auth.userId);
     originalProfilePic.value = user.value?.profilePic;
   } else {
-    console.error("사용자 ID를 찾을 수 없습니다.");
+    console.error('사용자 ID를 찾을 수 없습니다.');
   }
-  console.log("프로필 사용자 : ", user.value);
+  console.log('프로필 사용자 : ', user.value);
 });
 
 const triggerFileInput = () => {
   if (profilePic.value) {
-    profilePic.value.value = ""; // 파일 입력 필드 초기화
+    profilePic.value.value = ''; // 파일 입력 필드 초기화
   }
   profilePic.value.click();
 };
@@ -55,7 +55,7 @@ const cancelProfilePic = () => {
   user.value.profilePic = originalProfilePic.value;
   userInfo.profilePic = null; // 선택된 파일 제거
   if (profilePic.value) {
-    profilePic.value.value = ""; // 파일 입력 필드 초기화
+    profilePic.value.value = ''; // 파일 입력 필드 초기화
   }
 };
 
@@ -63,7 +63,7 @@ const handleFileChange = (event) => {
   const file = event.target.files[0];
   if (file) {
     userInfo.profilePic = file;
-    console.log("선택된 파일:", file.name);
+    console.log('선택된 파일:', file.name);
 
     // 파일 미리보기 생성
     const reader = new FileReader();
@@ -77,35 +77,35 @@ const handleFileChange = (event) => {
 const updateProfile = async () => {
   try {
     await settingApi.updateProfile(userInfo);
-    console.log("프로필 업데이트 성공");
-    alert("프로필 업데이트 성공");
+    console.log('프로필 업데이트 성공');
+    alert('프로필 업데이트 성공');
 
     window.location.reload();
   } catch (error) {
-    console.error("프로필 업데이트 실패:", error.response.data);
-    alert("프로필 업데이트 실패");
+    console.error('프로필 업데이트 실패:', error.response.data);
+    alert('프로필 업데이트 실패');
   }
 };
 
 const logout = (e) => {
   // 로그아웃
   auth.logout();
-  window.location.href = "/main";
+  window.location.href = '/main';
 };
 
 // 회원탈퇴 클릭 이벤트 핸들러
 const handleWithdraw = () => {
-  const confirmed = confirm("정말로 회원탈퇴 하시겠습니까?");
+  const confirmed = confirm('정말로 회원탈퇴 하시겠습니까?');
 
   if (confirmed) {
     // 사용자가 확인을 클릭했을 경우 특정 주소로 이동
-    console.log("탈퇴 : ", user.value.userId);
+    console.log('탈퇴 : ', user.value.userId);
     settingApi.delete(user.value.userId);
     auth.logout();
   }
 };
 
-const body = document.getElementsByTagName("body")[0];
+const body = document.getElementsByTagName('body')[0];
 
 const store = useStore();
 
@@ -116,23 +116,19 @@ onMounted(() => {
 });
 
 onBeforeMount(() => {
-  store.state.imageLayout = "profile-overview";
+  store.state.imageLayout = 'profile-overview';
   store.state.showNavbar = false;
   store.state.showFooter = true;
   store.state.hideConfigButton = true;
-  body.classList.add("profile-overview");
+  body.classList.add('profile-overview');
 });
-<<<<<<< HEAD
-
-=======
->>>>>>> 59aa309e4cbc61504bfe42cdb43cc5b4b7d664ff
 onBeforeUnmount(() => {
   store.state.isAbsolute = false;
-  store.state.imageLayout = "default";
+  store.state.imageLayout = 'default';
   store.state.showNavbar = true;
   store.state.showFooter = true;
   store.state.hideConfigButton = false;
-  body.classList.remove("profile-overview");
+  body.classList.remove('profile-overview');
 });
 </script>
 <template>

@@ -2,10 +2,7 @@ package com.sepay.backend.user.dto;
 
 import com.sepay.backend.security.account.domain.AuthVO;
 import com.sepay.backend.security.account.domain.UserVO;
-<<<<<<< HEAD
 import com.sepay.backend.user.mapper.UserMapper;
-=======
->>>>>>> 59aa309e4cbc61504bfe42cdb43cc5b4b7d664ff
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -14,8 +11,6 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.Collection;
-import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -46,10 +41,6 @@ public class UserDTO {
 
     MultipartFile profilePicFile;
 
-<<<<<<< HEAD
-=======
-    private List<String> roles;
->>>>>>> 59aa309e4cbc61504bfe42cdb43cc5b4b7d664ff
     private List<String> authList;
 
     // UserDTO -> UserVO
@@ -66,7 +57,6 @@ public class UserDTO {
                 .firstName(firstName)
                 .lastName(lastName)
                 .birthday(birthday)
-<<<<<<< HEAD
                 .gender(gender)
                 .phoneNo(phoneNo)
                 .secondPwd(secondPwd)
@@ -74,8 +64,6 @@ public class UserDTO {
                 .address(address)
                 .postCode(postCode)
                 .stateCode(stateCode)
-=======
->>>>>>> 59aa309e4cbc61504bfe42cdb43cc5b4b7d664ff
                 .build();
     }
 
@@ -92,7 +80,6 @@ public class UserDTO {
                 .firstName(vo.getFirstName())
                 .lastName(vo.getLastName())
                 .birthday(vo.getBirthday())
-<<<<<<< HEAD
                 .gender(vo.getGender())
                 .phoneNo(vo.getPhoneNo())
                 .secondPwd(vo.getSecondPwd())
@@ -100,8 +87,6 @@ public class UserDTO {
                 .address(vo.getAddress())
                 .postCode(vo.getPostCode())
                 .stateCode(vo.getStateCode())
-=======
->>>>>>> 59aa309e4cbc61504bfe42cdb43cc5b4b7d664ff
                 .authList(vo.getAuthList()
                         .stream()
                         .map(a -> a.getAuth())

@@ -13,12 +13,12 @@ Coded by www.creative-tim.com
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 -->
 <script setup>
-import { computed } from "vue";
-import { useStore } from "vuex";
-import Sidenav from "./components/sidenav";
+import { computed } from 'vue';
+import { useStore } from 'vuex';
+import Sidenav from './components/sidenav';
 // import Configurator from "./views/Configurator.vue";
-import Navbar from "./components/navbars/Navbar.vue";
-import AppFooter from "./components/footer/Footer.vue";
+import Navbar from './components/navbars/Navbar.vue';
+import AppFooter from './components/footer/Footer.vue';
 
 const store = useStore();
 const isNavFixed = computed(() => store.state.isNavFixed);
@@ -34,12 +34,12 @@ const showFooter = computed(() => store.state.showFooter);
 
 const navClasses = computed(() => {
   return {
-    "position-sticky bg-white left-auto top-2 z-index-sticky":
+    'position-sticky bg-white left-auto top-2 z-index-sticky':
       isNavFixed.value && !darkMode.value,
-    "position-sticky bg-default left-auto top-2 z-index-sticky":
+    'position-sticky bg-default left-auto top-2 z-index-sticky':
       isNavFixed.value && darkMode.value,
-    "position-absolute px-4 mx-0 w-100 z-index-2": isAbsolute.value,
-    "px-0 mx-4": !isAbsolute.value,
+    'position-absolute px-4 mx-0 w-100 z-index-2': isAbsolute.value,
+    'px-0 mx-4': !isAbsolute.value,
   };
 });
 </script>
@@ -72,8 +72,6 @@ const navClasses = computed(() => {
     </teleport>
   </main>
 </template>
-<<<<<<< HEAD
-=======
 
 <style>
 @font-face {
@@ -88,4 +86,3 @@ h1 {
   font-family: 'TTLaundryGothicB', sans-serif;
 }
 </style>
->>>>>>> 59aa309e4cbc61504bfe42cdb43cc5b4b7d664ff

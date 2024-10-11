@@ -1,12 +1,4 @@
 <script setup>
-<<<<<<< HEAD
-import { ref, computed, onBeforeUnmount, onBeforeMount, onMounted } from "vue";
-import { useStore } from "vuex";
-import { useAuthStore } from "@/stores/auth";
-import ArgonInput from "@/components/templates/ArgonInput.vue";
-import ArgonSwitch from "@/components/templates/ArgonSwitch.vue";
-import ArgonButton from "@/components/templates/ArgonButton.vue";
-=======
 import { ref, computed, onBeforeUnmount, onBeforeMount, onMounted } from 'vue';
 import { useStore } from 'vuex';
 import { useRouter } from 'vue-router';
@@ -15,20 +7,14 @@ import axios from 'axios';
 import ArgonInput from '@/components/templates/ArgonInput.vue';
 import ArgonSwitch from '@/components/templates/ArgonSwitch.vue';
 import ArgonButton from '@/components/templates/ArgonButton.vue';
->>>>>>> 59aa309e4cbc61504bfe42cdb43cc5b4b7d664ff
 
 const body = document.getElementsByTagName('body')[0];
 const store = useStore();
 const auth = useAuthStore();
 
 const member = ref({
-<<<<<<< HEAD
-  username: "",
-  password: "",
-=======
   username: '',
   password: '',
->>>>>>> 59aa309e4cbc61504bfe42cdb43cc5b4b7d664ff
 });
 
 const error = ref('');
@@ -68,13 +54,8 @@ onMounted(() => {
 });
 
 // 이메일과 비밀번호 입력 필드 상태
-<<<<<<< HEAD
-const username = ref("");
-const password = ref("");
-=======
 const username = ref('');
 const password = ref('');
->>>>>>> 59aa309e4cbc61504bfe42cdb43cc5b4b7d664ff
 
 // 이메일 유효성 검사
 const isEmailValid = computed(() => {
@@ -102,25 +83,13 @@ const handleSubmit = async () => {
   member.value.username = username.value;
   member.value.password = password.value;
 
-<<<<<<< HEAD
-  console.log("try login: ", member);
-=======
   console.log('try login: ', member);
->>>>>>> 59aa309e4cbc61504bfe42cdb43cc5b4b7d664ff
   emailError.value = !isEmailValid.value;
   passwordError.value = !isPasswordValid.value;
 
   if (isFormValid.value) {
     try {
       await auth.login(member);
-<<<<<<< HEAD
-      if (localStorage.getItem("auth") != " ") {
-        window.location.href = "/my-accounts";
-      }
-    } catch (e) {
-      // 로그인 에러
-      console.log("에러=======", e);
-=======
       if (localStorage.getItem('auth') != ' ') {
         window.location.href = '/';
       }
@@ -128,7 +97,6 @@ const handleSubmit = async () => {
       // 로그인 에러
       console.log('에러=======', e);
       error.value = e.response.data;
->>>>>>> 59aa309e4cbc61504bfe42cdb43cc5b4b7d664ff
     }
   }
 };
@@ -149,17 +117,17 @@ const handleSubmit = async () => {
                 <!-- 카드 헤더: 제목 -->
                 <div class="pb-0 card-header text-center">
                   <h4 class="font-weight-bolder">
-                    {{ $t("signIn--header-welcome") }}
+                    {{ $t('signIn--header-welcome') }}
                   </h4>
                 </div>
                 <!-- 카드 푸터: 회원가입 링크 -->
                 <div class="pt-0 text-center card-footer">
                   <p class="mx-auto text-sm">
-                    {{ $t("signIn--footer-signUpLink") }}
+                    {{ $t('signIn--footer-signUpLink') }}
                     <router-link
                       to="/register/legal"
                       class="text-success text-gradient font-weight-bold"
-                      >{{ $t("signIn--footer-signUp") }}</router-link
+                      >{{ $t('signIn--footer-signUp') }}</router-link
                     >
                   </p>
                 </div>
@@ -173,17 +141,13 @@ const handleSubmit = async () => {
                     <!-- 이메일 입력 필드 -->
                     <div class="mb-3">
                       <label key="email" for="email" class="form-label">{{
-                        $t("signIn--form-emailLabel")
+                        $t('signIn--form-emailLabel')
                       }}</label>
                       <argon-input
                         isRequired
                         id="email"
                         type="email"
-<<<<<<< HEAD
-                        :placeholder="$t('signIn--form-emailPlaceholder')"
-=======
                         placeholder="Email"
->>>>>>> 59aa309e4cbc61504bfe42cdb43cc5b4b7d664ff
                         name="username"
                         size="lg"
                         v-model="username"
@@ -191,17 +155,13 @@ const handleSubmit = async () => {
                         :error="
                           (username !== '' || emailError) && !isEmailValid
                         "
-<<<<<<< HEAD
-                        :errorText="$t('signIn--errorText-email')"
-=======
                         errorText="Please provide a valid email."
->>>>>>> 59aa309e4cbc61504bfe42cdb43cc5b4b7d664ff
                       />
                     </div>
                     <!-- 비밀번호 입력 필드 -->
                     <div class="mb-3">
                       <label key="password" for="password" class="form-label">{{
-                        $t("signIn--form-passwordLabel")
+                        $t('signIn--form-passwordLabel')
                       }}</label>
                       <argon-input
                         isRequired
@@ -232,7 +192,7 @@ const handleSubmit = async () => {
                         fullWidth
                         size="lg"
                         type="submit"
-                        >{{ $t("common--text-login") }}</argon-button
+                        >{{ $t('common--text-login') }}</argon-button
                       >
                     </div>
                   </form>
@@ -241,7 +201,7 @@ const handleSubmit = async () => {
                     <router-link
                       to="/login/issue-info"
                       class="text-success text-gradient font-weight-bold"
-                      >{{ $t("signIn--link-troubleLoggingIn") }}</router-link
+                      >{{ $t('signIn--link-troubleLoggingIn') }}</router-link
                     >
                   </p>
                 </div>

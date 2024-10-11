@@ -4,10 +4,7 @@ import com.sepay.backend.security.account.domain.CustomUser;
 import com.sepay.backend.security.account.domain.UserVO;
 import com.sepay.backend.security.account.mapper.UserDetailsMapper;
 
-<<<<<<< HEAD
 import com.sepay.backend.security.exception.WithdrawnUserException;
-=======
->>>>>>> 59aa309e4cbc61504bfe42cdb43cc5b4b7d664ff
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -24,7 +21,6 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-<<<<<<< HEAD
 
         UserVO userVO = userDetailsMapper.get(username);
         if (userVO == null) {
@@ -38,14 +34,7 @@ public class CustomUserDetailsService implements UserDetailsService {
         }
 
         log.debug("UserVO loaded: {}", userVO);
-       log.debug("AuthList: {}", userVO.getAuthList());
-=======
-        UserVO userVO = userDetailsMapper.get(username);
-        if (userVO == null) {
-            log.error("User with username: " + username + " not found");
-            throw new UsernameNotFoundException("User not found");
-        }
->>>>>>> 59aa309e4cbc61504bfe42cdb43cc5b4b7d664ff
+        log.debug("AuthList: {}", userVO.getAuthList());
         return new CustomUser(userVO);
     }
 }

@@ -3,10 +3,7 @@ package com.sepay.backend.security.filter;
 import com.sepay.backend.security.account.dto.LoginDTO;
 import com.sepay.backend.security.handler.LoginFailureHandler;
 import com.sepay.backend.security.handler.LoginSuccessHandler;
-<<<<<<< HEAD
 import com.sepay.backend.user.service.UserService;
-=======
->>>>>>> 59aa309e4cbc61504bfe42cdb43cc5b4b7d664ff
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -51,11 +48,7 @@ public class JwtUsernamePasswordAuthenticationFilter extends UsernamePasswordAut
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response)
             throws AuthenticationException {
 
-<<<<<<< HEAD
         // 요청 BODY의 JSON에서 userId, password  LoginDTO
-=======
-        // 요청 BODY의 JSON에서 username, password  LoginDTO
->>>>>>> 59aa309e4cbc61504bfe42cdb43cc5b4b7d664ff
         LoginDTO login = LoginDTO.of(request);
         String password = login.getPassword(); // 입력받은 비밀번호
         UserDetails userDB = userDetailsService.loadUserByUsername(login.getUsername()); // DB에서 가져온 사용자 정보

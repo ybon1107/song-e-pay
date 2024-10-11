@@ -21,7 +21,7 @@ import java.io.IOException;
 @Service
 @RequiredArgsConstructor
 public class PaymentServiceImpl implements PaymentService {
-//    private final PaymentMapper mapper;
+    //    private final PaymentMapper mapper;
     private final MyAccountMapper mapper;
 
     @Override
@@ -72,11 +72,7 @@ public class PaymentServiceImpl implements PaymentService {
 
             // 내역 추가
             HistoryDTO historyDTO = HistoryDTO.builder()
-<<<<<<< HEAD
                     .userId(user.getUserId())
-=======
-                    .userNo(user.getUserNo())
->>>>>>> 59aa309e4cbc61504bfe42cdb43cc5b4b7d664ff
                     .songNo(user.getSongNo())
                     .krwNo(user.getKrwNo())
                     .typeCode(1)

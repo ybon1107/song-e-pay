@@ -1,10 +1,7 @@
 package com.sepay.backend.user.service;
 
 import com.sepay.backend.payment.dto.PasswordDTO;
-<<<<<<< HEAD
 import com.sepay.backend.security.account.domain.AuthVO;
-=======
->>>>>>> 59aa309e4cbc61504bfe42cdb43cc5b4b7d664ff
 import com.sepay.backend.security.account.domain.UserVO;
 import com.sepay.backend.user.dto.UserDTO;
 import com.sepay.backend.user.dto.UserRegisterDTO;
@@ -12,10 +9,7 @@ import com.sepay.backend.user.mapper.UserMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-<<<<<<< HEAD
 import org.springframework.security.core.userdetails.UserDetails;
-=======
->>>>>>> 59aa309e4cbc61504bfe42cdb43cc5b4b7d664ff
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,10 +23,6 @@ public class UserServiceImpl implements UserService{
 
     private final UserMapper mapper;
     final PasswordEncoder passwordEncoder;
-<<<<<<< HEAD
-=======
-
->>>>>>> 59aa309e4cbc61504bfe42cdb43cc5b4b7d664ff
     @Override
     public String selectSecondPwd(String userId){
         return mapper.getSecondaryPassword(userId);
@@ -51,22 +41,9 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-<<<<<<< HEAD
     public UserDTO get(String username) {
         UserVO userVO = Optional.ofNullable(mapper.get(username)).orElseThrow(NoSuchElementException::new);
         return UserDTO.of(userVO);
-=======
-    public UserDTO getUserId(String userId) {
-        return mapper.getUserInfo(userId);
-    }
-
-    @Override
-    public UserDTO login(String userId, String password) {
-        HashMap map = new HashMap();
-        map.put("userId", userId);
-        map.put("password", password);
-        return mapper.selectUser(map);
->>>>>>> 59aa309e4cbc61504bfe42cdb43cc5b4b7d664ff
     }
 
 //    @Override
@@ -91,57 +68,38 @@ public class UserServiceImpl implements UserService{
 ////        return mapper.selectUser(map);
 //    }
 
-@Transactional
-@Override
-public UserDTO register(UserRegisterDTO userRegisterDTO) {
-    try {
-        UserVO userVO = userRegisterDTO.toVO();
-        userVO.setPassword(passwordEncoder.encode(userVO.getPassword()));
+    @Transactional
+    @Override
+    public UserDTO register(UserRegisterDTO userRegisterDTO) {
+        try {
+            UserVO userVO = userRegisterDTO.toVO();
+            userVO.setPassword(passwordEncoder.encode(userVO.getPassword()));
 
-        String id = userVO.getUsername().split("@")[0];
+            String id = userVO.getUsername().split("@")[0];
 
-        // 계좌 번호 생성
-        userVO.setSongNo("song_"+id);
-        userVO.setKrwNo("krw_"+id);
+            // 계좌 번호 생성
+            userVO.setSongNo("song_"+id);
+            userVO.setKrwNo("krw_"+id);
 
-<<<<<<< HEAD
+            // 사용자 정보, song_account, krw_account 모두 한 번에 삽입
+            mapper.insertUser(userVO);
+            mapper.insertSongAccount(userVO);
+            mapper.insertKrwAccount(userVO);
+
+            AuthVO authVO = new AuthVO();
+            authVO.setUsername(userVO.getUsername());
+            authVO.setAuth("ROLE_USER");
+            mapper.insertAuth(authVO);
+
+            log.info("userVO: " + userVO);
+            log.info("authVO: " + authVO);
+
             return get(userVO.getUsername());
-//            return mapper.insertUser(userDTO);
         } catch (Exception e) {
             log.error("Error registering user: ", e);
             throw new RuntimeException("Registration failed");
         }
-<<<<<<< HEAD
-=======
     }
-
-    // 이메일 중복 확인 메서드 추가
-    @Override
-    public boolean isEmailRegistered(String userId) {
-        UserVO user = mapper.getUserInfo(userId).toVO();
-        return user != null ? true : false;
->>>>>>> 59aa309e4cbc61504bfe42cdb43cc5b4b7d664ff
-=======
-        // 사용자 정보, song_account, krw_account 모두 한 번에 삽입
-        mapper.insertUser(userVO);
-        mapper.insertSongAccount(userVO);
-        mapper.insertKrwAccount(userVO);
-
-        AuthVO authVO = new AuthVO();
-        authVO.setUsername(userVO.getUsername());
-        authVO.setAuth("ROLE_USER");
-        mapper.insertAuth(authVO);
-
-        log.info("userVO: " + userVO);
-        log.info("authVO: " + authVO);
-
-        return get(userVO.getUsername());
-    } catch (Exception e) {
-        log.error("Error registering user: ", e);
-        throw new RuntimeException("Registration failed");
->>>>>>> cdb2a9f9b122d2d9458257fb1c094a60015059f1
-    }
-}
 
     // 이메일 중복 확인 메서드 추가
     @Override

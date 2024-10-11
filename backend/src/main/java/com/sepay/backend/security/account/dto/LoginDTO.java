@@ -22,11 +22,7 @@ public class LoginDTO {
             return om.readValue(request.getInputStream(), LoginDTO.class);
         }catch (Exception e) {
             e.printStackTrace();
-<<<<<<< HEAD
             throw new BadCredentialsException("userId 또는 password가 없습니다.");
-=======
-            throw new BadCredentialsException("username 또는 password가 없습니다.");
->>>>>>> 59aa309e4cbc61504bfe42cdb43cc5b4b7d664ff
         }
     }
 }

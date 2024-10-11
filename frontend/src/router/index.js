@@ -1,8 +1,4 @@
 import { createRouter, createWebHistory } from 'vue-router';
-<<<<<<< HEAD
-=======
-// import Home from '../views/home/Home.vue';
->>>>>>> 59aa309e4cbc61504bfe42cdb43cc5b4b7d664ff
 import MyAccounts from '../views/myAccounts/MyAccounts.vue';
 import Payment from '../views/payment/Payment.vue';
 import PassWordInputPage from '../views/payment/PasswordInputPage.vue';
@@ -19,7 +15,6 @@ import RegisterSuccess from '../views/signUp/RegisterSuccess.vue';
 import ExchangeRate from '../views/exchangeRate/ExchangeRate.vue';
 import MainPage from '../views/main/Main.vue';
 import ErrorPage from '../views/error/ErrorPage.vue';
-<<<<<<< HEAD
 import SchedulePage from '../views/Schedule/Schedule.vue';
 
 const routes = [
@@ -49,23 +44,6 @@ const routes = [
     name: 'Payment',
     meta: {
       requiresAuth: true,
-=======
-const routes = [
-    {
-        path: '/',
-        name: '/',
-        redirect: '/my-accounts',
-    },
-    // {
-    //   path: '/home',
-    //   name: 'Home',
-    //   component: Home,
-    // },
-    {
-        path: '/my-accounts',
-        name: 'MyAccounts',
-        component: MyAccounts,
->>>>>>> 59aa309e4cbc61504bfe42cdb43cc5b4b7d664ff
     },
     component: Payment,
   },
@@ -154,9 +132,9 @@ const routes = [
 ];
 
 const router = createRouter({
-    history: createWebHistory(process.env.BASE_URL),
-    routes,
-    linkActiveClass: 'active',
+  history: createWebHistory(process.env.BASE_URL),
+  routes,
+  linkActiveClass: 'active',
 });
 
 router.beforeEach((to, from, next) => {
@@ -177,7 +155,7 @@ router.beforeEach((to, from, next) => {
     });
   }
 
-  if ((to.name === 'change-password') && from.name !== 'Profile') {
+  if (to.name === 'change-password' && from.name !== 'Profile') {
     return next({
       name: 'Profile',
     });
