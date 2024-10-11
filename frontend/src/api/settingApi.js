@@ -45,4 +45,15 @@ export default {
     console.log("delete: ", data);
     window.location.href = "/";
   },
+
+
+  async submitSecPwd(formData) {
+    try {
+      const response = await api.post('/check-secpwd', formData);
+      return response;
+    } catch (error) {
+      console.error('비밀번호 제출 오류:', error.response.data);
+      throw error;
+    }
+  },
 };

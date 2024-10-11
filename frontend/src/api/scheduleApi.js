@@ -23,7 +23,7 @@ export default {
       const calendarApi = calendarRef.value.getApi();
       // submitData를 사용하여 백엔드로 전송할 데이터를 준비
       const scheduleData = {
-        userNo: 1, // 로그인된 사용자의 ID
+        userId: userId, // 로그인된 사용자의 ID
         title: submitData.title,
         description: submitData.description,
         color: submitData.color,

@@ -23,8 +23,6 @@ public interface MyAccountMapper {
 
     int updateKrwAccount(KrwAccountDTO krwAccountDTO);
 
-    int insertHistory(HistoryDTO historyDTO);
-
     String selectKrwNo(String userId);
 
     void insertHistoryByKrwNo(HistoryDTO historyDTO);

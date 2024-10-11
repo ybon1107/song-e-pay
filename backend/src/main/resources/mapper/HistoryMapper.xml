@@ -4,6 +4,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.sepay.backend.history.mapper.HistoryMapper">
+
     <select id="getFilter" resultType="HistoryDTO">
         SELECT *
         FROM history h
@@ -29,7 +30,6 @@
         LIMIT #{pageRequest.offset}, #{pageRequest.amount}
     </select>
 
-
     <select id="getTotalCountForFilter" parameterType="SearchItem" resultType="java.lang.Integer">
         SELECT COUNT(*)
         FROM history h
@@ -51,15 +51,13 @@
         </if>
     </select>
 
-
-    <!--    <select id="selectAllHistories" resultType="HistoryDTO">-->
-    <!--        SELECT * FROM history ORDER BY history_date DESC-->
-    <!--        limit #{offset}, #{amount}-->
-    <!--    </select>-->
-
-    <!--    <select id="getTotalCount" resultType="java.lang.Integer">-->
-    <!--        select count(*) from history-->
-    <!--    </select>-->
+    <!-- 이용내역 추가-->
+    <insert id="insertHistory" parameterType="historyDTO" useGeneratedKeys="true" keyProperty="history_no">
+        INSERT INTO sepay.history
+        (user_id, song_no, krw_no, type_code, state_code, history_content, amount, exchange_rate)
+        VALUES
+            (#{userId}, #{songNo}, #{krwNo}, #{typeCode}, #{stateCode}, #{historyContent}, #{amount}, #{exchangeRate})
+    </insert>
 
     <update id="updateMemo" parameterType="HistoryDTO">
         UPDATE history

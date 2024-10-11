@@ -59,14 +59,14 @@
 
     <!-- 모든 알림 내역 가지고 오기-->
     <select id="selectAllReservation" resultType="exchangeReservationDTO">
-        select res_no, base_code, target_code, target_exchange
+        select res_no, user_id, base_code, target_code, target_exchange
         from exchange_reservation
         where target_krw = 0
     </select>
 
     <!-- 모든 자동 환전 내역 가지고 오기-->
     <select id="selectAllAutoExchange" resultType="exchangeReservationDTO">
-        select res_no, base_code, target_code, target_exchange, target_krw
+        select res_no, user_id, base_code, target_code, target_exchange, target_krw
         from exchange_reservation
         where target_krw != 0
     </select>
