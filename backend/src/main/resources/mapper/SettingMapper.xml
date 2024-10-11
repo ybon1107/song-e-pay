@@ -73,9 +73,9 @@
     </delete>
 
     <!-- 유저 삭제 -->
-    <update id="deleteUser" parameterType="int">
+    <update id="deleteUser" parameterType="String">
         UPDATE user SET
-            stateCode = '10'
+            state_code = '10'
         WHERE user_id = #{userId}
     </update>
 
