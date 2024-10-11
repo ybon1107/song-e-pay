@@ -2,6 +2,7 @@ package com.sepay.backend.mail.service;
 
 import com.sepay.backend.history.dto.HistoryDTO;
 import com.sepay.backend.user.service.UserService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -16,6 +17,7 @@ import java.time.Duration;
 
 @Slf4j
 @Service
+@RequiredArgsConstructor
 public class MailServiceImpl implements MailService {
     private final MyAccountMapper mapper;
     private final JavaMailSender emailSender;
@@ -24,13 +26,6 @@ public class MailServiceImpl implements MailService {
     private String verificationCode; // 인증 코드를 저장할 필드
     private LocalDateTime codeGeneratedTime; // 인증 코드 생성 시간을 저장할 필드
     private static final long CODE_VALID_DURATION = 3; // 인증 코드 유효 시간: 3분(분단위)
-
-    @Autowired
-    public MailServiceImpl(MyAccountMapper mapper, JavaMailSender mailSender, UserService userService) {
-        this.mapper = mapper;
-        this.emailSender = mailSender;
-        this.userService = userService;
-    }
 
     @Override
     public String createVerificationCode() {
@@ -108,10 +103,13 @@ public class MailServiceImpl implements MailService {
         }
         return false;
     }
+
     @Override
     public boolean transferTo (String userId, HistoryDTO historyDTO){
         try {
+            // 보내는 사람
             mapper.insertHistory(historyDTO);
+
             String transferFromUserId = historyDTO.getUserId();
             Double transferAmount = historyDTO.getAmount();
             MimeMessage message = emailSender.createMimeMessage();
