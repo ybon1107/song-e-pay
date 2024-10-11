@@ -1,4 +1,5 @@
 <template>
+<<<<<<< HEAD
   <Modal
     title="histories--modal-title"
     :isVisible="isVisible"
@@ -9,6 +10,11 @@
       <span :class="getBadgeClass(transaction?.typeCode)">{{
         $t(transaction?.i18nType)
       }}</span>
+=======
+  <Modal title="histories--modal-title" :isVisible="isVisible" :showFooter="false" @close="closeModal">
+    <h4>
+      <span :class="getBadgeClass(transaction?.typeCode)">{{ $t(transaction?.i18nType) }}</span>
+>>>>>>> 5abf7e5b1419aa696b0c4a978156b8ca4e99d5a0
     </h4>
     <p class="font-weight-bold mb-0 mt-3">
       {{ transaction?.historyContent }}
@@ -18,9 +24,13 @@
       <span v-if="songTransactionType.includes(transaction.typeCode)">
         {{ songCurrencyUnit }}
       </span>
+<<<<<<< HEAD
       <span v-else-if="wonTransactionType.includes(transaction.typeCode)">
         KRW
       </span>
+=======
+      <span v-else-if="wonTransactionType.includes(transaction.typeCode)"> KRW </span>
+>>>>>>> 5abf7e5b1419aa696b0c4a978156b8ca4e99d5a0
     </p>
     <hr />
 
@@ -33,6 +43,7 @@
     <argon-alert v-if="showAlert" class="mt-3" :color="alertColor">
       {{ $t(alertMessage) }}
     </argon-alert>
+<<<<<<< HEAD
     <textarea
       v-model="localMemo"
       class="form-control fixed-textarea"
@@ -50,6 +61,12 @@
         )
       "
     >
+=======
+    <textarea v-model="localMemo" class="form-control fixed-textarea" id="memo" rows="3" :placeholder="$t('histories--modal-enterMemo')"></textarea>
+    <hr />
+
+    <div class="flex-justify-between" v-if="[TRANSACTION_TYPES.EXCHANGE, TRANSACTION_TYPES.RE_EXCHANGE].includes(transaction?.typeCode)">
+>>>>>>> 5abf7e5b1419aa696b0c4a978156b8ca4e99d5a0
       <strong>{{ $t('histories--modal-exchangeRate') }}</strong>
       <p>{{ transaction?.exchangeRate }}</p>
     </div>
@@ -117,6 +134,7 @@ const getBadgeClass = (typeCode) => {
   const baseClasses = 'badge rounded-pill';
   if ([TRANSACTION_TYPES.DEPOSIT].includes(typeCode)) {
     return `${baseClasses} bg-primary`;
+<<<<<<< HEAD
   } else if (
     [TRANSACTION_TYPES.REFUND, TRANSACTION_TYPES.RE_EXCHANGE].includes(typeCode)
   ) {
@@ -124,6 +142,11 @@ const getBadgeClass = (typeCode) => {
   } else if (
     [TRANSACTION_TYPES.PAYMENT, TRANSACTION_TYPES.TRANSFER].includes(typeCode)
   ) {
+=======
+  } else if ([TRANSACTION_TYPES.REFUND, TRANSACTION_TYPES.RE_EXCHANGE].includes(typeCode)) {
+    return `${baseClasses} bg-danger`;
+  } else if ([TRANSACTION_TYPES.PAYMENT, TRANSACTION_TYPES.TRANSFER].includes(typeCode)) {
+>>>>>>> 5abf7e5b1419aa696b0c4a978156b8ca4e99d5a0
     return `${baseClasses} bg-success`;
   }
   return `${baseClasses} bg-secondary`;
