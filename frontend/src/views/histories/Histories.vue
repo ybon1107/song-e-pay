@@ -19,7 +19,8 @@ const isFilterModalVisible = ref(false);
 const searchQuery = ref('');
 // 실제 필터가 저장될 변수 (확인 버튼 누르면 적용됨)
 
-const songCurrencyUnit = CURRENCY_NAME[user.value.countryCode];
+const songCurrencyUnit = computed(() => CURRENCY_NAME[user.value.countryCode]);
+
 const i18n_PERIOD = ['histories--filters-period-today', 'histories--filters-period-oneMonth', 'histories--filters-period-threeMonth', 'histories--filters-period-custom'];
 const i18n_TYPE = ['histories--filters-type-all', 'histories--filters-type-wone', 'histories--filters-type-songe'];
 const i18n_SORT = ['histories--filters-sort-newest', 'histories--filters-sort-oldest'];
@@ -132,6 +133,7 @@ const pageRequest = ref({
 
 // 페이지 로드 시 거래 내역 가져오기
 onMounted(async () => {
+  await auth.fetchUser(auth.userId);
   await applyTransactionFilters();
 });
 
@@ -225,10 +227,18 @@ const getBadgeClass = (typeCode) => {
         <table class="table align-items-center">
           <thead>
             <tr>
-              <th style="width: 40%" class="text-secondary text-xxs font-weight-bolder opacity-7">{{ $t('histories--header-transactionDetail') }}</th>
-              <th style="width: 30%" class="text-secondary text-xxs font-weight-bolder opacity-7 text-center">{{ $t('histories--header-transactionType') }}</th>
-              <th style="width: 20%" class="text-secondary text-xxs font-weight-bolder opacity-7">{{ $t('histories--header-transactionAmount') }}</th>
-              <th style="width: 10%" class="text-secondary text-xxs font-weight-bolder opacity-7">{{ $t('histories--header-dateTime') }}</th>
+              <th style="width: 40%" class="text-secondary text-xxs font-weight-bolder opacity-7">
+                {{ $t('histories--header-transactionDetail') }}
+              </th>
+              <th style="width: 30%" class="text-secondary text-xxs font-weight-bolder opacity-7 text-center">
+                {{ $t('histories--header-transactionType') }}
+              </th>
+              <th style="width: 20%" class="text-secondary text-xxs font-weight-bolder opacity-7">
+                {{ $t('histories--header-transactionAmount') }}
+              </th>
+              <th style="width: 10%" class="text-secondary text-xxs font-weight-bolder opacity-7">
+                {{ $t('histories--header-dateTime') }}
+              </th>
             </tr>
           </thead>
           <tbody>
