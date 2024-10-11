@@ -159,6 +159,7 @@ public class MyAccountServiceImpl implements MyAccountService {
             // 상대 계좌 증가
 
             KrwAccountDTO targetKrwAccount = new KrwAccountDTO();
+            targetKrwAccount.setKrwNo(target_krwNo);
             targetKrwAccount.setBalance(mapper.selectKrwBalance(target_krwNo) + amount);
             mapper.updateKrwAccount(targetKrwAccount);
             // history insert
