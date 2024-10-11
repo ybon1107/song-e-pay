@@ -1,6 +1,6 @@
 export const languages = [
-    { code: 'ko', name: '한국어', flag: '/src/assets/img/icons/flags/kr.png' },
-    { code: 'en', name: 'English', flag: '/src/assets/img/icons/flags/us.png' },
-    { code: 'id', name: 'Indonesia', flag: '/src/assets/img/icons/flags/id.png' },
-    { code: 'vn', name: 'Vietnam', flag: '/src/assets/img/icons/flags/vn.png' },
-  ];
+  { code: "ko", name: "한국어", flag: "/images/flag_c0.png" },
+  { code: "en", name: "English", flag: "/images/flag_c1.png" },
+  { code: "id", name: "Indonesia", flag: "/images/flag_c2.png" },
+  { code: "vi", name: "Vietnam", flag: "/images/flag_c3.png" },
+];
