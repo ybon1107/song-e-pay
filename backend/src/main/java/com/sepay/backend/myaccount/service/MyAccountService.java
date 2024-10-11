@@ -33,5 +33,7 @@ public interface MyAccountService {
     String reExchange(SongAccountDTO songAccountDTO, KrwAccountDTO krwAccountDTO, HistoryDTO historyDTO, Double amount, Double exchangeRate);
 
     // 송금
-    String transfer(KrwAccountDTO krwAccountDTO, HistoryDTO historyDTO, Double amount, String target_krwNo);
+    String transfer(KrwAccountDTO krwAccountDTO, HistoryDTO historyDTO, Double amount, String target_krwNo, String targetHistoryContent);
+
+    String getKrwno(String userId);
 }

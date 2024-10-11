@@ -287,8 +287,8 @@ const deposit = async () => {
 const refund = async () => {
   const userId = 'test@gmail.com';
   const accountNo = '123'; // 실제 계좌 번호 사용
-  const songNo = '1234'; // 송이 페이 계좌 번호
-  const krwNo = '1234'; // krw 계좌 번호 사용
+  const songNo = 'song_test'; // 송이 페이 계좌 번호
+  const krwNo = 'krw_test'; // krw 계좌 번호 사용
   const amount = refundAmount.value; // 충전하려는 금액
   // 송이 페이머니 충전 요청
   const response = await myaccountApi.refund({
@@ -317,13 +317,22 @@ const refund = async () => {
 
 // 송금 처리
 const transfer = async () => {
-  const userId = 'test@gmail.com';
-  const songNo = '1234'; // 송이 페이 계좌 번호
-  const krwNo = '1234'; // krw 계좌 번호 사용
-  const target_krwNo = '1234'; // 보내는 사람 페이 계좌 번호
-  const amount = transferAmount.value; // 충전하려는 금액
+  const userId = 'test@gmail.com'; //나의 userId
+  const songNo = 'song_test'; // 송이 페이 계좌 번호
+  const krwNo = 'krw_test'; // krw 계좌 번호 사용
+  let target_krwNo;
+  const amount = transferAmount.value; // 송금하려는 금액
+  const stateCode = isMember.value === 'no-member' ? 4 : 1;
+  const targetHistoryContent = `${userId} → KRW  입금`;
+  if (isMember.value === 'no-member') {
+    target_krwNo = sendEmail.value;
+  } else {
+    target_krwNo = await myaccountApi.getKrwNo(sendEmail.value);
+  }
   // 송이 페이머니 충전 요청
   const response = await myaccountApi.transfer({
+    targetHistoryContent,
+    isMember: isMember.value,
     amount,
     target_krwNo,
     krwAccountDTO: {
@@ -334,8 +343,8 @@ const transfer = async () => {
       songNo,
       krwNo,
       typeCode: 2, //거래 코드 충전 2
-      stateCode: 1,
-      historyContent: `KRW → ${sendEmail} 송금`,
+      stateCode: stateCode,
+      historyContent: `KRW → ${sendEmail.value} 송금`,
       amount,
     },
   });
@@ -348,8 +357,8 @@ const transfer = async () => {
 // 환급 처리
 const reExchange = async () => {
   const userId = 'test@gmail.com';
-  const krwNo = '1234'; // krw 계좌 번호 사용
-  const songNo = '1234'; // 송이 페이 계좌 번호
+  const krwNo = 'krw_test'; // krw 계좌 번호 사용
+  const songNo = 'song_test'; // 송이 페이 계좌 번호
   const exchangeRate = currentToKrw.value;
   const amount = reExchangeAmount.value; // 환급하려는 금액
   console.log('exchangeRate 확인' + exchangeRate);
@@ -387,6 +396,9 @@ const resetValue = () => {
   depositAmount.value = '';
   sendEmail.value = '';
   sendEmailConfirm.value = '';
+  success = false;
+  isconfirmed = false;
+  checkSucess = false;
 };
 
 const convertToKrw = () => {
@@ -432,6 +444,8 @@ const onblur = () => {
   exchangeAmount.value = '';
   reExchangeAmount.value = '';
   errorAmountMessage.value = '';
+  errorMessage.value = '';
+  errorMessageCheck.value = '';
 };
 
 const songEMoneyBalance_toKRW = computed(() => {

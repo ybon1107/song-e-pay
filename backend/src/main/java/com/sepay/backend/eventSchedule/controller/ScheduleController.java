@@ -1,11 +1,9 @@
-package com.sepay.backend.schedule.controller;
+package com.sepay.backend.eventSchedule.controller;
 
-import com.sepay.backend.schedule.dto.ScheduleDTO;
-import com.sepay.backend.schedule.service.ScheduleService;
+import com.sepay.backend.eventSchedule.dto.ScheduleDTO;
+import com.sepay.backend.eventSchedule.service.ScheduleService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,12 +24,16 @@ public class ScheduleController {
         return "Success";
     }
     @ResponseBody
-    @GetMapping("/list")
-    public List<ScheduleDTO> getAllSchedules() {
-        List<ScheduleDTO> schedules = scheduleService.getAllSchedules();
+    @GetMapping("/list/{userId}")
+    public List<ScheduleDTO> getAllSchedules(
+            @PathVariable String userId,
+            @RequestParam(required = false) Integer year,
+            @RequestParam(required = false) Integer month
+    ) {
+        log.info("Fetching schedules for userId: {}, year: {}, month: {}", userId, year, month);
+        List<ScheduleDTO> schedules = scheduleService.getAllSchedules(userId, year, month);
         log.info("Fetched Schedules: {}", schedules);
-        return scheduleService.getAllSchedules();
-
+        return schedules;
     }
 
     @PostMapping("/update/{eventNo}")

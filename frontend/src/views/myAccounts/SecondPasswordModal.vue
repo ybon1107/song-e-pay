@@ -34,7 +34,7 @@ const emit = defineEmits(['close', 'password-verified']);
 
 const showModal = ref(true);
 const password = ref(''); // 비밀번호는 최대 6자리
-const userNo = 1;
+const userId = 'test@gmail.com';
 const showPasswordInput = ref(true);
 
 const shuffledNumbers = ref([]);
@@ -59,7 +59,7 @@ const enterDigit = (num) => {
 
     // 비밀번호 길이가 6자리일 때 자동으로 확인
     if (password.value.length === 6) {
-      verifyPassword(userNo);
+      verifyPassword(userId);
     }
   }
 };
@@ -77,9 +77,9 @@ const clearAll = () => {
 };
 
 // 비밀번호 검증 함수 수정
-const verifyPassword = async (userNo) => {
+const verifyPassword = async (userId) => {
   try {
-    const correctPassword = await myaccountApi.checkSecondPassword(userNo);
+    const correctPassword = await myaccountApi.checkSecondPassword(userId);
     if (password.value == correctPassword) {
       emit('password-verified');
       closeModal();

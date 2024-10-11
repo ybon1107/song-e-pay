@@ -196,7 +196,7 @@ const getBadgeClass = (typeCode) => {
     return `${baseClasses} bg-primary`;
   } else if ([TRANSACTION_TYPES.REFUND, TRANSACTION_TYPES.RE_EXCHANGE].includes(typeCode)) {
     return `${baseClasses} bg-danger`;
-  } else if ([TRANSACTION_TYPES.PAYMENT, TRANSACTION_TYPES.TRANSFER].includes(typeCode)) {
+  } else if ([TRANSACTION_TYPES.PAYMENT, TRANSACTION_TYPES.TRANSFER, TRANSACTION_TYPES.RECEIVE].includes(typeCode)) {
     return `${baseClasses} bg-success`;
   }
   return `${baseClasses} bg-secondary`;
