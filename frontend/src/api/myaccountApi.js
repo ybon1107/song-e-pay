@@ -97,6 +97,7 @@ export default {
       throw error;
     }
   },
+<<<<<<< HEAD
   // 회원 계좌 번호 조회
   async getKrwNo(userId) {
     try {
@@ -107,4 +108,6 @@ export default {
       throw error;
     }
   },
+=======
+>>>>>>> 59aa309e4cbc61504bfe42cdb43cc5b4b7d664ff
 };

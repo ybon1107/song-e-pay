@@ -4,7 +4,10 @@ map--title,금융 지도,Financial Map,Peta Keuangan,Bản đồ tài chính
 map--select-cityLabel,광역시/도,City/Province,Kota,Thành phố
 map--select-districtLabel,시/군/구,District/County/Gu,Pilih Kota/Kabupaten,Chọn quận/huyện
 map--button-search,찾기,Find,Cari,Tìm
+<<<<<<< HEAD
 map--mylocation, 내 위치에서 찾기, Find nearby, Cari dari lokasi saya, Tìm từ vị trí của tôi
+=======
+>>>>>>> 59aa309e4cbc61504bfe42cdb43cc5b4b7d664ff
 map--address,주소,Address,Alamat,Địa chỉ
 provinces--seoul,서울특별시,,
 provinces--busan,부산광역시,,
@@ -47,6 +50,7 @@ myAccount--wonE-afterTransferBalance,송금 후 잔액,Balance after remittance,
 myAccount--wonE-currentExchangeRate,현재 환율,Current exchange rate,Nilai tukar saat ini,Tỷ giá hiện tại
 myAccount--wonE-refundSendingAmount,보내는 금액,Amount of money sent,Jumlah uang yang dikirim,Số tiền gửi
 myAccount--wonE-refundReceivedAmount,받는 금액,Amount received,Jumlah yang diterima,Số tiền nhận
+<<<<<<< HEAD
 myAccount--input-placeholder,할 금액을 입력하세요.,Please enter the amount,Silakan masukkan jumlahnya,Vui lòng nhập số tiền
 myAccount--header-exchangeRate,실시간 환율 ,Real-time exchange rates,Nilai tukar waktu nyata,Tỷ giá hối đoái theo thời gian thực
 myAccount--nav-songE-vacate,비우기,vacate,mengosongkan,dọn đi
@@ -56,12 +60,22 @@ myAccount--songE-title,SONG-E,SONG-E,SONG-E,SONG-E
 myAccount--wonE-title,WON-E,WON-E,WON-E,WON-E
 myAccount--swal-title,성공,success,kesuksesan,thành công
 myAccount--swal-content,{kwd}이 완료되었습니다.,{kwd} has been completed,{kwd} telah selesai,{kwd} chuyển tiền đã hoàn tất
+=======
+>>>>>>> 59aa309e4cbc61504bfe42cdb43cc5b4b7d664ff
 myAccount--SecondPassword--modal-header-title,잠깐 !!!!,Wait a minute!!!!,Tunggu sebentar!!!!,Chờ một chút!!!!
 myAccount--SecondPassword--modal-warning,사칭사기에 주의하세요.,Be careful of impostor fraud.,Hati-hati dengan penipuan,Cẩn thận với lừa đảo giả mạo
 myAccount--SecondPassword--modal-passwordTitle,결제 비밀번호,Payment password,Kata sandi pembayaran,Mật khẩu thanh toán
 transaction_types_payment,결제,payment,Pembayaran,Thanh toán
+<<<<<<< HEAD
 transaction_types_transfer,송금,transfer,Transfer,Chuyển khoản
 transaction_types_deposit,충전,deposit,Setoran,Nạp tiền
 transaction_types_refund,환불,refund,Pengembalian,Hoàn tiền
 transaction_types_exchange,환전,exchange,penukaran uang,sự đổi tiền
 transaction_types_reExchange,환급,re-exchange,Tukar ulang,Đổi lại
+=======
+transaction_types_transfser,송금,transfer,Transfer,Chuyển khoản
+transaction_types_deposit,충전,deposit,Setoran,Nạp tiền
+transaction_types_refund,환불,refund,Pengembalian,Hoàn tiền
+transaction_types_exchange,환전,exchange,penukaran uang,sự đổi tiền
+transaction_types_reExchange,환급,re-exchange,Tukar ulang	Đổi lại
+>>>>>>> 59aa309e4cbc61504bfe42cdb43cc5b4b7d664ff

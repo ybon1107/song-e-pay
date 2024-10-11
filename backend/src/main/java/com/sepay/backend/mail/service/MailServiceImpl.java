@@ -1,6 +1,9 @@
 package com.sepay.backend.mail.service;
 
+<<<<<<< HEAD
 import com.sepay.backend.history.dto.HistoryDTO;
+=======
+>>>>>>> 59aa309e4cbc61504bfe42cdb43cc5b4b7d664ff
 import com.sepay.backend.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -26,8 +29,12 @@ public class MailServiceImpl implements MailService {
     private static final long CODE_VALID_DURATION = 3; // 인증 코드 유효 시간: 3분(분단위)
 
     @Autowired
+<<<<<<< HEAD
     public MailServiceImpl(MyAccountMapper mapper, JavaMailSender mailSender, UserService userService) {
         this.mapper = mapper;
+=======
+    public MailServiceImpl(JavaMailSender mailSender, UserService userService) {
+>>>>>>> 59aa309e4cbc61504bfe42cdb43cc5b4b7d664ff
         this.emailSender = mailSender;
         this.userService = userService;
     }

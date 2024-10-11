@@ -13,7 +13,11 @@
           </div>
 
           <div class="btn btn-sm btn-warning mb-0 mx-4 d-flex justify-content-between">
+<<<<<<< HEAD
             <p class="mb-0">{{$t('payment--qrScan--balanceLabel')}}</p>
+=======
+            <p class="mb-0">보유잔액</p>
+>>>>>>> 59aa309e4cbc61504bfe42cdb43cc5b4b7d664ff
             <p class="mb-0">{{ woneMoneyBalance }} KRW</p>
           </div>
         </div>
@@ -33,10 +37,13 @@ import myaccountApi from '../../api/myaccountApi';
 import { useAuthStore } from '@/stores/auth';
 const auth = useAuthStore();
 const user = computed(() => auth.user);
+<<<<<<< HEAD
 
 //i18n
 import { useI18n } from 'vue-i18n';
 const { t } = useI18n();
+=======
+>>>>>>> 59aa309e4cbc61504bfe42cdb43cc5b4b7d664ff
 
 const router = useRouter(); // Router 사용
 
@@ -57,6 +64,12 @@ const fetchKrwBalance = async () => {
   }
 };
 
+<<<<<<< HEAD
+=======
+
+
+
+>>>>>>> 59aa309e4cbc61504bfe42cdb43cc5b4b7d664ff
 const generateQRCode = () => {
   const url = encodeURIComponent(`/api/payment/qr-scan`);
   qrCodeUrl.value = `/api/payment/qr?url=${url}&_=${new Date().getTime()}`;

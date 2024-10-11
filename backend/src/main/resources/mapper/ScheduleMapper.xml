@@ -2,6 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
+<<<<<<< HEAD
 <mapper namespace="com.sepay.backend.eventSchedule.mapper.ScheduleMapper">
 
     <!-- 일정 저장 -->
@@ -24,6 +25,26 @@
 
     <!-- 기존 일정 업데이트 -->
     <update id="updateSchedule" parameterType="com.sepay.backend.eventSchedule.dto.ScheduleDTO">
+=======
+<mapper namespace="com.sepay.backend.schedule.mapper.ScheduleMapper">
+
+    <!-- 일정 저장 -->
+    <insert id="saveSchedule" parameterType="ScheduleDTO">
+        INSERT INTO sepay.event
+        (user_no, begin_date, end_date, title, todo, color, created_at, updated_at)
+        VALUES
+            (#{userNo}, #{beginDate}, #{endDate}, #{title}, #{todo}, #{color}, NOW(), NOW())
+    </insert>
+
+    <!-- 일정 목록 조회 -->
+    <select id="findAll" resultType="com.sepay.backend.schedule.dto.ScheduleDTO">
+        SELECT * FROM event
+
+    </select>
+
+    <!-- 기존 일정 업데이트 -->
+    <update id="updateSchedule" parameterType="ScheduleDTO">
+>>>>>>> 59aa309e4cbc61504bfe42cdb43cc5b4b7d664ff
         UPDATE event
         SET
             begin_date = #{beginDate},

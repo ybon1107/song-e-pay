@@ -97,11 +97,31 @@
           </li>
           <!-- 프로필 -->
           <li class="nav-item d-flex align-items-center">
+<<<<<<< HEAD
             <a class="p-0 nav-link" href="/profile">
               <div class="icon-div">
                 <img :src="userImg" class="user-profile-img" />
               </div>
             </a>
+=======
+            <template v-if="isLogin">
+              <a class="p-0 nav-link" href="/profile">
+                <div class="icon-div">
+                  <!-- img-div 대신 icon-div 사용 -->
+                  <i class="fa fa-user profile-icon"></i>
+                  <!-- FontAwesome 아이콘 추가 -->
+                </div>
+              </a>
+            </template>
+            <template v-else>
+              <a class="p-0 nav-link" href="/login">
+                <div class="icon-div">
+                  <i class="fa fa-user profile-icon"></i>
+                  <!-- 로그인 전에도 FontAwesome 아이콘 -->
+                </div>
+              </a>
+            </template>
+>>>>>>> 59aa309e4cbc61504bfe42cdb43cc5b4b7d664ff
           </li>
         </ul>
       </div>

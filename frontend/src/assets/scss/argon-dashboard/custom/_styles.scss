@@ -2,6 +2,7 @@
   max-width: 1200px;
 }
 
+<<<<<<< HEAD
 .cursor-pointer {
   cursor: pointer;
 }
@@ -10,6 +11,8 @@
   color: blue;
 }
 
+=======
+>>>>>>> 59aa309e4cbc61504bfe42cdb43cc5b4b7d664ff
 .modal-backdrop {
   z-index: 1060 !important;
 }
@@ -102,16 +105,26 @@
   /* 비율 8.56 / 5.398 */
   background-size: cover;
   cursor: pointer;
+<<<<<<< HEAD
   background-color: $primary-yellow;
+=======
+>>>>>>> 59aa309e4cbc61504bfe42cdb43cc5b4b7d664ff
 }
 
 //acountscard가 선택됐을 때
 .selected .card {
+<<<<<<< HEAD
   border: 3px solid #f5c542; /* 세련된 골드 테두리 */
   box-shadow: 0 0 30px rgba(245, 197, 66, 0.8); /* 부드럽고 따뜻한 골드 그림자 */
   transform: scale(1.08); /* 카드 크기 살짝 확대 */
   background-color: #ffd447; /* 강조된 노란색 배경 */
   transition: all 0.3s ease; /* 부드러운 전환 */
+=======
+  border: 3px solid $light-brown;
+  /* 선택된 카드에 녹색 테두리 추가 */
+  box-shadow: 0 0 15px $light-brown;
+  /* 선택된 카드에 그림자 효과 추가 */
+>>>>>>> 59aa309e4cbc61504bfe42cdb43cc5b4b7d664ff
 }
 
 // 자동 환전 및 알람 라우터 이동 버튼
@@ -177,6 +190,7 @@
 //   background-color: #f0f0f0;
 // }
 
+<<<<<<< HEAD
 // 글씨 옆에 국기
 
 .icon-container {
@@ -199,11 +213,30 @@
   max-height: 100%;
   object-fit: contain;
 }
+=======
+
+>>>>>>> 59aa309e4cbc61504bfe42cdb43cc5b4b7d664ff
 
 /* 반응형 스타일 */
 @media (max-width: 768px) {
   .max-margin-bottom {
     margin-bottom: 1rem;
+<<<<<<< HEAD
+=======
+  }
+
+  .tab-content-width {
+    width: 100%;
+  }
+
+  .alert-icon {
+    opacity: 1;
+  }
+
+  //flex세로 정렬
+  .flex-column-min {
+    flex-direction: column;
+>>>>>>> 59aa309e4cbc61504bfe42cdb43cc5b4b7d664ff
   }
 
   .tab-content-width {

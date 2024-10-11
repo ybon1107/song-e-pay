@@ -7,10 +7,14 @@ const jsonData = {};
 
 // CSV 파일 읽기
 fs.createReadStream(csvFilePath)
+<<<<<<< HEAD
   .pipe(csv(csv({
     separator: ',', // 쉼표 구분자로 설정 (기본값)
     quote: '"' // 따옴표로 감싸진 값에 대한 처리
   })))
+=======
+  .pipe(csv())
+>>>>>>> 59aa309e4cbc61504bfe42cdb43cc5b4b7d664ff
   .on('data', (row) => {
     // 각 언어에 대한 JSON 데이터 생성
     languages.forEach(lang => {

@@ -1,7 +1,10 @@
 package com.sepay.backend.user.service;
 
 import com.sepay.backend.payment.dto.PasswordDTO;
+<<<<<<< HEAD
 import com.sepay.backend.security.account.domain.AuthVO;
+=======
+>>>>>>> 59aa309e4cbc61504bfe42cdb43cc5b4b7d664ff
 import com.sepay.backend.security.account.domain.UserVO;
 import com.sepay.backend.user.dto.UserDTO;
 import com.sepay.backend.user.dto.UserRegisterDTO;
@@ -9,7 +12,10 @@ import com.sepay.backend.user.mapper.UserMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+<<<<<<< HEAD
 import org.springframework.security.core.userdetails.UserDetails;
+=======
+>>>>>>> 59aa309e4cbc61504bfe42cdb43cc5b4b7d664ff
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,6 +32,10 @@ public class UserServiceImpl implements UserService{
 
     private final UserMapper mapper;
     final PasswordEncoder passwordEncoder;
+<<<<<<< HEAD
+=======
+
+>>>>>>> 59aa309e4cbc61504bfe42cdb43cc5b4b7d664ff
     @Override
     public String selectSecondPwd(String userId){
         return mapper.getSecondaryPassword(userId);
@@ -44,9 +54,22 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
+<<<<<<< HEAD
     public UserDTO get(String username) {
         UserVO userVO = Optional.ofNullable(mapper.get(username)).orElseThrow(NoSuchElementException::new);
         return UserDTO.of(userVO);
+=======
+    public UserDTO getUserId(String userId) {
+        return mapper.getUserInfo(userId);
+    }
+
+    @Override
+    public UserDTO login(String userId, String password) {
+        HashMap map = new HashMap();
+        map.put("userId", userId);
+        map.put("password", password);
+        return mapper.selectUser(map);
+>>>>>>> 59aa309e4cbc61504bfe42cdb43cc5b4b7d664ff
     }
 
 //    @Override
@@ -94,6 +117,16 @@ public class UserServiceImpl implements UserService{
             log.error("Error registering user: ", e);
             throw new RuntimeException("Registration failed");
         }
+<<<<<<< HEAD
+=======
+    }
+
+    // 이메일 중복 확인 메서드 추가
+    @Override
+    public boolean isEmailRegistered(String userId) {
+        UserVO user = mapper.getUserInfo(userId).toVO();
+        return user != null ? true : false;
+>>>>>>> 59aa309e4cbc61504bfe42cdb43cc5b4b7d664ff
     }
 
     // 이메일 중복 확인 메서드 추가

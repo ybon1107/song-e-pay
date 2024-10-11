@@ -1,49 +1,65 @@
 <script setup>
+<<<<<<< HEAD
 import { ref, computed, onBeforeUnmount, onBeforeMount, onMounted } from "vue";
 import { useStore } from "vuex";
 import { useAuthStore } from "@/stores/auth";
 import ArgonInput from "@/components/templates/ArgonInput.vue";
 import ArgonSwitch from "@/components/templates/ArgonSwitch.vue";
 import ArgonButton from "@/components/templates/ArgonButton.vue";
+=======
+import { ref, computed, onBeforeUnmount, onBeforeMount, onMounted } from 'vue';
+import { useStore } from 'vuex';
+import { useRouter } from 'vue-router';
+import { useAuthStore } from '@/stores/auth';
+import axios from 'axios';
+import ArgonInput from '@/components/templates/ArgonInput.vue';
+import ArgonSwitch from '@/components/templates/ArgonSwitch.vue';
+import ArgonButton from '@/components/templates/ArgonButton.vue';
+>>>>>>> 59aa309e4cbc61504bfe42cdb43cc5b4b7d664ff
 
-const body = document.getElementsByTagName("body")[0];
+const body = document.getElementsByTagName('body')[0];
 const store = useStore();
 const auth = useAuthStore();
 
 const member = ref({
+<<<<<<< HEAD
   username: "",
   password: "",
+=======
+  username: '',
+  password: '',
+>>>>>>> 59aa309e4cbc61504bfe42cdb43cc5b4b7d664ff
 });
 
-const error = ref("");
+const error = ref('');
 
 onBeforeMount(() => {
   store.state.hideConfigButton = true;
   store.state.showNavbar = false;
   store.state.showSidenav = false;
   store.state.showFooter = false;
-  body.classList.remove("bg-gray-100");
+  body.classList.remove('bg-gray-100');
 });
 onBeforeUnmount(() => {
   store.state.hideConfigButton = false;
   store.state.showNavbar = true;
   store.state.showSidenav = true;
   store.state.showFooter = true;
-  body.classList.add("bg-gray-100");
+  body.classList.add('bg-gray-100');
 });
 // 부트스트랩 유효성 검사 스크립트
 onMounted(() => {
-  const forms = document.querySelectorAll(".needs-validation");
+  const forms = document.querySelectorAll('.needs-validation');
   Array.prototype.slice.call(forms).forEach(function (form) {
     form.addEventListener(
-      "submit",
+      'submit',
       function (event) {
         if (!form.checkValidity()) {
           event.preventDefault();
           event.stopPropagation();
-          form.classList.remove("was-validated");
+          form.classList.remove('was-validated');
         } else {
-          form.classList.remove("was-validated");
+          form.classList.remove('was-validated');
         }
       },
       false
@@ -52,8 +68,13 @@ onMounted(() => {
 });
 
 // 이메일과 비밀번호 입력 필드 상태
+<<<<<<< HEAD
 const username = ref("");
 const password = ref("");
+=======
+const username = ref('');
+const password = ref('');
+>>>>>>> 59aa309e4cbc61504bfe42cdb43cc5b4b7d664ff
 
 // 이메일 유효성 검사
 const isEmailValid = computed(() => {
@@ -81,19 +102,33 @@ const handleSubmit = async () => {
   member.value.username = username.value;
   member.value.password = password.value;
 
+<<<<<<< HEAD
   console.log("try login: ", member);
+=======
+  console.log('try login: ', member);
+>>>>>>> 59aa309e4cbc61504bfe42cdb43cc5b4b7d664ff
   emailError.value = !isEmailValid.value;
   passwordError.value = !isPasswordValid.value;
 
   if (isFormValid.value) {
     try {
       await auth.login(member);
+<<<<<<< HEAD
       if (localStorage.getItem("auth") != " ") {
         window.location.href = "/my-accounts";
       }
     } catch (e) {
       // 로그인 에러
       console.log("에러=======", e);
+=======
+      if (localStorage.getItem('auth') != ' ') {
+        window.location.href = '/';
+      }
+    } catch (e) {
+      // 로그인 에러
+      console.log('에러=======', e);
+      error.value = e.response.data;
+>>>>>>> 59aa309e4cbc61504bfe42cdb43cc5b4b7d664ff
     }
   }
 };
@@ -144,7 +179,11 @@ const handleSubmit = async () => {
                         isRequired
                         id="email"
                         type="email"
+<<<<<<< HEAD
                         :placeholder="$t('signIn--form-emailPlaceholder')"
+=======
+                        placeholder="Email"
+>>>>>>> 59aa309e4cbc61504bfe42cdb43cc5b4b7d664ff
                         name="username"
                         size="lg"
                         v-model="username"
@@ -152,7 +191,11 @@ const handleSubmit = async () => {
                         :error="
                           (username !== '' || emailError) && !isEmailValid
                         "
+<<<<<<< HEAD
                         :errorText="$t('signIn--errorText-email')"
+=======
+                        errorText="Please provide a valid email."
+>>>>>>> 59aa309e4cbc61504bfe42cdb43cc5b4b7d664ff
                       />
                     </div>
                     <!-- 비밀번호 입력 필드 -->

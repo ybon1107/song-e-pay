@@ -72,3 +72,20 @@ const navClasses = computed(() => {
     </teleport>
   </main>
 </template>
+<<<<<<< HEAD
+=======
+
+<style>
+@font-face {
+  font-family: 'Pretendard-Regular';
+  src: url('https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff')
+    format('woff');
+  font-weight: 400;
+  font-style: normal;
+}
+
+h1 {
+  font-family: 'TTLaundryGothicB', sans-serif;
+}
+</style>
+>>>>>>> 59aa309e4cbc61504bfe42cdb43cc5b4b7d664ff

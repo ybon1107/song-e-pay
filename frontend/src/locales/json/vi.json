@@ -1,4 +1,5 @@
 {
+<<<<<<< HEAD
   "setting--title": "Hồ sơ",
   "map--title": "Bản đồ tài chính",
   "map--select-cityLabel": "Thành phố",
@@ -49,3 +50,44 @@
   "transaction_types_exchange": "sự đổi tiền",
   "transaction_types_reExchange": "Đổi lại"
 }
+=======
+    "setting--title": "Hồ sơ",
+    "map--title": "Bản đồ tài chính",
+    "map--select-cityLabel": "Thành phố",
+    "map--select-districtLabel": "Chọn quận/huyện",
+    "map--button-search": "Tìm",
+    "map--address": "Địa chỉ",
+    "myAccount--nav-songE-charge": "Nạp tiền",
+    "myAccount--nav-songE-exchange": "sự đổi tiền",
+    "myAccount--nav-songE-withdraw": "Hoàn tiền",
+    "myAccount--wonE-transfer": "Chuyển khoản",
+    "myAccount--wonE-refund": "Đổi lại",
+    "myAccount--songE-chargeAmount": "Số tiền nạp",
+    "myAccount--songE-chargeAccount": "Tài khoản nạp",
+    "myAccount--songE-afterBalance": "Số dư sau giao dịch",
+    "myAccount--songE-exchangeRate": "Tỷ giá hiện tại",
+    "myAccount--songE-sendingAmount": "Số tiền gửi",
+    "myAccount--songE-receivedAmount": "Số tiền nhận",
+    "myAccount--songE-exchangeAccount": "Tài khoản hoàn tiền",
+    "myAccount--songE-withdrawAmount": "Nhập số tiền hoàn",
+    "myAccount--songE-withdrawAccount": "Tài khoản hoàn tiền",
+    "myAccount--songE-afterWithdrawBalance": "Số dư sau giao dịch",
+    "myAccount--wonE-sendEmail": "Email cần gửi",
+    "myAccount--wonE-emailConfirmButton": "Xác nhận email",
+    "myAccount--wonE-enterEmail": "Nhập email người nhận",
+    "myAccount--wonE-confirmEmail": "Xác nhận email",
+    "myAccount--wonE-enterTransferAmount": "Nhập số tiền chuyển",
+    "myAccount--wonE-afterTransferBalance": "Số dư sau khi chuyển tiền",
+    "myAccount--wonE-currentExchangeRate": "Tỷ giá hiện tại",
+    "myAccount--wonE-refundSendingAmount": "Số tiền gửi",
+    "myAccount--wonE-refundReceivedAmount": "Số tiền nhận",
+    "myAccount--SecondPassword--modal-header-title": "Chờ một chút!!!!",
+    "myAccount--SecondPassword--modal-warning": "Cẩn thận với lừa đảo giả mạo",
+    "myAccount--SecondPassword--modal-passwordTitle": "Mật khẩu thanh toán",
+    "transaction_types_payment": "Thanh toán",
+    "transaction_types_transfser": "Chuyển khoản",
+    "transaction_types_deposit": "Nạp tiền",
+    "transaction_types_refund": "Hoàn tiền",
+    "transaction_types_exchange": "sự đổi tiền"
+}
+>>>>>>> 59aa309e4cbc61504bfe42cdb43cc5b4b7d664ff

@@ -1,7 +1,22 @@
 <template>
+<<<<<<< HEAD
   <div v-if="isVisible" class="modal fade show" tabindex="-1" style="display: block" :inert="!isVisible">
     <div class="modal-dialog" style="max-width: 500px">
       <div class="modal-content" style="padding-left: 20px; padding-right: 20px">
+=======
+  <div
+    v-if="isVisible"
+    class="modal fade show"
+    tabindex="-1"
+    style="display: block"
+    :inert="!isVisible"
+  >
+    <div class="modal-dialog" style="max-width: 500px">
+      <div
+        class="modal-content"
+        style="padding-left: 20px; padding-right: 20px"
+      >
+>>>>>>> 59aa309e4cbc61504bfe42cdb43cc5b4b7d664ff
         <div class="modal-header">
           <h4 class="modal-title" id="maintenanceLabel">이벤트 등록</h4>
           <button type="button" class="close" @click="closeModal">
@@ -12,14 +27,35 @@
           <div class="row no-gutters mb-3">
             <label for="title" class="col-3">이벤트명</label>
             <div class="col-14">
+<<<<<<< HEAD
               <input id="title" v-model="maintenanceCopy.title" class="form-control" type="text" placeholder="이벤트명을 입력하세요" style="width: 100%" />
+=======
+              <input
+                id="title"
+                v-model="maintenanceCopy.title"
+                class="form-control"
+                type="text"
+                placeholder="이벤트명을 입력하세요"
+                style="width: 100%"
+              />
+>>>>>>> 59aa309e4cbc61504bfe42cdb43cc5b4b7d664ff
             </div>
           </div>
           <div class="row no-gutters mb-3">
             <label for="color" class="col-3">색상 선택</label>
             <div class="col-14 btn-group">
               <button
+<<<<<<< HEAD
                 v-for="color in ['primary', 'warning', 'success', 'danger', 'muted']"
+=======
+                v-for="color in [
+                  'primary',
+                  'warning',
+                  'success',
+                  'danger',
+                  'muted',
+                ]"
+>>>>>>> 59aa309e4cbc61504bfe42cdb43cc5b4b7d664ff
                 :key="color"
                 @click="maintenanceCopy.color = color"
                 :style="{ backgroundColor: getColor(color) }"
@@ -33,7 +69,18 @@
           <div class="row no-gutters mb-3">
             <label for="description" class="col-3">세부내용</label>
             <div class="col-14">
+<<<<<<< HEAD
               <textarea id="description" v-model="maintenanceCopy.description" class="form-control" rows="3" placeholder="세부내용을 입력하세요" style="width: 100%"></textarea>
+=======
+              <textarea
+                id="description"
+                v-model="maintenanceCopy.description"
+                class="form-control"
+                rows="3"
+                placeholder="세부내용을 입력하세요"
+                style="width: 100%"
+              ></textarea>
+>>>>>>> 59aa309e4cbc61504bfe42cdb43cc5b4b7d664ff
             </div>
           </div>
           <div class="row no-gutters mb-3">
@@ -41,17 +88,42 @@
             <div class="col-14">
               <div class="row no-gutters">
                 <div class="col-6">
+<<<<<<< HEAD
                   <input id="startDate" v-model="maintenanceCopy.startedAt" type="date" class="form-control" style="width: 100%" />
                 </div>
                 <div class="col-6">
                   <input id="endDate" v-model="maintenanceCopy.endedAt" type="date" class="form-control" style="width: 100%" />
+=======
+                  <input
+                    id="startDate"
+                    v-model="maintenanceCopy.startedAt"
+                    type="date"
+                    class="form-control"
+                    style="width: 100%"
+                  />
+                </div>
+                <div class="col-6">
+                  <input
+                    id="endDate"
+                    v-model="maintenanceCopy.endedAt"
+                    type="date"
+                    class="form-control"
+                    style="width: 100%"
+                  />
+>>>>>>> 59aa309e4cbc61504bfe42cdb43cc5b4b7d664ff
                 </div>
               </div>
             </div>
           </div>
         </div>
         <div class="modal-footer">
+<<<<<<< HEAD
           <button type="button" class="btn btn-primary" @click="saveEvent">저장</button>
+=======
+          <button type="button" class="btn btn-primary" @click="saveEvent">
+            저장
+          </button>
+>>>>>>> 59aa309e4cbc61504bfe42cdb43cc5b4b7d664ff
         </div>
       </div>
     </div>

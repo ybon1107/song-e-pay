@@ -18,8 +18,11 @@ public interface UserMapper {
 
     int insertAuth(AuthVO authVO);
 
+    UserDTO getUserInfo(String userId);
+
     UserDTO selectUser(Map map);
 
+<<<<<<< HEAD
     // 회원가입
     int insertUser(UserVO userVO);
 
@@ -31,4 +34,9 @@ public interface UserMapper {
     // 자동환전에서 사용
     @Select("SELECT song_no, krw_no FROM user WHERE user_no = #{userNo}")
     Map<String, String> selectUserAccounts(Integer userNo);
+=======
+    int insertUser(UserDTO userDTO);
+
+    UserDTO selectUserByEmail(String email);
+>>>>>>> 59aa309e4cbc61504bfe42cdb43cc5b4b7d664ff
 }

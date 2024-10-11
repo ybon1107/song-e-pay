@@ -99,7 +99,11 @@ const resetPassword = () => {
           class="password-digit" />
       </div>
       <button type="submit" :disabled="!isPasswordComplete" class="btn btn-primary">
+<<<<<<< HEAD
         {{ $t('common-btn--submit') }}
+=======
+        제출
+>>>>>>> 59aa309e4cbc61504bfe42cdb43cc5b4b7d664ff
       </button>
     </form>
   </div>

@@ -14,6 +14,11 @@ import { useAuthStore } from '@/stores/auth';
 const auth = useAuthStore();
 const user = computed(() => auth.user);
 
+// 유저 권한
+import { useAuthStore } from '@/stores/auth';
+const auth = useAuthStore();
+const user = computed(() => auth.user);
+
 // 필터 모달 가시성 상태 관리
 const isFilterModalVisible = ref(false);
 const searchQuery = ref('');
@@ -60,6 +65,7 @@ const applyTransactionFilters = async (resetPage = false) => {
   let startDate = null;
   let endDate = moment().format('YYYY-MM-DD'); // 기본적으로 오늘로 설정
 
+<<<<<<< HEAD
   // 필터에서 선택한 기간에 따라 시작일과 종료일 설정
   if (filters.value.selectedPeriod === i18n_PERIOD[0]) {
     startDate = endDate; // 오늘이 시작일과 종료일 모두가 됨
@@ -93,6 +99,42 @@ const applyTransactionFilters = async (resetPage = false) => {
     sortOrder: sortOrder, // ASC 또는 DESC 전송
     historyContent: filters.value.historyContent || '', // 검색어 추가
   };
+=======
+    // 필터에서 선택한 기간에 따라 시작일과 종료일 설정
+    if (filters.value.selectedPeriod === 'Today') {
+        startDate = endDate; // 오늘이 시작일과 종료일 모두가 됨
+    } else if (filters.value.selectedPeriod === 'Last Month') {
+        startDate = moment().subtract(1, 'months').startOf('day').toISOString();
+        endDate = moment().endOf('day').toISOString(); // 23:59:59로 설정
+    } else if (filters.value.selectedPeriod === 'Last 3 Month') {
+        startDate = moment().subtract(3, 'months').startOf('day').toISOString();
+        endDate = moment().endOf('day').toISOString(); // 23:59:59로 설정
+    } else if (filters.value.selectedPeriod === '직접설정') {
+        startDate = filters.value.startDate;
+        endDate = filters.value.endDate
+            ? moment(filters.value.endDate).endOf('day').toISOString()
+            : null; // 직접 설정된 날짜의 23:59:59로 설정
+    } else {
+        console.log('직접 설정 기간이 누락되었습니다.');
+    }
+    // 선택된 유형에 따라 거래 유형 코드를 설정
+    let typeCodesToSend = [];
+    if (filters.value.selectedType === 'KRaccount') {
+        typeCodesToSend = [1, 2, 5, 6, 7]; // 원화 계좌
+    } else if (filters.value.selectedType === 'SongEaccount') {
+        typeCodesToSend = [3, 4, 5, 6, 7]; // 송이 계좌
+    } else {
+        typeCodesToSend = null;
+    }
+    const filterOptions = {
+        userNo: 1, // 로그인 구현시 바꿔줄것 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        typeCode: typeCodesToSend,
+        beginDate: startDate, // 이 부분이 null이 아닌 올바른 날짜로 설정되어야 함
+        endDate: endDate, // 이 부분도 마찬가지로 제대로 설정되어야 함
+        sortOrder: sortOrder, // ASC 또는 DESC 전송
+        historyContent: filters.value.historyContent || '', // 검색어 추가
+    };
+>>>>>>> 59aa309e4cbc61504bfe42cdb43cc5b4b7d664ff
 
   try {
     const response = await historyApi.applyFilters(filterOptions, pageRequest.value);
@@ -137,10 +179,68 @@ onMounted(async () => {
 
 // 메모 업데이트 처리 함수
 const handleMemoUpdate = (updatedMemo) => {
+<<<<<<< HEAD
   const transaction = transactions.value.find((item) => item.historyNo === updatedMemo.historyNo);
   if (transaction) {
     transaction.memo = updatedMemo.memo;
   }
+=======
+    const transaction = transactions.value.find(
+        (item) => item.historyNo === updatedMemo.historyNo
+    );
+    if (transaction) {
+        transaction.memo = updatedMemo.memo;
+    }
+};
+
+// const getTransactionList = async () => {
+//     try {
+//         const filterOptions = {
+//             userNo: filters.value.userNo, // userNo 전달
+//             pageRequest: {
+//                 page: pageRequest.value.page,
+//                 amount: pageRequest.value.amount,
+//             },
+//         };
+
+//         const response = await historyApi.getTransactionList(pageRequest.value);
+//         if (response && Array.isArray(response.list)) {
+//             totalItems.value = response.totalCount;
+//             transactions.value = response.list.map((transaction) => ({
+//                 ...transaction,
+//                 historyDate: formatUnixTimestamp(transaction.historyDate),
+//                 typeCode: convertTransactionType(transaction.typeCode),
+//                 stateCode: convertTransactionStatus(transaction.stateCode),
+//             }));
+//         }
+//     } catch (error) {
+//         console.error('Error fetching transaction list:', error);
+//     }
+// };
+
+// 거래 유형 및 상태 코드 변환
+const convertTransactionType = (code) => {
+    const types = {
+        1: '결제',
+        2: '송금',
+        3: '충전',
+        4: '환불',
+        5: '환전',
+        6: '환급',
+        7: '자동 환전',
+    };
+    return types[code] || '알 수 없는 거래 유형';
+};
+
+const convertTransactionStatus = (code) => {
+    const statuses = {
+        1: '성공',
+        2: '실패',
+        3: '취소',
+        4: '처리중',
+    };
+    return statuses[code] || '알 수 없는 상태';
+>>>>>>> 59aa309e4cbc61504bfe42cdb43cc5b4b7d664ff
 };
 
 // 페이지네이션 관련 함수
@@ -204,6 +304,7 @@ const getBadgeClass = (typeCode) => {
 </script>
 
 <template>
+<<<<<<< HEAD
   <div class="container-fluid">
     <h3>{{ $t('histories--transactionHistory') }}</h3>
     <!-- 검색 필터와 정렬 드롭다운을 포함한 상단 -->
@@ -218,6 +319,137 @@ const getBadgeClass = (typeCode) => {
         {{ $t(filters.selectedPeriod) }} · {{ $t(filters.selectedType) }} · {{ $t(filters.selectedSort) }}
         <i class="fas fa-chevron-down"></i>
       </button>
+=======
+    <div class="container-fluid">
+        <h3>이용 내역</h3>
+        <!-- 검색 필터와 정렬 드롭다운을 포함한 상단 -->
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <div class="input-group" style="width: 60%">
+                <span class="input-group-text">
+                    <i class="fas fa-search"></i>
+                </span>
+                <input
+                    type="text"
+                    class="form-control"
+                    placeholder="검색어를 입력하세요"
+                    v-model="searchQuery"
+                    @keyup.enter="applyTransactionFilters(true)"
+                />
+            </div>
+            <button
+                class="btn btn-outline-secondary btn-sm mt-2 mt-md-0"
+                type="button"
+                @click="toggleFilterModal"
+                style="padding: 4px 8px; font-size: 0.875rem"
+            >
+                {{ filters.selectedPeriod }} · {{ filters.selectedType }} ·{{
+                    filters.selectedSort
+                }}
+                <i class="fas fa-chevron-down"></i>
+            </button>
+        </div>
+        <!-- 테이블 부분 -->
+        <div class="card p-5 mt-3">
+            <div class="table-responsive">
+                <table class="table table-bordered align-middle">
+                    <thead>
+                        <tr>
+                            <th style="width: 10%">날짜/시간</th>
+                            <th style="width: 20%">거래 유형</th>
+                            <th
+                                class="text-center d-none d-md-table-cell"
+                                style="width: 50%"
+                            >
+                                거래 내역
+                            </th>
+                            <th style="width: 20%">거래 금액</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr
+                            v-for="transaction in transactions"
+                            :key="transaction.historyNo"
+                            @click="openModal(transaction)"
+                            style="cursor: pointer"
+                        >
+                            <td class="text-center">
+                                {{ transaction.historyDate }}
+                            </td>
+                            <td class="text-center">
+                                {{ transaction.typeCode }}
+                            </td>
+                            <td class="text-center">
+                                {{ transaction.historyContent }}
+                            </td>
+                            <td class="text-end">
+                                {{ transaction.amount.toLocaleString() }}
+                                <span
+                                    v-if="
+                                        [
+                                            '충전',
+                                            '환전',
+                                            '환불',
+                                            '자동 환전',
+                                        ].includes(transaction.typeCode)
+                                    "
+                                >
+                                    USD
+                                </span>
+                                <span
+                                    v-else-if="
+                                        ['환급', '송금'].includes(
+                                            transaction.typeCode
+                                        )
+                                    "
+                                >
+                                    KRW
+                                </span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- 페이지네이션 컨트롤 -->
+            <div class="d-flex justify-content-center">
+                <argon-pagination class="mb-0">
+                    <argon-pagination-item
+                        prev
+                        @click="goToPage(pageRequest.page - 1)"
+                        :disabled="pageRequest.page === 1"
+                    />
+                    <argon-pagination-item
+                        v-for="item in paginationItems"
+                        :key="item.label"
+                        :label="item.label"
+                        :active="item.active"
+                        :disabled="item.disabled"
+                        @click="goToPage(parseInt(item.label))"
+                    />
+                    <argon-pagination-item
+                        next
+                        @click="goToPage(pageRequest.page + 1)"
+                        :disabled="pageRequest.page === totalPages"
+                    />
+                </argon-pagination>
+            </div>
+        </div>
+        <!-- 필터 모달 -->
+        <FilterModal
+            :isVisible="isFilterModalVisible"
+            :filters="filters"
+            @closeModal="toggleFilterModal"
+            @applyFilters="handleFilterApply"
+        />
+
+        <!-- 이용내역 상세 모달 -->
+        <HistoriesDetailModal
+            :transaction="selectedTransaction"
+            :isVisible="isModalVisible"
+            @updateMemo="handleMemoUpdate"
+            @close="closeModal"
+        />
+>>>>>>> 59aa309e4cbc61504bfe42cdb43cc5b4b7d664ff
     </div>
     <!-- 테이블 부분 -->
     <div class="card p-5">

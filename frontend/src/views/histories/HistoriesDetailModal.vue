@@ -27,6 +27,7 @@
     <textarea v-model="localMemo" class="form-control fixed-textarea" id="memo" rows="3" :placeholder="$t('histories--modal-enterMemo')"></textarea>
     <hr />
 
+<<<<<<< HEAD
     <div class="flex-justify-between" v-if="[TRANSACTION_TYPES.EXCHANGE, TRANSACTION_TYPES.RE_EXCHANGE].includes(transaction?.typeCode)">
       <strong>{{ $t('histories--modal-exchangeRate') }}</strong>
       <p>{{ transaction?.exchangeRate }}</p>
@@ -44,6 +45,31 @@
       <p>{{ $t(transaction?.i18nState) }}</p>
     </div>
   </Modal>
+=======
+        <div
+            class="flex-justify-between"
+            v-if="['환전', '환급', '자동 환전'].includes(transaction?.typeCode)"
+        >
+            <strong>환율</strong>
+            <p>{{ transaction?.exchangeRate }}</p>
+        </div>
+        <div
+            class="flex-justify-between"
+            v-if="transaction?.typeCode === '송금'"
+        >
+            <strong>계좌</strong>
+            <p>{{ transaction?.exchangeRate }}</p>
+        </div>
+        <div class="flex-justify-between">
+            <strong>결제 일시</strong>
+            <p>{{ transaction?.historyDate }}</p>
+        </div>
+        <div class="flex-justify-between">
+            <strong>거래 상태</strong>
+            <p>{{ transaction?.stateCode }}</p>
+        </div>
+    </Modal>
+>>>>>>> 59aa309e4cbc61504bfe42cdb43cc5b4b7d664ff
 </template>
 
 <script setup>

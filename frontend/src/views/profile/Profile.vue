@@ -122,7 +122,10 @@ onBeforeMount(() => {
   store.state.hideConfigButton = true;
   body.classList.add("profile-overview");
 });
+<<<<<<< HEAD
 
+=======
+>>>>>>> 59aa309e4cbc61504bfe42cdb43cc5b4b7d664ff
 onBeforeUnmount(() => {
   store.state.isAbsolute = false;
   store.state.imageLayout = "default";

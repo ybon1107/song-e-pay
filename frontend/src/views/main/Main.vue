@@ -1,4 +1,5 @@
 <template>
+<<<<<<< HEAD
   <header
     class="p-3"
     style="
@@ -10,10 +11,15 @@
       z-index: 1000;
     "
   >
+=======
+
+<header class="p-3 bg-dark text-white">
+>>>>>>> 59aa309e4cbc61504bfe42cdb43cc5b4b7d664ff
     <div class="container">
       <div class="d-flex align-items-center justify-content-between">
         <a href="/" class="mb-2 mb-lg-0 text-white text-decoration-none">
           <!-- <img src="/favicon.png" alt="Song E Pay" class="logo-img d-none d-md-block"> -->
+<<<<<<< HEAD
           <img
             src="/favicon.png"
             alt="Song E Pay"
@@ -29,14 +35,24 @@
               style="height: 40px; width: auto"
             />
           </h4>
+=======
+          <img src="/favicon.png" alt="Song E Pay" class="logo-img d-block d-md-none">
+          <!-- <h1 class="text-white"> Song E Pay</h1> -->
+          <h4 class="text-white d-none d-md-block mb-0">Song E Pay</h4>
+>>>>>>> 59aa309e4cbc61504bfe42cdb43cc5b4b7d664ff
           <!-- <svg class="bi me-2" width="40" height="32" role="img" aria-label="Bootstrap"><use xlink:href="#bootstrap"/></svg> -->
         </a>
 
         <div>
+<<<<<<< HEAD
           <a href="/register/legal" class="text-decoration-none me-3 text-bold"
             >회원가입</a
           >
           <a href="/login" class="btn btn-primary mb-0">로그인</a>
+=======
+          <a href="/register/legal" class="text-white text-decoration-none me-3 text-bold">Register</a>
+          <a href="/login" class="btn btn-primary mb-0">Sign in</a>
+>>>>>>> 59aa309e4cbc61504bfe42cdb43cc5b4b7d664ff
         </div>
       </div>
     </div>
@@ -395,17 +411,30 @@
 </template>
 
 <script setup>
+<<<<<<< HEAD
 import { useStore } from "vuex";
 import { onBeforeMount } from "vue";
 
 const store = useStore();
 
+=======
+import { useStore } from 'vuex';
+import { onBeforeMount, computed } from 'vue';
+
+const store = useStore();
+
+
+>>>>>>> 59aa309e4cbc61504bfe42cdb43cc5b4b7d664ff
 onBeforeMount(() => {
   store.state.hideConfigButton = true;
   store.state.showNavbar = false;
   store.state.showSidenav = false;
   store.state.showFooter = false;
 });
+<<<<<<< HEAD
+=======
+
+>>>>>>> 59aa309e4cbc61504bfe42cdb43cc5b4b7d664ff
 </script>
 <style scoped>
 .flex-fill-column {
@@ -526,8 +555,11 @@ onBeforeMount(() => {
   height: 40px;
   width: auto;
 }
+<<<<<<< HEAD
 
 .font_2 {
   font-weight: bolder;
 }
+=======
+>>>>>>> 59aa309e4cbc61504bfe42cdb43cc5b4b7d664ff
 </style>

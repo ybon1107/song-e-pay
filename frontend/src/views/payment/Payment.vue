@@ -14,7 +14,11 @@
             </div>
             <router-link to="/payment/password">
               <button class="btn btn-warning mb-0">
+<<<<<<< HEAD
                 {{$t('payment--button-pay')}}
+=======
+                결제하기
+>>>>>>> 59aa309e4cbc61504bfe42cdb43cc5b4b7d664ff
               </button>
               <!-- <div>
                 접속 기기 종류: {{ deviceInfo ? '모바일' : 'PC' }} <br>

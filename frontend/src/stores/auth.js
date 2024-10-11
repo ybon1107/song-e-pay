@@ -6,8 +6,13 @@ import userApi from "@/api/userApi";
 const initState = {
   token: "",
   user: {
+<<<<<<< HEAD
     userId: "",
     countryCode: "",
+=======
+    username: '',
+    countryCode: '',
+>>>>>>> 59aa309e4cbc61504bfe42cdb43cc5b4b7d664ff
     roles: [],
   },
 };
@@ -17,7 +22,10 @@ export const useAuthStore = defineStore("auth", () => {
   const user = ref(null);
 
   const isLogin = computed(() => !!state.value.user.username);
+<<<<<<< HEAD
   const userId = computed(() => state.value.user.userId);
+=======
+>>>>>>> 59aa309e4cbc61504bfe42cdb43cc5b4b7d664ff
 
   const fetchUser = async (userId) => {
     try {
@@ -29,6 +37,7 @@ export const useAuthStore = defineStore("auth", () => {
     }
   };
 
+<<<<<<< HEAD
   const load = async () => {
     const auth = localStorage.getItem("auth");
     if (auth != null) {
@@ -37,10 +46,19 @@ export const useAuthStore = defineStore("auth", () => {
         await fetchUser(state.value.user.userId);
         console.log("load user : ", user.value);
       }
+=======
+  const user = computed(() => state.value.user);
+
+  const load = () => {
+    const auth = localStorage.getItem('auth');
+    if (auth != null) {
+      state.value = JSON.parse(auth);
+>>>>>>> 59aa309e4cbc61504bfe42cdb43cc5b4b7d664ff
     }
   };
 
   const login = async (member) => {
+<<<<<<< HEAD
     try {
       const response = await axios.post("/api/auth/login", member.value);
       console.log("response : ", response);
@@ -48,6 +66,17 @@ export const useAuthStore = defineStore("auth", () => {
 
       state.value = { ...response.data };
 
+=======
+    console.log('login: ', member);
+    console.log('username: ', member.value.username);
+    console.log('password: ', member.value.password);
+
+    try {
+      const response = await axios.post('/api/auth/login', member.value);
+      console.log('response : ', response);
+      console.log('response.data : ', response.data);
+      state.value = { ...response.data };
+>>>>>>> 59aa309e4cbc61504bfe42cdb43cc5b4b7d664ff
       switch (state.value.user.countryCode) {
         case 0:
           state.value.user.country = "한국";
@@ -77,7 +106,11 @@ export const useAuthStore = defineStore("auth", () => {
   // 프로필 변경 시 state 업데이트 및 localStorage 저장
   const updateProfileState = (updatedData) => {
     Object.assign(state.value.user, updatedData);
+<<<<<<< HEAD
     console.log("updateProfileState : ", updatedData);
+=======
+    console.log('updateProfileState : ', updatedData);
+>>>>>>> 59aa309e4cbc61504bfe42cdb43cc5b4b7d664ff
 
     // countryCode에 따른 국가와 언어 설정
     switch (state.value.user.countryCode) {
@@ -106,7 +139,10 @@ export const useAuthStore = defineStore("auth", () => {
   const logout = () => {
     localStorage.clear();
     state.value = { ...initState };
+<<<<<<< HEAD
     user.value = null;
+=======
+>>>>>>> 59aa309e4cbc61504bfe42cdb43cc5b4b7d664ff
   };
 
   //const getToken = () => state.value.token;
@@ -124,16 +160,25 @@ export const useAuthStore = defineStore("auth", () => {
   // load(): 페이지가 로드될 때 localStorage에서 저장된 인증 정보를 불러와 state에 설정
 
   //   return { state, username, email, isLogin, changeProfile, login, logout, getToken };
+<<<<<<< HEAD
 
   return {
     state,
     userId,
+=======
+  return {
+    state,
+    userNo,
+>>>>>>> 59aa309e4cbc61504bfe42cdb43cc5b4b7d664ff
     user,
     isLogin,
     changeProfile,
     login,
     logout,
     updateProfileState,
+<<<<<<< HEAD
     fetchUser,
+=======
+>>>>>>> 59aa309e4cbc61504bfe42cdb43cc5b4b7d664ff
   };
 });

@@ -10,6 +10,7 @@ export const TRANSACTION_TYPES = {
 };
 
 export const TRANSACTION_TYPES_KEY = [
+<<<<<<< HEAD
   'none',
   'transaction_types_payment',
   'transaction_types_transfer',
@@ -32,3 +33,23 @@ export const TRANSACTION_STATES_KEY = ['none', 'transaction_states_completed', '
 //     EXCHANGE: '환전',
 //     RE_EXCHANGE: '환급',
 // };
+=======
+    'none',
+    'transaction_types_payment',
+    'transaction_types_transfser',
+    'transaction_types_deposit',
+    'transaction_types_refund',
+    'transaction_types_exchange',
+    'transaction_types_reExchange',
+];
+
+//historiesmodal에서 사용중, 추후에 제거해야함 
+export const TRANSACTION_TYPES_STRING_KO = {
+    PAYMENT: '결제',
+    TRANSFER: '송금',
+    DEPOSIT: '충전',
+    REFUND: '환불',
+    EXCHANGE: '환전',
+    RE_EXCHANGE: '환급',
+};
+>>>>>>> 59aa309e4cbc61504bfe42cdb43cc5b4b7d664ff
