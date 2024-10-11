@@ -5,11 +5,11 @@
 <mapper namespace="com.sepay.backend.eventSchedule.mapper.ScheduleMapper">
 
     <!-- 일정 저장 -->
-    <insert id="saveSchedule" parameterType="com.sepay.backend.eventSchedule.dto.ScheduleDTO">
+    <insert id="saveSchedule" parameterType="ScheduleDTO">
         INSERT INTO sepay.event
-        (user_id, begin_date, end_date, title, todo, color, created_at, updated_at)
+        (user_id, begin_date, end_date, title, todo, color)
         VALUES
-            (#{userId}, #{beginDate}, #{endDate}, #{title}, #{todo}, #{color}, NOW(), NOW())
+            (#{userId}, #{beginDate}, #{endDate}, #{title}, #{todo}, #{color})
     </insert>
 
     <!-- 일정 목록 조회 -->
