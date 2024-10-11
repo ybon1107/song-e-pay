@@ -9,6 +9,8 @@ import ArgonButton from "@/components/templates/ArgonButton.vue";
 import settingApi from "@/api/settingApi";
 import { useAuthStore } from "@/stores/auth";
 
+import Swal from "sweetalert2";
+
 const auth = useAuthStore();
 const isLogin = computed(() => auth.isLogin);
 const user = computed(() => auth.user);
@@ -78,12 +80,22 @@ const updateProfile = async () => {
   try {
     await settingApi.updateProfile(userInfo);
     console.log("프로필 업데이트 성공");
-    alert("프로필 업데이트 성공");
+    Swal.fire({
+      title: "성공!",
+      text: "프로필 업데이트 성공",
+      icon: "success",
+      confirmButtonText: "확인",
+    });
 
     window.location.reload();
   } catch (error) {
     console.error("프로필 업데이트 실패:", error.response.data);
-    alert("프로필 업데이트 실패");
+    Swal.fire({
+      title: "실패",
+      html: `프로필 업데이트 실패`,
+      icon: "error",
+      confirmButtonText: "확인",
+    });
   }
 };
 
@@ -95,14 +107,34 @@ const logout = (e) => {
 
 // 회원탈퇴 클릭 이벤트 핸들러
 const handleWithdraw = () => {
-  const confirmed = confirm("정말로 회원탈퇴 하시겠습니까?");
-
-  if (confirmed) {
-    // 사용자가 확인을 클릭했을 경우 특정 주소로 이동
-    console.log("탈퇴 : ", user.value.userId);
-    settingApi.delete(user.value.userId);
-    auth.logout();
-  }
+  Swal.fire({
+    title: "정말로 회원탈퇴 하시겠습니까?",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonText: "확인",
+    cancelButtonText: "취소",
+  }).then((result) => {
+    if (result.isConfirmed) {
+      // 사용자가 확인을 클릭했을 경우 탈퇴 처리
+      console.log("탈퇴 : ", user.value.userId);
+      settingApi.delete(user.value.userId).then(() => {
+        auth.logout();
+        Swal.fire({
+          title: "탈퇴 확인",
+          text: "회원탈퇴가 완료되었습니다.",
+          icon: "success",
+          confirmButtonText: "확인",
+        });
+      });
+    } else {
+      Swal.fire({
+        title: "취소됨",
+        text: "회원탈퇴가 취소되었습니다.",
+        icon: "info",
+        confirmButtonText: "확인",
+      });
+    }
+  });
 };
 
 const body = document.getElementsByTagName("body")[0];
@@ -196,7 +228,7 @@ onBeforeUnmount(() => {
                   aria-selected="false"
                   @click.prevent="logout"
                 >
-                  <span class="ms-1">logout</span>
+                  <span class="ms-1">{{ $t("profile--button-logout") }}</span>
                   <!-- <i class="fa-solid fa-right-from-bracket" style="margin-left: 5px;"></i> -->
                   <i
                     class="fa-solid fa-angles-right"
@@ -214,10 +246,14 @@ onBeforeUnmount(() => {
         <div class="col-md-8 page-size">
           <div class="card">
             <div class="card-body">
-              <p class="text-uppercase text-sm">Personal information</p>
+              <p class="text-uppercase text-sm">
+                {{ $t("profile--personalInfoTitle") }}
+              </p>
               <div class="row">
                 <div class="col-md-6">
-                  <label for="last-name" class="form-control-label">이름</label>
+                  <label for="last-name" class="form-control-label">{{
+                    $t("profile--lastNameLabel")
+                  }}</label>
                   <input
                     class="form-control info-input"
                     id="last-name"
@@ -226,7 +262,9 @@ onBeforeUnmount(() => {
                   />
                 </div>
                 <div class="col-md-6">
-                  <label for="first-name" class="form-control-label">성</label>
+                  <label for="first-name" class="form-control-label">{{
+                    $t("profile--firstNameLabel")
+                  }}</label>
                   <input
                     class="form-control info-input"
                     id="first-name"
@@ -235,7 +273,9 @@ onBeforeUnmount(() => {
                   />
                 </div>
                 <div class="col-md-6">
-                  <label for="birthday" class="form-control-label">생일</label>
+                  <label for="birthday" class="form-control-label">{{
+                    $t("profile--birthdayLabel")
+                  }}</label>
                   <input
                     class="form-control info-input"
                     id="birthday"
@@ -244,7 +284,9 @@ onBeforeUnmount(() => {
                   />
                 </div>
                 <div class="col-md-6">
-                  <label for="phone" class="form-control-label">전화번호</label>
+                  <label for="phone" class="form-control-label">{{
+                    $t("profile--phoneLabel")
+                  }}</label>
                   <input
                     class="form-control info-input"
                     id="phone"
@@ -254,11 +296,15 @@ onBeforeUnmount(() => {
                 </div>
               </div>
               <br />
-              <p class="text-uppercase text-sm">Personal address</p>
+              <p class="text-uppercase text-sm">
+                {{ $t("profile--personaladdress") }}
+              </p>
               <form @submit.prevent="updateProfile">
                 <div class="row">
                   <div class="col-md-6 input-address">
-                    <label for="address" class="form-control-label">주소</label>
+                    <label for="address" class="form-control-label">{{
+                      $t("profile--addressLabel")
+                    }}</label>
                     <input
                       class="form-control"
                       id="address"
@@ -266,9 +312,9 @@ onBeforeUnmount(() => {
                     />
                   </div>
                   <div class="col-md-6">
-                    <label for="postal-code" class="form-control-label"
-                      >우편번호</label
-                    >
+                    <label for="postal-code" class="form-control-label">{{
+                      $t("profile--postalCodeLabel")
+                    }}</label>
                     <input
                       class="form-control"
                       id="postal-code"
@@ -276,52 +322,56 @@ onBeforeUnmount(() => {
                     />
                   </div>
                   <div class="col-md-6">
-                    <label for="country" class="form-control-label">국가</label>
+                    <label for="country" class="form-control-label">{{
+                      $t("profile--countryLabel")
+                    }}</label>
                     <select
                       id="country"
                       class="form-select no-arrow"
                       v-model="userInfo.countryCode"
                       disabled
                     >
-                      <option value="0">한국</option>
-                      <option value="1">미국</option>
-                      <option value="2">인도네시아</option>
-                      <option value="3">베트남</option>
+                      <option value="0">{{ $t("country_kr") }}</option>
+                      <option value="1">{{ $t("country_us") }}</option>
+                      <option value="2">{{ $t("country_id") }}</option>
+                      <option value="3">{{ $t("country_vn") }}</option>
                     </select>
                   </div>
                 </div>
                 <div class="card-header pb-0" style="padding-right: 0">
                   <div class="d-flex align-items-center">
-                    <argon-button color="success" size="sm" class="ms-auto"
-                      >Settings</argon-button
-                    >
+                    <argon-button color="success" size="sm" class="ms-auto">{{
+                      $t("profile--button-settings")
+                    }}</argon-button>
                   </div>
                 </div>
               </form>
               <hr class="horizontal dark" />
               <!-- <hr /> -->
-              <p class="text-uppercase text-sm">Privacy and security</p>
+              <p class="text-uppercase text-sm">
+                {{ $t("profile--privacySecurityTitle") }}
+              </p>
               <ul class="navbar-nav nav-fill">
                 <li class="pvt-item">
                   <a class="pvt-link">
                     <div class="pvt-icon">
                       <i class="fa-solid fa-file-invoice"></i>
                     </div>
-                    <span>계좌</span>
+                    <span>{{ $t("profile--accountLabel") }}</span>
                     <i class="fa-solid fa-angle-right"></i>
                   </a>
                 </li>
                 <li class="pvt-item">
                   <a class="pvt-link" href="/change-password">
                     <div class="pvt-icon"><i class="fa-solid fa-lock"></i></div>
-                    <span>비밀번호 변경</span>
+                    <span>{{ $t("profile--changePasswordLabel") }}</span>
                     <i class="fa-solid fa-angle-right"></i>
                   </a>
                 </li>
                 <li class="pvt-item">
                   <a class="pvt-link">
                     <div class="pvt-icon"><i class="fa-solid fa-lock"></i></div>
-                    <span>2차 비밀번호</span>
+                    <span>{{ $t("profile--secondaryPasswordLabel") }}</span>
                     <i class="fa-solid fa-angle-right"></i>
                   </a>
                 </li>
@@ -329,24 +379,24 @@ onBeforeUnmount(() => {
               <hr class="horizontal dark" />
               <!-- <hr /> -->
               <ul class="navbar-nav nav-fill">
-                <li class="pvt-item">
+                <!-- <li class="pvt-item">
                   <div class="pvt-icon">
                     <i
                       class="fa-solid fa-circle-half-stroke fa-flip-horizontal"
                     ></i>
                   </div>
-                  <span>테마</span>
+                  <span>{{ $t("profile--themeLabel") }}</span>
                   <input type="checkbox" id="toggle" hidden />
                   <label for="toggle" class="toggleSwitch">
                     <span class="toggleButton"></span>
                   </label>
-                </li>
+                </li> -->
                 <li class="pvt-item" @click="handleWithdraw">
                   <a class="pvt-link">
                     <div class="pvt-icon">
                       <i class="fa-regular fa-circle-xmark fa-lg"></i>
                     </div>
-                    <span>회원탈퇴</span>
+                    <span>{{ $t("profile--deleteAccountLabel") }}</span>
                     <i class="fa-solid fa-angle-right"></i>
                   </a>
                 </li>
