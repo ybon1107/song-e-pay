@@ -1,25 +1,25 @@
 <script setup lang="ts">
-import { ref, onMounted } from 'vue';
-import FullCalendar from '@fullcalendar/vue3';
-import dayGridPlugin from '@fullcalendar/daygrid';
-import timeGridPlugin from '@fullcalendar/timegrid';
-import interactionPlugin from '@fullcalendar/interaction';
-import { createEventId } from './event-utils';
-import moment from 'moment';
-import axios from 'axios';
-import EditEventModal from './EditEventModal.vue';
-import MaintenanceModal from './MaintenanceModal.vue';
+import { ref, onMounted } from "vue";
+import FullCalendar from "@fullcalendar/vue3";
+import dayGridPlugin from "@fullcalendar/daygrid";
+import timeGridPlugin from "@fullcalendar/timegrid";
+import interactionPlugin from "@fullcalendar/interaction";
+import { createEventId } from "./event-utils";
+import moment from "moment";
+import axios from "axios";
+import EditEventModal from "./EditEventModal.vue";
+import MaintenanceModal from "./MaintenanceModal.vue";
 
 const isMaintenanceModalVisible = ref(false);
 const isEditEventModalVisible = ref(false);
 
 const maintenance = ref({
-  id: '',
-  title: '',
-  description: '',
-  color: '',
-  startedAt: moment().format('YYYY-MM-DD'),
-  endedAt: moment().format('YYYY-MM-DD'),
+  id: "",
+  title: "",
+  description: "",
+  color: "",
+  startedAt: moment().format("YYYY-MM-DD"),
+  endedAt: moment().format("YYYY-MM-DD"),
 });
 
 const calendarRef = ref(null);
@@ -28,10 +28,10 @@ const currentEvents = ref([]);
 // Maintenance modal 열기
 function openMaintenanceModal(startDate, endDate) {
   maintenance.value = {
-    id: '',
-    title: '',
-    description: '',
-    color: '',
+    id: "",
+    title: "",
+    description: "",
+    color: "",
     startedAt: startDate,
     endedAt: endDate,
   };
@@ -40,19 +40,19 @@ function openMaintenanceModal(startDate, endDate) {
 
 // 새 이벤트 추가
 function addEvent(eventData) {
-  const colorWithoutHash = eventData.color.replace('#', '');
+  const colorWithoutHash = eventData.color.replace("#", "");
 
   const scheduleData = {
-    userId: 'test@gmail.com',
+    userId: "test@gmail.com",
     beginDate: eventData.startedAt,
-    endDate: moment(eventData.endedAt).add(1, 'days').format('YYYY-MM-DD'),
+    endDate: moment(eventData.endedAt).add(1, "days").format("YYYY-MM-DD"),
     title: eventData.title,
     todo: eventData.description,
-    color: colorWithoutHash || '000000',
+    color: colorWithoutHash || "000000",
   };
 
   axios
-    .post('/api/schedule/add', scheduleData)
+    .post("/api/schedule/add", scheduleData)
     .then(async (response) => {
       if (response && response.data) {
         // 일정 추가 후 모든 일정을 다시 로딩
@@ -61,7 +61,7 @@ function addEvent(eventData) {
       closeMaintenanceModal();
     })
     .catch((error) => {
-      console.error('일정 추가 중 오류 발생:', error);
+      console.error("일정 추가 중 오류 발생:", error);
     });
 }
 
@@ -69,33 +69,36 @@ function handleEventClick(clickInfo) {
   const event = clickInfo.event;
 
   maintenance.value = {
-    id: event.id || '', // id가 null 또는 undefined일 경우 빈 문자열을 사용
-    title: event.title || '',
-    description: event.extendedProps.description || '',
-    color: event.backgroundColor || '000000',
+    id: event.id || "", // id가 null 또는 undefined일 경우 빈 문자열을 사용
+    title: event.title || "",
+    description: event.extendedProps.description || "",
+    color: event.backgroundColor || "000000",
     startedAt: event.start
-      ? moment(event.start).format('YYYY-MM-DD') // 날짜만 표시
-      : '',
-    endedAt: event.end ? moment(event.end).format('YYYY-MM-DD') : '', // 날짜만 표시
+      ? moment(event.start).format("YYYY-MM-DD") // 날짜만 표시
+      : "",
+    endedAt: event.end ? moment(event.end).format("YYYY-MM-DD") : "", // 날짜만 표시
   };
 
-  console.log('Clicked Event Details:', JSON.stringify(maintenance.value, null, 2));
+  console.log(
+    "Clicked Event Details:",
+    JSON.stringify(maintenance.value, null, 2)
+  );
   // 데이터 확인
   isEditEventModalVisible.value = true; // 모달 표시
 }
 
 // 기존 이벤트 업데이트
 function updateEvent(updatedEvent) {
-  const colorWithoutHash = updatedEvent.color.replace('#', ''); // 색깔 Hex코드 저장
-  console.log('Updated Event Data:', updatedEvent); // updatedEvent 객체 확인
+  const colorWithoutHash = updatedEvent.color.replace("#", ""); // 색깔 Hex코드 저장
+  console.log("Updated Event Data:", updatedEvent); // updatedEvent 객체 확인
 
   const scheduleData = {
     id: event.eventNo,
     title: updatedEvent.title,
-    todo: updatedEvent.description || '',
-    beginDate: updatedEvent.startedAt || moment().format('YYYY-MM-DD'),
-    endDate: updatedEvent.endedAt || moment().format('YYYY-MM-DD'),
-    color: colorWithoutHash || '000000',
+    todo: updatedEvent.description || "",
+    beginDate: updatedEvent.startedAt || moment().format("YYYY-MM-DD"),
+    endDate: updatedEvent.endedAt || moment().format("YYYY-MM-DD"),
+    color: colorWithoutHash || "000000",
     // backgroundColor: `#${createdEvent.color}`, // 색상 속성 수정
     // borderColor: `#${createdEvent.color}`, // 색상 속성 추가
   };
@@ -107,18 +110,18 @@ function updateEvent(updatedEvent) {
       if (calendarApi) {
         const event = calendarApi.getEventById(updatedEvent.id);
         if (event) {
-          event.setProp('title', updatedEvent.title);
+          event.setProp("title", updatedEvent.title);
           event.setStart(updatedEvent.startedAt);
           event.setEnd(updatedEvent.endedAt);
-          event.setProp('backgroundColor', `#${colorWithoutHash}`);
-          event.setProp('borderColor', `#${colorWithoutHash}`);
-          event.setExtendedProp('description', updatedEvent.description);
+          event.setProp("backgroundColor", `#${colorWithoutHash}`);
+          event.setProp("borderColor", `#${colorWithoutHash}`);
+          event.setExtendedProp("description", updatedEvent.description);
         }
       }
       closeEditEventModal();
     })
     .catch((error) => {
-      console.error('Error updating event:', error);
+      console.error("Error updating event:", error);
     });
 }
 // 모달 닫기 함수
@@ -139,7 +142,7 @@ function handleDateSelect(selectInfo) {
 // Load events from the backend
 async function loadEvents() {
   try {
-    const response = await axios.get('/api/schedule/list');
+    const response = await axios.get("/api/schedule/list");
     const events = response.data;
     const calendarApi = calendarRef.value.getApi();
 
@@ -161,7 +164,7 @@ async function loadEvents() {
       });
     });
   } catch (error) {
-    console.error('이벤트 로딩 중 오류 발생:', error);
+    console.error("이벤트 로딩 중 오류 발생:", error);
   }
 }
 
@@ -174,7 +177,7 @@ function deleteEvent(eventId) {
   axios
     .delete(`/api/schedule/delete/${eventId}`)
     .then((response) => {
-      console.log('Event deleted successfully:', response.data);
+      console.log("Event deleted successfully:", response.data);
       // 캘린더에서 삭제된 이벤트 제거
       const calendarApi = calendarRef.value.getApi();
       const event = calendarApi.getEventById(eventId);
@@ -184,17 +187,17 @@ function deleteEvent(eventId) {
       closeEditEventModal();
     })
     .catch((error) => {
-      console.error('Error deleting event:', error);
+      console.error("Error deleting event:", error);
     });
 }
 const calendarOptions = ref({
   plugins: [dayGridPlugin, timeGridPlugin, interactionPlugin],
   headerToolbar: {
-    left: 'prev,next today',
-    center: 'title',
-    right: 'dayGridMonth,timeGridWeek,timeGridDay',
+    left: "prev,next today",
+    center: "title",
+    right: "dayGridMonth,timeGridWeek,timeGridDay",
   },
-  initialView: 'dayGridMonth',
+  initialView: "dayGridMonth",
   editable: true,
   selectable: true,
   dayMaxEvents: true,
@@ -209,7 +212,11 @@ const calendarOptions = ref({
   <div class="container-fluid" style="width: 85%" id="responsive-container">
     <div class="card card-body demo-app d-flex flex-column flex-md-row">
       <div class="demo-app-main col-md-9">
-        <FullCalendar ref="calendarRef" class="demo-app-calendar" :options="calendarOptions">
+        <FullCalendar
+          ref="calendarRef"
+          class="demo-app-calendar"
+          :options="calendarOptions"
+        >
           <template v-slot:eventContent="arg">
             <b>{{ arg.timeText }}</b>
             <i>{{ arg.event.title }}</i>
@@ -227,7 +234,13 @@ const calendarOptions = ref({
       </div>
     </div>
   </div>
-  <MaintenanceModal v-if="isMaintenanceModalVisible" :isVisible="isMaintenanceModalVisible" :maintenance="maintenance" @closeModal="closeMaintenanceModal" @saveEvent="addEvent" />
+  <MaintenanceModal
+    v-if="isMaintenanceModalVisible"
+    :isVisible="isMaintenanceModalVisible"
+    :maintenance="maintenance"
+    @closeModal="closeMaintenanceModal"
+    @saveEvent="addEvent"
+  />
   <EditEventModal
     v-if="isEditEventModalVisible"
     :isVisible="isEditEventModalVisible"
@@ -261,11 +274,6 @@ b {
 .demo-app {
   display: flex;
   min-height: 100%;
-  font-family:
-    Arial,
-    Helvetica Neue,
-    Helvetica,
-    sans-serif;
   font-size: 14px;
   background: #fff6ef !important;
 }
