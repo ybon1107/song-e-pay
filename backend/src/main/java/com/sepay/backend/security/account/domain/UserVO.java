@@ -46,3 +46,6 @@ public class UserVO {
     private List<AuthVO> authList;
 >>>>>>> 59aa309e4cbc61504bfe42cdb43cc5b4b7d664ff
 }
+
+
+

@@ -1,4 +1,31 @@
 key,ko,en,id,vi
+common-btn-back,뒤로가기,Go back,Kembali,Quay lại,,
+common--btn-save,저장,Save,Simpan,Lưu
+common--btn-confirm,확인,confirm,Konfirmasi,Xác nhận
+common--btn-close,닫기,close,Tutup,Đóng
+common--btn-edit,수정,edit,Ubah,Chỉnh sửa
+common-btn--submit,제출,Submit,Kirim,Gửi
+common--text-next,다음,Next,Berikut,Tiếp theo
+common--text-submit,회원가입,Sign up,Mendaftar,Đăng ký
+common--text-login,로그인,Log in,Masuk,Đăng nhập
+common--text-email,이메일,Email,Email,Email
+common--text-logout,로그아웃,Log out,Keluar,Đăng xuất
+common--text-password,비밀번호,Password,Kata sandi,Mật khẩu
+common--text-secondary-password,2차 비밀번호,Secondary Password,Kata sandi kedua,Mật khẩu thứ hai
+transaction_types_payment,결제,Payment,Pembayaran,Thanh toán
+transaction_types_transfer,송금,Transfer,Transfer,Chuyển khoản
+transaction_types_deposit,SongE 채우기,SongE Top Up,SongE Isi Ulang,SongE Nạp
+transaction_types_refund,SongE 비우기,SongE Withdraw,SongE Penarikan,SongE Rút tiền
+transaction_types_exchange,환전,Exchange,penukaran uang,sự đổi tiền
+transaction_types_reExchange,환전,Exchange,penukaran uang,sự đổi tiền
+transaction_types_autoExchange,자동환전,Automatic Exchange,Penukaran Otomatis,Đổi tiền tự động
+transaction_types_receive,입금,Deposit,Setoran,Nạp tiền,
+transaction_states_completed,성공,Success,Sukses,Thành công
+transaction_states_failed,실패,Failure,Gagal,Thất bại
+transaction_states_cancelled,취소,Cancel,Batalkan,Hủy
+transaction_states_pending,처리중,Processing,Sedang diproses,Đang xử lý
+swal--title-success,성공,Success,Sukses,Thành công
+swal--title-fail,실패,Failure,Gagal,Thất bại
 setting--title,프로필,Profile,Profil,Hồ sơ
 map--title,금융 지도,Financial Map,Peta Keuangan,Bản đồ tài chính
 map--select-cityLabel,광역시/도,City/Province,Kota,Thành phố
@@ -9,23 +36,78 @@ map--mylocation, 내 위치에서 찾기, Find nearby, Cari dari lokasi saya, T�
 =======
 >>>>>>> 59aa309e4cbc61504bfe42cdb43cc5b4b7d664ff
 map--address,주소,Address,Alamat,Địa chỉ
-provinces--seoul,서울특별시,,
-provinces--busan,부산광역시,,
-provinces--daegu,대구광역시,,
-provinces--incheon,인천광역시,,
-provinces--gwangju,광주광역시,,
-provinces--daejeon,대전광역시,,
-provinces--ulsan,울산광역시,,
-provinces--sejong,세종특별자치시,,
-provinces--gyeonggi,경기도,,
-provinces--gangwon,강원도,,
-provinces--chungcheongbuk,충청북도,,
-provinces--chungcheongnam,충청남도,,
-provinces--jeollabuk,전라북도,,
-provinces--jeollanam,전라남도,,
-provinces--gyeongsangbuk,경상북도,,
-provinces--gyeongsangnam,경상남도,,
-provinces--jeju,제주특별자치도,,
+map-mylocation,내 위치에서 찾기,Find from my location,Cari dari lokasi saya,Tìm từ vị trí của tôi
+map--marker-box-openingHours,운영시간 정보 없음,Operating hours not available,Informasi jam operasional tidak tersedia,Không có thông tin giờ hoạt động
+payment--passwordInput--title,비밀번호 입력,Enter Password,Masukkan Kata Sandi,Nhập mật khẩu
+payment--passwordInput--instruction,6자리 비밀번호를 입력해주세요,Please enter a 6-digit password,Masukkan kata sandi 6 digit,Vui lòng nhập mật khẩu 6 chữ số
+payment--passwordInput--submit,제출,Submit,Kirim,Gửi
+payment--message-desktop,모바일 환경에서 접속해 주세요.,Our payment system is only available in a mobile environment.,Sistem pembayaran kami hanya tersedia di lingkungan seluler.,Hệ thống thanh toán của chúng tôi chỉ có sẵn trong môi trường di động.
+payment--button-pay,결제하기,Pay,Bayar,Thanh toán
+payment--qrScan--button-submit,확인,Confirm,Konfirmasi,Xác nhận
+payment--qrScan--imageAlt,QR 코드,QR Code,Kode QR,Mã QR
+payment--qrScan--balanceLabel,보유잔액,Balance,Saldo,Số dư
+payment--swal-password-wrong-title,다시 입력하세요,Please enter again.,Silakan masukkan lagi.,Vui lòng nhập lại.
+payment--swal-password-wrong-text,비밀번호가 틀렸습니다.,The password is incorrect.,Kata sandi salah.,Mật khẩu không chính xác.
+payment--swal-success-text,결제가 완료되었습니다.,The payment is complete.,Pembayaran telah selesai.,Thanh toán đã hoàn thành.
+payment--swal-fail-text,결제가 실패했습니다.,The payment failed.,Pembayaran gagal.,Thanh toán thất bại.
+profile--passwordLabel,비밀번호,Password,Kata Sandi,Mật khẩu
+profile--confirmPasswordLabel,비밀번호 확인,Confirm Password,Konfirmasi Kata Sandi,Xác nhận mật khẩu
+profile--button-submit,확인,Confirm,Konfirmasi,Xác nhận
+profile--nicknameLabel,닉네임,User Nickname,Nama Pengguna,Biệt danh người dùng
+profile--button-logout,로그아웃,Logout,Keluar,Đăng xuất
+profile--personalInfoTitle,개인정보,Personal Information,Informasi Pribadi,Thông tin cá nhân
+profile--lastNameLabel,이름,Name,Nama,Tên
+profile--firstNameLabel,성,First Name,Nama Depan,Tên
+profile--birthdayLabel,생일,Birthday,Tanggal Lahir,Ngày sinh
+profile--phoneLabel,전화번호,Phone Number,Nomor Telepon,Số điện thoại
+profile--addressLabel,주소,Address,Alamat,Địa chỉ
+profile--cityLabel,도시,City,Kota,Thành phố
+profile--postalCodeLabel,우편번호,PostCode,Kode Pos,Mã bưu điện
+profile--countryLabel,국가,Nation,Negara,Quốc gia
+profile--button-settings,설정,Settings,Pengaturan,Cài đặt
+profile--privacySecurityTitle,개인정보 및 보안,Privacy And Security,Privasi dan Keamanan,Quyền riêng tư và bảo mật
+profile--accountLabel,계좌,Account,Akun,Tài khoản
+profile--changePasswordLabel,비밀번호 변경,Change Password,Ubah Kata Sandi,Thay đổi mật khẩu
+profile--secondaryPasswordLabel,2차 비밀번호,Secondary Password,Kata Sandi Kedua,Mật khẩu thứ hai
+profile--themeLabel,테마,Theme,Tema,Giao diện
+profile--deleteAccountLabel,회원탈퇴,Membership Withdrawal,Penarikan Keanggotaan,Rút lui tư cách thành viên
+histories--transactionHistory,이용 내역,Details of use,Riwayat Penggunaan,Lịch sử sử dụng
+histories--accountType,계좌 종류,Account Type,Jenis Akun,Loại tài khoản
+histories--searchDetail,상세 내용 검색,Search for details,Cari Rincian,Tìm kiếm chi tiết
+histories--startDate,시작 날짜,Start Date,Tanggal Mulai,Ngày bắt đầu
+histories--endDate,끝 날짜,Last Date,Tanggal Akhir,Ngày kết thúc
+histories--transactionType,거래 유형,Type of transaction,Jenis Transaksi,Loại giao dịch
+histories--transactionStatus,거래 상태,Transaction Status,Status Transaksi,Trạng thái giao dịch
+histories--apply,적용,Application,Aplikasi,Ứng dụng
+histories--header-dateTime,날짜/시간,Date/Time,Tanggal/Waktu,Ngày/Giờ
+histories--header-transactionType,거래 유형,Type of Transaction,Jenis Transaksi,Loại giao dịch
+histories--header-transactionDetail,거래 상세,Transaction Details,Rincian Transaksi,Chi tiết giao dịch
+histories--header-transactionAmount,거래 금액,Transaction Amount,Jumlah Transaksi,Số tiền giao dịch
+histories--header-transactionDetail,거래 상세 보기,Details,Rincian,Chi tiết
+histories--searchQuery,검색어를 입력하세요.,Enter a search term.,Masukkan kata pencarian.,Nhập từ khóa tìm kiếm
+histories--filters-period-today,오늘,Today,Hari ini,Hôm nay
+histories--filters-period-oneMonth,1개월,1 Month,1 Bulan,1 tháng
+histories--filters-period-threeMonth,3개월,3 Months,3 Bulan,3 tháng
+histories--filters-period-custom,직접설정,Custom Settings,Pengaturan Kustom,Cài đặt tùy chỉnh
+histories--filters-type-all,전체,All,Semua,Tất cả
+histories--filters-type-wone,WON-E,WON-E,WON-E,WON-E
+histories--filters-type-songe,SONG-E,SONG-E,SONG-E,SONG-E
+histories--filters-sort-newest,최신순,Newest First,Terbaru Terlebih Dahulu,Mới nhất trước
+histories--filters-sort-oldest,과거순,Oldest First,Terlama Terlebih Dahulu,Cũ nhất trước
+histories--filter-modal-title,필터링 옵션,Filtering Options,Opsi Penyaringan,Tùy chọn lọc
+histories--filter-modal-title-period,조회기간,Search Period,Periode Pencarian,Khoảng thời gian tra cứu
+histories--filter-modal-title-type,유형선택 ,Type Selection,Pilihan Jenis,Lựa chọn loại
+histories--filter-modal-title-sort,정렬선택,Sort Selection,Pilihan Urutan,Lựa chọn sắp xếp
+histories--modal-exchangeRate,환율,Exchange Rate,Nilai Tukar,Tỷ giá
+histories--modal-title,내역상세,Transaction details,Rincian transaksi,Chi tiết giao dịch
+histories--modal-historyDate,결제 일시,Payment Date and Time,Tanggal dan Waktu Pembayaran,Ngày và giờ thanh toán
+histories--modal-stateCode,거래 상태,Transaction Status,Status Transaksi,Trạng thái giao dịch
+histories--modal-memo,메모 남기기,Memo,Memo,Ghi chú
+histories--modal-enterMemo,메모를 입력하세요,Please enter a note.,Masukkan Catatan,Vui lòng nhập ghi chú
+histories--modal-alert,메모가 성공적으로 저장되었습니다.,Memo was saved successfully.,Memo berhasil disimpan.,Ghi chú đã được lưu thành công.
+histories--modal-swal-fail,메모 저장에 실패했습니다.,Failed to save memo.,Gagal menyimpan memo.,Lưu ghi chú thất bại.
+histories--modal-button-close,닫기,Close,Tutup,Đóng
+histories--modal-button-save,저장,Save,Simpan,Lưu
 myAccount--nav-songE-charge,충전,deposit,Setoran,Nạp tiền
 myAccount--nav-songE-exchange,환전,exchange,penukaran uang,sự đổi tiền
 myAccount--nav-songE-withdraw,환불,refund,Pengembalian,Hoàn tiền
@@ -58,8 +140,14 @@ myAccount--nav-songE-fill,채우기,fill,mengisi,điền vào
 myAccount--header-autoExchange,자동환전 및 알람,Automatic currency exchange and alert,Penukaran dan peringatan mata uang otomatis,Trao đổi tiền tệ tự động và cảnh báo
 myAccount--songE-title,SONG-E,SONG-E,SONG-E,SONG-E
 myAccount--wonE-title,WON-E,WON-E,WON-E,WON-E
+myAccount--songE-button-fill,SONG-E 채우기,SONG-E fill,SONG-E mengisi,
+myAccount--songE-button-vacate,SONG-E 비우기,SONG-E take out,SONG-E kosong,
+myAccount--songE-button-exchange,SONG-E로 환전,Exchange money to SONG-E,Tukarkan uang dengan WON-E,Đổi tiền sang SONG-E
+myAccount--wonE-button-exchange,WON-E로 환전,Exchange money to WON-E,Tukarkan uang dengan SONG-E,Đổi tiền sang WON-E
+myAccount--wonE-button-transfer,WON-E간 송금,Transfer money between WON-E,Transfer uang antar WON-E,Chuyển tiền giữa WON-E
 myAccount--swal-title,성공,success,kesuksesan,thành công
 myAccount--swal-content,{kwd}이 완료되었습니다.,{kwd} has been completed,{kwd} telah selesai,{kwd} chuyển tiền đã hoàn tất
+<<<<<<< HEAD
 =======
 >>>>>>> 59aa309e4cbc61504bfe42cdb43cc5b4b7d664ff
 myAccount--SecondPassword--modal-header-title,잠깐 !!!!,Wait a minute!!!!,Tunggu sebentar!!!!,Chờ một chút!!!!
@@ -79,3 +167,559 @@ transaction_types_refund,환불,refund,Pengembalian,Hoàn tiền
 transaction_types_exchange,환전,exchange,penukaran uang,sự đổi tiền
 transaction_types_reExchange,환급,re-exchange,Tukar ulang	Đổi lại
 >>>>>>> 59aa309e4cbc61504bfe42cdb43cc5b4b7d664ff
+=======
+myAccount--SecondPassword--modal-header,⚠️ 경고,⚠️ Warnig,⚠️ Peringatan,⚠️ Cảnh báo
+myAccount--SecondPassword--modal-header-title,잠깐 !!!!,Wait a minute!!!!,Tunggu sebentar!!!!,Chờ một chút!!!!
+myAccount--SecondPassword--modal-warning,사칭사기에 주의하세요.,Be careful of impostor fraud.,Hati-hati dengan penipuan,Cẩn thận với lừa đảo giả mạo
+myAccount--SecondPassword--modal-passwordTitle,결제 비밀번호,Payment password,Kata sandi pembayaran,Mật khẩu thanh toán
+myAccount--SecondPassword--modal-enterAgain,다시 입력하세요,Please enter again,Silakan masuk lagi,Vui lòng đăng nhập lại
+myAccount--SecondPassword--modal-wrongPassword,비밀번호가 일치하지 않습니다,Password does not match,Kata sandi tidak coco,Mật khẩu không khớp
+myAccount--SecondPassword--modal-verificationFailed,비밀번호 확인에 실패했습니다. 다시 시도해 주세요.,Password verification failed. Please try again.,Verifikasi kata sandi gagal. Silakan coba lagi.,Xác minh mật khẩu không thành công. Vui lòng thử lại.
+signIn--header-welcome,어서오세요!,Welcome!,Selamat datang!,Chào mừng!
+signIn--footer-signUpLink,계좌가 없으신가요?,Don't have an account?,Belum punya akun?,Bạn chưa có tài khoản?
+signIn--footer-signUp,회원가입,Sign up,Mendaftar,Đăng ký
+signIn--form-emailLabel,이메일 입력,Your email address,Masukkan alamat email Anda,Nhập địa chỉ email của bạn
+signIn--form-emailPlaceholder,이메일,Email,Email,Email
+signIn--form-passwordLabel,비밀번호 입력,Your password,Masukkan kata sandi Anda,Nhập mật khẩu của bạn
+signIn--form-passwordPlaceholder,비밀번호,Password,Kata Sandi,Mật khẩu
+signIn--button-signIn,로그인,Login,Masuk,Đăng nhập
+signIn--link-troubleLoggingIn,로그인에 문제가 있으신가요?,Trouble logging in?,Masalah saat masuk?,Có vấn đề khi đăng nhập?
+signIn--errorText-email,이메일을 정확히 입력해주세요.,Please provide a valid email.,Harap berikan email yang valid.,Vui lòng cung cấp một email hợp lệ.
+signIn--errorText-pw,비밀번호를 8자리 이상 입력해주세요.,Please fill in the password field with at least 8 characters.,Silakan isi kolom kata sandi minimal 8 karakter.,Vui lòng điền vào trường mật khẩu có ít nhất 8 ký tự.
+signIn--LoginIssueInfo--header-title,계정 문제 찾기,Trouble Logging in,Cari masalah akun,Tìm vấn đề với tài khoản
+signIn--LoginIssueInfo--body-selectIssue,어떤 문제인가요?,Select an issue,Pilih masalah,Chọn một vấn đề
+signIn--LoginIssueInfo--button-goBack,뒤로가기,Go Back,Kembali,Quay lại
+signIn--LoginIssueInfo--ForgotMyPassword-title,비밀번호를 잊어버렸어요,I've forgotten my password,Saya lupa kata sandi saya,Tôi đã quên mật khẩu của mình
+signIn--LoginIssueInfo--ForgotMyPassword-content,"비밀번호를 잊으셨다면, 로그인 페이지에서 '비밀번호 찾기' 링크를 클릭하여 재설정할 수 있습니다.","If you've forgotten your password, you can reset it by clicking the 'Forgot password?' link on the login page.","Jika Anda lupa kata sandi, Anda dapat mengatur ulang dengan mengklik tautan 'Lupa kata sandi?' di halaman masuk.","Nếu bạn quên mật khẩu, bạn có thể đặt lại bằng cách nhấp vào liên kết 'Quên mật khẩu?' trên trang đăng nhập."
+signIn--LoginIssueInfo--2stepNotworking-title,2단계 인증이 동작하지 않아요,2-step verification isn't working,Verifikasi 2 langkah tidak berfungsi,Xác minh 2 bước không hoạt động
+signIn--LoginIssueInfo--2stepNotworking-content,"가입할 때 사용한 이메일 주소를 기억하지 못하신다면, 고객 지원팀에 문의해 주세요.","If you can't remember the email address you used to sign up, please contact our support team.","Jika Anda tidak ingat alamat email yang Anda gunakan untuk mendaftar, silakan hubungi tim dukungan kami.","Nếu bạn không nhớ địa chỉ email đã sử dụng để đăng ký, vui lòng liên hệ với đội hỗ trợ của chúng tôi."
+signIn--LoginIssueInfo--changePhoneNumber-title,전화번호를 변경하고싶어요,I need to change my phone number,Saya perlu mengganti nomor telepon saya,Tôi cần thay đổi số điện thoại của mình
+signIn--LoginIssueInfo--changePhoneNumber-content,"SMS 인증 코드를 받지 못하셨다면, 입력하신 전화번호가 정확한지 확인해 주세요. 여전히 문제가 있다면, 고객 지원팀에 문의해 주세요.","If you're not receiving the SMS code, please check that you've entered the correct phone number. If you're still having trouble, please contact our support team.","Jika Anda tidak menerima kode SMS, periksa apakah nomor telepon yang Anda masukkan sudah benar. Jika masalah masih ada, silakan hubungi tim dukungan kami.","Nếu bạn không nhận được mã SMS, vui lòng kiểm tra xem bạn đã nhập đúng số điện thoại chưa. Nếu vấn đề vẫn còn, vui lòng liên hệ với đội hỗ trợ của chúng tôi."
+signIn--LoginIssueInfo--changeMyEmail-title,이메일을 변경하고 싶어요,I need to change my email,Saya perlu mengubah email saya,Tôi cần thay đổi email của mình
+signIn--LoginIssueInfo--changeMyEmail-content,"메일 인증 코드를 받지 못하셨다면, 스팸 메일함을 확인해 주세요. 여전히 문제가 있다면, 고객 지원팀에 문의해 주세요.","If you're not receiving the email code, please check your spam folder. If you're still having trouble, please contact our support team.","Jika Anda tidak menerima kode email, periksa folder spam Anda. Jika masalah masih ada, silakan hubungi tim dukungan kami.","Nếu bạn không nhận được mã email, vui lòng kiểm tra thư mục spam của bạn. Nếu vấn đề vẫn còn, vui lòng liên hệ với đội hỗ trợ của chúng tôi."
+signIn--LoginIssueInfo--newDevice-title,새로운 기기에서 로그인,Logging in with a new device,Masuk dengan perangkat baru,Đăng nhập bằng thiết bị mới
+signIn--LoginIssueInfo--newDevice-content,"새로운 기기에서 로그인하는 경우, 본인 인증이 필요할 수 있습니다. 이메일 또는 SMS에서 인증 코드를 확인해 주세요. 코드를 받지 못하셨다면, 고객 지원팀에 문의해 주세요.","If you're logging in from a new device, you may be asked to verify your identity. Please check your email or SMS for a verification code. If you don't receive a code, please contact our support team.","Jika Anda masuk dari perangkat baru, Anda mungkin diminta untuk memverifikasi identitas Anda. Silakan periksa email atau SMS Anda untuk mendapatkan kode verifikasi. Jika Anda tidak menerima kode, silakan hubungi tim dukungan kami.","Nếu bạn đăng nhập từ một thiết bị mới, bạn có thể được yêu cầu xác minh danh tính của mình. Vui lòng kiểm tra email hoặc SMS của bạn để nhận mã xác minh. Nếu bạn không nhận được mã, vui lòng liên hệ với đội hỗ trợ của chúng tôi."
+signIn--LoginIssueInfo--wasDeactivated-title,계정이 비활성화 되었어요,My account was deactivated,Akun saya dinonaktifkan,Tài khoản của tôi đã bị vô hiệu hóa
+signIn--LoginIssueInfo--wasDeactivated-content,"계정이 비활성화된 경우, 고객 지원팀에 문의해 도움을 받으세요.","If your account was deactivated, please contact our support team for assistance.","Jika akun Anda dinonaktifkan, silakan hubungi tim dukungan kami untuk bantuan.","Nếu tài khoản của bạn bị vô hiệu hóa, vui lòng liên hệ với đội hỗ trợ của chúng tôi để được trợ giúp."
+signIn--LoginPhone--header-title,저장된 번호로 인증문자가 발송되었습니다.,We just sent you an SMS.,Kami baru saja mengirim SMS.,Chúng tôi vừa gửi cho bạn một SMS.
+signIn--LoginPhone--footer-info,로그인을 위해서는, 5분 안에 *******1234로 발송된 인증코드를 입력해주세요.,To log in, enter the security code we sent to *********1234. It will expire in 5 minutes.,Untuk masuk, masukkan kode keamanan yang kami kirimkan ke *********1234. Kode akan kedaluwarsa dalam 5 menit.,Để đăng nhập, hãy nhập mã bảo mật chúng tôi đã gửi tới *********1234. Mã sẽ hết hạn sau 5 phút.
+signIn--LoginPhone--footer-learnMore,더 보기,Learn more,Pelajari lebih lanjut,Tìm hiểu thêm
+signIn--LoginPhone--form-label-digitCode,6자리 코드,Your 6-digit code,Kode 6 digit Anda,Mã 6 chữ số của bạn
+signIn--LoginPhone--link-noCodeReceived,코드를 받지 못했어요!,I didn't receive a code,Saya tidak menerima kode,Tôi không nhận được mã
+signIn--LoginPhone--button-done,완료,Done,Selesai,Xong
+signIn--CodeSendAnother--header-title,다른 방식,Approve another way,Setujui cara lain,Xác nhận cách khác
+signIn--CodeSendAnother--option-resendBySMS,SMS 다시 보내기,Resend code by SMS,Kirim ulang kode lewat SMS,Gửi lại mã qua SMS
+signIn--CodeSendAnother--option-sendByVoiceCall,전화로 코드 받기,Send Code by voice call,Kirim kode lewat panggilan suara,Gửi mã bằng cuộc gọi thoại
+signIn--CodeSendAnother--button-goBack,뒤로가기,Go Back,Kembali,Quay lại
+signUp--Title-agreements,서비스 약관 동의,Our agreements with you,Kesepakatan kami dengan Anda,Thỏa thuận của chúng tôi với bạn
+signUp--loginPrompt,이미 계정이 있으신가요?,Already have an account?,Sudah punya akun?,Đã có tài khoản?
+signUp--agreeAllTermsLabel,모든 약관에 동의합니다.,Agree with all terms and conditions,Setujui semua syarat dan ketentuan,Đồng ý với tất cả các điều khoản và điều kiện
+signUp--requireText,필수,Required,Diperlukan,Bắt buộc
+signUp--agreeTermsOfServiceLabel,이용약관에 동의합니다.,I agree the Terms of Service,Saya setuju dengan Syarat Layanan,Tôi đồng ý với Điều khoản Dịch vụ
+signUp--termsOfService,"""<strong>여러분을 환영합니다.</strong><br/>
+송이페이(이하 ‘서비스’)를 이용해 주셔서 감사합니다. 본 약관은 송이페이 서비스 이용과 관련하여 송이페이(이하 ‘회사’)와 이를 이용하는 사용자(이하 ‘회원’) 간의 권리, 의무, 책임 사항을 규정합니다. 서비스를 이용하시거나 회원으로 가입하실 경우 본 약관에 동의한 것으로 간주되오니, 주의 깊게 읽어주시기 바랍니다.<br/>
+<br/>
+<strong>다양한 송이페이 서비스를 이용해보세요.</strong><br/>
+송이페이는 해외에서 한국으로 여행하는 외국인들을 위한 전자지갑 서비스로, 환율 정보 제공 및 통화 환전 기능을 통해 더욱 편리한 여행을 지원합니다. 송이페이 서비스를 통해 사용자는 PC, 스마트폰 등 다양한 디바이스에서 자유롭게 서비스를 이용하실 수 있습니다.<br/>
+<br/>
+<strong>회원 가입 및 서비스 이용</strong><br/>
+회원 가입을 통해 더욱 편리하게 송이페이 서비스를 이용하실 수 있으며, 회사는 필요한 경우 서비스 제공을 위한 추가적인 약관이나 운영정책을 적용할 수 있습니다. 회원은 가입 시 정확한 정보를 제공해야 하며, 자신의 계정 정보를 타인과 공유하거나 양도할 수 없습니다.<br/>
+<br/>
+<strong>개인정보 보호</strong><br/>
+회사는 서비스 제공을 위해 필요한 범위 내에서만 회원의 개인정보를 수집하며, 관련 법령에 따라 안전하게 관리합니다. 개인정보의 수집, 이용, 보관 등에 관한 자세한 내용은 개인정보 처리방침에서 확인하실 수 있습니다.<br/>
+<br/>
+<strong>서비스 이용 제한 및 중지</strong><br/>
+회원이 본 약관 또는 관련 법령을 위반하는 경우, 회사는 회원의 서비스 이용을 제한하거나 중지할 수 있습니다. 서비스 중지 시 회원의 개인정보는 관련 법령에 따라 처리되며, 계정에 연동된 데이터는 복구되지 않을 수 있습니다.<br/>
+<br/>
+<strong>서비스의 변경 및 중단</strong><br/>
+회사는 기술적 문제 또는 운영상의 이유로 서비스의 전부 또는 일부를 변경하거나 중단할 수 있습니다. 이 경우, 사전에 고지하며, 무료로 제공되는 서비스의 중단에 대해서는 별도의 보상이 이루어지지 않습니다.<br/>
+<br/>
+<strong>약관의 개정</strong><br/>
+본 약관은 서비스 초기 화면에 게시되며, 관련 법령을 준수하는 범위 내에서 개정될 수 있습니다. 중요한 사항의 변경 시 사전 공지하며, 변경된 약관에 동의하지 않으실 경우 서비스 이용이 제한될 수 있습니다.""","""<strong>Welcome!</strong><br/>
+Thank you for using Song-E Pay (hereinafter referred to as the ""Service""). These terms outline the rights, responsibilities, and obligations between Song-E Pay (hereinafter referred to as the ""Company"") and users (hereinafter referred to as ""Members"") of the Service. By using the Service or signing up as a Member, you agree to these terms, so please read them carefully.<br/>
+<br/>
+<strong>Enjoy the Various Services of Song-E Pay</strong><br/>
+Song-E Pay is an electronic wallet service designed for foreigners traveling to Korea, offering exchange rate information and currency exchange features to make your travel more convenient. Members can freely access the Service from various devices, such as PCs and smartphones.<br/>
+<br/>
+<strong>Membership and Use of Service</strong><br/>
+By registering as a Member, you can use Song-E Pay more conveniently. The Company may apply additional terms or policies when necessary to provide the Service. Members must provide accurate information during sign-up and must not share or transfer their account information to others.<br/>
+<br/>
+<strong>Protection of Personal Information</strong><br/>
+The Company collects personal information within the scope necessary to provide the Service and manages it securely in accordance with applicable laws. Details regarding the collection, use, and storage of personal data can be found in the Privacy Policy.<br/>
+<br/>
+<strong>Service Restriction and Suspension</strong><br/>
+If a Member violates these terms or applicable laws, the Company may restrict or suspend the Member’s use of the Service. In the event of a service suspension, personal information will be handled according to the relevant legal provisions, and any data linked to the account may not be recoverable.<br/>
+<br/>
+<strong>Changes and Discontinuation of the Service</strong><br/>
+The Company may change or discontinue parts of the Service due to technical issues or operational reasons. In such cases, prior notice will be provided, and there will be no compensation for the discontinuation of free services.<br/>
+<br/>
+<strong>Amendment of Terms</strong><br/>
+These terms are posted on the Service’s main page and may be amended as necessary in compliance with applicable laws. In the case of significant changes, prior notice will be given. If you do not agree to the amended terms, you may lose access to the Service.""","""<strong>Selamat Datang!</strong><br/>
+Terima kasih telah menggunakan Song-E Pay (selanjutnya disebut ""Layanan""). Syarat-syarat ini menguraikan hak, tanggung jawab, dan kewajiban antara Song-E Pay (selanjutnya disebut ""Perusahaan"") dan pengguna (selanjutnya disebut ""Anggota"") Layanan. Dengan menggunakan Layanan atau mendaftar sebagai Anggota, Anda setuju dengan syarat-syarat ini, jadi harap baca dengan cermat.<br/><br/>
+
+<strong>Nikmati Berbagai Layanan Song-E Pay</strong><br/>
+Song-E Pay adalah layanan dompet elektronik yang dirancang untuk wisatawan asing yang bepergian ke Korea, menawarkan informasi nilai tukar dan fitur penukaran mata uang untuk membuat perjalanan Anda lebih nyaman. Anggota dapat dengan bebas mengakses Layanan dari berbagai perangkat, seperti PC dan smartphone.<br/><br/>
+
+<strong>Keanggotaan dan Penggunaan Layanan</strong><br/>
+Dengan mendaftar sebagai Anggota, Anda dapat menggunakan Song-E Pay dengan lebih mudah. Perusahaan dapat menerapkan syarat atau kebijakan tambahan jika diperlukan untuk menyediakan Layanan. Anggota harus memberikan informasi yang akurat selama pendaftaran dan tidak boleh membagikan atau mentransfer informasi akun mereka kepada orang lain.<br/><br/>
+
+<strong>Perlindungan Informasi Pribadi</strong><br/>
+Perusahaan mengumpulkan informasi pribadi dalam ruang lingkup yang diperlukan untuk menyediakan Layanan dan mengelolanya dengan aman sesuai dengan hukum yang berlaku. Detail mengenai pengumpulan, penggunaan, dan penyimpanan data pribadi dapat ditemukan di Kebijakan Privasi.<br/><br/>
+
+<strong>Pembatasan dan Penangguhan Layanan</strong><br/>
+Jika seorang Anggota melanggar syarat-syarat ini atau hukum yang berlaku, Perusahaan dapat membatasi atau menangguhkan penggunaan Layanan oleh Anggota tersebut. Dalam hal penangguhan layanan, informasi pribadi akan ditangani sesuai dengan ketentuan hukum yang relevan, dan data yang terkait dengan akun mungkin tidak dapat dipulihkan.<br/><br/>
+
+<strong>Perubahan dan Penghentian Layanan</strong><br/>
+Perusahaan dapat mengubah atau menghentikan bagian dari Layanan karena masalah teknis atau alasan operasional. Dalam hal ini, pemberitahuan sebelumnya akan diberikan, dan tidak akan ada kompensasi untuk penghentian layanan gratis.<br/><br/>
+
+<strong>Perubahan Syarat</strong><br/>
+Syarat-syarat ini diposting di halaman utama Layanan dan dapat diubah sesuai kebutuhan sesuai dengan hukum yang berlaku. Dalam hal perubahan signifikan, pemberitahuan sebelumnya akan diberikan. Jika Anda tidak setuju dengan syarat yang diubah, Anda mungkin kehilangan akses ke Layanan.""","""<strong>Chào Mừng Bạn!</strong><br/>
+Cảm ơn bạn đã sử dụng Song-E Pay (sau đây gọi là ""Dịch Vụ""). Các điều khoản này nêu rõ quyền, trách nhiệm và nghĩa vụ giữa Song-E Pay (sau đây gọi là ""Công Ty"") và người dùng (sau đây gọi là ""Thành Viên"") của Dịch Vụ. Bằng cách sử dụng Dịch Vụ hoặc đăng ký làm Thành Viên, bạn đồng ý với các điều khoản này, vì vậy hãy đọc kỹ.<br/><br/>
+
+<strong>Thưởng Thức Các Dịch Vụ Của Song-E Pay</strong><br/>
+Song-E Pay là dịch vụ ví điện tử được thiết kế cho du khách nước ngoài đến Hàn Quốc, cung cấp thông tin tỷ giá hối đoái và các tính năng đổi tiền để giúp chuyến đi của bạn thuận tiện hơn. Thành viên có thể truy cập Dịch Vụ từ nhiều thiết bị khác nhau, chẳng hạn như máy tính cá nhân và điện thoại thông minh.<br/><br/>
+
+<strong>Thành Viên và Sử Dụng Dịch Vụ</strong><br/>
+Bằng cách đăng ký làm Thành Viên, bạn có thể sử dụng Song-E Pay thuận tiện hơn. Công Ty có thể áp dụng các điều khoản hoặc chính sách bổ sung khi cần thiết để cung cấp Dịch Vụ. Thành viên phải cung cấp thông tin chính xác khi đăng ký và không được chia sẻ hoặc chuyển thông tin tài khoản của họ cho người khác.<br/><br/>
+
+<strong>Bảo Vệ Thông Tin Cá Nhân</strong><br/>
+Công Ty thu thập thông tin cá nhân trong phạm vi cần thiết để cung cấp Dịch Vụ và quản lý nó một cách an toàn theo quy định pháp luật hiện hành. Chi tiết về việc thu thập, sử dụng và lưu trữ dữ liệu cá nhân có thể được tìm thấy trong Chính Sách Bảo Mật.<br/><br/>
+
+<strong>Hạn Chế và Đình Chỉ Dịch Vụ</strong><br/>
+Nếu một Thành Viên vi phạm các điều khoản này hoặc các quy định pháp luật hiện hành, Công Ty có thể hạn chế hoặc đình chỉ việc sử dụng Dịch Vụ của Thành Viên đó. Trong trường hợp đình chỉ dịch vụ, thông tin cá nhân sẽ được xử lý theo quy định pháp luật liên quan và mọi dữ liệu liên kết với tài khoản có thể không được khôi phục.<br/><br/>
+
+<strong>Thay Đổi và Ngừng Cung Cấp Dịch Vụ</strong><br/>
+Công Ty có thể thay đổi hoặc ngừng một phần của Dịch Vụ do các vấn đề kỹ thuật hoặc lý do vận hành. Trong trường hợp này, sẽ có thông báo trước, và sẽ không có bất kỳ khoản bồi thường nào cho việc ngừng cung cấp dịch vụ miễn phí.<br/><br/>
+
+<strong>Sửa Đổi Điều Khoản</strong><br/>
+Các điều khoản này được đăng trên trang chính của Dịch Vụ và có thể được sửa đổi khi cần thiết tuân theo luật pháp hiện hành. Trong trường hợp có thay đổi quan trọng, thông báo trước sẽ được đưa ra. Nếu bạn không đồng ý với các điều khoản đã sửa đổi, bạn có thể mất quyền truy cập vào Dịch Vụ."""
+signUp--agreePrivacyPolicyLabel,개인정보 수집 및 이용 정책에 동의합니다.,I agree the Privacy Policy,Saya setuju dengan Kebijakan Privasi,Tôi đồng ý với Chính sách Bảo mật
+signUp--privacyPolicy,"""송이페이(이하 ""회사"")는 전자지갑 서비스 제공을 위하여 개인정보를 수집하고 있으며, 회원님의 개인정보는 관련 법령에 따라 안전하게 관리됩니다. 본 개인정보 수집 및 이용 동의서는 회사가 제공하는 서비스와 관련하여 개인정보를 어떻게 수집하고, 어떻게 이용하는지에 대해 설명합니다.<br/>
+<br/>
+<strong>1. 수집하는 개인정보</strong><br/>
+회사는 회원가입, 서비스 이용, 고객 상담 등을 위해 아래와 같은 개인정보를 수집할 수 있습니다.<br/>
+- <strong>필수 정보</strong>: 이름, 국적, 이메일 주소, 휴대폰 번호, 비밀번호, 생년월일, 결제 관련 정보 (카드 정보, 은행 계좌 정보 등).<br/>
+- <strong>선택 정보</strong>: 회원의 자율적 선택에 따라 추가적으로 제공되는 정보 (예: 주소, 프로필 사진).<br/>
+- <strong>자동 수집 정보</strong>: 서비스 이용 과정에서 생성되는 로그 데이터(접속 IP 정보, 쿠키, 접속 기록 등).<br/>
+<br/>
+<strong>2. 개인정보 수집 및 이용 목적</strong><br/>
+회사는 다음과 같은 목적으로 회원의 개인정보를 수집하고 이용합니다.<br/>
+- <strong>서비스 제공</strong>: 회원가입 및 본인 확인, 결제 서비스 제공, 환전 서비스 및 관련 서비스 제공.<br/>
+- <strong>고객 지원</strong>: 회원의 문의 및 요청 사항에 대한 답변, 서비스 관련 공지사항 전달.<br/>
+- <strong>서비스 개선</strong>: 서비스 사용 패턴 분석을 통한 맞춤형 서비스 제공 및 품질 개선.<br/>
+- <strong>법적 의무 준수</strong>: 법률, 규제, 정부 명령에 따라 개인정보를 처리 및 제공.<br/>
+<br/>
+<strong>3. 개인정보 보유 및 이용 기간</strong><br/>
+회사는 회원의 개인정보를 수집일로부터 서비스 제공을 위해 필요한 기간 동안 보유하며, 관련 법령에 따라 일정 기간 후 파기됩니다. 단, 다음과 같은 사유로 인해 일정 기간 동안 보관될 수 있습니다.<br/>
+- 법령에 따른 보관 의무가 있는 경우<br/>
+- 회원과의 분쟁 해결을 위한 보유 필요 시<br/>
+- <strong>계약 및 철회 관련 기록</strong>: 5년<br/>
+- <strong>전자금융거래 관련 기록</strong>: 5년<br/>
+- <strong>소비자 불만 및 분쟁 처리 관련 기록</strong>: 3년<br/>
+<br/>
+<strong>4. 개인정보의 제3자 제공</strong><br/>
+회사는 회원의 개인정보를 외부에 제공하지 않습니다. 다만, 아래의 경우에 한해 예외적으로 제3자에게 제공될 수 있습니다.<br/>
+- 회원이 사전에 동의한 경우<br/>
+- 법령에 따라 정부 기관 또는 사법 기관의 요청이 있는 경우<br/>
+<br/>
+<strong>5. 개인정보의 파기</strong><br/>
+회사는 개인정보 보유 기간이 만료되거나 이용 목적이 달성된 경우, 지체 없이 해당 정보를 파기합니다. 파기 절차 및 방법은 회사의 내부 방침에 따라 안전하게 이루어집니다.""","""Song-E Pay (hereinafter referred to as the ""Company"") collects personal information to provide its electronic wallet services, and all personal information is managed securely in accordance with applicable laws. This Personal Information Collection and Use Consent outlines how the Company collects and uses personal data in connection with its services.<br/>
+<br/>
+<strong>1. Personal Information Collected</strong><br/>
+The Company may collect the following personal information for purposes such as membership registration, service use, and customer support:<br/>
+- <strong>Required Information</strong>: Name, nationality, email address, phone number, password, date of birth, and payment-related information (such as card details or bank account information).<br/>
+- <strong>Optional Information</strong>: Additional information provided voluntarily by members (e.g., address, profile picture).<br/>
+- <strong>Automatically Collected Information</strong>: Log data generated during service use (e.g., IP address, cookies, access logs).<br/>
+<br/>
+<strong>2. Purpose of Collecting and Using Personal Information</strong><br/>
+The Company collects and uses members’ personal information for the following purposes:<br/>
+- <strong>Service Provision</strong>: To verify member identity, provide payment and exchange services, and offer related services.<br/>
+- <strong>Customer Support</strong>: To respond to inquiries and requests, and to provide notifications regarding the service.<br/>
+- <strong>Service Improvement</strong>: To analyze usage patterns and offer personalized services and improvements.<br/>
+- <strong>Compliance with Legal Obligations</strong>: To comply with laws, regulations, and government requests regarding the handling and disclosure of personal data.<br/>
+<br/>
+<strong>3. Retention and Use Period of Personal Information</strong><br/>
+The Company retains personal information from the date of collection for the period necessary to provide its services, and it is destroyed after this period in accordance with applicable laws. In some cases, personal information may be retained for a longer period under the following circumstances:<br/>
+- If retention is required by law<br/>
+- If retention is necessary to resolve disputes with members<br/>
+- <strong>Records related to contracts and withdrawals</strong>: 5 years<br/>
+- <strong>Records related to electronic financial transactions</strong>: 5 years<br/>
+- <strong>Records related to consumer complaints and dispute resolution</strong>: 3 years<br/>
+<br/>
+<strong>4. Disclosure of Personal Information to Third Parties</strong><br/>
+The Company does not share personal information with external parties. However, personal information may be provided to third parties under the following circumstances:<br/>
+- If the member has given prior consent<br/>
+- If it is required by law or requested by government or judicial authorities<br/>
+<br/>
+<strong>5. Destruction of Personal Information</strong><br/>
+The Company will promptly destroy personal information when the retention period expires or the purposes of collection have been achieved. The destruction process will be carried out securely in accordance with the Company’s internal procedures.""","""Song-E Pay (selanjutnya disebut sebagai ""Perusahaan"") mengumpulkan informasi pribadi untuk menyediakan layanan dompet elektroniknya, dan semua informasi pribadi dikelola dengan aman sesuai dengan undang-undang yang berlaku. Persetujuan Pengumpulan dan Penggunaan Informasi Pribadi ini menjelaskan bagaimana Perusahaan mengumpulkan dan menggunakan data pribadi terkait dengan layanannya.<br/><br/>
+
+<strong>1. Informasi Pribadi yang Dikumpulkan</strong><br/>
+Perusahaan dapat mengumpulkan informasi pribadi berikut untuk keperluan seperti pendaftaran keanggotaan, penggunaan layanan, dan dukungan pelanggan:<br/>
+- <strong>Informasi Wajib</strong>: Nama, kewarganegaraan, alamat email, nomor telepon, kata sandi, tanggal lahir, dan informasi terkait pembayaran (seperti rincian kartu atau informasi rekening bank).<br/>
+- <strong>Informasi Opsional</strong>: Informasi tambahan yang diberikan secara sukarela oleh anggota (misalnya, alamat, foto profil).<br/>
+- <strong>Informasi yang Dikumpulkan Secara Otomatis</strong>: Data log yang dihasilkan selama penggunaan layanan (misalnya, alamat IP, cookie, log akses).<br/><br/>
+
+<strong>2. Tujuan Pengumpulan dan Penggunaan Informasi Pribadi</strong><br/>
+Perusahaan mengumpulkan dan menggunakan informasi pribadi anggota untuk tujuan berikut:<br/>
+- <strong>Penyediaan Layanan</strong>: Untuk memverifikasi identitas anggota, menyediakan layanan pembayaran dan penukaran, serta menawarkan layanan terkait.<br/>
+- <strong>Dukungan Pelanggan</strong>: Untuk menanggapi pertanyaan dan permintaan, serta memberikan pemberitahuan terkait layanan.<br/>
+- <strong>Peningkatan Layanan</strong>: Untuk menganalisis pola penggunaan dan menawarkan layanan serta peningkatan yang dipersonalisasi.<br/>
+- <strong>Kepatuhan dengan Kewajiban Hukum</strong>: Untuk mematuhi undang-undang, peraturan, dan permintaan pemerintah terkait penanganan dan pengungkapan data pribadi.<br/><br/>
+
+<strong>3. Periode Retensi dan Penggunaan Informasi Pribadi</strong><br/>
+Perusahaan menyimpan informasi pribadi dari tanggal pengumpulan selama periode yang diperlukan untuk menyediakan layanannya, dan informasi tersebut akan dihancurkan setelah periode ini sesuai dengan undang-undang yang berlaku. Dalam beberapa kasus, informasi pribadi dapat disimpan lebih lama dalam keadaan berikut:<br/>
+- Jika retensi diwajibkan oleh hukum<br/>
+- Jika retensi diperlukan untuk menyelesaikan perselisihan dengan anggota<br/>
+- <strong>Catatan terkait kontrak dan pembatalan</strong>: 5 tahun<br/>
+- <strong>Catatan terkait transaksi keuangan elektronik</strong>: 5 tahun<br/>
+- <strong>Catatan terkait keluhan dan penyelesaian sengketa konsumen</strong>: 3 tahun<br/><br/>
+
+<strong>4. Pengungkapan Informasi Pribadi kepada Pihak Ketiga</strong><br/>
+Perusahaan tidak membagikan informasi pribadi dengan pihak eksternal. Namun, informasi pribadi dapat diberikan kepada pihak ketiga dalam keadaan berikut:<br/>
+- Jika anggota telah memberikan persetujuan sebelumnya<br/>
+- Jika diwajibkan oleh hukum atau diminta oleh otoritas pemerintah atau pengadilan<br/><br/>
+
+<strong>5. Penghancuran Informasi Pribadi</strong><br/>
+Perusahaan akan segera menghancurkan informasi pribadi ketika periode retensi berakhir atau tujuan pengumpulan telah tercapai. Proses penghancuran akan dilakukan dengan aman sesuai dengan prosedur internal Perusahaan.""","""Song-E Pay (sau đây gọi là ""Công Ty"") thu thập thông tin cá nhân để cung cấp các dịch vụ ví điện tử của mình, và tất cả thông tin cá nhân đều được quản lý an toàn theo quy định pháp luật hiện hành. Bản Đồng Ý Thu Thập và Sử Dụng Thông Tin Cá Nhân này nêu rõ cách Công Ty thu thập và sử dụng dữ liệu cá nhân liên quan đến các dịch vụ của mình.<br/><br/>
+
+<strong>1. Thông Tin Cá Nhân Được Thu Thập</strong><br/>
+Công Ty có thể thu thập các thông tin cá nhân sau đây cho các mục đích như đăng ký thành viên, sử dụng dịch vụ và hỗ trợ khách hàng:<br/>
+- <strong>Thông Tin Bắt Buộc</strong>: Họ tên, quốc tịch, địa chỉ email, số điện thoại, mật khẩu, ngày sinh, và thông tin liên quan đến thanh toán (như chi tiết thẻ hoặc thông tin tài khoản ngân hàng).<br/>
+- <strong>Thông Tin Tùy Chọn</strong>: Thông tin bổ sung do thành viên cung cấp tự nguyện (ví dụ, địa chỉ, hình đại diện).<br/>
+- <strong>Thông Tin Thu Thập Tự Động</strong>: Dữ liệu nhật ký phát sinh trong quá trình sử dụng dịch vụ (ví dụ, địa chỉ IP, cookie, nhật ký truy cập).<br/><br/>
+
+<strong>2. Mục Đích Thu Thập và Sử Dụng Thông Tin Cá Nhân</strong><br/>
+Công Ty thu thập và sử dụng thông tin cá nhân của thành viên cho các mục đích sau:<br/>
+- <strong>Cung Cấp Dịch Vụ</strong>: Để xác minh danh tính thành viên, cung cấp các dịch vụ thanh toán và đổi tiền, cũng như cung cấp các dịch vụ liên quan.<br/>
+- <strong>Hỗ Trợ Khách Hàng</strong>: Để phản hồi các câu hỏi và yêu cầu, cũng như gửi thông báo liên quan đến dịch vụ.<br/>
+- <strong>Cải Tiến Dịch Vụ</strong>: Để phân tích các mô hình sử dụng và cung cấp các dịch vụ và cải tiến được cá nhân hóa.<br/>
+- <strong>Tuân Thủ Các Nghĩa Vụ Pháp Lý</strong>: Để tuân thủ luật pháp, quy định và các yêu cầu của chính phủ liên quan đến việc xử lý và công bố dữ liệu cá nhân.<br/><br/>
+
+<strong>3. Thời Gian Lưu Trữ và Sử Dụng Thông Tin Cá Nhân</strong><br/>
+Công Ty lưu trữ thông tin cá nhân từ ngày thu thập trong thời gian cần thiết để cung cấp dịch vụ và sẽ hủy thông tin sau thời gian này theo quy định của pháp luật hiện hành. Trong một số trường hợp, thông tin cá nhân có thể được lưu trữ lâu hơn trong các trường hợp sau:<br/>
+- Nếu việc lưu trữ được yêu cầu bởi pháp luật<br/>
+- Nếu việc lưu trữ là cần thiết để giải quyết các tranh chấp với thành viên<br/>
+- <strong>Hồ sơ liên quan đến hợp đồng và rút tiền</strong>: 5 năm<br/>
+- <strong>Hồ sơ liên quan đến các giao dịch tài chính điện tử</strong>: 5 năm<br/>
+- <strong>Hồ sơ liên quan đến khiếu nại và giải quyết tranh chấp của người tiêu dùng</strong>: 3 năm<br/><br/>
+
+<strong>4. Tiết Lộ Thông Tin Cá Nhân cho Bên Thứ Ba</strong><br/>
+Công Ty không chia sẻ thông tin cá nhân với các bên bên ngoài. Tuy nhiên, thông tin cá nhân có thể được cung cấp cho bên thứ ba trong các trường hợp sau:<br/>
+- Nếu thành viên đã đồng ý trước đó<br/>
+- Nếu được yêu cầu bởi luật pháp hoặc bởi các cơ quan chính phủ hoặc tòa án<br/><br/>
+
+<strong>5. Hủy Thông Tin Cá Nhân</strong><br/>
+Công Ty sẽ nhanh chóng hủy thông tin cá nhân khi thời gian lưu trữ kết thúc hoặc mục đích thu thập đã đạt được. Quá trình hủy sẽ được thực hiện an toàn theo các quy trình nội bộ của Công Ty."""
+signUp--Title-page,개인정보를 입력해주세요,Tell us about yourself,Beritahu kami tentang diri Anda,Cho chúng tôi biết về bản thân bạn
+signUp--email,이메일,Your email address,Alamat email Anda,Địa chỉ email của bạn
+signUp--emailPlaceholder,이메일,Email,Email,Email
+signUp--button-sendCode,코드 전송,Send Code,Kirim Kode,Gửi mã
+signUp--button-emailResend,재전송,Resend,Kirim ulang,Gửi lại
+signUp--emailCode,이메일 인증 코드,Email verification code,Kode verifikasi email,Mã xác minh email
+signUp--emailCodePlaceholder,인증 코드,Verification code,Kode verifikasi,Mã xác minh
+signUp--verify,인증,Verify,Memeriksa,Xác minh
+signUp--pw,비밀번호,Your password,Kata sandi Anda,Mật khẩu của bạn
+signUp--pwPlaceholder,비밀번호,Password,Kata sandi,Mật khẩu
+signUp--confirmPw,비밀번호 확인,Confirm your password,Konfirmasi kata sandi Anda,Xác nhận mật khẩu của bạn
+signUp--confirmPwPlaceholder,비밀번호 확인,,Konfirmasikan kata sandi,Xác nhận mật khẩu
+signUp--country,거주 국가,Country of residence,Negara tempat tinggal,Quốc gia cư trú
+signUp--countryCodeLabel,국가,Country,Negara,Quốc gia
+signUp--countryUS,미국,United States,Amerika Serikat,Hoa Kỳ
+signUp--countryID,인도네시아,Indonesia,Indonesia,Indonesia
+signUp--countryVI,베트남,Vietnam,Vietnam,Việt Nam
+signUp--firstName,이름,Full legal first and middle name(s),Nama lengkap pertama dan tengah,Tên hợp pháp đầy đủ
+signUp--firstNamePlaceholder,이름,First name and middle name(s),Nama depan dan tengah lengkap,Họ và tên đệm đầy đủ
+signUp--lastName,성,Full legal last name(s),Nama belakang lengkap,Họ hợp pháp đầy đủ
+signUp--lastNamePlaceholder,성,Last name,Nama belakang,Họ
+signUp--birthday,생년월일,Date of birth,Tanggal lahir,Ngày sinh
+signUp--gender,성별,Gender,Jenis kelamin,Giới tính
+signUp--genderLabel,성별,Gender,Jenis kelamin,Giới tính
+signUp--genderMale,남성,Male,Pria,Nam giới
+signUp--genderFemale,여성,Female,Perempuan,Nữ giới
+signUp--phone,핸드폰 번호,Your phone number,Nomor telepon Anda,Số điện thoại của bạn
+signUp--phonePlaceholder,핸드폰 번호,Phone number,Nomor telepon,Số điện thoại
+signUp--countryCode,국가,Country,Negara,Quốc gia
+signUp--button-next,다음,Next,Lanjut,Tiếp tục
+signUp--phoneNumberLabel,전화번호,Your phone number,Nomor telepon Anda,Số điện thoại của bạn
+signUp--phoneNumberPlaceholder,전화번호,Phone number,Nomor telepon,Số điện thoại
+signUp--button-sendVerificationCode,인증 코드 보내기,Send verification code,Kirim kode verifikasi,Gửi mã xác minh
+signUp--button-submit,제출하기,Submit,Kirim,Gửi
+signUp--Title-success,회원가입 완료!,WELCOME ABOARD!,SELAMAT DATANG!,CHÀO MỪNG BẠN LÊN TRÊN!
+signUp--successText1,회원가입이 성공적으로 완료되었습니다.,Your account has been successfully created.,Akun Anda telah berhasil dibuat.,Tài khoản của bạn đã được tạo thành công.
+signUp--successText2,이제 Song-E Pay를 사용할 수 있어요!,Now you can start using Song-E Pay!,Sekarang Anda dapat mulai menggunakan Song-E Pay!,Bây giờ bạn có thể bắt đầu sử dụng Song-E Pay!
+signUp--errorText-email,이메일을 정확히 입력해주세요.,Please provide a valid email address.,Harap berikan alamat email yang valid.,Vui lòng cung cấp một địa chỉ email hợp lệ.
+signUp--errorText-emailCode,인증 코드를 입력해주세요.,Please enter the verification code.,Silakan masukkan kode verifikasi.,Vui lòng nhập mã xác minh.
+signUp--errorText-pw,비밀번호를 8자리 이상 입력해주세요.,Please provide a password with at least 8 characters.,Harap berikan kata sandi dengan minimal 8 karakter.,Vui lòng cung cấp mật khẩu có ít nhất 8 ký tự.
+signUp--errorText-confirmPw,비밀번호가 일치하지 않거나 8자리 미만입니다.,Passwords do not match or are less than 8 characters.,Kata sandi tidak cocok atau kurang dari 8 karakter.,Mật khẩu không khớp hoặc ít hơn 8 ký tự.
+signUp--errorText-firstName,이름을 입력해주세요.,Please provide your full legal first and middle name(s).,Harap berikan nama depan dan tengah lengkap resmi Anda.,Vui lòng cung cấp (các) tên và tên đệm hợp pháp đầy đủ của bạn.
+signUp--errorText-lastName,성을 입력해주세요.,Please provide your full legal last name(s).,Harap berikan nama belakang lengkap resmi Anda.,Vui lòng cung cấp (các) họ hợp pháp đầy đủ của bạn.
+signUp--errorText-birth,생년월일을 입력해주세요.,Please provide a valid date of birth.,Harap berikan tanggal lahir yang valid.,Vui lòng cung cấp ngày sinh hợp lệ.
+signUp--errorText-gender,성별을 선택해주세요.,Please select a gender.,Silakan pilih jenis kelamin.,Vui lòng chọn giới tính.
+signUp--errorText-phone,전화번호를 입력해주세요.,Please provide a valid phone number.,Harap berikan nomor telepon yang valid.,Vui lòng cung cấp số điện thoại hợp lệ.
+exchangeRate--header-title,환율 정보,Exchange Rate Information,Bandingkan Nilai Tukar,So sánh tỷ giá
+exchangeRate--button-buy,구매,Buy,Beli,Mua
+exchangeRate--button-sell,판매,Sell,Jual,Bán
+exchangeRate--notification-setAlert,환율 알람 설정,Exchange Rate Alert Settings,Pengaturan Pemberitahuan Nilai Tukar,Cài đặt cảnh báo tỷ giá hối đoái
+exchangeRate--header-autoExchange,자동 환전 설정,Automatic Currency Exchange Settings,Pengaturan Penukaran Mata Uang Otomatis,Cài đặt đổi tiền tự động
+exchangeRate--header-CurrencyExchange,환전,Currency Exchange,Penukaran Mata Uang,Đổi tiền
+exchangeRate--placeholder-targetRate,목표 환율을 입력하세요.,Please enter the target exchange rate.,Silakan masukkan nilai tukar yang ditargetkan.,Vui lòng nhập tỷ giá hối đoái mục tiêu.
+exchangeRate--button-confirmAlert,설정하기,Set,Atur,Cài đặt
+exchangeRate--text-targetKRW,환전 금액,Exchange Amount,Jumlah Penukaran,Số tiền đổi
+exchangeRate--placeholder-targetAmount,자동 환전할 금액을 입력하세요.,Please enter the amount to exchange automatically.,Masukkan jumlah yang akan dikonversi secara otomatis.,Vui lòng nhập số tiền cần chuyển đổi tự động.
+exchangeRate--limited,1000원 이상 입력,Enter an amount greater than 1,000 KRW.,Nhập số tiền lớn hơn 1,000 KRW.,Masukkan jumlah yang lebih besar dari 1,000 KRW.
+schedule--text--registerSchedule,일정 등록,Register Schedule,Daftar Jadwal,Đăng ký lịch trình
+schedule--text--schedule,일정,Schedule,Jadwal,Lịch trình
+schedule--text--enterSchedule,일정을 입력하세요,Enter the schedule,Masukkan jadwal,Nhập lịch trình
+schedule--text--selectColor,색상 선택,Select Color,Pilih Warna,Chọn màu
+schedule--text--details,세부 내용,Details,Detail,Chi tiết
+schedule--text--enterDetails,세부내용을 입력하세요,Enter details,Masukkan detail,Nhập chi tiết
+schedule--text--period,기간,Period,Periode,Thời gian
+schedule--text--save,저장,Save,Menyimpan,cứu
+schedule--text--delete,삭제,Delete,menghapus,Xóa
+schedule--text--editSchedule,일정 수정,Edit Schedule,Edit Jadwal,Chỉnh sửa lịch trình
+provinces--seoul,서울특별시,Seoul,Seoul,Seoul
+provinces--busan,부산광역시,Busan,Busan,Busan
+provinces--daegu,대구광역시,Daegu,Daegu,Daegu
+provinces--incheon,인천광역시,Incheon,Incheon,Incheon
+provinces--gwangju,광주광역시,Gwangju,Gwangju,Gwangju
+provinces--daejeon,대전광역시,Daejeon,Daejeon,Daejeon
+provinces--ulsan,울산광역시,Ulsan,Ulsan,Ulsan
+provinces--sejong,세종특별자치시,Sejong,Sejong,Sejong
+provinces--gyeonggi,경기도,Gyeonggi Province,Gyeonggi Province,Gyeonggi Province
+provinces--gangwon,강원도,Gangwon Province,Gangwon Province,Gangwon Province
+provinces--chungcheongbuk,충청북도,North Chungcheong Province,North Chungcheong Province,North Chungcheong Province
+provinces--chungcheongnam,충청남도,South Chungcheong Province,South Chungcheong Province,South Chungcheong Province
+provinces--jeollabuk,전라북도,North Jeolla Province,North Jeolla Province,North Jeolla Province
+provinces--jeollanam,전라남도,South Jeolla Province,South Jeolla Province,South Jeolla Province
+provinces--gyeongsangbuk,경상북도,North Gyeongsang Province,North Gyeongsang Province,North Gyeongsang Province
+provinces--gyeongsangnam,경상남도,South Gyeongsang Province,South Gyeongsang Province,South Gyeongsang Province
+provinces--jeju,제주특별자치도,Jeju,Jeju,Jeju
+city--seoul-1,강남구,Gangnam-gu,Gangnam-gu,Gangnam-gu
+city--seoul-2,강동구,Gangdong-gu,Gangdong-gu,Gangdong-gu
+city--seoul-3,강북구,Gangbuk-gu,Gangbuk-gu,Gangbuk-gu
+city--seoul-4,강서구,Gangseo-gu,Gangseo-gu,Gangseo-gu
+city--seoul-5,관악구,Gwanak-gu,Gwanak-gu,Gwanak-gu
+city--seoul-6,광진구,Gwangjin-gu,Gwangjin-gu,Gwangjin-gu
+city--seoul-7,구로구,Guro-gu,Guro-gu,Guro-gu
+city--seoul-8,금천구,Geumcheon-gu,Geumcheon-gu,Geumcheon-gu
+city--seoul-9,노원구,Nowon-gu,Nowon-gu,Nowon-gu
+city--seoul-10,도봉구,Dobong-gu,Dobong-gu,Dobong-gu
+city--seoul-11,동대문구,Dongdaemun-gu,Dongdaemun-gu,Dongdaemun-gu
+city--seoul-12,동작구,Dongjak-gu,Dongjak-gu,Dongjak-gu
+city--seoul-13,마포구,Mapo-gu,Mapo-gu,Mapo-gu
+city--seoul-14,서대문구,Seodaemun-gu,Seodaemun-gu,Seodaemun-gu
+city--seoul-15,서초구,Seocho-gu,Seocho-gu,Seocho-gu
+city--seoul-16,성동구,Seongdong-gu,Seongdong-gu,Seongdong-gu
+city--seoul-17,성북구,Seongbuk-gu,Seongbuk-gu,Seongbuk-gu
+city--seoul-18,송파구,Songpa-gu,Songpa-gu,Songpa-gu
+city--seoul-19,양천구,Yangcheon-gu,Yangcheon-gu,Yangcheon-gu
+city--seoul-20,영등포구,Yeongdeungpo-gu,Yeongdeungpo-gu,Yeongdeungpo-gu
+city--seoul-21,용산구,Yongsan-gu,Yongsan-gu,Yongsan-gu
+city--seoul-22,은평구,Eunpyeong-gu,Eunpyeong-gu,Eunpyeong-gu
+city--seoul-23,종로구,Jongno-gu,Jongno-gu,Jongno-gu
+city--seoul-24,중구,Jung-gu,Jung-gu,Jung-gu
+city--seoul-25,중랑구,Jungnang-gu,Jungnang-gu,Jungnang-gu
+city--busan-1,강서구,Gangseo-gu,Gangseo-gu,Gangseo-gu
+city--busan-2,금정구,Geumjeong-gu,Geumjeong-gu,Geumjeong-gu
+city--busan-3,남구,Nam-gu,Nam-gu,Nam-gu
+city--busan-4,동구,Dong-gu,Dong-gu,Dong-gu
+city--busan-5,동래구,Dongnae-gu,Dongnae-gu,Dongnae-gu
+city--busan-6,부산진구,Busanjin-gu,Busanjin-gu,Busanjin-gu
+city--busan-7,북구,Buk-gu,Buk-gu,Buk-gu
+city--busan-8,사상구,Sasang-gu,Sasang-gu,Sasang-gu
+city--busan-9,사하구,Sahagu,Sahagu,Sahagu
+city--busan-10,서구,Seo-gu,Seo-gu,Seo-gu
+city--busan-11,수영구,Suyeong-gu,Suyeong-gu,Suyeong-gu
+city--busan-12,연제구,Yeonje-gu,Yeonje-gu,Yeonje-gu
+city--busan-13,영도구,Yeongdo-gu,Yeongdo-gu,Yeongdo-gu
+city--busan-14,중구,Jung-gu,Jung-gu,Jung-gu
+city--busan-15,해운대구,Haeundae-gu,Haeundae-gu,Haeundae-gu
+city--daegu-1,남구,Nam-gu,Nam-gu,Nam-gu
+city--daegu-2,달서구,Dalseo-gu,Dalseo-gu,Dalseo-gu
+city--daegu-3,달성군,Dalseong-gun,Dalseong-gun,Dalseong-gun
+city--daegu-4,동구,Dong-gu,Dong-gu,Dong-gu
+city--daegu-5,북구,Buk-gu,Buk-gu,Buk-gu
+city--daegu-6,서구,Seo-gu,Seo-gu,Seo-gu
+city--daegu-7,수성구,Susung-gu,Susung-gu,Susung-gu
+city--daegu-8,중구,Jung-gu,Jung-gu,Jung-gu
+city--incheon-1,강화군,Ganghwa-gun,Ganghwa-gun,Ganghwa-gun
+city--incheon-2,계양구,Gyeyang-gu,Gyeyang-gu,Gyeyang-gu
+city--incheon-3,남동구,Namdong-gu,Namdong-gu,Namdong-gu
+city--incheon-4,동구,Dong-gu,Dong-gu,Dong-gu
+city--incheon-5,미추홀구,Michuhol-gu,Michuhol-gu,Michuhol-gu
+city--incheon-6,부평구,Bupyeong-gu,Bupyeong-gu,Bupyeong-gu
+city--incheon-7,서구,Seo-gu,Seo-gu,Seo-gu
+city--incheon-8,연수구,Yeonsu-gu,Yeonsu-gu,Yeonsu-gu
+city--incheon-9,옹진군,Ongjin-gun,Ongjin-gun,Ongjin-gun
+city--incheon-10,중구,Jung-gu,Jung-gu,Jung-gu
+city--gwangju-1,광산구,Gwangsan District,Gwangsan District,Gwangsan District
+city--gwangju-2,남구,Nam District,Nam District,Nam District
+city--gwangju-3,동구,Dong District,Dong District,Dong District
+city--gwangju-4,북구,Buk District,Buk District,Buk District
+city--gwangju-5,서구,Seogu District,Seogu District,Seogu District
+city--daejeon-1,대덕구,Daedeok District,Daedeok District,Daedeok District
+city--daejeon-2,동구,Dong District,Dong District,Dong District
+city--daejeon-3,서구,Seogu District,Seogu District,Seogu District
+city--daejeon-4,유성구,Yuseong District,Yuseong District,Yuseong District
+city--daejeon-5,중구,Jung District,Jung District,Jung District
+city--ulsan-1,남구,Nam District,Nam District,Nam District
+city--ulsan-2,동구,Dong District,Dong District,Dong District
+city--ulsan-3,북구,Buk District,Buk District,Buk District
+city--ulsan-4,울주군,Uljugun District,Uljugun District,Uljugun District
+city--ulsan-5,중구,Jung District,Jung District,Jung District
+city--sejong-1,세종시,Sejong City,Sejong City,Sejong City
+city--gyeonggi-1,가평군,Gapyeonggun,Gapyeonggun,Gapyeonggun
+city--gyeonggi-2,고양시,Goyang City,Goyang City,Goyang City
+city--gyeonggi-3,과천시,Gwangcheon City,Gwangcheon City,Gwangcheon City
+city--gyeonggi-4,광명시,Gwangmyeong City,Gwangmyeong City,Gwangmyeong City
+city--gyeonggi-5,광주시,Gwangju City,Gwangju City,Gwangju City
+city--gyeonggi-6,구리시,Guri City,Guri City,Guri City
+city--gyeonggi-7,군포시,Gunpo City,Gunpo City,Gunpo City
+city--gyeonggi-8,김포시,Gimpo City,Gimpo City,Gimpo City
+city--gyeonggi-9,남양주시,Namyangju City,Namyangju City,Namyangju City
+city--gyeonggi-10,동두천시,Dongducheon City,Dongducheon City,Dongducheon City
+city--gyeonggi-11,부천시,Bucheon City,Bucheon City,Bucheon City
+city--gyeonggi-12,성남시,Seongnam City,Seongnam City,Seongnam City
+city--gyeonggi-13,수원시,Suwon City,Suwon City,Suwon City
+city--gyeonggi-14,시흥시,Siheung City,Siheung City,Siheung City
+city--gyeonggi-15,안산시,Ansan City,Ansan City,Ansan City
+city--gyeonggi-16,안성시,Anseong City,Anseong City,Anseong City
+city--gyeonggi-17,안양시,Anyang City,Anyang City,Anyang City
+city--gyeonggi-18,양주시,Yangju City,Yangju City,Yangju City
+city--gyeonggi-19,양평군,Yangpyeonggun,Yangpyeonggun,Yangpyeonggun
+city--gyeonggi-20,여주시,Yeoju City,Yeoju City,Yeoju City
+city--gyeonggi-21,연천군,Yeoncheon County,Yeoncheon County,Yeoncheon County
+city--gyeonggi-22,오산시,Osan City,Osan City,Osan City
+city--gyeonggi-23,용인시,Yongin City,Yongin City,Yongin City
+city--gyeonggi-24,의왕시,Uiwang City,Uiwang City,Uiwang City
+city--gyeonggi-25,의정부시,Uijeongbu City,Uijeongbu City,Uijeongbu City
+city--gyeonggi-26,이천시,Icheon City,Icheon City,Icheon City
+city--gyeonggi-27,파주시,Paju City,Paju City,Paju City
+city--gyeonggi-28,평택시,Pyeongtaek City,Pyeongtaek City,Pyeongtaek City
+city--gyeonggi-29,포천시,Pocheon City,Pocheon City,Pocheon City
+city--gyeonggi-30,하남시,Hanam City,Hanam City,Hanam City
+city--gyeonggi-31,화성시,Hwaseong City,Hwaseong City,Hwaseong City
+city--gangwon-1,강릉시,Gangneung City,Gangneung City,Gangneung City
+city--gangwon-2,고성군,Goseonggun,Goseonggun,Goseonggun
+city--gangwon-3,동해시,Donghae City,Donghae City,Donghae City
+city--gangwon-4,삼척시,Samcheok City,Samcheok City,Samcheok City
+city--gangwon-5,속초시,Sokcho City,Sokcho City,Sokcho City
+city--gangwon-6,양구군,Yanggu County,Yanggu County,Yanggu County
+city--gangwon-7,양양군,Yangyang County,Yangyang County,Yangyang County
+city--gangwon-8,영월군,Yeongwol County,Yeongwol County,Yeongwol County
+city--gangwon-9,원주시,Wonju City,Wonju City,Wonju City
+city--gangwon-10,인제군,Inje County,Inje County,Inje County
+city--gangwon-11,정선군,Jeongseon County,Jeongseon County,Jeongseon County
+city--gangwon-12,철원군,Cheorwon County,Cheorwon County,Cheorwon County
+city--gangwon-13,춘천시,Chuncheon City,Chuncheon City,Chuncheon City
+city--gangwon-14,태백시,Taebaek City,Taebaek City,Taebaek City
+city--gangwon-15,평창군,Pyeongchang County,Pyeongchang County,Pyeongchang County
+city--gangwon-16,홍천군,Hongcheon County,Hongcheon County,Hongcheon County
+city--gangwon-17,화천군,Hwacheon County,Hwacheon County,Hwacheon County
+city--gangwon-18,횡성군,Hoengseong County,Hoengseong County,Hoengseong County
+city--chungcheongbuk-1,괴산군,Goesan County,Goesan County,Goesan County
+city--chungcheongbuk-2,단양군,Danyang County,Danyang County,Danyang County
+city--chungcheongbuk-3,보은군,Boeun County,Boeun County,Boeun County
+city--chungcheongbuk-4,영동군,Yeongdong County,Yeongdong County,Yeongdong County
+city--chungcheongbuk-5,옥천군,Okcheon County,Okcheon County,Okcheon County
+city--chungcheongbuk-6,음성군,Eumseong County,Eumseong County,Eumseong County
+city--chungcheongbuk-7,제천시,Jecheon City,Jecheon City,Jecheon City
+city--chungcheongbuk-8,진천군,Jincheon County,Jincheon County,Jincheon County
+city--chungcheongbuk-9,청주시,Cheongju City,Cheongju City,Cheongju City
+city--chungcheongbuk-10,충주시,Chungju City,Chungju City,Chungju City
+city--chungcheongnam-1,계룡시,Gyeryong City,Gyeryong City,Gyeryong City
+city--chungcheongnam-2,공주시,Gongju City,Gongju City,Gongju City
+city--chungcheongnam-3,금산군,Geumsan County,Geumsan County,Geumsan County
+city--chungcheongnam-4,논산시,Nonsan City,Nonsan City,Nonsan City
+city--chungcheongnam-5,당진시,Dangjin City,Dangjin City,Dangjin City
+city--chungcheongnam-6,보령시,Boryeong City,Boryeong City,Boryeong City
+city--chungcheongnam-7,부여군,Buyeo County,Buyeo County,Buyeo County
+city--chungcheongnam-8,서산시,Seosan City,Seosan City,Seosan City
+city--chungcheongnam-9,서천군,Seocheon County,Seocheon County,Seocheon County
+city--chungcheongnam-10,아산시,Asan City,Asan City,Asan City
+city--chungcheongnam-11,예산군,Yesan County,Yesan County,Yesan County
+city--chungcheongnam-12,천안시,Cheonan City,Cheonan City,Cheonan City
+city--chungcheongnam-13,청양군,Cheongyang County,Cheongyang County,Cheongyang County
+city--chungcheongnam-14,태안군,Taean County,Taean County,Taean County
+city--chungcheongnam-15,홍성군,Hongseong County,Hongseong County,Hongseong County
+city--jeollabuk-1,고창군,Gochang County,Gochang County,Gochang County
+city--jeollabuk-2,군산시,Gunsan City,Gunsan City,Gunsan City
+city--jeollabuk-3,김제시,Gimje City,Gimje City,Gimje City
+city--jeollabuk-4,남원시,Namwon City,Namwon City,Namwon City
+city--jeollabuk-5,무주군,Muju County,Muju County,Muju County
+city--jeollabuk-6,부안군,Buan County,Buan County,Buan County
+city--jeollabuk-7,순창군,Sunchang County,Sunchang County,Sunchang County
+city--jeollabuk-8,완주군,Wanju County,Wanju County,Wanju County
+city--jeollabuk-9,익산시,Iksan City,Iksan City,Iksan City
+city--jeollabuk-10,임실군,Imsil County,Imsil County,Imsil County
+city--jeollabuk-11,장수군,Jangsu County,Jangsu County,Jangsu County
+city--jeollabuk-12,전주시,Jeonju City,Jeonju City,Jeonju City
+city--jeollabuk-13,정읍시,Jeongeup City,Jeongeup City,Jeongeup City
+city--jeollabuk-14,진안군,Jinan County,Jinan County,Jinan County
+city--jeollanam-1,강진군,Gangjin County,Gangjin County,Gangjin County
+city--jeollanam-2,고흥군,Goheung County,Goheung County,Goheung County
+city--jeollanam-3,곡성군,Gokseong County,Gokseong County,Gokseong County
+city--jeollanam-4,광양시,Gwangyang City,Gwangyang City,Gwangyang City
+city--jeollanam-5,구례군,Gurye County,Gurye County,Gurye County
+city--jeollanam-6,나주시,Naju City,Naju City,Naju City
+city--jeollanam-7,담양군,Damyang County,Damyang County,Damyang County
+city--jeollanam-8,목포시,Mokpo City,Mokpo City,Mokpo City
+city--jeollanam-9,무안군,Muan County,Muan County,Muan County
+city--jeollanam-10,보성군,Boseong County,Boseong County,Boseong County
+city--jeollanam-11,순천시,Suncheon City,Suncheon City,Suncheon City
+city--jeollanam-12,신안군,Sinan County,Sinan County,Sinan County
+city--jeollanam-13,여수시,Yeosu City,Yeosu City,Yeosu City
+city--jeollanam-14,영광군,Yeonggwang County,Yeonggwang County,Yeonggwang County
+city--jeollanam-15,영암군,Yeongam County,Yeongam County,Yeongam County
+city--jeollanam-16,완도군,Wando County,Wando County,Wando County
+city--jeollanam-17,장성군,Jangseong County,Jangseong County,Jangseong County
+city--jeollanam-18,장흥군,Jangheung County,Jangheung County,Jangheung County
+city--jeollanam-19,진도군,Jindo County,Jindo County,Jindo County
+city--jeollanam-20,함평군,Hampyeong County,Hampyeong County,Hampyeong County
+city--jeollanam-21,해남군,Haenam County,Haenam County,Haenam County
+city--jeollanam-22,화순군,Hwasun County,Hwasun County,Hwasun County
+city--gyeongsangbuk-1,경산시,Gyeongsan City,Gyeongsan City,Gyeongsan City
+city--gyeongsangbuk-2,경주시,Gyeongju City,Gyeongju City,Gyeongju City
+city--gyeongsangbuk-3,고령군,Goryeong County,Goryeong County,Goryeong County
+city--gyeongsangbuk-4,구미시,Gumi City,Gumi City,Gumi City
+city--gyeongsangbuk-5,군위군,Gunwi County,Gunwi County,Gunwi County
+city--gyeongsangbuk-6,김천시,Gimcheon City,Gimcheon City,Gimcheon City
+city--gyeongsangbuk-7,문경시,Mungyeong City,Mungyeong City,Mungyeong City
+city--gyeongsangbuk-8,봉화군,Bonghwa County,Bonghwa County,Bonghwa County
+city--gyeongsangbuk-9,상주시,Sangju City,Sangju City,Sangju City
+city--gyeongsangbuk-10,성주군,Seongju County,Seongju County,Seongju County
+city--gyeongsangbuk-11,안동시,Andong City,Andong City,Andong City
+city--gyeongsangbuk-12,영덕군,Yeongdeok County,Yeongdeok County,Yeongdeok County
+city--gyeongsangbuk-13,영양군,Yeongyang County,Yeongyang County,Yeongyang County
+city--gyeongsangbuk-14,영주시,Yeongju City,Yeongju City,Yeongju City
+city--gyeongsangbuk-15,영천시,Yeongcheon City,Yeongcheon City,Yeongcheon City
+city--gyeongsangbuk-16,예천군,Yecheon County,Yecheon County,Yecheon County
+city--gyeongsangbuk-17,울릉군,Ulleung County,Ulleung County,Ulleung County
+city--gyeongsangbuk-18,울진군,Uljin County,Uljin County,Uljin County
+city--gyeongsangbuk-19,의성군,Uiseong County,Uiseong County,Uiseong County
+city--gyeongsangbuk-20,청도군,Cheongdo County,Cheongdo County,Cheongdo County
+city--gyeongsangbuk-21,청송군,Cheongsong County,Cheongsong County,Cheongsong County
+city--gyeongsangbuk-22,칠곡군,Chilgok County,Chilgok County,Chilgok County
+city--gyeongsangbuk-23,포항시,Pohang City,Pohang City,Pohang City
+city--gyeongsangnam-1,거제시,Geoje City,Geoje City,Geoje City
+city--gyeongsangnam-2,거창군,Geochang County,Geochang County,Geochang County
+city--gyeongsangnam-3,고성군,Goseong County,Goseong County,Goseong County
+city--gyeongsangnam-4,김해시,Gimhae City,Gimhae City,Gimhae City
+city--gyeongsangnam-5,남해군,Namhae County,Namhae County,Namhae County
+city--gyeongsangnam-6,밀양시,Miryang City,Miryang City,Miryang City
+city--gyeongsangnam-7,사천시,Sacheon City,Sacheon City,Sacheon City
+city--gyeongsangnam-8,산청군,Sancheong County,Sancheong County,Sancheong County
+city--gyeongsangnam-9,양산시,Yangsan City,Yangsan City,Yangsan City
+city--gyeongsangnam-10,의령군,Uiryeong County,Uiryeong County,Uiryeong County
+city--gyeongsangnam-11,진주시,Jinju City,Jinju City,Jinju City
+city--gyeongsangnam-12,창녕군,Changnyeong County,Changnyeong County,Changnyeong County
+city--gyeongsangnam-13,창원시,Changwon City,Changwon City,Changwon City
+city--gyeongsangnam-14,통영시,Tongyeong City,Tongyeong City,Tongyeong City
+city--gyeongsangnam-15,하동군,Hadong County,Hadong County,Hadong County
+city--gyeongsangnam-16,함안군,Haman County,Haman County,Haman County
+city--gyeongsangnam-17,함양군,Hamyang County,Hamyang County,Hamyang County
+city--gyeongsangnam-18,합천군,Hapcheon County,Hapcheon County,Hapcheon County
+city--jeju-1,서귀포시,Seogwipo City,Seogwipo City,Seogwipo City
+city--jeju-2,제주시,Jeju City,Jeju City,Jeju City
+>>>>>>> cdb2a9f9b122d2d9458257fb1c094a60015059f1

@@ -100,7 +100,14 @@
         where user_id = #{userId} and password = #{password}
     </select>
 
+    <!-- 계좌번호 중복 확인 -->
+    <select id="checkNumberExists" parameterType="String" resultType="int">
+        SELECT COUNT(*) FROM user
+        WHERE account_no = #{number} OR song_no = #{number} OR krw_no = #{number}
+    </select>
+
     <!-- 회원가입 -->
+<<<<<<< HEAD
 <<<<<<< HEAD
     <insert id="insertUser">
 =======
@@ -111,6 +118,23 @@
     </insert>
 
 <<<<<<< HEAD
+=======
+    <!-- 회원가입 시 계좌번호도 추가 -->
+    <insert id="insertUser">
+        INSERT INTO user(user_id, password, country_code, first_name, last_name, birthday, gender, phone_no, account_no, song_no, krw_no)
+        VALUES(#{username}, #{password}, #{countryCode}, #{firstName}, #{lastName}, #{birthday}, #{gender}, #{phoneNo}, #{accountNo}, #{songNo}, #{krwNo})
+    </insert>
+
+    <insert id="insertSongAccount">
+        INSERT INTO song_account(song_no, country_code)
+        VALUES(#{songNo}, #{countryCode})
+    </insert>
+
+    <insert id="insertKrwAccount">
+        INSERT INTO krw_account(krw_no)
+        VALUES(#{krwNo})
+    </insert>
+>>>>>>> cdb2a9f9b122d2d9458257fb1c094a60015059f1
     <!-- 이메일로 유저 조회 -->
 =======
     <!-- 이메일 중복 체크 -->
@@ -128,7 +152,10 @@
         from user
         where user_id = #{userId}
     </select>
+<<<<<<< HEAD
 
 =======
 >>>>>>> 59aa309e4cbc61504bfe42cdb43cc5b4b7d664ff
+=======
+>>>>>>> cdb2a9f9b122d2d9458257fb1c094a60015059f1
 </mapper>
