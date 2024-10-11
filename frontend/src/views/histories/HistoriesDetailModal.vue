@@ -32,9 +32,9 @@
       <p>{{ transaction?.exchangeRate }}</p>
     </div>
     <!-- <div class="flex-justify-between" v-if="transaction?.typeCode === '송금'">
-        <strong>계좌</strong> 
-        <p>{{ transaction?.exchangeRate }}송금 보낸 이메일 보여주기 </p>
-    </div> -->
+          <strong>계좌</strong> 
+          <p>{{ transaction?.exchangeRate }}송금 보낸 이메일 보여주기 </p>
+      </div> -->
     <div class="flex-justify-between">
       <strong>{{ $t('histories--modal-historyDate') }}</strong>
       <p>{{ transaction?.historyDate }}</p>
