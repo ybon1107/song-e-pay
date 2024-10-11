@@ -20,7 +20,7 @@ import java.time.Duration;
 @Service
 @RequiredArgsConstructor
 public class MailServiceImpl implements MailService {
-
+    private final MyAccountMapper mapper;
     private final JavaMailSender emailSender;
     private final UserService userService;
     private final HistoryService historyService;

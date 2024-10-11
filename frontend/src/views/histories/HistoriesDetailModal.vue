@@ -66,7 +66,7 @@ const user = computed(() => auth.user);
 import { useI18n } from 'vue-i18n';
 const { t } = useI18n();
 
-const songCurrencyUnit = CURRENCY_NAME[user.value.countryCode];
+const songCurrencyUnit = computed(() => CURRENCY_NAME[user.value?.countryCode]);
 
 const props = defineProps({
   transaction: {

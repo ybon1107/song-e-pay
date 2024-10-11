@@ -95,9 +95,7 @@ public class ExchangeRateAlertScheduler {
         NotificationDTO notificationDTO = new NotificationDTO();
         notificationDTO.setUserId(userId);
         notificationDTO.setResNo(reservation.getResNo());
-        notificationDTO.setNotiContent(message);
-        notificationDTO.setExchangeRate(currentRate);
-
+        notificationDTO.setContent(message);
 
         notificationService.saveNotification(notificationDTO);
 

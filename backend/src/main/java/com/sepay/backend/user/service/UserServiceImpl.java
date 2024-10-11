@@ -14,10 +14,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.NoSuchElementException;
-import java.util.Optional;
+import java.util.*;
 
 @Slf4j
 @Service
@@ -26,10 +23,12 @@ public class UserServiceImpl implements UserService{
 
     private final UserMapper mapper;
     final PasswordEncoder passwordEncoder;
+
     @Override
     public String selectSecondPwd(String userId){
         return mapper.getSecondaryPassword(userId);
     }
+
     @Override
     public boolean checkSecondaryPassword(PasswordDTO passwordDTO) {
         //추후에 userNo  동적 변경
@@ -71,30 +70,38 @@ public class UserServiceImpl implements UserService{
 ////        return mapper.selectUser(map);
 //    }
 
-    @Transactional
-    @Override
-    public UserDTO register(UserRegisterDTO userRegisterDTO) {
-        try {
-            // 추후 password 암호화 추가(security & JWT)
-            UserVO userVO = userRegisterDTO.toVO();
-            userVO.setPassword(passwordEncoder.encode(userVO.getPassword()));
-            mapper.insertUser(userVO);
+@Transactional
+@Override
+public UserDTO register(UserRegisterDTO userRegisterDTO) {
+    try {
+        UserVO userVO = userRegisterDTO.toVO();
+        userVO.setPassword(passwordEncoder.encode(userVO.getPassword()));
 
-            AuthVO authVO = new AuthVO();
-            authVO.setUsername(userVO.getUsername());
-            authVO.setAuth("ROLE_USER");
-            mapper.insertAuth(authVO);
+        String id = userVO.getUsername().split("@")[0];
 
-            log.info("userVO: " + userVO);
-            log.info("authVO: " + authVO);
+        // 계좌 번호 생성
+        userVO.setSongNo("song_"+id);
+        userVO.setKrwNo("krw_"+id);
 
-            return get(userVO.getUsername());
-//            return mapper.insertUser(userDTO);
-        } catch (Exception e) {
-            log.error("Error registering user: ", e);
-            throw new RuntimeException("Registration failed");
-        }
+        // 사용자 정보, song_account, krw_account 모두 한 번에 삽입
+        mapper.insertUser(userVO);
+        mapper.insertSongAccount(userVO);
+        mapper.insertKrwAccount(userVO);
+
+        AuthVO authVO = new AuthVO();
+        authVO.setUsername(userVO.getUsername());
+        authVO.setAuth("ROLE_USER");
+        mapper.insertAuth(authVO);
+
+        log.info("userVO: " + userVO);
+        log.info("authVO: " + authVO);
+
+        return get(userVO.getUsername());
+    } catch (Exception e) {
+        log.error("Error registering user: ", e);
+        throw new RuntimeException("Registration failed");
     }
+}
 
     // 이메일 중복 확인 메서드 추가
     @Override
