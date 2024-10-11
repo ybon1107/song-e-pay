@@ -78,6 +78,7 @@ const wonEMoneyCardRef = ref(null);
 //비밀번호 관련 기능
 // 비밀번호 입력 모달 열기
 const openModal = () => {
+  console.log("????");
   showModal.value = true;
   currentAction.value = activeTab.value;
 };
@@ -87,46 +88,111 @@ const closeModal = () => {
 };
 
 // 비밀번호가 확인되었을 때 호출되는 함수
+// const handlePasswordVerified = async () => {
+//   showModal.value = false; // 모달 숨김
+//   let kwd;
+//   switch (currentAction.value) {
+//     case TRANSACTION_TYPES.DEPOSIT:
+//       await deposit(); // deposit이 완료될 때까지 기다림
+//       kwd = i18n_DEPOSIT;
+//       break;
+//     case TRANSACTION_TYPES.EXCHANGE:
+//       await exchange(); // exchange가 완료될 때까지 기다림
+//       kwd = i18n_EXCHANGE;
+//       break;
+//     case TRANSACTION_TYPES.REFUND:
+//       await refund(); // refund가 완료될 때까지 기다림
+//       kwd = i18n_REFUND;
+//       break;
+//     case TRANSACTION_TYPES.TRANSFER:
+//       await transfer(); // transfer가 완료될 때까지 기다림
+//       kwd = i18n_TRANSFER;
+//       break;
+//     case TRANSACTION_TYPES.RE_EXCHANGE:
+//       await reExchange(); // reExchange가 완료될 때까지 기다림
+//       kwd = i18n_RE_EXCHANGE;
+//       break;
+//   }
+//   kwd = t(kwd);
+//   Swal.fire({
+//     title: t('myAccount--swal-title'),
+//     text: t('myAccount--swal-content', { kwd: kwd }),
+//     icon: 'success',
+//   });
+//   resetValue();
+//   await fetchBalances(); // 잔액을 다시 가져옴
+
+//   // AccountsCard의 fetchBalance 함수 호출
+//   if (songEMoneyCardRef.value) {
+//     await songEMoneyCardRef.value.fetchBalance();
+//   }
+//   if (wonEMoneyCardRef.value) {
+//     await wonEMoneyCardRef.value.fetchBalance();
+//   }
+// };
+
 const handlePasswordVerified = async () => {
   showModal.value = false; // 모달 숨김
   let kwd;
-  switch (currentAction.value) {
-    case TRANSACTION_TYPES.DEPOSIT:
-      await deposit(); // deposit이 완료될 때까지 기다림
-      kwd = i18n_DEPOSIT;
-      break;
-    case TRANSACTION_TYPES.EXCHANGE:
-      await exchange(); // exchange가 완료될 때까지 기다림
-      kwd = i18n_EXCHANGE;
-      break;
-    case TRANSACTION_TYPES.REFUND:
-      await refund(); // refund가 완료될 때까지 기다림
-      kwd = i18n_REFUND;
-      break;
-    case TRANSACTION_TYPES.TRANSFER:
-      await transfer(); // transfer가 완료될 때까지 기다림
-      kwd = i18n_TRANSFER;
-      break;
-    case TRANSACTION_TYPES.RE_EXCHANGE:
-      await reExchange(); // reExchange가 완료될 때까지 기다림
-      kwd = i18n_RE_EXCHANGE;
-      break;
-  }
-  kwd = t(kwd);
-  Swal.fire({
-    title: t('myAccount--swal-title'),
-    text: t('myAccount--swal-content', { kwd: kwd }),
-    icon: 'success',
-  });
-  resetValue();
-  await fetchBalances(); // 잔액을 다시 가져옴
+  let response;
 
-  // AccountsCard의 fetchBalance 함수 호출
-  if (songEMoneyCardRef.value) {
-    await songEMoneyCardRef.value.fetchBalance();
-  }
-  if (wonEMoneyCardRef.value) {
-    await wonEMoneyCardRef.value.fetchBalance();
+  try {
+    switch (currentAction.value) {
+      case TRANSACTION_TYPES.DEPOSIT:
+        response = await deposit();
+        kwd = i18n_DEPOSIT;
+        break;
+      case TRANSACTION_TYPES.EXCHANGE:
+        response = await exchange();
+        kwd = i18n_EXCHANGE;
+        break;
+      case TRANSACTION_TYPES.REFUND:
+        response = await refund();
+        kwd = i18n_REFUND;
+        break;
+      case TRANSACTION_TYPES.TRANSFER:
+        response = await transfer();
+        kwd = i18n_TRANSFER;
+        break;
+      case TRANSACTION_TYPES.RE_EXCHANGE:
+        response = await reExchange();
+        kwd = i18n_RE_EXCHANGE;
+        break;
+    }
+
+    kwd = t(kwd);
+
+    // ResponseEntity의 상태 코드 확인
+    const isSuccess = response.status >= 200 && response.status < 300;
+
+    if (isSuccess) {
+      Swal.fire({
+        title: t('myAccount--swal-title'),
+        text: t('myAccount--swal-content', { kwd: kwd }),
+        icon: 'success',
+      });
+
+      resetValue();
+      await fetchBalances(); // 잔액을 다시 가져옴
+
+      // AccountsCard의 fetchBalance 함수 호출
+      if (songEMoneyCardRef.value) {
+        await songEMoneyCardRef.value.fetchBalance();
+      }
+      if (wonEMoneyCardRef.value) {
+        await wonEMoneyCardRef.value.fetchBalance();
+      }
+    } else {
+      // 실패 시 에러를 throw
+      throw new Error(response.data?.message || t('myAccount--default-error-message'));
+    }
+  } catch (error) {
+    console.error(`Error in ${currentAction.value}:`, error);
+    await Swal.fire({
+      title: t('myAccount--swal-title-error'),
+      text: error.message || t('myAccount--default-error-message'),
+      icon: 'error',
+    });
   }
 };
 
@@ -229,7 +295,9 @@ const refund = async () => {
 // 환전 처리
 const exchange = async () => {
   const amount = exchangeAmount.value; // 환전하려는 금액
-  const exchangeRate = currentFromKrw.value * 1000;
+  const exchangeRate = currentFromKrw.value;
+  // console.log("???" + amount);
+  // console.log("???" + exchangeRate);
   const params = {
     ...ACCOUNT.value,
     amount,
@@ -347,24 +415,65 @@ const fetchBalances = () => {
 };
 
 // 입력 값 설정
+// const exchangeInput = ref('');
+// const reExchangeInput = ref('');
+// const receiveInput = ref('');
+// const selectInput = ref('exchange');
+// // 포커스 이벤트 핸들러
+// const onfocus = (inputType) => {
+//   selectInput.value = inputType;
+//   console.log('선택한 입력:', selectInput.value);
+// };
+// const errorAmountMessage = ref('');
+// const onblur = () => {
+//   receiveAmount.value = '';
+//   exchangeAmount.value = '';
+//   reExchangeAmount.value = '';
+//   errorAmountMessage.value = '';
+//   errorMessage.value = '';
+//   errorMessageCheck.value = '';
+// };
+
+// 입력 값 설정
 const exchangeInput = ref('');
 const reExchangeInput = ref('');
 const receiveInput = ref('');
 const selectInput = ref('exchange');
+
 // 포커스 이벤트 핸들러
 const onfocus = (inputType) => {
   selectInput.value = inputType;
   console.log('선택한 입력:', selectInput.value);
 };
+
 const errorAmountMessage = ref('');
-const onblur = () => {
-  receiveAmount.value = '';
-  exchangeAmount.value = '';
-  reExchangeAmount.value = '';
-  errorAmountMessage.value = '';
+
+// 각 입력 필드에 대한 개별 blur 핸들러
+const onblurReceive = () => {
+  if (receiveAmount.value === '') {
+    errorAmountMessage.value = '';
+  }
+};
+
+const onblurExchange = () => {
+  if (exchangeAmount.value === '') {
+    errorAmountMessage.value = '';
+  }
+};
+
+const onblurReExchange = () => {
+  if (reExchangeAmount.value === '') {
+    errorAmountMessage.value = '';
+  }
+};
+
+// 에러 메시지 초기화 함수
+const clearErrorMessages = () => {
   errorMessage.value = '';
   errorMessageCheck.value = '';
 };
+
+
 
 const songEMoneyBalance_toKRW = computed(() => {
   return songEMoneyBalance.value * currentToKrw.value;
@@ -681,7 +790,13 @@ watchEffect(() => {
                     :unit="wonUnit" :selectedAsset="selectedAsset" :songEMoneyBalance="songEMoneyBalance_toKRW"
                     :activeTab="activeTab" :errorAmountMessage="errorAmountMessage"
                     @update:errorAmountMessage="errorAmountMessage = $event" @focus="onfocus('receive')"
-                    @blur="onblur" />
+                    @blur="onblurReceive" />
+                  <!-- <ExchangeAmountInput v-model="receiveAmount"
+                    :placeholder="`${$t('transaction_types_exchange')} ${$t('myAccount--input-placeholder')}`"
+                    :unit="wonUnit" :selectedAsset="selectedAsset" :songEMoneyBalance="songEMoneyBalance_toKRW"
+                    :activeTab="activeTab" :errorAmountMessage="errorAmountMessage"
+                    @update:errorAmountMessage="errorAmountMessage = $event" @focus="onfocus('receive')"
+                    @blur="onblur" /> -->
                 </div>
                 <div>
                   <label class="d-flex align-items-center">
@@ -697,14 +812,14 @@ watchEffect(() => {
                     :unit="customerunit" :selectedAsset="selectedAsset" :songEMoneyBalance="songEMoneyBalance"
                     :activeTab="activeTab" :errorMessage="errorAmountMessage"
                     @update:errorAmountMessage="errorAmountMessage = $event" @focus="onfocus('exchange')"
-                    @blur="onblur('exchange')" />
+                    @blur="onblurExchange" />
                   <small>현재 환율: 1 {{ wonUnit }} = {{ currentFromKrw }}{{ customerunit }}</small>
                 </div>
                 <div>
                   예상 잔액: <span class="balance-text" :class="{ 'text-blue': exchangeAmount !== '' }">
                     {{ processAfterBalance }}</span>{{ customerunit }}
                 </div>
-                <button type="submit" class="btn btn-primary w-100 fs-4" @click="openModal"
+                <button type="button" class="btn btn-primary w-100 fs-4" @click="openModal"
                   :disabled="!isValidAmount(exchangeAmount)" variant="gradient">
                   {{ t('myAccount--wonE-button-exchange') }}
                 </button>
@@ -793,12 +908,10 @@ watchEffect(() => {
                       <img :src="flagIcon(wonCoutryCode)" alt="icon" class="flag-icon-img" />
                     </div>
                   </label>
-                  <div style="height: 50px">
-                    <ArgonAmountInput v-model="transferAmount"
-                      :placeholder="`${$t('transaction_types_transfer')} ${$t('myAccount--input-placeholder')}`"
-                      unit="KRW" :selectedAsset="selectedAsset" :wonEMoneyBalance="wonEMoneyBalance"
-                      :activeTab="activeTab" />
-                  </div>
+                  <ArgonAmountInput v-model="transferAmount"
+                    :placeholder="`${$t('transaction_types_transfer')} ${$t('myAccount--input-placeholder')}`"
+                    unit="KRW" :selectedAsset="selectedAsset" :wonEMoneyBalance="wonEMoneyBalance"
+                    :activeTab="activeTab" />
                 </div>
 
                 <div>
