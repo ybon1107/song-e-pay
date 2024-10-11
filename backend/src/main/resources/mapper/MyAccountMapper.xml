@@ -10,7 +10,7 @@
         select balance
         from account
         where account_no = #{accountNo}
-        for update
+            for update
     </select>
 
     <!-- 송이 계좌 잔액 확인 -->
@@ -18,7 +18,7 @@
         select balance
         from song_account
         where song_no = #{songNo}
-        for update
+            for update
     </select>
 
     <!-- 원화 계좌 잔액 확인 -->
@@ -26,7 +26,7 @@
         select balance
         from krw_account
         where krw_no = #{krwNo}
-        for update
+            for update
     </select>
 
     <!--  회원 이메일 확인  -->
@@ -56,17 +56,30 @@
         SET balance = #{balance}
         WHERE krw_no = #{krwNo}
     </update>
-    <!-- 이용내역 추가-->
-    <insert id="insertHistory" parameterType="historyDTO">
-        INSERT INTO sepay.history
-        (user_no, song_no, krw_no, type_code, state_code, history_content, amount, exchange_rate)
-        VALUES
-            (#{userNo}, #{songNo}, #{krwNo}, #{typeCode}, #{stateCode}, #{historyContent}, #{amount}, #{exchangeRate})
-    </insert>
+
     <!--  userNo에 따른 2차 비밀번호 조회  -->
     <select id="selectSecondPwd" parameterType="integer" resultType="string">
         select second_pwd
         from user
-        where user_no = #{userNo}
+        where user_id = #{userId}
+    </select>
+
+    <!-- 보내는 사람(회원) 계좌 번호 조회-->
+    <select id="selectKrwNo" parameterType="string" resultType="string">
+        select krw_no
+        from user
+        where user_id = #{userId}
+            for update
+    </select>
+
+    <insert id="insertHistoryByKrwNo" parameterType="com.sepay.backend.history.dto.HistoryDTO">
+        INSERT INTO history (krw_no, amount, type, balance, /* 다른 필요한 컬럼들 */)
+        VALUES (#{krwNo}, #{amount}, #{type}, #{balance}, /* 다른 필요한 값들 */)
+    </insert>
+
+    <select id="selectUserByKrwNo" resultType="com.sepay.backend.user.dto.UserDTO">
+        SELECT user_id, song_no
+        FROM sepay.user
+        WHERE krw_no = #{krwNo}
     </select>
 </mapper>

@@ -6,8 +6,10 @@ import com.google.zxing.client.j2se.MatrixToImageWriter;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.QRCodeWriter;
 import com.sepay.backend.history.dto.HistoryDTO;
+import com.sepay.backend.history.service.HistoryService;
 import com.sepay.backend.myaccount.dto.KrwAccountDTO;
 import com.sepay.backend.myaccount.mapper.MyAccountMapper;
+import com.sepay.backend.myaccount.service.MyAccountService;
 import com.sepay.backend.user.dto.UserDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -23,6 +25,7 @@ import java.io.IOException;
 public class PaymentServiceImpl implements PaymentService {
 //    private final PaymentMapper mapper;
     private final MyAccountMapper mapper;
+    private final HistoryService historyService;
 
     @Override
     public byte[] createQR(String url) throws WriterException, IOException {
@@ -72,7 +75,7 @@ public class PaymentServiceImpl implements PaymentService {
 
             // 내역 추가
             HistoryDTO historyDTO = HistoryDTO.builder()
-                    .userNo(user.getUserNo())
+                    .userId(user.getUserId())
                     .songNo(user.getSongNo())
                     .krwNo(user.getKrwNo())
                     .typeCode(1)
@@ -80,7 +83,7 @@ public class PaymentServiceImpl implements PaymentService {
                     .historyContent("USD → KRW 환전")
                     .amount(amount)
                     .build();
-            int resHistory = mapper.insertHistory(historyDTO);
+            int resHistory = historyService.saveHistory(historyDTO);
 
             if (resHistory <= 0) {
                 throw new Error("Failed to insert payment history");

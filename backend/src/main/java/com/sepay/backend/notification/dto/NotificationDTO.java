@@ -14,7 +14,7 @@ import java.util.Date;
 public class NotificationDTO {
     private Integer notiNo;
     private String userId;
-    private Integer resveNo;
+    private Integer resNo;
     private String notiContent;
     private Double exchangeRate;
     private Date createAt;

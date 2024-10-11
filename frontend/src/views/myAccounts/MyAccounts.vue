@@ -20,9 +20,14 @@ const { t } = useI18n();
 //user
 import { useAuthStore } from '@/stores/auth';
 const auth = useAuthStore();
-const userId = computed(() => auth.user);
-
-const user = { krwNo: '1234', countryCode: '1', songNo: '1234', userNo: '1234' };
+const userId = computed(() => auth.user.userId);
+console.log('check the userId : ', userId);
+const user = {
+  krwNo: 'krw_test',
+  countryCode: '1',
+  songNo: 'song_test',
+  userNo: '1234',
+};
 
 //숫자 포맷팅
 import currencyFormatter from '../../js/currencyFormatter';
@@ -183,10 +188,10 @@ const selectAsset = (asset) => {
 
 // 충전 함수 정의
 const deposit = async () => {
-  const userNo = '1';
+  const userId = 'test@gmail.com';
   const accountNo = '123'; // 실제 계좌 번호 사용
   const songNo = '1234'; // 송이 페이 계좌 번호
-  const krwNo = '1234';
+  const krwNo = 'krw_test';
   const amount = depositAmount.value; // 충전하려는 금액
   // 송이 페이머니 충전 요청
   const response = await myaccountApi.deposit({
@@ -198,7 +203,7 @@ const deposit = async () => {
       songNo,
     },
     historyDTO: {
-      userNo,
+      userId,
       songNo,
       krwNo,
       typeCode: 3, //거래 코드 충전 3
@@ -215,9 +220,9 @@ const deposit = async () => {
 
 // 환전 처리
 const exchange = async () => {
-  const userNo = '1';
-  const krwNo = '1234'; // krw 계좌 번호 사용
-  const songNo = '1234'; // 송이 페이 계좌 번호
+  const userId = 'test@gmail.com';
+  const krwNo = 'krw_test'; // krw 계좌 번호 사용
+  const songNo = 'song_test'; // 송이 페이 계좌 번호
   const exchangeRate = currentFromKrw.value * 1000;
   const amount = exchangeAmount.value; // 환전하려는 금액
   const response = await myaccountApi.exchange({
@@ -230,7 +235,7 @@ const exchange = async () => {
       krwNo,
     },
     historyDTO: {
-      userNo,
+      userId,
       songNo,
       krwNo,
       typeCode: 5,
@@ -248,10 +253,10 @@ const exchange = async () => {
 
 // 환불 처리
 const refund = async () => {
-  const userNo = '1';
+  const userId = 'test@gmail.com';
   const accountNo = '123'; // 실제 계좌 번호 사용
-  const songNo = '1234'; // 송이 페이 계좌 번호
-  const krwNo = '1234'; // krw 계좌 번호 사용
+  const songNo = 'song_test'; // 송이 페이 계좌 번호
+  const krwNo = 'krw_test'; // krw 계좌 번호 사용
   const amount = refundAmount.value; // 충전하려는 금액
   // 송이 페이머니 충전 요청
   const response = await myaccountApi.refund({
@@ -263,7 +268,7 @@ const refund = async () => {
       songNo,
     },
     historyDTO: {
-      userNo,
+      userId,
       songNo,
       krwNo,
       typeCode: 4,
@@ -280,25 +285,34 @@ const refund = async () => {
 
 // 송금 처리
 const transfer = async () => {
-  const userNo = '1';
-  const songNo = '1234'; // 송이 페이 계좌 번호
-  const krwNo = '1234'; // krw 계좌 번호 사용
-  const target_krwNo = '1234'; // 보내는 사람 페이 계좌 번호
-  const amount = transferAmount.value; // 충전하려는 금액
+  const userId = 'test@gmail.com'; //나의 userId
+  const songNo = 'song_test'; // 송이 페이 계좌 번호
+  const krwNo = 'krw_test'; // krw 계좌 번호 사용
+  let target_krwNo;
+  const amount = transferAmount.value; // 송금하려는 금액
+  const stateCode = isMember.value === 'no-member' ? 4 : 1;
+  const targetHistoryContent = `${userId} → KRW  입금`;
+  if (isMember.value === 'no-member') {
+    target_krwNo = sendEmail.value;
+  } else {
+    target_krwNo = await myaccountApi.getKrwNo(sendEmail.value);
+  }
   // 송이 페이머니 충전 요청
   const response = await myaccountApi.transfer({
+    targetHistoryContent,
+    isMember: isMember.value,
     amount,
     target_krwNo,
     krwAccountDTO: {
       krwNo,
     },
     historyDTO: {
-      userNo,
+      userId,
       songNo,
       krwNo,
       typeCode: 2, //거래 코드 충전 2
-      stateCode: 1,
-      historyContent: `KRW → ${sendEmail} 송금`,
+      stateCode: stateCode,
+      historyContent: `KRW → ${sendEmail.value} 송금`,
       amount,
     },
   });
@@ -310,9 +324,9 @@ const transfer = async () => {
 
 // 환급 처리
 const reExchange = async () => {
-  const userNo = '1';
-  const krwNo = '1234'; // krw 계좌 번호 사용
-  const songNo = '1234'; // 송이 페이 계좌 번호
+  const userId = 'test@gmail.com';
+  const krwNo = 'krw_test'; // krw 계좌 번호 사용
+  const songNo = 'song_test'; // 송이 페이 계좌 번호
   const exchangeRate = currentToKrw.value;
   const amount = reExchangeAmount.value; // 환급하려는 금액
   console.log('exchangeRate 확인' + exchangeRate);
@@ -326,7 +340,7 @@ const reExchange = async () => {
       songNo,
     },
     historyDTO: {
-      userNo,
+      userId,
       songNo,
       krwNo,
       typeCode: 6,
@@ -350,6 +364,10 @@ const resetValue = () => {
   depositAmount.value = '';
   sendEmail.value = '';
   sendEmailConfirm.value = '';
+  success = false;
+  isMember.value = '';
+  isconfirmed = false;
+  checkSucess = false;
 };
 
 const convertToKrw = () => {
@@ -395,6 +413,8 @@ const onblur = () => {
   exchangeAmount.value = '';
   reExchangeAmount.value = '';
   errorAmountMessage.value = '';
+  errorMessage.value = '';
+  errorMessageCheck.value = '';
 };
 
 const songEMoneyBalance_toKRW = computed(() => {
@@ -519,12 +539,11 @@ const autoConditions = ref([]);
 const alertConditions = ref([]);
 
 // 사용자 번호를 설정 (임의로 1로 설정)
-const userNo = 1;
 
 // 자동 환전 예약 데이터를 가져오는 함수
 const fetchAutoExchange = async () => {
   try {
-    const response = await axios.get(`/api/exchange-reservation/setalert/${userNo}`);
+    const response = await axios.get(`/api/exchange-reservation/setalert/${userId}`);
     if (response.status === 200) {
       // 응답 데이터가 존재하면 autoConditions에 저장
       const reservations = response.data;
@@ -538,7 +557,7 @@ const fetchAutoExchange = async () => {
 // 환율 알림 데이터를 가져오는 함수
 const fetchAlertConditions = async () => {
   try {
-    const response = await axios.get(`/api/exchange-reservation/${userNo}`);
+    const response = await axios.get(`/api/exchange-reservation/${userId}`);
     if (response.status === 200) {
       // 응답 데이터가 존재하면 alertConditions에 최대 2개 저장
       const alerts = response.data.slice(0, 2); // 최대 2개만 가져옴
@@ -593,7 +612,7 @@ const deleteAlertCondition = async (resNo) => {
 };
 
 const flagIcon = (code) => {
-  return `/images/flag_${code}.png`;
+  return `/images/flag_c${code}.png`;
 };
 
 // 컴포넌트가 마운트될 때 데이터를 가져옴
@@ -680,13 +699,17 @@ onMounted(() => {
                     <div class="icon-container me-2">
                       <img :src="flagIcon(songCoutryCode)" alt="icon" class="flag-icon-img" />
                     </div>
-                    <div class="input-label-text">{{ $t('myAccount--songE-title') }}</div>
+                    <div class="input-label-text">
+                      {{ $t('myAccount--songE-title') }}
+                    </div>
                   </label>
-
-                  <ArgonAmountInput v-model="depositAmount" :placeholder="`${$t('transaction_types_deposit')} ${$t('myAccount--input-placeholder')}`" :unit="customerunit" />
+                  <div style="height: 30px">
+                    <ArgonAmountInput v-model="depositAmount" :placeholder="`${$t('transaction_types_deposit')} ${$t('myAccount--input-placeholder')}`" :unit="customerunit" />
+                  </div>
                 </div>
                 <div>
-                  예상 잔액: <span class="balance-text" :class="{ 'text-danger': depositAmount !== '' }">{{ processAfterBalance }}</span
+                  예상 잔액:
+                  <span class="balance-text" :class="{ 'text-danger': depositAmount !== '' }">{{ processAfterBalance }}</span
                   >{{ customerunit }}
                 </div>
                 <button type="submit" class="btn btn-primary w-100 fs-4" @click="openModal" :disabled="!isValidAmount(depositAmount)" variant="gradient">SONG-E 채우기</button>
@@ -712,6 +735,7 @@ onMounted(() => {
                     @focus="onfocus('receive')"
                     @blur="onblur('receive')"
                   />
+
                   <!-- <small>보유: {{ wonEMoneyBalance }} {{ wonUnit }} </small> -->
                 </div>
                 <div>
@@ -719,28 +743,36 @@ onMounted(() => {
                     <div class="icon-container me-2">
                       <img :src="flagIcon(songCoutryCode)" alt="icon" class="flag-icon-img" />
                     </div>
-                    <div class="input-label-text">{{ $t('myAccount--songE-title') }}</div>
+                    <div class="input-label-text">
+                      {{ $t('myAccount--songE-title') }}
+                    </div>
                   </label>
                   <!-- 현재환율 * exchangeamount -->
+                  <div style="height: 60px">
+                    <ExchangeAmountInput
+                      v-model="exchangeAmount"
+                      :placeholder="`${$t('transaction_types_exchange')} ${$t('myAccount--input-placeholder')}`"
+                      :unit="wonUnit"
+                      :selectedAsset="selectedAsset"
+                      :songEMoneyBalance="songEMoneyBalance"
+                      :activeTab="activeTab"
+                      :errorAmountMessage="errorAmountMessage"
+                      @update:errorAmountMessage="errorAmountMessage = $event"
+                      @focus="onfocus('exchange')"
+                      @blur="onblur"
+                    />
+                  </div>
 
-                  <ExchangeAmountInput
-                    v-model="exchangeAmount"
-                    :placeholder="`${$t('transaction_types_exchange')} ${$t('myAccount--input-placeholder')}`"
-                    :unit="wonUnit"
-                    :selectedAsset="selectedAsset"
-                    :songEMoneyBalance="songEMoneyBalance"
-                    :activeTab="activeTab"
-                    :errorAmountMessage="errorAmountMessage"
-                    @update:errorAmountMessage="errorAmountMessage = $event"
-                    @focus="onfocus('exchange')"
-                    @blur="onblur"
-                  />
                   <!-- <div class="balance-text">{{ receivedAmount }} {{ customerunit }}</div> -->
-                  <small>현재 환율: 1 {{ wonUnit }} = {{ currentFromKrw }} {{ customerunit }} </small>
+                  <small
+                    >현재 환율: 1 {{ wonUnit }} = {{ currentFromKrw }}
+                    {{ customerunit }}
+                  </small>
                 </div>
                 <!-- songe - 위에 보여주는 금액 -->
                 <div>
-                  예상 잔액: <span class="balance-text" :class="{ 'text-blue': exchangeAmount !== '' }">{{ processAfterBalance }}</span
+                  예상 잔액:
+                  <span class="balance-text" :class="{ 'text-blue': exchangeAmount !== '' }">{{ processAfterBalance }}</span
                   >{{ customerunit }}
                 </div>
                 <!-- <div class="balance-text">예상 잔액: {{ processAfterBalance }}{{ customerunit }}</div> -->
@@ -771,9 +803,8 @@ onMounted(() => {
                 <button type="submit" class="btn btn-primary w-100" @click="openModal"
                   :disabled="!isValidAmount(exchangeAmount)" variant="gradient">환전하기</button> -->
               </div>
-
               <div v-if="activeTab === TRANSACTION_TYPES.REFUND" class="d-grid gap-4">
-                <div>
+                <div style="height: 90px">
                   <label class="d-flex align-items-center">
                     <div class="icon-container me-2">
                       <img :src="flagIcon(songCoutryCode)" alt="icon" class="flag-icon-img" />
@@ -794,10 +825,13 @@ onMounted(() => {
                     <div class="icon-container me-2">
                       <img :src="flagIcon(songCoutryCode)" alt="icon" class="flag-icon-img" />
                     </div>
-                    <div class="input-label-text">{{ $t('myAccount--songE-title') }}</div>
+                    <div class="input-label-text">
+                      {{ $t('myAccount--songE-title') }}
+                    </div>
                   </label>
                   <div>
-                    예상 잔액: <span class="balance-text" :class="{ 'text-blue': refundAmount !== '' }">{{ processAfterBalance }}</span
+                    예상 잔액:
+                    <span class="balance-text" :class="{ 'text-blue': refundAmount !== '' }">{{ processAfterBalance }}</span
                     >{{ customerunit }}
                   </div>
                   <!-- <div class="balance-text">{{ processAfterBalance }}{{ customerunit }}</div> -->
@@ -844,7 +878,9 @@ onMounted(() => {
                       :error="errorMessage !== ''"
                       :success="success"
                     />
-                    <div v-if="errorMessage !== ''" class="invalid-feedback text-xs">{{ errorMessage }}</div>
+                    <div v-if="errorMessage !== ''" class="invalid-feedback text-xs">
+                      {{ errorMessage }}
+                    </div>
                   </div>
                   <div class="mb-3">
                     <small>이메일 확인</small>
@@ -856,7 +892,9 @@ onMounted(() => {
                       :success="checkSucess"
                       @input="onInputCheck"
                     />
-                    <div v-if="errorMessageCheck" class="invalid-feedback text-xs mb-1">{{ errorMessageCheck }}</div>
+                    <div v-if="errorMessageCheck" class="invalid-feedback text-xs mb-1">
+                      {{ errorMessageCheck }}
+                    </div>
                   </div>
                 </div>
 
@@ -870,14 +908,16 @@ onMounted(() => {
                       <img :src="flagIcon(wonCoutryCode)" alt="icon" class="flag-icon-img" />
                     </div>
                   </label>
-                  <ArgonAmountInput
-                    v-model="transferAmount"
-                    :placeholder="`${$t('transaction_types_transfer')} ${$t('myAccount--input-placeholder')}`"
-                    unit="KRW"
-                    :selectedAsset="selectedAsset"
-                    :wonEMoneyBalance="wonEMoneyBalance"
-                    :activeTab="activeTab"
-                  />
+                  <div style="height: 50px">
+                    <ArgonAmountInput
+                      v-model="transferAmount"
+                      :placeholder="`${$t('transaction_types_transfer')} ${$t('myAccount--input-placeholder')}`"
+                      unit="KRW"
+                      :selectedAsset="selectedAsset"
+                      :wonEMoneyBalance="wonEMoneyBalance"
+                      :activeTab="activeTab"
+                    />
+                  </div>
                 </div>
 
                 <div>
@@ -885,10 +925,13 @@ onMounted(() => {
                     <div class="icon-container me-2">
                       <img :src="flagIcon(wonCoutryCode)" alt="icon" class="flag-icon-img" />
                     </div>
-                    <div class="input-label-text">{{ $t('myAccount--wonE-title') }}</div>
+                    <div class="input-label-text">
+                      {{ $t('myAccount--wonE-title') }}
+                    </div>
                   </label>
                   <div>
-                    예상 잔액: <span class="balance-text" :class="{ 'text-blue': transferAmount !== '' }">{{ processAfterWonBalance }}</span
+                    예상 잔액:
+                    <span class="balance-text" :class="{ 'text-blue': transferAmount !== '' }">{{ processAfterWonBalance }}</span
                     >{{ wonUnit }}
                   </div>
                   <!-- <div class="balance-text">{{ processAfterWonBalance }}{{ wonUnit }}</div> -->
@@ -911,7 +954,9 @@ onMounted(() => {
                     <div class="icon-container me-2">
                       <img :src="flagIcon(songCoutryCode)" alt="icon" class="flag-icon-img" />
                     </div>
-                    <div class="input-label-text">{{ $t('myAccount--songE-title') }}</div>
+                    <div class="input-label-text">
+                      {{ $t('myAccount--songE-title') }}
+                    </div>
                   </label>
                   <ExchangeAmountInput
                     v-model="receiveAmount"
@@ -934,23 +979,29 @@ onMounted(() => {
                     </div>
                     <div class="input-label-text">WON-E</div>
                   </label>
+                  <div style="height: 80px">
+                    <ExchangeAmountInput
+                      v-model="reExchangeAmount"
+                      :placeholder="`${$t('transaction_types_exchange')} ${$t('myAccount--input-placeholder')}`"
+                      :unit="wonUnit"
+                      :selectedAsset="selectedAsset"
+                      :wonEMoneyBalance="wonEMoneyBalance"
+                      :activeTab="activeTab"
+                      :errorAmountMessage="errorAmountMessage"
+                      @update:errorAmountMessage="errorAmountMessage = $event"
+                      @focus="onfocus('reExchange')"
+                      @blur="onblur"
+                    />
+                  </div>
 
-                  <ExchangeAmountInput
-                    v-model="reExchangeAmount"
-                    :placeholder="`${$t('transaction_types_exchange')} ${$t('myAccount--input-placeholder')}`"
-                    :unit="wonUnit"
-                    :selectedAsset="selectedAsset"
-                    :wonEMoneyBalance="wonEMoneyBalance"
-                    :activeTab="activeTab"
-                    :errorAmountMessage="errorAmountMessage"
-                    @update:errorAmountMessage="errorAmountMessage = $event"
-                    @focus="onfocus('reExchange')"
-                    @blur="onblur"
-                  />
-                  <small>현재 환율: 1 {{ customerunit }} = {{ currentToKrw }} {{ wonUnit }} </small>
+                  <small
+                    >현재 환율: 1 {{ customerunit }} = {{ currentToKrw }}
+                    {{ wonUnit }}
+                  </small>
                 </div>
                 <div>
-                  예상 잔액: <span class="balance-text" :class="{ 'text-blue': reExchangeAmount !== '' }">{{ processAfterWonBalance }}</span
+                  예상 잔액:
+                  <span class="balance-text" :class="{ 'text-blue': reExchangeAmount !== '' }">{{ processAfterWonBalance }}</span
                   >{{ wonUnit }}
                 </div>
                 <button type="submit" class="btn btn-primary w-100 fs-4" @click="openModal" :disabled="!isValidAmount(exchangeAmount)" variant="gradient">SONG-E로 환전</button>
@@ -1000,7 +1051,10 @@ onMounted(() => {
 
             <div class="col-lg-5 col-md-12 d-flex flex-column justify-content-center my-3">
               <div class="mb-3">
-                <h6>{{ customerunit }} <i class="fa-solid fa-arrow-right"></i> {{ wonUnit }}</h6>
+                <h6>
+                  {{ customerunit }} <i class="fa-solid fa-arrow-right"></i>
+                  {{ wonUnit }}
+                </h6>
                 <div class="d-flex align-items-center">
                   <div class="position-relative flex-grow-1">
                     <input type="number" class="form-control" v-model.number="usdAmount" @input="convertToKrw" aria-label="Amount in USD" />
@@ -1014,7 +1068,10 @@ onMounted(() => {
                 </div>
               </div>
               <div>
-                <h6>{{ wonUnit }} <i class="fa-solid fa-arrow-right"></i> {{ customerunit }}</h6>
+                <h6>
+                  {{ wonUnit }} <i class="fa-solid fa-arrow-right"></i>
+                  {{ customerunit }}
+                </h6>
                 <div class="d-flex align-items-center">
                   <div class="position-relative flex-grow-1">
                     <input type="number" class="form-control" v-model.number="krwAmountReverse" @input="convertToUsd" />
@@ -1056,7 +1113,9 @@ onMounted(() => {
                       <div>목표 환율: {{ autoConditions[0]?.targetExchange }}</div>
                       <div>목표 KRW 금액: {{ autoConditions[0]?.targetKrw }}</div>
                     </div>
-                    <div class="cursor-pointer" @click="confirmDelete(autoConditions[0]?.resNo)"><i class="ni ni-fat-remove text-danger"></i></div>
+                    <div class="cursor-pointer" @click="confirmDelete(autoConditions[0]?.resNo)">
+                      <i class="ni ni-fat-remove text-danger"></i>
+                    </div>
                     <!-- <button class="btn btn-sm btn-danger mb-0"
                       @click="confirmDelete(autoConditions[0]?.resNo)">삭제</button> -->
                   </div>

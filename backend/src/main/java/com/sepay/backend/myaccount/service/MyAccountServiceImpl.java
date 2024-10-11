@@ -1,10 +1,12 @@
 package com.sepay.backend.myaccount.service;
 
 import com.sepay.backend.history.dto.HistoryDTO;
+import com.sepay.backend.history.mapper.HistoryMapper;
 import com.sepay.backend.myaccount.dto.AccountDTO;
 import com.sepay.backend.myaccount.dto.KrwAccountDTO;
 import com.sepay.backend.myaccount.dto.SongAccountDTO;
 import com.sepay.backend.myaccount.mapper.MyAccountMapper;
+import com.sepay.backend.user.dto.UserDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -14,7 +16,9 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @RequiredArgsConstructor
 public class MyAccountServiceImpl implements MyAccountService {
+
     private final MyAccountMapper mapper;
+    private final HistoryMapper historyMapper;
 
     @Override
     public Double selectKrwBalance(String krwNo) {
@@ -53,7 +57,7 @@ public class MyAccountServiceImpl implements MyAccountService {
             mapper.updateSongAccount(songAccountDTO);
 
             // history insert
-            mapper.insertHistory(historyDTO);
+            historyMapper.insertHistory(historyDTO);
             message = "success";
         }
         return message;
@@ -75,7 +79,7 @@ public class MyAccountServiceImpl implements MyAccountService {
             mapper.updateAccount(accountDTO);
 
             // history insert
-            mapper.insertHistory(historyDTO);
+            historyMapper.insertHistory(historyDTO);
 
             message = "success";
         }
@@ -99,7 +103,7 @@ public class MyAccountServiceImpl implements MyAccountService {
             mapper.updateKrwAccount(krwAccountDTO);
 
             // history insert
-            mapper.insertHistory(historyDTO);
+            historyMapper.insertHistory(historyDTO);
 
             message = "success";
         }
@@ -123,7 +127,7 @@ public class MyAccountServiceImpl implements MyAccountService {
             mapper.updateSongAccount(songAccountDTO);
 
             // history insert
-            mapper.insertHistory(historyDTO);
+            historyMapper.insertHistory(historyDTO);
 
             message = "success";
         }
@@ -133,7 +137,7 @@ public class MyAccountServiceImpl implements MyAccountService {
     // 송금
     @Override
     @Transactional
-    public String transfer(KrwAccountDTO myKrwAccount, HistoryDTO historyDTO, Double amount, String target_krwNo) {
+    public String transfer(KrwAccountDTO myKrwAccount, HistoryDTO historyDTO, Double amount, String target_krwNo, String targetHistoryContent) {
         String message = "계좌에 잔액이 부족합니다";
         // 원화 계좌에 송금 금액보다 많을 때
         if(mapper.selectKrwBalance(myKrwAccount.getKrwNo()) >= amount) {
@@ -142,14 +146,32 @@ public class MyAccountServiceImpl implements MyAccountService {
             mapper.updateKrwAccount(myKrwAccount);
 
             // 상대 계좌 증가
-//            KrwAccountDTO targetKrwAccount = mapper.selectKrwAccount(target_krwNo);
-//            targetKrwAccount.setBalance(targetKrwAccount.getBalance() + amount);
-//            mapper.updateKrwAccount(targetKrwAccount);
+
+            KrwAccountDTO targetKrwAccount = new KrwAccountDTO();
+            targetKrwAccount.setBalance(mapper.selectKrwBalance(target_krwNo) + amount);
+            mapper.updateKrwAccount(targetKrwAccount);
             // history insert
-            mapper.insertHistory(historyDTO);
+
+            // 상대방 정보 조회
+            UserDTO targetUser = mapper.selectUserByKrwNo(target_krwNo);
+            historyMapper.insertHistory(historyDTO);
+            // 상대 history insert
+            HistoryDTO targetHistoryDTO = new HistoryDTO();
+            targetHistoryDTO.setUserId(targetUser.getUserId());
+            targetHistoryDTO.setSongNo(targetUser.getSongNo());
+            targetHistoryDTO.setKrwNo(target_krwNo);
+            targetHistoryDTO.setTypeCode(8); // 또는 적절한 코드
+            targetHistoryDTO.setStateCode(1); // 또는 적절한 상태 코드
+            targetHistoryDTO.setHistoryContent(targetHistoryContent);
+            targetHistoryDTO.setAmount(amount);
+            // 필요한 다른 필드들 설정
+            historyMapper.insertHistory(targetHistoryDTO);
+
             message = "success";
         }
         return message;
     }
+    @Override
+    public String getKrwno(String userId) { return mapper.selectKrwNo(userId);}
 
 }

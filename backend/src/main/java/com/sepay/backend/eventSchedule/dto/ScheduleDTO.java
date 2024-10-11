@@ -1,4 +1,4 @@
-package com.sepay.backend.schedule.dto;
+package com.sepay.backend.eventSchedule.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -12,13 +12,15 @@ import java.util.Date;
 @AllArgsConstructor
 @Builder
 public class ScheduleDTO {
+    private String userId;
     private Integer eventNo;
-    private Integer userNo;
     private String beginDate;  // 시작 날짜 (형식: "yyyy-MM-dd HH:mm:ss")
     private String endDate;    // 종료 날짜 (형식: "yyyy-MM-dd HH:mm:ss")
     private String title;      // 일정 제목
     private String todo;       // 일정 설명
     private String color;
+    private Date createdAt;
+    private Date updatedAt;
 
     // Getter
     public Integer getEventNo() {

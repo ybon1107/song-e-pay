@@ -6,6 +6,7 @@ export const TRANSACTION_TYPES = {
   EXCHANGE: 5, //song -> won
   RE_EXCHANGE: 6, //won -> song
   AUTO_EXCHANGE: 7, //song -> won
+  RECEIVE: 8, //won -> won
 };
 
 export const TRANSACTION_TYPES_KEY = [
@@ -17,6 +18,7 @@ export const TRANSACTION_TYPES_KEY = [
   'transaction_types_exchange',
   'transaction_types_reExchange',
   'transaction_types_autoExchange',
+  'transaction_types_receive',
 ];
 
 export const TRANSACTION_STATES_KEY = ['none', 'transaction_states_completed', 'transaction_states_failed', 'transaction_states_cancelled', 'transaction_states_pending'];

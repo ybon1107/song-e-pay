@@ -6,9 +6,20 @@
     <div class="row mb-3 mapSelect">
       <!-- 광역시/도 선택 -->
       <div class="col-md-2 col-sm-3 d-flex align-items-end mb-2">
-        <select v-model="selectedProvince" @change="fetchCities" id="city-select" class="form-select form-field-radius">
-          <option value="" disabled selected>{{ $t("map--select-cityLabel") }}</option>
-          <option v-for="province in provinces" :key="province" :value="province">
+        <select
+          v-model="selectedProvince"
+          @change="fetchCities"
+          id="city-select"
+          class="form-select form-field-radius"
+        >
+          <option value="" disabled selected>
+            {{ $t("map--select-cityLabel") }}
+          </option>
+          <option
+            v-for="province in provinces"
+            :key="province"
+            :value="province"
+          >
             {{ $t(province) }}
           </option>
         </select>
@@ -16,8 +27,14 @@
 
       <!-- 시/군/구 선택 -->
       <div class="col-md-2 col-sm-3 d-flex align-items-end mb-2">
-        <select v-model="selectedCity" id="district-select" class="form-select form-field-radius">
-          <option value="" disabled selected>{{ $t("map--select-districtLabel") }}</option>
+        <select
+          v-model="selectedCity"
+          id="district-select"
+          class="form-select form-field-radius"
+        >
+          <option value="" disabled selected>
+            {{ $t("map--select-districtLabel") }}
+          </option>
           <option v-for="city in cities" :key="city" :value="city">
             {{ city }}
           </option>
@@ -26,14 +43,21 @@
 
       <!-- 검색 버튼 -->
       <div class="col-md-2 col-sm-3 d-flex align-items-end mb-2">
-        <button class="search-button btn btn-primary w-100 form-field-radius mb-0" @click="searchBank">
-          <i class="mdi mdi-map-search-outline"></i> {{ $t("map--button-search") }}
+        <button
+          class="search-button btn btn-primary w-100 form-field-radius mb-0"
+          @click="searchBank"
+        >
+          <i class="mdi mdi-map-search-outline"></i>
+          {{ $t("map--button-search") }}
         </button>
       </div>
 
       <!-- 내 위치에서 찾기 버튼 -->
       <div class="col-md-2 col-sm-3 d-flex align-items-end mb-2">
-        <button class="btn btn-secondary w-100 form-field-radius mb-0" @click="findUserLocation">
+        <button
+          class="btn btn-secondary w-100 form-field-radius mb-0"
+          @click="findUserLocation"
+        >
           내 위치에서 찾기
         </button>
       </div>
@@ -46,11 +70,11 @@
   </div>
 </template>
 
-
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted } from "vue";
 import {
-  PROVINCES, SEOUL_CITIES,
+  PROVINCES,
+  SEOUL_CITIES,
   BUSAN_CITIES,
   DAEGU_CITIES,
   INCHEON_CITIES,
@@ -66,16 +90,16 @@ import {
   JEOLLANAM_CITIES,
   GYEONGSANGBUK_CITIES,
   GYEONGSANGNAM_CITIES,
-  JEJU_CITIES
-} from '../../constants/localUnits';
-import { useI18n } from 'vue-i18n';
+  JEJU_CITIES,
+} from "../../constants/localUnits";
+import { useI18n } from "vue-i18n";
 const { t } = useI18n();
 
 const map = ref(null);
 const service = ref(null);
 const geocoder = ref(null);
-const selectedProvince = ref('');
-const selectedCity = ref('');
+const selectedProvince = ref("");
+const selectedCity = ref("");
 const provinces = ref(PROVINCES);
 const cities = ref([]);
 const markers = ref([]); // To hold marker instances
@@ -86,7 +110,7 @@ onMounted(() => {
 });
 
 function initMap() {
-  map.value = new google.maps.Map(document.getElementById('map'), {
+  map.value = new google.maps.Map(document.getElementById("map"), {
     center: { lat: 37.5665, lng: 126.978 }, // Initial map center at Seoul
     zoom: 12,
   });
@@ -109,11 +133,11 @@ function findUserLocation() {
         searchNearbyBanks(userLocation);
       },
       () => {
-        alert('위치 정보를 사용할 수 없습니다.');
+        alert("위치 정보를 사용할 수 없습니다.");
       }
     );
   } else {
-    alert('사용자의 브라우저에서 위치 정보를 지원하지 않습니다.');
+    alert("사용자의 브라우저에서 위치 정보를 지원하지 않습니다.");
   }
 }
 
@@ -126,9 +150,9 @@ function setUserMarker(location) {
     position: location,
     map: map.value,
     icon: {
-      url: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png', // 파란색 마커
+      url: "http://maps.google.com/mapfiles/ms/icons/blue-dot.png", // 파란색 마커
     },
-    title: '나의 위치',
+    title: "나의 위치",
   });
 }
 
@@ -137,7 +161,7 @@ function searchNearbyBanks(location) {
   const request = {
     location: location,
     radius: 3000, // 3km 반경 내에서 검색
-    query: 'KB국민은행',
+    query: "KB국민은행",
   };
 
   service.value.textSearch(request, (places, status) => {
@@ -146,7 +170,7 @@ function searchNearbyBanks(location) {
 
       places.forEach((place) => {
         // 검색 결과에서 ATM과 국민카드가 포함된 결과는 제외
-        if (!place.name.includes('ATM') && !place.name.includes('국민카드')) {
+        if (!place.name.includes("ATM") && !place.name.includes("국민카드")) {
           const marker = new google.maps.Marker({
             map: map.value,
             position: place.geometry.location,
@@ -158,7 +182,7 @@ function searchNearbyBanks(location) {
             <strong>주소:</strong> ${place.formatted_address}</div>`,
           });
 
-          marker.addListener('click', () => {
+          marker.addListener("click", () => {
             infoWindow.open(map.value, marker);
           });
 
@@ -166,7 +190,7 @@ function searchNearbyBanks(location) {
         }
       });
     } else {
-      console.error('Places search was not successful:', status);
+      console.error("Places search was not successful:", status);
     }
   });
 }
@@ -177,7 +201,7 @@ function getTodayOpeningHours(openingHours) {
   const todayHours = openingHours[todayIndex]; // 오늘에 해당하는 운영시간 가져오기
 
   // 운영시간 문자열에서 콜론(:) 이후의 시간 부분만 추출
-  return todayHours ? todayHours.split(': ')[1] : '운영시간 정보 없음';
+  return todayHours ? todayHours.split(": ")[1] : "운영시간 정보 없음";
 }
 
 // 기존 마커 제거 함수
@@ -193,39 +217,39 @@ function fetchCities() {
   console.log(selectedProvince.value);
   console.log(PROVINCES[0]);
   if (selectedProvince.value === PROVINCES[0]) {
-    cities.value = SEOUL_CITIES
+    cities.value = SEOUL_CITIES;
   } else if (selectedProvince.value === PROVINCES[1]) {
-    cities.value = BUSAN_CITIES
+    cities.value = BUSAN_CITIES;
   } else if (selectedProvince.value === PROVINCES[2]) {
-    cities.value = DAEGU_CITIES
+    cities.value = DAEGU_CITIES;
   } else if (selectedProvince.value === PROVINCES[3]) {
-    cities.value = INCHEON_CITIES
+    cities.value = INCHEON_CITIES;
   } else if (selectedProvince.value === PROVINCES[4]) {
-    cities.value = DAEJEON_CITIES
+    cities.value = DAEJEON_CITIES;
   } else if (selectedProvince.value === PROVINCES[5]) {
-    cities.value = GWANGJU_CITIES
+    cities.value = GWANGJU_CITIES;
   } else if (selectedProvince.value === PROVINCES[6]) {
-    cities.value = ULSAN_CITIES
+    cities.value = ULSAN_CITIES;
   } else if (selectedProvince.value === PROVINCES[7]) {
-    cities.value = SEJONG_CITIES
+    cities.value = SEJONG_CITIES;
   } else if (selectedProvince.value === PROVINCES[8]) {
-    cities.value = GYEONGGI_CITIES
+    cities.value = GYEONGGI_CITIES;
   } else if (selectedProvince.value === PROVINCES[9]) {
-    cities.value = GANGWON_CITIES
+    cities.value = GANGWON_CITIES;
   } else if (selectedProvince.value === PROVINCES[10]) {
-    cities.value = CHUNGCHEONGBUK_CITIES
+    cities.value = CHUNGCHEONGBUK_CITIES;
   } else if (selectedProvince.value === PROVINCES[11]) {
-    cities.value = CHUNGCHEONGNAM_CITIES
+    cities.value = CHUNGCHEONGNAM_CITIES;
   } else if (selectedProvince.value === PROVINCES[12]) {
-    cities.value = JEOLLABUK_CITIES
+    cities.value = JEOLLABUK_CITIES;
   } else if (selectedProvince.value === PROVINCES[13]) {
-    cities.value = JEOLLANAM_CITIES
+    cities.value = JEOLLANAM_CITIES;
   } else if (selectedProvince.value === PROVINCES[14]) {
-    cities.value = GYEONGSANGBUK_CITIES
+    cities.value = GYEONGSANGBUK_CITIES;
   } else if (selectedProvince.value === PROVINCES[15]) {
-    cities.value = GYEONGSANGNAM_CITIES
+    cities.value = GYEONGSANGNAM_CITIES;
   } else if (selectedProvince.value === PROVINCES[16]) {
-    cities.value = JEJU_CITIES
+    cities.value = JEJU_CITIES;
   }
 }
 
@@ -267,7 +291,10 @@ function searchBank() {
 
           places.forEach((place) => {
             // 검색 결과에서 ATM과 국민카드가 포함된 결과는 제외
-            if (!place.name.includes('ATM') && !place.name.includes('국민카드')) {
+            if (
+              !place.name.includes("ATM") &&
+              !place.name.includes("국민카드")
+            ) {
               const marker = new google.maps.Marker({
                 map: map.value,
                 position: place.geometry.location,
@@ -277,94 +304,80 @@ function searchBank() {
               // Places Details 요청을 통해 세부 정보를 가져옴
               const detailsRequest = {
                 placeId: place.place_id,
-                fields: ['name', 'formatted_address', 'opening_hours'], // 필요한 정보 필드 설정
+                fields: ["name", "formatted_address", "opening_hours"], // 필요한 정보 필드 설정
               };
 
-              service.value.getDetails(detailsRequest, (placeDetails, status) => {
-                if (status === google.maps.places.PlacesServiceStatus.OK) {
-                  // 오늘의 운영시간 가져오기
-                  let todayOpeningHours = t('map--marker-box-openingHours');
-                  if (placeDetails.opening_hours && placeDetails.opening_hours.weekday_text) {
-                    // 현재 날짜 가져오기
-                    const today = new Date();
-                    const todayIndex = today.getDay();
+              service.value.getDetails(
+                detailsRequest,
+                (placeDetails, status) => {
+                  if (status === google.maps.places.PlacesServiceStatus.OK) {
+                    // 오늘의 운영시간 가져오기
+                    let todayOpeningHours = t("map--marker-box-openingHours");
+                    if (
+                      placeDetails.opening_hours &&
+                      placeDetails.opening_hours.weekday_text
+                    ) {
+                      // 현재 날짜 가져오기
+                      const today = new Date();
+                      const todayIndex = today.getDay();
 
-                    // weekday_text 배열에서 요일이 일요일부터 시작하는지 확인
-                    let weekdayText = placeDetails.opening_hours.weekday_text;
-                    const firstDayText = weekdayText[0].toLowerCase();
-                    const isSundayFirst = firstDayText.includes('sunday') || firstDayText.includes('일요일');
+                      // weekday_text 배열에서 요일이 일요일부터 시작하는지 확인
+                      let weekdayText = placeDetails.opening_hours.weekday_text;
+                      const firstDayText = weekdayText[0].toLowerCase();
+                      const isSundayFirst =
+                        firstDayText.includes("sunday") ||
+                        firstDayText.includes("일요일");
 
-                    // 요일 인덱스 조정
-                    let correctedIndex = isSundayFirst
-                      ? todayIndex
-                      : todayIndex === 0
-                        ? 6
-                        : todayIndex - 1;
+                      // 요일 인덱스 조정
+                      let correctedIndex = isSundayFirst
+                        ? todayIndex
+                        : todayIndex === 0
+                          ? 6
+                          : todayIndex - 1;
 
-                    // 오늘의 운영 시간만 출력
-                    let openingHoursText = weekdayText[correctedIndex] || '운영시간 정보 없음';
+                      // 오늘의 운영 시간만 출력
+                      let openingHoursText =
+                        weekdayText[correctedIndex] || "운영시간 정보 없음";
 
-                    // "요일: 시간" 형식에서 시간 부분만 추출
-                    if (openingHoursText.includes(': ')) {
-                      todayOpeningHours = openingHoursText.split(': ')[1]; // 시간만 추출
-                    } else {
-                      todayOpeningHours = '운영시간 정보 없음';
+                      // "요일: 시간" 형식에서 시간 부분만 추출
+                      if (openingHoursText.includes(": ")) {
+                        todayOpeningHours = openingHoursText.split(": ")[1]; // 시간만 추출
+                      } else {
+                        todayOpeningHours = "운영시간 정보 없음";
+                      }
                     }
-                  }
 
-                  // InfoWindow에 오늘의 운영시간 추가
-                  const infoWindow = new google.maps.InfoWindow({
-                    content: `<div><strong>${placeDetails.name}</strong><br>
+                    // InfoWindow에 오늘의 운영시간 추가
+                    const infoWindow = new google.maps.InfoWindow({
+                      content: `<div><strong>${placeDetails.name}</strong><br>
 <strong>주소:</strong> ${placeDetails.formatted_address}<br>
 <strong>오늘의 운영시간:</strong> ${todayOpeningHours}</div>`,
-                  });
+                    });
 
-                  marker.addListener('click', () => {
-                    infoWindow.open(map.value, marker);
-                  });
+                    marker.addListener("click", () => {
+                      infoWindow.open(map.value, marker);
+                    });
 
-                  markers.value.push(marker); // 마커 배열에 추가
-                } else {
-                  console.error('Place details request failed:', status);
+                    markers.value.push(marker); // 마커 배열에 추가
+                  } else {
+                    console.error("Place details request failed:", status);
+                  }
                 }
-              });
+              );
             }
           });
         } else {
-          console.error('Places search was not successful:', status);
+          console.error("Places search was not successful:", status);
         }
       });
     } else {
-      console.error('Geocode was not successful:', status);
+      console.error("Geocode was not successful:", status);
     }
   });
 }
 </script>
 
-
 <style scoped>
-@font-face {
-  font-family: 'TTLaundryGothicB';
-  src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/2403-2@1.0/TTLaundryGothicB.woff2') format('woff2');
-  font-weight: 700;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: 'Pretendard-Regular';
-  src: url('https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
-  font-weight: 400;
-  font-style: normal;
-}
-
-.mapsFont {
-  font-family: TTLaundryGothicB, sans-serif;
-}
-
-.mapSelect {
-  font-family: Pretendard-Regular, sans-serif;
-}
-
 /* 반응형 지도 크기 설정 */
 #map {
   width: 100%;
@@ -376,7 +389,6 @@ function searchBank() {
 
 /* 작은 화면일 때 */
 @media (max-width: 768px) {
-
   /*  지도 높이 줄이기 */
   #map {
     height: 50vh;
@@ -386,7 +398,6 @@ function searchBank() {
 }
 
 @media (max-width: 480px) {
-
   /* 모바일 기기에서는 지도 높이를 더 줄이기 */
   #map {
     height: 40vh;
@@ -396,6 +407,6 @@ function searchBank() {
 .form-field-radius {
   border-radius: 50px;
   height: 40px;
-  padding-left: 20px
+  padding-left: 20px;
 }
 </style>

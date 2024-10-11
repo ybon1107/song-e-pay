@@ -1,12 +1,13 @@
-package com.sepay.backend.schedule.service;
+package com.sepay.backend.eventSchedule.service;
 
-import com.sepay.backend.schedule.dto.ScheduleDTO;
-import com.sepay.backend.schedule.mapper.ScheduleMapper;
+import com.sepay.backend.eventSchedule.dto.ScheduleDTO;
+import com.sepay.backend.eventSchedule.mapper.ScheduleMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
-import java.util.Optional;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -20,10 +21,14 @@ public class ScheduleServiceImpl implements ScheduleService {
         scheduleMapper.saveSchedule(scheduleDTO);
     }
 
+    // 모든 일정 조회
     @Override
-    public List<ScheduleDTO> getAllSchedules() {
-        // Mapper를 이용하여 모든 일정 조회
-        return scheduleMapper.findAll();
+    public List<ScheduleDTO> getAllSchedules(String userId, Integer year, Integer month) {
+        Map map = new HashMap();
+        map.put("userId", userId);
+        map.put("year", year);
+        map.put("month", month);
+        return scheduleMapper.selectByUserId(map);
     }
 
 
@@ -35,7 +40,7 @@ public class ScheduleServiceImpl implements ScheduleService {
         } else {
             throw new RuntimeException("Failed to update schedule with eventNo: " + scheduleDTO.getEventNo());
         }
-}
+    }
 
     @Override
     public void deleteSchedule(Integer eventNo) {

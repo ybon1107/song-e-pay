@@ -10,18 +10,18 @@
 
     <typeAliases>
         <package name="com.sepay.backend.user.dto"/>
-        <package name="com.sepay.backend.event.dto"/>
         <package name="com.sepay.backend.history.dto"/>
         <package name="com.sepay.backend.myaccount.dto"/>
         <package name="com.sepay.backend.exchangereservation.dto"/>
         <package name="com.sepay.backend.notification.dto"/>
         <package name="com.sepay.backend.security.account.domain"/>
         <package name="com.sepay.backend.exchange.dto"/>
+        <package name="com.sepay.backend.eventSchedule.dto"/>
+
     </typeAliases>
 
     <mappers>
         <mapper resource="mapper/UserMapper.xml"/>
-        <mapper resource="mapper/EventMapper.xml"/>
         <mapper resource="mapper/HistoryMapper.xml"/>
         <mapper resource="mapper/MyAccountMapper.xml"/>
         <mapper resource="mapper/ExchangeReservationMapper.xml"/>

@@ -1,10 +1,13 @@
 package com.sepay.backend.myaccount.controller;
 
+import com.sepay.backend.mail.service.MailService;
 import com.sepay.backend.myaccount.dto.AccountDTO;
 import com.sepay.backend.myaccount.dto.DTORequest;
 import com.sepay.backend.myaccount.dto.KrwAccountDTO;
 import com.sepay.backend.myaccount.dto.SongAccountDTO;
 import com.sepay.backend.myaccount.service.MyAccountService;
+import com.sepay.backend.payment.dto.PasswordDTO;
+import com.sepay.backend.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +22,8 @@ import java.util.Map;
 public class MyAccountController {
 
     final MyAccountService myAccountService;
+    final UserService userService;
+    private final MailService mailService;
 
     //송이 계좌 잔액 조회
     @PostMapping("/krwbalance")
@@ -39,9 +44,10 @@ public class MyAccountController {
 
     //2차 비밀번호 확인
     @PostMapping("/check")
-    public ResponseEntity<?> checkAccount(@RequestParam Integer userNo) {
-        return ResponseEntity.ok(myAccountService.selectSecondPwd(userNo));
+    public ResponseEntity<?> checkAccount(@RequestParam String userId) {
+        return ResponseEntity.ok(userService.selectSecondPwd(userId));
     }
+
     // 충전
     @PostMapping("/deposit")
     public ResponseEntity<?> deposit(@RequestBody DTORequest request) {
@@ -70,7 +76,21 @@ public class MyAccountController {
 
     // 송금
     @PostMapping("/transfer")
-    public ResponseEntity<?> transfer(@RequestBody DTORequest request) {
-        return ResponseEntity.ok(myAccountService.transfer(request.getKrwAccountDTO(), request.getHistoryDTO(), request.getAmount(), request.getTarget_krwNo()));
+    public ResponseEntity<?> transfer(@RequestBody DTORequest request) throws Exception {
+        log.info("확인 : {}" , request.getTargetHistoryContent());
+        if("no-member".equals(request.getIsMember())){
+            return ResponseEntity.ok(mailService.transferTo(request.getTarget_krwNo(), request.getHistoryDTO()));
+        }
+        else{
+            return ResponseEntity.ok(myAccountService.transfer(request.getKrwAccountDTO(), request.getHistoryDTO(), request.getAmount(), request.getTarget_krwNo(), request.getTargetHistoryContent()));
+        }
+
     }
+
+    // 보내는 사람(회원)의 krw_no 값 가져오기
+    @PostMapping("/krwno")
+    public ResponseEntity<?> getKrwNo(@RequestParam String userId) {
+        return ResponseEntity.ok(myAccountService.getKrwno(userId));
+    }
+
 }

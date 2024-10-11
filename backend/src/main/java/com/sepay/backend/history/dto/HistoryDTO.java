@@ -12,6 +12,7 @@ import java.util.Date;
 @AllArgsConstructor
 @Builder
 public class HistoryDTO {
+    private String userId;
     private Integer historyNo;
     private Integer userNo;
     private String songNo;
