@@ -10,7 +10,6 @@
         from user
         where user_id = #{userId}
     </select>
-
     <resultMap id="authMap" type="com.sepay.backend.security.account.domain.AuthVO">
         <result property="username" column="user_id"/>
         <result property="auth" column="auth"/>

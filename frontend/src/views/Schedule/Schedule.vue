@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, onMounted } from "vue";
+import { ref, onMounted, computed } from "vue";
 import FullCalendar from "@fullcalendar/vue3";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
@@ -9,9 +9,14 @@ import moment from "moment";
 import axios from "axios";
 import EditEventModal from "./EditEventModal.vue";
 import MaintenanceModal from "./MaintenanceModal.vue";
+import scheduleApi from "@/api/scheduleApi";
+import { useAuthStore } from "@/stores/auth";
 
 const isMaintenanceModalVisible = ref(false);
 const isEditEventModalVisible = ref(false);
+
+const auth = useAuthStore();
+const userId = computed(() => auth.userId);
 
 const maintenance = ref({
   id: "",
@@ -43,7 +48,7 @@ function addEvent(eventData) {
   const colorWithoutHash = eventData.color.replace("#", "");
 
   const scheduleData = {
-    userId: "test@gmail.com",
+    userId: userId.value,
     beginDate: eventData.startedAt,
     endDate: moment(eventData.endedAt).add(1, "days").format("YYYY-MM-DD"),
     title: eventData.title,
@@ -53,10 +58,24 @@ function addEvent(eventData) {
 
   axios
     .post("/api/schedule/add", scheduleData)
-    .then(async (response) => {
+    .then((response) => {
       if (response && response.data) {
-        // 일정 추가 후 모든 일정을 다시 로딩
-        await loadEvents();
+        // 캘린더 API를 통해 현재 날짜 가져오기
+        const calendarApi = calendarRef.value.getApi();
+
+        // 새로 추가된 이벤트를 캘린더에 직접 추가
+        calendarApi.addEvent({
+          id: response.data.eventNo, // 서버에서 반환된 이벤트 ID
+          title: eventData.title,
+          start: eventData.startedAt,
+          end: moment(eventData.endedAt).add(1, "days").format("YYYY-MM-DD"),
+          backgroundColor: `#${colorWithoutHash}`,
+          borderColor: `#${colorWithoutHash}`,
+          allDay: true,
+          extendedProps: {
+            description: eventData.description,
+          },
+        });
       }
       closeMaintenanceModal();
     })
@@ -93,7 +112,7 @@ function updateEvent(updatedEvent) {
   console.log("Updated Event Data:", updatedEvent); // updatedEvent 객체 확인
 
   const scheduleData = {
-    id: event.eventNo,
+    id: maintenance.value.id,
     title: updatedEvent.title,
     todo: updatedEvent.description || "",
     beginDate: updatedEvent.startedAt || moment().format("YYYY-MM-DD"),
@@ -104,11 +123,11 @@ function updateEvent(updatedEvent) {
   };
 
   axios
-    .post(`/api/schedule/update/${updatedEvent.id}`, scheduleData)
+    .post(`/api/schedule/update/${maintenance.value.id}`, scheduleData) // 여기도 수정했습니다
     .then((response) => {
       const calendarApi = calendarRef.value?.getApi();
       if (calendarApi) {
-        const event = calendarApi.getEventById(updatedEvent.id);
+        const event = calendarApi.getEventById(maintenance.value.id); // 여기도 수정했습니다
         if (event) {
           event.setProp("title", updatedEvent.title);
           event.setStart(updatedEvent.startedAt);
@@ -121,7 +140,7 @@ function updateEvent(updatedEvent) {
       closeEditEventModal();
     })
     .catch((error) => {
-      console.error("Error updating event:", error);
+      console.error("이벤트 업데이트 중 오류 발생:", error);
     });
 }
 // 모달 닫기 함수
@@ -140,10 +159,12 @@ function handleDateSelect(selectInfo) {
 }
 
 // Load events from the backend
-async function loadEvents() {
+async function loadEvents(date) {
   try {
-    const response = await axios.get("/api/schedule/list");
-    const events = response.data;
+    const year = date.getFullYear();
+    const month = date.getMonth() + 1; // getMonth()는 0부터 시작하므로 1을 더합니다.
+    const events = await scheduleApi.getEvents(userId.value, year, month);
+
     const calendarApi = calendarRef.value.getApi();
 
     // 기존 모든 이벤트 제거
@@ -169,7 +190,8 @@ async function loadEvents() {
 }
 
 onMounted(() => {
-  loadEvents();
+  const calendarApi = calendarRef.value.getApi();
+  loadEvents(calendarApi.getDate());
 });
 
 // 삭제
@@ -205,6 +227,10 @@ const calendarOptions = ref({
   select: handleDateSelect,
   eventClick: handleEventClick,
   eventsSet: (events) => (currentEvents.value = events),
+  datesSet: (dateInfo) => {
+    // 달력의 날짜 범위가 변경될 때마다 이벤트를 다시 로드합니다.
+    loadEvents(dateInfo.view.currentStart);
+  },
 });
 </script>
 
@@ -274,6 +300,11 @@ b {
 .demo-app {
   display: flex;
   min-height: 100%;
+  font-family:
+    Arial,
+    Helvetica Neue,
+    Helvetica,
+    sans-serif;
   font-size: 14px;
   background: #fff6ef !important;
 }
