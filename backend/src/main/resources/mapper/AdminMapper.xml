@@ -4,7 +4,6 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.sepay.backend.admin.mapper.AdminMapper">
-
     <!--성별 통계-->
     <select id="selectUserGender" resultType="map">
         SELECT
@@ -48,5 +47,6 @@
         GROUP BY
             country_code, age_group;
     </select>
+
 
 </mapper>

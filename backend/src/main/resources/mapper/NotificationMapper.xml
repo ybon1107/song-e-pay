@@ -19,17 +19,4 @@
         WHERE user_id = #{userId}
         ORDER BY noti_no DESC
     </select>
-
-    <!-- 알림 삭제 -->
-    <delete id="deleteNoti" parameterType="int">
-        DELETE FROM notification
-        WHERE noti_no = #{notiNo}
-    </delete>
-
-    <!-- 알림 확인 -->
-    <update id="updateNoti" parameterType="int">
-        UPDATE notification
-        SET `check`='1'
-        WHERE noti_no = #{notiNo};
-    </update>
 </mapper>

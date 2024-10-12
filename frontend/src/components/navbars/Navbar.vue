@@ -53,7 +53,6 @@
               data-bs-toggle="dropdown" aria-expanded="false" @click="showMenu = !showMenu" @blur="closeMenu">
               <div class="icon-div">
                 <i class="cursor-pointer fa fa-bell"></i>
-                <span v-if="unreadCount > 0" class="badge bg-danger">{{ unreadCount }}</span>
               </div>
             </a>
 
@@ -70,8 +69,7 @@
 
                 <li v-for="(notification, index) in noti" :key="notification.id" class="mb-2 position-relative">
                   <a class="dropdown-item border-radius-md" href="javascript:;"
-                    :class="{ 'read-notification': notification.check === '1' }"
-                    @click.stop="readNotification(notification.notiNo)">
+                    :class="{ 'read-notification': notification.check === '1' }">
                     <div class="py-1 d-flex">
                       <div class="my-auto">
                         <img
@@ -89,7 +87,7 @@
                       </div>
                     </div>
                   </a>
-                  <button @click.stop="deleteNotification(notification.notiNo)"
+                  <button @click="deleteNotification(notification.id)"
                     class="btn-close-custom position-absolute top-0 end-0 mt-2 me-2">
                     <i class="fas fa-times"></i>
                   </button>
@@ -108,7 +106,6 @@
               </div>
             </a>
           </li>
-          <button @click="sendTestNotification" class="btn btn-primary">테스트 알림 보내기</button>
         </ul>
       </div>
     </div>
@@ -116,7 +113,7 @@
 </template>
 
 <script setup>
-import { computed, ref, onMounted, watchEffect, reactive, onUnmounted } from "vue";
+import { computed, ref, onMounted, watchEffect } from "vue";
 import axios from "axios";
 import { useStore } from "vuex";
 import { useExchangeStore } from "@/stores/exchangeStore";
@@ -125,7 +122,6 @@ import { useAuthStore } from "@/stores/auth";
 import { useI18n } from "vue-i18n";
 import { languages } from "@/constants/languages";
 import notiApi from "@/api/notificationApi";
-import { useWebSocket } from '@/utils/websocket';
 
 const auth = useAuthStore();
 const user = computed(() => auth.user);
@@ -138,9 +134,7 @@ const userId = computed(() => auth.userId);
 
 const countryCode = ref(1);
 
-const noti = reactive([]);
-const unreadCount = ref(0);
-const { connect, disconnect, isConnected } = useWebSocket();
+const noti = ref(null);
 
 watchEffect(() => {
   if (user.value?.countryCode) {
@@ -254,54 +248,17 @@ const formatDate = (dateString) => {
   return `${year}-${month}-${day}`;
 };
 
-// 알림 읽기
-const readNotification = async (notiNo) => {
-  try {
-    await notiApi.readNotification(notiNo);
-    const notificationIndex = noti.findIndex(item => item.notiNo === notiNo);
-    if (notificationIndex !== -1) {
-      noti[notificationIndex].check = '1';
-    }
-  } catch (error) {
-    console.error('알림 읽기 실패:', error);
-  }
-};
-
 // 알림 삭제
-const deleteNotification = async (notiNo) => {
-  console.log("삭제할 알림 ID : ", notiNo);
-  try {
-    await notiApi.deleteNotification(notiNo);
-    console.log("알림이 성공적으로 삭제되었습니다.");
-
-    // 화면에서 해당 알림 제거
-    const index = noti.findIndex(item => item.notiNo === notiNo);
-    if (index !== -1) {
-      noti.splice(index, 1);
-    }
-  } catch (error) {
-    console.error("알림 삭제 중 오류 발생:", error);
-    alert("알림 삭제 중 오류가 발생했습니다. 다시 시도해 주세요.");
-  }
-};
-
-// 웹소켓
-const handleNewNotification = (newNotification) => {
-  noti.unshift(newNotification);
-  unreadCount.value++;
-};
-
-// 웹소켓 테스트
-const sendTestNotification = async () => {
-  try {
-    const response = await axios.post('/api/test/send-notification', {
-      userId: auth.userId,
-      message: '이것은 테스트 알림입니다.'
-    });
-    console.log('테스트 알림 전송 성공:', response.data);
-  } catch (error) {
-    console.error('테스트 알림 전송 실패:', error);
-  }
+const deleteNotification = (notificationId) => {
+  console.log("deleteNotification 함수가 호출되었습니다.");
+  console.log("삭제할 알림 ID : ", notificationId);
+  // try {
+  //   await notiApi.deleteNotification(notificationId);
+  //   noti.value = noti.value.filter(n => n.id !== notificationId);
+  //   console.log("알림이 성공적으로 삭제되었습니다.");
+  // } catch (error) {
+  //   console.error("알림 삭제 중 오류 발생:", error);
+  // }
 };
 
 onMounted(async () => {
@@ -310,23 +267,16 @@ onMounted(async () => {
     await auth.fetchUser(auth.userId);
     userImg.value = user.value?.profilePic;
     fetchExchangeRates();
-    connect(auth.userId, handleNewNotification);
 
     try {
-      const notifications = await notiApi.getNotification(auth.userId);
-      noti.splice(0, noti.length, ...notifications); // 기존 배열을 비우고 새로운 알림으로 채움
-      unreadCount.value = notifications.filter(n => n.check === '0').length;
-
+      noti.value = await notiApi.getNotification(auth.userId);
+      console.log("알림 데이터:", noti.value);
     } catch (error) {
       console.error("알림 데이터를 가져오는 중 오류 발생:", error);
     }
   } else {
     console.error("사용자 ID를 찾을 수 없습니다.");
   }
-});
-
-onUnmounted(() => {
-  disconnect();
 });
 </script>
 
@@ -431,52 +381,21 @@ onUnmounted(() => {
 
 .btn-close-custom {
   font-size: 0.8rem;
-  padding: 0.5rem;
-  width: 2rem;
-  height: 2rem;
+  padding: 0.25rem;
   background-color: transparent;
-  border: 1px solid #dee2e6;
-  /* 테두리 추가 */
-  border-radius: 50%;
-  /* 원형 모양으로 만들기 */
+  border: none;
   color: #6c757d;
   opacity: 0.5;
   cursor: pointer;
-  transition: opacity 0.2s ease-in-out, background-color 0.2s ease-in-out;
-  /* 배경색 전환 효과 추가 */
-  z-index: 10;
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  transition: opacity 0.2s ease-in-out;
+  z-index: 1;
 }
 
 .btn-close-custom:hover {
   opacity: 1;
-  background-color: #f8f9fa;
-  /* 호버 시 배경색 변경 */
-}
-
-/* 새로운 스타일 추가 */
-.dropdown-item {
-  position: relative;
-  z-index: 1;
-}
-
-.btn-close-custom i {
-  font-size: 1rem;
-  /* 아이콘 크기 증가 */
 }
 
 .flex-grow-1 {
   flex-grow: 1;
 }
-
-.badge {
-  position: absolute;
-  top: -5px;
-  right: -5px;
-  font-size: 0.7rem;
-}
-
 </style>
