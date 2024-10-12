@@ -15,8 +15,8 @@ import java.util.List;
 @RequiredArgsConstructor
 public class NotificationServiceImpl implements NotificationService {
 
-//    @Autowired
-//    private SimpMessagingTemplate messagingTemplate;
+    @Autowired
+    private SimpMessagingTemplate messagingTemplate;
     private final NotificationMapper mapper;
 
     // 알림 저장
