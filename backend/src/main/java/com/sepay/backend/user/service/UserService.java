@@ -19,8 +19,4 @@ public interface UserService {
     boolean isEmailRegistered(String email);
 
     UserDTO getUserByEmail(String userId);
-
-    // 자동환전에서 사용
-    Map<String, String> getUserAccounts(Integer userNo);
-
 }

@@ -100,11 +100,4 @@ public UserDTO register(UserRegisterDTO userRegisterDTO) {
     public UserDTO getUserByEmail(String userId) {
         return mapper.selectUserByEmail(userId);
     }
-
-    // 자동환전에서 사용
-    @Override
-    public Map<String, String> getUserAccounts(Integer userNo) {
-        return mapper.selectUserAccounts(userNo);
-    }
-
 }
