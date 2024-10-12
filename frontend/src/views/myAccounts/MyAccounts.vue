@@ -658,14 +658,14 @@ watchEffect(() => {
       <!-- <div class="custom-spacer"></div> -->
       <div class="row justify-content-center gap-3">
         <!-- USD Wallet -->
-        <div class="col-lg-4 col-md-5 max-margin-bottom d-flex justify-content-center">
+        <div class="col-lg-4 col-md-6 max-margin-bottom d-flex justify-content-center">
           <!-- Song-E Money 카드 -->
           <AccountsCard ref="songEMoneyCardRef" :assetType="SONGE" @click="selectAsset(SONGE)"
             :class="{ selected: selectedAsset === SONGE }" />
         </div>
 
         <!-- KRW Wallet -->
-        <div class="col-lg-4 col-md-5 d-flex justify-content-center">
+        <div class="col-lg-4 col-md-6 d-flex justify-content-center">
           <!-- Won-E Money 카드 -->
           <AccountsCard ref="wonEMoneyCardRef" :assetType="WONE" @click="selectAsset(WONE)"
             :class="{ selected: selectedAsset === WONE }" />
