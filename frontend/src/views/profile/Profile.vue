@@ -3,12 +3,11 @@ import { computed, ref, reactive, watchEffect } from 'vue';
 import { onBeforeMount, onMounted, onBeforeUnmount } from 'vue';
 import { useStore } from 'vuex';
 
-import setNavPills from "@/assets/js/nav-pills.js";
-import setTooltip from "@/assets/js/tooltip.js";
-import ArgonButton from "@/components/templates/ArgonButton.vue";
-import settingApi from "@/api/settingApi";
-import { useAuthStore } from "@/stores/auth";
-import SecondPasswordModal from '@/views/MyAccounts/SecondPasswordModal.vue';
+import setNavPills from '@/assets/js/nav-pills.js';
+import setTooltip from '@/assets/js/tooltip.js';
+import ArgonButton from '@/components/templates/ArgonButton.vue';
+import settingApi from '@/api/settingApi';
+import { useAuthStore } from '@/stores/auth';
 
 import Swal from 'sweetalert2';
 
@@ -36,19 +35,6 @@ const userInfo = reactive({
     secondPwd: '',
     profilePic: null,
 });
-
-const showModal = ref(false);
-const openModal = () => {
-  showModal.value = true;
-};
-// 비밀번호 입력 모달 닫기
-const closeModal = () => {
-  showModal.value = false;
-};
-
-const handlePasswordVerified = () => {
-  //여기에서 2차 비번 변경 로직 추가
-}
 
 watchEffect(() => {
     if (user.value) {
@@ -191,57 +177,15 @@ onBeforeUnmount(() => {
 });
 </script>
 <template>
-  <main>
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
-      integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
-      crossorigin="anonymous"
-      referrerpolicy="no-referrer"
-    />
-    <div class="container-fluid">
-      
-      <div
-        class="page-header min-height-300 bg-yellow"
-        style="margin-right: -34%; margin-left: -34%"
-      >
-        <!-- <span class="mask bg-gradient-success opacity-6"></span> -->
-      </div>
-      <div class="card shadow-lg mt-n6 page-size">
-        <div class="card-body p-3">
-          <div class="row gx-4">
-            <div class="col-auto">
-              <!-- 유저 프로필 이미지 -->
-              <div class="avatar avatar-xl position-relative">
-                <img
-                  :src="user?.profilePic"
-                  alt="profile_image"
-                  class="profile-img shadow-sm w-100 border-radius-lg"
-                  @click="triggerFileInput"
-                />
-                <input
-                  type="file"
-                  class="form-control visually-hidden"
-                  ref="profilePic"
-                  id="avatar"
-                  accept="image/png, image/jpeg"
-                  @change="handleFileChange"
-                />
-                <button
-                  v-if="userInfo.profilePic"
-                  @click="cancelProfilePic"
-                  class="btn cancel-btn"
-                >
-                  <i class="fa-solid fa-x"></i>
-                </button>
-              </div>
-            </div>
-            <div class="col-auto my-auto">
-              <div class="h-100">
-                <!-- 유저 닉네임 나오는 곳 -->
-                <h5 class="mb-1">{{ user?.userId }}</h5>
-              </div>
-            </div>
+    <main>
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+            integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
+            crossorigin="anonymous"
+            referrerpolicy="no-referrer"
+        />
+        <div class="container-fluid">
             <div
                 class="page-header min-height-300 bg-yellow"
                 style="margin-right: -34%; margin-left: -34%"
@@ -308,29 +252,204 @@ onBeforeUnmount(() => {
                             </div>
                         </div>
                     </div>
-                    <span>{{ $t("profile--accountLabel") }}</span>
-                    <i class="fa-solid fa-angle-right"></i>
-                  </a>
-                </li>
-                <li class="pvt-item">
-                  <a class="pvt-link" href="/change-password">
-                    <div class="pvt-icon"><i class="fa-solid fa-lock"></i></div>
-                    <span>{{ $t("profile--changePasswordLabel") }}</span>
-                    <i class="fa-solid fa-angle-right"></i>
-                  </a>
-                </li>
-                <li class="pvt-item">
-                  <a class="pvt-link" @click="openModal">
-                    <div class="pvt-icon"><i class="fa-solid fa-lock"></i></div>
-                    <span>{{ $t("profile--secondaryPasswordLabel") }}</span>
-                    <i class="fa-solid fa-angle-right"></i>
-                  </a>
-                </li>
-              </ul>
-              <hr class="horizontal dark" />
-              <!-- <hr /> -->
-              <ul class="navbar-nav nav-fill">
-                <!-- <li class="pvt-item">
+                </div>
+            </div>
+        </div>
+        <div class="py-4 container-fluid">
+            <div class="">
+                <div class="col-md-8 page-size">
+                    <div class="card">
+                        <div class="card-body">
+                            <p class="text-uppercase text-sm">
+                                {{ $t('profile--personalInfoTitle') }}
+                            </p>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label
+                                        for="last-name"
+                                        class="form-control-label"
+                                        >{{
+                                            $t('profile--lastNameLabel')
+                                        }}</label
+                                    >
+                                    <input
+                                        class="form-control info-input"
+                                        id="last-name"
+                                        :value="user?.firstName"
+                                        disabled
+                                    />
+                                </div>
+                                <div class="col-md-6">
+                                    <label
+                                        for="first-name"
+                                        class="form-control-label"
+                                        >{{
+                                            $t('profile--firstNameLabel')
+                                        }}</label
+                                    >
+                                    <input
+                                        class="form-control info-input"
+                                        id="first-name"
+                                        :value="user?.lastName"
+                                        disabled
+                                    />
+                                </div>
+                                <div class="col-md-6">
+                                    <label
+                                        for="birthday"
+                                        class="form-control-label"
+                                        >{{
+                                            $t('profile--birthdayLabel')
+                                        }}</label
+                                    >
+                                    <input
+                                        class="form-control info-input"
+                                        id="birthday"
+                                        :value="user?.birthday"
+                                        disabled
+                                    />
+                                </div>
+                                <div class="col-md-6">
+                                    <label
+                                        for="phone"
+                                        class="form-control-label"
+                                        >{{ $t('profile--phoneLabel') }}</label
+                                    >
+                                    <input
+                                        class="form-control info-input"
+                                        id="phone"
+                                        :value="user?.phoneNo"
+                                        disabled
+                                    />
+                                </div>
+                            </div>
+                            <br />
+                            <p class="text-uppercase text-sm">
+                                {{ $t('profile--personaladdress') }}
+                            </p>
+                            <form @submit.prevent="updateProfile">
+                                <div class="row">
+                                    <div class="col-md-6 input-address">
+                                        <label
+                                            for="address"
+                                            class="form-control-label"
+                                            >{{
+                                                $t('profile--addressLabel')
+                                            }}</label
+                                        >
+                                        <input
+                                            class="form-control"
+                                            id="address"
+                                            v-model="userInfo.address"
+                                        />
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label
+                                            for="postal-code"
+                                            class="form-control-label"
+                                            >{{
+                                                $t('profile--postalCodeLabel')
+                                            }}</label
+                                        >
+                                        <input
+                                            class="form-control"
+                                            id="postal-code"
+                                            v-model="userInfo.postCode"
+                                        />
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label
+                                            for="country"
+                                            class="form-control-label"
+                                            >{{
+                                                $t('profile--countryLabel')
+                                            }}</label
+                                        >
+                                        <select
+                                            id="country"
+                                            class="form-select no-arrow"
+                                            v-model="userInfo.countryCode"
+                                            disabled
+                                        >
+                                            <option value="0">
+                                                {{ $t('country_kr') }}
+                                            </option>
+                                            <option value="1">
+                                                {{ $t('country_us') }}
+                                            </option>
+                                            <option value="2">
+                                                {{ $t('country_id') }}
+                                            </option>
+                                            <option value="3">
+                                                {{ $t('country_vn') }}
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div
+                                    class="card-header pb-0"
+                                    style="padding-right: 0"
+                                >
+                                    <div class="d-flex align-items-center">
+                                        <argon-button
+                                            color="success"
+                                            size="sm"
+                                            class="ms-auto"
+                                            >{{
+                                                $t('profile--button-settings')
+                                            }}</argon-button
+                                        >
+                                    </div>
+                                </div>
+                            </form>
+                            <hr class="horizontal dark" />
+                            <!-- <hr /> -->
+                            <p class="text-uppercase text-sm">
+                                {{ $t('profile--privacySecurityTitle') }}
+                            </p>
+                            <ul class="navbar-nav nav-fill">
+                                <li class="pvt-item">
+                                    <a class="pvt-link">
+                                        <div class="pvt-icon">
+                                            <i
+                                                class="fa-solid fa-file-invoice"
+                                            ></i>
+                                        </div>
+                                        <span>{{
+                                            $t('profile--accountLabel')
+                                        }}</span>
+                                        <i class="fa-solid fa-angle-right"></i>
+                                    </a>
+                                </li>
+                                <li class="pvt-item">
+                                    <a class="pvt-link" href="/change-password">
+                                        <div class="pvt-icon">
+                                            <i class="fa-solid fa-lock"></i>
+                                        </div>
+                                        <span>{{
+                                            $t('profile--changePasswordLabel')
+                                        }}</span>
+                                        <i class="fa-solid fa-angle-right"></i>
+                                    </a>
+                                </li>
+                                <li class="pvt-item">
+                                    <a class="pvt-link">
+                                        <div class="pvt-icon">
+                                            <i class="fa-solid fa-lock"></i>
+                                        </div>
+                                        <span>{{
+                                            $t(
+                                                'profile--secondaryPasswordLabel'
+                                            )
+                                        }}</span>
+                                        <i class="fa-solid fa-angle-right"></i>
+                                    </a>
+                                </li>
+                            </ul>
+                            <hr class="horizontal dark" />
+                            <!-- <hr /> -->
+                            <ul class="navbar-nav nav-fill">
+                                <!-- <li class="pvt-item">
                   <div class="pvt-icon">
                     <i
                       class="fa-solid fa-circle-half-stroke fa-flip-horizontal"
@@ -362,11 +481,16 @@ onBeforeUnmount(() => {
                 <!-- <div class="col-md-4">
           <profile-card />
         </div> -->
-      </div>
-    <SecondPasswordModal v-if="showModal" @close="closeModal" @password-verified="handlePasswordVerified" />
+            </div>
+        </div>
+    </main>
 
-    </div>
-  </main>
+    <Set2nd
+        v-if="showSet2ndModal"
+        @close="closeSet2ndModal"
+        @password-verified="closeSet2ndModal"
+        :secondPwd="user?.secondPwd"
+    />
 </template>
 <style scoped>
 .no-arrow {
