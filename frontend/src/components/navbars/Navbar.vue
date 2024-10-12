@@ -108,7 +108,7 @@
               </div>
             </a>
           </li>
-          <button @click="sendTestNotification" class="btn btn-primary">테스트 알림 보내기</button>
+          <!-- <button @click="sendTestNotification" class="btn btn-primary">테스트 알림 보내기</button> -->
         </ul>
       </div>
     </div>
