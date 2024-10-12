@@ -525,7 +525,7 @@
     "myAccount-transferto-notificationInput": "Harap masukkan email anggota selain diri Anda sendiri.",
     "myAccount--Alert-swal-requestDelete": "Apakah Anda yakin ingin menghapus?",
     "myAccount--Alert-swal-warningDeleteAlert": "Pengaturan notifikasi yang dihapus tidak dapat dipulihkan!",
-    "myAccount--Alert-swal-deleteAlert": "Yes",
+    "myAccount--Alert-swal-deleteAlert": "Tentu saja",
     "myAccount--Alert-swal-suceess": "Penghapusan selesai!",
     "myAccount--Alert-swal-setSuccess": "Pengaturan notifikasi telah dihapus.",
     "myAccount--Alert-swal-fail": "Terjadi kesalahan",

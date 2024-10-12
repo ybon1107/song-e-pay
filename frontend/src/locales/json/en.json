@@ -525,7 +525,7 @@
     "myAccount-transferto-notificationInput": "Please enter the email of a member other than yourself.",
     "myAccount--Alert-swal-requestDelete": "Are you sure you want to delete?",
     "myAccount--Alert-swal-warningDeleteAlert": "Deleted notification settings cannot be restored!",
-    "myAccount--Alert-swal-deleteAlert": " 삭제합니다",
+    "myAccount--Alert-swal-deleteAlert": "Sure",
     "myAccount--Alert-swal-suceess": "Delete complete!",
     "myAccount--Alert-swal-setSuccess": "Notification settings have been deleted.",
     "myAccount--Alert-swal-fail": "Error occurred",

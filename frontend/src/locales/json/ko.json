@@ -525,7 +525,7 @@
     "myAccount-transferto-notificationInput": "본인이 아닌 다른 회원의 이메일을 입력하세요.",
     "myAccount--Alert-swal-requestDelete": "정말로 삭제하시겠습니까?",
     "myAccount--Alert-swal-warningDeleteAlert": "삭제된 알림 설정은 복구할 수 없습니다!",
-    "myAccount--Alert-swal-deleteAlert": "네",
+    "myAccount--Alert-swal-deleteAlert": " 확인",
     "myAccount--Alert-swal-suceess": "삭제 완료!",
     "myAccount--Alert-swal-setSuccess": "알림 설정이 삭제되었습니다.",
     "myAccount--Alert-swal-fail": "오류 발생",

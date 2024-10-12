@@ -250,11 +250,13 @@ import myaccountApi from "../../api/myaccountApi";
 import { useRouter } from "vue-router";
 import Swal from "sweetalert2";
 import { useAuthStore } from "@/stores/auth";
+import { useI18n } from 'vue-i18n';
+const { t } = useI18n(); // t 함수 정의
 
 const auth = useAuthStore();
 const user = computed(() => auth.user);
 
-const Id = computed(() => auth.userId);
+const Id = computed(() => auth.user.userId);
 import { CURRENCY_NAME } from "@/constants/countryCode";
 
 const countryCode = computed(() => user.value?.countryCode || 1); // 기본값으로 1 설정
@@ -338,9 +340,7 @@ const setFromPeriod = (period) => {
 // 환전 함수
 const handleExchange = async () => {
   try {
-    const userId = Id; // 실제 사용자 번호로 대체해야 합니다
-    const krwNo = "1234"; // 실제 KRW 계좌 번호로 대체해야 합니다
-    const songNo = "1234"; // 실제 송이 페이 계좌 번호로 대체해야 합니다
+    const { songNo, krwNo } = user.value;
     const exchangeRate = currentToKrw.value;
     const amount = usdAmount.value;
 
@@ -354,12 +354,12 @@ const handleExchange = async () => {
         krwNo,
       },
       historyDTO: {
-        userId,
+        userId: Id,
         songNo,
         krwNo,
         typeCode: 5, // 환전 코드
         stateCode: 1, // 상태 코드 (성공)
-        historyContent: "USD → KRW 환전",
+        historyContent: `${customerunit.value} → KRW ${t('transaction_types_Exchange')}`,
         amount,
         exchangeRate,
       },
@@ -388,9 +388,7 @@ const handleExchange = async () => {
 // 환급 함수
 const reExchange = async () => {
   try {
-    const userId = Id; // 실제 사용자 번호로 대체해야 합니다
-    const krwNo = "1234"; // 실제 KRW 계좌 번호로 대체해야 합니다
-    const songNo = "1234"; // 실제 송이 페이 계좌 번호로 대체해야 합니다
+    const { songNo, krwNo } = user.value;
     const exchangeRate = currentFromKrw.value;
     const amount = krwAmountReverse.value;
 
@@ -404,19 +402,19 @@ const reExchange = async () => {
         songNo,
       },
       historyDTO: {
-        userId,
+        userId: Id,
         songNo,
         krwNo,
         typeCode: 6, // 환급 코드
         stateCode: 1, // 상태 코드 (성공)
-        historyContent: "KRW → USD 환급",
+        historyContent: `KRW → ${customerunit.value} ${t('transaction_types_reExchange')}`,
         amount,
         exchangeRate,
       },
     });
 
     if (response && response.data) {
-      console.log("환급 성공:", response.data);
+      console.log("환전 성공:", response.data);
       Swal.fire({
         title: "성공!",
         text: "환급이 성공적으로 완료되었습니다.",
@@ -475,7 +473,6 @@ const saveAlertRate = async (baseCode, targetCode, targetExchange) => {
   }
 
   try {
-    // const token = localStorage.getItem("jwt_token"); // JWT 토큰 가져오기
     const userId = Id; // userNo를 추가(임시)
     console.log(userId, baseCode, targetCode, targetExchange);
     // 서버에 POST 요청 보내기
@@ -487,11 +484,6 @@ const saveAlertRate = async (baseCode, targetCode, targetExchange) => {
         targetCode: targetCode,
         targetExchange: targetExchange,
       }
-      // {
-      //   headers: {
-      //     Authorization: `Bearer ${token}`, // 인증 헤더에 토큰 추가
-      //   },
-      // }
     );
 
     if (response.status === 200) {
@@ -507,7 +499,7 @@ const saveAlertRate = async (baseCode, targetCode, targetExchange) => {
     console.error("환율 알림 저장 중 오류 발생:", error);
     Swal.fire({
       title: "실패",
-      html: `환율 알림 저장에 실패했습니다.<br>이유 : ${error.response?.data || "알 수 없는 오류"}`,
+      html: `환율 알림 저장에 실패했습니다.`,
       icon: "error",
       confirmButtonText: "확인",
     });
@@ -573,8 +565,7 @@ const confirmAutoExchange = async (
   }
 
   try {
-    // const token = localStorage.getItem("jwt_token"); // JWT 토큰 가져오기
-    const userId = Id; // userNo를 추가(임시)
+    const userId = Id; 
     console.log(userId, baseCode, targetCode, targetExchange, targetKrw);
     // 서버에 POST 요청 보내기
     const response = await axios.post(
@@ -586,11 +577,6 @@ const confirmAutoExchange = async (
         targetExchange: targetExchange,
         targetKrw: targetKrw,
       }
-      // {
-      //   headers: {
-      //     Authorization: `Bearer ${token}`, // 인증 헤더에 토큰 추가
-      //   },
-      // }
     );
 
     if (response.status === 200) {
@@ -606,7 +592,7 @@ const confirmAutoExchange = async (
     console.error("자동 환전 예약 중 오류 발생:", error);
     Swal.fire({
       title: "실패",
-      html: `자동 환전 예약에 실패했습니다.<br>이유 : ${error.response?.data || "알 수 없는 오류"}`,
+      html: `자동 환전 예약에 실패했습니다.`,
       icon: "error",
       confirmButtonText: "확인",
     });
