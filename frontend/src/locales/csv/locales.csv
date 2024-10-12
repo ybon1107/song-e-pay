@@ -1,49 +1,10 @@
 key,ko,en,id,vi
-sidenavList--myPage,마이페이지,My Page,Halaman Saya,Trang của tôi
-sidenavList--exchangeRate,환율,Exchange rates,Nilai tukar,Tỷ giá hối đoái
-sidenavList--payment,결제,Payments,Pembayaran,Thanh toán
-sidenavList--history,이용내역,Usage History,Riwayat Penggunaan,Lịch sử sử dụng
-sidenavList--map,금융지도,Financial Map,Peta Keuangan,Bản đồ tài chính
-sidenavList--schedule,스케쥴,Schedule,Jadwal,Lịch trình
-country_kr,대한민국,South Korea,Korea Selatan,Hàn Quốc
-country_us,미국,United States,Amerika Serikat,Hoa Kỳ
-country_id,인도네시아아,Indonesia,Indonesia,In-đô-nê-xi-a
-country_vn,베트남,Vietnam,Vietnam,Việt Nam
-common-btn-back,뒤로가기,Go back,Kembali,Quay lại,,
-common--btn-save,저장,Save,Simpan,Lưu
-common--btn-confirm,확인,confirm,Konfirmasi,Xác nhận
-common--btn-close,닫기,close,Tutup,Đóng
-common--btn-edit,수정,edit,Ubah,Chỉnh sửa
-common-btn--submit,제출,Submit,Kirim,Gửi
-common--text-next,다음,Next,Berikut,Tiếp theo
-common--text-submit,회원가입,Sign up,Mendaftar,Đăng ký
-common--text-login,로그인,Log in,Masuk,Đăng nhập
-common--text-email,이메일,Email,Email,Email
-common--text-logout,로그아웃,Log out,Keluar,Đăng xuất
-common--text-password,비밀번호,Password,Kata sandi,Mật khẩu
-common--text-secondary-password,2차 비밀번호,Secondary Password,Kata sandi kedua,Mật khẩu thứ hai
-transaction_types_payment,결제,Payment,Pembayaran,Thanh toán
-transaction_types_transfer,송금,Transfer,Transfer,Chuyển khoản
-transaction_types_deposit,SongE 채우기,SongE Top Up,SongE Isi Ulang,SongE Nạp
-transaction_types_refund,SongE 비우기,SongE Withdraw,SongE Penarikan,SongE Rút tiền
-transaction_types_exchange,환전,Exchange,penukaran uang,sự đổi tiền
-transaction_types_reExchange,환전,Exchange,penukaran uang,sự đổi tiền
-transaction_types_autoExchange,자동환전,Automatic Exchange,Penukaran Otomatis,Đổi tiền tự động
-transaction_types_receive,입금,Deposit,Setoran,Nạp tiền,
-transaction_states_completed,성공,Success,Sukses,Thành công
-transaction_states_failed,실패,Failure,Gagal,Thất bại
-transaction_states_cancelled,취소,Cancel,Batalkan,Hủy
-transaction_states_pending,처리중,Processing,Sedang diproses,Đang xử lý
-swal--title-success,성공,Success,Sukses,Thành công
-swal--title-fail,실패,Failure,Gagal,Thất bại
-swal--default-error-message,실패했습니다.,Failed to succeed.,,
-setting--title,프로필,Profile,Profil,Hồ sơ
 map--title,금융 지도,Financial Map,Peta Keuangan,Bản đồ tài chính
 map--select-cityLabel,광역시/도,City/Province,Kota,Thành phố
 map--select-districtLabel,시/군/구,District/County/Gu,Pilih Kota/Kabupaten,Chọn quận/huyện
 map--button-search,찾기,Find,Cari,Tìm
 map--address,주소,Address,Alamat,Địa chỉ
-map-mylocation,내 위치에서 찾기,Find from my location,Cari dari lokasi saya,Tìm từ vị trí của tôi
+map--mylocation,내 위치에서 찾기,Find nearby,Cari dari lokasi saya,Tìm từ vị trí của tôi
 map--marker-box-openingHours,운영시간 정보 없음,Operating hours not available,Informasi jam operasional tidak tersedia,Không có thông tin giờ hoạt động
 payment--passwordInput--title,비밀번호 입력,Enter Password,Masukkan Kata Sandi,Nhập mật khẩu
 payment--passwordInput--instruction,6자리 비밀번호를 입력해주세요,Please enter a 6-digit password,Masukkan kata sandi 6 digit,Vui lòng nhập mật khẩu 6 chữ số
@@ -78,6 +39,7 @@ profile--changePasswordLabel,비밀번호 변경,Change Password,Ubah Kata Sandi
 profile--secondaryPasswordLabel,2차 비밀번호,Secondary Password,Kata Sandi Kedua,Mật khẩu thứ hai
 profile--themeLabel,테마,Theme,Tema,Giao diện
 profile--deleteAccountLabel,회원탈퇴,Membership Withdrawal,Penarikan Keanggotaan,Rút lui tư cách thành viên
+profile--personaladdress,개인 거주지 주소,Personal address,Alamat pribadi,Địa chỉ cá nhân
 histories--transactionHistory,이용 내역,Details of use,Riwayat Penggunaan,Lịch sử sử dụng
 histories--accountType,계좌 종류,Account Type,Jenis Akun,Loại tài khoản
 histories--searchDetail,상세 내용 검색,Search for details,Cari Rincian,Tìm kiếm chi tiết
@@ -93,9 +55,9 @@ histories--header-transactionAmount,거래 금액,Transaction Amount,Jumlah Tran
 histories--header-transactionDetail,거래 상세 보기,Details,Rincian,Chi tiết
 histories--searchQuery,검색어를 입력하세요.,Enter a search term.,Masukkan kata pencarian.,Nhập từ khóa tìm kiếm
 histories--filters-period-today,오늘,Today,Hari ini,Hôm nay
-histories--filters-period-oneMonth,1개월,1 Month,1 Bulan,1 tháng
-histories--filters-period-threeMonth,3개월,3 Months,3 Bulan,3 tháng
-histories--filters-period-custom,직접설정,Custom Settings,Pengaturan Kustom,Cài đặt tùy chỉnh
+histories--filters-period-oneMonth,1개월,1 M,1 Bulan,1 tháng
+histories--filters-period-threeMonth,3개월,3 M,3 Bulan,3 tháng
+histories--filters-period-custom,직접설정,Custom,Pengaturan Kustom,Cài đặt tùy chỉnh
 histories--filters-type-all,전체,All,Semua,Tất cả
 histories--filters-type-wone,WON-E,WON-E,WON-E,WON-E
 histories--filters-type-songe,SONG-E,SONG-E,SONG-E,SONG-E
@@ -141,18 +103,46 @@ myAccount--wonE-refundSendingAmount,보내는 금액,Amount of money sent,Jumlah
 myAccount--wonE-refundReceivedAmount,받는 금액,Amount received,Jumlah yang diterima,Số tiền nhận
 myAccount--input-placeholder,할 금액을 입력하세요.,Please enter the amount,Silakan masukkan jumlahnya,Vui lòng nhập số tiền
 myAccount--header-exchangeRate,실시간 환율 ,Real-time exchange rates,Nilai tukar waktu nyata,Tỷ giá hối đoái theo thời gian thực
-myAccount--nav-songE-vacate,비우기,vacate,mengosongkan,dọn đi
-myAccount--nav-songE-fill,채우기,fill,mengisi,điền vào
+myAccount--autoExchange-title,자동 환전 설정 내역,Auto Exchange Settings,Pengaturan Tukar Otomatis,Cài đặt đổi tiền tự động
+myAccount--autoExchange-noReservationAuto,자동 환전 예약 내역이 없습니다.,No auto exchange reservations.,Tidak ada reservasi tukar otomatis.,Không có lịch đổi tiền tự động.
+myAccount--exchangeRate-settingHistory,환율 알림 설정 내역,Exchange Rate Alert Settings,Pengaturan Peringatan Kurs,Cài đặt cảnh báo tỷ giá
+myAccount--exchangeRate-baseCurrency,기준 통화,Base Currency,Mata Uang Dasar,Tiền tệ Cơ bản
+myAccount--exchangeRate-targetCurrency,대상 통화,Target Currency,Mata Uang Tujuan,Tiền tệ Mục tiêu
+myAccount--exchangeRate-targetExchangeRate,목표 환율,Target Exchange Rate,Kurs Target,Tỷ giá Mục tiêu
+myAccount--exchangeRate-targetKrw,목표 KRW 금액,Target KRW Amount,Jumlah KRW Target,Số tiền KRW Mục tiêu
+myAccount--exchangeRate-noReservationAlert,환율 알림 예약 내역이 없습니다.,No exchange rate alert reservations.,Tidak ada reservasi peringatan kurs.,Không có lịch cảnh báo tỷ giá.
 myAccount--header-autoExchange,자동환전 및 알람,Automatic currency exchange and alert,Penukaran dan peringatan mata uang otomatis,Trao đổi tiền tệ tự động và cảnh báo
+myAccount--nav-songE-vacate,비우기,Vacate,mengosongkan,dọn đi
+myAccount--nav-songE-fill,채우기,Top Up,mengisi,điền vào
 myAccount--songE-title,SONG-E,SONG-E,SONG-E,SONG-E
 myAccount--wonE-title,WON-E,WON-E,WON-E,WON-E
-myAccount--songE-button-fill,SONG-E 채우기,SONG-E fill,SONG-E mengisi,
-myAccount--songE-button-vacate,SONG-E 비우기,SONG-E take out,SONG-E kosong,
-myAccount--songE-button-exchange,SONG-E로 환전,Exchange money to SONG-E,Tukarkan uang dengan WON-E,Đổi tiền sang SONG-E
-myAccount--wonE-button-exchange,WON-E로 환전,Exchange money to WON-E,Tukarkan uang dengan SONG-E,Đổi tiền sang WON-E
+myAccount--songE-button-fill,SONG-E 채우기,fill up SONG-E,SONG-E mengisi,sự lấp đầy SONG-E
+myAccount--songE-button-vacate,SONG-E 비우기,vacate SONG-E,SONG-E kosong,bỏ trống tài SONG-E
+myAccount--songE-button-exchange,SONG-E로 환전,to SONG-E,Tukarkan uang dengan WON-E,Đổi tiền sang SONG-E
+myAccount--wonE-button-exchange,WON-E로 환전,to WON-E,Tukarkan uang dengan SONG-E,Đổi tiền sang WON-E
 myAccount--wonE-button-transfer,WON-E간 송금,Transfer money between WON-E,Transfer uang antar WON-E,Chuyển tiền giữa WON-E
 myAccount--swal-title,성공,success,kesuksesan,thành công
 myAccount--swal-content,{kwd}이 완료되었습니다.,{kwd} has been completed,{kwd} telah selesai,{kwd} chuyển tiền đã hoàn tất
+myAccount-input-expectedAmount,예상 잔액,Expected balance,Saldo yang diharapkan,Số dư dự kiến
+myAccount-transferto-checkEmailAgain,이메일을 다시 입력하세요,Please re-enter the email,Harap masukkan ulang email,Vui lòng nhập lại email
+myAccount-transferto-member,회원 이메일,Member email,Email anggota,Email thành viên
+myAccount-transferto-noMember,비회원 이메일,Non-member email,Email non-anggota,Email không phải thành viên
+myAccount-transferto-sendtoEmail,받는 사람,Recipient,Penerima,Người nhận
+myAccount-deposit-myaccountNo,내 연결 계좌,My linked account,Akun yang terhubung,Tài khoản liên kết của tôi
+myAccount-transferto-insertEmail,이메일을 입력해주세요.,Please enter your email.,Harap masukkan email Anda.,Vui lòng nhập email của bạn.
+myAccount-transferto-notificationForm,올바른 이메일 형식을 지켜야 합니다.,Please follow the correct email format.,Harap ikuti format email yang benar.,Vui lòng tuân thủ định dạng email đúng.
+myAccount-transferto-checkEmail,이메일 확인이 필요합니다.,Email confirmation is required.,Konfirmasi email diperlukan.,Yêu cầu xác nhận email.
+myAccount-transferto-notificationInput,본인이 아닌 다른 회원의 이메일을 입력하세요.,Please enter the email of a member other than yourself.,Harap masukkan email anggota selain diri Anda sendiri.,Vui lòng nhập email của thành viên khác ngoài bạn.
+myAccount--Alert-swal-requestDelete,정말로 삭제하시겠습니까?,Are you sure you want to delete?,Apakah Anda yakin ingin menghapus?,Bạn có chắc chắn muốn xóa không?
+myAccount--Alert-swal-warningDeleteAlert,삭제된 알림 설정은 복구할 수 없습니다!,Deleted notification settings cannot be restored!,Pengaturan notifikasi yang dihapus tidak dapat dipulihkan!,Cài đặt thông báo đã xóa không thể khôi phục!
+myAccount--Alert-swal-deleteAlert,확인,Sure,Tentu saja,Chắc chắn rồi
+myAccount--Alert-swal-suceess,삭제 완료!,Delete complete!,Penghapusan selesai!,Hoàn tất xóa!
+myAccount--Alert-swal-setSuccess,알림 설정이 삭제되었습니다.,Notification settings have been deleted.,Pengaturan notifikasi telah dihapus.,Cài đặt thông báo đã được xóa.
+myAccount--Alert-swal-fail,오류 발생,Error occurred,Terjadi kesalahan,Đã xảy ra lỗi
+myAccount--error-notificationAlert,알림 설정 삭제 중 문제가 발생했습니다.,There was a problem deleting the notification settings.,Ada masalah saat menghapus pengaturan notifikasi.,Đã xảy ra sự cố khi xóa cài đặt thông báo.
+myAccount--error-overAmount,잔액을 초과합니다.,Exceeds balance.,Melebihi saldo.,Vượt quá số dư.
+myAccount--error-notZero,0이 아닌 값을 입력하세요.,Please enter a non-zero value.,Harap masukkan nilai selain nol.,Vui lòng nhập giá trị khác 0.
+myAccount-transferto-emailNotCorrect,입력하신 이메일과 일치하지 않습니다.,It does not match the email you entered.,Ini tidak cocok dengan email yang Anda masukkan.,Nó không khớp với email bạn đã nhập.
 myAccount--SecondPassword--modal-header,⚠️ 경고,⚠️ Warnig,⚠️ Peringatan,⚠️ Cảnh báo
 myAccount--SecondPassword--modal-header-title,잠깐 !!!!,Wait a minute!!!!,Tunggu sebentar!!!!,Chờ một chút!!!!
 myAccount--SecondPassword--modal-warning,사칭사기에 주의하세요.,Be careful of impostor fraud.,Hati-hati dengan penipuan,Cẩn thận với lừa đảo giả mạo
@@ -201,7 +191,7 @@ signUp--loginPrompt,이미 계정이 있으신가요?,Already have an account?,S
 signUp--agreeAllTermsLabel,모든 약관에 동의합니다.,Agree with all terms and conditions,Setujui semua syarat dan ketentuan,Đồng ý với tất cả các điều khoản và điều kiện
 signUp--requireText,필수,Required,Diperlukan,Bắt buộc
 signUp--agreeTermsOfServiceLabel,이용약관에 동의합니다.,I agree the Terms of Service,Saya setuju dengan Syarat Layanan,Tôi đồng ý với Điều khoản Dịch vụ
-signUp--termsOfService,"""<strong>여러분을 환영합니다.</strong><br/>
+signUp--termsOfService,"<strong>여러분을 환영합니다.</strong><br/>
 송이페이(이하 ‘서비스’)를 이용해 주셔서 감사합니다. 본 약관은 송이페이 서비스 이용과 관련하여 송이페이(이하 ‘회사’)와 이를 이용하는 사용자(이하 ‘회원’) 간의 권리, 의무, 책임 사항을 규정합니다. 서비스를 이용하시거나 회원으로 가입하실 경우 본 약관에 동의한 것으로 간주되오니, 주의 깊게 읽어주시기 바랍니다.<br/>
 <br/>
 <strong>다양한 송이페이 서비스를 이용해보세요.</strong><br/>
@@ -220,7 +210,7 @@ signUp--termsOfService,"""<strong>여러분을 환영합니다.</strong><br/>
 회사는 기술적 문제 또는 운영상의 이유로 서비스의 전부 또는 일부를 변경하거나 중단할 수 있습니다. 이 경우, 사전에 고지하며, 무료로 제공되는 서비스의 중단에 대해서는 별도의 보상이 이루어지지 않습니다.<br/>
 <br/>
 <strong>약관의 개정</strong><br/>
-본 약관은 서비스 초기 화면에 게시되며, 관련 법령을 준수하는 범위 내에서 개정될 수 있습니다. 중요한 사항의 변경 시 사전 공지하며, 변경된 약관에 동의하지 않으실 경우 서비스 이용이 제한될 수 있습니다.""","""<strong>Welcome!</strong><br/>
+본 약관은 서비스 초기 화면에 게시되며, 관련 법령을 준수하는 범위 내에서 개정될 수 있습니다. 중요한 사항의 변경 시 사전 공지하며, 변경된 약관에 동의하지 않으실 경우 서비스 이용이 제한될 수 있습니다.","<strong>Welcome!</strong><br/>
 Thank you for using Song-E Pay (hereinafter referred to as the ""Service""). These terms outline the rights, responsibilities, and obligations between Song-E Pay (hereinafter referred to as the ""Company"") and users (hereinafter referred to as ""Members"") of the Service. By using the Service or signing up as a Member, you agree to these terms, so please read them carefully.<br/>
 <br/>
 <strong>Enjoy the Various Services of Song-E Pay</strong><br/>
@@ -239,7 +229,7 @@ If a Member violates these terms or applicable laws, the Company may restrict or
 The Company may change or discontinue parts of the Service due to technical issues or operational reasons. In such cases, prior notice will be provided, and there will be no compensation for the discontinuation of free services.<br/>
 <br/>
 <strong>Amendment of Terms</strong><br/>
-These terms are posted on the Service’s main page and may be amended as necessary in compliance with applicable laws. In the case of significant changes, prior notice will be given. If you do not agree to the amended terms, you may lose access to the Service.""","""<strong>Selamat Datang!</strong><br/>
+These terms are posted on the Service’s main page and may be amended as necessary in compliance with applicable laws. In the case of significant changes, prior notice will be given. If you do not agree to the amended terms, you may lose access to the Service.","<strong>Selamat Datang!</strong><br/>
 Terima kasih telah menggunakan Song-E Pay (selanjutnya disebut ""Layanan""). Syarat-syarat ini menguraikan hak, tanggung jawab, dan kewajiban antara Song-E Pay (selanjutnya disebut ""Perusahaan"") dan pengguna (selanjutnya disebut ""Anggota"") Layanan. Dengan menggunakan Layanan atau mendaftar sebagai Anggota, Anda setuju dengan syarat-syarat ini, jadi harap baca dengan cermat.<br/><br/>
 
 <strong>Nikmati Berbagai Layanan Song-E Pay</strong><br/>
@@ -258,7 +248,7 @@ Jika seorang Anggota melanggar syarat-syarat ini atau hukum yang berlaku, Perusa
 Perusahaan dapat mengubah atau menghentikan bagian dari Layanan karena masalah teknis atau alasan operasional. Dalam hal ini, pemberitahuan sebelumnya akan diberikan, dan tidak akan ada kompensasi untuk penghentian layanan gratis.<br/><br/>
 
 <strong>Perubahan Syarat</strong><br/>
-Syarat-syarat ini diposting di halaman utama Layanan dan dapat diubah sesuai kebutuhan sesuai dengan hukum yang berlaku. Dalam hal perubahan signifikan, pemberitahuan sebelumnya akan diberikan. Jika Anda tidak setuju dengan syarat yang diubah, Anda mungkin kehilangan akses ke Layanan.""","""<strong>Chào Mừng Bạn!</strong><br/>
+Syarat-syarat ini diposting di halaman utama Layanan dan dapat diubah sesuai kebutuhan sesuai dengan hukum yang berlaku. Dalam hal perubahan signifikan, pemberitahuan sebelumnya akan diberikan. Jika Anda tidak setuju dengan syarat yang diubah, Anda mungkin kehilangan akses ke Layanan.","<strong>Chào Mừng Bạn!</strong><br/>
 Cảm ơn bạn đã sử dụng Song-E Pay (sau đây gọi là ""Dịch Vụ""). Các điều khoản này nêu rõ quyền, trách nhiệm và nghĩa vụ giữa Song-E Pay (sau đây gọi là ""Công Ty"") và người dùng (sau đây gọi là ""Thành Viên"") của Dịch Vụ. Bằng cách sử dụng Dịch Vụ hoặc đăng ký làm Thành Viên, bạn đồng ý với các điều khoản này, vì vậy hãy đọc kỹ.<br/><br/>
 
 <strong>Thưởng Thức Các Dịch Vụ Của Song-E Pay</strong><br/>
@@ -277,9 +267,9 @@ Nếu một Thành Viên vi phạm các điều khoản này hoặc các quy đ�
 Công Ty có thể thay đổi hoặc ngừng một phần của Dịch Vụ do các vấn đề kỹ thuật hoặc lý do vận hành. Trong trường hợp này, sẽ có thông báo trước, và sẽ không có bất kỳ khoản bồi thường nào cho việc ngừng cung cấp dịch vụ miễn phí.<br/><br/>
 
 <strong>Sửa Đổi Điều Khoản</strong><br/>
-Các điều khoản này được đăng trên trang chính của Dịch Vụ và có thể được sửa đổi khi cần thiết tuân theo luật pháp hiện hành. Trong trường hợp có thay đổi quan trọng, thông báo trước sẽ được đưa ra. Nếu bạn không đồng ý với các điều khoản đã sửa đổi, bạn có thể mất quyền truy cập vào Dịch Vụ."""
+Các điều khoản này được đăng trên trang chính của Dịch Vụ và có thể được sửa đổi khi cần thiết tuân theo luật pháp hiện hành. Trong trường hợp có thay đổi quan trọng, thông báo trước sẽ được đưa ra. Nếu bạn không đồng ý với các điều khoản đã sửa đổi, bạn có thể mất quyền truy cập vào Dịch Vụ."
 signUp--agreePrivacyPolicyLabel,개인정보 수집 및 이용 정책에 동의합니다.,I agree the Privacy Policy,Saya setuju dengan Kebijakan Privasi,Tôi đồng ý với Chính sách Bảo mật
-signUp--privacyPolicy,"""송이페이(이하 ""회사"")는 전자지갑 서비스 제공을 위하여 개인정보를 수집하고 있으며, 회원님의 개인정보는 관련 법령에 따라 안전하게 관리됩니다. 본 개인정보 수집 및 이용 동의서는 회사가 제공하는 서비스와 관련하여 개인정보를 어떻게 수집하고, 어떻게 이용하는지에 대해 설명합니다.<br/>
+signUp--privacyPolicy,"송이페이(이하 ""회사"")는 전자지갑 서비스 제공을 위하여 개인정보를 수집하고 있으며, 회원님의 개인정보는 관련 법령에 따라 안전하게 관리됩니다. 본 개인정보 수집 및 이용 동의서는 회사가 제공하는 서비스와 관련하여 개인정보를 어떻게 수집하고, 어떻게 이용하는지에 대해 설명합니다.<br/>
 <br/>
 <strong>1. 수집하는 개인정보</strong><br/>
 회사는 회원가입, 서비스 이용, 고객 상담 등을 위해 아래와 같은 개인정보를 수집할 수 있습니다.<br/>
@@ -308,7 +298,7 @@ signUp--privacyPolicy,"""송이페이(이하 ""회사"")는 전자지갑 서비�
 - 법령에 따라 정부 기관 또는 사법 기관의 요청이 있는 경우<br/>
 <br/>
 <strong>5. 개인정보의 파기</strong><br/>
-회사는 개인정보 보유 기간이 만료되거나 이용 목적이 달성된 경우, 지체 없이 해당 정보를 파기합니다. 파기 절차 및 방법은 회사의 내부 방침에 따라 안전하게 이루어집니다.""","""Song-E Pay (hereinafter referred to as the ""Company"") collects personal information to provide its electronic wallet services, and all personal information is managed securely in accordance with applicable laws. This Personal Information Collection and Use Consent outlines how the Company collects and uses personal data in connection with its services.<br/>
+회사는 개인정보 보유 기간이 만료되거나 이용 목적이 달성된 경우, 지체 없이 해당 정보를 파기합니다. 파기 절차 및 방법은 회사의 내부 방침에 따라 안전하게 이루어집니다.","Song-E Pay (hereinafter referred to as the ""Company"") collects personal information to provide its electronic wallet services, and all personal information is managed securely in accordance with applicable laws. This Personal Information Collection and Use Consent outlines how the Company collects and uses personal data in connection with its services.<br/>
 <br/>
 <strong>1. Personal Information Collected</strong><br/>
 The Company may collect the following personal information for purposes such as membership registration, service use, and customer support:<br/>
@@ -337,7 +327,7 @@ The Company does not share personal information with external parties. However, 
 - If it is required by law or requested by government or judicial authorities<br/>
 <br/>
 <strong>5. Destruction of Personal Information</strong><br/>
-The Company will promptly destroy personal information when the retention period expires or the purposes of collection have been achieved. The destruction process will be carried out securely in accordance with the Company’s internal procedures.""","""Song-E Pay (selanjutnya disebut sebagai ""Perusahaan"") mengumpulkan informasi pribadi untuk menyediakan layanan dompet elektroniknya, dan semua informasi pribadi dikelola dengan aman sesuai dengan undang-undang yang berlaku. Persetujuan Pengumpulan dan Penggunaan Informasi Pribadi ini menjelaskan bagaimana Perusahaan mengumpulkan dan menggunakan data pribadi terkait dengan layanannya.<br/><br/>
+The Company will promptly destroy personal information when the retention period expires or the purposes of collection have been achieved. The destruction process will be carried out securely in accordance with the Company’s internal procedures.","Song-E Pay (selanjutnya disebut sebagai ""Perusahaan"") mengumpulkan informasi pribadi untuk menyediakan layanan dompet elektroniknya, dan semua informasi pribadi dikelola dengan aman sesuai dengan undang-undang yang berlaku. Persetujuan Pengumpulan dan Penggunaan Informasi Pribadi ini menjelaskan bagaimana Perusahaan mengumpulkan dan menggunakan data pribadi terkait dengan layanannya.<br/><br/>
 
 <strong>1. Informasi Pribadi yang Dikumpulkan</strong><br/>
 Perusahaan dapat mengumpulkan informasi pribadi berikut untuk keperluan seperti pendaftaran keanggotaan, penggunaan layanan, dan dukungan pelanggan:<br/>
@@ -366,7 +356,7 @@ Perusahaan tidak membagikan informasi pribadi dengan pihak eksternal. Namun, inf
 - Jika diwajibkan oleh hukum atau diminta oleh otoritas pemerintah atau pengadilan<br/><br/>
 
 <strong>5. Penghancuran Informasi Pribadi</strong><br/>
-Perusahaan akan segera menghancurkan informasi pribadi ketika periode retensi berakhir atau tujuan pengumpulan telah tercapai. Proses penghancuran akan dilakukan dengan aman sesuai dengan prosedur internal Perusahaan.""","""Song-E Pay (sau đây gọi là ""Công Ty"") thu thập thông tin cá nhân để cung cấp các dịch vụ ví điện tử của mình, và tất cả thông tin cá nhân đều được quản lý an toàn theo quy định pháp luật hiện hành. Bản Đồng Ý Thu Thập và Sử Dụng Thông Tin Cá Nhân này nêu rõ cách Công Ty thu thập và sử dụng dữ liệu cá nhân liên quan đến các dịch vụ của mình.<br/><br/>
+Perusahaan akan segera menghancurkan informasi pribadi ketika periode retensi berakhir atau tujuan pengumpulan telah tercapai. Proses penghancuran akan dilakukan dengan aman sesuai dengan prosedur internal Perusahaan.","Song-E Pay (sau đây gọi là ""Công Ty"") thu thập thông tin cá nhân để cung cấp các dịch vụ ví điện tử của mình, và tất cả thông tin cá nhân đều được quản lý an toàn theo quy định pháp luật hiện hành. Bản Đồng Ý Thu Thập và Sử Dụng Thông Tin Cá Nhân này nêu rõ cách Công Ty thu thập và sử dụng dữ liệu cá nhân liên quan đến các dịch vụ của mình.<br/><br/>
 
 <strong>1. Thông Tin Cá Nhân Được Thu Thập</strong><br/>
 Công Ty có thể thu thập các thông tin cá nhân sau đây cho các mục đích như đăng ký thành viên, sử dụng dịch vụ và hỗ trợ khách hàng:<br/>
@@ -395,7 +385,7 @@ Công Ty không chia sẻ thông tin cá nhân với các bên bên ngoài. Tuy 
 - Nếu được yêu cầu bởi luật pháp hoặc bởi các cơ quan chính phủ hoặc tòa án<br/><br/>
 
 <strong>5. Hủy Thông Tin Cá Nhân</strong><br/>
-Công Ty sẽ nhanh chóng hủy thông tin cá nhân khi thời gian lưu trữ kết thúc hoặc mục đích thu thập đã đạt được. Quá trình hủy sẽ được thực hiện an toàn theo các quy trình nội bộ của Công Ty."""
+Công Ty sẽ nhanh chóng hủy thông tin cá nhân khi thời gian lưu trữ kết thúc hoặc mục đích thu thập đã đạt được. Quá trình hủy sẽ được thực hiện an toàn theo các quy trình nội bộ của Công Ty."
 signUp--Title-page,개인정보를 입력해주세요,Tell us about yourself,Beritahu kami tentang diri Anda,Cho chúng tôi biết về bản thân bạn
 signUp--email,이메일,Your email address,Alamat email Anda,Địa chỉ email của bạn
 signUp--emailPlaceholder,이메일,Email,Email,Email
@@ -451,8 +441,24 @@ exchangeRate--header-CurrencyExchange,환전,Currency Exchange,Penukaran Mata Ua
 exchangeRate--placeholder-targetRate,목표 환율을 입력하세요.,Please enter the target exchange rate.,Silakan masukkan nilai tukar yang ditargetkan.,Vui lòng nhập tỷ giá hối đoái mục tiêu.
 exchangeRate--button-confirmAlert,설정하기,Set,Atur,Cài đặt
 exchangeRate--text-targetKRW,환전 금액,Exchange Amount,Jumlah Penukaran,Số tiền đổi
-exchangeRate--placeholder-targetAmount,자동 환전할 금액을 입력하세요.,Please enter the amount to exchange automatically.,Masukkan jumlah yang akan dikonversi secara otomatis.,Vui lòng nhập số tiền cần chuyển đổi tự động.
-exchangeRate--limited,1000원 이상 입력,Enter an amount greater than 1,000 KRW.,Nhập số tiền lớn hơn 1,000 KRW.,Masukkan jumlah yang lebih besar dari 1,000 KRW.
+exchangeRate--placeholder-targetAmount,자동 환전할 금액을 입력하세요(1000원 이상),Please enter the amount to exchange automatically(Over 1000 KRW),Masukkan jumlah yang akan dikonversi secara otomatis(Lebih dari 1000 KRW),Vui lòng nhập số tiền cần chuyển đổi tự động(Hơn 1000 KRW)
+exchangeRate-alert-success,성공!,Success!,Sukses!,Thành công!
+exchangeRate-alert-exchange-success,환전이 성공적으로 완료되었습니다.,The currency exchange was completed successfully.,Penukaran mata uang berhasil diselesaikan.,Giao dịch đổi tiền đã hoàn thành thành công.
+exchangeRate-alert-confirm,확인,Confirm,Konfirmasi,Xác nhận
+exchangeRate-alert-fail,실패,Failure,Gagal,Thất bại
+exchangeRate-alert-exchange-error,환전 중 오류가 발생했습니다. 다시 시도해 주세요.,An error occurred during the currency exchange. Please try again.,Terjadi kesalahan saat penukaran mata uang. Silakan coba lagi.,Đã xảy ra lỗi trong quá trình đổi tiền. Vui lòng thử lại.
+exchangeRate-alert-refund-success,환급이 성공적으로 완료되었습니다.,The refund was completed successfully.,Pengembalian dana berhasil diselesaikan.,Hoàn tiền đã hoàn thành thành công.
+exchangeRate-alert-refund-error,환급 중 오류가 발생했습니다. 다시 시도해 주세요.,An error occurred during the refund. Please try again.,Terjadi kesalahan saat pengembalian dana. Silakan coba lagi.,Đã xảy ra lỗi trong quá trình hoàn tiền. Vui lòng thử lại.
+exchangeRate-alert-warning,경고,Warning,Peringatan,Cảnh báo
+exchangeRate-alert-valid-rate,유효한 목표 환율을 입력해주세요.,Please enter a valid target exchange rate.,Silakan masukkan nilai tukar target yang valid.,Vui lòng nhập tỷ giá mục tiêu hợp lệ.
+exchangeRate-alert-higher-than-current,현재 환율보다 높은 값입니다.,This value is higher than the current exchange rate.,Nilai ini lebih tinggi dari nilai tukar saat ini.,Giá trị này cao hơn tỷ giá hiện tại.
+exchangeRate-alert-lower-than-current,현재 환율보다 낮은 값입니다.,This value is lower than the current exchange rate.,Nilai ini lebih rendah dari nilai tukar saat ini.,Giá trị này thấp hơn tỷ giá hiện tại.
+exchangeRate-alert-notification-success,환율 알림이 성공적으로 저장되었습니다.,The exchange rate alert was saved successfully.,Pemberitahuan nilai tukar berhasil disimpan.,Cảnh báo tỷ giá đã được lưu thành công.
+exchangeRate-alert-notification-error,환율 알림 저장 중 오류가 발생했습니다. 다시 시도해 주세요.,An error occurred while saving the exchange rate alert. Please try again.,Terjadi kesalahan saat menyimpan pemberitahuan nilai tukar. Silakan coba lagi.,Đã xảy ra lỗi trong quá trình lưu cảnh báo tỷ giá. Vui lòng thử lại.
+exchangeRate-alert-valid-rate-amount,유효한 목표 환율과 목표 금액을 입력해주세요.,Please enter a valid target exchange rate and amount.,Silakan masukkan nilai tukar dan jumlah target yang valid.,Vui lòng nhập tỷ giá và số tiền mục tiêu hợp lệ.
+exchangeRate-alert-minimum-amount,목표 금액은 1000 KRW 이상이어야 합니다.,The target amount must be at least 1000 KRW.,Jumlah target harus minimal 1000 KRW.,Số tiền mục tiêu phải tối thiểu là 1000 KRW.
+exchangeRate-alert-auto-exchange-success,자동 환전 예약이 성공적으로 저장되었습니다.,The automatic exchange reservation was saved successfully.,Reservasi penukaran otomatis berhasil disimpan.,Đặt chỗ đổi tiền tự động đã được lưu thành công.
+exchangeRate-alert-auto-exchange-error,자동 환전 예약 중 오류가 발생했습니다. 다시 시도해 주세요.,An error occurred while saving the automatic exchange reservation. Please try again.,Terjadi kesalahan saat menyimpan reservasi penukaran otomatis. Silakan coba lagi.,Đã xảy ra lỗi trong quá trình lưu đặt chỗ đổi tiền tự động. Vui lòng thử lại.
 schedule--text--registerSchedule,일정 등록,Register Schedule,Daftar Jadwal,Đăng ký lịch trình
 schedule--text--schedule,일정,Schedule,Jadwal,Lịch trình
 schedule--text--enterSchedule,일정을 입력하세요,Enter the schedule,Masukkan jadwal,Nhập lịch trình
@@ -463,6 +469,7 @@ schedule--text--period,기간,Period,Periode,Thời gian
 schedule--text--save,저장,Save,Menyimpan,cứu
 schedule--text--delete,삭제,Delete,menghapus,Xóa
 schedule--text--editSchedule,일정 수정,Edit Schedule,Edit Jadwal,Chỉnh sửa lịch trình
+schedule--text--thisMonth,이번 달 이벤트,This Month's Events,Acara Bulan Ini,Sự Kiện Tháng Này
 provinces--seoul,서울특별시,Seoul,Seoul,Seoul
 provinces--busan,부산광역시,Busan,Busan,Busan
 provinces--daegu,대구광역시,Daegu,Daegu,Daegu
@@ -707,32 +714,44 @@ city--gyeongsangnam-17,함양군,Hamyang County,Hamyang County,Hamyang County
 city--gyeongsangnam-18,합천군,Hapcheon County,Hapcheon County,Hapcheon County
 city--jeju-1,서귀포시,Seogwipo City,Seogwipo City,Seogwipo City
 city--jeju-2,제주시,Jeju City,Jeju City,Jeju City
-myAccount-input-expectedAmount,예상 잔액,Expected balance,Saldo yang diharapkan,Số dư dự kiến
-myAccount-transferto-checkEmailAgain,이메일을 다시 입력하세요,Please re-enter the email,Harap masukkan ulang email,Vui lòng nhập lại email
-myAccount-transferto-member,회원 이메일,Member email,Email anggota,Email thành viên
-myAccount-transferto-noMember,비회원 이메일,Non-member email,Email non-anggota,Email không phải thành viên
-myAccount-transferto-sendtoEmail,받는 사람,Recipient,Penerima,Người nhận
-myAccount-deposit-myaccountNo,내 연결 계좌,My linked account,Akun yang terhubung,Tài khoản liên kết của tôi
-myAccount-transferto-insertEmail,이메일을 입력해주세요.,Please enter your email.,Harap masukkan email Anda.,Vui lòng nhập email của bạn.
-myAccount-transferto-notificationForm,올바른 이메일 형식을 지켜야 합니다.,Please follow the correct email format.,Harap ikuti format email yang benar.,Vui lòng tuân thủ định dạng email đúng.
-myAccount-transferto-checkEmail,이메일 확인이 필요합니다.,Email confirmation is required.,Konfirmasi email diperlukan.,Yêu cầu xác nhận email.
-myAccount-transferto-notificationInput,본인이 아닌 다른 회원의 이메일을 입력하세요.,Please enter the email of a member other than yourself.,Harap masukkan email anggota selain diri Anda sendiri.,Vui lòng nhập email của thành viên khác ngoài bạn.
-myAccount--Alert-swal-requestDelete,정말로 삭제하시겠습니까?,Are you sure you want to delete?,Apakah Anda yakin ingin menghapus?,Bạn có chắc chắn muốn xóa không?
-myAccount--Alert-swal-warningDeleteAlert,삭제된 알림 설정은 복구할 수 없습니다!,Deleted notification settings cannot be restored!,Pengaturan notifikasi yang dihapus tidak dapat dipulihkan!,Cài đặt thông báo đã xóa không thể khôi phục!
-myAccount--Alert-swal-deleteAlert, 확인,Sure,Tentu saja,Chắc chắn rồi
-myAccount--Alert-swal-suceess,삭제 완료!,Delete complete!,Penghapusan selesai!,Hoàn tất xóa!
-myAccount--Alert-swal-setSuccess,알림 설정이 삭제되었습니다.,Notification settings have been deleted.,Pengaturan notifikasi telah dihapus.,Cài đặt thông báo đã được xóa.
-myAccount--Alert-swal-fail,오류 발생,Error occurred,Terjadi kesalahan,Đã xảy ra lỗi
-myAccount--error-notificationAlert,알림 설정 삭제 중 문제가 발생했습니다.,There was a problem deleting the notification settings.,Ada masalah saat menghapus pengaturan notifikasi.,Đã xảy ra sự cố khi xóa cài đặt thông báo.
-myAccount--error-overAmount,잔액을 초과합니다.,Exceeds balance.,Melebihi saldo.,Vượt quá số dư.
-myAccount--error-notZero,0이 아닌 값을 입력하세요.,Please enter a non-zero value.,Harap masukkan nilai selain nol.,Vui lòng nhập giá trị khác 0.
-myAccount-transferto-emailNotCorrect,입력하신 이메일과 일치하지 않습니다.,It does not match the email you entered.,Ini tidak cocok dengan email yang Anda masukkan.,Nó không khớp với email bạn đã nhập.,,
-profile--personaladdress,개인 거주지 주소,Personal address,Alamat pribadi,Địa chỉ cá nhân
-myAccount--autoExchange-title,자동 환전 설정 내역,Auto Exchange Settings,Pengaturan Tukar Otomatis,Cài đặt đổi tiền tự động
-myAccount--autoExchange-noReservationAuto,자동 환전 예약 내역이 없습니다.,No auto exchange reservations.,Tidak ada reservasi tukar otomatis.,Không có lịch đổi tiền tự động.
-myAccount--exchangeRate-settingHistory,환율 알림 설정 내역,Exchange Rate Alert Settings,Pengaturan Peringatan Kurs,Cài đặt cảnh báo tỷ giá
-myAccount--exchangeRate-baseCurrency,기준 통화,Base Currency,Mata Uang Dasar,Tiền tệ Cơ bản
-myAccount--exchangeRate-targetCurrency,대상 통화,Target Currency,Mata Uang Tujuan,Tiền tệ Mục tiêu
-myAccount--exchangeRate-targetExchangeRate,목표 환율,Target Exchange Rate,Kurs Target,Tỷ giá Mục tiêu
-myAccount--exchangeRate-targetKrw,목표 KRW 금액,Target KRW Amount,Jumlah KRW Target,Số tiền KRW Mục tiêu
-myAccount--exchangeRate-noReservationAlert,환율 알림 예약 내역이 없습니다.,No exchange rate alert reservations.,Tidak ada reservasi peringatan kurs.,Không có lịch cảnh báo tỷ giá.
+common-btn-back,뒤로가기,Go back,Kembali,Quay lại
+common--btn-save,저장,Save,Simpan,Lưu
+common--btn-confirm,확인,confirm,Konfirmasi,Xác nhận
+common--btn-close,닫기,close,Tutup,Đóng
+common--btn-edit,수정,edit,Ubah,Chỉnh sửa
+common-btn--submit,제출,Submit,Kirim,Gửi
+common--text-next,다음,Next,Berikut,Tiếp theo
+common--text-submit,회원가입,Sign up,Mendaftar,Đăng ký
+common--text-login,로그인,Log in,Masuk,Đăng nhập
+common--text-email,이메일,Email,Email,Email
+common--text-logout,로그아웃,Log out,Keluar,Đăng xuất
+common--text-password,비밀번호,Password,Kata sandi,Mật khẩu
+common--text-secondary-password,2차 비밀번호,Secondary Password,Kata sandi kedua,Mật khẩu thứ hai
+transaction_types_payment,결제,Payment,Pembayaran,Thanh toán
+transaction_types_transfer,송금,Transfer,Transfer,Chuyển khoản
+transaction_types_deposit,SongE 채우기,SongE Top Up,SongE Isi Ulang,SongE Nạp
+transaction_types_refund,SongE 비우기,SongE Withdraw,SongE Penarikan,SongE Rút tiền
+transaction_types_exchange,환전,Exchange,penukaran uang,sự đổi tiền
+transaction_types_reExchange,환전,Exchange,penukaran uang,sự đổi tiền
+transaction_types_autoExchange,자동환전,Automatic Exchange,Penukaran Otomatis,Đổi tiền tự động
+transaction_types_receive,입금,Deposit,Setoran,Nạp tiền
+transaction_states_completed,성공,Success,Sukses,Thành công
+transaction_states_failed,실패,Failure,Gagal,Thất bại
+transaction_states_cancelled,취소,Cancel,Batalkan,Hủy
+transaction_states_pending,처리중,Processing,Sedang diproses,Đang xử lý
+swal--title-success,성공,Success,Sukses,Thành công
+swal--title-fail,실패,Failure,Gagal,Thất bại
+sidenavList--myPage,마이페이지,My Page,Halaman Saya,Trang của tôi
+sidenavList--exchangeRate,환율,Exchange rates,Nilai tukar,Tỷ giá hối đoái
+sidenavList--payment,결제,Payments,Pembayaran,Thanh toán
+sidenavList--history,이용내역,Usage History,Riwayat Penggunaan,Lịch sử sử dụng
+sidenavList--map,금융지도,Financial Map,Peta Keuangan,Bản đồ tài chính
+sidenavList--schedule,스케쥴,Schedule,Jadwal,Lịch trình
+country_kr,대한민국,South Korea,Korea Selatan,Hàn Quốc
+country_us,미국,United States,Amerika Serikat,Hoa Kỳ
+country_id,인도네시아,Indonesia,Indonesia,In-đô-nê-xi-a
+country_vn,베트남,Vietnam,Vietnam,Việt Nam
+language_ko,한국어,Korean,Korea,Hàn Quốc
+language_en,영어,English,Inggris,Tiếng Anh
+language_id,인도네시아어,Indonesian,Indonesia,Tiếng Indonesia
+language_vi,베트남어,Vietnamese,Vietnam,Tiếng Việt

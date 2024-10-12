@@ -194,9 +194,9 @@
       <!-- 자동 환전 설정 섹션 -->
       <h3 class="mb-0">{{ $t("exchangeRate--header-autoExchange") }}</h3>
       <div class="card">
-        <div class="card-body">
+        <div class="card-body py-6">
           <div class="d-flex justify-content-center">
-            <div class="d-flex flex-column tab-content-width gap-3">
+            <div class="d-flex flex-column w-80 gap-4 align-items-center">
               <div class="input-group">
                 <span class="input-group-text">1 {{ customerunit }} =</span>
                 <input
@@ -222,9 +222,8 @@
                 />
                 <span class="input-group-text">KRW</span>
               </div>
-
               <button
-                class="btn btn-primary w-100 mb-0"
+                class="btn btn-primary w-50 mb-0"
                 @click="
                   confirmAutoExchange(countryCode, 0, targetExchange, targetKrw)
                 "
@@ -491,7 +490,7 @@ const saveAlertRate = async (baseCode, targetCode, targetExchange) => {
     console.error("환율 알림 저장 중 오류 발생:", error);
     Swal.fire({
       title: "실패",
-      html: `환율 알림 저장에 실패했습니다.`,
+      html: `환율 알림 저장 중 오류가 발생했습니다. 다시 시도해 주세요.`,
       icon: "error",
       confirmButtonText: "확인",
     });
