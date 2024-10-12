@@ -25,12 +25,12 @@ const routes = [
     component: MainPage,
   },
   {
-    path: '/my-page',
-    name: 'MyPage',
+    path: '/my-accounts',
+    name: 'MyAccounts',
     meta: {
       requiresAuth: true,
     },
-    component: MyPage,
+    component: MyAccounts,
   },
   {
     path: '/exchange-rate',

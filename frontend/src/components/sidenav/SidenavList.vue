@@ -31,8 +31,8 @@ const getRoute = () => {
 
             <li class="nav-item">
                 <sidenav-item
-                    to="/my-page"
-                    :class="getRoute() === 'my-page' ? 'active' : ''"
+                    to="/my-accounts"
+                    :class="getRoute() === 'my-accounts' ? 'active' : ''"
                     :navText="isRTL ? 'الجداول' : 'sidenavList--myPage'"
                 >
                     <template v-slot:icon>
