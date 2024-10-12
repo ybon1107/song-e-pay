@@ -1,6 +1,5 @@
 package com.sepay.backend.user.service;
 
-import com.sepay.backend.payment.dto.PasswordDTO;
 import com.sepay.backend.user.dto.UserDTO;
 import com.sepay.backend.user.dto.UserRegisterDTO;
 
@@ -10,7 +9,6 @@ public interface UserService {
 
     String selectSecondPwd(String userId);
     
-    boolean checkSecondaryPassword(PasswordDTO passwordDTO);
 
     UserDTO get(String username);
 
