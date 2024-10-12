@@ -149,7 +149,7 @@ router.beforeEach((to, from, next) => {
     });
   }
 
-  if ((to.name === 'Password' || to.name === 'Qr') && from.name !== 'Payment') {
+  if ((to.name === 'Password') && from.name !== 'Payment') {
     return next({
       name: 'Payment',
     });
