@@ -250,7 +250,7 @@ import myaccountApi from "../../api/myaccountApi";
 import { useRouter } from "vue-router";
 import Swal from "sweetalert2";
 import { useAuthStore } from "@/stores/auth";
-import { useI18n } from 'vue-i18n';
+import { useI18n } from "vue-i18n";
 const { t } = useI18n(); // t 함수 정의
 
 const auth = useAuthStore();
@@ -354,12 +354,12 @@ const handleExchange = async () => {
         krwNo,
       },
       historyDTO: {
-        userId: Id,
+        userId: Id.value,
         songNo,
         krwNo,
         typeCode: 5, // 환전 코드
         stateCode: 1, // 상태 코드 (성공)
-        historyContent: `${customerunit.value} → KRW ${t('transaction_types_Exchange')}`,
+        historyContent: `${customerunit.value} → KRW ${t("transaction_types_Exchange")}`,
         amount,
         exchangeRate,
       },
@@ -402,12 +402,12 @@ const reExchange = async () => {
         songNo,
       },
       historyDTO: {
-        userId: Id,
+        userId: Id.value,
         songNo,
         krwNo,
         typeCode: 6, // 환급 코드
         stateCode: 1, // 상태 코드 (성공)
-        historyContent: `KRW → ${customerunit.value} ${t('transaction_types_reExchange')}`,
+        historyContent: `KRW → ${customerunit.value} ${t("transaction_types_reExchange")}`,
         amount,
         exchangeRate,
       },
@@ -459,10 +459,7 @@ const saveAlertRate = async (baseCode, targetCode, targetExchange) => {
     return;
   }
 
-  if (
-    baseCode === 0 &&
-    parseFloat(targetExchange) < currentFromKrw.value
-  ) {
+  if (baseCode === 0 && parseFloat(targetExchange) < currentFromKrw.value) {
     Swal.fire({
       title: "경고",
       text: "현재 환율보다 낮은 값입니다.",
@@ -473,18 +470,13 @@ const saveAlertRate = async (baseCode, targetCode, targetExchange) => {
   }
 
   try {
-    const userId = Id; // userNo를 추가(임시)
-    console.log(userId, baseCode, targetCode, targetExchange);
     // 서버에 POST 요청 보내기
-    const response = await axios.post(
-      "/api/exchange-reservation",
-      {
-        userId: userId,
-        baseCode: baseCode,
-        targetCode: targetCode,
-        targetExchange: targetExchange,
-      }
-    );
+    const response = await axios.post("/api/exchange-reservation", {
+      userId: Id.value,
+      baseCode: baseCode,
+      targetCode: targetCode,
+      targetExchange: targetExchange,
+    });
 
     if (response.status === 200) {
       Swal.fire({
@@ -565,19 +557,14 @@ const confirmAutoExchange = async (
   }
 
   try {
-    const userId = Id; 
-    console.log(userId, baseCode, targetCode, targetExchange, targetKrw);
     // 서버에 POST 요청 보내기
-    const response = await axios.post(
-      "/api/exchange-reservation/setalert",
-      {
-        userId: userId,
-        baseCode: baseCode,
-        targetCode: targetCode,
-        targetExchange: targetExchange,
-        targetKrw: targetKrw,
-      }
-    );
+    const response = await axios.post("/api/exchange-reservation/setalert", {
+      userId: Id.value,
+      baseCode: baseCode,
+      targetCode: targetCode,
+      targetExchange: targetExchange,
+      targetKrw: targetKrw,
+    });
 
     if (response.status === 200) {
       Swal.fire({
