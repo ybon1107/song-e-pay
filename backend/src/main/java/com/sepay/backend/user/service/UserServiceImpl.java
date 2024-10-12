@@ -23,10 +23,12 @@ public class UserServiceImpl implements UserService{
 
     private final UserMapper mapper;
     final PasswordEncoder passwordEncoder;
+
     @Override
     public String selectSecondPwd(String userId){
         return mapper.getSecondaryPassword(userId);
     }
+
     @Override
     public boolean checkSecondaryPassword(PasswordDTO passwordDTO) {
         //추후에 userNo  동적 변경

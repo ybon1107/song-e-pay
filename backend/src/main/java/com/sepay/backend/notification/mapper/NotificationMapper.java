@@ -4,6 +4,10 @@ import com.sepay.backend.notification.dto.NotificationDTO;
 import java.util.List;
 
 public interface NotificationMapper {
-    List<NotificationDTO> selectByUserNo(Integer userNo);
+
+    // 알림 등록
     void insertNotification(NotificationDTO notificationDTO);
+
+    // 알림 가져오기
+    List<NotificationDTO> selectByUserId(String userId);
 }

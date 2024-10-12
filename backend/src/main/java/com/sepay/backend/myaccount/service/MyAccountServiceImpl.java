@@ -1,6 +1,7 @@
 package com.sepay.backend.myaccount.service;
 
 import com.sepay.backend.history.dto.HistoryDTO;
+import com.sepay.backend.history.mapper.HistoryMapper;
 import com.sepay.backend.myaccount.dto.AccountDTO;
 import com.sepay.backend.myaccount.dto.KrwAccountDTO;
 import com.sepay.backend.myaccount.dto.SongAccountDTO;
@@ -18,6 +19,7 @@ import java.util.Date;
 @RequiredArgsConstructor
 public class MyAccountServiceImpl implements MyAccountService {
     private final MyAccountMapper mapper;
+    private final HistoryMapper historyMapper;
 
     @Override
     public Double selectKrwBalance(String krwNo) {
@@ -62,7 +64,7 @@ public class MyAccountServiceImpl implements MyAccountService {
             historyDTO.setAmount(amount); // 금액 설정
 
             // history insert
-            mapper.insertHistory(historyDTO);
+            historyMapper.insertHistory(historyDTO);
             message = "success";
         }
 
@@ -91,7 +93,7 @@ public class MyAccountServiceImpl implements MyAccountService {
             historyDTO.setHistoryContent("SongE → My Account"); // 내용 설정
             historyDTO.setAmount(amount); // 금액 설정
 
-            mapper.insertHistory(historyDTO);
+            historyMapper.insertHistory(historyDTO);
             message = "success";
         }
         return message;
@@ -123,7 +125,7 @@ public class MyAccountServiceImpl implements MyAccountService {
             historyDTO.setAmount(amount); // 금액 설정
             historyDTO.setExchangeRate(exchangeRate); //환율 설정
 
-            mapper.insertHistory(historyDTO);
+            historyMapper.insertHistory(historyDTO);
             message = "success";
         }
         return message;
@@ -153,7 +155,7 @@ public class MyAccountServiceImpl implements MyAccountService {
             historyDTO.setAmount(amount); // 금액 설정
             historyDTO.setExchangeRate(exchangeRate); //환율 설정
 
-            mapper.insertHistory(historyDTO);
+            historyMapper.insertHistory(historyDTO);
 
             message = "success";
         }
@@ -181,7 +183,7 @@ public class MyAccountServiceImpl implements MyAccountService {
 
             // 상대방 정보 조회
             UserDTO targetUser = mapper.selectUserByKrwNo(target_krwNo);
-            mapper.insertHistory(historyDTO);
+            historyMapper.insertHistory(historyDTO);
             // 상대 history insert
             HistoryDTO targetHistoryDTO = new HistoryDTO();
             targetHistoryDTO.setUserId(targetUser.getUserId());
@@ -192,7 +194,7 @@ public class MyAccountServiceImpl implements MyAccountService {
             targetHistoryDTO.setHistoryContent(targetHistoryContent);
             targetHistoryDTO.setAmount(amount);
             // 필요한 다른 필드들 설정
-            mapper.insertHistory(targetHistoryDTO);
+            historyMapper.insertHistory(targetHistoryDTO);
 
             message = "success";
         }

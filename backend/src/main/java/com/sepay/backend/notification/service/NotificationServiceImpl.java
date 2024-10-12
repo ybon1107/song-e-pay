@@ -16,12 +16,12 @@ public class NotificationServiceImpl implements NotificationService {
     private final NotificationMapper mapper;
 
     @Override
-    public List<NotificationDTO> getNotification(Integer userNo) {
-        return mapper.selectByUserNo(userNo);
+    public void saveNotification(NotificationDTO notificationDTO) {
+        mapper.insertNotification(notificationDTO);
     }
 
     @Override
-    public void saveNotification(NotificationDTO notificationDTO) {
-        mapper.insertNotification(notificationDTO);
+    public List<NotificationDTO> getNotification(String userId) {
+        return mapper.selectByUserId(userId);
     }
 }

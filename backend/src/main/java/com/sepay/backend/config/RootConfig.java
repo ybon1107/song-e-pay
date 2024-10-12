@@ -20,7 +20,6 @@ import javax.sql.DataSource;
 @Configuration
 @PropertySource({"classpath:/application.properties"})
 @MapperScan(basePackages = {
-        "com.sepay.backend.event.mapper",
         "com.sepay.backend.exchangereservation.mapper",
         "com.sepay.backend.history.mapper",
         "com.sepay.backend.myaccount.mapper",

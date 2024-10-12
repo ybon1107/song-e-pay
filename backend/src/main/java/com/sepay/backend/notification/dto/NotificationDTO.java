@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 @Data
@@ -13,9 +14,11 @@ import java.util.Date;
 @Builder
 public class NotificationDTO {
     private Integer notiNo;
+    private Integer resNo;
+    private Integer historyNo;
     private String userId;
-    private Integer resveNo;
-    private String notiContent;
-    private Double exchangeRate;
-    private Date createAt;
+    private String content;
+    private Integer amount;
+    private char check;
+    private Date createdAt;
 }
