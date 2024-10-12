@@ -21,7 +21,7 @@ import java.io.IOException;
 @Service
 @RequiredArgsConstructor
 public class PaymentServiceImpl implements PaymentService {
-    //    private final PaymentMapper mapper;
+//    private final PaymentMapper mapper;
     private final MyAccountMapper mapper;
 
     @Override

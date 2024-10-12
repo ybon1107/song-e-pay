@@ -1,10 +1,23 @@
-import axios from 'axios';
+import axios from "axios";
 const api = axios.create({
-  baseURL: '/api/schedule', // 기본 경로 설정
-  headers: { 'Content-Type': 'application/json' }, // 기본 헤더
+  baseURL: "/api/schedule", // 기본 경로 설정
+  headers: { "Content-Type": "application/json" }, // 기본 헤더
 });
 export default {
-  async save(submitData, calendarRef, closeModal, getColor, userNo) {
+
+  async getEvents(userId, year, month) {
+    try {
+      const response = await api.get(`/list/${userId}`, {
+        params: { year, month }
+      });
+      return response.data;
+    } catch (error) {
+      console.error('이벤트 로딩 중 오류 발생:', error);
+      throw error;
+    }
+  },
+
+  async save(submitData, calendarRef, closeModal, getColor, userId) {
     try {
       // FullCalendar API 객체를 가져오기
       const calendarApi = calendarRef.value.getApi();
@@ -18,10 +31,10 @@ export default {
         end: submitData.end,
         allDay: submitData.allDay, // 하루 종일 이벤트 여부
       };
-      console.log('전송할 데이터:', scheduleData); // 전송할 데이터 로그 확인
+      console.log("전송할 데이터:", scheduleData); // 전송할 데이터 로그 확인
       // 백엔드에 일정 저장 API 호출
-      const response = await api.post('/add', scheduleData);
-      console.log('백엔드 응답:', response.data); // 백엔드 응답 확인
+      const response = await api.post("/add", scheduleData);
+      console.log("백엔드 응답:", response.data); // 백엔드 응답 확인
       // 일정이 성공적으로 저장된 경우 FullCalendar에 이벤트 추가
       if (response.status === 200) {
         calendarApi.addEvent({
@@ -36,10 +49,10 @@ export default {
         // 모달 닫기
         closeModal();
       } else {
-        console.error('일정 저장 실패:', response.status);
+        console.error("일정 저장 실패:", response.status);
       }
     } catch (error) {
-      console.error('일정 저장 중 오류 발생:', error);
+      console.error("일정 저장 중 오류 발생:", error);
     }
   },
 };

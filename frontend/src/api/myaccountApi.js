@@ -97,4 +97,14 @@ export default {
       throw error;
     }
   },
+  // 회원 계좌 번호 조회
+  async getKrwNo(userId) {
+    try {
+      const response = await api.post(`/krwno?userId=${userId}`); // 쿼리 파라미터로 전달
+      return response.data;
+    } catch (error) {
+      console.error('회원 계좌 번호 조회 오류:', error);
+      throw error;
+    }
+  },
 };

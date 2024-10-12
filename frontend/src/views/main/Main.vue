@@ -368,8 +368,8 @@
 </template>
 
 <script setup>
-import { useStore } from 'vuex';
-import { onBeforeMount } from 'vue';
+import { useStore } from "vuex";
+import { onBeforeMount } from "vue";
 
 const store = useStore();
 
