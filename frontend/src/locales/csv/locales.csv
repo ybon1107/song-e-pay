@@ -1,4 +1,14 @@
 key,ko,en,id,vi
+sidenavList--myPage,마이페이지,My Page,Halaman Saya,Trang của tôi
+sidenavList--exchangeRate,환율,Exchange rates,Nilai tukar,Tỷ giá hối đoái
+sidenavList--payment,결제,Payments,Pembayaran,Thanh toán
+sidenavList--history,이용내역,Usage History,Riwayat Penggunaan,Lịch sử sử dụng
+sidenavList--map,금융지도,Financial Map,Peta Keuangan,Bản đồ tài chính
+sidenavList--schedule,스케쥴,Schedule,Jadwal,Lịch trình
+country_kr,대한민국,South Korea,Korea Selatan,Hàn Quốc
+country_us,미국,United States,Amerika Serikat,Hoa Kỳ
+country_id,인도네시아아,Indonesia,Indonesia,In-đô-nê-xi-a
+country_vn,베트남,Vietnam,Vietnam,Việt Nam
 common-btn-back,뒤로가기,Go back,Kembali,Quay lại,,
 common--btn-save,저장,Save,Simpan,Lưu
 common--btn-confirm,확인,confirm,Konfirmasi,Xác nhận
@@ -696,3 +706,32 @@ city--gyeongsangnam-17,함양군,Hamyang County,Hamyang County,Hamyang County
 city--gyeongsangnam-18,합천군,Hapcheon County,Hapcheon County,Hapcheon County
 city--jeju-1,서귀포시,Seogwipo City,Seogwipo City,Seogwipo City
 city--jeju-2,제주시,Jeju City,Jeju City,Jeju City
+myAccount-input-expectedAmount,예상 잔액,Expected balance,Saldo yang diharapkan,Số dư dự kiến
+myAccount-transferto-checkEmailAgain,이메일을 다시 입력하세요,Please re-enter the email,Harap masukkan ulang email,Vui lòng nhập lại email
+myAccount-transferto-member,회원 이메일,Member email,Email anggota,Email thành viên
+myAccount-transferto-noMember,비회원 이메일,Non-member email,Email non-anggota,Email không phải thành viên
+myAccount-transferto-sendtoEmail,받는 사람,Recipient,Penerima,Người nhận
+myAccount-deposit-myaccountNo,내 연결 계좌,My linked account,Akun yang terhubung,Tài khoản liên kết của tôi
+myAccount-transferto-insertEmail,이메일을 입력해주세요.,Please enter your email.,Harap masukkan email Anda.,Vui lòng nhập email của bạn.
+myAccount-transferto-notificationForm,올바른 이메일 형식을 지켜야 합니다.,Please follow the correct email format.,Harap ikuti format email yang benar.,Vui lòng tuân thủ định dạng email đúng.
+myAccount-transferto-checkEmail,이메일 확인이 필요합니다.,Email confirmation is required.,Konfirmasi email diperlukan.,Yêu cầu xác nhận email.
+myAccount-transferto-notificationInput,본인이 아닌 다른 회원의 이메일을 입력하세요.,Please enter the email of a member other than yourself.,Harap masukkan email anggota selain diri Anda sendiri.,Vui lòng nhập email của thành viên khác ngoài bạn.
+myAccount--Alert-swal-requestDelete,정말로 삭제하시겠습니까?,Are you sure you want to delete?,Apakah Anda yakin ingin menghapus?,Bạn có chắc chắn muốn xóa không?
+myAccount--Alert-swal-warningDeleteAlert,삭제된 알림 설정은 복구할 수 없습니다!,Deleted notification settings cannot be restored!,Pengaturan notifikasi yang dihapus tidak dapat dipulihkan!,Cài đặt thông báo đã xóa không thể khôi phục!
+myAccount--Alert-swal-deleteAlert, 확인,Sure,Tentu saja,Chắc chắn rồi
+myAccount--Alert-swal-suceess,삭제 완료!,Delete complete!,Penghapusan selesai!,Hoàn tất xóa!
+myAccount--Alert-swal-setSuccess,알림 설정이 삭제되었습니다.,Notification settings have been deleted.,Pengaturan notifikasi telah dihapus.,Cài đặt thông báo đã được xóa.
+myAccount--Alert-swal-fail,오류 발생,Error occurred,Terjadi kesalahan,Đã xảy ra lỗi
+myAccount--error-notificationAlert,알림 설정 삭제 중 문제가 발생했습니다.,There was a problem deleting the notification settings.,Ada masalah saat menghapus pengaturan notifikasi.,Đã xảy ra sự cố khi xóa cài đặt thông báo.
+myAccount--error-overAmount,잔액을 초과합니다.,Exceeds balance.,Melebihi saldo.,Vượt quá số dư.
+myAccount--error-notZero,0이 아닌 값을 입력하세요.,Please enter a non-zero value.,Harap masukkan nilai selain nol.,Vui lòng nhập giá trị khác 0.
+myAccount-transferto-emailNotCorrect,입력하신 이메일과 일치하지 않습니다.,It does not match the email you entered.,Ini tidak cocok dengan email yang Anda masukkan.,Nó không khớp với email bạn đã nhập.,,
+profile--personaladdress,개인 거주지 주소,Personal address,Alamat pribadi,Địa chỉ cá nhân
+myAccount--autoExchange-title,자동 환전 설정 내역,Auto Exchange Settings,Pengaturan Tukar Otomatis,Cài đặt đổi tiền tự động
+myAccount--autoExchange-noReservationAuto,자동 환전 예약 내역이 없습니다.,No auto exchange reservations.,Tidak ada reservasi tukar otomatis.,Không có lịch đổi tiền tự động.
+myAccount--exchangeRate-settingHistory,환율 알림 설정 내역,Exchange Rate Alert Settings,Pengaturan Peringatan Kurs,Cài đặt cảnh báo tỷ giá
+myAccount--exchangeRate-baseCurrency,기준 통화,Base Currency,Mata Uang Dasar,Tiền tệ Cơ bản
+myAccount--exchangeRate-targetCurrency,대상 통화,Target Currency,Mata Uang Tujuan,Tiền tệ Mục tiêu
+myAccount--exchangeRate-targetExchangeRate,목표 환율,Target Exchange Rate,Kurs Target,Tỷ giá Mục tiêu
+myAccount--exchangeRate-targetKrw,목표 KRW 금액,Target KRW Amount,Jumlah KRW Target,Số tiền KRW Mục tiêu
+myAccount--exchangeRate-noReservationAlert,환율 알림 예약 내역이 없습니다.,No exchange rate alert reservations.,Tidak ada reservasi peringatan kurs.,Không có lịch cảnh báo tỷ giá.

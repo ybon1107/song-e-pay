@@ -94,14 +94,7 @@
   /* 비율 8.56 / 5.398 */
   background-size: cover;
   cursor: pointer;
-}
-
-//acountscard가 선택됐을 때
-.selected .card {
-  border: 3px solid $light-brown;
-  /* 선택된 카드에 녹색 테두리 추가 */
-  box-shadow: 0 0 15px $light-brown;
-  /* 선택된 카드에 그림자 효과 추가 */
+  // background-color: $primary-yellow;
 }
 
 // 자동 환전 및 알람 라우터 이동 버튼

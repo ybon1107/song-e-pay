@@ -15,6 +15,6 @@ public class SongAccountDTO {
     private String songNo;
     private Integer countryCode;
     private Double balance;
-    private Date createAt;
-    private Date updateAt;
+    private Date createdAt;
+    private Date updatedAt;
 }
