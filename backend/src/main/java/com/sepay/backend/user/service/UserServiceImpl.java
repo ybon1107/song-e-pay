@@ -23,10 +23,12 @@ public class UserServiceImpl implements UserService{
 
     private final UserMapper mapper;
     final PasswordEncoder passwordEncoder;
+
     @Override
     public String selectSecondPwd(String userId){
         return mapper.getSecondaryPassword(userId);
     }
+
     @Override
     public boolean checkSecondaryPassword(PasswordDTO passwordDTO) {
         //추후에 userNo  동적 변경
@@ -112,11 +114,4 @@ public UserDTO register(UserRegisterDTO userRegisterDTO) {
     public UserDTO getUserByEmail(String userId) {
         return mapper.selectUserByEmail(userId);
     }
-
-    // 자동환전에서 사용
-    @Override
-    public Map<String, String> getUserAccounts(Integer userNo) {
-        return mapper.selectUserAccounts(userNo);
-    }
-
 }
