@@ -8,6 +8,7 @@ import setTooltip from "@/assets/js/tooltip.js";
 import ArgonButton from "@/components/templates/ArgonButton.vue";
 import settingApi from "@/api/settingApi";
 import { useAuthStore } from "@/stores/auth";
+import SecondPasswordModal from '@/views/MyAccounts/SecondPasswordModal.vue';
 
 import Swal from "sweetalert2";
 
@@ -24,6 +25,19 @@ const userInfo = reactive({
   countryCode: "",
   profilePic: null,
 });
+
+const showModal = ref(false);
+const openModal = () => {
+  showModal.value = true;
+};
+// 비밀번호 입력 모달 닫기
+const closeModal = () => {
+  showModal.value = false;
+};
+
+const handlePasswordVerified = () => {
+  //여기에서 2차 비번 변경 로직 추가
+}
 
 watchEffect(() => {
   if (user.value) {
@@ -174,6 +188,7 @@ onBeforeUnmount(() => {
       referrerpolicy="no-referrer"
     />
     <div class="container-fluid">
+      
       <div
         class="page-header min-height-300 bg-yellow"
         style="margin-right: -34%; margin-left: -34%"
@@ -369,7 +384,7 @@ onBeforeUnmount(() => {
                   </a>
                 </li>
                 <li class="pvt-item">
-                  <a class="pvt-link">
+                  <a class="pvt-link" @click="openModal">
                     <div class="pvt-icon"><i class="fa-solid fa-lock"></i></div>
                     <span>{{ $t("profile--secondaryPasswordLabel") }}</span>
                     <i class="fa-solid fa-angle-right"></i>
@@ -408,6 +423,8 @@ onBeforeUnmount(() => {
           <profile-card />
         </div> -->
       </div>
+    <SecondPasswordModal v-if="showModal" @close="closeModal" @password-verified="handlePasswordVerified" />
+
     </div>
   </main>
 </template>
