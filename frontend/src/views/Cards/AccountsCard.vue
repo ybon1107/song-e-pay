@@ -1,11 +1,6 @@
 <template>
   <div v-if="user">
-    <div
-      class="card card-img-bg"
-      :id="props.assetType === 'song-e' ? 'card-songe' : 'card-wone'"
-      :style="{ backgroundImage: `url(${backgroundImage})` }"
-      :class="props.assetType === 'song-e' ? 'bg-primary' : 'bg-info'"
-    >
+    <div class="card card-img-bg" :id="props.assetType === 'song-e' ? 'card-songe' : 'card-wone'" :style="{ backgroundImage: `url(${backgroundImage})` }" :class="props.assetType === 'song-e' ? 'bg-primary' : 'bg-info'">
       <div class="card-body d-flex align-items-end justify-content-end">
         <div class="d-flex align-items-center">
           <div class="icon-container me-2">
@@ -23,7 +18,7 @@
 </template>
 
 <script setup>
-import { defineProps, ref, computed, watchEffect } from 'vue';
+import { defineProps, ref, computed,watchEffect } from 'vue';
 import myaccountApi from '../../api/myaccountApi';
 import { CURRENCY_NAME } from '@/constants/countryCode';
 
@@ -50,9 +45,7 @@ const flagIcon = computed(() => {
   return `/images/flag_c${iconName}.png`;
 });
 const displayCountry = computed(() => {
-  return props.assetType === 'song-e'
-    ? CURRENCY_NAME[user.value?.countryCode]
-    : CURRENCY_NAME[0];
+  return props.assetType === 'song-e' ? CURRENCY_NAME[user.value?.countryCode] : CURRENCY_NAME[0];
 });
 
 const fetchBalance = async () => {
@@ -60,23 +53,19 @@ const fetchBalance = async () => {
 
   if (props.assetType === 'song-e') {
     try {
-      const fetchedBalance = await myaccountApi.fetchsongeAccountBalance(
-        user.value.songNo
-      );
+      const fetchedBalance = await myaccountApi.fetchsongeAccountBalance(user.value.songNo);
       balance.value = formatNumber(fetchedBalance.toFixed(2));
       // balance.value = formatCurrency(fetchedBalance, INTL_LOCALE[user.value.countryCode], CURRENCY_NAME[user.value.countryCode]);
     } catch (error) {
-      console.error('Error fetching song-e balance:', error);
+      console.error("Error fetching song-e balance:", error);
     }
   } else {
     try {
-      const fetchedBalance = await myaccountApi.fetchkrwAccountBalance(
-        user.value.krwNo
-      );
+      const fetchedBalance = await myaccountApi.fetchkrwAccountBalance(user.value.krwNo);
       balance.value = formatNumber(fetchedBalance.toFixed(2));
       // formatCurrency(fetchedBalance, INTL_LOCALE[0], CURRENCY_NAME[0]);
     } catch (error) {
-      console.error('Error fetching KRW balance:', error);
+      console.error("Error fetching KRW balance:", error);
     }
   }
 };
@@ -93,19 +82,19 @@ defineExpose({ fetchBalance });
 </script>
 
 <style scoped>
-/* acountscard가 선택됐을 때 */
-.selected #card-songe {
-  border: 3px solid #ffd166;
-  box-shadow: 0 0 30px #ffd166;
-  transform: scale(1.08);
-  transition: all 0.3s ease;
-}
-.selected #card-wone {
-  border: 3px solid #5c9ea6;
-  box-shadow: 0 0 30px #5c9ea6;
-  transform: scale(1.08);
-  transition: all 0.3s ease;
-}
+ /* acountscard가 선택됐을 때 */
+ .selected #card-songe {
+    border: 3px solid #FFD166; 
+   box-shadow: 0 0 30px #FFD166;
+   transform: scale(1.08);
+   transition: all 0.3s ease;
+ }
+ .selected #card-wone {
+    border: 3px solid #5C9EA6 ;
+   box-shadow: 0 0 30px #5C9EA6 ;
+   transform: scale(1.08);
+   transition: all 0.3s ease;
+ }
 
 @media (max-width: 500px) {
   .card {

@@ -1,11 +1,11 @@
 <template>
   <div class="container-fluid">
     <br />
-    <h3 class="mapsFont">{{ $t('map--title') }}</h3>
+    <h3 class="mapsFont">{{ $t("map--title") }}</h3>
 
     <div class="row mb-3 mapSelect">
       <!-- 광역시/도 선택 -->
-      <div class="col-md-3 col-sm-3 d-flex align-items-end mb-2">
+      <div class="col-md-2 col-sm-3 d-flex align-items-end mb-2">
         <select
           v-model="selectedProvince"
           @change="fetchCities"
@@ -13,7 +13,7 @@
           class="form-select form-field-radius"
         >
           <option value="" disabled selected>
-            {{ $t('map--select-cityLabel') }}
+            {{ $t("map--select-cityLabel") }}
           </option>
           <option
             v-for="province in provinces"
@@ -26,14 +26,14 @@
       </div>
 
       <!-- 시/군/구 선택 -->
-      <div class="col-md-3 col-sm-3 d-flex align-items-end mb-2">
+      <div class="col-md-2 col-sm-3 d-flex align-items-end mb-2">
         <select
           v-model="selectedCity"
           id="district-select"
           class="form-select form-field-radius"
         >
           <option value="" disabled selected>
-            {{ $t('map--select-districtLabel') }}
+            {{ $t("map--select-districtLabel") }}
           </option>
           <option v-for="city in cities" :key="city" :value="city">
             {{ $t(city) }}
@@ -48,7 +48,7 @@
           @click="searchBank"
         >
           <i class="mdi mdi-map-search-outline"></i>
-          {{ $t('map--button-search') }}
+          {{ $t("map--button-search") }}
         </button>
       </div>
 
@@ -58,7 +58,7 @@
           class="btn btn-secondary w-100 form-field-radius mb-0"
           @click="findUserLocation"
         >
-          {{ $t('map--mylocation') }}
+          내 위치에서 찾기
         </button>
       </div>
     </div>
@@ -71,7 +71,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted } from "vue";
 import {
   PROVINCES,
   SEOUL_CITIES,
@@ -91,15 +91,15 @@ import {
   GYEONGSANGBUK_CITIES,
   GYEONGSANGNAM_CITIES,
   JEJU_CITIES,
-} from '../../constants/localUnits';
-import { useI18n } from 'vue-i18n';
+} from "../../constants/localUnits";
+import { useI18n } from "vue-i18n";
 const { t } = useI18n();
 
 const map = ref(null);
 const service = ref(null);
 const geocoder = ref(null);
-const selectedProvince = ref('');
-const selectedCity = ref('');
+const selectedProvince = ref("");
+const selectedCity = ref("");
 const provinces = ref(PROVINCES);
 const cities = ref([]);
 const markers = ref([]); // To hold marker instances
@@ -110,7 +110,7 @@ onMounted(() => {
 });
 
 function initMap() {
-  map.value = new google.maps.Map(document.getElementById('map'), {
+  map.value = new google.maps.Map(document.getElementById("map"), {
     center: { lat: 37.5665, lng: 126.978 }, // Initial map center at Seoul
     zoom: 12,
   });
@@ -133,11 +133,11 @@ function findUserLocation() {
         searchNearbyBanks(userLocation);
       },
       () => {
-        alert('위치 정보를 사용할 수 없습니다.');
+        alert("위치 정보를 사용할 수 없습니다.");
       }
     );
   } else {
-    alert('사용자의 브라우저에서 위치 정보를 지원하지 않습니다.');
+    alert("사용자의 브라우저에서 위치 정보를 지원하지 않습니다.");
   }
 }
 
@@ -150,9 +150,9 @@ function setUserMarker(location) {
     position: location,
     map: map.value,
     icon: {
-      url: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png', // 파란색 마커
+      url: "http://maps.google.com/mapfiles/ms/icons/blue-dot.png", // 파란색 마커
     },
-    title: '나의 위치',
+    title: "나의 위치",
   });
 }
 
@@ -160,8 +160,8 @@ function setUserMarker(location) {
 function searchNearbyBanks(location) {
   const request = {
     location: location,
-    radius: 2000, // 3km 반경 내에서 검색
-    query: 'KB국민은행',
+    radius: 3000, // 3km 반경 내에서 검색
+    query: "KB국민은행",
   };
 
   service.value.textSearch(request, (places, status) => {
@@ -170,7 +170,7 @@ function searchNearbyBanks(location) {
 
       places.forEach((place) => {
         // 검색 결과에서 ATM과 국민카드가 포함된 결과는 제외
-        if (!place.name.includes('ATM') && !place.name.includes('국민카드')) {
+        if (!place.name.includes("ATM") && !place.name.includes("국민카드")) {
           const marker = new google.maps.Marker({
             map: map.value,
             position: place.geometry.location,
@@ -182,7 +182,7 @@ function searchNearbyBanks(location) {
             <strong>주소:</strong> ${place.formatted_address}</div>`,
           });
 
-          marker.addListener('click', () => {
+          marker.addListener("click", () => {
             infoWindow.open(map.value, marker);
           });
 
@@ -190,7 +190,7 @@ function searchNearbyBanks(location) {
         }
       });
     } else {
-      console.error('Places search was not successful:', status);
+      console.error("Places search was not successful:", status);
     }
   });
 }
@@ -201,7 +201,7 @@ function getTodayOpeningHours(openingHours) {
   const todayHours = openingHours[todayIndex]; // 오늘에 해당하는 운영시간 가져오기
 
   // 운영시간 문자열에서 콜론(:) 이후의 시간 부분만 추출
-  return todayHours ? todayHours.split(': ')[1] : '운영시간 정보 없음';
+  return todayHours ? todayHours.split(": ")[1] : "운영시간 정보 없음";
 }
 
 // 기존 마커 제거 함수
@@ -254,25 +254,10 @@ function fetchCities() {
 }
 
 function searchBank() {
-  const provinceKey = selectedProvince.value;
-  const cityKey = selectedCity.value;
-
-  // 영어로 된 위치 정보 생성
-  const provinceEnglish = getEnglishName(provinceKey);
-  const cityEnglish = getEnglishName(cityKey);
-  const locationEnglish = `${provinceEnglish} ${cityEnglish}`;
-
-  // 한국어로 된 위치 정보 (표시용)
-  const provinceKorean = t(provinceKey);
-  const cityKorean = t(cityKey);
-  const locationKorean = `${provinceKorean} ${cityKorean}`;
-
-  console.log('location (Korean)', locationKorean);
-  console.log('location (English)', locationEnglish);
-  console.log('selectedCity', cityKey);
+  const location = `${selectedProvince.value} ${selectedCity.value}`;
 
   // Geocoding을 사용하여 선택된 위치의 위도와 경도를 가져옴
-  geocoder.value.geocode({ address: locationEnglish }, (results, status) => {
+  geocoder.value.geocode({ address: location }, (results, status) => {
     if (status === google.maps.GeocoderStatus.OK && results.length > 0) {
       const result = results[0];
       const resultLocation = result.geometry.location;
@@ -295,8 +280,8 @@ function searchBank() {
       );
 
       const request = {
-        bounds: bounds,
-        query: `KB Kookmin Bank ${cityEnglish}`, // 영어로 된 도시 이름 사용
+        bounds: bounds, // 경계 설정을 추가
+        query: `KB국민은행 ${selectedCity.value}`, // 쿼리에 선택한 구를 추가
       };
 
       // 장소 검색 수행
@@ -307,8 +292,8 @@ function searchBank() {
           places.forEach((place) => {
             // 검색 결과에서 ATM과 국민카드가 포함된 결과는 제외
             if (
-              !place.name.includes('ATM') &&
-              !place.name.includes('국민카드')
+              !place.name.includes("ATM") &&
+              !place.name.includes("국민카드")
             ) {
               const marker = new google.maps.Marker({
                 map: map.value,
@@ -319,7 +304,7 @@ function searchBank() {
               // Places Details 요청을 통해 세부 정보를 가져옴
               const detailsRequest = {
                 placeId: place.place_id,
-                fields: ['name', 'formatted_address', 'opening_hours'], // 필요한 정보 필드 설정
+                fields: ["name", "formatted_address", "opening_hours"], // 필요한 정보 필드 설정
               };
 
               service.value.getDetails(
@@ -327,7 +312,7 @@ function searchBank() {
                 (placeDetails, status) => {
                   if (status === google.maps.places.PlacesServiceStatus.OK) {
                     // 오늘의 운영시간 가져오기
-                    let todayOpeningHours = t('map--marker-box-openingHours');
+                    let todayOpeningHours = t("map--marker-box-openingHours");
                     if (
                       placeDetails.opening_hours &&
                       placeDetails.opening_hours.weekday_text
@@ -340,8 +325,8 @@ function searchBank() {
                       let weekdayText = placeDetails.opening_hours.weekday_text;
                       const firstDayText = weekdayText[0].toLowerCase();
                       const isSundayFirst =
-                        firstDayText.includes('sunday') ||
-                        firstDayText.includes('일요일');
+                        firstDayText.includes("sunday") ||
+                        firstDayText.includes("일요일");
 
                       // 요일 인덱스 조정
                       let correctedIndex = isSundayFirst
@@ -352,13 +337,13 @@ function searchBank() {
 
                       // 오늘의 운영 시간만 출력
                       let openingHoursText =
-                        weekdayText[correctedIndex] || '운영시간 정보 없음';
+                        weekdayText[correctedIndex] || "운영시간 정보 없음";
 
                       // "요일: 시간" 형식에서 시간 부분만 추출
-                      if (openingHoursText.includes(': ')) {
-                        todayOpeningHours = openingHoursText.split(': ')[1]; // 시간만 추출
+                      if (openingHoursText.includes(": ")) {
+                        todayOpeningHours = openingHoursText.split(": ")[1]; // 시간만 추출
                       } else {
-                        todayOpeningHours = '운영시간 정보 없음';
+                        todayOpeningHours = "운영시간 정보 없음";
                       }
                     }
 
@@ -369,37 +354,26 @@ function searchBank() {
 <strong>오늘의 운영시간:</strong> ${todayOpeningHours}</div>`,
                     });
 
-                    marker.addListener('click', () => {
+                    marker.addListener("click", () => {
                       infoWindow.open(map.value, marker);
                     });
 
                     markers.value.push(marker); // 마커 배열에 추가
                   } else {
-                    console.error('Place details request failed:', status);
+                    console.error("Place details request failed:", status);
                   }
                 }
               );
             }
           });
         } else {
-          console.error('Places search was not successful:', status);
+          console.error("Places search was not successful:", status);
         }
       });
     } else {
-      console.error('Geocode was not successful:', status);
+      console.error("Geocode was not successful:", status);
     }
   });
-}
-
-// 키를 영어 이름으로 변환하는 함수
-function getEnglishName(key) {
-  const englishNames = {
-    'province--seoul': 'Seoul',
-    'city--seoul-1': 'Gangnam-gu',
-    'city--seoul-2': 'Gangdong-gu',
-    // ... 다른 도시들에 대한 영어 이름 매핑
-  };
-  return englishNames[key] || key;
 }
 </script>
 

@@ -1,14 +1,7 @@
 <template>
-  <Modal
-    title="histories--modal-title"
-    :isVisible="isVisible"
-    :showFooter="false"
-    @close="closeModal"
-  >
+  <Modal title="histories--modal-title" :isVisible="isVisible" :showFooter="false" @close="closeModal">
     <h4>
-      <span :class="getBadgeClass(transaction?.typeCode)">{{
-        $t(transaction?.i18nType)
-      }}</span>
+      <span :class="getBadgeClass(transaction?.typeCode)">{{ $t(transaction?.i18nType) }}</span>
     </h4>
     <p class="font-weight-bold mb-0 mt-3">
       {{ transaction?.historyContent }}
@@ -18,9 +11,7 @@
       <span v-if="songTransactionType.includes(transaction.typeCode)">
         {{ songCurrencyUnit }}
       </span>
-      <span v-else-if="wonTransactionType.includes(transaction.typeCode)">
-        KRW
-      </span>
+      <span v-else-if="wonTransactionType.includes(transaction.typeCode)"> KRW </span>
     </p>
     <hr />
 
@@ -33,23 +24,10 @@
     <argon-alert v-if="showAlert" class="mt-3" :color="alertColor">
       {{ $t(alertMessage) }}
     </argon-alert>
-    <textarea
-      v-model="localMemo"
-      class="form-control fixed-textarea"
-      id="memo"
-      rows="3"
-      :placeholder="$t('histories--modal-enterMemo')"
-    ></textarea>
+    <textarea v-model="localMemo" class="form-control fixed-textarea" id="memo" rows="3" :placeholder="$t('histories--modal-enterMemo')"></textarea>
     <hr />
 
-    <div
-      class="flex-justify-between"
-      v-if="
-        [TRANSACTION_TYPES.EXCHANGE, TRANSACTION_TYPES.RE_EXCHANGE].includes(
-          transaction?.typeCode
-        )
-      "
-    >
+    <div class="flex-justify-between" v-if="[TRANSACTION_TYPES.EXCHANGE, TRANSACTION_TYPES.RE_EXCHANGE].includes(transaction?.typeCode)">
       <strong>{{ $t('histories--modal-exchangeRate') }}</strong>
       <p>{{ transaction?.exchangeRate }}</p>
     </div>
@@ -117,13 +95,9 @@ const getBadgeClass = (typeCode) => {
   const baseClasses = 'badge rounded-pill';
   if ([TRANSACTION_TYPES.DEPOSIT].includes(typeCode)) {
     return `${baseClasses} bg-primary`;
-  } else if (
-    [TRANSACTION_TYPES.REFUND, TRANSACTION_TYPES.RE_EXCHANGE].includes(typeCode)
-  ) {
+  } else if ([TRANSACTION_TYPES.REFUND, TRANSACTION_TYPES.RE_EXCHANGE].includes(typeCode)) {
     return `${baseClasses} bg-danger`;
-  } else if (
-    [TRANSACTION_TYPES.PAYMENT, TRANSACTION_TYPES.TRANSFER].includes(typeCode)
-  ) {
+  } else if ([TRANSACTION_TYPES.PAYMENT, TRANSACTION_TYPES.TRANSFER].includes(typeCode)) {
     return `${baseClasses} bg-success`;
   }
   return `${baseClasses} bg-secondary`;

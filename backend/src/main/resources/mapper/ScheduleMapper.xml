@@ -17,8 +17,8 @@
         SELECT *
         FROM event
         WHERE user_id = #{userId}
-          AND begin_date <![CDATA[ >= ]]> DATE_SUB(DATE(CONCAT(#{year}, '-', #{month}, '-01')), INTERVAL 15 DAY)
-          AND end_date <![CDATA[ <= ]]> DATE_ADD(LAST_DAY(DATE(CONCAT(#{year}, '-', #{month}, '-01'))), INTERVAL 15 DAY)
+        AND begin_date <![CDATA[ >= ]]> DATE_SUB(DATE(CONCAT(#{year}, '-', #{month}, '-01')), INTERVAL 15 DAY)
+        AND end_date <![CDATA[ <= ]]> DATE_ADD(LAST_DAY(DATE(CONCAT(#{year}, '-', #{month}, '-01'))), INTERVAL 15 DAY)
         ORDER BY begin_date
     </select>
 

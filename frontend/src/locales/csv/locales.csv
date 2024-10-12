@@ -42,7 +42,7 @@ map--select-cityLabel,광역시/도,City/Province,Kota,Thành phố
 map--select-districtLabel,시/군/구,District/County/Gu,Pilih Kota/Kabupaten,Chọn quận/huyện
 map--button-search,찾기,Find,Cari,Tìm
 map--address,주소,Address,Alamat,Địa chỉ
-map--mylocation,내 위치,Find nearby,Cari lokasi,Tìm quanh đây
+map-mylocation,내 위치에서 찾기,Find from my location,Cari dari lokasi saya,Tìm từ vị trí của tôi
 map--marker-box-openingHours,운영시간 정보 없음,Operating hours not available,Informasi jam operasional tidak tersedia,Không có thông tin giờ hoạt động
 payment--passwordInput--title,비밀번호 입력,Enter Password,Masukkan Kata Sandi,Nhập mật khẩu
 payment--passwordInput--instruction,6자리 비밀번호를 입력해주세요,Please enter a 6-digit password,Masukkan kata sandi 6 digit,Vui lòng nhập mật khẩu 6 chữ số
@@ -718,7 +718,7 @@ myAccount-transferto-checkEmail,이메일 확인이 필요합니다.,Email confi
 myAccount-transferto-notificationInput,본인이 아닌 다른 회원의 이메일을 입력하세요.,Please enter the email of a member other than yourself.,Harap masukkan email anggota selain diri Anda sendiri.,Vui lòng nhập email của thành viên khác ngoài bạn.
 myAccount--Alert-swal-requestDelete,정말로 삭제하시겠습니까?,Are you sure you want to delete?,Apakah Anda yakin ingin menghapus?,Bạn có chắc chắn muốn xóa không?
 myAccount--Alert-swal-warningDeleteAlert,삭제된 알림 설정은 복구할 수 없습니다!,Deleted notification settings cannot be restored!,Pengaturan notifikasi yang dihapus tidak dapat dipulihkan!,Cài đặt thông báo đã xóa không thể khôi phục!
-myAccount--Alert-swal-deleteAlert, 확인,Sure,Tentu saja,Chắc chắn rồi
+myAccount--Alert-swal-deleteAlert,네, 삭제합니다,Yes, delete it,Ya, hapus,Có, xóa
 myAccount--Alert-swal-suceess,삭제 완료!,Delete complete!,Penghapusan selesai!,Hoàn tất xóa!
 myAccount--Alert-swal-setSuccess,알림 설정이 삭제되었습니다.,Notification settings have been deleted.,Pengaturan notifikasi telah dihapus.,Cài đặt thông báo đã được xóa.
 myAccount--Alert-swal-fail,오류 발생,Error occurred,Terjadi kesalahan,Đã xảy ra lỗi
@@ -727,11 +727,3 @@ myAccount--error-overAmount,잔액을 초과합니다.,Exceeds balance.,Melebihi
 myAccount--error-notZero,0이 아닌 값을 입력하세요.,Please enter a non-zero value.,Harap masukkan nilai selain nol.,Vui lòng nhập giá trị khác 0.
 myAccount-transferto-emailNotCorrect,입력하신 이메일과 일치하지 않습니다.,It does not match the email you entered.,Ini tidak cocok dengan email yang Anda masukkan.,Nó không khớp với email bạn đã nhập.,,
 profile--personaladdress,개인 거주지 주소,Personal address,Alamat pribadi,Địa chỉ cá nhân
-myAccount--autoExchange-title,자동 환전 설정 내역,Auto Exchange Settings,Pengaturan Tukar Otomatis,Cài đặt đổi tiền tự động
-myAccount--autoExchange-noReservationAuto,자동 환전 예약 내역이 없습니다.,No auto exchange reservations.,Tidak ada reservasi tukar otomatis.,Không có lịch đổi tiền tự động.
-myAccount--exchangeRate-settingHistory,환율 알림 설정 내역,Exchange Rate Alert Settings,Pengaturan Peringatan Kurs,Cài đặt cảnh báo tỷ giá
-myAccount--exchangeRate-baseCurrency,기준 통화,Base Currency,Mata Uang Dasar,Tiền tệ Cơ bản
-myAccount--exchangeRate-targetCurrency,대상 통화,Target Currency,Mata Uang Tujuan,Tiền tệ Mục tiêu
-myAccount--exchangeRate-targetExchangeRate,목표 환율,Target Exchange Rate,Kurs Target,Tỷ giá Mục tiêu
-myAccount--exchangeRate-targetKrw,목표 KRW 금액,Target KRW Amount,Jumlah KRW Target,Số tiền KRW Mục tiêu
-myAccount--exchangeRate-noReservationAlert,환율 알림 예약 내역이 없습니다.,No exchange rate alert reservations.,Tidak ada reservasi peringatan kurs.,Không có lịch cảnh báo tỷ giá.

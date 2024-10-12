@@ -12,9 +12,9 @@ import java.util.Date;
 public class JwtProcessor {
     static private final long TOKEN_VALID_MILISECOND = 1000L * 60 * 60 * 2; // 토큰 유효 시간 2시간
 
-    //    private String secretKey = "Enough long random secret key string assignment "; // 충분히 긴 임의의(랜덤한) 비밀키 문자열 배정
+//    private String secretKey = "Enough long random secret key string assignment "; // 충분히 긴 임의의(랜덤한) 비밀키 문자열 배정
 //    private Key key = Keys.hmacShaKeyFor(secretKey.getBytes(StandardCharsets.UTF_8));
-    private Key key = Keys.secretKeyFor(SignatureAlgorithm.HS256); // HS256 알고리즘을 사용하는 키 생성
+       private Key key = Keys.secretKeyFor(SignatureAlgorithm.HS256); // HS256 알고리즘을 사용하는 키 생성
 
     // JWT 생성
     public String generateToken(String subject) {

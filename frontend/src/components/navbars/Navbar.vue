@@ -32,12 +32,7 @@
             </router-link>
           </li> -->
           <li class="nav-item d-xl-none ps-3 d-flex align-items-center me-3">
-            <a
-              href="#"
-              @click="minimizeSidebar"
-              class="p-0 nav-link"
-              id="iconNavbarSidenav"
-            >
+            <a href="#" @click="minimizeSidebar" class="p-0 nav-link" id="iconNavbarSidenav">
               <div class="sidenav-toggler-inner">
                 <i class="sidenav-toggler-line fixed-width"></i>
                 <i class="sidenav-toggler-line"></i>
@@ -48,33 +43,15 @@
 
           <!-- 언어 선택 -->
           <li class="nav-item dropdown language-dropdown border rounded">
-            <a
-              class="nav-link dropdown-toggle d-flex align-items-center"
-              href="#"
-              id="languageDropdown"
-              role="button"
-              data-bs-toggle="dropdown"
-              aria-expanded="false"
-            >
-              <img
-                :src="getFlagSrc(currentLanguage)"
-                alt="Flag"
-                class="me-2 flag-icon"
-              />
+            <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="languageDropdown" role="button"
+              data-bs-toggle="dropdown" aria-expanded="false">
+              <img :src="getFlagSrc(currentLanguage)" alt="Flag" class="me-2 flag-icon" />
               {{ currentLanguage }}
             </a>
             <ul class="dropdown-menu" aria-labelledby="languageDropdown">
               <li v-for="lang in languages" :key="lang.code">
-                <a
-                  class="dropdown-item d-flex align-items-center"
-                  href="#"
-                  @click="changeLanguage(lang.code)"
-                >
-                  <img
-                    :src="lang.flag"
-                    :alt="`${lang.name} Flag`"
-                    class="me-2 flag-icon"
-                  />
+                <a class="dropdown-item d-flex align-items-center" href="#" @click="changeLanguage(lang.code)">
+                  <img :src="lang.flag" :alt="`${lang.name} Flag`" class="me-2 flag-icon" />
                   {{ lang.name }}
                 </a>
               </li>
@@ -82,28 +59,16 @@
           </li>
 
           <!-- 알림 -->
-          <li
-            class="px-3 nav-item dropdown d-flex align-items-center notification-dropdown"
-          >
-            <a
-              href="#"
-              class="p-0 nav-link"
-              :class="[showMenu ? 'show' : '']"
-              id="dropdownMenuButton"
-              data-bs-toggle="dropdown"
-              aria-expanded="false"
-              @click="showMenu = !showMenu"
-              @blur="closeMenu"
-            >
+          <li class="px-3 nav-item dropdown d-flex align-items-center notification-dropdown">
+            <a href="#" class="p-0 nav-link" :class="[showMenu ? 'show' : '']" id="dropdownMenuButton"
+              data-bs-toggle="dropdown" aria-expanded="false" @click="showMenu = !showMenu" @blur="closeMenu">
               <div class="icon-div">
                 <i class="cursor-pointer fa fa-bell"></i>
               </div>
             </a>
-            <ul
-              class="px-2 py-3 dropdown-menu dropdown-menu-end me-sm-n4"
-              :class="showMenu ? 'show' : ''"
-              aria-labelledby="dropdownMenuButton"
-            >
+            <ul class="px-2 py-3 dropdown-menu dropdown-menu-end me-sm-n4" :class="showMenu ? 'show' : ''"
+              aria-labelledby="dropdownMenuButton">
+
               <li class="mb-2">
                 <a class="dropdown-item border-radius-md" href="javascript:;">
                   <div class="py-1 d-flex">
@@ -127,6 +92,7 @@
                   </div>
                 </a>
               </li>
+              
             </ul>
           </li>
           <!-- 프로필 -->
@@ -144,23 +110,23 @@
 </template>
 
 <script setup>
-import { computed, ref, onMounted, watchEffect } from 'vue';
-import { useStore } from 'vuex';
+import { computed, ref, onMounted, watchEffect } from "vue";
+import { useStore } from "vuex";
 // import { useRoute } from "vue-router";
-import { useExchangeStore } from '@/stores/exchangeStore';
-import { CURRENCY_NAME } from '@/constants/countryCode';
+import { useExchangeStore } from "@/stores/exchangeStore";
+import { CURRENCY_NAME } from "@/constants/countryCode";
 
-import { useAuthStore } from '@/stores/auth';
-import userApi from '@/api/userApi';
-import axios from 'axios';
-import { useI18n } from 'vue-i18n';
-import { languages } from '@/constants/languages';
+import { useAuthStore } from "@/stores/auth";
+import userApi from "@/api/userApi";
+import axios from "axios";
+import { useI18n } from "vue-i18n";
+import { languages } from "@/constants/languages";
 
 const auth = useAuthStore();
 const user = computed(() => auth.user);
 
 const exchangeStore = useExchangeStore();
-const userImg = ref('');
+const userImg = ref("");
 
 const isLogin = computed(() => auth.isLogin);
 const userId = computed(() => auth.userId);
@@ -173,9 +139,9 @@ watchEffect(() => {
   }
 });
 
-console.log('nav isLogin : ', isLogin);
-console.log('nav userId : ', userId);
-console.log('nav user : ', user);
+console.log("nav isLogin : ", isLogin);
+console.log("nav userId : ", userId);
+console.log("nav user : ", user);
 
 const showMenu = ref(false);
 const store = useStore();
@@ -185,7 +151,7 @@ const { locale } = useI18n();
 
 const currentLanguage = computed(() => {
   const currentLang = languages.find((lang) => lang.code === locale.value);
-  return currentLang ? currentLang.name : 'Unknown';
+  return currentLang ? currentLang.name : "Unknown";
 });
 
 const changeLanguage = (langCode) => {
@@ -194,7 +160,7 @@ const changeLanguage = (langCode) => {
 
 const getFlagSrc = (languageName) => {
   const lang = languages.find((lang) => lang.name === languageName);
-  return lang ? lang.flag : '';
+  return lang ? lang.flag : "";
 };
 
 // const route = useRoute();
@@ -207,7 +173,7 @@ const getFlagSrc = (languageName) => {
 //   return dir.charAt(0).toUpperCase() + dir.slice(1);
 // });
 
-const minimizeSidebar = () => store.commit('sidebarMinimize');
+const minimizeSidebar = () => store.commit("sidebarMinimize");
 
 const closeMenu = () => {
   setTimeout(() => {
@@ -226,7 +192,7 @@ const fetchExchangeRates = async () => {
     ]);
 
     if (!usdToKrwResponse.ok || !krwToUsdResponse.ok) {
-      throw new Error('Network response was not ok');
+      throw new Error("Network response was not ok");
     }
 
     const [usdToKrwData, krwToUsdData] = await Promise.all([
@@ -240,7 +206,7 @@ const fetchExchangeRates = async () => {
     exchangeStore.setCurrentToKrw(currentToKrw);
     exchangeStore.setCurrentFromKrw(currentFromKrw);
 
-    console.log('환율 데이터가 성공적으로 로드되었습니다.');
+    console.log("환율 데이터가 성공적으로 로드되었습니다.");
 
     // 백엔드로 환율 데이터 전송
     await saveExchangeRates([
@@ -256,17 +222,17 @@ const fetchExchangeRates = async () => {
       },
     ]);
   } catch (error) {
-    console.error('Error fetching exchange rate data', error);
+    console.error("Error fetching exchange rate data", error);
   }
 };
 
 const saveExchangeRates = async (rates) => {
   try {
-    const response = await axios.post('/api/exchange/rates', rates);
-    console.log('환율 데이터가 성공적으로 저장되었습니다:', response.data);
+    const response = await axios.post("/api/exchange/rates", rates);
+    console.log("환율 데이터가 성공적으로 저장되었습니다:", response.data);
   } catch (error) {
     console.error(
-      '환율 데이터 저장 중 오류 발생:',
+      "환율 데이터 저장 중 오류 발생:",
       error.response ? error.response.data : error.message
     );
   }
@@ -279,7 +245,7 @@ onMounted(async () => {
     userImg.value = user.value?.profilePic;
     fetchExchangeRates();
   } else {
-    console.error('사용자 ID를 찾을 수 없습니다.');
+    console.error("사용자 ID를 찾을 수 없습니다.");
   }
 });
 </script>
@@ -299,9 +265,9 @@ onMounted(async () => {
 }
 
 @font-face {
-  font-family: 'HakgyoansimDunggeunmisoTTF-B';
-  src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/2408-5@1.0/HakgyoansimDunggeunmisoTTF-B.woff2')
-    format('woff2');
+  font-family: "HakgyoansimDunggeunmisoTTF-B";
+  src: url("https://fastly.jsdelivr.net/gh/projectnoonnu/2408-5@1.0/HakgyoansimDunggeunmisoTTF-B.woff2")
+    format("woff2");
   font-weight: 700;
   font-style: normal;
 }
