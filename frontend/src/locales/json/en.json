@@ -42,7 +42,7 @@
   "map--select-districtLabel": "District/County/Gu",
   "map--button-search": "Find",
   "map--address": "Address",
-  "map-mylocation": "Find from my location",
+  "map--mylocation": "Find nearby",
   "map--marker-box-openingHours": "Operating hours not available",
   "payment--passwordInput--title": "Enter Password",
   "payment--passwordInput--instruction": "Please enter a 6-digit password",

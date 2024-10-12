@@ -160,7 +160,7 @@ function setUserMarker(location) {
 function searchNearbyBanks(location) {
   const request = {
     location: location,
-    radius: 3000, // 3km 반경 내에서 검색
+    radius: 2000, // 3km 반경 내에서 검색
     query: 'KB국민은행',
   };
 
@@ -256,7 +256,7 @@ function fetchCities() {
 function searchBank() {
   const provinceKey = selectedProvince.value;
   const cityKey = selectedCity.value;
-  
+
   // 영어로 된 위치 정보 생성
   const provinceEnglish = getEnglishName(provinceKey);
   const cityEnglish = getEnglishName(cityKey);
