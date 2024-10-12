@@ -93,9 +93,9 @@ histories--header-transactionAmount,거래 금액,Transaction Amount,Jumlah Tran
 histories--header-transactionDetail,거래 상세 보기,Details,Rincian,Chi tiết
 histories--searchQuery,검색어를 입력하세요.,Enter a search term.,Masukkan kata pencarian.,Nhập từ khóa tìm kiếm
 histories--filters-period-today,오늘,Today,Hari ini,Hôm nay
-histories--filters-period-oneMonth,1개월,1 Month,1 Bulan,1 tháng
-histories--filters-period-threeMonth,3개월,3 Months,3 Bulan,3 tháng
-histories--filters-period-custom,직접설정,Custom Settings,Pengaturan Kustom,Cài đặt tùy chỉnh
+histories--filters-period-oneMonth,1개월,1 M,1 Bulan,1 tháng
+histories--filters-period-threeMonth,3개월,3 M,3 Bulan,3 tháng
+histories--filters-period-custom,직접설정,Custom,Pengaturan Kustom,Cài đặt tùy chỉnh
 histories--filters-type-all,전체,All,Semua,Tất cả
 histories--filters-type-wone,WON-E,WON-E,WON-E,WON-E
 histories--filters-type-songe,SONG-E,SONG-E,SONG-E,SONG-E
