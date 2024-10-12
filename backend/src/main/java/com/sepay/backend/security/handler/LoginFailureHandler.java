@@ -22,7 +22,7 @@ public class LoginFailureHandler implements AuthenticationFailureHandler {
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response,
                                         AuthenticationException exception) throws IOException, ServletException {
         String errorMessage;
-        
+
         if (exception instanceof WithdrawnUserException) {
             errorMessage = exception.getMessage();
         } else if (exception instanceof UsernameNotFoundException) {

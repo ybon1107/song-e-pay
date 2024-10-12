@@ -25,7 +25,7 @@ public interface UserMapper {
 
     // 이메일로 유저 정보
     UserDTO selectUserByEmail(String email);
-    
+
     int checkEmail(String email);
 
     // 자동환전에서 사용

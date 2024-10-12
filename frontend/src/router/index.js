@@ -132,9 +132,9 @@ const routes = [
 ];
 
 const router = createRouter({
-    history: createWebHistory(process.env.BASE_URL),
-    routes,
-    linkActiveClass: 'active',
+  history: createWebHistory(process.env.BASE_URL),
+  routes,
+  linkActiveClass: 'active',
 });
 
 router.beforeEach((to, from, next) => {
@@ -155,7 +155,7 @@ router.beforeEach((to, from, next) => {
     });
   }
 
-  if ((to.name === 'change-password') && from.name !== 'Profile') {
+  if (to.name === 'change-password' && from.name !== 'Profile') {
     return next({
       name: 'Profile',
     });

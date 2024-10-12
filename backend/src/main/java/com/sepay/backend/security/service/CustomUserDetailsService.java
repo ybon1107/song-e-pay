@@ -34,7 +34,7 @@ public class CustomUserDetailsService implements UserDetailsService {
         }
 
         log.debug("UserVO loaded: {}", userVO);
-       log.debug("AuthList: {}", userVO.getAuthList());
+        log.debug("AuthList: {}", userVO.getAuthList());
         return new CustomUser(userVO);
     }
 }

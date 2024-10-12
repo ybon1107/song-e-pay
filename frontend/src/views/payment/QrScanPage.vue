@@ -1,7 +1,9 @@
 <template>
   <div class="container">
     <div class="row justify-content-center">
-      <div class="mx-auto col-xl-4 col-lg-5 col-md-7 d-flex flex-column mx-lg-0">
+      <div
+        class="mx-auto col-xl-4 col-lg-5 col-md-7 d-flex flex-column mx-lg-0"
+      >
         <div class="d-xl-none">
           <div class="text-center mb-3">
             <form @submit.prevent="handleQRScan">
@@ -12,8 +14,10 @@
             <p>{{ formattedCountdown }}</p>
           </div>
 
-          <div class="btn btn-sm btn-warning mb-0 mx-4 d-flex justify-content-between">
-            <p class="mb-0">{{$t('payment--qrScan--balanceLabel')}}</p>
+          <div
+            class="btn btn-sm btn-warning mb-0 mx-4 d-flex justify-content-between"
+          >
+            <p class="mb-0">보유잔액</p>
             <p class="mb-0">{{ woneMoneyBalance }} KRW</p>
           </div>
         </div>
@@ -23,10 +27,10 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted, onBeforeUnmount } from "vue";
-import { useRouter } from "vue-router";
-import paymentApi from "../../api/paymentApi";
-import Swal from "sweetalert2";
+import { ref, computed, onMounted, onBeforeUnmount } from 'vue';
+import { useRouter } from 'vue-router';
+import paymentApi from '../../api/paymentApi';
+import Swal from 'sweetalert2';
 
 import myaccountApi from '../../api/myaccountApi';
 
@@ -34,14 +38,10 @@ import { useAuthStore } from '@/stores/auth';
 const auth = useAuthStore();
 const user = computed(() => auth.user);
 
-//i18n
-import { useI18n } from 'vue-i18n';
-const { t } = useI18n();
-
 const router = useRouter(); // Router 사용
 
 const REFRESH_INTERVAL = 60; // 갱신 기간 60초
-const qrCodeUrl = ref(""); // QR 코드 이미지의 URL
+const qrCodeUrl = ref(''); // QR 코드 이미지의 URL
 const countdown = ref(REFRESH_INTERVAL); // QR 코드 갱신까지 남은 시간을 저장하는 변수
 
 const woneMoneyBalance = ref(0);
@@ -79,12 +79,12 @@ const startCountdown = () => {
 const formattedCountdown = computed(() => {
   const minutes = Math.floor(countdown.value / 60);
   const seconds = countdown.value % 60;
-  return `${minutes}:${seconds.toString().padStart(2, "0")}`;
+  return `${minutes}:${seconds.toString().padStart(2, '0')}`;
 });
 
 const req = {
   amount: 1000,
-  userDTO: user.value
+  userDTO: user.value,
 };
 
 // QR 스캔 후 처리
@@ -92,20 +92,19 @@ const handleQRScan = async () => {
   try {
     const response = await paymentApi.scanQRCode(req);
     Swal.fire({
-      title: t("swal--title-success"),
-      text: t("payment--swal-success-text"),
-      icon: "success",
+      title: t('swal--title-success'),
+      text: t('payment--swal-success-text'),
+      icon: 'success',
     });
-    router.push("/"); // 홈으로 이동
+    router.push('/'); // 홈으로 이동
   } catch (error) {
     Swal.fire({
-      title: t("swal--title-fail"),
-      text: t("payment--swal-fail-text"),
-      icon: "error",
+      title: t('swal--title-fail'),
+      text: t('payment--swal-fail-text'),
+      icon: 'error',
     });
   }
 };
-
 
 onMounted(() => {
   // KRW 계좌 잔액 조회

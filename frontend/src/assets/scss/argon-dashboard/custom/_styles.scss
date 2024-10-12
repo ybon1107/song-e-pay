@@ -2,14 +2,6 @@
   max-width: 1200px;
 }
 
-.cursor-pointer {
-  cursor: pointer;
-}
-
-.text-blue {
-  color: blue;
-}
-
 .modal-backdrop {
   z-index: 1060 !important;
 }
@@ -168,33 +160,23 @@
 //   background-color: #f0f0f0;
 // }
 
-// 글씨 옆에 국기
-
-.icon-container {
-  /* 뷰포트 너비의 3% */
-  width: 3vw;
-  height: 3vw;
-  /* 최소 크기 설정 */
-  min-width: 20px;
-  min-height: 20px;
-  /* 최대 크기 설정 */
-  max-width: 40px;
-  max-height: 40px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.flag-icon-img {
-  max-width: 100%;
-  max-height: 100%;
-  object-fit: contain;
-}
-
 /* 반응형 스타일 */
 @media (max-width: 768px) {
   .max-margin-bottom {
     margin-bottom: 1rem;
+  }
+
+  .tab-content-width {
+    width: 100%;
+  }
+
+  .alert-icon {
+    opacity: 1;
+  }
+
+  //flex세로 정렬
+  .flex-column-min {
+    flex-direction: column;
   }
 
   .tab-content-width {

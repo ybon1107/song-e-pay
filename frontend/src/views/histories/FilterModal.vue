@@ -5,9 +5,6 @@ import { ref } from 'vue';
 const props = defineProps({
   isVisible: Boolean,
   filters: Object,
-  periods: Array,
-  types: Array,
-  sorts: Array,
 });
 
 // 이벤트 emit 정의
@@ -43,49 +40,65 @@ const applyFilters = () => {
 </script>
 
 <template>
-  <div v-if="isVisible" class="modal fade show d-block" tabindex="-1" role="dialog" aria-labelledby="filterModalLabel" aria-hidden="false" @click.self="closeModal">
+  <div
+    v-if="isVisible"
+    class="modal fade show d-block"
+    tabindex="-1"
+    role="dialog"
+    aria-labelledby="filterModalLabel"
+    aria-hidden="false"
+    @click.self="closeModal"
+  >
     <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content">
-        <h4 class="modal-title" id="filterModalLabel">{{ $t('histories--filter-modal-title') }}</h4>
+        <h4 class="modal-title" id="filterModalLabel">필터링 옵션</h4>
         <div class="modal-body">
           <div class="filter-options">
             <!-- 조회기간 선택 -->
             <div class="row mb-3">
-              <label class="form-label">{{ $t('histories--filter-modal-title-period') }}</label>
+              <label class="form-label">조회기간</label>
               <div class="btn-group">
-                <button class="btn btn-outline-info" @click="selectPeriod(periods[0])">
-                  {{ $t(periods[0]) }}
+                <button
+                  class="btn btn-outline-info"
+                  @click="selectPeriod('Today')"
+                >
+                  오늘
                 </button>
-                <button class="btn btn-outline-info" @click="selectPeriod(periods[1])">
-                  {{ $t(periods[1]) }}
+                <button
+                  class="btn btn-outline-info"
+                  @click="selectPeriod('Last 3 Month')"
+                >
+                  3개월
                 </button>
-                <button class="btn btn-outline-info" @click="selectPeriod(periods[2])">
-                  {{ $t(periods[2]) }}
+                <button
+                  class="btn btn-outline-info"
+                  @click="selectPeriod('Last Month')"
+                >
+                  1개월
                 </button>
                 <button class="btn btn-outline-info" @click="selectCustomDate">
-                  {{ $t(periods[3]) }}
+                  직접설정
                 </button>
               </div>
             </div>
-            <!-- <div class="row mb-3">
-                            <label class="form-label">{{$t('histories--filter-modal-title-period')}}</label>
-                            <div class="btn-group">
-                                <button class="btn btn-outline-info" v-for="period in periods" :key="period" @click="selectPeriod(period)">
-                                    {{$t(period)}}
-                                </button>
-                                <button class="btn btn-outline-info" @click="selectCustomDate">
-                                    {{$t('histories--filters-period-custom')}}
-                                </button>
-                            </div>
-                        </div> -->
 
             <!-- 직접설정 기간 선택 탭 -->
             <div class="row mb-3" v-if="isCustomDateSelected">
               <div class="col-6">
-                <input type="date" v-model="filters.startDate" class="form-control" placeholder="시작 날짜" />
+                <input
+                  type="date"
+                  v-model="filters.startDate"
+                  class="form-control"
+                  placeholder="시작 날짜"
+                />
               </div>
               <div class="col-6">
-                <input type="date" v-model="filters.endDate" class="form-control" placeholder="종료 날짜" />
+                <input
+                  type="date"
+                  v-model="filters.endDate"
+                  class="form-control"
+                  placeholder="종료 날짜"
+                />
               </div>
             </div>
 
@@ -93,8 +106,23 @@ const applyFilters = () => {
             <div class="row mb-3">
               <label class="form-label">유형선택</label>
               <div class="btn-group">
-                <button class="btn btn-outline-secondary" v-for="type in types" :key="type" @click="filters.selectedType = type">
-                  {{ $t(type) }}
+                <button
+                  class="btn btn-outline-secondary"
+                  @click="filters.selectedType = 'All'"
+                >
+                  전체
+                </button>
+                <button
+                  class="btn btn-outline-secondary"
+                  @click="filters.selectedType = 'SongEaccount'"
+                >
+                  송이계좌
+                </button>
+                <button
+                  class="btn btn-outline-secondary"
+                  @click="filters.selectedType = 'KRaccount'"
+                >
+                  원화계좌
                 </button>
               </div>
             </div>
@@ -103,16 +131,29 @@ const applyFilters = () => {
             <div class="row mb-3">
               <label class="form-label">정렬선택</label>
               <div class="btn-group">
-                <button class="btn btn-outline-secondary" v-for="sort in sorts" :key="sort" @click="filters.selectedSort = sort">
-                  {{ $t(sort) }}
+                <button
+                  class="btn btn-outline-secondary"
+                  @click="filters.selectedSort = 'Newest'"
+                >
+                  최신순
+                </button>
+                <button
+                  class="btn btn-outline-secondary"
+                  @click="filters.selectedSort = 'Oldest'"
+                >
+                  과거순
                 </button>
               </div>
             </div>
           </div>
         </div>
         <div class="modal-footer">
-          <button class="btn btn-primary" type="button" @click="applyFilters">확인</button>
-          <button type="button" class="btn btn-secondary" @click="closeModal">닫기</button>
+          <button class="btn btn-primary" type="button" @click="applyFilters">
+            확인
+          </button>
+          <button type="button" class="btn btn-secondary" @click="closeModal">
+            닫기
+          </button>
         </div>
       </div>
     </div>

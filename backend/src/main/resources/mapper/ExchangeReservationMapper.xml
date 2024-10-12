@@ -12,7 +12,7 @@
     </insert>
 
     <!-- 알람 내역 화면에 보여주기 -->
-    <select id="selectReservation" parameterType="int" resultType="exchangeReservationDTO">
+    <select id="selectReservation" parameterType="String" resultType="exchangeReservationDTO">
         select res_no, base_code, target_code, target_exchange
         from exchange_reservation
         where user_id = #{userId} and target_krw = 0
@@ -38,7 +38,7 @@
     </insert>
 
     <!-- 자동 환전 예약 화면에 보여주기 -->
-    <select id="selectAutoexchange" parameterType="int" resultType="exchangeReservationDTO">
+    <select id="selectAutoexchange" parameterType="String" resultType="exchangeReservationDTO">
         select res_no, base_code, target_code, target_exchange, target_krw
         from exchange_reservation
         where user_id = #{userId} and target_krw != 0
@@ -49,6 +49,13 @@
         select count(*)
         from exchange_reservation
         where user_id = #{userId} and target_krw != #{targetKrw}
+    </select>
+
+    <!-- 환율 달성한 자동 환전 예약 갯수 -->
+    <select id="countAutoExchange" parameterType="map" resultType="Integer">
+        select count(*)
+        from exchange_reservation
+        where <![CDATA[targetExchange <= #{targetExchange} and target_krw != #{targetKrw}]]>
     </select>
 
     <!-- 자동 환전 완료한 후 삭제 -->

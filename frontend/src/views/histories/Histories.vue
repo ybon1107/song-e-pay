@@ -7,7 +7,11 @@ import ArgonPagination from '@/components/templates/ArgonPagination.vue';
 import ArgonPaginationItem from '@/components/templates/ArgonPaginationItem.vue';
 import FilterModal from './FilterModal.vue'; // FilterModal.vue 가져오기
 import { CURRENCY_NAME } from '@/constants/countryCode';
-import { TRANSACTION_TYPES, TRANSACTION_TYPES_KEY, TRANSACTION_STATES_KEY } from '@/constants/transactionType';
+import {
+  TRANSACTION_TYPES,
+  TRANSACTION_TYPES_KEY,
+  TRANSACTION_STATES_KEY,
+} from '@/constants/transactionType';
 
 // 유저 권한
 import { useAuthStore } from '@/stores/auth';
@@ -21,12 +25,33 @@ const searchQuery = ref('');
 
 const songCurrencyUnit = computed(() => CURRENCY_NAME[user.value.countryCode]);
 
-const i18n_PERIOD = ['histories--filters-period-today', 'histories--filters-period-oneMonth', 'histories--filters-period-threeMonth', 'histories--filters-period-custom'];
-const i18n_TYPE = ['histories--filters-type-all', 'histories--filters-type-wone', 'histories--filters-type-songe'];
-const i18n_SORT = ['histories--filters-sort-newest', 'histories--filters-sort-oldest'];
+const i18n_PERIOD = [
+  'histories--filters-period-today',
+  'histories--filters-period-oneMonth',
+  'histories--filters-period-threeMonth',
+  'histories--filters-period-custom',
+];
+const i18n_TYPE = [
+  'histories--filters-type-all',
+  'histories--filters-type-wone',
+  'histories--filters-type-songe',
+];
+const i18n_SORT = [
+  'histories--filters-sort-newest',
+  'histories--filters-sort-oldest',
+];
 
-const songTransactionType = [TRANSACTION_TYPES.DEPOSIT, TRANSACTION_TYPES.REFUND, TRANSACTION_TYPES.EXCHANGE, TRANSACTION_TYPES.AUTO_EXCHANGE];
-const wonTransactionType = [TRANSACTION_TYPES.PAYMENT, TRANSACTION_TYPES.TRANSFER, TRANSACTION_TYPES.RE_EXCHANGE];
+const songTransactionType = [
+  TRANSACTION_TYPES.DEPOSIT,
+  TRANSACTION_TYPES.REFUND,
+  TRANSACTION_TYPES.EXCHANGE,
+  TRANSACTION_TYPES.AUTO_EXCHANGE,
+];
+const wonTransactionType = [
+  TRANSACTION_TYPES.PAYMENT,
+  TRANSACTION_TYPES.TRANSFER,
+  TRANSACTION_TYPES.RE_EXCHANGE,
+];
 
 const filters = ref({
   selectedPeriod: i18n_PERIOD[2],
@@ -72,7 +97,9 @@ const applyTransactionFilters = async (resetPage = false) => {
     endDate = moment().endOf('day').toISOString(); // 23:59:59로 설정
   } else if (filters.value.selectedPeriod === i18n_PERIOD[3]) {
     startDate = filters.value.startDate;
-    endDate = filters.value.endDate ? moment(filters.value.endDate).endOf('day').toISOString() : null; // 직접 설정된 날짜의 23:59:59로 설정
+    endDate = filters.value.endDate
+      ? moment(filters.value.endDate).endOf('day').toISOString()
+      : null; // 직접 설정된 날짜의 23:59:59로 설정
   } else {
     console.log('직접 설정 기간이 누락되었습니다.');
   }
@@ -96,7 +123,10 @@ const applyTransactionFilters = async (resetPage = false) => {
   };
 
   try {
-    const response = await historyApi.applyFilters(filterOptions, pageRequest.value);
+    const response = await historyApi.applyFilters(
+      filterOptions,
+      pageRequest.value
+    );
     if (response && Array.isArray(response.list)) {
       totalItems.value = response.totalCount;
       // 정렬 기준에 따라 데이터를 정렬
@@ -139,14 +169,18 @@ onMounted(async () => {
 
 // 메모 업데이트 처리 함수
 const handleMemoUpdate = (updatedMemo) => {
-  const transaction = transactions.value.find((item) => item.historyNo === updatedMemo.historyNo);
+  const transaction = transactions.value.find(
+    (item) => item.historyNo === updatedMemo.historyNo
+  );
   if (transaction) {
     transaction.memo = updatedMemo.memo;
   }
 };
 
 // 페이지네이션 관련 함수
-const totalPages = computed(() => Math.ceil(totalItems.value / pageRequest.value.amount));
+const totalPages = computed(() =>
+  Math.ceil(totalItems.value / pageRequest.value.amount)
+);
 
 const goToPage = async (pageNum) => {
   if (pageNum > 0 && pageNum <= totalPages.value) {
@@ -196,9 +230,17 @@ const getBadgeClass = (typeCode) => {
   const baseClasses = 'badge rounded-pill';
   if ([TRANSACTION_TYPES.DEPOSIT].includes(typeCode)) {
     return `${baseClasses} bg-primary`;
-  } else if ([TRANSACTION_TYPES.REFUND, TRANSACTION_TYPES.RE_EXCHANGE].includes(typeCode)) {
+  } else if (
+    [TRANSACTION_TYPES.REFUND, TRANSACTION_TYPES.RE_EXCHANGE].includes(typeCode)
+  ) {
     return `${baseClasses} bg-danger`;
-  } else if ([TRANSACTION_TYPES.PAYMENT, TRANSACTION_TYPES.TRANSFER, TRANSACTION_TYPES.RECEIVE].includes(typeCode)) {
+  } else if (
+    [
+      TRANSACTION_TYPES.PAYMENT,
+      TRANSACTION_TYPES.TRANSFER,
+      TRANSACTION_TYPES.RECEIVE,
+    ].includes(typeCode)
+  ) {
     return `${baseClasses} bg-success`;
   }
   return `${baseClasses} bg-secondary`;
@@ -214,10 +256,22 @@ const getBadgeClass = (typeCode) => {
         <span class="input-group-text">
           <i class="fas fa-search"></i>
         </span>
-        <input type="text" class="form-control" :placeholder="$t('histories--searchQuery')" v-model="searchQuery" @keyup.enter="applyTransactionFilters(true)" />
+        <input
+          type="text"
+          class="form-control"
+          :placeholder="$t('histories--searchQuery')"
+          v-model="searchQuery"
+          @keyup.enter="applyTransactionFilters(true)"
+        />
       </div>
-      <button class="btn btn-outline-secondary btn-sm mt-2 mt-md-0" type="button" @click="toggleFilterModal" style="padding: 4px 8px; font-size: 0.875rem">
-        {{ $t(filters.selectedPeriod) }} · {{ $t(filters.selectedType) }} · {{ $t(filters.selectedSort) }}
+      <button
+        class="btn btn-outline-secondary btn-sm mt-2 mt-md-0"
+        type="button"
+        @click="toggleFilterModal"
+        style="padding: 4px 8px; font-size: 0.875rem"
+      >
+        {{ $t(filters.selectedPeriod) }} · {{ $t(filters.selectedType) }} ·
+        {{ $t(filters.selectedSort) }}
         <i class="fas fa-chevron-down"></i>
       </button>
     </div>
@@ -227,27 +281,46 @@ const getBadgeClass = (typeCode) => {
         <table class="table align-items-center">
           <thead>
             <tr>
-              <th style="width: 40%" class="text-secondary text-xxs font-weight-bolder opacity-7">
+              <th
+                style="width: 40%"
+                class="text-secondary text-xxs font-weight-bolder opacity-7"
+              >
                 {{ $t('histories--header-transactionDetail') }}
               </th>
-              <th style="width: 30%" class="text-secondary text-xxs font-weight-bolder opacity-7 text-center">
+              <th
+                style="width: 30%"
+                class="text-secondary text-xxs font-weight-bolder opacity-7 text-center"
+              >
                 {{ $t('histories--header-transactionType') }}
               </th>
-              <th style="width: 20%" class="text-secondary text-xxs font-weight-bolder opacity-7">
+              <th
+                style="width: 20%"
+                class="text-secondary text-xxs font-weight-bolder opacity-7"
+              >
                 {{ $t('histories--header-transactionAmount') }}
               </th>
-              <th style="width: 10%" class="text-secondary text-xxs font-weight-bolder opacity-7">
+              <th
+                style="width: 10%"
+                class="text-secondary text-xxs font-weight-bolder opacity-7"
+              >
                 {{ $t('histories--header-dateTime') }}
               </th>
             </tr>
           </thead>
           <tbody>
-            <tr v-for="transaction in transactions" :key="transaction.historyNo" @click="openModal(transaction)" style="cursor: pointer">
+            <tr
+              v-for="transaction in transactions"
+              :key="transaction.historyNo"
+              @click="openModal(transaction)"
+              style="cursor: pointer"
+            >
               <td>
                 {{ $t(transaction.historyContent) }}
               </td>
               <td class="text-center">
-                <span :class="getBadgeClass(transaction?.typeCode)">{{ $t(transaction.i18nType) }}</span>
+                <span :class="getBadgeClass(transaction?.typeCode)">{{
+                  $t(transaction.i18nType)
+                }}</span>
                 <!-- <span
                                     v-if="[TRANSACTION_TYPES.DEPOSIT, TRANSACTION_TYPES.EXCHANGE, TRANSACTION_TYPES.REFUND].includes(transaction.typeCode)"
                                     class="badge badge-sm bg-gradient-success">
@@ -264,7 +337,11 @@ const getBadgeClass = (typeCode) => {
                 <span v-if="songTransactionType.includes(transaction.typeCode)">
                   {{ songCurrencyUnit }}
                 </span>
-                <span v-else-if="wonTransactionType.includes(transaction.typeCode)"> KRW </span>
+                <span
+                  v-else-if="wonTransactionType.includes(transaction.typeCode)"
+                >
+                  KRW
+                </span>
               </td>
               <td>
                 {{ transaction.historyDate }}
@@ -277,7 +354,11 @@ const getBadgeClass = (typeCode) => {
       <!-- 페이지네이션 컨트롤 -->
       <div class="d-flex justify-content-center">
         <argon-pagination class="mb-0" :color="'secondary'">
-          <argon-pagination-item prev @click="goToPage(pageRequest.page - 1)" :disabled="pageRequest.page === 1" />
+          <argon-pagination-item
+            prev
+            @click="goToPage(pageRequest.page - 1)"
+            :disabled="pageRequest.page === 1"
+          />
           <argon-pagination-item
             v-for="item in paginationItems"
             :key="item.label"
@@ -286,7 +367,11 @@ const getBadgeClass = (typeCode) => {
             :disabled="item.disabled"
             @click="goToPage(parseInt(item.label))"
           />
-          <argon-pagination-item next @click="goToPage(pageRequest.page + 1)" :disabled="pageRequest.page === totalPages" />
+          <argon-pagination-item
+            next
+            @click="goToPage(pageRequest.page + 1)"
+            :disabled="pageRequest.page === totalPages"
+          />
         </argon-pagination>
       </div>
     </div>
