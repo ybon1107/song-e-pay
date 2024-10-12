@@ -108,12 +108,6 @@ defineExpose({ fetchBalance });
     transition: all 0.3s ease;
 }
 
-@media (max-width: 500px) {
-    .card {
-        width: 90%;
-    }
-}
-
 @media (max-width: 768px) {
     .icon-container {
         /* 작은 화면에서는 더 큰 비율 적용 */
