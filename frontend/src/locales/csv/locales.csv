@@ -36,6 +36,7 @@ transaction_states_cancelled,취소,Cancel,Batalkan,Hủy
 transaction_states_pending,처리중,Processing,Sedang diproses,Đang xử lý
 swal--title-success,성공,Success,Sukses,Thành công
 swal--title-fail,실패,Failure,Gagal,Thất bại
+swal--default-error-message,실패했습니다.,Failed to succeed.,,
 setting--title,프로필,Profile,Profil,Hồ sơ
 map--title,금융 지도,Financial Map,Peta Keuangan,Bản đồ tài chính
 map--select-cityLabel,광역시/도,City/Province,Kota,Thành phố

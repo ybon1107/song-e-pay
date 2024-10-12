@@ -139,13 +139,13 @@ const handlePasswordVerified = async () => {
       }
     } else {
       // 실패 시 에러를 throw
-      throw new Error(response.data?.message || t('myAccount--default-error-message'));
+      throw new Error(response.data?.message || t('swal--default-error-message'));
     }
   } catch (error) {
     console.error(`Error in ${currentAction.value}:`, error);
     await Swal.fire({
-      title: t('myAccount--swal-title-error'),
-      text: error.message || t('myAccount--default-error-message'),
+      title: t('swal--title-fail'),
+      text: error.message || t('swal--default-error-message'),
       icon: 'error',
     });
   }
