@@ -6,7 +6,7 @@ import com.sepay.backend.notification.mapper.NotificationMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.messaging.simp.SimpMessagingTemplate;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 import java.util.List;
 
@@ -43,11 +43,10 @@ public class NotificationServiceImpl implements NotificationService {
         return mapper.updateNoti(notiNo);
     }
 
-    // 웹소켓
-//    public void notifyUser(int userId) {
-//        // 특정 사용자에게 알림 전송
-//        String destination = "/topic/alerts/" + userId;
-//        messagingTemplate.convertAndSend(destination);
-//    }
-
+   // 웹소켓
+   public void notifyUser(int userId) {
+       // 특정 사용자에게 알림 전송
+       String destination = "/topic/alerts/" + userId;
+       messagingTemplate.convertAndSend(destination);
+   }
 }

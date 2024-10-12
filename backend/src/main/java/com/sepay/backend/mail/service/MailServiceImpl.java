@@ -1,6 +1,8 @@
 package com.sepay.backend.mail.service;
 
 import com.sepay.backend.history.dto.HistoryDTO;
+import com.sepay.backend.history.mapper.HistoryMapper;
+import com.sepay.backend.history.service.HistoryService;
 import com.sepay.backend.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +24,7 @@ public class MailServiceImpl implements MailService {
     private final MyAccountMapper mapper;
     private final JavaMailSender emailSender;
     private final UserService userService;
+    private final HistoryMapper historyMapper;
 
     private String verificationCode; // 인증 코드를 저장할 필드
     private LocalDateTime codeGeneratedTime; // 인증 코드 생성 시간을 저장할 필드
@@ -108,7 +111,7 @@ public class MailServiceImpl implements MailService {
     public boolean transferTo (String userId, HistoryDTO historyDTO){
         try {
             // 보내는 사람
-            mapper.insertHistory(historyDTO);
+            historyMapper.insertHistory(historyDTO);
 
             String transferFromUserId = historyDTO.getUserId();
             Double transferAmount = historyDTO.getAmount();

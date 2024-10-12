@@ -15,4 +15,6 @@ public interface HistoryService {
 //    Page<HistoryDTO> getAllHistories(PageRequest pageRequest); // 모든 거래 내역을 가져오는 메서드
 
     void updateMemo(HistoryDTO historyDTO); // 메모 업데이트 메서드 추가
+
+    int saveHistory(HistoryDTO historyDTO);
 }

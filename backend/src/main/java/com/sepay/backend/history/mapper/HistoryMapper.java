@@ -17,10 +17,8 @@ public interface HistoryMapper {
 
     int getTotalCountForFilter(SearchItem searchItem);
 
-//    List<HistoryDTO> selectAllHistories(PageRequest pageRequest);
-
-//    int getTotalCount();
-
+    // 이용 내역 추가
+    int insertHistory(HistoryDTO historyDTO);
 
     void updateMemo(HistoryDTO historyDTO);
 }

@@ -255,7 +255,7 @@ const { t } = useI18n(); // t 함수 정의
 const auth = useAuthStore();
 const user = computed(() => auth.user);
 
-const Id = computed(() => auth.user.userId);
+const Id = computed(() => auth.userId);
 import { CURRENCY_NAME } from "@/constants/countryCode";
 
 const countryCode = computed(() => user.value?.countryCode || 1); // 기본값으로 1 설정
@@ -339,7 +339,9 @@ const setFromPeriod = (period) => {
 // 환전 함수
 const handleExchange = async () => {
   try {
-    const { songNo, krwNo } = user.value;
+    const userId = Id; // 실제 사용자 번호로 대체해야 합니다
+    const krwNo = "1234"; // 실제 KRW 계좌 번호로 대체해야 합니다
+    const songNo = "1234"; // 실제 송이 페이 계좌 번호로 대체해야 합니다
     const exchangeRate = currentToKrw.value;
     const amount = usdAmount.value;
 
@@ -387,7 +389,9 @@ const handleExchange = async () => {
 // 환급 함수
 const reExchange = async () => {
   try {
-    const { songNo, krwNo } = user.value;
+    const userId = Id; // 실제 사용자 번호로 대체해야 합니다
+    const krwNo = "1234"; // 실제 KRW 계좌 번호로 대체해야 합니다
+    const songNo = "1234"; // 실제 송이 페이 계좌 번호로 대체해야 합니다
     const exchangeRate = currentFromKrw.value;
     const amount = krwAmountReverse.value;
 
@@ -413,7 +417,7 @@ const reExchange = async () => {
     });
 
     if (response && response.data) {
-      console.log("환전 성공:", response.data);
+      console.log("환급 성공:", response.data);
       Swal.fire({
         title: t("exchangeRate-alert-success"),
         text: t("exchangeRate-alert-refund-success"),

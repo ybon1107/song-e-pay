@@ -35,22 +35,14 @@ public class HistoryServiceImpl implements HistoryService{
         }
     }
 
-
-//    @Override
-//    public Page<HistoryDTO> getAllHistories(PageRequest pageRequest) {
-//        // 페이지 요청에 맞는 거래 내역을 가져옴
-//        List<HistoryDTO> histories = mapper.selectAllHistories(pageRequest);
-//
-//        // 전체 거래 내역 수를 가져옴
-//        int totalCount = mapper.getTotalCount();
-//
-//        // Page 객체를 생성하여 반환
-//        return Page.of(pageRequest, totalCount, histories);
-//    }
-
     @Override
     public void updateMemo(HistoryDTO historyDTO) {
         // Mapper를 호출하여 DB의 메모를 업데이트
         mapper.updateMemo(historyDTO);
+    }
+
+    @Override
+    public int saveHistory(HistoryDTO historyDTO) {
+        return mapper.insertHistory(historyDTO);
     }
 }

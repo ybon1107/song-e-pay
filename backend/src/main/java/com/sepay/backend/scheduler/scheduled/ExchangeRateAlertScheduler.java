@@ -89,15 +89,13 @@ public class ExchangeRateAlertScheduler {
     private void saveAlert(ExchangeReservationDTO reservation, double currentRate, String userId) {
 
         String direction = reservation.getBaseCode() != 0 ? "하락" : "상승";
-        String message = String.format("현재 환율(%s)이 목표 환율(%s) %s했습니다.",
-                currentRate, reservation.getTargetExchange(),
-                direction.equals("하락") ? "이하" : "이상");
+        String message = String.format("현재 환율(%s)이 목표 환율(%s) 에 도달했습니다.",
+                currentRate, reservation.getTargetExchange());
 
         NotificationDTO notificationDTO = new NotificationDTO();
         notificationDTO.setUserId(userId);
         notificationDTO.setResNo(reservation.getResNo());
         notificationDTO.setContent(message);
-
 
         notificationService.saveNotification(notificationDTO);
 
