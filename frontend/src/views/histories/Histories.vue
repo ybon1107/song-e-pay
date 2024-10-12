@@ -12,7 +12,7 @@ import {
     TRANSACTION_TYPES_KEY,
     TRANSACTION_STATES_KEY,
 } from '@/constants/transactionType';
-
+import Swal from 'sweetalert2'; // Swal 임포트 추가
 // 유저 권한
 import { useAuthStore } from '@/stores/auth';
 const auth = useAuthStore();
@@ -86,7 +86,6 @@ const applyTransactionFilters = async (resetPage = false) => {
     let startDate = null;
     let endDate = moment().format('YYYY-MM-DD'); // 기본적으로 오늘로 설정
 
-<<<<<<< HEAD
     // 필터에서 선택한 기간에 따라 시작일과 종료일 설정
     if (filters.value.selectedPeriod === i18n_PERIOD[0]) {
         startDate = endDate; // 오늘이 시작일과 종료일 모두가 됨
@@ -122,41 +121,6 @@ const applyTransactionFilters = async (resetPage = false) => {
         sortOrder: sortOrder, // ASC 또는 DESC 전송
         historyContent: filters.value.historyContent || '', // 검색어 추가
     };
-=======
-  // 필터에서 선택한 기간에 따라 시작일과 종료일 설정
-  if (filters.value.selectedPeriod === i18n_PERIOD[0]) {
-    startDate = endDate; // 오늘이 시작일과 종료일 모두가 됨
-  } else if (filters.value.selectedPeriod === i18n_PERIOD[1]) {
-    startDate = moment().subtract(1, 'months').startOf('day').toISOString();
-    endDate = moment().endOf('day').toISOString(); // 23:59:59로 설정
-  } else if (filters.value.selectedPeriod === i18n_PERIOD[2]) {
-    startDate = moment().subtract(3, 'months').startOf('day').toISOString();
-    endDate = moment().endOf('day').toISOString(); // 23:59:59로 설정
-  } else if (filters.value.selectedPeriod === i18n_PERIOD[3]) {
-    startDate = filters.value.startDate;
-    endDate = filters.value.endDate ? moment(filters.value.endDate).endOf('day').toISOString() : null; // 직접 설정된 날짜의 23:59:59로 설정
-  } else {
-    console.log('직접 설정 기간이 누락되었습니다.');
-  }
-  // 선택된 유형에 따라 거래 유형 코드를 설정
-  let typeCodesToSend = [];
-  if (filters.value.selectedType === i18n_TYPE[1]) {
-    typeCodesToSend = wonTransactionType; // 원화 계좌
-  } else if (filters.value.selectedType === i18n_TYPE[2]) {
-    typeCodesToSend = songTransactionType; // 송이 계좌
-  } else {
-    typeCodesToSend = null;
-  }
-  const filterOptions = {
-    // userNo: 1, // 나중에 바꿀것
-    userId: 'test@gmail.com', // 로그인 구현시 바꿔줄것 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    typeCode: typeCodesToSend,
-    beginDate: startDate, // 이 부분이 null이 아닌 올바른 날짜로 설정되어야 함
-    endDate: endDate, // 이 부분도 마찬가지로 제대로 설정되어야 함
-    sortOrder: sortOrder, // ASC 또는 DESC 전송
-    historyContent: filters.value.historyContent || '', // 검색어 추가
-  };
->>>>>>> 24d22f945deef362c32911cff30c99a8e98caa9b
 
     try {
         const response = await historyApi.applyFilters(
@@ -187,6 +151,14 @@ const handleFilterApply = async (filters) => {
     isFilterModalVisible.value = false; // 모달 닫기
 
     await applyTransactionFilters(true); // 필터 적용 후 거래 내역 필터링
+
+    // Swal.fire를 사용하여 필터 적용 알림 표시
+    Swal.fire({
+        title: t('histories--filter-applied'),
+        text: t('histories--filter-applied-message'),
+        icon: 'success',
+        confirmButtonText: t('histories--confirm'),
+    });
 };
 
 // 거래 내역 관련 기본 코드
