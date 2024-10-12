@@ -722,7 +722,7 @@ watchEffect(() => {
                     </div>
                   </label>
                   <ArgonAmountInput v-model="depositAmount"
-                    :placeholder="`${$t('transaction_types_deposit')} ${$t('myAccount--input-placeholder')}`"
+                    :placeholder="$t('myAccount--input-placeholder')"
                     :unit="customerunit" />
                 </div>
                 <div>
@@ -744,17 +744,11 @@ watchEffect(() => {
                     <div class="input-label-text">WON-E</div>
                   </label>
                   <ExchangeAmountInput v-model="receiveAmount"
-                    :placeholder="`${$t('transaction_types_exchange')} ${$t('myAccount--input-placeholder')}`"
+                    :placeholder="$t('myAccount--input-placeholder')"
                     :unit="wonUnit" :selectedAsset="selectedAsset" :songEMoneyBalance="songEMoneyBalance_toKRW"
                     :activeTab="activeTab" :errorAmountMessage="errorAmountMessage"
                     @update:errorAmountMessage="errorAmountMessage = $event" @focus="onfocus('receive')"
                     @blur="onblurReceive" />
-                  <!-- <ExchangeAmountInput v-model="receiveAmount"
-                    :placeholder="`${$t('transaction_types_exchange')} ${$t('myAccount--input-placeholder')}`"
-                    :unit="wonUnit" :selectedAsset="selectedAsset" :songEMoneyBalance="songEMoneyBalance_toKRW"
-                    :activeTab="activeTab" :errorAmountMessage="errorAmountMessage"
-                    @update:errorAmountMessage="errorAmountMessage = $event" @focus="onfocus('receive')"
-                    @blur="onblur" /> -->
                 </div>
                 <div>
                   <label class="d-flex align-items-center">
