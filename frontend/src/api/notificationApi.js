@@ -13,10 +13,18 @@ export default {
     console.log("Api noti: ", notification);
     return notification;
   },
-  async deleteNotification(notificationId) {
-    console.log("notificationId: ", notificationId);
-    // const response = (await api.get(`/${userId}`)).data;
-    // console.log("response: ", response);
-    return notificationId;
+
+  async deleteNotification(notiNo) {
+    console.log("notiNo: ", notiNo);
+    const response = (await api.delete(`/${notiNo}`)).data;
+    console.log("response: ", response);
+    return response;
+  },
+
+  async readNotification(notiNo) {
+    console.log("notiNo: ", notiNo);
+    const response = (await api.patch(`/${notiNo}`)).data;
+    console.log("response: ", response);
+    return response;
   },
 }
