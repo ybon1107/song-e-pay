@@ -148,8 +148,8 @@ myAccount--songE-title,SONG-E,SONG-E,SONG-E,SONG-E
 myAccount--wonE-title,WON-E,WON-E,WON-E,WON-E
 myAccount--songE-button-fill,SONG-E 채우기,SONG-E fill,SONG-E mengisi,
 myAccount--songE-button-vacate,SONG-E 비우기,SONG-E take out,SONG-E kosong,
-myAccount--songE-button-exchange,SONG-E로 환전,Exchange money to SONG-E,Tukarkan uang dengan WON-E,Đổi tiền sang SONG-E
-myAccount--wonE-button-exchange,WON-E로 환전,Exchange money to WON-E,Tukarkan uang dengan SONG-E,Đổi tiền sang WON-E
+myAccount--songE-button-exchange,SONG-E로 환전,to SONG-E,Tukarkan uang dengan WON-E,Đổi tiền sang SONG-E
+myAccount--wonE-button-exchange,WON-E로 환전,to WON-E,Tukarkan uang dengan SONG-E,Đổi tiền sang WON-E
 myAccount--wonE-button-transfer,WON-E간 송금,Transfer money between WON-E,Transfer uang antar WON-E,Chuyển tiền giữa WON-E
 myAccount--swal-title,성공,success,kesuksesan,thành công
 myAccount--swal-content,{kwd}이 완료되었습니다.,{kwd} has been completed,{kwd} telah selesai,{kwd} chuyển tiền đã hoàn tất
