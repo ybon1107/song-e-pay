@@ -60,22 +60,9 @@ function addEvent(eventData) {
     .post("/api/schedule/add", scheduleData)
     .then((response) => {
       if (response && response.data) {
-        // 캘린더 API를 통해 현재 날짜 가져오기
+        // 새 이벤트가 추가된 후 전체 이벤트를 다시 로드합니다.
         const calendarApi = calendarRef.value.getApi();
-
-        // 새로 추가된 이벤트를 캘린더에 직접 추가
-        calendarApi.addEvent({
-          id: response.data.eventNo, // 서버에서 반환된 이벤트 ID
-          title: eventData.title,
-          start: eventData.startedAt,
-          end: moment(eventData.endedAt).add(1, "days").format("YYYY-MM-DD"),
-          backgroundColor: `#${colorWithoutHash}`,
-          borderColor: `#${colorWithoutHash}`,
-          allDay: true,
-          extendedProps: {
-            description: eventData.description,
-          },
-        });
+        loadEvents(calendarApi.getDate());
       }
       closeMaintenanceModal();
     })

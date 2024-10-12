@@ -7,7 +7,11 @@ import ArgonPagination from '@/components/templates/ArgonPagination.vue';
 import ArgonPaginationItem from '@/components/templates/ArgonPaginationItem.vue';
 import FilterModal from './FilterModal.vue'; // FilterModal.vue 가져오기
 import { CURRENCY_NAME } from '@/constants/countryCode';
-import { TRANSACTION_TYPES, TRANSACTION_TYPES_KEY, TRANSACTION_STATES_KEY } from '@/constants/transactionType';
+import {
+    TRANSACTION_TYPES,
+    TRANSACTION_TYPES_KEY,
+    TRANSACTION_STATES_KEY,
+} from '@/constants/transactionType';
 
 // 유저 권한
 import { useAuthStore } from '@/stores/auth';
@@ -21,45 +25,57 @@ const searchQuery = ref('');
 
 const songCurrencyUnit = computed(() => CURRENCY_NAME[user.value.countryCode]);
 
-const i18n_PERIOD = ['histories--filters-period-today', 'histories--filters-period-oneMonth', 'histories--filters-period-threeMonth', 'histories--filters-period-custom'];
-const i18n_TYPE = ['histories--filters-type-all', 'histories--filters-type-wone', 'histories--filters-type-songe'];
-const i18n_SORT = ['histories--filters-sort-newest', 'histories--filters-sort-oldest'];
+const i18n_PERIOD = [
+    'histories--filters-period-today',
+    'histories--filters-period-oneMonth',
+    'histories--filters-period-threeMonth',
+    'histories--filters-period-custom',
+];
+const i18n_TYPE = [
+    'histories--filters-type-all',
+    'histories--filters-type-wone',
+    'histories--filters-type-songe',
+];
+const i18n_SORT = [
+    'histories--filters-sort-newest',
+    'histories--filters-sort-oldest',
+];
 
 const songTransactionType = [TRANSACTION_TYPES.DEPOSIT, TRANSACTION_TYPES.REFUND, TRANSACTION_TYPES.RE_EXCHANGE];
 const wonTransactionType = [TRANSACTION_TYPES.PAYMENT, TRANSACTION_TYPES.TRANSFER, TRANSACTION_TYPES.EXCHANGE, TRANSACTION_TYPES.AUTO_EXCHANGE];
 
 const filters = ref({
-  selectedPeriod: i18n_PERIOD[2],
-  selectedType: i18n_TYPE[0],
-  selectedSort: i18n_SORT[0],
-  startDate: '',
-  endDate: '',
-  historyContent: '',
+    selectedPeriod: i18n_PERIOD[2],
+    selectedType: i18n_TYPE[0],
+    selectedSort: i18n_SORT[0],
+    startDate: '',
+    endDate: '',
+    historyContent: '',
 });
 
 // 모달을 열고 닫는 함수
 const toggleFilterModal = () => {
-  isFilterModalVisible.value = !isFilterModalVisible.value;
+    isFilterModalVisible.value = !isFilterModalVisible.value;
 };
 
 // 필터된 거래 내역 가져오기
 const applyTransactionFilters = async (resetPage = false) => {
-  if (resetPage) {
-    pageRequest.value.page = 1;
-  }
+    if (resetPage) {
+        pageRequest.value.page = 1;
+    }
 
-  // 검색어를 필터에 반영
-  filters.value.historyContent = searchQuery.value;
+    // 검색어를 필터에 반영
+    filters.value.historyContent = searchQuery.value;
 
-  // 정렬 조건 변환
-  let sortOrder = 'DESC'; // 기본값을 최신순으로 설정 (내림차순)
-  if (filters.value.selectedSort === i18n_SORT[1]) {
-    sortOrder = 'ASC'; // 과거순일 경우 오름차순으로 설정
-  }
+    // 정렬 조건 변환
+    let sortOrder = 'DESC'; // 기본값을 최신순으로 설정 (내림차순)
+    if (filters.value.selectedSort === i18n_SORT[1]) {
+        sortOrder = 'ASC'; // 과거순일 경우 오름차순으로 설정
+    }
 
-  // 날짜 처리 로직
-  let startDate = null;
-  let endDate = moment().format('YYYY-MM-DD'); // 기본적으로 오늘로 설정
+    // 날짜 처리 로직
+    let startDate = null;
+    let endDate = moment().format('YYYY-MM-DD'); // 기본적으로 오늘로 설정
 
   // 필터에서 선택한 기간에 따라 시작일과 종료일 설정
   if (filters.value.selectedPeriod === i18n_PERIOD[0]) {
@@ -95,23 +111,26 @@ const applyTransactionFilters = async (resetPage = false) => {
     historyContent: filters.value.historyContent || '', // 검색어 추가
   };
 
-  try {
-    const response = await historyApi.applyFilters(filterOptions, pageRequest.value);
-    if (response && Array.isArray(response.list)) {
-      totalItems.value = response.totalCount;
-      // 정렬 기준에 따라 데이터를 정렬
-      transactions.value = response.list.map((transaction) => ({
-        ...transaction,
-        historyDate: formatUnixTimestamp(transaction.historyDate),
-        i18nType: TRANSACTION_TYPES_KEY[transaction.typeCode],
-        i18nState: TRANSACTION_STATES_KEY[transaction.stateCode],
-        // typeCode: convertTransactionType(transaction.typeCode),
-        // stateCode: convertTransactionStatus(transaction.stateCode),
-      }));
+    try {
+        const response = await historyApi.applyFilters(
+            filterOptions,
+            pageRequest.value
+        );
+        if (response && Array.isArray(response.list)) {
+            totalItems.value = response.totalCount;
+            // 정렬 기준에 따라 데이터를 정렬
+            transactions.value = response.list.map((transaction) => ({
+                ...transaction,
+                historyDate: formatUnixTimestamp(transaction.historyDate),
+                i18nType: TRANSACTION_TYPES_KEY[transaction.typeCode],
+                i18nState: TRANSACTION_STATES_KEY[transaction.stateCode],
+                // typeCode: convertTransactionType(transaction.typeCode),
+                // stateCode: convertTransactionStatus(transaction.stateCode),
+            }));
+        }
+    } catch (error) {
+        console.error('Error fetching filtered transactions:', error);
     }
-  } catch (error) {
-    console.error('Error fetching filtered transactions:', error);
-  }
 };
 
 // 필터 적용 처리 함수 (applyFilters 이벤트 처리)
@@ -120,7 +139,7 @@ const handleFilterApply = async (filters) => {
   filters.value = { ...filters }; // 전달받은 필터 데이터를 저장
   isFilterModalVisible.value = false; // 모달 닫기
 
-  await applyTransactionFilters(true); // 필터 적용 후 거래 내역 필터링
+    await applyTransactionFilters(true); // 필터 적용 후 거래 내역 필터링
 };
 
 // 거래 내역 관련 기본 코드

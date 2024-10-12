@@ -4,14 +4,19 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.sepay.backend.notification.mapper.NotificationMapper">
+
+    <!-- 알림 등록 -->
     <insert id="insertNotification" parameterType="notificationDTO">
-        insert into notification (user_no, resve_no, noti_content, exchange_rate)
-        values (#{userNo}, #{resveNo}, #{notiContent}, #{exchangeRate})
+        INSERT INTO notification
+            (res_no, history_no, user_id, content, amount)
+        VALUES(#{resNo}, #{historyNo}, #{userId}, #{content}, #{amount});
     </insert>
 
-    <select id="selectByUserNo" parameterType="int" resultType="notificationDTO">
-        select noti_no, user_no, resve_no, noti_content, exchange_rate
-        from notification
-        where user_no = #{userNo}
+    <!-- 알림 불러오기 -->
+    <select id="selectByUserId" parameterType="String" resultType="notificationDTO">
+        SELECT *
+        FROM notification
+        WHERE user_id = #{userId}
+        ORDER BY noti_no DESC
     </select>
 </mapper>
