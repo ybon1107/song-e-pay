@@ -55,6 +55,7 @@ public class MyAccountServiceImpl implements MyAccountService {
 
             // 송이 계좌 증가
             songAccountDTO.setBalance(mapper.selectSongBalance(songAccountDTO.getSongNo()) + amount);
+            songAccountDTO.setUpdatedAt(new Date());
             mapper.updateSongAccount(songAccountDTO);
 
             historyDTO.setTypeCode(3); // 환전 타입 코드
@@ -80,6 +81,7 @@ public class MyAccountServiceImpl implements MyAccountService {
         if(mapper.selectSongBalance(songAccountDTO.getSongNo()) >= amount) {
             // 송이 계좌 감소
             songAccountDTO.setBalance(mapper.selectSongBalance(songAccountDTO.getSongNo()) - amount);
+            songAccountDTO.setUpdatedAt(new Date());
             mapper.updateSongAccount(songAccountDTO);
 
             // 계좌 증가
