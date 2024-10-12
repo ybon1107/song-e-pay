@@ -86,50 +86,6 @@ const closeModal = () => {
   showModal.value = false;
 };
 
-// 비밀번호가 확인되었을 때 호출되는 함수
-// const handlePasswordVerified = async () => {
-//   showModal.value = false; // 모달 숨김
-//   let kwd;
-//   switch (currentAction.value) {
-//     case TRANSACTION_TYPES.DEPOSIT:
-//       await deposit(); // deposit이 완료될 때까지 기다림
-//       kwd = i18n_DEPOSIT;
-//       break;
-//     case TRANSACTION_TYPES.EXCHANGE:
-//       await exchange(); // exchange가 완료될 때까지 기다림
-//       kwd = i18n_EXCHANGE;
-//       break;
-//     case TRANSACTION_TYPES.REFUND:
-//       await refund(); // refund가 완료될 때까지 기다림
-//       kwd = i18n_REFUND;
-//       break;
-//     case TRANSACTION_TYPES.TRANSFER:
-//       await transfer(); // transfer가 완료될 때까지 기다림
-//       kwd = i18n_TRANSFER;
-//       break;
-//     case TRANSACTION_TYPES.RE_EXCHANGE:
-//       await reExchange(); // reExchange가 완료될 때까지 기다림
-//       kwd = i18n_RE_EXCHANGE;
-//       break;
-//   }
-//   kwd = t(kwd);
-//   Swal.fire({
-//     title: t('myAccount--swal-title'),
-//     text: t('myAccount--swal-content', { kwd: kwd }),
-//     icon: 'success',
-//   });
-//   resetValue();
-//   await fetchBalances(); // 잔액을 다시 가져옴
-
-//   // AccountsCard의 fetchBalance 함수 호출
-//   if (songEMoneyCardRef.value) {
-//     await songEMoneyCardRef.value.fetchBalance();
-//   }
-//   if (wonEMoneyCardRef.value) {
-//     await wonEMoneyCardRef.value.fetchBalance();
-//   }
-// };
-
 const handlePasswordVerified = async () => {
   showModal.value = false; // 모달 숨김
   let kwd;
@@ -218,7 +174,7 @@ let processAfterBalance = computed(() => {
   }
 
   // 계산된 숫자를 포맷하여 반환
-  return formatNumber(balance.toFixed(2)); // 소수점 두 자릿수까지 표시
+  return formatNumber(balance.toFixed(5)); // 소수점 두 자릿수까지 표시
   // return formatCurrency(balance,INTL_LOCALE[user.value.countryCode],CURRENCY_NAME[user.value.countryCode]);
 });
 
@@ -237,7 +193,7 @@ let processAfterWonBalance = computed(() => {
   }
 
   // 계산된 숫자를 포맷하여 반환
-  return formatNumber(wonBalance.toFixed(2)); // 소수점 두 자릿수까지 표시
+  return formatNumber(wonBalance.toFixed(5)); // 소수점 두 자릿수까지 표시
 });
 
 // 자산 탭 선택
@@ -297,8 +253,6 @@ const exchange = async () => {
   const amount = receiveAmount.value; //외화기준 금액 넣어주는 걸로 변경
   const exchangeRate = currentFromKrw.value;
   // const exchangeRate = 0.00074;
-  // console.log("???" + amount);
-  // console.log("???" + exchangeRate);
   const params = {
     ...ACCOUNT.value,
     amount,
@@ -393,11 +347,11 @@ const resetValue = () => {
 };
 
 const convertToKrw = () => {
-  krwAmount.value = (usdAmount.value * currentToKrw.value).toFixed(2);
+  krwAmount.value = (usdAmount.value * currentToKrw.value).toFixed(5);
 };
 
 const convertToUsd = () => {
-  usdAmountReverse.value = (krwAmountReverse.value * currentFromKrw.value).toFixed(2);
+  usdAmountReverse.value = (krwAmountReverse.value * currentFromKrw.value).toFixed(5);
 };
 
 // 환율 데이터를 가져오는 함수
@@ -491,10 +445,10 @@ const receiveAmount = computed({
   get() {
     if (selectInput.value === 'exchange' && exchangeInput.value) {
       const exchangeAmt = parseFloat(exchangeInput.value);
-      return !isNaN(exchangeAmt) ? (exchangeAmt * currentToKrw.value).toFixed(2) : '';
+      return !isNaN(exchangeAmt) ? (exchangeAmt * currentToKrw.value).toFixed(5) : '';
     } else if (selectInput.value === 'reExchange' && reExchangeInput.value) {
       const reExchangeAmt = parseFloat(reExchangeInput.value);
-      return !isNaN(reExchangeAmt) ? (reExchangeAmt * currentFromKrw.value).toFixed(2) : '';
+      return !isNaN(reExchangeAmt) ? (reExchangeAmt * currentFromKrw.value).toFixed(5) : '';
     }
     return receiveInput.value; // 현재 값 반환
   },
@@ -508,7 +462,7 @@ const exchangeAmount = computed({
   get() {
     if (selectInput.value === 'receive' && receiveInput.value) {
       const receiveAmt = parseFloat(receiveInput.value);
-      return !isNaN(receiveAmt) ? (receiveAmt / currentToKrw.value).toFixed(2) : '';
+      return !isNaN(receiveAmt) ? (receiveAmt / currentToKrw.value).toFixed(5) : '';
     }
     return exchangeInput.value; // 현재 값 반환
   },
@@ -521,7 +475,7 @@ const reExchangeAmount = computed({
   get() {
     if (selectInput.value === 'receive' && receiveInput.value) {
       const receiveAmt = parseFloat(receiveInput.value);
-      return !isNaN(receiveAmt) ? (receiveAmt / currentFromKrw.value).toFixed(2) : '';
+      return !isNaN(receiveAmt) ? (receiveAmt / currentFromKrw.value).toFixed(5) : '';
     }
     return reExchangeInput.value; // 현재 값 반환
   },
