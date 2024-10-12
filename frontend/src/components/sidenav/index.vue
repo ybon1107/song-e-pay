@@ -28,7 +28,7 @@ const darkMode = computed(() => store.state.darkMode);
       <i class="top-0 p-3 cursor-pointer fas fa-times text-secondary opacity-5 position-absolute end-0 d-none d-xl-none"
         aria-hidden="true" id="iconSidenav"></i>
 
-      <router-link class="m-0 navbar-brand" to="/my-accounts">
+      <router-link class="m-0 navbar-brand" to="/my-page">
         <!-- <img :src="darkMode || sidebarType === 'bg-default' ? logoWhite : logo" class="navbar-brand-img h-100"
           alt="main_logo" /> -->
         <!-- <span class="ms-2 font-weight-bold me-2">song-E-pay</span> -->

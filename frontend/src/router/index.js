@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router';
+import MyPage from '../views/myPage/MyPage.vue';
 import MyAccounts from '../views/myAccounts/MyAccounts.vue';
 import Payment from '../views/payment/Payment.vue';
 import PassWordInputPage from '../views/payment/PasswordInputPage.vue';
@@ -24,12 +25,12 @@ const routes = [
     component: MainPage,
   },
   {
-    path: '/my-accounts',
-    name: 'MyAccounts',
+    path: '/my-page',
+    name: 'MyPage',
     meta: {
       requiresAuth: true,
     },
-    component: MyAccounts,
+    component: MyPage,
   },
   {
     path: '/exchange-rate',

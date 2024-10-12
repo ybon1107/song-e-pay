@@ -89,7 +89,7 @@ const handleSubmit = async () => {
     try {
       await auth.login(member);
       if (localStorage.getItem("auth") != " ") {
-        window.location.href = "/my-accounts";
+        window.location.href = "/my-page";
       }
     } catch (e) {
       // 로그인 에러
