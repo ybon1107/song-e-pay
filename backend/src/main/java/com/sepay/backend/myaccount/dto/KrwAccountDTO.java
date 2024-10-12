@@ -14,6 +14,6 @@ import java.util.Date;
 public class KrwAccountDTO {
     private String krwNo;
     private Double balance;
-    private Date createAt;
-    private Date updateAt;
+    private Date createdAt;
+    private Date updatedAt;
 }

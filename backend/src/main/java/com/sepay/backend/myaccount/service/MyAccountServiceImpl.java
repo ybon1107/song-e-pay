@@ -12,11 +12,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
+
 @Slf4j
 @Service
 @RequiredArgsConstructor
 public class MyAccountServiceImpl implements MyAccountService {
-
     private final MyAccountMapper mapper;
     private final HistoryMapper historyMapper;
 
@@ -56,10 +57,17 @@ public class MyAccountServiceImpl implements MyAccountService {
             songAccountDTO.setBalance(mapper.selectSongBalance(songAccountDTO.getSongNo()) + amount);
             mapper.updateSongAccount(songAccountDTO);
 
+            historyDTO.setTypeCode(3); // 환전 타입 코드
+            historyDTO.setStateCode(1); // 성공 상태 코드
+            historyDTO.setHistoryDate(new Date()); // 현재 날짜로 설정
+            historyDTO.setHistoryContent("My Account → SongE"); // 내용 설정
+            historyDTO.setAmount(amount); // 금액 설정
+
             // history insert
             historyMapper.insertHistory(historyDTO);
             message = "success";
         }
+
         return message;
     }
 
@@ -79,8 +87,13 @@ public class MyAccountServiceImpl implements MyAccountService {
             mapper.updateAccount(accountDTO);
 
             // history insert
-            historyMapper.insertHistory(historyDTO);
+            historyDTO.setTypeCode(4); //환불
+            historyDTO.setStateCode(1); // 성공 상태 코드
+            historyDTO.setHistoryDate(new Date()); // 현재 날짜로 설정
+            historyDTO.setHistoryContent("SongE → My Account"); // 내용 설정
+            historyDTO.setAmount(amount); // 금액 설정
 
+            historyMapper.insertHistory(historyDTO);
             message = "success";
         }
         return message;
@@ -94,17 +107,25 @@ public class MyAccountServiceImpl implements MyAccountService {
         // 송이 계좌에 환전 금액보다 많을 때
         if(mapper.selectSongBalance(songAccountDTO.getSongNo()) >= amount) {
             // 송이 계좌 감소
-            songAccountDTO.setBalance(mapper.selectSongBalance(songAccountDTO.getSongNo())  - amount);
+            double songAmount = amount * exchangeRate;
+            songAccountDTO.setBalance(mapper.selectSongBalance(songAccountDTO.getSongNo())  - songAmount);
+            songAccountDTO.setUpdatedAt(new Date());
             mapper.updateSongAccount(songAccountDTO);
 
             // 원화 금액 증가
-            amount *= exchangeRate;
             krwAccountDTO.setBalance(mapper.selectKrwBalance(krwAccountDTO.getKrwNo()) + amount);
+            krwAccountDTO.setUpdatedAt(new Date());
             mapper.updateKrwAccount(krwAccountDTO);
 
             // history insert
-            historyMapper.insertHistory(historyDTO);
+            historyDTO.setTypeCode(5); // 환전 타입 코드
+            historyDTO.setStateCode(1); // 성공 상태 코드
+            historyDTO.setHistoryDate(new Date()); // 현재 날짜로 설정
+            historyDTO.setHistoryContent("SongE → WonE"); // 내용 설정
+            historyDTO.setAmount(amount); // 금액 설정
+            historyDTO.setExchangeRate(exchangeRate); //환율 설정
 
+            historyMapper.insertHistory(historyDTO);
             message = "success";
         }
         return message;
@@ -122,11 +143,18 @@ public class MyAccountServiceImpl implements MyAccountService {
             mapper.updateKrwAccount(krwAccountDTO);
 
             // 송이 계좌 증가
-            amount *= exchangeRate;
-            songAccountDTO.setBalance(mapper.selectSongBalance(songAccountDTO.getSongNo()) + amount);
+            double songAmount = amount * exchangeRate;
+            songAccountDTO.setBalance(mapper.selectSongBalance(songAccountDTO.getSongNo()) + songAmount);
             mapper.updateSongAccount(songAccountDTO);
 
             // history insert
+            historyDTO.setTypeCode(6); // 환급 타입 코드
+            historyDTO.setStateCode(1); // 성공 상태 코드
+            historyDTO.setHistoryDate(new Date()); // 현재 날짜로 설정
+            historyDTO.setHistoryContent("WonE → SongE"); // 내용 설정
+            historyDTO.setAmount(amount); // 금액 설정
+            historyDTO.setExchangeRate(exchangeRate); //환율 설정
+
             historyMapper.insertHistory(historyDTO);
 
             message = "success";
@@ -148,6 +176,7 @@ public class MyAccountServiceImpl implements MyAccountService {
             // 상대 계좌 증가
 
             KrwAccountDTO targetKrwAccount = new KrwAccountDTO();
+            targetKrwAccount.setKrwNo(target_krwNo);
             targetKrwAccount.setBalance(mapper.selectKrwBalance(target_krwNo) + amount);
             mapper.updateKrwAccount(targetKrwAccount);
             // history insert

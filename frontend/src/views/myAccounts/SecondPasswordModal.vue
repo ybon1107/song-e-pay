@@ -1,8 +1,8 @@
 <template>
   <div class="modal-body">
-    <Modal :isVisible="showModal" :showFooter="false" title="⚠️ 경고" @close="closeModal" v-if="showPasswordInput">
-      <p class="warning-text">사칭사기에 주의하세요.</p>
-      <h3 class="password-title">결제 비밀번호</h3>
+    <Modal :isVisible="showModal" :showFooter="false" :title="$t('myAccount--SecondPassword--modal-header')" @close="closeModal" v-if="showPasswordInput">
+      <p class="warning-text">{{ $t('myAccount--SecondPassword--modal-header-title') }}</p>
+      <h3 class="password-title">{{ $t('myAccount--SecondPassword--modal-warning') }}</h3>
       <!-- 비밀번호 도트 -->
       <div class="password-dots">
         <span v-for="(digit, index) in 6" :key="index" :class="{ dot: true, filled: password.length >= index + 1 }"></span>
@@ -86,8 +86,8 @@ const verifyPassword = async (userId) => {
     } else {
       showPasswordInput.value = false;
       Swal.fire({
-        title: '다시 입력하세요',
-        text: '비밀번호가 틀렸습니다.',
+        title: t('myAccount--SecondPassword--modal-enterAgain'),
+        text: t('myAccount--SecondPassword--modal-wrongPassword'),
         icon: 'error',
       }).then(() => {
         password.value = '';
@@ -98,8 +98,8 @@ const verifyPassword = async (userId) => {
     console.error('비밀번호 검증 중 오류 발생:', error);
     showPasswordInput.value = false;
     Swal.fire({
-      title: '다시 입력하세요',
-      text: '비밀번호 확인에 실패했습니다. 다시 시도해 주세요.',
+      title: t('myAccount--SecondPassword--modal-enterAgain'),
+      text: t('myAccount--SecondPassword--modal-verificationFailed'),
       icon: 'error',
     }).then(() => {
       password.value = '';

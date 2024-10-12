@@ -55,7 +55,7 @@
           Make traveling in Korea more convenient with our easy to use E-wallet
           service
         </h3>
-        <p class="col-md-9 mb-4">
+        <p class="col-md-9 mb-4" style="text-align: justify;">
           For foreigners traveling to South Korea, we provide secure and fast
           payment and currency exchange services. From checking live exchange
           rates to sending money to friends, you can easily access all your
@@ -168,8 +168,8 @@
           ”
         </h3>
       </div>
-      <div class="right-section d-flex align-items-center p-5 mt-2 col-md-7">
-        <p class="col-md-12">
+      <div class="right-section d-flex align-items-center p-5 mt-2 col-md-6">
+        <p class="col-md-12" style="text-align: justify;">
           'Make travel finance easier, smarter in Korea'<br /><br />Simplify
           your finances Song-E Pay provides foreigners traveling to Korea with
           real-time exchange rates, automatic currency conversion, automatic
@@ -189,7 +189,7 @@
       <!-- What We Offer 섹션 -->
       <div class="mt-2 col-md-12">
         <h2 class="font_2 mb-4">About Song-E Pay!</h2>
-        <p class="font_8 mb-7">
+        <p class="font_8 mb-7" style="text-align: justify;">
           From live exchange rates to automated conversions and alerts, we're
           here to help you find the best deals and make your currency exchange
           quick and easy. Stay on top of currency fluctuations and get the best
@@ -208,7 +208,7 @@
           <h5 class="font_5 pt-3 pb-2 pl-0 pr-0">
             Get live currency exchange rates
           </h5>
-          <p>
+          <p style="text-align: justify;">
             Get the latest exchange rates anytime before, during, or after your
             trip, and make the best currency conversions as exchange rates
             fluctuate.
@@ -227,7 +227,7 @@
           <h5 class="font_5 pt-3 pb-2 pl-0 pr-0">
             Automatic currency exchange service
           </h5>
-          <p>
+          <p style="text-align: justify;">
             We'll automatically complete your conversion at the rate you want.
             Take the guesswork out of currency exchange.
           </p>
@@ -245,9 +245,8 @@
           <h5 class="font_5 pt-3 pb-2 pl-0 pr-0">
             Exchange Rate Alert Service
           </h5>
-          <p>
-            Get instant notifications when your desired exchange rate is reached
-            so you can make your conversion at the optimal time.
+          <p style="text-align: justify;">
+            Get instant notifications when your desired exchange rate is reached so you can make your conversion at the optimal time.
           </p>
         </div>
       </div>
@@ -263,9 +262,8 @@
           <h5 class="font_5 pt-3 pb-2 pl-0 pr-0">
             No fees! Free currency exchange
           </h5>
-          <p>
-            We'll give you a Pay Money account to manage the money you exchange.
-            Exchange money anytime, anywhere, without worrying about fees.
+          <p style="text-align: justify;">
+            We'll give you a Pay Money account to manage the money you exchange. Exchange money anytime, anywhere, without worrying about fees.
           </p>
         </div>
       </div>
@@ -282,13 +280,13 @@
     >
       <div class="mesh-left col-md-6 d-flex flex-column">
         <p class="fw-bold fs-5">Manage your money in one place!</p>
-        <p>
+        <p style="text-align: justify;">
           Manage multiple currencies easily with a Pay Money account. Store your
           currency conversions and make quick payments and transfers whenever
           you need them.
         </p>
-        <p class="fw-bold fs-5">Easily send money in Korean won!</p>
-        <p>
+        <p class="fw-bold fs-5" >Easily send money in Korean won!</p>
+        <p style="text-align: justify;">
           Easily send money to friends locally with a dedicated Korean Won
           account. No bank account required, all you need is Pay Money to send
           money quickly and securely with just a few clicks.
@@ -296,7 +294,7 @@
         <p class="fw-bold fs-5">
           Quick and easy payments and transfers on the go!
         </p>
-        <p>
+        <p style="text-align: justify;">
           Smartly manage your currency conversion and have it at your fingertips
           when you need it. Pay and send money in KRW instantly, even in Korea,
           without worrying about exchange rates.
@@ -334,7 +332,7 @@
       class="d-flex justify-content-between align-items-center flex-column flex-md-row mb-3"
     >
       <div
-        class="mesh-right col-md-4 col-12 d-flex justify-content-center align-items-center"
+        class="mesh-right col-md-5 col-12 d-flex justify-content-center align-items-center"
       >
         <img
           src="../../../images/Map.png"
@@ -390,23 +388,23 @@ onBeforeMount(() => {
 .section-container-beige {
   background: #fff6ef;
   padding-top: 13rem;
-  padding-left: 13rem;
-  padding-right: 8rem;
+  padding-left: 9rem;
+  padding-right: 9rem;
   padding-bottom: 6rem;
 }
 
 .section-container-green {
   background-color: #ffeb69;
-  padding-left: 13rem;
-  padding-right: 8rem;
+  padding-left: 9rem;
+  padding-right: 9rem;
   padding-bottom: 6rem;
 }
 
 .section-container-brown {
   background-color: #b0ab99;
   color: #f4f2f2;
-  padding-top: 8rem;
-  padding-left: 13rem;
+  padding-top: 9rem;
+  padding-left: 9rem;
   padding-right: 8rem;
   padding-bottom: 6rem;
 }

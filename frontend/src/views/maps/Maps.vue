@@ -36,7 +36,7 @@
             {{ $t("map--select-districtLabel") }}
           </option>
           <option v-for="city in cities" :key="city" :value="city">
-            {{ city }}
+            {{ $t(city) }}
           </option>
         </select>
       </div>
