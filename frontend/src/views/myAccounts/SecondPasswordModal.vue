@@ -23,18 +23,22 @@
 </template>
 
 <script setup>
-import { ref, defineEmits, onMounted } from 'vue';
-import myaccountApi from '../../api/myaccountApi';
+import { ref, defineEmits, onMounted,computed } from 'vue';
+import settingApi from '../../api/settingApi';
 import Modal from '../../components/modal/Modal.vue';
 import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.min.css';
+
+//user
+import { useAuthStore } from '@/stores/auth';
+const auth = useAuthStore();
+const userId = computed(() => auth.user.userId);
 
 // 이벤트 설정
 const emit = defineEmits(['close', 'password-verified']);
 
 const showModal = ref(true);
 const password = ref(''); // 비밀번호는 최대 6자리
-const userId = 'test@gmail.com';
 const showPasswordInput = ref(true);
 
 const shuffledNumbers = ref([]);
@@ -59,7 +63,7 @@ const enterDigit = (num) => {
 
     // 비밀번호 길이가 6자리일 때 자동으로 확인
     if (password.value.length === 6) {
-      verifyPassword(userId);
+      verifyPassword(userId.value);
     }
   }
 };
@@ -78,9 +82,15 @@ const clearAll = () => {
 
 // 비밀번호 검증 함수 수정
 const verifyPassword = async (userId) => {
+  const formData = {
+    userId,
+    secPwd: password.value
+  };
+
   try {
-    const correctPassword = await myaccountApi.checkSecondPassword(userId);
-    if (password.value == correctPassword) {
+    const response = await settingApi.submitSecPwd(formData);
+    if (response.data === true) {
+      console.log(response);
       emit('password-verified');
       closeModal();
     } else {
@@ -150,12 +160,12 @@ const closeModal = () => {
 .keypad {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 15px;
-  margin: 20px auto;
-  padding: 15px;
+  gap: 1rem;
+  margin: 1rem auto;
+  padding: 1rem;
   background-color: #f8f9fa;
   border-radius: 12px;
-  width: 350px;
+  width: 90%;
 }
 
 .keypad button {
