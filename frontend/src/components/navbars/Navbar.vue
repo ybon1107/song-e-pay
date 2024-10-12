@@ -32,7 +32,12 @@
             </router-link>
           </li> -->
           <li class="nav-item d-xl-none ps-3 d-flex align-items-center me-3">
-            <a href="#" @click="minimizeSidebar" class="p-0 nav-link" id="iconNavbarSidenav">
+            <a
+              href="#"
+              @click="minimizeSidebar"
+              class="p-0 nav-link"
+              id="iconNavbarSidenav"
+            >
               <div class="sidenav-toggler-inner">
                 <i class="sidenav-toggler-line fixed-width"></i>
                 <i class="sidenav-toggler-line"></i>
@@ -43,32 +48,62 @@
 
           <!-- 언어 선택 -->
           <li class="nav-item dropdown language-dropdown border rounded">
-            <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="languageDropdown" role="button"
-              data-bs-toggle="dropdown" aria-expanded="false">
-              <img :src="getFlagSrc(currentLanguage)" alt="Flag" class="me-2 flag-icon" />
-              {{ currentLanguage }}
+            <a
+              class="nav-link dropdown-toggle d-flex align-items-center"
+              href="#"
+              id="languageDropdown"
+              role="button"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            >
+              <img
+                :src="getFlagSrc(currentLanguage)"
+                alt="Flag"
+                class="me-2 flag-icon"
+              />
+              {{ $t(currentLanguage) }}
             </a>
             <ul class="dropdown-menu" aria-labelledby="languageDropdown">
               <li v-for="lang in languages" :key="lang.code">
-                <a class="dropdown-item d-flex align-items-center" href="#" @click="changeLanguage(lang.code)">
-                  <img :src="lang.flag" :alt="`${lang.name} Flag`" class="me-2 flag-icon" />
-                  {{ lang.name }}
+                <a
+                  class="dropdown-item d-flex align-items-center"
+                  href="#"
+                  @click="changeLanguage(lang.code)"
+                >
+                  <img
+                    :src="lang.flag"
+                    :alt="`${lang.name} Flag`"
+                    class="me-2 flag-icon"
+                  />
+                  {{ $t(lang.name) }}
                 </a>
               </li>
             </ul>
           </li>
 
           <!-- 알림 -->
-          <li class="px-3 nav-item dropdown d-flex align-items-center notification-dropdown">
-            <a href="#" class="p-0 nav-link" :class="[showMenu ? 'show' : '']" id="dropdownMenuButton"
-              data-bs-toggle="dropdown" aria-expanded="false" @click="showMenu = !showMenu" @blur="closeMenu">
+          <li
+            class="px-3 nav-item dropdown d-flex align-items-center notification-dropdown"
+          >
+            <a
+              href="#"
+              class="p-0 nav-link"
+              :class="[showMenu ? 'show' : '']"
+              id="dropdownMenuButton"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+              @click="showMenu = !showMenu"
+              @blur="closeMenu"
+            >
               <div class="icon-div">
                 <i class="cursor-pointer fa fa-bell"></i>
               </div>
             </a>
-            <ul class="px-2 py-3 dropdown-menu dropdown-menu-end me-sm-n4" :class="showMenu ? 'show' : ''"
-              aria-labelledby="dropdownMenuButton">
-
+            <ul
+              class="px-2 py-3 dropdown-menu dropdown-menu-end me-sm-n4"
+              :class="showMenu ? 'show' : ''"
+              aria-labelledby="dropdownMenuButton"
+            >
               <li class="mb-2">
                 <a class="dropdown-item border-radius-md" href="javascript:;">
                   <div class="py-1 d-flex">
@@ -92,7 +127,6 @@
                   </div>
                 </a>
               </li>
-              
             </ul>
           </li>
           <!-- 프로필 -->

@@ -196,7 +196,7 @@
       <div class="card">
         <div class="card-body py-6">
           <div class="d-flex justify-content-center">
-            <div class="d-flex flex-column w-80 gap-4 align-items-center">
+            <div class="d-flex flex-column w-70 gap-4 align-items-center">
               <div class="input-group">
                 <span class="input-group-text">1 {{ customerunit }} =</span>
                 <input
@@ -367,19 +367,19 @@ const handleExchange = async () => {
     if (response && response.data) {
       console.log("환전 성공:", response.data);
       Swal.fire({
-        title: "성공!",
-        text: "환전이 성공적으로 완료되었습니다.",
+        title: t("exchangeRate-alert-success"),
+        text: t("exchangeRate-alert-exchange-success"),
         icon: "success",
-        confirmButtonText: "확인",
+        confirmButtonText: t("exchangeRate-alert-confirm"),
       });
     }
   } catch (error) {
     console.error("환전 중 오류 발생:", error);
     Swal.fire({
-      title: "실패",
-      text: "환전 중 오류가 발생했습니다. 다시 시도해 주세요.",
+      title: t("exchangeRate-alert-fail"),
+      text: t("exchangeRate-alert-exchange-error"),
       icon: "error",
-      confirmButtonText: "확인",
+      confirmButtonText: t("exchangeRate-alert-confirm"),
     });
   }
 };
@@ -415,19 +415,19 @@ const reExchange = async () => {
     if (response && response.data) {
       console.log("환전 성공:", response.data);
       Swal.fire({
-        title: "성공!",
-        text: "환급이 성공적으로 완료되었습니다.",
+        title: t("exchangeRate-alert-success"),
+        text: t("exchangeRate-alert-refund-success"),
         icon: "success",
-        confirmButtonText: "확인",
+        confirmButtonText: t("exchangeRate-alert-confirm"),
       });
     }
   } catch (error) {
     console.error("환급 중 오류 발생:", error);
     Swal.fire({
-      title: "실패",
-      text: "환급 중 오류가 발생했습니다. 다시 시도해 주세요.",
+      title: t("exchangeRate-alert-fail"),
+      text: t("exchangeRate-alert-refund-error"),
       icon: "error",
-      confirmButtonText: "확인",
+      confirmButtonText: t("exchangeRate-alert-confirm"),
     });
   }
 };
@@ -440,30 +440,30 @@ const saveAlertRate = async (baseCode, targetCode, targetExchange) => {
   // 검증 로직
   if (!targetExchange || isNaN(targetExchange)) {
     Swal.fire({
-      title: "경고",
-      text: "유효한 목표 환율을 입력해주세요.",
+      title: t("exchangeRate-alert-warning"),
+      text: t("exchangeRate-alert-valid-rate"),
       icon: "warning",
-      confirmButtonText: "확인",
+      confirmButtonText: t("exchangeRate-alert-confirm"),
     });
     return;
   }
 
   if (baseCode === 1 && parseFloat(targetExchange) > currentToKrw.value) {
     Swal.fire({
-      title: "경고",
-      text: "현재 환율보다 높은 값입니다.",
+      title: t("exchangeRate-alert-warning"),
+      text: t("exchangeRate-alert-higher-than-current"),
       icon: "warning",
-      confirmButtonText: "확인",
+      confirmButtonText: t("exchangeRate-alert-confirm"),
     });
     return;
   }
 
   if (baseCode === 0 && parseFloat(targetExchange) < currentFromKrw.value) {
     Swal.fire({
-      title: "경고",
-      text: "현재 환율보다 낮은 값입니다.",
+      title: t("exchangeRate-alert-warning"),
+      text: t("exchangeRate-alert-lower-than-current"),
       icon: "warning",
-      confirmButtonText: "확인",
+      confirmButtonText: t("exchangeRate-alert-confirm"),
     });
     return;
   }
@@ -479,20 +479,20 @@ const saveAlertRate = async (baseCode, targetCode, targetExchange) => {
 
     if (response.status === 200) {
       Swal.fire({
-        title: "성공!",
-        text: "환율 알림이 성공적으로 저장되었습니다.",
+        title: t("exchangeRate-alert-success"),
+        text: t("exchangeRate-alert-notification-success"),
         icon: "success",
-        confirmButtonText: "확인",
+        confirmButtonText: t("exchangeRate-alert-confirm"),
       });
       router.push("/my-accounts");
     }
   } catch (error) {
     console.error("환율 알림 저장 중 오류 발생:", error);
     Swal.fire({
-      title: "실패",
-      html: `환율 알림 저장 중 오류가 발생했습니다. 다시 시도해 주세요.`,
+      title: t("exchangeRate-alert-fail"),
+      text: t("exchangeRate-alert-notification-error"),
       icon: "error",
-      confirmButtonText: "확인",
+      confirmButtonText: t("exchangeRate-alert-confirm"),
     });
   }
 };
@@ -527,30 +527,30 @@ const confirmAutoExchange = async (
     isNaN(targetKrw)
   ) {
     Swal.fire({
-      title: "경고",
-      text: "유효한 목표 환율과 목표 금액을 입력해주세요.",
+      title: t("exchangeRate-alert-warning"),
+      text: t("exchangeRate-alert-valid-rate-amount"),
       icon: "warning",
-      confirmButtonText: "확인",
+      confirmButtonText: t("exchangeRate-alert-confirm"),
     });
     return;
   }
 
   if (parseFloat(targetExchange) > currentToKrw.value) {
     Swal.fire({
-      title: "경고",
-      text: "현재 환율보다 높은 값입니다.",
+      title: t("exchangeRate-alert-warning"),
+      text: t("exchangeRate-alert-higher-than-current"),
       icon: "warning",
-      confirmButtonText: "확인",
+      confirmButtonText: t("exchangeRate-alert-confirm"),
     });
     return;
   }
 
   if (parseFloat(targetKrw) < 1000) {
     Swal.fire({
-      title: "경고",
-      text: "목표 금액은 1000 KRW 이상이어야 합니다.",
+      title: t("exchangeRate-alert-warning"),
+      text: t("exchangeRate-alert-minimum-amount"),
       icon: "warning",
-      confirmButtonText: "확인",
+      confirmButtonText: t("exchangeRate-alert-confirm"),
     });
     return;
   }
@@ -567,20 +567,20 @@ const confirmAutoExchange = async (
 
     if (response.status === 200) {
       Swal.fire({
-        title: "성공!",
-        text: "자동 환전 예약이 성공적으로 저장되었습니다.",
+        title: t("exchangeRate-alert-success"),
+        text: t("exchangeRate-alert-auto-exchange-success"),
         icon: "success",
-        confirmButtonText: "확인",
+        confirmButtonText: t("exchangeRate-alert-confirm"),
       });
       router.push("/my-accounts");
     }
   } catch (error) {
     console.error("자동 환전 예약 중 오류 발생:", error);
     Swal.fire({
-      title: "실패",
-      html: `자동 환전 예약에 실패했습니다.`,
+      title: t("exchangeRate-alert-fail"),
+      text: t("exchangeRate-alert-auto-exchange-error"),
       icon: "error",
-      confirmButtonText: "확인",
+      confirmButtonText: t("exchangeRate-alert-confirm"),
     });
   }
 };
