@@ -137,12 +137,14 @@ public class MyAccountServiceImpl implements MyAccountService {
         // 원화 계좌에 환급 금액보다 많을 때
         if(mapper.selectKrwBalance(krwAccountDTO.getKrwNo()) >= amount) {
             // 원화 계좌 감소
-            krwAccountDTO.setBalance(mapper.selectKrwBalance(krwAccountDTO.getKrwNo()) - amount);
+            double krwAmount = amount * exchangeRate;
+            krwAccountDTO.setBalance(mapper.selectKrwBalance(krwAccountDTO.getKrwNo()) - krwAmount);
+            krwAccountDTO.setUpdatedAt(new Date());
             mapper.updateKrwAccount(krwAccountDTO);
 
             // 송이 계좌 증가
-            double songAmount = amount * exchangeRate;
-            songAccountDTO.setBalance(mapper.selectSongBalance(songAccountDTO.getSongNo()) + songAmount);
+            songAccountDTO.setBalance(mapper.selectSongBalance(songAccountDTO.getSongNo()) + amount);
+            songAccountDTO.setUpdatedAt(new Date());
             mapper.updateSongAccount(songAccountDTO);
 
             // history insert
@@ -152,9 +154,7 @@ public class MyAccountServiceImpl implements MyAccountService {
             historyDTO.setHistoryContent("WonE → SongE"); // 내용 설정
             historyDTO.setAmount(amount); // 금액 설정
             historyDTO.setExchangeRate(exchangeRate); //환율 설정
-
             mapper.insertHistory(historyDTO);
-
             message = "success";
         }
         return message;

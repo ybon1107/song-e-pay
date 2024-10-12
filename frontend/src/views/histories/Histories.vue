@@ -25,8 +25,8 @@ const i18n_PERIOD = ['histories--filters-period-today', 'histories--filters-peri
 const i18n_TYPE = ['histories--filters-type-all', 'histories--filters-type-wone', 'histories--filters-type-songe'];
 const i18n_SORT = ['histories--filters-sort-newest', 'histories--filters-sort-oldest'];
 
-const songTransactionType = [TRANSACTION_TYPES.DEPOSIT, TRANSACTION_TYPES.REFUND, TRANSACTION_TYPES.EXCHANGE, TRANSACTION_TYPES.AUTO_EXCHANGE];
-const wonTransactionType = [TRANSACTION_TYPES.PAYMENT, TRANSACTION_TYPES.TRANSFER, TRANSACTION_TYPES.RE_EXCHANGE];
+const songTransactionType = [TRANSACTION_TYPES.DEPOSIT, TRANSACTION_TYPES.REFUND, TRANSACTION_TYPES.RE_EXCHANGE];
+const wonTransactionType = [TRANSACTION_TYPES.PAYMENT, TRANSACTION_TYPES.TRANSFER, TRANSACTION_TYPES.EXCHANGE, TRANSACTION_TYPES.AUTO_EXCHANGE];
 
 const filters = ref({
   selectedPeriod: i18n_PERIOD[2],
@@ -214,9 +214,11 @@ const getBadgeClass = (typeCode) => {
         <span class="input-group-text">
           <i class="fas fa-search"></i>
         </span>
-        <input type="text" class="form-control" :placeholder="$t('histories--searchQuery')" v-model="searchQuery" @keyup.enter="applyTransactionFilters(true)" />
+        <input type="text" class="form-control" :placeholder="$t('histories--searchQuery')" v-model="searchQuery"
+          @keyup.enter="applyTransactionFilters(true)" />
       </div>
-      <button class="btn btn-outline-secondary btn-sm mt-2 mt-md-0" type="button" @click="toggleFilterModal" style="padding: 4px 8px; font-size: 0.875rem">
+      <button class="btn btn-outline-secondary btn-sm mt-2 mt-md-0" type="button" @click="toggleFilterModal"
+        style="padding: 4px 8px; font-size: 0.875rem">
         {{ $t(filters.selectedPeriod) }} · {{ $t(filters.selectedType) }} · {{ $t(filters.selectedSort) }}
         <i class="fas fa-chevron-down"></i>
       </button>
@@ -242,7 +244,8 @@ const getBadgeClass = (typeCode) => {
             </tr>
           </thead>
           <tbody>
-            <tr v-for="transaction in transactions" :key="transaction.historyNo" @click="openModal(transaction)" style="cursor: pointer">
+            <tr v-for="transaction in transactions" :key="transaction.historyNo" @click="openModal(transaction)"
+              style="cursor: pointer">
               <td>
                 {{ $t(transaction.historyContent) }}
               </td>
@@ -278,38 +281,21 @@ const getBadgeClass = (typeCode) => {
       <div class="d-flex justify-content-center">
         <argon-pagination class="mb-0" :color="'secondary'">
           <argon-pagination-item prev @click="goToPage(pageRequest.page - 1)" :disabled="pageRequest.page === 1" />
-          <argon-pagination-item
-            v-for="item in paginationItems"
-            :key="item.label"
-            :label="item.label"
-            :active="item.active"
-            :disabled="item.disabled"
-            @click="goToPage(parseInt(item.label))"
-          />
-          <argon-pagination-item next @click="goToPage(pageRequest.page + 1)" :disabled="pageRequest.page === totalPages" />
+          <argon-pagination-item v-for="item in paginationItems" :key="item.label" :label="item.label"
+            :active="item.active" :disabled="item.disabled" @click="goToPage(parseInt(item.label))" />
+          <argon-pagination-item next @click="goToPage(pageRequest.page + 1)"
+            :disabled="pageRequest.page === totalPages" />
         </argon-pagination>
       </div>
     </div>
     <!-- 필터 모달 -->
-    <FilterModal
-      :isVisible="isFilterModalVisible"
-      :filters="filters"
-      :periods="i18n_PERIOD"
-      :types="i18n_TYPE"
-      :sorts="i18n_SORT"
-      @closeModal="toggleFilterModal"
-      @applyFilters="handleFilterApply"
-    />
+    <FilterModal :isVisible="isFilterModalVisible" :filters="filters" :periods="i18n_PERIOD" :types="i18n_TYPE"
+      :sorts="i18n_SORT" @closeModal="toggleFilterModal" @applyFilters="handleFilterApply" />
 
     <!-- 이용내역 상세 모달 -->
-    <HistoriesDetailModal
-      :transaction="selectedTransaction"
-      :isVisible="isModalVisible"
-      :songTransactionType="songTransactionType"
-      :wonTransactionType="wonTransactionType"
-      @updateMemo="handleMemoUpdate"
-      @close="closeModal"
-    />
+    <HistoriesDetailModal :transaction="selectedTransaction" :isVisible="isModalVisible"
+      :songTransactionType="songTransactionType" :wonTransactionType="wonTransactionType" @updateMemo="handleMemoUpdate"
+      @close="closeModal" />
   </div>
 </template>
 
@@ -320,6 +306,7 @@ const getBadgeClass = (typeCode) => {
 } */
 
 @media (max-width: 767px) {
+
   th:nth-child(3),
   td:nth-child(3) {
     display: none;
