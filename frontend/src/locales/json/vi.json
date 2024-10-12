@@ -32,7 +32,7 @@
   "map--select-districtLabel": "Chọn quận/huyện",
   "map--button-search": "Tìm",
   "map--address": "Địa chỉ",
-  "map-mylocation": "Tìm từ vị trí của tôi",
+  "map--mylocation": "Tìm quanh đây",
   "map--marker-box-openingHours": "Không có thông tin giờ hoạt động",
   "payment--passwordInput--title": "Nhập mật khẩu",
   "payment--passwordInput--instruction": "Vui lòng nhập mật khẩu 6 chữ số",

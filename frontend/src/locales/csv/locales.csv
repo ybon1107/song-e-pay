@@ -32,7 +32,7 @@ map--select-cityLabel,광역시/도,City/Province,Kota,Thành phố
 map--select-districtLabel,시/군/구,District/County/Gu,Pilih Kota/Kabupaten,Chọn quận/huyện
 map--button-search,찾기,Find,Cari,Tìm
 map--address,주소,Address,Alamat,Địa chỉ
-map-mylocation,내 위치에서 찾기,Find from my location,Cari dari lokasi saya,Tìm từ vị trí của tôi
+map--mylocation,내 위치,Find nearby,Cari lokasi,Tìm quanh đây
 map--marker-box-openingHours,운영시간 정보 없음,Operating hours not available,Informasi jam operasional tidak tersedia,Không có thông tin giờ hoạt động
 payment--passwordInput--title,비밀번호 입력,Enter Password,Masukkan Kata Sandi,Nhập mật khẩu
 payment--passwordInput--instruction,6자리 비밀번호를 입력해주세요,Please enter a 6-digit password,Masukkan kata sandi 6 digit,Vui lòng nhập mật khẩu 6 chữ số

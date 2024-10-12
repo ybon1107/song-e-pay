@@ -32,7 +32,7 @@
   "map--select-districtLabel": "Pilih Kota/Kabupaten",
   "map--button-search": "Cari",
   "map--address": "Alamat",
-  "map-mylocation": "Cari dari lokasi saya",
+  "map--mylocation": "Cari lokasi",
   "map--marker-box-openingHours": "Informasi jam operasional tidak tersedia",
   "payment--passwordInput--title": "Masukkan Kata Sandi",
   "payment--passwordInput--instruction": "Masukkan kata sandi 6 digit",

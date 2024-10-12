@@ -2,9 +2,10 @@
   <div class="container-fluid">
     <br />
     <h3 class="mapsFont">{{ $t('map--title') }}</h3>
+
     <div class="row mb-3 mapSelect">
       <!-- 광역시/도 선택 -->
-      <div class="col-md-2 col-sm-3 d-flex align-items-end mb-2">
+      <div class="col-md-3 col-sm-3 d-flex align-items-end mb-2">
         <select
           v-model="selectedProvince"
           @change="fetchCities"
@@ -23,8 +24,9 @@
           </option>
         </select>
       </div>
+
       <!-- 시/군/구 선택 -->
-      <div class="col-md-2 col-sm-3 d-flex align-items-end mb-2">
+      <div class="col-md-3 col-sm-3 d-flex align-items-end mb-2">
         <select
           v-model="selectedCity"
           id="district-select"
@@ -38,6 +40,7 @@
           </option>
         </select>
       </div>
+
       <!-- 검색 버튼 -->
       <div class="col-md-2 col-sm-3 d-flex align-items-end mb-2">
         <button
@@ -48,6 +51,7 @@
           {{ $t('map--button-search') }}
         </button>
       </div>
+
       <!-- 내 위치에서 찾기 버튼 -->
       <div class="col-md-2 col-sm-3 d-flex align-items-end mb-2">
         <button
@@ -58,12 +62,14 @@
         </button>
       </div>
     </div>
+
     <!-- 지도 영역 -->
     <div class="card">
       <div id="map"></div>
     </div>
   </div>
 </template>
+
 <script setup>
 import { ref, onMounted } from 'vue';
 import {
@@ -248,10 +254,25 @@ function fetchCities() {
 }
 
 function searchBank() {
-  const location = `${selectedProvince.value} ${selectedCity.value}`;
+  const provinceKey = selectedProvince.value;
+  const cityKey = selectedCity.value;
+  
+  // 영어로 된 위치 정보 생성
+  const provinceEnglish = getEnglishName(provinceKey);
+  const cityEnglish = getEnglishName(cityKey);
+  const locationEnglish = `${provinceEnglish} ${cityEnglish}`;
+
+  // 한국어로 된 위치 정보 (표시용)
+  const provinceKorean = t(provinceKey);
+  const cityKorean = t(cityKey);
+  const locationKorean = `${provinceKorean} ${cityKorean}`;
+
+  console.log('location (Korean)', locationKorean);
+  console.log('location (English)', locationEnglish);
+  console.log('selectedCity', cityKey);
 
   // Geocoding을 사용하여 선택된 위치의 위도와 경도를 가져옴
-  geocoder.value.geocode({ address: location }, (results, status) => {
+  geocoder.value.geocode({ address: locationEnglish }, (results, status) => {
     if (status === google.maps.GeocoderStatus.OK && results.length > 0) {
       const result = results[0];
       const resultLocation = result.geometry.location;
@@ -274,8 +295,8 @@ function searchBank() {
       );
 
       const request = {
-        bounds: bounds, // 경계 설정을 추가
-        query: `KB국민은행 ${selectedCity.value}`, // 쿼리에 선택한 구를 추가
+        bounds: bounds,
+        query: `KB Kookmin Bank ${cityEnglish}`, // 영어로 된 도시 이름 사용
       };
 
       // 장소 검색 수행
@@ -369,23 +390,46 @@ function searchBank() {
     }
   });
 }
+
+// 키를 영어 이름으로 변환하는 함수
+function getEnglishName(key) {
+  const englishNames = {
+    'province--seoul': 'Seoul',
+    'city--seoul-1': 'Gangnam-gu',
+    'city--seoul-2': 'Gangdong-gu',
+    // ... 다른 도시들에 대한 영어 이름 매핑
+  };
+  return englishNames[key] || key;
+}
 </script>
+
 <style scoped>
+/* 반응형 지도 크기 설정 */
 #map {
   width: 100%;
   height: 60vh;
+  /* 화면 높이의 60% */
   min-height: 400px;
+  /* 최소 높이 설정 */
 }
+
+/* 작은 화면일 때 */
 @media (max-width: 768px) {
+  /*  지도 높이 줄이기 */
   #map {
     height: 50vh;
   }
+
+  /* 버튼 늘리기 */
 }
+
 @media (max-width: 480px) {
+  /* 모바일 기기에서는 지도 높이를 더 줄이기 */
   #map {
     height: 40vh;
   }
 }
+
 .form-field-radius {
   border-radius: 50px;
   height: 40px;
