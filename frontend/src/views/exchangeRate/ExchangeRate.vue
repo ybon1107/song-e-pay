@@ -501,7 +501,7 @@ const saveAlertRate = async (baseCode, targetCode, targetExchange) => {
         icon: "success",
         confirmButtonText: "확인",
       });
-      router.push("/my-accounts");
+      router.push("/my-page");
     }
   } catch (error) {
     console.error("환율 알림 저장 중 오류 발생:", error);
@@ -600,7 +600,7 @@ const confirmAutoExchange = async (
         icon: "success",
         confirmButtonText: "확인",
       });
-      router.push("/my-accounts");
+      router.push("/my-page");
     }
   } catch (error) {
     console.error("자동 환전 예약 중 오류 발생:", error);
