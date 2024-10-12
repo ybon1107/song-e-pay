@@ -17,8 +17,18 @@ public class NotificationController {
 
     private final NotificationService notificationService;
 
-    @GetMapping("{userId}")
+    @GetMapping("/{userId}")
     public ResponseEntity<?> getNotification(@PathVariable String userId) {
         return ResponseEntity.ok(notificationService.getNotification(userId));
+    }
+
+    @DeleteMapping("/{notiNo}")
+    public ResponseEntity<?> deleteNotification(@PathVariable Integer notiNo) {
+        return ResponseEntity.ok(notificationService.deleteNotification(notiNo));
+    }
+
+    @PatchMapping("/{notiNo}")
+    public ResponseEntity<?> readNotification(@PathVariable Integer notiNo) {
+        return ResponseEntity.ok(notificationService.readNotification(notiNo));
     }
 }
