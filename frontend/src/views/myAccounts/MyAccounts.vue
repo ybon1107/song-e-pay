@@ -86,70 +86,7 @@ const closeModal = () => {
   showModal.value = false;
 };
 
-const handlePasswordVerified = async () => {
-  showModal.value = false; // 모달 숨김
-  let kwd;
-  let response;
 
-  try {
-    switch (currentAction.value) {
-      case TRANSACTION_TYPES.DEPOSIT:
-        response = await deposit();
-        kwd = i18n_DEPOSIT;
-        break;
-      case TRANSACTION_TYPES.EXCHANGE:
-        response = await exchange();
-        kwd = i18n_EXCHANGE;
-        break;
-      case TRANSACTION_TYPES.REFUND:
-        response = await refund();
-        kwd = i18n_REFUND;
-        break;
-      case TRANSACTION_TYPES.TRANSFER:
-        response = await transfer();
-        kwd = i18n_TRANSFER;
-        break;
-      case TRANSACTION_TYPES.RE_EXCHANGE:
-        response = await reExchange();
-        kwd = i18n_RE_EXCHANGE;
-        break;
-    }
-
-    kwd = t(kwd);
-
-    // ResponseEntity의 상태 코드 확인
-    const isSuccess = response.status >= 200 && response.status < 300;
-
-    if (isSuccess) {
-      Swal.fire({
-        title: t('myAccount--swal-title'),
-        text: t('myAccount--swal-content', { kwd: kwd }),
-        icon: 'success',
-      });
-
-      resetValue();
-      await fetchBalances(); // 잔액을 다시 가져옴
-
-      // AccountsCard의 fetchBalance 함수 호출
-      if (songEMoneyCardRef.value) {
-        await songEMoneyCardRef.value.fetchBalance();
-      }
-      if (wonEMoneyCardRef.value) {
-        await wonEMoneyCardRef.value.fetchBalance();
-      }
-    } else {
-      // 실패 시 에러를 throw
-      throw new Error(response.data?.message || t('swal--default-error-message'));
-    }
-  } catch (error) {
-    console.error(`Error in ${currentAction.value}:`, error);
-    await Swal.fire({
-      title: t('swal--title-fail'),
-      text: error.message || t('swal--default-error-message'),
-      icon: 'error',
-    });
-  }
-};
 
 //값이 입력되지 않으면 버튼 비활성화
 const isValidAmount = (amount) => {
@@ -203,16 +140,79 @@ const selectAsset = (asset) => {
   activeTab.value = asset === SONGE ? TRANSACTION_TYPES.DEPOSIT : TRANSACTION_TYPES.RE_EXCHANGE;
 };
 
+
+const handlePasswordVerified = async () => {
+  showModal.value = false; // 모달 숨김
+  let kwd;
+  let response;
+
+  try {
+    switch (currentAction.value) {
+      case TRANSACTION_TYPES.DEPOSIT:
+        response = await deposit();
+        kwd = i18n_DEPOSIT;
+        if (!response.data) throw new Error('My account has an insufficient balance.');
+        break;
+      case TRANSACTION_TYPES.EXCHANGE:
+        response = await exchange();
+        kwd = i18n_EXCHANGE;
+        break;
+      case TRANSACTION_TYPES.REFUND:
+        response = await refund();
+        if (!response.data) throw new Error('My Song-E has an insufficient balance.');
+        kwd = i18n_REFUND;
+        break;
+      case TRANSACTION_TYPES.TRANSFER:
+        response = await transfer();
+        kwd = i18n_TRANSFER;
+        break;
+      case TRANSACTION_TYPES.RE_EXCHANGE:
+        response = await reExchange();
+        kwd = i18n_RE_EXCHANGE;
+        break;
+    }
+
+    kwd = t(kwd);
+
+    // ResponseEntity의 상태 코드 확인
+    if (response.data) {
+      Swal.fire({
+        title: t('myAccount--swal-title'),
+        text: t('myAccount--swal-content', { kwd: kwd }),
+        icon: 'success',
+      });
+
+
+      await fetchBalances(); // 잔액을 다시 가져옴
+
+      // AccountsCard의 fetchBalance 함수 호출
+      if (songEMoneyCardRef.value) {
+        await songEMoneyCardRef.value.fetchBalance();
+      }
+      if (wonEMoneyCardRef.value) {
+        await wonEMoneyCardRef.value.fetchBalance();
+      }
+    } else {
+      // 실패 시 에러를 throw
+      throw new Error(response.data?.message || t('swal--default-error-message'));
+    }
+    resetValue();
+  } catch (error) {
+    await Swal.fire({
+      title: t('swal--title-fail'),
+      html: error.message || t('swal--default-error-message'),
+      icon: 'error',
+    });
+    resetValue();
+  }
+};
+
 // API 호출 함수
 const callAccountApi = async (apiFunction, params) => {
   try {
     const response = await apiFunction(params);
-    if (response !== '') {
-      console.log(response);
-    }
     return response;
   } catch (error) {
-    console.error('API 호출 중 오류 발생:', error);
     throw error;
   }
 };
@@ -363,13 +363,32 @@ const fetchExchangeRates = async () => {
     console.error('환율 데이터를 가져오는 중 오류 발생:', error);
   }
 };
+
 const fetchBalances = () => {
   myaccountApi.fetchkrwAccountBalance(user.value.krwNo).then((balance) => {
-    wonEMoneyBalance.value = balance;
+    if (balance === '') {
+      Swal.fire({
+        title: t('myAccount--Alert-swal-fail'),
+        text: t('Invalid won-e account.'),
+        icon: 'error',
+      });
+    } else {
+      wonEMoneyBalance.value = balance;
+    }
+
   });
 
   myaccountApi.fetchsongeAccountBalance(user.value.songNo).then((balance) => {
-    songEMoneyBalance.value = balance;
+    if (balance === '') {
+      Swal.fire({
+        title: t('myAccount--Alert-swal-fail'),
+        text: t('Invalid song-e account.'),
+        icon: 'error',
+      });
+    } else {
+      songEMoneyBalance.value = balance;
+    }
+
   });
 };
 
@@ -721,8 +740,7 @@ watchEffect(() => {
                       {{ $t('myAccount--songE-title') }}
                     </div>
                   </label>
-                  <ArgonAmountInput v-model="depositAmount"
-                    :placeholder="$t('myAccount--input-placeholder')"
+                  <ArgonAmountInput v-model="depositAmount" :placeholder="$t('myAccount--input-placeholder')"
                     :unit="customerunit" />
                 </div>
                 <div>
@@ -743,8 +761,7 @@ watchEffect(() => {
                     </div>
                     <div class="input-label-text">WON-E</div>
                   </label>
-                  <ExchangeAmountInput v-model="receiveAmount"
-                    :placeholder="$t('myAccount--input-placeholder')"
+                  <ExchangeAmountInput v-model="receiveAmount" :placeholder="$t('myAccount--input-placeholder')"
                     :unit="wonUnit" :selectedAsset="selectedAsset" :songEMoneyBalance="songEMoneyBalance_toKRW"
                     :activeTab="activeTab" :errorAmountMessage="errorAmountMessage"
                     @update:errorAmountMessage="errorAmountMessage = $event" @focus="onfocus('receive')"

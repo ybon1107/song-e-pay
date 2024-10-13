@@ -32,6 +32,9 @@ export default {
       const response = await api.post(`/deposit`, data); // JSON으로 전송
       return response;
     } catch (error) {
+      if (error.response.status === 500) {
+        throw new Error('There was a problem on the server.<br/>Please try again later.');
+      }
       console.error('충전 오류', error);
       throw error;
     }
