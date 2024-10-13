@@ -57,7 +57,7 @@ const handleNext = () => {
 };
 
 // 이용 약관과 개인정보 보호정책(다국어 지원)
-const termsOfUse = t("signUp--termsOfUse");
+const termsOfService = t("signUp--termsOfService");
 const privacyPolicy = t("signUp--privacyPolicy");
 </script>
 <template>
@@ -110,7 +110,7 @@ const privacyPolicy = t("signUp--privacyPolicy");
                       <div
                         class="form-control bg-white"
                         style="height: 72px; overflow-y: auto"
-                        v-html="termsOfUse"
+                        v-html="termsOfService"
                       ></div>
                     </div>
                     <!-- 개인정보 보호정책 동의 -->
