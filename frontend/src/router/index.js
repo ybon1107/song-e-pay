@@ -25,6 +25,14 @@ const routes = [
     component: MainPage,
   },
   {
+    path: '/my-page',
+    name: 'MyPage',
+    meta: {
+      requiresAuth: true,
+    },
+    component: MyPage,
+  },
+  {
     path: '/my-accounts',
     name: 'MyAccounts',
     meta: {
@@ -133,9 +141,9 @@ const routes = [
 ];
 
 const router = createRouter({
-    history: createWebHistory(process.env.BASE_URL),
-    routes,
-    linkActiveClass: 'active',
+  history: createWebHistory(process.env.BASE_URL),
+  routes,
+  linkActiveClass: 'active',
 });
 
 router.beforeEach((to, from, next) => {
