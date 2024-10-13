@@ -134,6 +134,11 @@ const sendEmailCode = async () => {
 // 이메일 인증 코드 입력 필드 상태
 const emailCode = ref("");
 
+// 인증 코드 입력 숫자만 허용(최대 6자리)
+const handleEmailCode = (event) => {
+  emailCode.value = event.target.value.replace(/\D/g, "").slice(0, 6);
+};
+
 // 인증 코드 검증 상태
 const isVerified = ref(false);
 
@@ -389,6 +394,7 @@ const handleSubmit = async () => {
                         class="col-xl col-md col-sm"
                         :placeholder="$t('signUp--emailCodePlaceholder')"
                         v-model="emailCode"
+                        @input="handleEmailCode"
                         :class="{ 'is-invalid': emailCodeError }"
                         :success="!emailCodeError && isVerified"
                         :error="
