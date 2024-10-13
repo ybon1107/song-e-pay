@@ -6,6 +6,19 @@ const api = axios.create({
   headers: { "Content-Type": "application/json" },
 });
 
+api.interceptors.request.use((config) => {
+  const authStore = useAuthStore();
+  const token = authStore.getToken();
+
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+
+  return config;
+}, (error) => {
+  return Promise.reject(error);
+});
+
 export default {
   async updateProfile(userInfo) {
     console.log("userInfo: ", userInfo);
