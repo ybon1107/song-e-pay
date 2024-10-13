@@ -12,7 +12,6 @@ import ExchangeRateChart from '@/views/Chart/ExchangeRateChart.vue';
 import Swal from 'sweetalert2';
 import { TRANSACTION_TYPES, TRANSACTION_TYPES_KEY } from '@/constants/transactionType';
 import { COUNTRY_CODE, COUNTRY_KEY, CURRENCY_NAME } from '@/constants/countryCode';
-
 //i18n
 import { useI18n } from 'vue-i18n';
 const { t } = useI18n();
@@ -86,8 +85,6 @@ const closeModal = () => {
   showModal.value = false;
 };
 
-
-
 //값이 입력되지 않으면 버튼 비활성화
 const isValidAmount = (amount) => {
   return amount && !isNaN(amount) && parseFloat(amount) > 0;
@@ -111,8 +108,7 @@ let processAfterBalance = computed(() => {
   }
 
   // 계산된 숫자를 포맷하여 반환
-  return formatNumber(balance.toFixed(5)); // 소수점 두 자릿수까지 표시
-  // return formatCurrency(balance,INTL_LOCALE[user.value.countryCode],CURRENCY_NAME[user.value.countryCode]);
+  return formatNumber(balance); // 소수점 두 자릿수까지 표시
 });
 
 //원화페이계좌
@@ -252,7 +248,6 @@ const exchange = async () => {
   // const amount = exchangeAmount.value; // 환전하려는 금액
   const amount = receiveAmount.value; //외화기준 금액 넣어주는 걸로 변경
   const exchangeRate = currentFromKrw.value;
-  // const exchangeRate = 0.00074;
   const params = {
     ...ACCOUNT.value,
     amount,
@@ -666,9 +661,6 @@ watchEffect(() => {
 </script>
 
 <template>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
-    integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
-    crossorigin="anonymous" referrerpolicy="no-referrer" />
   <div class="container-fluid">
     <SecondPasswordModal v-if="showModal" @close="closeModal" @password-verified="handlePasswordVerified" />
 
@@ -745,7 +737,7 @@ watchEffect(() => {
                 </div>
                 <div>
                   {{ t('myAccount-input-expectedAmount') }}: <span class="balance-text"
-                    :class="{ 'text-danger': depositAmount !== '' }">{{ processAfterBalance }}</span>{{ customerunit }}
+                    :class="{ 'text-blue': depositAmount !== '' }">{{ processAfterBalance }}</span>{{ customerunit }}
                 </div>
                 <button type="submit" class="btn btn-primary w-100 fs-4" @click="openModal"
                   :disabled="!isValidAmount(depositAmount)" variant="gradient">
@@ -761,6 +753,11 @@ watchEffect(() => {
                     </div>
                     <div class="input-label-text">WON-E</div>
                   </label>
+                  <div class="input-group mb-3">
+                    <input type="text" class="form-control" placeholder="Recipient's username"
+                      aria-label="Recipient's username" aria-describedby="basic-addon2">
+                    <span class="input-group-text" id="basic-addon2">{{ wonUnit }}</span>
+                  </div>
                   <ExchangeAmountInput v-model="receiveAmount" :placeholder="$t('myAccount--input-placeholder')"
                     :unit="wonUnit" :selectedAsset="selectedAsset" :songEMoneyBalance="songEMoneyBalance_toKRW"
                     :activeTab="activeTab" :errorAmountMessage="errorAmountMessage"
@@ -777,15 +774,12 @@ watchEffect(() => {
                     </div>
                   </label>
                   <!-- 현재환율 * exchangeamount -->
-                  <div style="height: 60px">
-                    <ExchangeAmountInput v-model="exchangeAmount"
-                      :placeholder="`${$t('transaction_types_exchange')} ${$t('myAccount--input-placeholder')}`"
-                      :unit="customerunit" :selectedAsset="selectedAsset" :songEMoneyBalance="songEMoneyBalance"
-                      :activeTab="activeTab" :errorMessage="errorAmountMessage"
-                      @update:errorAmountMessage="errorAmountMessage = $event" @focus="onfocus('exchange')"
-                      @blur="onblurExchange" />
-                  </div>
-                  <!-- <div class="balance-text">{{ receivedAmount }} {{ customerunit }}</div> -->
+                  <ExchangeAmountInput v-model="exchangeAmount"
+                    :placeholder="`${$t('transaction_types_exchange')} ${$t('myAccount--input-placeholder')}`"
+                    :unit="customerunit" :selectedAsset="selectedAsset" :songEMoneyBalance="songEMoneyBalance"
+                    :activeTab="activeTab" :errorMessage="errorAmountMessage"
+                    @update:errorAmountMessage="errorAmountMessage = $event" @focus="onfocus('exchange')"
+                    @blur="onblurExchange" />
                   <small>{{ t('myAccount--songE-exchangeRate') }}: 1 {{ wonUnit }} = {{ currentFromKrw }}
                     {{ customerunit }}
                   </small>
