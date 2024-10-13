@@ -1,11 +1,8 @@
 <template>
     <div v-if="user">
-        <div
-            class="card card-img-bg"
-            :id="props.assetType === 'song-e' ? 'card-songe' : 'card-wone'"
+        <div class="card card-img-bg" :id="props.assetType === 'song-e' ? 'card-songe' : 'card-wone'"
             :style="{ backgroundImage: `url(${backgroundImage})` }"
-            :class="props.assetType === 'song-e' ? 'bg-primary' : 'bg-info'"
-        >
+            :class="props.assetType === 'song-e' ? 'bg-primary' : 'bg-info'">
             <div class="card-body d-flex align-items-end justify-content-end">
                 <div class="d-flex align-items-center">
                     <div class="icon-container me-2">
@@ -64,6 +61,9 @@ const fetchBalance = async () => {
             const fetchedBalance = await myaccountApi.fetchsongeAccountBalance(
                 user.value.songNo
             );
+            if (fetchedBalance === '') {
+                throw new Error('유효하지 않은 song-e계좌');
+            }
             balance.value = formatNumber(fetchedBalance.toFixed(2));
             // balance.value = formatCurrency(fetchedBalance, INTL_LOCALE[user.value.countryCode], CURRENCY_NAME[user.value.countryCode]);
         } catch (error) {
@@ -74,6 +74,9 @@ const fetchBalance = async () => {
             const fetchedBalance = await myaccountApi.fetchkrwAccountBalance(
                 user.value.krwNo
             );
+            if (fetchedBalance === '') {
+                throw new Error('유효하지 않은 won-e계좌');
+            }
             balance.value = formatNumber(fetchedBalance.toFixed(2));
             // formatCurrency(fetchedBalance, INTL_LOCALE[0], CURRENCY_NAME[0]);
         } catch (error) {
@@ -101,6 +104,7 @@ defineExpose({ fetchBalance });
     transform: scale(1.08);
     transition: all 0.3s ease;
 }
+
 .selected #card-wone {
     border: 3px solid #5c9ea6;
     box-shadow: 0 0 30px #5c9ea6;

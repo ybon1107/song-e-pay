@@ -1,11 +1,13 @@
 <template>
   <div class="modal-body">
-    <Modal :isVisible="showModal" :showFooter="false" :title="$t('myAccount--SecondPassword--modal-header')" @close="closeModal" v-if="showPasswordInput">
+    <Modal :isVisible="showModal" :showFooter="false" :title="$t('myAccount--SecondPassword--modal-header')"
+      @close="closeModal" v-if="showPasswordInput">
       <p class="warning-text">{{ $t('myAccount--SecondPassword--modal-header-title') }}</p>
       <h3 class="password-title">{{ $t('myAccount--SecondPassword--modal-warning') }}</h3>
       <!-- 비밀번호 도트 -->
       <div class="password-dots">
-        <span v-for="(digit, index) in 6" :key="index" :class="{ dot: true, filled: password.length >= index + 1 }"></span>
+        <span v-for="(digit, index) in 6" :key="index"
+          :class="{ dot: true, filled: password.length >= index + 1 }"></span>
       </div>
 
       <!-- 숫자 키패드 -->
@@ -23,16 +25,19 @@
 </template>
 
 <script setup>
-import { ref, defineEmits, onMounted,computed } from 'vue';
+import { ref, defineEmits, onMounted, computed } from 'vue';
 import settingApi from '../../api/settingApi';
 import Modal from '../../components/modal/Modal.vue';
 import Swal from 'sweetalert2';
-import 'sweetalert2/dist/sweetalert2.min.css';
 
 //user
 import { useAuthStore } from '@/stores/auth';
 const auth = useAuthStore();
 const userId = computed(() => auth.user.userId);
+
+//i18n
+import { useI18n } from "vue-i18n";
+const { t } = useI18n();
 
 // 이벤트 설정
 const emit = defineEmits(['close', 'password-verified']);
@@ -90,7 +95,6 @@ const verifyPassword = async (userId) => {
   try {
     const response = await settingApi.submitSecPwd(formData);
     if (response.data === true) {
-      console.log(response);
       emit('password-verified');
       closeModal();
     } else {
@@ -103,18 +107,10 @@ const verifyPassword = async (userId) => {
         password.value = '';
         showPasswordInput.value = true;
       });
+      throw new Error();
     }
   } catch (error) {
     console.error('비밀번호 검증 중 오류 발생:', error);
-    showPasswordInput.value = false;
-    Swal.fire({
-      title: t('myAccount--SecondPassword--modal-enterAgain'),
-      text: t('myAccount--SecondPassword--modal-verificationFailed'),
-      icon: 'error',
-    }).then(() => {
-      password.value = '';
-      showPasswordInput.value = true;
-    });
   }
 };
 
@@ -182,7 +178,8 @@ const closeModal = () => {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 0 auto; /* 버튼을 그리드 셀 내에서 가운데 정렬 */
+  margin: 0 auto;
+  /* 버튼을 그리드 셀 내에서 가운데 정렬 */
 }
 
 .keypad button:hover {
@@ -202,12 +199,16 @@ const closeModal = () => {
 }
 
 .warning-text {
-  margin-bottom: 5px; /* 경고 텍스트 아래 간격 줄임 */
-  color: #ff6b6b; /* 경고 텍스트 색상 변경 (선택사항) */
+  margin-bottom: 5px;
+  /* 경고 텍스트 아래 간격 줄임 */
+  color: #ff6b6b;
+  /* 경고 텍스트 색상 변경 (선택사항) */
 }
 
 .password-title {
-  margin-top: 0; /* 제목 위 간격 제거 */
-  margin-bottom: 20px; /* 제목 아래 간격 추가 */
+  margin-top: 0;
+  /* 제목 위 간격 제거 */
+  margin-bottom: 20px;
+  /* 제목 아래 간격 추가 */
 }
 </style>
