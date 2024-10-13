@@ -6,7 +6,7 @@
       </span>
       <input :id="id" :type="type" class="form-control" :class="{ 'is-invalid': errorAmountMessage }" :name="name"
         :value="formattedValue" :placeholder="placeholder" :unit="unit" :required="isRequired" @input="onInput"
-        @focus="$emit('focus', $event)" @blur="$emit('blur', $event)" />
+        @focus="$emit('focus', $event)" @blur="$emit('blur', $event)" :disabled="disabled" />
       <span v-if="iconDir === 'right'" class="input-group-text">
         <i :class="getIcon(icon)"></i>
       </span>
@@ -72,6 +72,10 @@ const props = defineProps({
     default: 'text',
   },
   isRequired: {
+    type: Boolean,
+    default: false,
+  },
+  disabled: {
     type: Boolean,
     default: false,
   },
