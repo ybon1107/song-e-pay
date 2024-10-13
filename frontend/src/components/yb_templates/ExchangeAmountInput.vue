@@ -4,20 +4,9 @@
       <span v-if="iconDir === 'left'" class="input-group-text">
         <i :class="getIcon(icon)"></i>
       </span>
-      <input
-        :id="id"
-        :type="type"
-        class="form-control"
-        :class="{ 'is-invalid': errorAmountMessage }"
-        :name="name"
-        :value="formattedValue"
-        :placeholder="placeholder"
-        :unit="unit"
-        :required="isRequired"
-        @input="onInput"
-        @focus="$emit('focus', $event)"
-        @blur="$emit('blur', $event)"
-      />
+      <input :id="id" :type="type" class="form-control" :class="{ 'is-invalid': errorAmountMessage }" :name="name"
+        :value="formattedValue" :placeholder="placeholder" :unit="unit" :required="isRequired" @input="onInput"
+        @focus="$emit('focus', $event)" @blur="$emit('blur', $event)" />
       <span v-if="iconDir === 'right'" class="input-group-text">
         <i :class="getIcon(icon)"></i>
       </span>
@@ -132,8 +121,8 @@ const formattedValue = computed({
 });
 // input 이벤트 핸들러
 const onInput = (event) => {
-  event.target.value = event.target.value.replace(/[^\d.]/g, '');
-  let rawValue = event.target.value.replace(/[^\d.]/g, ''); // 숫자만 추출
+  event.target.value = event.target.value.replace(/[^0-9]/g, '');
+  let rawValue = event.target.value
   if (rawValue.startsWith('0')) {
     emit('update:errorAmountMessage', t('myAccount--error-notZero')); // Emit error message
     rawValue = ''; // input 필드 값을 빈 문자열로 초기화
