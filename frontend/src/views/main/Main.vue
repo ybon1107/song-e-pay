@@ -1,38 +1,25 @@
 <template>
-  <header
-    class="p-3"
-    style="
+  <header class="p-3" style="
       background-color: #fff6ef;
       position: fixed;
       top: 0;
       left: 0;
       right: 0;
       z-index: 1000;
-    "
-  >
+    ">
     <div class="container">
       <div class="d-flex align-items-center justify-content-between">
         <a href="/" class="mb-2 mb-lg-0 text-white text-decoration-none">
-          <img
-            src="/images/song.png"
-            alt="Song E Pay"
-            class="logo-img d-block d-md-none"
-          />
+          <img src="/images/song.png" alt="Song E Pay" class="logo-img d-block d-md-none" />
 
           <h4 class="d-none d-md-block mb-0">
-            <img
-              class="ld-none d-md-block mb-0"
-              src="../../../images/3D_SongE.png"
-              alt="Illustration"
-              style="height: 40px; width: auto"
-            />
+            <img class="ld-none d-md-block mb-0" src="../../../images/3D_SongE.png" alt="Illustration"
+              style="height: 40px; width: auto" />
           </h4>
         </a>
 
         <div>
-          <a href="/register/legal" class="text-decoration-none me-3 text-bold"
-            >Sign Up</a
-          >
+          <a href="/register/legal" class="text-decoration-none me-3 text-bold">Sign Up</a>
           <a href="/login" class="btn btn-primary mb-0">Log in</a>
         </div>
       </div>
@@ -41,14 +28,8 @@
   <!-- 왼쪽 화면 -->
   <div class="section-container-beige">
     <!-- 모바일 버전 버튼 -->
-    <a
-      href="https://leeyebon7929.wixsite.com/my-site-1"
-      class="btn mobile-btn col-md-3 mb-4"
-      >Get Started</a
-    >
-    <div
-      class="d-flex justify-content-between flex-column flex-md-row align-items-start"
-    >
+    <a href="https://leeyebon7929.wixsite.com/my-site-1" class="btn mobile-btn col-md-3 mb-4">Get Started</a>
+    <div class="d-flex justify-content-between flex-column flex-md-row align-items-start">
       <!-- 왼쪽 섹션 -->
       <div class="left-section-main d-flex flex-column mt-2 col-md-6">
         <h3 class="col-md-9 mb-4">
@@ -63,27 +44,19 @@
         </p>
 
         <!-- 웹 버전 버튼 -->
-        <a
-          href="https://leeyebon7929.wixsite.com/my-site-1"
-          class="btn web-btn col-md-3 mb-4"
-          >Get Started</a
-        >
+        <a href="https://leeyebon7929.wixsite.com/my-site-1" class="btn web-btn col-md-3 mb-4">Get Started</a>
 
         <!-- 아이콘 섹션 -->
         <div class="icon-item d-flex flex-wrap mt-3">
           <div class="icon-item col-md-3 d-flex align-items-center">
             <div style="position: relative; width: 50px; height: 50px">
-              <img
-                src="/images/main1.png"
-                alt="Hand holding icon"
-                style="
+              <img src="/images/main1.png" alt="Hand holding icon" style="
                   position: absolute;
                   top: 50%;
                   left: 50%;
                   transform: translate(-50%, -50%);
                   width: 30px;
-                "
-              />
+                " />
             </div>
 
             <div class="ms-2">
@@ -93,17 +66,13 @@
           </div>
           <div class="icon-item col-md-3 d-flex align-items-center">
             <div style="position: relative; width: 50px; height: 50px">
-              <img
-                src="/images/main2.png"
-                alt="Hand holding icon"
-                style="
+              <img src="/images/main2.png" alt="Hand holding icon" style="
                   position: absolute;
                   top: 50%;
                   left: 50%;
                   transform: translate(-50%, -50%);
                   width: 30px;
-                "
-              />
+                " />
             </div>
             <div class="ms-2">
               <div style="font-size: 12px">Easy &</div>
@@ -112,17 +81,13 @@
           </div>
           <div class="icon-item col-md-3 d-flex align-items-center">
             <div style="position: relative; width: 50px; height: 50px">
-              <img
-                src="/images/main3.png"
-                alt="Hand holding icon"
-                style="
+              <img src="/images/main3.png" alt="Hand holding icon" style="
                   position: absolute;
                   top: 50%;
                   left: 50%;
                   transform: translate(-50%, -50%);
                   width: 30px;
-                "
-              />
+                " />
             </div>
             <div class="ms-2">
               <div style="font-size: 12px">Local &</div>
@@ -133,30 +98,16 @@
       </div>
 
       <!-- 오른쪽 섹션 -->
-      <div
-        class="right-section-main d-flex justify-content-center mt-2 col-md-6 align-self-end"
-      >
-        <img
-          class="main-img"
-          src="../../../images/mainpage-1.png"
-          alt="Illustration"
-          style="max-width: 100%; height: auto"
-        />
+      <div class="right-section-main d-flex justify-content-center mt-2 col-md-6 align-self-end">
+        <img class="main-img" src="../../../images/mainpage-1.png" alt="Illustration"
+          style="max-width: 100%; height: auto" />
       </div>
     </div>
   </div>
 
   <section class="curved-section">
-    <svg
-      viewBox="0 0 1440 200"
-      xmlns="http://www.w3.org/2000/svg"
-      style="transform: scaleX(-1)"
-    >
-      <path
-        fill="#fff6ef"
-        fill-opacity="1"
-        d="M0,150L1440,90L1440,0L0,0Z"
-      ></path>
+    <svg viewBox="0 0 1440 200" xmlns="http://www.w3.org/2000/svg" style="transform: scaleX(-1)">
+      <path fill="#fff6ef" fill-opacity="1" d="M0,150L1440,90L1440,0L0,0Z"></path>
     </svg>
   </section>
   <div class="section-container-green">
@@ -196,75 +147,63 @@
           exchange rate for your money.
         </p>
       </div>
-      <div class="flex-fill-column me-4">
-        <div class="image-container">
-          <img
-            class="flex_item_image"
-            src="../../../images/image1.png"
-            alt="실시간 환율 조회"
-          />
+      <div class="row">
+        <div class="col-lg-3 col-md-6">
+          <div class="image-container">
+            <img class="flex_item_image" src="../../../images/image1.png" alt="실시간 환율 조회" />
+          </div>
+          <div class="text-container">
+            <h5 class="font_5 pt-3 pb-2 pl-0 pr-0">
+              Get live currency exchange rates
+            </h5>
+            <p style="text-align: justify;">
+              Get the latest exchange rates anytime before, during, or after your
+              trip, and make the best currency conversions as exchange rates
+              fluctuate.
+            </p>
+          </div>
         </div>
-        <div class="text-container">
-          <h5 class="font_5 pt-3 pb-2 pl-0 pr-0">
-            Get live currency exchange rates
-          </h5>
-          <p style="text-align: justify;">
-            Get the latest exchange rates anytime before, during, or after your
-            trip, and make the best currency conversions as exchange rates
-            fluctuate.
-          </p>
+        <div class="col-lg-3 col-md-6">
+          <div class="image-container">
+            <img class="flex_item_image" src="../../../images/image2.png" alt="자동 환전 서비스" />
+          </div>
+          <div class="text-container">
+            <h5 class="font_5 pt-3 pb-2 pl-0 pr-0">
+              Automatic currency exchange service
+            </h5>
+            <p style="text-align: justify;">
+              We'll automatically complete your conversion at the rate you want.
+              Take the guesswork out of currency exchange.
+            </p>
+          </div>
         </div>
-      </div>
-      <div class="flex-fill-column mx-4">
-        <div class="image-container">
-          <img
-            class="flex_item_image"
-            src="../../../images/image2.png"
-            alt="자동 환전 서비스"
-          />
+        <div class="col-lg-3 col-md-6">
+          <div class="image-container">
+            <img class="flex_item_image" src="../../../images/image3.png" alt="환율 알림 서비스" />
+          </div>
+          <div class="text-container">
+            <h5 class="font_5 pt-3 pb-2 pl-0 pr-0">
+              Exchange Rate Alert Service
+            </h5>
+            <p style="text-align: justify;">
+              Get instant notifications when your desired exchange rate is reached so you can make your conversion at
+              the optimal time.
+            </p>
+          </div>
         </div>
-        <div class="text-container">
-          <h5 class="font_5 pt-3 pb-2 pl-0 pr-0">
-            Automatic currency exchange service
-          </h5>
-          <p style="text-align: justify;">
-            We'll automatically complete your conversion at the rate you want.
-            Take the guesswork out of currency exchange.
-          </p>
-        </div>
-      </div>
-      <div class="flex-fill-column mx-4">
-        <div class="image-container">
-          <img
-            class="flex_item_image"
-            src="../../../images/image3.png"
-            alt="환율 알림 서비스"
-          />
-        </div>
-        <div class="text-container">
-          <h5 class="font_5 pt-3 pb-2 pl-0 pr-0">
-            Exchange Rate Alert Service
-          </h5>
-          <p style="text-align: justify;">
-            Get instant notifications when your desired exchange rate is reached so you can make your conversion at the optimal time.
-          </p>
-        </div>
-      </div>
-      <div class="flex-fill-column mx-4">
-        <div class="image-container">
-          <img
-            class="flex_item_image"
-            src="../../../images/image4.png"
-            alt="No 수수료! 자유로운 환전"
-          />
-        </div>
-        <div class="text-container">
-          <h5 class="font_5 pt-3 pb-2 pl-0 pr-0">
-            No fees! Free currency exchange
-          </h5>
-          <p style="text-align: justify;">
-            We'll give you a Pay Money account to manage the money you exchange. Exchange money anytime, anywhere, without worrying about fees.
-          </p>
+        <div class="col-lg-3 col-md-6">
+          <div class="image-container">
+            <img class="flex_item_image" src="../../../images/image4.png" alt="No 수수료! 자유로운 환전" />
+          </div>
+          <div class="text-container">
+            <h5 class="font_5 pt-3 pb-2 pl-0 pr-0">
+              No fees! Free currency exchange
+            </h5>
+            <p style="text-align: justify;">
+              We'll give you a Pay Money account to manage the money you exchange. Exchange money anytime, anywhere,
+              without worrying about fees.
+            </p>
+          </div>
         </div>
       </div>
     </div>
@@ -275,9 +214,7 @@
       Pay Money account &<br />
       Send money between Korean won-only accounts
     </h2>
-    <div
-      class="d-flex justify-content-between align-items-center flex-column flex-md-row mb-3"
-    >
+    <div class="d-flex justify-content-between align-items-center flex-column flex-md-row mb-3">
       <div class="mesh-left col-md-6 d-flex flex-column">
         <p class="fw-bold fs-5">Manage your money in one place!</p>
         <p style="text-align: justify;">
@@ -285,7 +222,7 @@
           currency conversions and make quick payments and transfers whenever
           you need them.
         </p>
-        <p class="fw-bold fs-5" >Easily send money in Korean won!</p>
+        <p class="fw-bold fs-5">Easily send money in Korean won!</p>
         <p style="text-align: justify;">
           Easily send money to friends locally with a dedicated Korean Won
           account. No bank account required, all you need is Pay Money to send
@@ -300,46 +237,25 @@
           without worrying about exchange rates.
         </p>
       </div>
-      <div
-        class="mesh-right col-md-6 col-12 d-flex justify-content-center align-items-center"
-      >
-        <img
-          src="../../../images/Coin.png"
-          alt="송금 이미지"
-          class="img-fluid"
-          style="max-width: 100%; height: auto; object-fit: cover"
-        />
+      <div class="mesh-right col-md-6 col-12 d-flex justify-content-center align-items-center">
+        <img src="../../../images/Coin.png" alt="송금 이미지" class="img-fluid"
+          style="max-width: 100%; height: auto; object-fit: cover" />
       </div>
     </div>
   </section>
   <!-- 곡선 -->
   <div class="curve-container" style="background-color: #fff6ef">
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 1440 320"
-      class="curve"
-    >
-      <path
-        fill="#B0AB99"
-        fill-opacity="1"
-        d="M0,320L48,288C96,256,192,192,288,165.3C384,139,480,149,576,176C672,203,768,245,864,256C960,267,1056,245,1152,218.7C1248,192,1344,160,1392,144L1440,128L1440,0L1392,0C1344,0,1248,0,1152,0C1056,0,960,0,864,0C768,0,672,0,576,0C480,0,384,0,288,0C192,0,96,0,48,0L0,0Z"
-      ></path>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320" class="curve">
+      <path fill="#B0AB99" fill-opacity="1"
+        d="M0,320L48,288C96,256,192,192,288,165.3C384,139,480,149,576,176C672,203,768,245,864,256C960,267,1056,245,1152,218.7C1248,192,1344,160,1392,144L1440,128L1440,0L1392,0C1344,0,1248,0,1152,0C1056,0,960,0,864,0C768,0,672,0,576,0C480,0,384,0,288,0C192,0,96,0,48,0L0,0Z">
+      </path>
     </svg>
   </div>
   <!-- 네 번째 섹션 -->
   <section class="section-container-beige">
-    <div
-      class="d-flex justify-content-between align-items-center flex-column flex-md-row mb-3"
-    >
-      <div
-        class="mesh-right col-md-5 col-12 d-flex justify-content-center align-items-center"
-      >
-        <img
-          src="../../../images/Map.png"
-          alt="지도 이미지"
-          class="img-fluid"
-          style="max-width: 100%; height: auto"
-        />
+    <div class="d-flex justify-content-between align-items-center flex-column flex-md-row mb-3">
+      <div class="mesh-right col-md-5 col-12 d-flex justify-content-center align-items-center">
+        <img src="../../../images/Map.png" alt="지도 이미지" class="img-fluid" style="max-width: 100%; height: auto" />
       </div>
       <div class="mesh-left col-md-7 d-flex flex-column">
         <h2 class="font_2 mb-4 text-start">Map of bank branches</h2>
@@ -354,9 +270,7 @@
   </section>
   <!-- 다섯 번째 섹션 -->
   <section class="section-container-beige">
-    <div
-      class="lastpage d-flex justify-content-between align-items-center flex-column mb-3"
-    >
+    <div class="lastpage d-flex justify-content-between align-items-center flex-column mb-3">
       <h2 class="title text-center">
         " Prepare for Your Trip to Korea With Our Song-E pay "
       </h2>
@@ -422,7 +336,10 @@ onBeforeMount(() => {
   width: 100%;
   height: auto;
 }
-
+.image-container{
+  display: flex;
+  justify-content: center;
+}
 .image-container img {
   max-width: 245px;
   /* Adjust the value as needed */
@@ -431,7 +348,8 @@ onBeforeMount(() => {
 }
 
 .web-btn {
-  display: block; /* 웹에서는 보임 */
+  display: block;
+  /* 웹에서는 보임 */
   max-width: 100%;
 }
 
@@ -456,6 +374,7 @@ onBeforeMount(() => {
 
 /* Mobile styles */
 @media (max-width: 768px) {
+
   /* Adjust the max-width value as needed for your breakpoint */
   .section-container-beige {
     background: #fff6ef;
@@ -474,8 +393,10 @@ onBeforeMount(() => {
   }
 
   .mobile-btn {
-    display: block; /* 모바일에서는 보임 */
-    order: 3; /*첫 번째로 오도록 설정*/
+    display: block;
+    /* 모바일에서는 보임 */
+    order: 3;
+    /*첫 번째로 오도록 설정*/
   }
 
   .web-btn {

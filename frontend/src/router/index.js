@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router';
+import MyPage from '../views/myPage/MyPage.vue';
 import MyAccounts from '../views/myAccounts/MyAccounts.vue';
 import Payment from '../views/payment/Payment.vue';
 import PassWordInputPage from '../views/payment/PasswordInputPage.vue';
@@ -149,7 +150,7 @@ router.beforeEach((to, from, next) => {
     });
   }
 
-  if ((to.name === 'Password' || to.name === 'Qr') && from.name !== 'Payment') {
+  if ((to.name === 'Password') && from.name !== 'Payment') {
     return next({
       name: 'Payment',
     });

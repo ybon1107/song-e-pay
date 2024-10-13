@@ -49,6 +49,11 @@ export default defineConfig(({ mode }) => {
           changeOrigin: true,
           // secure: false,
         },
+        '/ws': {
+          target: env.VITE_WEBSOCKET_URL,
+          ws: true,
+          changeOrigin: true,
+        },
         // '/api/exchange': {
         //   target: 'https://v6.exchangerate-api.com/v6/6bbbf78cc42a296d533a9e6b',
         //   changeOrigin: true,

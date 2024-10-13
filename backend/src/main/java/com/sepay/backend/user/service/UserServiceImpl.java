@@ -1,6 +1,5 @@
 package com.sepay.backend.user.service;
 
-import com.sepay.backend.payment.dto.PasswordDTO;
 import com.sepay.backend.security.account.domain.AuthVO;
 import com.sepay.backend.security.account.domain.UserVO;
 import com.sepay.backend.user.dto.UserDTO;
@@ -23,21 +22,10 @@ public class UserServiceImpl implements UserService{
 
     private final UserMapper mapper;
     final PasswordEncoder passwordEncoder;
+
     @Override
     public String selectSecondPwd(String userId){
         return mapper.getSecondaryPassword(userId);
-    }
-    @Override
-    public boolean checkSecondaryPassword(PasswordDTO passwordDTO) {
-        //추후에 userNo  동적 변경
-        String userPassword = mapper.getSecondaryPassword(passwordDTO.getUserId());
-
-        if(passwordDTO.getPassword().equals(userPassword)){
-            return true;
-        }
-        else{
-            return false;
-        }
     }
 
     @Override
@@ -112,11 +100,4 @@ public UserDTO register(UserRegisterDTO userRegisterDTO) {
     public UserDTO getUserByEmail(String userId) {
         return mapper.selectUserByEmail(userId);
     }
-
-    // 자동환전에서 사용
-    @Override
-    public Map<String, String> getUserAccounts(Integer userNo) {
-        return mapper.selectUserAccounts(userNo);
-    }
-
 }

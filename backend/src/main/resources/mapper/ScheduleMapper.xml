@@ -5,15 +5,15 @@
 <mapper namespace="com.sepay.backend.eventSchedule.mapper.ScheduleMapper">
 
     <!-- 일정 저장 -->
-    <insert id="saveSchedule" parameterType="com.sepay.backend.eventSchedule.dto.ScheduleDTO">
+    <insert id="saveSchedule" parameterType="ScheduleDTO">
         INSERT INTO sepay.event
-        (user_id, begin_date, end_date, title, todo, color, created_at, updated_at)
+        (user_id, begin_date, end_date, title, todo, color)
         VALUES
-            (#{userId}, #{beginDate}, #{endDate}, #{title}, #{todo}, #{color}, NOW(), NOW())
+            (#{userId}, #{beginDate}, #{endDate}, #{title}, #{todo}, #{color})
     </insert>
 
     <!-- 일정 목록 조회 -->
-    <select id="selectByUserId" parameterType="map" resultType="com.sepay.backend.eventSchedule.dto.ScheduleDTO">
+    <select id="selectByUserId" parameterType="map" resultType="ScheduleDTO">
         SELECT *
         FROM event
         WHERE user_id = #{userId}
@@ -23,7 +23,7 @@
     </select>
 
     <!-- 기존 일정 업데이트 -->
-    <update id="updateSchedule" parameterType="com.sepay.backend.eventSchedule.dto.ScheduleDTO">
+    <update id="updateSchedule" parameterType="ScheduleDTO">
         UPDATE event
         SET
             begin_date = #{beginDate},
