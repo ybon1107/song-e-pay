@@ -397,7 +397,7 @@ signUp--verify,인증,Verify,Memeriksa,Xác minh
 signUp--pw,비밀번호,Your password,Kata sandi Anda,Mật khẩu của bạn
 signUp--pwPlaceholder,비밀번호,Password,Kata sandi,Mật khẩu
 signUp--confirmPw,비밀번호 확인,Confirm your password,Konfirmasi kata sandi Anda,Xác nhận mật khẩu của bạn
-signUp--confirmPwPlaceholder,비밀번호 확인,,Konfirmasikan kata sandi,Xác nhận mật khẩu
+signUp--confirmPwPlaceholder,비밀번호 확인,Confirm password,Konfirmasikan kata sandi,Xác nhận mật khẩu
 signUp--country,거주 국가,Country of residence,Negara tempat tinggal,Quốc gia cư trú
 signUp--countryCodeLabel,국가,Country,Negara,Quốc gia
 signUp--countryUS,미국,United States,Amerika Serikat,Hoa Kỳ
