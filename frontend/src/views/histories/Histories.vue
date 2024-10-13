@@ -255,20 +255,11 @@ const getBadgeClass = (typeCode) => {
         <span class="input-group-text">
           <i class="fas fa-search"></i>
         </span>
-        <input
-          type="text"
-          class="form-control"
-          :placeholder="$t('histories--searchQuery')"
-          v-model="searchQuery"
-          @keyup.enter="applyTransactionFilters(true)"
-        />
+        <input type="text" class="form-control" :placeholder="$t('histories--searchQuery')" v-model="searchQuery"
+          @keyup.enter="applyTransactionFilters(true)" />
       </div>
-      <button
-        class="btn btn-outline-secondary btn-sm mt-2 mt-md-0"
-        type="button"
-        @click="toggleFilterModal"
-        style="padding: 4px 8px; font-size: 0.875rem"
-      >
+      <button class="btn btn-outline-secondary btn-sm mt-2 mt-md-0" type="button" @click="toggleFilterModal"
+        style="padding: 4px 8px; font-size: 0.875rem">
         {{ $t(filters.selectedPeriod) }} · {{ $t(filters.selectedType) }} ·
         {{ $t(filters.selectedSort) }}
         <i class="fas fa-chevron-down"></i>
@@ -280,39 +271,23 @@ const getBadgeClass = (typeCode) => {
         <table class="table align-items-center">
           <thead>
             <tr>
-              <th
-                style="width: 40%"
-                class="text-secondary text-xxs font-weight-bolder opacity-7"
-              >
+              <th style="width: 40%" class="text-secondary text-xxs font-weight-bolder opacity-7">
                 {{ $t("histories--header-transactionDetail") }}
               </th>
-              <th
-                style="width: 30%"
-                class="text-secondary text-xxs font-weight-bolder opacity-7 text-center"
-              >
+              <th style="width: 30%" class="text-secondary text-xxs font-weight-bolder opacity-7 text-center">
                 {{ $t("histories--header-transactionType") }}
               </th>
-              <th
-                style="width: 20%"
-                class="text-secondary text-xxs font-weight-bolder opacity-7"
-              >
+              <th style="width: 20%" class="text-secondary text-xxs font-weight-bolder opacity-7">
                 {{ $t("histories--header-transactionAmount") }}
               </th>
-              <th
-                style="width: 10%"
-                class="text-secondary text-xxs font-weight-bolder opacity-7"
-              >
+              <th style="width: 10%" class="text-secondary text-xxs font-weight-bolder opacity-7">
                 {{ $t("histories--header-dateTime") }}
               </th>
             </tr>
           </thead>
           <tbody>
-            <tr
-              v-for="transaction in transactions"
-              :key="transaction.historyNo"
-              @click="openModal(transaction)"
-              style="cursor: pointer"
-            >
+            <tr v-for="transaction in transactions" :key="transaction.historyNo" @click="openModal(transaction)"
+              style="cursor: pointer">
               <td>
                 {{ $t(transaction.historyContent) }}
               </td>
@@ -320,27 +295,21 @@ const getBadgeClass = (typeCode) => {
                 <span :class="getBadgeClass(transaction?.typeCode)">{{
                   $t(transaction.i18nType)
                 }}</span>
-                <!-- <span
-                                    v-if="[TRANSACTION_TYPES.DEPOSIT, TRANSACTION_TYPES.EXCHANGE, TRANSACTION_TYPES.REFUND].includes(transaction.typeCode)"
-                                    class="badge badge-sm bg-gradient-success">
-                                    {{ $t(transaction.i18nType) }}
-                                </span>
-                                <span
-                                    v-else-if="[TRANSACTION_TYPES.RE_EXCHANGE, TRANSACTION_TYPES.TRANSFER, TRANSACTION_TYPES.PAYMENT].includes(transaction.typeCode)"
-                                    class="badge badge-sm bg-gradient-secondary">
-                                    {{ $t(transaction.i18nType) }}
-                                </span> -->
               </td>
-              <td>
+              <td class="d-flex align-items-center">
+                <span v-if="transaction.typeCode === TRANSACTION_TYPES.DEPOSIT">
+                  <i class="ni ni-fat-add text-secondary"></i>
+                </span>
+                <span v-else-if="transaction.typeCode === TRANSACTION_TYPES.REFUND">
+                  <i class="ni ni-fat-delete text-secondary"></i>
+                </span>
                 {{ transaction.amount.toLocaleString() }}
-                <span v-if="songTransactionType.includes(transaction.typeCode)">
+                <small v-if="songTransactionType.includes(transaction.typeCode)" class="ms-1">
                   {{ songCurrencyUnit }}
-                </span>
-                <span
-                  v-else-if="wonTransactionType.includes(transaction.typeCode)"
-                >
+                </small>
+                <small v-else-if="wonTransactionType.includes(transaction.typeCode)" class="ms-1">
                   KRW
-                </span>
+                </small>
               </td>
               <td>
                 {{ transaction.historyDate }}
@@ -353,47 +322,22 @@ const getBadgeClass = (typeCode) => {
       <!-- 페이지네이션 컨트롤 -->
       <div class="d-flex justify-content-center">
         <argon-pagination class="mb-0" :color="'secondary'">
-          <argon-pagination-item
-            prev
-            @click="goToPage(pageRequest.page - 1)"
-            :disabled="pageRequest.page === 1"
-          />
-          <argon-pagination-item
-            v-for="item in paginationItems"
-            :key="item.label"
-            :label="item.label"
-            :active="item.active"
-            :disabled="item.disabled"
-            @click="goToPage(parseInt(item.label))"
-          />
-          <argon-pagination-item
-            next
-            @click="goToPage(pageRequest.page + 1)"
-            :disabled="pageRequest.page === totalPages"
-          />
+          <argon-pagination-item prev @click="goToPage(pageRequest.page - 1)" :disabled="pageRequest.page === 1" />
+          <argon-pagination-item v-for="item in paginationItems" :key="item.label" :label="item.label"
+            :active="item.active" :disabled="item.disabled" @click="goToPage(parseInt(item.label))" />
+          <argon-pagination-item next @click="goToPage(pageRequest.page + 1)"
+            :disabled="pageRequest.page === totalPages" />
         </argon-pagination>
       </div>
     </div>
     <!-- 필터 모달 -->
-    <FilterModal
-      :isVisible="isFilterModalVisible"
-      :filters="filters"
-      :periods="i18n_PERIOD"
-      :types="i18n_TYPE"
-      :sorts="i18n_SORT"
-      @closeModal="toggleFilterModal"
-      @applyFilters="handleFilterApply"
-    />
+    <FilterModal :isVisible="isFilterModalVisible" :filters="filters" :periods="i18n_PERIOD" :types="i18n_TYPE"
+      :sorts="i18n_SORT" @closeModal="toggleFilterModal" @applyFilters="handleFilterApply" />
 
     <!-- 이용내역 상세 모달 -->
-    <HistoriesDetailModal
-      :transaction="selectedTransaction"
-      :isVisible="isModalVisible"
-      :songTransactionType="songTransactionType"
-      :wonTransactionType="wonTransactionType"
-      @updateMemo="handleMemoUpdate"
-      @close="closeModal"
-    />
+    <HistoriesDetailModal :transaction="selectedTransaction" :isVisible="isModalVisible"
+      :songTransactionType="songTransactionType" :wonTransactionType="wonTransactionType" @updateMemo="handleMemoUpdate"
+      @close="closeModal" />
   </div>
 </template>
 
@@ -404,8 +348,13 @@ const getBadgeClass = (typeCode) => {
 } */
 
 @media (max-width: 767px) {
+
+  th:nth-child(0),
+  td:nth-child(1),
+  th:nth-child(2),
+  td:nth-child(3),
   th:nth-child(3),
-  td:nth-child(3) {
+  td:nth-child(4) {
     display: none;
   }
 }
