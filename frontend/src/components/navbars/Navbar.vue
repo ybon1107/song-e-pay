@@ -342,19 +342,6 @@ onUnmounted(() => {
 </script>
 
 <style scoped>
-.img-div {
-  width: 20px;
-  height: 20px;
-  position: relative;
-}
-
-.user-profile-img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  border-radius: 50%;
-}
-
 @font-face {
   font-family: "HakgyoansimDunggeunmisoTTF-B";
   src: url("https://fastly.jsdelivr.net/gh/projectnoonnu/2408-5@1.0/HakgyoansimDunggeunmisoTTF-B.woff2") format("woff2");
