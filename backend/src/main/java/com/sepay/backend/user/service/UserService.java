@@ -7,9 +7,6 @@ import java.util.Map;
 
 public interface UserService {
 
-    String selectSecondPwd(String userId);
-    
-
     UserDTO get(String username);
 
 //    UserDTO login(String userId, String password);

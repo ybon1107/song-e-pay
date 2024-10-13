@@ -24,11 +24,6 @@ public class UserServiceImpl implements UserService{
     final PasswordEncoder passwordEncoder;
 
     @Override
-    public String selectSecondPwd(String userId){
-        return mapper.getSecondaryPassword(userId);
-    }
-
-    @Override
     public UserDTO get(String username) {
         UserVO userVO = Optional.ofNullable(mapper.get(username)).orElseThrow(NoSuchElementException::new);
         return UserDTO.of(userVO);
