@@ -209,8 +209,8 @@ const fetchExchangeRates = async () => {
       krwToUsdResponse.json(),
     ]);
 
-    const currentToKrw = usdToKrwData.conversion_rate; //json에서 환율 값만 추출 
-    const currentFromKrw = krwToUsdData.conversion_rate;
+    const currentToKrw = parseFloat(usdToKrwData.conversion_rate.toFixed(5)); //json에서 환율 값만 추출 
+    const currentFromKrw = parseFloat(krwToUsdData.conversion_rate.toFixed(5));
 
     exchangeStore.setCurrentToKrw(currentToKrw);
     exchangeStore.setCurrentFromKrw(currentFromKrw);
