@@ -148,13 +148,13 @@ watch(
 const getColor = (colorName) => {
     switch (colorName) {
         case 'primary':
-            return '#8EEFEF';
+            return '#0079FF';
         case 'warning':
-            return '#FFD347';
+            return '#F6FA70';
         case 'success':
-            return '#4DD36A';
+            return '#00DFA2';
         case 'danger':
-            return '#FFA8E1';
+            return '#FF0060';
         case 'muted':
             return '#A1A5AB';
         default:

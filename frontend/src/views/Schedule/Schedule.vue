@@ -240,8 +240,8 @@ const calendarOptions = ref({
 </script>
 
 <template>
-    <div class="container-fluid" style="width: 85%" id="responsive-container">
-        <div class="card card-body demo-app d-flex flex-column flex-md-row">
+    <div class="container-fluid" id="responsive-container">
+        <div class="card card-body demo-app d-flex flex-column flex-md-row mt-3">
             <div class="demo-app-main col-md-9">
                 <FullCalendar
                     ref="calendarRef"
@@ -314,13 +314,13 @@ b {
         Helvetica Neue,
         Helvetica,
         sans-serif;
-    font-size: 14px;
-    background: #fff6ef !important;
+    font-size: 1rem;
+    background: #F5F5F7 !important;
 }
 .demo-app-sidebar {
     line-height: 1.5;
-    background: #fdf4bb !important;
-    border-right: 2px solid #ffeb69 !important;
+    background: #EDDFE0 !important;
+    border-right: 2px solid #B7B7B7 !important;
     border-radius: 1rem;
 }
 .demo-app-sidebar-section {
@@ -336,13 +336,12 @@ b {
     margin: 0 auto;
 }
 .fc-toolbar .fc-button {
-    background-color: #ffeb69 !important;
+    background-color: #705C53 !important;
     color: white;
     border: 0px !important;
 }
 .fc-toolbar .fc-button:hover {
-    background-color: #ffeb69 !important;
-    color: black !important;
+    background-color: #69574f !important;
 }
 .fc-day-sun a,
 .fc-day-sat a {
@@ -350,7 +349,7 @@ b {
 }
 .fc .fc-toolbar.fc-header-toolbar {
     margin-bottom: 1.5em !important;
-    background: #fdf4bb !important;
+    background: #EDDFE0 !important;
     padding: 1rem !important;
     border-radius: 1rem !important;
 }
