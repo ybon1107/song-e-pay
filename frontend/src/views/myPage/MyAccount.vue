@@ -663,7 +663,7 @@ watchEffect(() => {
                         </div>
                         <div>
                             {{ t('myAccount-input-expectedAmount') }}: <span class="balance-text"
-                                :class="{ 'text-danger': depositAmount !== '' }">{{ processAfterBalance }}</span>{{
+                                :class="{ 'text-blue': depositAmount !== '' }">{{ processAfterBalance }}</span>{{
                                     customerunit
                                 }}
                         </div>
@@ -716,7 +716,7 @@ watchEffect(() => {
                         </div>
                         <div>
                             {{ t('myAccount-input-expectedAmount') }}: <span class="balance-text"
-                                :class="{ 'text-blue': exchangeAmount !== '' }">{{ processAfterBalance }}</span>{{
+                                :class="{ 'text-red': songAmount !== '' }">{{ processAfterBalance }}</span>{{
                                     customerunit
                                 }}
                         </div>
@@ -752,7 +752,7 @@ watchEffect(() => {
                             </label>
                             <div>
                                 {{ t('myAccount-input-expectedAmount') }}: <span class="balance-text"
-                                    :class="{ 'text-blue': refundAmount !== '' }">{{ processAfterBalance }}</span>{{
+                                    :class="{ 'text-red': refundAmount !== '' }">{{ processAfterBalance }}</span>{{
                                         customerunit }}
                             </div>
                         </div>
@@ -807,7 +807,7 @@ watchEffect(() => {
                                 <div class="icon-container me-2">
                                     <img :src="flagIcon(wonCoutryCode)" alt="icon" class="flag-icon-img" />
                                 </div>
-                                <i class="fa-solid fa-arrow-right-arrow-left me-2 fs-4"></i>
+                                <i class="fa fa-arrow-right-arrow-left me-2 fs-4"></i>
                                 <div class="icon-container me-2">
                                     <img :src="flagIcon(wonCoutryCode)" alt="icon" class="flag-icon-img" />
                                 </div>
@@ -829,7 +829,7 @@ watchEffect(() => {
                             </label>
                             <div>
                                 {{ t('myAccount-input-expectedAmount') }}: <span class="balance-text"
-                                    :class="{ 'text-blue': transferAmount !== '' }">{{ processAfterWonBalance
+                                    :class="{ 'text-red': transferAmount !== '' }">{{ processAfterWonBalance
                                     }}</span>{{
                                         wonUnit }}
                             </div>
@@ -885,7 +885,7 @@ watchEffect(() => {
                         </div>
                         <div>
                             {{ t('myAccount-input-expectedAmount') }}: <span class="balance-text"
-                                :class="{ 'text-blue': reExchangeAmount !== '' }">{{ processAfterWonBalance }}</span>{{
+                                :class="{ 'text-red': reWonAmount !== '' }">{{ processAfterWonBalance }}</span>{{
                                     wonUnit
                                 }}
                         </div>
