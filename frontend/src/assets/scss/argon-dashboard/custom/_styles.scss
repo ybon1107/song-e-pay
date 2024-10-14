@@ -1,3 +1,39 @@
+@font-face {
+  font-family: 'LINESeedSans_Rg';
+  src: url('../../../fonts/LINE_Seed_Sans/LINESeedSans_Rg.otf') format('otf');
+  font-weight: normal;
+}
+
+@font-face {
+  font-family: 'LINESeedSans_Bd';
+  src: url('../../../fonts/LINE_Seed_Sans/LINESeedSans_Bd.otf') format('otf');
+  font-weight: bold;
+}
+
+@font-face {
+  font-family: 'LINESeedSans_He';
+  src: url('../../../fonts/LINE_Seed_Sans/LINESeedSans_He.otf') format('otf');
+  font-weight: 900;
+}
+
+@font-face {
+  font-family: 'LINESeedSans_Th';
+  src: url('../../../fonts/LINE_Seed_Sans/LINESeedSans_Th.otf') format('otf');
+  font-weight: 100;
+}
+
+@font-face {
+  font-family: 'LINESeedSans_XBd';
+  src: url('../../../fonts/LINE_Seed_Sans/LINESeedSans_XBd.otf') format('otf');
+  font-weight: 800;
+}
+
+
+
+body {
+  font-family: 'LINESeedSans_Rg', 'LINESeedSans_Bd', 'LINESeedSans_He', 'LINESeedSans_Th', 'LINESeedSans_XBd', sans-serif !important;
+}
+
 .container-fluid {
   max-width: 1200px;
 }
