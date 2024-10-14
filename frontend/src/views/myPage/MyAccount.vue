@@ -1,6 +1,5 @@
 <script setup>
 import ArgonInput from '@/components/templates/ArgonInput.vue';
-// import ExchangeInput from '@/components/templates/ExchangeInput.vue';
 import AccountsCard from '@/views/Cards/AccountsCard.vue';
 import ArgonAmountInput from '@/components/yb_templates/ArgonAmountInput.vue';
 // import ExchangeAmountInput from '@/components/yb_templates/ExchangeAmountInput.vue';
@@ -366,103 +365,6 @@ const fetchBalances = async () => {
     });
 };
 
-// // 입력 값 설정
-// const exchangeInput = ref('');
-// const reExchangeInput = ref('');
-// const receiveInput = ref('');
-// const selectInput = ref('exchange');
-
-// // 포커스 이벤트 핸들러
-// const onfocus = (inputType) => {
-//     selectInput.value = inputType;
-//     console.log('선택한 입력:', selectInput.value);
-// };
-
-// const errorAmountMessage = ref('');
-
-// // 각 입력 필드에 대한 개별 blur 핸들러
-// const onblurReceive = () => {
-//     if (receiveAmount.value === '') {
-//         errorAmountMessage.value = '';
-//     }
-// };
-
-// const onblurExchange = () => {
-//     if (exchangeAmount.value === '') {
-//         errorAmountMessage.value = '';
-//     }
-// };
-
-// const onblurReExchange = () => {
-//     if (reExchangeAmount.value === '') {
-//         errorAmountMessage.value = '';
-//     }
-// };
-
-// // 에러 메시지 초기화 함수
-// const clearErrorMessages = () => {
-//     errorMessage.value = '';
-//     errorMessageCheck.value = '';
-// };
-
-
-
-// const songEMoneyBalance_toKRW = computed(() => {
-//     return songEMoneyBalance.value * currentToKrw.value;
-// });
-// const wonEMoneyBalance_FromKRW = computed(() => {
-//     return wonEMoneyBalance.value * currentFromKrw.value;
-// });
-
-
-// // 받는 금액 계산
-// const receiveAmount = computed({
-//     get() {
-//         if (selectInput.value === "exchange" && exchangeInput.value) {
-//             const exchangeAmt = parseFloat(exchangeInput.value);
-//             console.log(exchangeAmt, currentToKrw.value);
-//             return !isNaN(exchangeAmt) ? (exchangeAmt * currentToKrw.value).toFixed(5) : '';
-//         } else if (selectInput.value === 'reExchange' && reExchangeInput.value) {
-//             const reExchangeAmt = parseFloat(reExchangeInput.value);
-//             return !isNaN(reExchangeAmt) ? (reExchangeAmt * currentFromKrw.value).toFixed(5) : '';
-//         }
-//         return receiveInput.value; // 현재 값 반환
-//     },
-//     set(value) {
-//         receiveInput.value = value; // 입력 값 설정
-//     },
-// });
-
-// // 환전 금액 계산
-// const exchangeAmount = computed({
-//     get() {
-//         if (selectInput.value === "receive" && receiveInput.value) {
-//             const receiveAmt = parseFloat(receiveInput.value);
-//             console.log(receiveAmt, currentFromKrw.value);
-//             // return !isNaN(receiveAmt) ? Math.round(receiveAmt * currentFromKrw.value) : '';
-//             return !isNaN(receiveAmt) ? (receiveAmt / currentToKrw.value).toFixed(5) : '';
-//         }
-//         return exchangeInput.value; // 현재 값 반환
-//     },
-//     set(value) {
-//         exchangeInput.value = value; // 입력 값 설정
-//     },
-// });
-// // 환급 금액 계산
-// const reExchangeAmount = computed({
-//     get() {
-//         if (selectInput.value === "receive" && receiveInput.value) {
-//             const receiveAmt = parseFloat(receiveInput.value);
-//             return !isNaN(receiveAmt) ? (receiveAmt / currentFromKrw.value).toFixed(5) : '';
-//         }
-//         return reExchangeInput.value; // 현재 값 반환
-//     },
-//     set(value) {
-//         reExchangeInput.value = value; // 입력 값 설정
-//     },
-// });
-
-
 // 이메일 입력 유효성 검증
 let isconfirmed = false;
 let success = false;
@@ -588,7 +490,6 @@ watchEffect(() => {
 
 </script>
 <template>
-
     <SecondPasswordModal v-if="showModal" @close="closeModal" @password-verified="handlePasswordVerified" />
 
     <h3 class="mb-0">My account</h3>
