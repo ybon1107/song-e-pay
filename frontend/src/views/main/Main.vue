@@ -26,14 +26,18 @@
   </nav>
   <!-- 왼쪽 화면 -->
   <div class="section-container-beige">
-
+    <h3 class="mb-4 mobile-btn text-center">
+      Make traveling in Korea more convenient<br />with our easy to use E-wallet service
+    </h3>
     <div class="d-flex justify-content-between flex-column flex-md-row align-items-start">
       <!-- 왼쪽 섹션 -->
+
       <div class="left-section-main d-flex flex-column mt-2 col-md-6">
-        <h3 class="mb-4 text-nowrap">
+        <h3 class="mb-4 text-nowrap web-btn">
           Make traveling in Korea more convenient<br />with our easy to use E-wallet service
         </h3>
-        <p class="col-md-9 mb-4" style="text-align: justify;">
+
+        <p class="col-md-9 mb-4">
           For foreigners traveling to South Korea, we provide secure and fast
           payment and currency exchange services. From checking live exchange
           rates to sending money to friends, you can easily access all your
@@ -116,7 +120,21 @@
 
     <!-- 두 번째 섹션 -->
     <div class="row mb-4">
-      <div class="col-md-9">
+      <div class="col-12 mobile-btn">
+        <div class="d-flex flex-column align-items-center text-center">
+          <div class="small-img-container me-2">
+            <img src="/images/quote.png" class="small-img">
+          </div>
+          <h3>
+            Your essential travel partner be your essential travel partner
+          </h3>
+          <div class="small-img-container">
+            <img src="/images/quote-right.png" class="small-img">
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-9 web-btn">
         <div class="d-flex">
           <div class="small-img-container me-2">
             <img src="/images/quote.png" class="small-img">
@@ -126,7 +144,7 @@
           </h3>
         </div>
         <div class="d-flex justify-content-end">
-          <h3>be your essential travel partner</h3>
+          <h3 class="text-end">be your essential travel partner</h3>
           <div class="small-img-container ms-2">
             <img src="/images/quote-right.png" class="small-img">
           </div>
@@ -294,8 +312,8 @@
 
   <!-- 네 번째 섹션 -->
   <section class="section-container-beige">
-    <div class="d-flex justify-content-between align-items-center flex-column flex-md-row mb-3">
-      <div class="mesh-right col-md-5 col-12 d-flex justify-content-center align-items-center">
+    <div class="d-flex justify-content-between align-items-center flex-column flex-md-row">
+      <div class="mesh-right col-md-5 col-12 d-flex justify-content-center align-items-center mb-4">
         <img src="../../../images/Map.png" alt="지도 이미지" class="img-fluid" style="max-width: 100%; height: auto" />
       </div>
       <div class="mesh-left col-md-7 d-flex flex-column px-3">
@@ -452,22 +470,22 @@ onBeforeMount(() => {
   .section-container-beige {
     background: #fff6ef;
     padding-top: 5rem;
-    padding-left: 3rem;
-    padding-right: 3rem;
+    padding-left: 2rem;
+    padding-right: 2rem;
     padding-bottom: 5rem;
   }
 
   .section-container-green {
     background-color: #ffeb69;
-    padding-left: 3rem;
-    padding-right: 3rem;
+    padding-left: 2rem;
+    padding-right: 2rem;
     padding-bottom: 5rem;
     padding-top: 5rem;
   }
 
   .section-container-brown {
-    padding-left: 3rem;
-    padding-right: 3rem;
+    padding-left: 2rem;
+    padding-right: 2rem;
     padding-bottom: 5rem;
     padding-top: 5rem;
   }
