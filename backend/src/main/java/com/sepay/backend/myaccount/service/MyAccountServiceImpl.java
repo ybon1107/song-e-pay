@@ -101,7 +101,7 @@ public class MyAccountServiceImpl implements MyAccountService {
         // 송이 계좌에 환전 금액보다 많을 때
         if(mapper.selectSongBalance(songAccountDTO.getSongNo()) >= amount) {
             // 송이 계좌 감소
-            double songAmount = amount * exchangeRate;
+            double songAmount = Math.round(amount * exchangeRate);
             songAccountDTO.setBalance(mapper.selectSongBalance(songAccountDTO.getSongNo())  - songAmount);
             songAccountDTO.setUpdatedAt(new Date());
             mapper.updateSongAccount(songAccountDTO);
@@ -132,7 +132,7 @@ public class MyAccountServiceImpl implements MyAccountService {
         // 원화 계좌에 환급 금액보다 많을 때
         if(mapper.selectKrwBalance(krwAccountDTO.getKrwNo()) >= amount) {
             // 원화 계좌 감소
-            double krwAmount = amount * exchangeRate;
+            double krwAmount = Math.round(amount * exchangeRate);
             krwAccountDTO.setBalance(mapper.selectKrwBalance(krwAccountDTO.getKrwNo()) - krwAmount);
             krwAccountDTO.setUpdatedAt(new Date());
             mapper.updateKrwAccount(krwAccountDTO);
