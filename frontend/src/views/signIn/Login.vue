@@ -93,7 +93,7 @@ const handleSubmit = async () => {
       const token = loginState ? loginState.token : null;
       if (token) {
         console.log("Token after login: ", token);
-        window.location.href = "/my-accounts";
+        window.location.href = "/my-page";
       }
     } catch (e) {
       // 로그인 에러
@@ -111,9 +111,7 @@ const handleSubmit = async () => {
         <div class="container">
           <div class="row justify-content-center">
             <!-- 로그인 폼을 담고 있는 카드 컨테이너 -->
-            <div
-              class="mx-auto col-xl-4 col-lg-5 col-md-7 col-sm-9 d-flex flex-column mx-lg-0"
-            >
+            <div class="mx-auto col-xl-4 col-lg-5 col-md-7 col-sm-9 d-flex flex-column mx-lg-0">
               <div class="card card-plain">
                 <!-- 카드 헤더: 제목 -->
                 <div class="pb-0 card-header text-center">
@@ -125,59 +123,31 @@ const handleSubmit = async () => {
                 <div class="pt-0 text-center card-footer">
                   <p class="mx-auto text-sm">
                     {{ $t("signIn--footer-signUpLink") }}
-                    <router-link
-                      to="/register/legal"
-                      class="text-success text-gradient font-weight-bold"
-                      >{{ $t("signIn--footer-signUp") }}</router-link
-                    >
+                    <router-link to="/register/legal" class="text-success text-gradient font-weight-bold">{{
+                      $t("signIn--footer-signUp") }}</router-link>
                   </p>
                 </div>
                 <!-- 카드 본문: 로그인 폼 -->
                 <div class="card-body">
-                  <form
-                    @submit.prevent="handleSubmit"
-                    class="needs-validation"
-                    novalidate
-                  >
+                  <form @submit.prevent="handleSubmit" class="needs-validation" novalidate>
                     <!-- 이메일 입력 필드 -->
                     <div class="mb-3">
                       <label key="email" for="email" class="form-label">{{
                         $t("signIn--form-emailLabel")
                       }}</label>
-                      <argon-input
-                        isRequired
-                        id="email"
-                        type="email"
-                        :placeholder="$t('signIn--form-emailPlaceholder')"
-                        name="username"
-                        size="lg"
-                        v-model="username"
-                        :class="{ 'is-invalid': emailError }"
-                        :error="
-                          (username !== '' || emailError) && !isEmailValid
-                        "
-                        :errorText="$t('signIn--errorText-email')"
-                      />
+                      <argon-input isRequired id="email" type="email" :placeholder="$t('signIn--form-emailPlaceholder')"
+                        name="username" size="lg" v-model="username" :class="{ 'is-invalid': emailError }" :error="(username !== '' || emailError) && !isEmailValid
+                          " :errorText="$t('signIn--errorText-email')" />
                     </div>
                     <!-- 비밀번호 입력 필드 -->
                     <div class="mb-3">
                       <label key="password" for="password" class="form-label">{{
                         $t("signIn--form-passwordLabel")
                       }}</label>
-                      <argon-input
-                        isRequired
-                        id="password"
-                        type="password"
-                        :placeholder="$t('signIn--form-passwordPlaceholder')"
-                        name="password"
-                        size="lg"
-                        v-model="password"
-                        :class="{ 'is-invalid': passwordError }"
-                        :error="
-                          (password !== '' || passwordError) && !isPasswordValid
-                        "
-                        :errorText="$t('signIn--errorText-pw')"
-                      />
+                      <argon-input isRequired id="password" type="password"
+                        :placeholder="$t('signIn--form-passwordPlaceholder')" name="password" size="lg"
+                        v-model="password" :class="{ 'is-invalid': passwordError }" :error="(password !== '' || passwordError) && !isPasswordValid
+                          " :errorText="$t('signIn--errorText-pw')" />
                     </div>
                     <!-- "Remember me" 토글 스위치 (일단 주석 처리 해둠) -->
                     <!-- <argon-switch id="rememberMe" name="remember-me"
@@ -186,24 +156,14 @@ const handleSubmit = async () => {
                     <!-- 로그인 버튼 -->
                     <div v-if="error" class="text-xs">{{ error }}</div>
                     <div class="text-center">
-                      <argon-button
-                        class="mt-4"
-                        variant="gradient"
-                        color="success"
-                        fullWidth
-                        size="lg"
-                        type="submit"
-                        >{{ $t("common--text-login") }}</argon-button
-                      >
+                      <argon-button class="mt-4" variant="gradient" color="success" fullWidth size="lg" type="submit">{{
+                        $t("common--text-login") }}</argon-button>
                     </div>
                   </form>
                   <!-- 로그인 문제 발생시 안내 링크 -->
                   <p class="mx-auto text-sm pt-3">
-                    <router-link
-                      to="/login/issue-info"
-                      class="text-success text-gradient font-weight-bold"
-                      >{{ $t("signIn--link-troubleLoggingIn") }}</router-link
-                    >
+                    <router-link to="/login/issue-info" class="text-success text-gradient font-weight-bold">{{
+                      $t("signIn--link-troubleLoggingIn") }}</router-link>
                   </p>
                 </div>
               </div>

@@ -29,8 +29,16 @@ const getRoute = () => {
 </sidenav-item>
 </li> -->
 
-      <li class="nav-item">
+      <!-- <li class="nav-item">
         <sidenav-item to="/my-accounts" :class="getRoute() === 'my-accounts' ? 'active' : ''"
+          :navText="isRTL ? 'الجداول' : 'sidenavList--myPage'">
+          <template v-slot:icon>
+            <i class="ni ni-money-coins text-dark text-sm opacity-10"></i>
+          </template>
+        </sidenav-item>
+      </li> -->
+      <li class="nav-item">
+        <sidenav-item to="/my-page" :class="getRoute() === 'my-page' ? 'active' : ''"
           :navText="isRTL ? 'الجداول' : 'sidenavList--myPage'">
           <template v-slot:icon>
             <i class="ni ni-money-coins text-dark text-sm opacity-10"></i>

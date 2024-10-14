@@ -186,6 +186,7 @@ const handlePasswordVerified = async () => {
         }
         resetValue();
     } catch (error) {
+        console.log(error);
         await Swal.fire({
             title: t('swal--title-fail'),
             html: error.response.data || t('swal--default-error-message'),
@@ -206,10 +207,10 @@ const callAccountApi = async (apiFunction, params) => {
 };
 
 const ACCOUNT = computed(() => {
-    const { userId, accountNo, songNo, krwNo,countryCode } = user.value; // 구조 분해 할당 사용
+    const { userId, accountNo, songNo, krwNo, countryCode } = user.value; // 구조 분해 할당 사용
     return {
         accountDTO: { accountNo },
-        songAccountDTO: { songNo,countryCode },
+        songAccountDTO: { songNo, countryCode },
         krwAccountDTO: { krwNo },
         historyDTO: { userId, songNo, krwNo }
     };
@@ -337,7 +338,7 @@ const resetValue = () => {
 };
 
 
-const fetchBalances = async() => {
+const fetchBalances = async () => {
     myaccountApi.fetchkrwAccountBalance(user.value.krwNo).then((balance) => {
         if (balance === '') {
             Swal.fire({
@@ -549,7 +550,7 @@ function handleWonInput(event) {
     if (parseInt(newValue, 10) > maxWon) {
         newValue = maxWon.toString();
         isInvalid.value = true;
-    }else{
+    } else {
         isInvalid.value = false;
     }
     wonAmount.value = newValue;
@@ -570,7 +571,7 @@ function handleSongInput(event) {
     if (parseInt(newValue, 10) > maxWon) {
         newValue = maxWon.toString();
         isInvalidRe.value = true;
-    }else{
+    } else {
         isInvalidRe.value = false;
     }
     reSongAmount.value = newValue;
@@ -686,7 +687,8 @@ watchEffect(() => {
                             </label>
                             <div class="input-group">
                                 <input id="won" type="text" class="form-control" :class="{ 'is-invalid': isInvalid }"
-                                    v-model="wonAmount" @input="handleWonInput" @click="wonAmount = ''"  :placeholder="$t('myAccount--input-placeholder')">
+                                    v-model="wonAmount" @input="handleWonInput" @click="wonAmount = ''"
+                                    :placeholder="$t('myAccount--input-placeholder')">
                                 <span class="input-group-text bg-secondary text-white">
                                     {{ wonUnit }}
                                 </span>
@@ -709,7 +711,7 @@ watchEffect(() => {
                                     {{ customerunit }}
                                 </span>
                                 <div v-if="isInvalid" class="invalid-feedback text-xs">
-                                    {{$t('myAccount--error-overAmount')}}
+                                    {{ $t('myAccount--error-overAmount') }}
                                 </div>
                             </div>
                             <small>{{ t('myAccount--songE-exchangeRate') }}: 1 {{ wonUnit }} = {{ currentFromKrw }}
@@ -857,7 +859,8 @@ watchEffect(() => {
                             </label>
                             <div class="input-group">
                                 <input id="won" type="text" class="form-control" :class="{ 'is-invalid': isInvalidRe }"
-                                    v-model="reSongAmount" @input="handleSongInput" @click="reSongAmount = ''" :placeholder="$t('myAccount--input-placeholder')">
+                                    v-model="reSongAmount" @input="handleSongInput" @click="reSongAmount = ''"
+                                    :placeholder="$t('myAccount--input-placeholder')">
                                 <span class="input-group-text bg-secondary text-white">
                                     {{ customerunit }}
                                 </span>
@@ -872,12 +875,12 @@ watchEffect(() => {
                             </label>
                             <div class="input-group">
                                 <input id="song" type="text" class="form-control" :class="{ 'is-invalid': isInvalid }"
-                                    :value="formatNumber(reWonAmount)" readonly >
+                                    :value="formatNumber(reWonAmount)" readonly>
                                 <span class="input-group-text bg-secondary text-white">
                                     {{ wonUnit }}
                                 </span>
                                 <div v-if="isInvalid" class="invalid-feedback">
-                                    {{$t('myAccount--error-overAmount')}}
+                                    {{ $t('myAccount--error-overAmount') }}
                                 </div>
                             </div>
                             <small>{{ t('myAccount--wonE-currentExchangeRate') }}: 1 {{ customerunit }} = {{
