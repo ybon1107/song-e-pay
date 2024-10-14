@@ -12,5 +12,8 @@ import lombok.NoArgsConstructor;
 @Builder
 public class PaymentDTO {
     private Double amount;
-    private UserDTO userDTO;
+    private String userId;
+    private String krwNo;
+    private String songNo;
+    private String historyContent;
 }

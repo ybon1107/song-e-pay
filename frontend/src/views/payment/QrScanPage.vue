@@ -13,7 +13,7 @@
           </div>
 
           <div class="btn btn-sm btn-warning mb-0 mx-4 d-flex justify-content-between">
-            <p class="mb-0">{{$t('payment--qrScan--balanceLabel')}}</p>
+            <p class="mb-0">{{ $t('payment--qrScan--balanceLabel') }}</p>
             <p class="mb-0">{{ woneMoneyBalance }} KRW</p>
           </div>
         </div>
@@ -84,8 +84,10 @@ const formattedCountdown = computed(() => {
 
 const req = {
   amount: 1000,
-  userId:user.value.userId,
-  wonNo:user.value.wonNo
+  userId: user.value.userId,
+  krwNo: user.value.krwNo,
+  songNo: user.value.songNo,
+  historyContent: "SongSong Restaurant"
   // userDTO: user.value
 };
 
@@ -93,13 +95,21 @@ const req = {
 const handleQRScan = async () => {
   try {
     const response = await paymentApi.scanQRCode(req);
-    Swal.fire({
-      title: t("swal--title-success"),
-      text: t("payment--swal-success-text"),
-      icon: "success",
-    });
-    router.push("/"); // 홈으로 이동
+
+    console.log(response);
+    if (response.status === 200) {
+      Swal.fire({
+        title: t("swal--title-success"),
+        text: t("payment--swal-success-text"),
+        icon: "success",
+      });
+      router.push("/my-page"); // 홈으로 이동
+    }
+    console.log(response);
+
+
   } catch (error) {
+    console.log(error);
     Swal.fire({
       title: t("swal--title-fail"),
       text: t("payment--swal-fail-text"),
