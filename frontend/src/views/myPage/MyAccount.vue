@@ -63,10 +63,10 @@ const isMember = ref(null);
 const showModal = ref(false);
 let currentAction = ref('');
 
-// const currentToKrw = computed(() => store.currentToKrw);
-// const currentFromKrw = computed(() => store.currentFromKrw);
-const currentToKrw = computed(() => 0.0865);
-const currentFromKrw = computed(() => 11.5594);
+const currentToKrw = computed(() => store.currentToKrw);
+const currentFromKrw = computed(() => store.currentFromKrw);
+// const currentToKrw = computed(() => 0.0865);
+// const currentFromKrw = computed(() => 11.5594);
 
 const songEMoneyCardRef = ref(null);
 const wonEMoneyCardRef = ref(null);
@@ -188,7 +188,7 @@ const handlePasswordVerified = async () => {
     } catch (error) {
         await Swal.fire({
             title: t('swal--title-fail'),
-            html: error.message || t('swal--default-error-message'),
+            html: error.response.data || t('swal--default-error-message'),
             icon: 'error',
         });
         resetValue();
@@ -206,10 +206,10 @@ const callAccountApi = async (apiFunction, params) => {
 };
 
 const ACCOUNT = computed(() => {
-    const { userId, accountNo, songNo, krwNo } = user.value; // 구조 분해 할당 사용
+    const { userId, accountNo, songNo, krwNo,countryCode } = user.value; // 구조 분해 할당 사용
     return {
         accountDTO: { accountNo },
-        songAccountDTO: { songNo },
+        songAccountDTO: { songNo,countryCode },
         krwAccountDTO: { krwNo },
         historyDTO: { userId, songNo, krwNo }
     };
@@ -238,7 +238,7 @@ const refund = async () => {
 // 환전 처리
 const exchange = async () => {
     // const amount = exchangeAmount.value; // 환전하려는 금액
-    const amount = receiveAmount.value; //외화기준 금액 넣어주는 걸로 변경
+    const amount = wonAmount.value; //외화기준 금액 넣어주는 걸로 변경
     const exchangeRate = currentFromKrw.value;
     // const exchangeRate = 0.00074;
     const params = {
@@ -252,7 +252,7 @@ const exchange = async () => {
 // 환급 처리
 const reExchange = async () => {
     // const amount = reExchangeAmount.value; // 환급하려는 금액
-    const amount = receiveAmount.value; //외화기준 금액 넣어주는 걸로 변경
+    const amount = reSongAmount.value; //외화기준 금액 넣어주는 걸로 변경
     const exchangeRate = currentToKrw.value;
     const params = {
         ...ACCOUNT.value,
@@ -320,22 +320,24 @@ const transfer = async () => {
 const resetValue = () => {
     console.log("reset????");
     refundAmount.value = '';
-    reExchangeAmount.value = '';
     transferAmount.value = '';
-    exchangeAmount.value = '';
     depositAmount.value = '';
+
+    reSongAmount.value = '';
+    wonAmount.value = '';
+
     sendEmail.value = '';
     sendEmailConfirm.value = '';
     success = false;
     isMember.value = '';
     isconfirmed = false;
     checkSucess = false;
-    receiveInput.value = '';
+    // receiveInput.value = '';
 
 };
 
 
-const fetchBalances = () => {
+const fetchBalances = async() => {
     myaccountApi.fetchkrwAccountBalance(user.value.krwNo).then((balance) => {
         if (balance === '') {
             Swal.fire({
@@ -721,7 +723,7 @@ watchEffect(() => {
                                 }}
                         </div>
                         <button type="submit" class="btn btn-primary w-100 fs-4" @click="openModal"
-                            :disabled="!isValidAmount(exchangeAmount)" variant="gradient">
+                            :disabled="!isValidAmount(wonAmount)" variant="gradient">
                             {{ t('myAccount--wonE-button-exchange') }}
                         </button>
                     </div>
@@ -890,7 +892,7 @@ watchEffect(() => {
                                 }}
                         </div>
                         <button type="submit" class="btn btn-primary w-100 fs-4" @click="openModal"
-                            :disabled="!isValidAmount(exchangeAmount)" variant="gradient">
+                            :disabled="!isValidAmount(reSongAmount)" variant="gradient">
                             {{ t('myAccount--songE-button-exchange') }}
                         </button>
                     </div>
