@@ -10,7 +10,7 @@
         </div>
         <div class="d-xl-none">
           <div class="d-flex flex-column justify-content-center align-items-center gap-5 py-5">
-            <div class="card card-img-bg" :style="{ backgroundImage: 'url(/images/won-e-money.png)' }">
+            <div class="card card-img-bg bg-info" :style="{ backgroundImage: 'url(/images/won-e-money.png)' }">
             </div>
             <router-link to="/payment/password">
               <button class="btn btn-warning mb-0">

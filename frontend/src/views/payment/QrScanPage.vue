@@ -84,7 +84,9 @@ const formattedCountdown = computed(() => {
 
 const req = {
   amount: 1000,
-  userDTO: user.value
+  userId:user.value.userId,
+  wonNo:user.value.wonNo
+  // userDTO: user.value
 };
 
 // QR 스캔 후 처리
