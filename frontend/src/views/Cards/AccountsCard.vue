@@ -1,8 +1,14 @@
 <template>
     <div v-if="user">
+        <!-- <div class="card">
+            <div class="card-background"></div>
+            <div class="card-content">
+                <h3>Card Title</h3>
+                <p>This is some content on the card.</p>
+            </div>
+        </div> -->
         <div class="card card-img-bg" :id="props.assetType === 'song-e' ? 'card-songe' : 'card-wone'"
-            :style="{ backgroundImage: `url(${backgroundImage})` }"
-            :class="props.assetType === 'song-e' ? 'bg-primary' : 'bg-info'">
+            :style="{ backgroundImage: `url(${backgroundImage})` }">
             <div class="card-body d-flex align-items-end justify-content-end">
                 <div class="d-flex align-items-center">
                     <div class="icon-container me-2">
@@ -95,6 +101,37 @@ defineExpose({ fetchBalance });
 </script>
 
 <style scoped>
+.card {
+    width: 100%;
+    /* 카드의 너비 */
+    max-width: 500px;
+    /* 원하는 최대 너비 */
+    height: auto;
+    /* 카드의 높이를 자동으로 조절 */
+    aspect-ratio: 407 / 271;
+    /* 카드 비율을 이미지의 원래 비율에 맞게 유지 */
+    position: relative;
+    overflow: hidden;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+}
+
+.card-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('/images/won-e-money.png');
+    background-size: contain;
+    /* 이미지 비율을 유지하면서 카드에 맞춤 */
+    background-position: center;
+    /* 이미지가 카드의 중앙에 배치되도록 설정 */
+    background-repeat: no-repeat;
+    /* 빈 공간을 반복하지 않도록 설정 */
+    z-index: 1;
+}
+
 /* acountscard가 선택됐을 때 */
 .selected #card-songe {
     border: 3px solid #ffd166;
@@ -116,5 +153,20 @@ defineExpose({ fetchBalance });
         width: 5vw;
         height: 5vw;
     }
+}
+
+.card {
+    position: relative;
+    overflow: hidden;
+    text-align: center;
+    /* 이미지를 가운데로 정렬하기 위해 필요할 수 있음 */
+}
+
+.card-img {
+    max-width: 100%;
+    max-height: 100%;
+    width: auto;
+    /* 이미지가 비율을 유지하면서 조정되도록 설정 */
+    height: auto;
 }
 </style>
