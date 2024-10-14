@@ -173,8 +173,9 @@ input {
 
 .input-group-text {
   padding: 0.375rem 0.75rem;
-  background-color: #e9ecef;
+  background-color: #665A4A;
   border: 1px solid #ced4da;
-  border-radius: 0.375rem;
+  border-radius: 0 0.375rem 0.375rem 0 !important;
+  color: white;
 }
 </style>
