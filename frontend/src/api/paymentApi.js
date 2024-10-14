@@ -1,35 +1,18 @@
-import axios from 'axios';
-import { useAuthStore } from '@/stores/auth';
+import api from "@/api"
 
-const api = axios.create({
-  baseURL: '/api/payment',
-  headers: { 'Content-Type': 'application/json' }
-});
-
-api.interceptors.request.use((config) => {
-  const authStore = useAuthStore();
-  const token = authStore.getToken();
-
-  if (token) {
-    config.headers.Authorization = `Bearer ${token}`;
-  }
-
-  return config;
-}, (error) => {
-  return Promise.reject(error);
-});
+const BASE_URL = '/api/payment';
+const headers = { 'Content-Type': 'application/json' };
 
 export default {
   // QR 스캔을 처리하는 메서드 추가
   async scanQRCode(req) {
     try {
-      const response = await api.post('/qr-scan', req);
+      const response = await api.post(`${BASE_URL}/qr-scan`, req, { headers: { ...headers, ...api.defaults.headers.common } });
 
       if (response.data === true) {
         return response;
       } else {
         this.message = 'Payment failed';
-        throw error;
       }
     } catch (error) {
       this.message = 'An error occurred while processing the payment';
