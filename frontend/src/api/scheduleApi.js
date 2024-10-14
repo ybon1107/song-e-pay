@@ -1,30 +1,15 @@
-import axios from "axios";
-import { useAuthStore } from "@/stores/auth";
+import api from "@/api";
 
-const api = axios.create({
-  baseURL: "/api/schedule", // 기본 경로 설정
-  headers: { "Content-Type": "application/json" }, // 기본 헤더
-});
-
-api.interceptors.request.use((config) => {
-  const authStore = useAuthStore();
-  const token = authStore.getToken();
-
-  if (token) {
-    config.headers.Authorization = `Bearer ${token}`;
-  }
-
-  return config;
-}, (error) => {
-  return Promise.reject(error);
-});
+const BASE_URL = "/api/schedule"; // 기본 경로 설정
+// const headers = { "Content-Type": "application/json" } // 기본 헤더
 
 export default {
 
   async getEvents(userId, year, month) {
     try {
-      const response = await api.get(`/list/${userId}`, {
-        params: { year, month }
+      const response = await api.get(`${BASE_URL}/list/${userId}`, {
+        params: { year, month },
+        // headers: { ...headers, ...api.defaults.headers.common },
       });
       return response.data;
     } catch (error) {

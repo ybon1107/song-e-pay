@@ -1,15 +1,12 @@
-import axios from "axios";
-import { useAuthStore } from "@/stores/auth";
+import api from "@/api";
 
-const api = axios.create({
-  baseURL: "/api/users",
-  headers: { "Content-Type": "application/json" },
-});
+const BASE_URL = "/api/users";
+// const headers = { "Content-Type": "application/json" };
 
 export default {
   async getUser(userId) {
     console.log("userId: ", userId);
-    const user = (await api.get(`/${userId}`)).data;
+    const user = (await api.get(`${BASE_URL}/${userId}`)).data;
     console.log("Api user: ", user);
     return user;
   },

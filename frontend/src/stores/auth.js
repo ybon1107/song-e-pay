@@ -111,7 +111,7 @@ export const useAuthStore = defineStore("auth", () => {
   };
 
   const logout = () => {
-    localStorage.clear();
+    localStorage.removeItem("auth");
     state.value = { ...initState };
     user.value = null;
   };

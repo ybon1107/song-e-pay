@@ -10,18 +10,22 @@
           :class="{ dot: true, filled: password.length >= index + 1 }"></span>
       </div>
 
-      <!-- 숫자 키패드 -->
-      <div class="keypad">
-        <button v-for="num in shuffledNumbers" :key="num" @click="enterDigit(num)">
-          {{ num }}
-        </button>
-        <button @click="clearAll" class="function-key">C</button>
-        <button @click="clearLast" class="function-key">
-          <i class="fas fa-backspace"></i>
-        </button>
-      </div>
-    </Modal>
-  </div>
+            <!-- 숫자 키패드 -->
+            <div class="keypad">
+                <button
+                    v-for="num in shuffledNumbers"
+                    :key="num"
+                    @click="enterDigit(num)"
+                >
+                    {{ num }}
+                </button>
+                <button @click="clearAll" class="function-key">C</button>
+                <button @click="clearLast" class="function-key">
+                    <i class="fas fa-backspace"></i>
+                </button>
+            </div>
+        </Modal>
+    </div>
 </template>
 
 <script setup>
@@ -49,48 +53,48 @@ const showPasswordInput = ref(true);
 const shuffledNumbers = ref([]);
 
 onMounted(() => {
-  shuffleNumbers();
+    shuffleNumbers();
 });
 
 const shuffleNumbers = () => {
-  const numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 0];
-  for (let i = numbers.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [numbers[i], numbers[j]] = [numbers[j], numbers[i]];
-  }
-  shuffledNumbers.value = numbers;
+    const numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 0];
+    for (let i = numbers.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [numbers[i], numbers[j]] = [numbers[j], numbers[i]];
+    }
+    shuffledNumbers.value = numbers;
 };
 
 // 숫자 입력 처리
 const enterDigit = (num) => {
-  if (password.value.length < 6) {
-    password.value += num;
+    if (password.value.length < 6) {
+        password.value += num;
 
-    // 비밀번호 길이가 6자리일 때 자동으로 확인
-    if (password.value.length === 6) {
-      verifyPassword(userId.value);
+        // 비밀번호 길이가 6자리일 때 자동으로 확인
+        if (password.value.length === 6) {
+            verifyPassword(userId.value);
+        }
     }
-  }
 };
 
 // 마지막 입력 지우기
 const clearLast = () => {
-  if (password.value.length > 0) {
-    password.value = password.value.slice(0, -1);
-  }
+    if (password.value.length > 0) {
+        password.value = password.value.slice(0, -1);
+    }
 };
 
 // 전체 입력 지우기
 const clearAll = () => {
-  password.value = '';
+    password.value = '';
 };
 
 // 비밀번호 검증 함수 수정
 const verifyPassword = async (userId) => {
-  const formData = {
-    userId,
-    secPwd: password.value
-  };
+    const formData = {
+        userId,
+        secPwd: password.value,
+    };
 
   try {
     const response = await settingApi.submitSecPwd(formData);
@@ -115,53 +119,53 @@ const verifyPassword = async (userId) => {
 };
 
 const closeModal = () => {
-  showModal.value = false;
-  emit('close');
+    showModal.value = false;
+    emit('close');
 };
 </script>
 
 <style scope>
 /* 모달 전체 크기 조정 */
 .compact-modal {
-  max-height: 90vh;
-  overflow-y: auto;
+    max-height: 90vh;
+    overflow-y: auto;
 }
 
 /* 비밀번호 도트 */
 .password-dots {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: 40px 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 40px 0;
 }
 
 .dot {
-  width: 20px;
-  height: 20px;
-  margin: 0 10px;
-  border: 2px solid #e0e0e0;
-  border-radius: 50%;
-  background-color: transparent;
-  transition: all 0.3s ease;
+    width: 20px;
+    height: 20px;
+    margin: 0 10px;
+    border: 2px solid #e0e0e0;
+    border-radius: 50%;
+    background-color: transparent;
+    transition: all 0.3s ease;
 }
 
 .dot.filled {
-  background-color: #4caf50;
-  border-color: #4caf50;
-  box-shadow: 0 0 10px rgba(76, 175, 80, 0.5);
-  transform: scale(1.15);
+    background-color: #4caf50;
+    border-color: #4caf50;
+    box-shadow: 0 0 10px rgba(76, 175, 80, 0.5);
+    transform: scale(1.15);
 }
 
 /* 키패드 스타일 */
 .keypad {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 1rem;
-  margin: 1rem auto;
-  padding: 1rem;
-  background-color: #f8f9fa;
-  border-radius: 12px;
-  width: 90%;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    margin: 1rem auto;
+    padding: 1rem;
+    background-color: #f8f9fa;
+    border-radius: 12px;
+    width: 90%;
 }
 
 .keypad button {
@@ -183,19 +187,19 @@ const closeModal = () => {
 }
 
 .keypad button:hover {
-  background-color: #f0f0f0;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    background-color: #f0f0f0;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 }
 
 .keypad button:active {
-  transform: translateY(0);
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    transform: translateY(0);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
 .function-key {
-  background-color: #e9ecef !important;
-  color: #495057;
+    background-color: #e9ecef !important;
+    color: #495057;
 }
 
 .warning-text {
