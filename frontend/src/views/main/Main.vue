@@ -1,6 +1,6 @@
 <template>
   <nav style="
-      background-color: #fff6ef;
+      background-color: #f6f2ef;
       position: fixed;
       top: 0;
       left: 0;
@@ -26,14 +26,14 @@
   </nav>
   <!-- 왼쪽 화면 -->
   <div class="section-container-beige">
-    <h3 class="mb-4 mobile-btn text-center">
+    <h3 class="mb-4 mobile-btn text-center font_2">
       Make traveling in Korea more convenient<br />with our easy to use E-wallet service
     </h3>
     <div class="d-flex justify-content-between flex-column flex-md-row align-items-start">
       <!-- 왼쪽 섹션 -->
 
       <div class="left-section-main d-flex flex-column mt-2 col-md-6">
-        <h3 class="mb-4 text-nowrap web-btn">
+        <h3 class="mb-4 text-nowrap web-btn font_2">
           Make traveling in Korea more convenient<br />with our easy to use E-wallet service
         </h3>
 
@@ -112,7 +112,7 @@
 
   <section class="curved-section">
     <svg viewBox="0 0 1440 200" xmlns="http://www.w3.org/2000/svg" style="transform: scaleX(-1)">
-      <path fill="#fff6ef" fill-opacity="1" d="M0,150L1440,90L1440,0L0,0Z"></path>
+      <path fill="#f6f2ef" fill-opacity="1" d="M0,150L1440,90L1440,0L0,0Z"></path>
     </svg>
   </section>
 
@@ -268,11 +268,11 @@
 
   <!-- 세 번째 섹션 -->
   <section class="section-container-brown">
-    <h3 class="font_2 mb-4">
+    <h3 class="font_2 color-green mb-4">
       Pay Money account & Send money <br />
       between Korean won-only accounts
     </h3>
-    <div class="d-flex justify-content-between align-items-center flex-column flex-md-row mb-3">
+    <div class="d-flex justify-content-between align-items-center flex-column flex-md-row mb-3 color-beige">
       <div class="mesh-left col-md-7 d-flex flex-column px-3">
         <p class="fw-bold fs-5 mb-1">Manage your money in one place!</p>
         <p style="text-align: justify;" class="lh-sm">
@@ -302,9 +302,9 @@
     </div>
   </section>
   <!-- 곡선 -->
-  <div class="curve-container" style="background-color: #fff6ef">
+  <div class="curve-container" style="background-color:#f6f2ef ">
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320" class="curve">
-      <path fill="#B0AB99" fill-opacity="1"
+      <path fill="#342826" fill-opacity="1"
         d="M0,320L48,288C96,256,192,192,288,165.3C384,139,480,149,576,176C672,203,768,245,864,256C960,267,1056,245,1152,218.7C1248,192,1344,160,1392,144L1440,128L1440,0L1392,0C1344,0,1248,0,1152,0C1056,0,960,0,864,0C768,0,672,0,576,0C480,0,384,0,288,0C192,0,96,0,48,0L0,0Z">
       </path>
     </svg>
@@ -333,7 +333,7 @@
         <div class="small-img-container me-2">
           <img src="/images/quote.png" class="small-img">
         </div>
-        <h2 class="title text-center">
+        <h2 class="text-center font_2">
           Prepare for Your Trip to Korea <br />With Our Song-E pay
         </h2>
         <div class="small-img-container ms-2">
@@ -364,7 +364,7 @@ onBeforeMount(() => {
 }
 
 .section-container-beige {
-  background: #fff6ef;
+  background: #f6f2ef;
   padding-top: 7rem;
   padding-left: 9rem;
   padding-right: 9rem;
@@ -372,7 +372,7 @@ onBeforeMount(() => {
 }
 
 .section-container-green {
-  background-color: #ffeb69;
+  background-color: #FFEB69;
   padding-top: 6rem;
   padding-left: 9rem;
   padding-right: 9rem;
@@ -380,7 +380,7 @@ onBeforeMount(() => {
 }
 
 .section-container-brown {
-  background-color: #b0ab99;
+  background-color: #342826;
   color: #f4f2f2;
   padding-top: 9rem;
   padding-left: 9rem;
@@ -389,7 +389,7 @@ onBeforeMount(() => {
 }
 
 .curved-section {
-  background-color: #ffeb69;
+  background-color: #FFEB69;
   padding: 0;
   margin-top: -20px;
   /* 섹션 사이에 자연스럽게 연결되도록 설정 */
@@ -430,13 +430,17 @@ onBeforeMount(() => {
   padding: 10px 20px;
   background-color: #ffeb69;
   /* 버튼 배경색 */
-  color: #fff;
+  color: #342826;
   /* 텍스트 색상 */
   text-align: center;
   text-decoration: none;
   border-radius: 15px;
   /* 모서리 둥글게 */
   font-size: 16px;
+}
+
+.btn:hover {
+  background-color: #fae55f;
 }
 
 .small-img-container {
@@ -468,7 +472,6 @@ onBeforeMount(() => {
 
   /* Adjust the max-width value as needed for your breakpoint */
   .section-container-beige {
-    background: #fff6ef;
     padding-top: 5rem;
     padding-left: 2rem;
     padding-right: 2rem;
@@ -476,7 +479,6 @@ onBeforeMount(() => {
   }
 
   .section-container-green {
-    background-color: #ffeb69;
     padding-left: 2rem;
     padding-right: 2rem;
     padding-bottom: 5rem;
@@ -521,5 +523,35 @@ onBeforeMount(() => {
 
 .font_2 {
   font-weight: bolder;
+  color: #342826;
+}
+
+
+.color-dark-brown {
+  color: #342826;
+}
+
+.color-brown {
+  color: #7b4632;
+}
+
+.color-green {
+  color: #536438;
+}
+
+.color-red {
+  color: #d21c23;
+}
+
+.color-beige {
+  color: #d8c6ba;
+}
+
+.color-light-beige {
+  color: #f6f2ef;
+}
+
+.color-dark-beige {
+  color: #8e7f78;
 }
 </style>
