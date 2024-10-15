@@ -3,8 +3,12 @@ import { ref, computed, onBeforeUnmount, onBeforeMount, onMounted } from "vue";
 import { useStore } from "vuex";
 import { useAuthStore } from "@/stores/auth";
 import ArgonInput from "@/components/templates/ArgonInput.vue";
-import ArgonSwitch from "@/components/templates/ArgonSwitch.vue";
+// import ArgonSwitch from "@/components/templates/ArgonSwitch.vue";
 import ArgonButton from "@/components/templates/ArgonButton.vue";
+import { useI18n } from "vue-i18n";
+import Swal from "sweetalert2";
+
+const { t } = useI18n();
 
 const body = document.getElementsByTagName("body")[0];
 const store = useStore();
@@ -96,6 +100,12 @@ const handleSubmit = async () => {
         window.location.href = "/my-accounts";
       }
     } catch (e) {
+      Swal.fire({
+        title: t("signIn--alertTitle-loginError"),
+        text: t("signIn--alertText-loginError"),
+        icon: "error",
+        confirmButtonText: "Close",
+      });
       // 로그인 에러
       console.log("에러=======", e);
     }
