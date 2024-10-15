@@ -1,6 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import MyPage from '../views/myPage/MyPage.vue';
-import MyAccounts from '../views/myAccounts/MyAccounts.vue';
 import Payment from '../views/payment/Payment.vue';
 import PassWordInputPage from '../views/payment/PasswordInputPage.vue';
 import QrScanPage from '../views/payment/QrScanPage.vue';
@@ -23,157 +22,149 @@ import ReservationPayment from '../views/reservation/ReservationPayment.vue';
 import AdminPage from '../views/admin/Admin.vue';
 
 const routes = [
-    {
-        path: '/',
-        name: 'Main',
-        component: MainPage,
+  {
+    path: '/',
+    name: 'Main',
+    component: MainPage,
+  },
+  {
+    path: '/my-page',
+    name: 'MyPage',
+    meta: {
+      requiresAuth: true,
     },
-    {
-        path: '/my-page',
-        name: 'MyPage',
-        meta: {
-            requiresAuth: true,
-        },
-        component: MyPage,
+    component: MyPage,
+  },
+  {
+    path: '/exchange-rate',
+    name: 'ExchangeRate',
+    meta: {
+      requiresAuth: true,
     },
-    {
-        path: '/my-accounts',
-        name: 'MyAccounts',
-        meta: {
-            requiresAuth: true,
-        },
-        component: MyAccounts,
+    component: ExchangeRate,
+  },
+  {
+    path: '/payment',
+    name: 'Payment',
+    meta: {
+      requiresAuth: true,
     },
-    {
-        path: '/exchange-rate',
-        name: 'ExchangeRate',
-        meta: {
-            requiresAuth: true,
-        },
-        component: ExchangeRate,
+    component: Payment,
+  },
+  {
+    path: '/payment/password',
+    name: 'Password',
+    component: PassWordInputPage,
+  },
+  {
+    path: '/payment/qr',
+    name: 'Qr',
+    component: QrScanPage,
+  },
+  {
+    path: '/histories',
+    name: 'Histories',
+    meta: {
+      requiresAuth: true,
     },
-    {
-        path: '/payment',
-        name: 'Payment',
-        meta: {
-            requiresAuth: true,
-        },
-        component: Payment,
+    component: Histories,
+  },
+  {
+    path: '/maps',
+    name: 'Maps',
+    meta: {
+      requiresAuth: true,
     },
-    {
-        path: '/payment/password',
-        name: 'Password',
-        component: PassWordInputPage,
+    component: Maps,
+  },
+  {
+    path: '/profile',
+    name: 'Profile',
+    meta: {
+      requiresAuth: true,
     },
-    {
-        path: '/payment/qr',
-        name: 'Qr',
-        component: QrScanPage,
+    component: Profile,
+  },
+  {
+    path: '/change-password',
+    name: 'ChangePwd',
+    component: ChangePwd,
+  },
+  {
+    path: '/login',
+    name: 'Login',
+    component: Login,
+  },
+  {
+    path: '/login/issue-info',
+    name: 'LoginIssueInfo',
+    component: LoginIssueInfo,
+  },
+  {
+    path: '/register/legal',
+    name: 'RegisterLegal',
+    component: RegisterLegal,
+  },
+  {
+    path: '/register/detail',
+    name: 'RegisterDetails',
+    component: RegisterDetails,
+  },
+  {
+    path: '/register/success',
+    name: 'RegisterSuccess',
+    component: RegisterSuccess,
+  },
+  {
+    path: '/error',
+    name: 'ErrorPage',
+    component: ErrorPage,
+  },
+  {
+    path: '/main',
+    name: 'MainPage',
+    component: MainPage,
+  },
+  {
+    path: '/schedule',
+    name: 'SchedulePage',
+    meta: {
+      requiresAuth: true,
     },
-    {
-        path: '/histories',
-        name: 'Histories',
-        meta: {
-            requiresAuth: true,
-        },
-        component: Histories,
+    component: SchedulePage,
+  },
+  {
+    path: '/reservation',
+    name: 'Reservation',
+    meta: {
+      requiresAuth: true,
     },
-    {
-        path: '/maps',
-        name: 'Maps',
-        meta: {
-            requiresAuth: true,
-        },
-        component: Maps,
+    component: Reservation,
+  },
+  {
+    path: '/accommodation/:no',
+    name: 'Accommodation',
+    meta: {
+      requiresAuth: true,
     },
-    {
-        path: '/profile',
-        name: 'Profile',
-        meta: {
-            requiresAuth: true,
-        },
-        component: Profile,
+    component: Accommodation,
+  },
+  {
+    path: '/reservationpayment',
+    name: 'ReservationPayment',
+    meta: {
+      requiresAuth: true,
     },
-    {
-        path: '/change-password',
-        name: 'ChangePwd',
-        component: ChangePwd,
+    component: ReservationPayment,
+  },
+  {
+    path: '/admin',
+    name: 'AdminPage',
+    meta: {
+      requiresAuth: true,
     },
-    {
-        path: '/login',
-        name: 'Login',
-        component: Login,
-    },
-    {
-        path: '/login/issue-info',
-        name: 'LoginIssueInfo',
-        component: LoginIssueInfo,
-    },
-    {
-        path: '/register/legal',
-        name: 'RegisterLegal',
-        component: RegisterLegal,
-    },
-    {
-        path: '/register/detail',
-        name: 'RegisterDetails',
-        component: RegisterDetails,
-    },
-    {
-        path: '/register/success',
-        name: 'RegisterSuccess',
-        component: RegisterSuccess,
-    },
-    {
-        path: '/error',
-        name: 'ErrorPage',
-        component: ErrorPage,
-    },
-    {
-        path: '/main',
-        name: 'MainPage',
-        component: MainPage,
-    },
-    {
-        path: '/schedule',
-        name: 'SchedulePage',
-        meta: {
-            requiresAuth: true,
-        },
-        component: SchedulePage,
-    },
-    {
-        path: '/reservation',
-        name: 'Reservation',
-        meta: {
-            requiresAuth: true,
-        },
-        component: Reservation,
-    },
-    {
-        path: '/accommodation/:no',
-        name: 'Accommodation',
-        meta: {
-            requiresAuth: true,
-        },
-        component: Accommodation,
-    },
-    {
-        path: '/reservationpayment',
-        name: 'ReservationPayment',
-        meta: {
-            requiresAuth: true,
-        },
-        component: ReservationPayment,
-    },
-    {
-      path: '/admin',
-      name: 'AdminPage',
-      meta: {
-        requiresAuth: true,
-      },
-      component: AdminPage,
-    },
+    component: AdminPage,
+  },
 ];
 
 const router = createRouter({
@@ -183,22 +174,22 @@ const router = createRouter({
 });
 
 router.beforeEach((to, from, next) => {
-    const auth = JSON.parse(localStorage.getItem('auth'));
-    const token = auth ? auth.token : null;
+  const auth = JSON.parse(localStorage.getItem('auth'));
+  const token = auth ? auth.token : null;
 
-    // 로그인이 필요한 페이지에 접근하려고 할 때
-    if (to.meta.requiresAuth && !token) {
-        return next({
-            name: 'Login',
-            state: { redirect: to.fullPath },
-        });
-    }
+  // 로그인이 필요한 페이지에 접근하려고 할 때
+  if (to.meta.requiresAuth && !token) {
+    return next({
+      name: 'Login',
+      state: { redirect: to.fullPath },
+    });
+  }
 
-    if (to.name === 'Password' && from.name !== 'Payment') {
-        return next({
-            name: 'Payment',
-        });
-    }
+  if (to.name === 'Password' && from.name !== 'Payment') {
+    return next({
+      name: 'Payment',
+    });
+  }
 
   if ((to.name === 'Qr') && from.name !== 'Password') {
     return next({
@@ -212,13 +203,13 @@ router.beforeEach((to, from, next) => {
     });
   }
 
-    if (to.name === 'Login' && token) {
-        return next({
-            name: 'MyAccounts',
-        });
-    }
+  if (to.name === 'Login' && token) {
+    return next({
+      name: 'MyPage',
+    });
+  }
 
-    next();
+  next();
 });
 
 export default router;

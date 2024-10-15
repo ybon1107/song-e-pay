@@ -111,8 +111,14 @@ const req = {
   userId: user.value.userId,
   krwNo: user.value.krwNo,
   songNo: user.value.songNo,
-  historyContent: "SongSong Restaurant"
+  historyContent: "SongSong Restaurant",
   // userDTO: user.value
+};
+
+// 새로고침시 /payment로 이동
+const handleUnload = (event) => {
+  event.preventDefault();
+  router.push("/payment");
 };
 
 // QR 스캔 후 처리
@@ -122,16 +128,16 @@ const handleQRScan = async () => {
 
     console.log(response);
     if (response.status === 200) {
+      window.addEventListener("beforeunload", handleUnload);
       Swal.fire({
         title: t("swal--title-success"),
         text: t("payment--swal-success-text"),
         icon: "success",
+      }).then(() => {
+        router.push("/my-page");
       });
-      router.push("/my-page"); // 홈으로 이동
     }
     console.log(response);
-
-
   } catch (error) {
     console.log(error);
     Swal.fire({
@@ -152,13 +158,7 @@ onMounted(() => {
   // QR 코드 갱신을 위한 카운트다운 시작
   startCountdown();
 
-  // 새로고침시 /payment로 이동
-  const handleUnload = (event) => {
-    event.preventDefault();
-    router.push("/payment");
-  };
-
-  window.addEventListener("beforeunload", handleUnload);
+  // window.addEventListener("beforeunload", handleUnload);
 });
 
 onBeforeUnmount(() => {
