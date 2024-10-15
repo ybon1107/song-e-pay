@@ -31,6 +31,26 @@ export default {
             throw error;
         }
     },
+    async setReservation(req) {
+        try {
+            const response = await api.post('', req);
+            return response;
+
+        } catch (error) {
+            console.error('알림 설정 오류:', error.response.data);
+            throw error;
+        }
+    },
+    async setConditions(req) {
+        try {
+            const response = await api.post(`/setalert`, req);
+            return response;
+
+        } catch (error) {
+            console.error('알림 설정 오류:', error.response.data);
+            throw error;
+        }
+    },
 
     async alertConditions(userId) {
         try {
