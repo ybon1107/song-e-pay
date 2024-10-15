@@ -198,7 +198,7 @@
                             <div class="input-group">
                                 <span class="input-group-text">{{
                                     $t('exchangeRate--text-targetKRW')
-                                }}
+                                    }}
                                     =</span>
                                 <input type="number" v-model="targetKrw" class="form-control" :placeholder="$t(
                                     'exchangeRate--placeholder-targetAmount'
@@ -237,7 +237,7 @@ import Swal from 'sweetalert2';
 import { useAuthStore } from '@/stores/auth';
 import { useI18n } from 'vue-i18n';
 const { t } = useI18n(); // t 함수 정의
-import exchangeApi from '../../api/exchangeApi';
+import exchangeReservationApi from '../../api/exchangeReservationApi';
 const auth = useAuthStore();
 const user = computed(() => auth.user);
 
@@ -466,7 +466,7 @@ const saveAlertRate = async (baseCode, targetCode, targetExchange) => {
             targetCode: targetCode,
             targetExchange: targetExchange,
         }
-        const response = await exchangeApi.setReservation(req);
+        const response = await exchangeReservationApi.setReservation(req);
 
         if (response.status === 200) {
             Swal.fire({
@@ -555,7 +555,7 @@ const confirmAutoExchange = async (
             targetExchange: targetExchange,
             targetKrw: targetKrw,
         }
-        const response = await exchangeApi.setConditions(req);
+        const response = await exchangeReservationApi.setConditions(req);
 
         if (response.status === 200) {
             Swal.fire({
