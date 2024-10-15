@@ -62,7 +62,12 @@ public class PaymentController {
     @PostMapping("/accommodation")
     public ResponseEntity<?> handleAccommodation(@RequestBody PaymentDTO dto) {
         log.info("paymentDTO : {}", dto);
-
-        return ResponseEntity.ok(paymentService.accommodationPayment(dto));
+        try {
+            return ResponseEntity.ok(paymentService.accommodationPayment(dto));
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body("An unexpected error occurred");
+        }
     }
 }

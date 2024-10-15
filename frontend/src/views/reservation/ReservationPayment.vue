@@ -50,7 +50,7 @@ const requestPay = async () => {
       alert('결제가 성공적으로 완료되었습니다.'); // 결제 성공 메시지
     } catch (error) {
       console.error('결제 오류:', error);
-      alert('결제에 실패했습니다. 다시 시도해 주세요.'); // 결제 실패 메시지
+      alert(error.response.data || '결제에 실패했습니다. 다시 시도해 주세요.'); // 결제 실패 메시지
     }
   } else {
     alert("결제가 취소되었습니다.");

@@ -104,6 +104,7 @@ public class PaymentServiceImpl implements PaymentService {
 
     // 카카오 숙소 결제
     @Override
+    @Transactional
     public int accommodationPaymentKakao(AccommodationPaymentDTO dto) {
 
         PaymentDTO paymentDTO = new PaymentDTO();
@@ -111,6 +112,17 @@ public class PaymentServiceImpl implements PaymentService {
         paymentDTO.setName(dto.getName());
         paymentDTO.setAmount(dto.getPaid_amount());
         paymentDTO.setHistory("숙소예약");
+
+        HistoryDTO historyDTO = new HistoryDTO();
+        historyDTO.setUserId(dto.getBuyer_email());
+        historyDTO.setSongNo("null");
+        historyDTO.setKrwNo("null");
+        historyDTO.setTypeCode(1);
+        historyDTO.setStateCode(1);
+        historyDTO.setHistoryContent(dto.getName());
+        historyDTO.setAmount(dto.getPaid_amount());
+        historyDTO.setExchangeRate((double) -1);
+        historyService.saveHistory(historyDTO);
 
         ScheduleDTO scheduleDTO = new ScheduleDTO();
         scheduleDTO.setUserId(dto.getBuyer_email());
@@ -120,18 +132,39 @@ public class PaymentServiceImpl implements PaymentService {
         scheduleDTO.setTodo("숙소");
         scheduleDTO.setColor("000000");
         scheduleService.saveSchedule(scheduleDTO);
+
         return paymentMapper.insertPayAccommodation(paymentDTO);
     }
 
+    // 일반 숙소 결제
     @Override
+    @Transactional
     public int accommodationPayment(PaymentDTO dto) {
         UserDTO userDTO = userService.getUserByEmail(dto.getUserId());
 
-        if(dto.getAmount() > myAccountMapper.selectKrwBalance(userDTO.getKrwNo())) {
-            throw new Error("Insufficient KRW balance");
+        Double balance = myAccountMapper.selectKrwBalance(userDTO.getKrwNo());
+
+        if(dto.getAmount() > balance) {
+            throw new IllegalArgumentException("Insufficient KRW balance");
         }
 
+        KrwAccountDTO krwAccountDTO = new KrwAccountDTO();
+        krwAccountDTO.setKrwNo(userDTO.getKrwNo());
+        krwAccountDTO.setBalance(balance - dto.getAmount());
+        myAccountMapper.updateKrwAccount(krwAccountDTO);
+
         dto.setHistory("숙소예약");
+
+        HistoryDTO historyDTO = new HistoryDTO();
+        historyDTO.setUserId(userDTO.getUserId());
+        historyDTO.setSongNo(userDTO.getSongNo());
+        historyDTO.setKrwNo(userDTO.getKrwNo());
+        historyDTO.setTypeCode(1);
+        historyDTO.setStateCode(1);
+        historyDTO.setHistoryContent(dto.getName());
+        historyDTO.setAmount(dto.getAmount());
+        historyDTO.setExchangeRate((double) -1);
+        historyService.saveHistory(historyDTO);
 
         ScheduleDTO scheduleDTO = new ScheduleDTO();
         scheduleDTO.setUserId(dto.getUserId());
