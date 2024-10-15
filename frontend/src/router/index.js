@@ -17,6 +17,7 @@ import ExchangeRate from '../views/exchangeRate/ExchangeRate.vue';
 import MainPage from '../views/main/Main.vue';
 import ErrorPage from '../views/error/ErrorPage.vue';
 import SchedulePage from '../views/Schedule/Schedule.vue';
+import AdminPage from '../views/admin/Admin.vue';
 
 const routes = [
   {
@@ -130,6 +131,14 @@ const routes = [
     },
     component: SchedulePage,
   },
+  {
+    path: '/admin',
+    name: 'AdminPage',
+    meta: {
+      requiresAuth: true,
+    },
+    component: AdminPage,
+  }
 ];
 
 const router = createRouter({
