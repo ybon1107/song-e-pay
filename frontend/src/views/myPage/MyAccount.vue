@@ -299,7 +299,7 @@ const transfer = async () => {
     let target_krwNo;
     const amount = transferAmount.value; // 송금하려는 금액
     const stateCode = isMember.value === 'no-member' ? 4 : 1;
-    const targetHistoryContent = `${userId} → KRW  입금`;
+    const targetHistoryContent = `${userId} → WonE`;
     if (isMember.value === 'no-member') {
         target_krwNo = sendEmail.value;
     } else {
@@ -320,7 +320,7 @@ const transfer = async () => {
             krwNo,
             typeCode: 2, //거래 코드 충전 2
             stateCode: stateCode,
-            historyContent: `KRW → ${sendEmail.value} 송금`,
+            historyContent: `WonE → ${sendEmail.value}`,
             amount,
         },
     });
@@ -514,23 +514,20 @@ watchEffect(() => {
 
 
     <h3 class="mb-0">My account</h3>
-    <swiper :effect="'coverflow'" :grabCursor="true" :centeredSlides="true" :slidesPerView="'auto'"
-                :coverflowEffect="{
-                    rotate: 50,
-                    stretch: 0,
-                    depth: 100,
-                    modifier: 1,
-                    slideShadows: true,
-                }" :pagination="true" :modules="modules" class="mySwiper" @slideChange="onSlideChange">
-                <swiper-slide>
-                    <accounts-card ref="songEMoneyCardRef" :assetType="SONGE"
-                        :class="{ selected: selectedAsset === SONGE }" />
-                </swiper-slide>
-                <swiper-slide>
-                    <accounts-card ref="wonEMoneyCardRef" :assetType="WONE"
-                        :class="{ selected: selectedAsset === WONE }" />
-                </swiper-slide>
-            </swiper>
+    <swiper :effect="'coverflow'" :grabCursor="true" :centeredSlides="true" :slidesPerView="'auto'" :coverflowEffect="{
+        rotate: 50,
+        stretch: 0,
+        depth: 100,
+        modifier: 1,
+        slideShadows: true,
+    }" :pagination="true" :modules="modules" class="mySwiper" @slideChange="onSlideChange">
+        <swiper-slide>
+            <accounts-card ref="songEMoneyCardRef" :assetType="SONGE" :class="{ selected: selectedAsset === SONGE }" />
+        </swiper-slide>
+        <swiper-slide>
+            <accounts-card ref="wonEMoneyCardRef" :assetType="WONE" :class="{ selected: selectedAsset === WONE }" />
+        </swiper-slide>
+    </swiper>
 
     <!-- <div class="custom-spacer"></div> -->
     <!-- <div class="row justify-content-center gap-3">
