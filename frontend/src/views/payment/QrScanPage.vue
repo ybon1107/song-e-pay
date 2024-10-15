@@ -139,6 +139,14 @@ onMounted(() => {
 
   // QR 코드 갱신을 위한 카운트다운 시작
   startCountdown();
+
+  // 새로고침시 /payment로 이동
+  const handleUnload = (event) => {
+    event.preventDefault();
+    router.push("/payment");
+  };
+
+  window.addEventListener("beforeunload", handleUnload);
 });
 
 onBeforeUnmount(() => {
@@ -146,5 +154,7 @@ onBeforeUnmount(() => {
   if (countdownInterval) {
     clearInterval(countdownInterval);
   }
+
+  window.removeEventListener("beforeunload", handleUnload);
 });
 </script>
