@@ -44,7 +44,11 @@ function openMaintenanceModal(startDate, endDate) {
 }
 
 // 새 이벤트 추가
+<<<<<<< HEAD
 function addEvent(eventData) {
+=======
+async function addEvent(eventData) {
+>>>>>>> a3b5ae426b7f1c856bee370fcd645a3b8079e823
     const colorWithoutHash = eventData.color.replace('#', '');
 
     const scheduleData = {
@@ -56,6 +60,7 @@ function addEvent(eventData) {
         color: colorWithoutHash || '000000',
     };
 
+<<<<<<< HEAD
     axios
         .post('/api/schedule/add', scheduleData)
         .then((response) => {
@@ -84,6 +89,34 @@ function addEvent(eventData) {
         .catch((error) => {
             console.error('일정 추가 중 오류 발생:', error);
         });
+=======
+    try {
+        const response = await scheduleApi.addEvent(scheduleData);
+        if (response) {
+            // 캘린더 API를 통해 현재 날짜 가져오기
+            const calendarApi = calendarRef.value.getApi();
+
+            // 새로 추가된 이벤트를 캘린더에 직접 추가
+            calendarApi.addEvent({
+                id: response.eventNo, // 서버에서 반환된 이벤트 ID
+                title: eventData.title,
+                start: eventData.startedAt,
+                end: moment(eventData.endedAt)
+                    .add(1, 'days')
+                    .format('YYYY-MM-DD'),
+                backgroundColor: `#${colorWithoutHash}`,
+                borderColor: `#${colorWithoutHash}`,
+                allDay: true,
+                extendedProps: {
+                    description: eventData.description,
+                },
+            });
+        }
+        closeMaintenanceModal();
+    } catch (error) {
+        console.error('일정 추가 중 오류 발생:', error);
+    }
+>>>>>>> a3b5ae426b7f1c856bee370fcd645a3b8079e823
 }
 
 function handleEventClick(clickInfo) {
@@ -109,7 +142,11 @@ function handleEventClick(clickInfo) {
 }
 
 // 기존 이벤트 업데이트
+<<<<<<< HEAD
 function updateEvent(updatedEvent) {
+=======
+async function updateEvent(updatedEvent) {
+>>>>>>> a3b5ae426b7f1c856bee370fcd645a3b8079e823
     const colorWithoutHash = updatedEvent.color.replace('#', ''); // 색깔 Hex코드 저장
     console.log('Updated Event Data:', updatedEvent); // updatedEvent 객체 확인
 
@@ -120,6 +157,7 @@ function updateEvent(updatedEvent) {
         beginDate: updatedEvent.startedAt || moment().format('YYYY-MM-DD'),
         endDate: updatedEvent.endedAt || moment().format('YYYY-MM-DD'),
         color: colorWithoutHash || '000000',
+<<<<<<< HEAD
         // backgroundColor: `#${createdEvent.color}`, // 색상 속성 수정
         // borderColor: `#${createdEvent.color}`, // 색상 속성 추가
     };
@@ -147,7 +185,30 @@ function updateEvent(updatedEvent) {
         .catch((error) => {
             console.error('이벤트 업데이트 중 오류 발생:', error);
         });
+=======
+    };
+
+    try {
+        const response = await scheduleApi.updateEvent(maintenance.value.id, scheduleData);
+        const calendarApi = calendarRef.value?.getApi();
+        if (calendarApi) {
+            const event = calendarApi.getEventById(maintenance.value.id);
+            if (event) {
+                event.setProp('title', updatedEvent.title);
+                event.setStart(updatedEvent.startedAt);
+                event.setEnd(updatedEvent.endedAt);
+                event.setProp('backgroundColor', `#${colorWithoutHash}`);
+                event.setProp('borderColor', `#${colorWithoutHash}`);
+                event.setExtendedProp('description', updatedEvent.description);
+            }
+        }
+        closeEditEventModal();
+    } catch (error) {
+        console.error('이벤트 업데이트 중 오류 발생:', error);
+    }
+>>>>>>> a3b5ae426b7f1c856bee370fcd645a3b8079e823
 }
+
 // 모달 닫기 함수
 function closeMaintenanceModal() {
     isMaintenanceModalVisible.value = false;
@@ -200,6 +261,7 @@ onMounted(() => {
 });
 
 // 삭제
+<<<<<<< HEAD
 function deleteEvent(eventId) {
     axios
         .delete(`/api/schedule/delete/${eventId}`)
@@ -216,7 +278,24 @@ function deleteEvent(eventId) {
         .catch((error) => {
             console.error('Error deleting event:', error);
         });
+=======
+async function deleteEvent(eventId) {
+    try {
+        const response = await scheduleApi.deleteEvent(eventId);
+        console.log('Event deleted successfully:', response);
+        // 캘린더에서 삭제된 이벤트 제거
+        const calendarApi = calendarRef.value.getApi();
+        const event = calendarApi.getEventById(eventId);
+        if (event) {
+            event.remove();
+        }
+        closeEditEventModal();
+    } catch (error) {
+        console.error('Error deleting event:', error);
+    }
+>>>>>>> a3b5ae426b7f1c856bee370fcd645a3b8079e823
 }
+
 const calendarOptions = ref({
     plugins: [dayGridPlugin, timeGridPlugin, interactionPlugin],
     headerToolbar: {

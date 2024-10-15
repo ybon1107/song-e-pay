@@ -17,6 +17,10 @@ import ExchangeRate from '../views/exchangeRate/ExchangeRate.vue';
 import MainPage from '../views/main/Main.vue';
 import ErrorPage from '../views/error/ErrorPage.vue';
 import SchedulePage from '../views/Schedule/Schedule.vue';
+import Reservation from '../views/reservation/Reservation.vue';
+import Accommodation from '../views/reservation/Accommodation.vue';
+import ReservationPayment from '../views/reservation/ReservationPayment.vue';
+
 
 const routes = [
   {
@@ -129,6 +133,30 @@ const routes = [
       requiresAuth: true,
     },
     component: SchedulePage,
+  },
+  {
+    path: '/reservation',
+    name: 'Reservation',
+    meta: {
+      requiresAuth: true,
+    },
+    component: Reservation,
+  },
+  {
+    path: '/accommodation/:no',
+    name: 'Accommodation',
+    meta: {
+      requiresAuth: true,
+    },
+    component: Accommodation,
+  },
+  {
+    path: '/reservationpayment',
+    name: 'ReservationPayment',
+    meta: {
+      requiresAuth: true,
+    },
+    component: ReservationPayment,
   },
 ];
 

@@ -48,6 +48,7 @@
 
           <!-- 언어 선택 -->
           <li class="nav-item dropdown language-dropdown border rounded">
+<<<<<<< HEAD
             <a
               class="nav-link dropdown-toggle d-flex align-items-center"
               href="#"
@@ -61,10 +62,16 @@
                 alt="Flag"
                 class="me-2 flag-icon"
               />
+=======
+            <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="languageDropdown" role="button"
+              data-bs-toggle="dropdown" aria-expanded="false">
+              <img :src="getFlagSrc(currentLanguage)" alt="Flag" class="me-2 flag-icon" />
+>>>>>>> a3b5ae426b7f1c856bee370fcd645a3b8079e823
               {{ $t(currentLanguage) }}
             </a>
             <ul class="dropdown-menu" aria-labelledby="languageDropdown">
               <li v-for="lang in languages" :key="lang.code">
+<<<<<<< HEAD
                 <a
                   class="dropdown-item d-flex align-items-center"
                   href="#"
@@ -75,6 +82,10 @@
                     :alt="`${lang.name} Flag`"
                     class="me-2 flag-icon"
                   />
+=======
+                <a class="dropdown-item d-flex align-items-center" href="#" @click="changeLanguage(lang.code)">
+                  <img :src="lang.flag" :alt="`${lang.name} Flag`" class="me-2 flag-icon" />
+>>>>>>> a3b5ae426b7f1c856bee370fcd645a3b8079e823
                   {{ $t(lang.name) }}
                 </a>
               </li>
@@ -103,11 +114,16 @@
               </div>
             </a>
 
+<<<<<<< HEAD
             <ul
               class="px-2 py-3 dropdown-menu dropdown-menu-end me-sm-n4"
               :class="showMenu ? 'show' : ''"
               aria-labelledby="dropdownMenuButton"
             >
+=======
+            <ul class="px-2 py-3 dropdown-menu dropdown-menu-end me-sm-n4 noti-ul" :class="showMenu ? 'show' : ''"
+              aria-labelledby="dropdownMenuButton">
+>>>>>>> a3b5ae426b7f1c856bee370fcd645a3b8079e823
               <div class="notifications-container">
                 <li v-if="!noti || noti.length === 0" class="mb-2">
                   <a class="dropdown-item border-radius-md" href="javascript:;">
@@ -117,6 +133,7 @@
                   </a>
                 </li>
 
+<<<<<<< HEAD
                 <li
                   v-for="(notification, index) in noti"
                   :key="notification.id"
@@ -138,6 +155,17 @@
                           class="avatar avatar-sm me-3"
                           alt="user image"
                         />
+=======
+                <li v-for="(notification, index) in noti" :key="notification.id" class="mb-2 position-relative" style="background-color: white; border-radius: 10px;">
+                  <a class="dropdown-item border-radius-md" href="javascript:;"
+                    :class="{ 'read-notification': notification.check === '1' }"
+                    @click.stop="readNotification(notification.notiNo)">
+                    <div class="py-1 d-flex">
+                      <div class="my-auto">
+                        <img :src="notification.senderProfilePic ||
+                          'https://song-e-pay.s3.ap-northeast-2.amazonaws.com/img/download.png'
+                          " class="avatar avatar-sm me-3" alt="user image" />
+>>>>>>> a3b5ae426b7f1c856bee370fcd645a3b8079e823
                       </div>
                       <div
                         class="d-flex flex-column justify-content-center flex-grow-1"
@@ -148,18 +176,28 @@
                         >
                           {{ notification.content }}
                         </h6>
+<<<<<<< HEAD
                         <p
                           class="mb-0 text-xs"
                           :class="
                             notification.check === '1' ? 'text-muted' : ''
                           "
                         >
+=======
+                        <p class="mb-0 text-xs" :class="notification.check === '1' ? 'text-muted' : ''
+                          ">
+>>>>>>> a3b5ae426b7f1c856bee370fcd645a3b8079e823
                           <i class="fa fa-clock me-1"></i>
                           {{ formatDate(notification.createdAt) }}
                         </p>
+                        <!-- 송금받기 버튼 추가 -->
+                        <button v-if="notification.amount > 0" @click.stop="receiveTransfer(notification.notiNo, notification.amount)" class="btn btn-primary mt-2">
+                          송금받기
+                        </button>
                       </div>
                     </div>
                   </a>
+<<<<<<< HEAD
                   <button
                     @click.stop="deleteNotification(notification.notiNo)"
                     class="btn-close-custom position-absolute top-0 end-0 mt-2 me-2"
@@ -171,6 +209,12 @@
                     v-if="index !== noti.length - 1"
                     class="my-2 dropdown-divider"
                   />
+=======
+                  <button @click.stop="deleteNotification(notification.notiNo)"
+                    class="btn-close-custom position-absolute top-0 end-0 mt-2 me-2">
+                    <i class="fas fa-times"></i>
+                  </button>
+>>>>>>> a3b5ae426b7f1c856bee370fcd645a3b8079e823
                 </li>
               </div>
             </ul>
@@ -209,6 +253,10 @@ import { useI18n } from "vue-i18n";
 import { languages } from "@/constants/languages";
 import notiApi from "@/api/notificationApi";
 import { useWebSocket } from "@/utils/websocket";
+<<<<<<< HEAD
+=======
+import myaccountApi from "@/api/myaccountApi";
+>>>>>>> a3b5ae426b7f1c856bee370fcd645a3b8079e823
 
 const auth = useAuthStore();
 const user = computed(() => auth.user);
@@ -248,6 +296,7 @@ const currentLanguage = computed(() => {
 
 const changeLanguage = (langCode) => {
   locale.value = langCode;
+  localStorage.setItem('Language', langCode);
 };
 
 const getFlagSrc = (languageName) => {
@@ -346,7 +395,16 @@ const readNotification = async (notiNo) => {
     const notificationIndex = noti.findIndex((item) => item.notiNo === notiNo);
     if (notificationIndex !== -1) {
       noti[notificationIndex].check = "1";
+<<<<<<< HEAD
     }
+=======
+      // 읽지 않은 알림 수 업데이트
+      unreadCount.value = noti.filter((n) => n.check === "0").length;
+    }
+    // 변경 사항을 Vue에 알림
+    noti.push({});
+    noti.pop();
+>>>>>>> a3b5ae426b7f1c856bee370fcd645a3b8079e823
   } catch (error) {
     console.error("알림 읽기 실패:", error);
   }
@@ -364,12 +422,55 @@ const deleteNotification = async (notiNo) => {
     if (index !== -1) {
       noti.splice(index, 1);
     }
+<<<<<<< HEAD
+=======
+
+    // 읽지 않은 알림 수 업데이트
+    unreadCount.value = noti.filter((n) => n.check === "0").length;
+
+    // 변경 사항을 Vue에 알림
+    noti.push({});
+    noti.pop();
+>>>>>>> a3b5ae426b7f1c856bee370fcd645a3b8079e823
   } catch (error) {
     console.error("알림 삭제 중 오류 발생:", error);
     alert("알림 삭제 중 오류가 발생했습니다. 다시 시도해 주세요.");
   }
 };
 
+<<<<<<< HEAD
+=======
+// 송금받기
+const receiveTransfer = async (notiNo, amount) => {
+  const transferData = {
+    userId: user.value.userId,
+    notiNo: notiNo,
+    amount: amount
+  };
+
+  if (confirm("송금받기를 하시겠습니까?")) {
+    try {
+      await myaccountApi.receiveTransfer(transferData);
+      alert("송금받기가 성공적으로 완료되었습니다.");
+
+      // 송금 후 amount를 0으로 설정
+      const notificationIndex = noti.findIndex((item) => item.notiNo === notiNo);
+      if (notificationIndex !== -1) {
+        noti[notificationIndex].amount = 0;
+        // 변경 사항을 Vue에 알림
+        noti.push({});
+        noti.pop();
+      }
+    } catch (error) {
+      console.error("송금받기 중 오류 발생:", error);
+      alert("송금받기 중 오류가 발생했습니다. 다시 시도해 주세요.");
+    }
+  } else {
+    alert("송금받기가 취소되었습니다.");
+  }
+};
+
+>>>>>>> a3b5ae426b7f1c856bee370fcd645a3b8079e823
 // 웹소켓
 const handleNewNotification = (newNotification) => {
   noti.unshift(newNotification);
@@ -390,13 +491,20 @@ const sendTestNotification = async () => {
 };
 
 onMounted(async () => {
-  fetchExchangeRates();
+  // 언어 설정
+  const savedLanguage = localStorage.getItem('Language');
+  if (savedLanguage) {
+    locale.value = savedLanguage;
+  }
+
+  // 유정 정보 설정
   if (auth.userId) {
     await auth.fetchUser(auth.userId);
     userImg.value = user.value?.profilePic;
     fetchExchangeRates();
     connect(auth.userId, handleNewNotification);
 
+    // 알림
     try {
       const notifications = await notiApi.getNotification(auth.userId);
       noti.splice(0, noti.length, ...notifications); // 기존 배열을 비우고 새로운 알림으로 채움
@@ -415,6 +523,10 @@ onUnmounted(() => {
 </script>
 
 <style scoped>
+.noti-ul {
+  background-color: #dadada;
+}
+
 .img-div {
   width: 20px;
   height: 20px;
@@ -477,12 +589,12 @@ onUnmounted(() => {
   align-items: center;
 }
 
-.read-notification {
-  background-color: #efefef;
+.read-notification{
+  background-color: #f0f0f0 !important;
 }
 
 .text-muted {
-  color: #6c757d !important;
+  color: rgb(157, 159, 161) !important;
 }
 
 .notifications-container {
@@ -541,7 +653,11 @@ onUnmounted(() => {
 .btn-close-custom:hover {
   opacity: 1;
   background-color: #f8f9fa;
+<<<<<<< HEAD
   /* 호버 시 배경색 변경 */
+=======
+  /* 호버 시 배경��� 변경 */
+>>>>>>> a3b5ae426b7f1c856bee370fcd645a3b8079e823
 }
 
 /* 새로운 스타일 추가 */

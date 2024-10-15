@@ -554,6 +554,10 @@
   "sidenavList--history": "Usage History",
   "sidenavList--map": "Financial Map",
   "sidenavList--schedule": "Schedule",
+<<<<<<< HEAD
+=======
+  "sidenavList--reservation": "Reservation",
+>>>>>>> a3b5ae426b7f1c856bee370fcd645a3b8079e823
   "country_kr": "South Korea",
   "country_us": "United States",
   "country_id": "Indonesia",

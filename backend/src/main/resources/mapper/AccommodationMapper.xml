@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sepay.backend.reservation.mapper.AccommodationMapper">
+
+    <!-- AmenitiesDTO 매핑 -->
+    <resultMap id="amenitiesMap" type="AmenitiesDTO">
+        <result property="amenitiesNo" column="amenities_no"/>
+        <result property="amenitiesName" column="amenities_name"/>
+    </resultMap>
+
+    <!-- AccommodationDTO 매핑 -->
+    <resultMap id="AccommodationMap" type="AccommodationDTO">
+        <id property="accommodationNo" column="accommodation_no"/>
+        <result property="name" column="name"/>
+        <result property="summary" column="summary"/>
+        <result property="description" column="description"/>
+        <result property="address" column="address"/>
+        <result property="thumbnail" column="thumbnail"/>
+        <result property="img" column="img"/>
+        <result property="pricePerNight" column="price_per_night"/>
+        <result property="capacity" column="capacity"/>
+        <result property="checkInTime" column="check_in_time"/>
+        <result property="checkOutTime" column="check_out_time"/>
+        <result property="createdAt" column="created_at"/>
+        <result property="updatedAt" column="updated_at"/>
+
+        <collection property="amenities" resultMap="amenitiesMap"/>
+    </resultMap>
+
+    <!-- 숙소 전체 리스트 -->
+    <select id="selectAll" resultType="AccommodationDTO">
+        SELECT accommodation_no, name, summary, description
+             , address, thumbnail, price_per_night, capacity
+        FROM accommodation;
+    </select>
+
+    <!-- 특정 숙소 -->
+    <select id="selectByNo" parameterType="Integer" resultMap="AccommodationMap">
+        SELECT ac.accommodation_no, ac.name, ac.description, ac.address, ac.img, ac.price_per_night
+             , ac.capacity, ac.check_in_time, ac.check_out_time, aa.amenities_no, am.amenities_name
+        FROM accommodation ac
+                 JOIN accommodation_amenities aa
+                      ON ac.accommodation_no = aa.accommodation_no
+                 JOIN amenities am
+                      ON aa.amenities_no = am.amenities_no
+        WHERE ac.accommodation_no = #{accommodationNo}
+    </select>
+</mapper>

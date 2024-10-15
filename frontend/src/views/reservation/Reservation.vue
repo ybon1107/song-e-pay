@@ -1,9 +1,9 @@
 <script setup>
 import { useRouter } from 'vue-router';
-import { onMounted, ref } from 'vue';
+import { onMounted, ref, computed } from 'vue';
 import { useAuthStore } from '@/stores/auth';
-import iamportApi from '@/api/iamportApi';
 import Accommodation from '@/views/reservation/AccommodationList.vue';
+import accommodationApi from '../../api/accommodationApi';
 
 const router = useRouter();
 
@@ -11,37 +11,14 @@ const goToAccommodationDetail = (no) => {
   router.push({ name: 'Accommodation', params: { no } });
 };
 
-const accommodations = ref([
-  { id: 1, name: '서울 호텔', description: '서울 중심부에 위치한 고급 호텔' },
-  { id: 2, name: '부산 리조트', description: '해변가에 위치한 편안한 리조트' },
-  { id: 3, name: '제주 펜션', description: '제주의 아름다운 자연 속 펜션' },
-  { id: 4, name: '강원도 호텔', description: '서울 중심부에 위치한 고급 호텔' },
-  { id: 5, name: '경주 펜션', description: '해변가에 위치한 편안한 리조트' },
-  { id: 6, name: '제주 펜션', description: '제주의 아름다운 자연 속 펜션' },
-]);
-
-onMounted(() => {
-  // jQuery 및 iamport 초기화
-  const scriptJQuery = document.createElement('script');
-  scriptJQuery.src = 'http://code.jquery.com/jquery-latest.min.js';
-  document.head.appendChild(scriptJQuery);
-
-  const scriptIamport = document.createElement('script');
-  scriptIamport.src = 'https://cdn.iamport.kr/js/iamport.payment-1.2.0.js';
-  document.head.appendChild(scriptIamport);
-
-  scriptIamport.onload = () => {
-    // Iamport 초기화
-    window.IMP.init('imp74103424'); // 'iamport'를 가맹점 식별코드로 변경
-  };
-});
+const accommodations = ref([]);
 
 const destinations = [
-  { no: 1, name: '서울' },
-  { no: 2, name: '부산' },
-  { no: 3, name: '제주' },
-  { no: 4, name: '강원도' },
-  { no: 5, name: '경주' },
+  { no: 1, name: '서울', ename: 'Seoul' },
+  { no: 2, name: '부산', ename: 'Busan' },
+  { no: 3, name: '제주', ename: 'Jeju' },
+  { no: 4, name: '강원도', ename: 'Gangwon' },
+  { no: 5, name: '경주', ename: 'Gyeongju' },
 ];
 
 const selectedDestination = ref('');
@@ -55,7 +32,7 @@ const toggleDestinations = () => {
 };
 
 const selectDestination = (destination) => {
-  selectedDestination.value = destination.name;
+  selectedDestination.value = destination.ename;
   showDestinations.value = false;
 };
 
@@ -63,32 +40,25 @@ const searchAccommodations = () => {
   console.log('검색 조건:', { destination: selectedDestination.value, checkIn: checkIn.value, checkOut: checkOut.value, guests: guests.value });
 };
 
+const fetchAccommodations = async () => {
+  accommodations.value = await accommodationApi.getAll(); // getAll 메서드 호출
+};
 
-const requestPay = async () => {
-  window.IMP.request_pay({
-    pg: "kakaopay", // PG사 설정
-    pay_method: "kakaopay", // 결제 방법
-    merchant_uid: 'merchant_' + new Date().getTime(), // 주문 번호
-    name: '결제테스트', // 상품 이름
-    amount: 14000, // 결제 가격
-    custom_data: {
-      begin_date: '2024-10-04',
-      end_date: '2024-10-04',
-    },
-    buyer_email: 'iamport@siot.do',
-    buyer_name: '구매자', // 구매자 이름
-    buyer_tel: '010-1234-5678', // 구매자 연락처
-    // buyer_addr: '서울특별시 강남구 삼성동', // 구매자 주소
-    // buyer_postcode: '123-456' // 구매자 우편번호
-  }, function (response) {
-    if (response.success) {
-      console.log('결제 성공', response);
-    } else {
-      // 결제 실패 시 로직
-      console.log('결제 실패', response);
-    }
+const filteredAccommodations = computed(() => {
+  if (!selectedDestination.value) {
+    return accommodations.value;
+  }
+  return accommodations.value.filter(accommodation => {
+    const match = accommodation.address.match(/,\s*([^,]+)$/);
+    const destinationName = match ? match[1].trim() : '';
+    return destinationName === selectedDestination.value;
   });
-}
+});
+
+onMounted(() => {
+  fetchAccommodations(); // 컴포넌트가 마운트될 때 호출
+});
+
 </script>
 
 <template>
@@ -110,7 +80,7 @@ const requestPay = async () => {
                       <button v-for="destination in destinations" :key="destination.id"
                         @click="selectDestination(destination)" class="btn btn-link text-start d-block w-100"
                         type="button">
-                        {{ destination.name }}
+                        {{ destination.ename }}
                       </button>
                     </div>
                   </div>
@@ -141,12 +111,13 @@ const requestPay = async () => {
         <div class="card">
           <div class="card-body">
             <div class="row">
-              <div v-for="accommodation in accommodations" :key="accommodation.id" class="col-md-4 mb-3">
+              <div v-for="accommodation in filteredAccommodations" :key="accommodation.accommodationNo" class="col-md-4 mb-3">
                 <Accommodation
-                  :no="accommodation.no"
+                  :no="accommodation.accommodationNo"
                   :name="accommodation.name"
-                  :description="accommodation.description"
-                  @click="goToAccommodationDetail(accommodation.id)" />
+                  :description="accommodation.summary"
+                  :thumbnail="accommodation.thumbnail"
+                  @click="goToAccommodationDetail(accommodation.accommodationNo)" />
               </div>
             </div>
           </div>
@@ -154,7 +125,6 @@ const requestPay = async () => {
       </div>
     </div>
   </div>
-  <!-- <button @click="requestPay">결제하기</button> -->
 </template>
 
 <style scoped>

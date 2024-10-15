@@ -3,6 +3,7 @@ package com.sepay.backend.payment.controller;
 import com.google.zxing.WriterException;
 import com.sepay.backend.payment.dto.PaymentDTO;
 import com.sepay.backend.payment.service.PaymentService;
+import com.sepay.backend.reservation.dto.AccommodationPaymentDTO;
 import com.sepay.backend.user.service.UserService;
 
 import lombok.RequiredArgsConstructor;
@@ -10,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -49,4 +51,23 @@ public class PaymentController {
         }
     }
 
+    // 숙소 카카오페이 결제
+    @PostMapping("/accommodation/kakao")
+    public ResponseEntity<?> kakaoAccommodation(@RequestBody AccommodationPaymentDTO dto) {
+        log.info("paymentDTO : {}", dto);
+        return ResponseEntity.ok(paymentService.accommodationPaymentKakao(dto));
+    }
+
+    // 숙소 결제
+    @PostMapping("/accommodation")
+    public ResponseEntity<?> handleAccommodation(@RequestBody PaymentDTO dto) {
+        log.info("paymentDTO : {}", dto);
+        try {
+            return ResponseEntity.ok(paymentService.accommodationPayment(dto));
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body("An unexpected error occurred");
+        }
+    }
 }

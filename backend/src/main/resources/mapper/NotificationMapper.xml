@@ -17,7 +17,7 @@
         SELECT *
         FROM notification
         WHERE user_id = #{userId}
-        ORDER BY noti_no DESC
+        ORDER BY `check`, noti_no desc
     </select>
 
     <!-- 알림 삭제 -->
@@ -32,4 +32,14 @@
         SET `check`='1'
         WHERE noti_no = #{notiNo};
     </update>
+<<<<<<< HEAD
+=======
+
+    <!-- 송금 받고 잔액 초기화 -->
+    <update id="updateNotiAmount" parameterType="int">
+        UPDATE notification
+        SET amount = 0
+        WHERE noti_no = #{notiNo};
+    </update>
+>>>>>>> a3b5ae426b7f1c856bee370fcd645a3b8079e823
 </mapper>

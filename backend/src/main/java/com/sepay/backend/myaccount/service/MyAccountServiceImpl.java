@@ -6,7 +6,10 @@ import com.sepay.backend.myaccount.dto.AccountDTO;
 import com.sepay.backend.myaccount.dto.KrwAccountDTO;
 import com.sepay.backend.myaccount.dto.SongAccountDTO;
 import com.sepay.backend.myaccount.mapper.MyAccountMapper;
+import com.sepay.backend.notification.dto.NotificationDTO;
+import com.sepay.backend.notification.mapper.NotificationMapper;
 import com.sepay.backend.user.dto.UserDTO;
+import com.sepay.backend.user.mapper.UserMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -20,6 +23,8 @@ import java.util.Date;
 public class MyAccountServiceImpl implements MyAccountService {
     private final MyAccountMapper mapper;
     private final HistoryMapper historyMapper;
+    private final NotificationMapper notificationMapper;
+    private final UserMapper userMapper;
 
     @Override
     public Double selectKrwBalance(String krwNo) {
@@ -204,7 +209,23 @@ public class MyAccountServiceImpl implements MyAccountService {
         }
         return message;
     }
+
     @Override
+    @Transactional
     public String getKrwno(String userId) { return mapper.selectKrwNo(userId);}
 
+    // 송금 받기
+    @Override
+    @Transactional
+    public int receiveSongE(NotificationDTO notificationDTO) {
+        UserDTO user = userMapper.selectUserByEmail(notificationDTO.getUserId());
+        KrwAccountDTO dto = new KrwAccountDTO();
+        dto.setKrwNo(user.getKrwNo());
+        Double balance = mapper.selectKrwBalance(dto.getKrwNo()) + notificationDTO.getAmount();
+        dto.setBalance(balance);
+
+        notificationMapper.updateNotiAmount(notificationDTO.getNotiNo());
+
+        return mapper.updateKrwAccount(dto);
+    }
 }

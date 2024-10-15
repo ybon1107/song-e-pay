@@ -3,6 +3,7 @@ package com.sepay.backend.myaccount.controller;
 import com.sepay.backend.mail.service.MailService;
 import com.sepay.backend.myaccount.dto.DTORequest;
 import com.sepay.backend.myaccount.service.MyAccountService;
+import com.sepay.backend.notification.dto.NotificationDTO;
 import com.sepay.backend.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -85,6 +86,13 @@ public class MyAccountController {
     @PostMapping("/krwno")
     public ResponseEntity<?> getKrwNo(@RequestParam String userId) {
         return ResponseEntity.ok(myAccountService.getKrwno(userId));
+    }
+
+    // 송금 받기
+    @PostMapping("/receive-transfer")
+    public ResponseEntity<?> receiveTransfer(@RequestBody NotificationDTO dto) {
+        log.info("dto {}", dto);
+        return ResponseEntity.ok(myAccountService.receiveSongE(dto));
     }
 
 }

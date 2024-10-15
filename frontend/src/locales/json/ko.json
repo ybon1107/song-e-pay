@@ -554,6 +554,10 @@
   "sidenavList--history": "이용내역",
   "sidenavList--map": "금융지도",
   "sidenavList--schedule": "스케쥴",
+<<<<<<< HEAD
+=======
+  "sidenavList--reservation": "예약",
+>>>>>>> a3b5ae426b7f1c856bee370fcd645a3b8079e823
   "country_kr": "대한민국",
   "country_us": "미국",
   "country_id": "인도네시아",

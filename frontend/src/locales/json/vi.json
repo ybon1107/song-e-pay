@@ -554,6 +554,10 @@
   "sidenavList--history": "Lịch sử sử dụng",
   "sidenavList--map": "Bản đồ tài chính",
   "sidenavList--schedule": "Lịch trình",
+<<<<<<< HEAD
+=======
+  "sidenavList--reservation": "Sự đặt chỗ",
+>>>>>>> a3b5ae426b7f1c856bee370fcd645a3b8079e823
   "country_kr": "Hàn Quốc",
   "country_us": "Hoa Kỳ",
   "country_id": "In-đô-nê-xi-a",

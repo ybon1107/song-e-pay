@@ -102,6 +102,23 @@ const getRoute = () => {
                     to="/schedule"
                     :class="getRoute() === 'schedule' ? 'active' : ''"
                     :navText="isRTL ? 'الواقع الافتراضي' : 'sidenavList--schedule'"
+<<<<<<< HEAD
+=======
+                >
+                    <template v-slot:icon>
+                        <i
+                            class="ni ni-calendar-grid-58 text-dark text-sm opacity-10"
+                        ></i>
+                    </template>
+                </sidenav-item>
+            </li>
+
+            <li class="nav-item">
+                <sidenav-item
+                    to="/reservation"
+                    :class="getRoute() === 'reservation' ? 'active' : ''"
+                    :navText="isRTL ? 'الواقع الافتراضي' : 'sidenavList--reservation'"
+>>>>>>> a3b5ae426b7f1c856bee370fcd645a3b8079e823
                 >
                     <template v-slot:icon>
                         <i

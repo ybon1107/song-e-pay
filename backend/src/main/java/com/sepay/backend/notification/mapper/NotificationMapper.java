@@ -16,4 +16,7 @@ public interface NotificationMapper {
 
     // 알림 확인
     int updateNoti(Integer notiNo);
+
+    // 송금 받고 알림 잔액 초기화
+    int updateNotiAmount(Integer notiNo);
 }

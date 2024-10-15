@@ -12,7 +12,11 @@ const messages = {
 };
 
 const i18n = createI18n({
+<<<<<<< HEAD
   locale: "en", // 기본 언어 설정 (한국어)
+=======
+  locale: "en", // 기본 언어 설정 (영어)
+>>>>>>> a3b5ae426b7f1c856bee370fcd645a3b8079e823
   fallbackLocale: "en", // 기본 언어가 없을 때 대체할 언어 (영어)
   messages, // 번역 메시지
 });

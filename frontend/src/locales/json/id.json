@@ -554,6 +554,10 @@
   "sidenavList--history": "Riwayat Penggunaan",
   "sidenavList--map": "Peta Keuangan",
   "sidenavList--schedule": "Jadwal",
+<<<<<<< HEAD
+=======
+  "sidenavList--reservation": "Reservasi",
+>>>>>>> a3b5ae426b7f1c856bee370fcd645a3b8079e823
   "country_kr": "Korea Selatan",
   "country_us": "Amerika Serikat",
   "country_id": "Indonesia",
