@@ -81,10 +81,10 @@
                                         'read-notification':
                                             notification.check === '1',
                                     }" @click.stop="
-                                            readNotification(
-                                                notification.notiNo
-                                            )
-                                            ">
+                                        readNotification(
+                                            notification.notiNo
+                                        )
+                                        ">
                                         <div class="py-1 d-flex">
                                             <div class="my-auto">
                                                 <img :src="notification.senderProfilePic ||
@@ -100,9 +100,9 @@
                                                     {{ notification.content }}
                                                 </h6>
                                                 <p class="mb-0 text-xs" :class="notification.check ===
-                                                        '1'
-                                                        ? 'text-muted'
-                                                        : ''
+                                                    '1'
+                                                    ? 'text-muted'
+                                                    : ''
                                                     ">
                                                     <i class="fa fa-clock me-1"></i>
                                                     {{
@@ -115,11 +115,11 @@
                                                 <button v-if="
                                                     notification.amount > 0
                                                 " @click.stop="
-                                                        receiveTransfer(
-                                                            notification.notiNo,
-                                                            notification.amount
-                                                        )
-                                                        " class="btn btn-primary mt-2">
+                                                    receiveTransfer(
+                                                        notification.notiNo,
+                                                        notification.amount
+                                                    )
+                                                    " class="btn btn-primary mt-2">
                                                     송금받기
                                                 </button>
                                             </div>
@@ -246,8 +246,11 @@ const fetchExchangeRates = async () => {
             krwToUsdResponse.json(),
         ]);
 
-        const currentToKrw = usdToKrwData.conversion_rate;
-        const currentFromKrw = krwToUsdData.conversion_rate;
+        // const currentToKrw = usdToKrwData.conversion_rate;
+        // const currentFromKrw = krwToUsdData.conversion_rate;
+        const currentToKrw = parseFloat(usdToKrwData.conversion_rate.toFixed(5)); //json에서 환율 값만 추출 
+        const currentFromKrw = parseFloat(krwToUsdData.conversion_rate.toFixed(5));
+
 
         exchangeStore.setCurrentToKrw(currentToKrw);
         exchangeStore.setCurrentFromKrw(currentFromKrw);
@@ -264,7 +267,7 @@ const fetchExchangeRates = async () => {
             {
                 baseCode: 0, // KRW 코드
                 targetCode: countryCode.value, // 외와 코드
-                exchangeRate: currentFromKrw * 1000,
+                exchangeRate: currentFromKrw,
             },
         ]);
     } catch (error) {

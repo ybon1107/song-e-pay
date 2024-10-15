@@ -75,7 +75,7 @@ public class MyAccountController {
             log.info(String.valueOf(request.getExchangeRate()));
             return ResponseEntity.ok(myAccountService.exchange(request.getSongAccountDTO(), request.getKrwAccountDTO(), request.getHistoryDTO() , request.getAmount(), request.getExchangeRate()));
         }
-        return ResponseEntity.unprocessableEntity().body("The exchange rate has changed.");
+        return ResponseEntity.badRequest().body("The exchange rate has changed.");
     }
 
     // 환급
