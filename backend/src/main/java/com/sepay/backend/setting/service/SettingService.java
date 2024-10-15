@@ -6,7 +6,7 @@ import org.springframework.web.multipart.MultipartFile;
 public interface SettingService {
     int modifyUser(UserDTO user);
 
-    int addAccount(String accountNo, String userId);
+    int addAccount(String accountNo,String accountPwd, String userId);
 
     int cancelAccount(String userId);
 

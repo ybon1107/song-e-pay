@@ -2,6 +2,7 @@ package com.sepay.backend.user.service;
 
 import com.sepay.backend.security.account.domain.AuthVO;
 import com.sepay.backend.security.account.domain.UserVO;
+import com.sepay.backend.setting.mapper.SettingMapper;
 import com.sepay.backend.user.dto.UserDTO;
 import com.sepay.backend.user.dto.UserRegisterDTO;
 import com.sepay.backend.user.mapper.UserMapper;
@@ -22,10 +23,11 @@ public class UserServiceImpl implements UserService{
 
     private final UserMapper mapper;
     final PasswordEncoder passwordEncoder;
+    private final SettingMapper settingMapper;
 
     @Override
     public String selectSecondPwd(String userId){
-        return mapper.getSecondaryPassword(userId);
+        return settingMapper.selectSecondPassword(userId);
     }
 
     @Override

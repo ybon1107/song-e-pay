@@ -4,7 +4,6 @@
             class="card card-img-bg"
             :id="props.assetType === 'song-e' ? 'card-songe' : 'card-wone'"
             :style="{ backgroundImage: `url(${backgroundImage})` }"
-            :class="props.assetType === 'song-e' ? 'bg-primary' : 'bg-info'"
         >
             <div class="card-body d-flex align-items-end justify-content-end">
                 <div class="d-flex align-items-center">
@@ -23,9 +22,9 @@
 </template>
 
 <script setup>
-import { defineProps, ref, computed,watchEffect } from 'vue';
+import { defineProps, ref, computed, watchEffect } from 'vue';
 import myaccountApi from '../../api/myaccountApi';
-import { CURRENCY_NAME } from '@/constants/countryCode';
+import { CURRENCY_NAME, COUNTRY_CODE } from '@/constants/countryCode';
 
 import currencyFormatter from '../../js/currencyFormatter';
 const { formatNumber } = currencyFormatter;
@@ -36,10 +35,10 @@ const user = computed(() => auth.user);
 const balance = ref(0);
 
 const props = defineProps({
-  assetType: {
-    type: String,
-    required: true,
-  },
+    assetType: {
+        type: String,
+        required: true,
+    },
 });
 
 //추후에 i18n키값 구분 로직으로 변경
@@ -64,8 +63,10 @@ const fetchBalance = async () => {
             const fetchedBalance = await myaccountApi.fetchsongeAccountBalance(
                 user.value.songNo
             );
-            balance.value = formatNumber(fetchedBalance.toFixed(2));
-            // balance.value = formatCurrency(fetchedBalance, INTL_LOCALE[user.value.countryCode], CURRENCY_NAME[user.value.countryCode]);
+            if (fetchedBalance === '') {
+                throw new Error('유효하지 않은 song-e계좌');
+            }
+            balance.value = formatNumber(fetchedBalance);
         } catch (error) {
             console.error('Error fetching song-e balance:', error);
         }
@@ -74,8 +75,10 @@ const fetchBalance = async () => {
             const fetchedBalance = await myaccountApi.fetchkrwAccountBalance(
                 user.value.krwNo
             );
-            balance.value = formatNumber(fetchedBalance.toFixed(2));
-            // formatCurrency(fetchedBalance, INTL_LOCALE[0], CURRENCY_NAME[0]);
+            if (fetchedBalance === '') {
+                throw new Error('유효하지 않은 won-e계좌');
+            }
+            balance.value = formatNumber(fetchedBalance);
         } catch (error) {
             console.error('Error fetching KRW balance:', error);
         }
@@ -89,7 +92,7 @@ watchEffect(() => {
     }
 });
 
-// fetchBalance 함수를 외부에서 접근 가능하게 만듭니다.
+// fetchBalance 함수를 외부에서 접근 가능
 defineExpose({ fetchBalance });
 </script>
 

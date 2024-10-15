@@ -35,7 +35,7 @@
     <!-- 비밀번호 변경 -->
     <update id="updatePassword" parameterType="map">
         UPDATE user SET
-            password = #{newPw}
+            password = #{newPw},
         WHERE user_id = #{userId}
     </update>
 
@@ -84,5 +84,11 @@
         SELECT profile_pic
         FROM user
         WHERE user_id = #{userId}
+    </select>
+
+    <select id="selectAccountPwd" parameterType="String" resultType="String">
+        SELECT account_pwd
+        FROM account
+        WHERE account_no = #{accountNo}
     </select>
 </mapper>

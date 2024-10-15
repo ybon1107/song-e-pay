@@ -11,7 +11,7 @@ import java.io.IOException;
 public interface PaymentService {
     byte[] createQR(String url) throws WriterException, IOException;
 
-    void payment(Double dto, UserDTO user);
+    void payment(PaymentDTO paymentDTO);
 
     // 카카오 숙소 결제
     int accommodationPaymentKakao(AccommodationPaymentDTO dto);

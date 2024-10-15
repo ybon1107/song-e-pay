@@ -1,6 +1,8 @@
 package com.sepay.backend.security.filter;
 
 import com.sepay.backend.security.util.JwtProcessor;
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.JwtException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -36,14 +38,33 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         String bearerToken = request.getHeader(AUTHORIZATION_HEADER);
+
         if (bearerToken != null && bearerToken.startsWith(BEARER_PREFIX)) {
             String token = bearerToken.substring(BEARER_PREFIX.length());
 
-            // 토큰에서 사용자 정보 추출 및 Authentication 객체 구성 후 SecurityContext에 저장
-            Authentication authentication = getAuthentication(token);
-            SecurityContextHolder.getContext().setAuthentication(authentication);
+            try {
+                if (jwtProcessor.validateToken(token)) {
+                    log.debug("Token is valid");
+                    // 토큰에서 사용자 정보 추출 및 Authentication 객체 구성 후 SecurityContext에 저장
+                    Authentication authentication = getAuthentication(token);
+                    SecurityContextHolder.getContext().setAuthentication(authentication);
+                } else {
+                    // 토큰이 유효하지 않을 때는 로그아웃 처리 (SecurityContext에서 인증 객체 제거)
+                    SecurityContextHolder.clearContext();
+                    response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "JWT token is expired or invalid.");
+                    return;
+                }
+            } catch (ExpiredJwtException e) {
+                SecurityContextHolder.clearContext();
+                response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "JWT token expired");
+                return;
+            } catch (JwtException e) {
+                SecurityContextHolder.clearContext();
+                response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "JWT token invalid");
+                return;
+            }
         }
-
-        super.doFilter(request, response, filterChain);
+//        super.doFilter(request, response, filterChain);
+         filterChain.doFilter(request, response);
     }
 }

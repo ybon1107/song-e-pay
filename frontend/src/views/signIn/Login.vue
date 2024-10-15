@@ -5,6 +5,10 @@ import { useAuthStore } from "@/stores/auth";
 import ArgonInput from "@/components/templates/ArgonInput.vue";
 import ArgonSwitch from "@/components/templates/ArgonSwitch.vue";
 import ArgonButton from "@/components/templates/ArgonButton.vue";
+import { useI18n } from "vue-i18n";
+import Swal from "sweetalert2";
+
+const { t } = useI18n();
 
 const body = document.getElementsByTagName("body")[0];
 const store = useStore();
@@ -93,9 +97,15 @@ const handleSubmit = async () => {
       const token = loginState ? loginState.token : null;
       if (token) {
         console.log("Token after login: ", token);
-        window.location.href = "/my-accounts";
+        window.location.href = "/my-page";
       }
     } catch (e) {
+      Swal.fire({
+        title: t("signIn--alertTitle-loginError"),
+        text: t("signIn--alertText-loginError"),
+        icon: "error",
+        confirmButtonText: "Close",
+      });
       // 로그인 에러
       console.log("에러=======", e);
     }
@@ -152,7 +162,9 @@ const handleSubmit = async () => {
                         name="username"
                         size="lg"
                         v-model="username"
-                        :class="{ 'is-invalid': emailError }"
+                        :class="{
+                          'is-invalid': emailError,
+                        }"
                         :error="
                           (username !== '' || emailError) && !isEmailValid
                         "
@@ -172,7 +184,9 @@ const handleSubmit = async () => {
                         name="password"
                         size="lg"
                         v-model="password"
-                        :class="{ 'is-invalid': passwordError }"
+                        :class="{
+                          'is-invalid': passwordError,
+                        }"
                         :error="
                           (password !== '' || passwordError) && !isPasswordValid
                         "
@@ -184,7 +198,9 @@ const handleSubmit = async () => {
                       >Remember me</argon-switch
                     > -->
                     <!-- 로그인 버튼 -->
-                    <div v-if="error" class="text-xs">{{ error }}</div>
+                    <div v-if="error" class="text-xs">
+                      {{ error }}
+                    </div>
                     <div class="text-center">
                       <argon-button
                         class="mt-4"

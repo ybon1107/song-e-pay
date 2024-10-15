@@ -6,7 +6,7 @@ import ExchangeAmountInput from '@/components/yb_templates/ExchangeAmountInput.v
 import { ref, onMounted, computed, watchEffect } from 'vue';
 import myaccountApi from '../../api/myaccountApi';
 import { useExchangeStore } from '@/stores/exchangeStore';
-import SecondPasswordModal from '@/views/MyAccounts/SecondPasswordModal.vue';
+import SecondPasswordModal from '@/components/modal/SecondPasswordModal.vue';
 import axios from 'axios';
 import ExchangeRateChart from '@/views/Chart/ExchangeRateChart.vue';
 import Swal from 'sweetalert2';
@@ -389,6 +389,7 @@ const fetchExchangeRates = async () => {
         console.error('환율 데이터를 가져오는 중 오류 발생:', error);
     }
 };
+
 const fetchBalances = () => {
     myaccountApi.fetchkrwAccountBalance(user.value.krwNo).then((balance) => {
         wonEMoneyBalance.value = balance;

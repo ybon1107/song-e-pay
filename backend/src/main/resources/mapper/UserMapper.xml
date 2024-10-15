@@ -5,12 +5,6 @@
 
 <mapper namespace="com.sepay.backend.user.mapper.UserMapper">
 
-    <select id="getSecondaryPassword" parameterType="String" resultType="String">
-        select second_pwd
-        from user
-        where user_id = #{userId}
-    </select>
-
     <resultMap id="authMap" type="com.sepay.backend.security.account.domain.AuthVO">
         <result property="username" column="user_id"/>
         <result property="auth" column="auth"/>

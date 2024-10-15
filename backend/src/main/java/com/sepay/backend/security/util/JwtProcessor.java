@@ -2,15 +2,20 @@ package com.sepay.backend.security.util;
 
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import java.nio.charset.StandardCharsets;
 import java.security.Key;
 import java.util.Date;
 
+@Slf4j
 @Component
 public class JwtProcessor {
-    static private final long TOKEN_VALID_MILISECOND = 1000L * 60 * 60 * 2; // 토큰 유효 시간 2시간
+    static private final long TOKEN_VALID_MILISECOND = 1000L * 60 * 30; // 토큰 유효 시간 30분
+
+    // 테스트용 토큰(30초)
+//    static private final long TOKEN_VALID_MILISECOND = 1000L * 30; // 토큰 유효 시간 30초
 
 //    private String secretKey = "Enough long random secret key string assignment "; // 충분히 긴 임의의(랜덤한) 비밀키 문자열 배정
 //    private Key key = Keys.hmacShaKeyFor(secretKey.getBytes(StandardCharsets.UTF_8));
@@ -58,10 +63,13 @@ public class JwtProcessor {
                     .parseClaimsJws(jwtToken);
             return !claims.getBody().getExpiration().before(new Date()); // 토큰 만료 여부 확인
         } catch (ExpiredJwtException e) {
-            System.out.println("Token is expired");
+            log.warn("Token is expired: {}", e.getMessage());
             return false;
         } catch (JwtException e) {
-            System.out.println("Token is invalid");
+            log.warn("Token is invalid: {}", e.getMessage());
+            return false;
+        } catch (IllegalArgumentException e) {
+            log.warn("Token is empty or malformed: {}", e.getMessage());
             return false;
         }
     }

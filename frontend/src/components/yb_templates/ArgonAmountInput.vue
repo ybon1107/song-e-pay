@@ -4,18 +4,8 @@
       <span v-if="iconDir === 'left'" class="input-group-text">
         <i :class="getIcon(icon)"></i>
       </span>
-      <input
-        :id="id"
-        :type="type"
-        class="form-control"
-        :class="{ 'is-invalid': errorMessage }"
-        :name="name"
-        :value="formattedValue"
-        :placeholder="placeholder"
-        :unit="unit"
-        :required="isRequired"
-        @input="onInput"
-      />
+      <input :id="id" :type="type" class="form-control" :class="{ 'is-invalid': errorMessage }" :name="name"
+        :value="formattedValue" :placeholder="placeholder" :unit="unit" :required="isRequired" @input="onInput" />
       <span v-if="iconDir === 'right'" class="input-group-text">
         <i :class="getIcon(icon)"></i>
       </span>
@@ -128,8 +118,8 @@ const errorMessage = ref('');
 
 // input 이벤트 핸들러
 const onInput = (event) => {
-  event.target.value = event.target.value.replace(/[^\d.]/g, '');
-  let rawValue = event.target.value.replace(/[^\d.]/g, ''); // 숫자만 추출
+  event.target.value = event.target.value.replace(/[^0-9]/g, '');
+  let rawValue = event.target.value
 
   if (rawValue.startsWith('0')) {
     errorMessage.value = t('myAccount--error-notZero');
@@ -183,8 +173,9 @@ input {
 
 .input-group-text {
   padding: 0.375rem 0.75rem;
-  background-color: #e9ecef;
+  background-color: #665A4A;
   border: 1px solid #ced4da;
-  border-radius: 0.375rem;
+  border-radius: 0 0.375rem 0.375rem 0 !important;
+  color: white;
 }
 </style>

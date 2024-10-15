@@ -101,7 +101,7 @@ myAccount--wonE-afterTransferBalance,송금 후 잔액,Balance after remittance,
 myAccount--wonE-currentExchangeRate,현재 환율,Current exchange rate,Nilai tukar saat ini,Tỷ giá hiện tại
 myAccount--wonE-refundSendingAmount,보내는 금액,Amount of money sent,Jumlah uang yang dikirim,Số tiền gửi
 myAccount--wonE-refundReceivedAmount,받는 금액,Amount received,Jumlah yang diterima,Số tiền nhận
-myAccount--input-placeholder,할 금액을 입력하세요.,Please enter the amount,Silakan masukkan jumlahnya,Vui lòng nhập số tiền
+myAccount--input-placeholder,금액을 입력하세요.,Please enter the amount,Silakan masukkan jumlahnya,Vui lòng nhập số tiền
 myAccount--header-exchangeRate,실시간 환율 ,Real-time exchange rates,Nilai tukar waktu nyata,Tỷ giá hối đoái theo thời gian thực
 myAccount--autoExchange-title,자동 환전 설정 내역,Auto Exchange Settings,Pengaturan Tukar Otomatis,Cài đặt đổi tiền tự động
 myAccount--autoExchange-noReservationAuto,자동 환전 예약 내역이 없습니다.,No auto exchange reservations.,Tidak ada reservasi tukar otomatis.,Không có lịch đổi tiền tự động.
@@ -161,6 +161,8 @@ signIn--button-signIn,로그인,Login,Masuk,Đăng nhập
 signIn--link-troubleLoggingIn,로그인에 문제가 있으신가요?,Trouble logging in?,Masalah saat masuk?,Có vấn đề khi đăng nhập?
 signIn--errorText-email,이메일을 정확히 입력해주세요.,Please provide a valid email.,Harap berikan email yang valid.,Vui lòng cung cấp một email hợp lệ.
 signIn--errorText-pw,비밀번호를 8자리 이상 입력해주세요.,Please fill in the password field with at least 8 characters.,Silakan isi kolom kata sandi minimal 8 karakter.,Vui lòng điền vào trường mật khẩu có ít nhất 8 ký tự.
+signIn--alertTitle-loginError,,Login Error,Kesalahan Masuk,Lỗi đăng nhập
+signIn--alertText-loginError,,Please check your email and password.,Silakan periksa email dan kata sandi Anda.,Vui lòng kiểm tra email và mật khẩu của bạn.
 signIn--LoginIssueInfo--header-title,계정 문제 찾기,Trouble Logging in,Cari masalah akun,Tìm vấn đề với tài khoản
 signIn--LoginIssueInfo--body-selectIssue,어떤 문제인가요?,Select an issue,Pilih masalah,Chọn một vấn đề
 signIn--LoginIssueInfo--button-goBack,뒤로가기,Go Back,Kembali,Quay lại
@@ -432,6 +434,16 @@ signUp--errorText-lastName,성을 입력해주세요.,Please provide your full l
 signUp--errorText-birth,생년월일을 입력해주세요.,Please provide a valid date of birth.,Harap berikan tanggal lahir yang valid.,Vui lòng cung cấp ngày sinh hợp lệ.
 signUp--errorText-gender,성별을 선택해주세요.,Please select a gender.,Silakan pilih jenis kelamin.,Vui lòng chọn giới tính.
 signUp--errorText-phone,전화번호를 입력해주세요.,Please provide a valid phone number.,Harap berikan nomor telepon yang valid.,Vui lòng cung cấp số điện thoại hợp lệ.
+signUp--alertTitle-codeSendSuccess,,Verification code sent successfully,Kode verifikasi berhasil dikirim,Mã xác minh đã được gửi thành công
+signUp--alertTitle-codeSendFailed,,Email sending Failed,Pengiriman email Gagal,Gửi email không thành công
+signUp--alertTitle-alreadyRegistered,,Already registered email,Email sudah terdaftar,Email đã đăng ký
+signUp--alertText-alreadyRegistered,,Please use another email.,Silakan gunakan email lain.,Vui lòng sử dụng email khác.
+signUp--alertTitle-verifySuccess,,Email verification successful,Verifikasi email berhasil,Xác minh email thành công
+signUp--alertTitle-verifyFailed,,Invalid verification code,Kode verifikasi tidak valid,Mã xác minh không hợp lệ
+signUp--alertText-tryAgain,,Please try again.,Silakan coba lagi.,Vui lòng thử lại.
+signUp--alertTitle-submitFailed,,Please fill out all required fields,Silakan isi semua bidang yang wajib diisi,Vui lòng điền vào tất cả các trường bắt buộc
+signUp--alertTitle-registerFailed,,Registration Failed,Pendaftaran Gagal,Đăng ký không thành công
+signUp--alertTitle-registerError,,Registration Error,Kesalahan Pendaftaran,Lỗi đăng ký
 exchangeRate--header-title,환율 정보,Exchange Rate Information,Bandingkan Nilai Tukar,So sánh tỷ giá
 exchangeRate--button-buy,구매,Buy,Beli,Mua
 exchangeRate--button-sell,판매,Sell,Jual,Bán
