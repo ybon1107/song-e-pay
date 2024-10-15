@@ -28,7 +28,7 @@ const isAccountSet = ref(false);
 
 const profilePic = ref(null);
 
-const emit = defineEmits(['password-verified', 'password-changed', 'close']);
+const emit = defineEmits(['password-verified', 'password-changed', 'account-changed', 'close']);
 
 //2차 비밀번호 관련 기능
 const showSet2ndModal = ref(false);
@@ -68,8 +68,15 @@ const openAcntModal = () => {
 const closeAcntModal = () => {
     showAcntModal.value = false;
 };
-const handleAcntVerified = () => {
+const handleAcntVerified = async () => {
     showAcntModal.value = false;
+    Swal.fire({
+        title: t('swal--title-success'),
+        text: t('Account registration was successful.'),
+        icon: 'success',
+    }).then(() => {
+        window.location.reload();
+    });
 }
 
 const userInfo = reactive({
@@ -258,7 +265,7 @@ onBeforeUnmount(() => {
                                     aria-selected="false" @click.prevent="logout">
                                     <span class="ms-1">{{
                                         $t('profile--button-logout')
-                                    }}</span>
+                                        }}</span>
                                     <!-- <i class="fa-solid fa-right-from-bracket" style="margin-left: 5px;"></i> -->
                                     <i class="fa-solid fa-angles-right" style="margin-left: 5px"></i>
                                 </a>
@@ -280,21 +287,21 @@ onBeforeUnmount(() => {
                                 <div class="col-md-6">
                                     <label for="last-name" class="form-control-label">{{
                                         $t('profile--lastNameLabel')
-                                        }}</label>
+                                    }}</label>
                                     <input class="form-control info-input" id="last-name" :value="user?.firstName"
                                         disabled />
                                 </div>
                                 <div class="col-md-6">
                                     <label for="first-name" class="form-control-label">{{
                                         $t('profile--firstNameLabel')
-                                        }}</label>
+                                    }}</label>
                                     <input class="form-control info-input" id="first-name" :value="user?.lastName"
                                         disabled />
                                 </div>
                                 <div class="col-md-6">
                                     <label for="birthday" class="form-control-label">{{
                                         $t('profile--birthdayLabel')
-                                        }}</label>
+                                    }}</label>
                                     <input class="form-control info-input" id="birthday" :value="user?.birthday"
                                         disabled />
                                 </div>
@@ -313,19 +320,19 @@ onBeforeUnmount(() => {
                                     <div class="col-md-6 input-address">
                                         <label for="address" class="form-control-label">{{
                                             $t('profile--addressLabel')
-                                            }}</label>
+                                        }}</label>
                                         <input class="form-control" id="address" v-model="userInfo.address" />
                                     </div>
                                     <div class="col-md-6">
                                         <label for="postal-code" class="form-control-label">{{
                                             $t('profile--postalCodeLabel')
-                                            }}</label>
+                                        }}</label>
                                         <input class="form-control" id="postal-code" v-model="userInfo.postCode" />
                                     </div>
                                     <div class="col-md-6">
                                         <label for="country" class="form-control-label">{{
                                             $t('profile--countryLabel')
-                                            }}</label>
+                                        }}</label>
                                         <select id="country" class="form-select no-arrow" v-model="userInfo.countryCode"
                                             disabled>
                                             <option value="0">
@@ -347,7 +354,7 @@ onBeforeUnmount(() => {
                                     <div class="d-flex align-items-center">
                                         <argon-button color="success" size="sm" class="ms-auto">{{
                                             $t('profile--button-settings')
-                                            }}</argon-button>
+                                        }}</argon-button>
                                     </div>
                                 </div>
                             </form>
@@ -358,27 +365,29 @@ onBeforeUnmount(() => {
                             </p>
                             <ul class="navbar-nav nav-fill">
                                 <li class="pvt-item">
-                                    <a v-if="userInfo.accountNo === null" class="pvt-link" @click="openAcntModal">
+                                    <a v-if="userInfo.accountNo === null || userInfo.accountNo === ''" class="pvt-link"
+                                        @click="openAcntModal">
                                         <div class="pvt-icon">
                                             <i class="fa-solid fa-money-check-dollar"></i>
                                         </div>
                                         <span>{{
                                             $t('profile--accountLabel')
-                                        }}</span>
+                                            }}</span>
                                         <span class="text-danger ms-3"><i class="fas fa-exclamation"></i> Requires a
                                             one-time initial setup.</span>
 
                                         <i class="fa-solid fa-angle-right"></i>
                                     </a>
-                                    <a v-else class="pvt-link">
+                                    <div v-else class="d-flex">
                                         <div class="pvt-icon">
                                             <i class="fa-solid fa-money-check-dollar"></i>
                                         </div>
-                                        <span>{{
+                                        <div>{{
                                             $t('profile--accountLabel')
-                                        }}</span>
-                                        <i class="fa-solid fa-angle-right"></i>
-                                    </a>
+                                        }}</div>
+                                        <strong class="ms-3">{{ userInfo.accountNo }}</strong>
+
+                                    </div>
                                 </li>
                                 <li class="pvt-item">
                                     <a class="pvt-link" href="/change-password">
@@ -387,7 +396,7 @@ onBeforeUnmount(() => {
                                         </div>
                                         <span>{{
                                             $t('profile--changePasswordLabel')
-                                        }}</span>
+                                            }}</span>
                                         <i class="fa-solid fa-angle-right"></i>
                                     </a>
                                 </li>
@@ -443,7 +452,7 @@ onBeforeUnmount(() => {
                                         </div>
                                         <span>{{
                                             $t('profile--deleteAccountLabel')
-                                        }}</span>
+                                            }}</span>
                                         <i class="fa-solid fa-angle-right"></i>
                                     </a>
                                 </li>
@@ -460,8 +469,9 @@ onBeforeUnmount(() => {
         <Set2ndModal v-if="showSet2ndModal" @close="closeSet2ndModal" @password-changed="handlePasswordChanged" />
         <!-- <SetAccountModal v-if="showAcntModal" @close="closeAcntModal" @account-changed="handleAcntVerified" />
         <SetAccountModal /> -->
-        <SetAccountModal v-if="showAcntModal" @close="closeAcntModal" @account-changed="handleAcntVerified" />
-        <SetAccountModal @close="closeAcntModal" @account-changed="handleAcntVerified" />
+        <!-- <SetAccountModal v-if="showAcntModal" @close="closeAcntModal" @account-changed="handleAcntVerified" /> -->
+        <SetAccountModal v-if="showAcntModal" :userId="userInfo.userId" @close="closeAcntModal"
+            @account-changed="handleAcntVerified" />
 
     </main>
 

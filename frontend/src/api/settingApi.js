@@ -64,7 +64,7 @@ export default {
   },
   async submitAccount(formData) {
     try {
-      const response = await api.post(`${BASE_URL}/register-account`, formData);
+      const response = await api.patch(`${BASE_URL}/register-account`, formData);
       return response;
     } catch (error) {
       console.error('계좌 제출 오류:', error.response.data);
