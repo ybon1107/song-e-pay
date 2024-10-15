@@ -51,8 +51,12 @@ public class SettingController {
 
     // 계좌 등록
     @PatchMapping("/register-account")
-    public ResponseEntity<?> registerAccount(String accountNo, String userId) {
-        return ResponseEntity.ok(settingService.addAccount(accountNo, userId));
+    public ResponseEntity<?> registerAccount(@RequestBody Map<String, String> requestData) {
+        String accountNo = requestData.get("accountNo");
+        String accountPwd = requestData.get("accountPwd");
+        String userId = requestData.get("userId");
+
+        return ResponseEntity.ok(settingService.addAccount(accountNo, accountPwd, userId));
     }
 
     // 계좌 해지
@@ -82,7 +86,10 @@ public class SettingController {
 
     // 2차 비밀번호 변경
     @PatchMapping("/change-secpwd")
-    public ResponseEntity<?> modifySecondPassword(String secondPwd, String userId) {
+    public ResponseEntity<?> modifySecondPassword(@RequestBody Map<String, String> requestData) {
+        String userId = requestData.get("userId");
+        String secondPwd = requestData.get("secPwd");
+
         return ResponseEntity.ok(settingService.modifySecondPassword(secondPwd, userId));
     }
 

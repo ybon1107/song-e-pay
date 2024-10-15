@@ -16,33 +16,11 @@ const getRoute = () => {
 };
 </script>
 <template>
-  <div
-    class="collapse navbar-collapse w-auto h-auto h-100"
-    id="sidenav-collapse-main"
-  >
+  <div class="collapse navbar-collapse w-auto h-auto h-100" id="sidenav-collapse-main">
     <ul class="navbar-nav">
-      <!-- <li class="nav-item">
-        <sidenav-item to="/home" :class="getRoute() === 'home' ? 'active' : ''" :navText="isRTL ? 'لوحة القيادة' : '홈'">
-          <template v-slot:icon>
-            <i class="ni ni-tv-2 text-dark text-sm opacity-10"></i>
-          </template>
-</sidenav-item>
-</li> -->
-
-      <!-- <li class="nav-item">
-        <sidenav-item to="/my-accounts" :class="getRoute() === 'my-accounts' ? 'active' : ''"
-          :navText="isRTL ? 'الجداول' : 'sidenavList--myPage'">
-          <template v-slot:icon>
-            <i class="ni ni-money-coins text-dark text-sm opacity-10"></i>
-          </template>
-        </sidenav-item>
-      </li> -->
       <li class="nav-item">
-        <sidenav-item
-          to="/my-page"
-          :class="getRoute() === 'my-page' ? 'active' : ''"
-          :navText="isRTL ? 'الجداول' : 'sidenavList--myPage'"
-        >
+        <sidenav-item to="/my-page" :class="getRoute() === 'my-page' ? 'active' : ''"
+          :navText="isRTL ? 'الجداول' : 'sidenavList--myPage'">
           <template v-slot:icon>
             <i class="ni ni-money-coins text-dark text-sm opacity-10"></i>
           </template>
@@ -50,11 +28,8 @@ const getRoute = () => {
       </li>
 
       <li class="nav-item">
-        <sidenav-item
-          to="/exchange-rate"
-          :class="getRoute() === 'exchange-rate' ? 'active' : ''"
-          :navText="isRTL ? 'الفواتیر' : 'sidenavList--exchangeRate'"
-        >
+        <sidenav-item to="/exchange-rate" :class="getRoute() === 'exchange-rate' ? 'active' : ''"
+          :navText="isRTL ? 'الفواتیر' : 'sidenavList--exchangeRate'">
           <template v-slot:icon>
             <i class="ni ni-chart-bar-32 text-dark text-sm opacity-10"></i>
           </template>
@@ -62,11 +37,8 @@ const getRoute = () => {
       </li>
 
       <li class="nav-item">
-        <sidenav-item
-          to="/payment"
-          :class="getRoute() === 'payment' ? 'active' : ''"
-          :navText="isRTL ? 'الواقع الافتراضي' : 'sidenavList--payment'"
-        >
+        <sidenav-item to="/payment" :class="getRoute() === 'payment' ? 'active' : ''"
+          :navText="isRTL ? 'الواقع الافتراضي' : 'sidenavList--payment'">
           <template v-slot:icon>
             <i class="ni ni-credit-card text-dark text-sm opacity-10"></i>
           </template>
@@ -74,11 +46,8 @@ const getRoute = () => {
       </li>
 
       <li class="nav-item">
-        <sidenav-item
-          to="/histories"
-          :class="getRoute() === 'histories' ? 'active' : ''"
-          :navText="isRTL ? 'الواقع الافتراضي' : 'sidenavList--history'"
-        >
+        <sidenav-item to="/histories" :class="getRoute() === 'histories' ? 'active' : ''"
+          :navText="isRTL ? 'الواقع الافتراضي' : 'sidenavList--history'">
           <template v-slot:icon>
             <i class="ni ni-collection text-dark text-sm opacity-10"></i>
           </template>
@@ -86,11 +55,8 @@ const getRoute = () => {
       </li>
 
       <li class="nav-item">
-        <sidenav-item
-          to="/maps"
-          :class="getRoute() === 'maps' ? 'active' : ''"
-          :navText="isRTL ? 'الواقع الافتراضي' : 'sidenavList--map'"
-        >
+        <sidenav-item to="/maps" :class="getRoute() === 'maps' ? 'active' : ''"
+          :navText="isRTL ? 'الواقع الافتراضي' : 'sidenavList--map'">
           <template v-slot:icon>
             <i class="ni ni-pin-3 text-dark text-sm opacity-10"></i>
           </template>
@@ -98,23 +64,17 @@ const getRoute = () => {
       </li>
 
       <li class="nav-item">
-        <sidenav-item
-          to="/schedule"
-          :class="getRoute() === 'schedule' ? 'active' : ''"
-          :navText="isRTL ? 'الواقع الافتراضي' : 'sidenavList--schedule'"
-        >
+        <sidenav-item to="/reservation" :class="getRoute() === 'reservation' ? 'active' : ''"
+          :navText="isRTL ? 'الواقع الافتراضي' : 'sidenavList--reservation'">
           <template v-slot:icon>
-            <i class="ni ni-calendar-grid-58 text-dark text-sm opacity-10"></i>
+            <i class="ni ni-cart text-dark text-sm opacity-10"></i>
           </template>
         </sidenav-item>
       </li>
 
       <li class="nav-item">
-        <sidenav-item
-          to="/reservation"
-          :class="getRoute() === 'reservation' ? 'active' : ''"
-          :navText="isRTL ? 'الواقع الافتراضي' : 'sidenavList--reservation'"
-        >
+        <sidenav-item to="/schedule" :class="getRoute() === 'schedule' ? 'active' : ''"
+          :navText="isRTL ? 'الواقع الافتراضي' : 'sidenavList--schedule'">
           <template v-slot:icon>
             <i class="ni ni-calendar-grid-58 text-dark text-sm opacity-10"></i>
           </template>
