@@ -108,10 +108,12 @@ public class MyAccountServiceImpl implements MyAccountService {
     @Transactional
     public boolean exchange(SongAccountDTO songAccountDTO, KrwAccountDTO krwAccountDTO, HistoryDTO historyDTO , Double amount, Double exchangeRate) {
         // 송이 계좌에 환전 금액보다 많을 때
-        if(mapper.selectSongBalance(songAccountDTO.getSongNo()) >= amount) {
+        double songToKrw = Math.round(amount * exchangeRate);
+
+        if(mapper.selectSongBalance(songAccountDTO.getSongNo()) >= songToKrw) {
             // 송이 계좌 감소
-            double songAmount = Math.round(amount * exchangeRate);
-            songAccountDTO.setBalance(mapper.selectSongBalance(songAccountDTO.getSongNo())  - songAmount);
+            //double songAmount = Math.round(amount * exchangeRate);
+            songAccountDTO.setBalance(mapper.selectSongBalance(songAccountDTO.getSongNo())  - songToKrw);
             songAccountDTO.setUpdatedAt(new Date());
             mapper.updateSongAccount(songAccountDTO);
 
@@ -138,11 +140,13 @@ public class MyAccountServiceImpl implements MyAccountService {
     @Override
     @Transactional
     public boolean reExchange(SongAccountDTO songAccountDTO, KrwAccountDTO krwAccountDTO, HistoryDTO historyDTO , Double amount, Double exchangeRate) {
+
+        double krwToSong = Math.round(amount * exchangeRate);
         // 원화 계좌에 환급 금액보다 많을 때
-        if(mapper.selectKrwBalance(krwAccountDTO.getKrwNo()) >= amount) {
+        if(mapper.selectKrwBalance(krwAccountDTO.getKrwNo()) >= krwToSong) {
             // 원화 계좌 감소
-            double krwAmount = Math.round(amount * exchangeRate);
-            krwAccountDTO.setBalance(mapper.selectKrwBalance(krwAccountDTO.getKrwNo()) - krwAmount);
+            //double krwAmount = Math.round(amount * exchangeRate);
+            krwAccountDTO.setBalance(mapper.selectKrwBalance(krwAccountDTO.getKrwNo()) - krwToSong);
             krwAccountDTO.setUpdatedAt(new Date());
             mapper.updateKrwAccount(krwAccountDTO);
 
