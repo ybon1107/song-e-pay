@@ -10,15 +10,12 @@
         </div>
         <div class="d-xl-none">
           <div class="d-flex flex-column justify-content-center align-items-center gap-5 py-5">
-            <div class="card card-img-bg" :style="{ backgroundImage: 'url(/images/won-e-money.png)' }">
+            <div class="card card-img-bg bg-info" :style="{ backgroundImage: 'url(/images/won-e-money.png)' }">
             </div>
             <router-link to="/payment/password">
               <button class="btn btn-warning mb-0">
-                {{$t('payment--button-pay')}}
+                {{ $t('payment--button-pay') }}
               </button>
-              <!-- <div>
-                접속 기기 종류: {{ deviceInfo ? '모바일' : 'PC' }} <br>
-              </div> -->
             </router-link>
           </div>
         </div>
@@ -28,33 +25,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 
 const router = useRouter();
-
-const deviceInfo = ref(false);
-
-const isMobile = () => {
-  const info = navigator.userAgent;
-  let flag = false;
-
-  if (
-    info.indexOf("iPhone") > -1 ||
-    info.indexOf("Android") > -1 ||
-    info.indexOf("iPad") > -1 ||
-    info.indexOf("iPod") > -1
-  ) {
-    flag = true;
-  }
-  deviceInfo.value = flag;
-};
-
-const init = () => {
-  isMobile();
-};
-
-onMounted(() => {
-  init();
-});
 </script>

@@ -10,8 +10,6 @@ import java.util.Map;
 
 public interface UserMapper {
 
-    String getSecondaryPassword(String userId);
-
     UserVO get(String username);
 
     String getPassword(String username);

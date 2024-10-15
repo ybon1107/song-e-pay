@@ -1,16 +1,23 @@
 package com.sepay.backend.myaccount.service;
 
+import com.sepay.backend.exchange.mapper.ExchangeMapper;
 import com.sepay.backend.history.dto.HistoryDTO;
 import com.sepay.backend.history.mapper.HistoryMapper;
+import com.sepay.backend.history.service.HistoryService;
 import com.sepay.backend.myaccount.dto.AccountDTO;
 import com.sepay.backend.myaccount.dto.KrwAccountDTO;
 import com.sepay.backend.myaccount.dto.SongAccountDTO;
 import com.sepay.backend.myaccount.mapper.MyAccountMapper;
+import com.sepay.backend.notification.dto.NotificationDTO;
+import com.sepay.backend.notification.mapper.NotificationMapper;
 import com.sepay.backend.user.dto.UserDTO;
+import com.sepay.backend.user.mapper.UserMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Date;
 
 import java.util.Date;
 
@@ -20,6 +27,9 @@ import java.util.Date;
 public class MyAccountServiceImpl implements MyAccountService {
     private final MyAccountMapper mapper;
     private final HistoryMapper historyMapper;
+    private final NotificationMapper notificationMapper;
+    private final UserMapper userMapper;
+    private final HistoryService historyService;
 
     @Override
     public Double selectKrwBalance(String krwNo) {
@@ -37,16 +47,10 @@ public class MyAccountServiceImpl implements MyAccountService {
         return searchUserId != null && !searchUserId.isEmpty(); // userId가 null이 아니고 비어있지 않으면 true, 그렇지 않으면 false
     }
 
-    @Override
-    public String selectSecondPwd(Integer userNo){
-        return mapper.selectSecondPwd(userNo);
-    }
-
     // 충전 : 계좌 -> 송이
     @Override
     @Transactional
-    public String deposit(AccountDTO accountDTO, SongAccountDTO songAccountDTO, HistoryDTO historyDTO, Double amount) {
-        String message = "계좌에 잔액이 부족합니다";
+    public boolean deposit(AccountDTO accountDTO, SongAccountDTO songAccountDTO, HistoryDTO historyDTO, Double amount) {
         // 계좌에 충전 금액보다 많을 때
         if(mapper.selectAccountBalance(accountDTO.getAccountNo()) >= amount) {
             // 계좌 잔액 감소
@@ -66,17 +70,15 @@ public class MyAccountServiceImpl implements MyAccountService {
 
             // history insert
             historyMapper.insertHistory(historyDTO);
-            message = "success";
+            return true;
         }
-
-        return message;
+        return false;
     }
 
     // 환불 : 송이 -> 계좌
     @Override
     @Transactional
-    public String refund(AccountDTO accountDTO, SongAccountDTO songAccountDTO, HistoryDTO historyDTO, Double amount) {
-        String message = "계좌에 잔액이 부족합니다";
+    public boolean refund(AccountDTO accountDTO, SongAccountDTO songAccountDTO, HistoryDTO historyDTO, Double amount) {
         // 송이 계좌에 환불 금액보다 많을 때
         if(mapper.selectSongBalance(songAccountDTO.getSongNo()) >= amount) {
             // 송이 계좌 감소
@@ -96,20 +98,19 @@ public class MyAccountServiceImpl implements MyAccountService {
             historyDTO.setAmount(amount); // 금액 설정
 
             historyMapper.insertHistory(historyDTO);
-            message = "success";
+            return true;
         }
-        return message;
+        return false;
     }
 
     // 환전 : 송이 -> 원화
     @Override
     @Transactional
-    public String exchange(SongAccountDTO songAccountDTO, KrwAccountDTO krwAccountDTO, HistoryDTO historyDTO , Double amount, Double exchangeRate) {
-        String message = "계좌에 잔액이 부족합니다";
+    public boolean exchange(SongAccountDTO songAccountDTO, KrwAccountDTO krwAccountDTO, HistoryDTO historyDTO , Double amount, Double exchangeRate) {
         // 송이 계좌에 환전 금액보다 많을 때
         if(mapper.selectSongBalance(songAccountDTO.getSongNo()) >= amount) {
             // 송이 계좌 감소
-            double songAmount = amount * exchangeRate;
+            double songAmount = Math.round(amount * exchangeRate);
             songAccountDTO.setBalance(mapper.selectSongBalance(songAccountDTO.getSongNo())  - songAmount);
             songAccountDTO.setUpdatedAt(new Date());
             mapper.updateSongAccount(songAccountDTO);
@@ -128,20 +129,19 @@ public class MyAccountServiceImpl implements MyAccountService {
             historyDTO.setExchangeRate(exchangeRate); //환율 설정
 
             historyMapper.insertHistory(historyDTO);
-            message = "success";
+           return true;
         }
-        return message;
+        return false;
     }
 
     // 환급 : 원화 -> 송이
     @Override
     @Transactional
-    public String reExchange(SongAccountDTO songAccountDTO, KrwAccountDTO krwAccountDTO, HistoryDTO historyDTO , Double amount, Double exchangeRate) {
-        String message = "계좌에 잔액이 부족합니다";
+    public boolean reExchange(SongAccountDTO songAccountDTO, KrwAccountDTO krwAccountDTO, HistoryDTO historyDTO , Double amount, Double exchangeRate) {
         // 원화 계좌에 환급 금액보다 많을 때
         if(mapper.selectKrwBalance(krwAccountDTO.getKrwNo()) >= amount) {
             // 원화 계좌 감소
-            double krwAmount = amount * exchangeRate;
+            double krwAmount = Math.round(amount * exchangeRate);
             krwAccountDTO.setBalance(mapper.selectKrwBalance(krwAccountDTO.getKrwNo()) - krwAmount);
             krwAccountDTO.setUpdatedAt(new Date());
             mapper.updateKrwAccount(krwAccountDTO);
@@ -161,9 +161,9 @@ public class MyAccountServiceImpl implements MyAccountService {
 
             historyMapper.insertHistory(historyDTO);
 
-            message = "success";
+           return true;
         }
-        return message;
+        return false;
     }
 
     // 송금
@@ -204,7 +204,34 @@ public class MyAccountServiceImpl implements MyAccountService {
         }
         return message;
     }
+
     @Override
+    @Transactional
     public String getKrwno(String userId) { return mapper.selectKrwNo(userId);}
 
+    // 송금 받기
+    @Override
+    @Transactional
+    public int receiveSongE(NotificationDTO notificationDTO) {
+        UserDTO user = userMapper.selectUserByEmail(notificationDTO.getUserId());
+        KrwAccountDTO dto = new KrwAccountDTO();
+        dto.setKrwNo(user.getKrwNo());
+        Double balance = mapper.selectKrwBalance(dto.getKrwNo()) + notificationDTO.getAmount();
+        dto.setBalance(balance);
+
+        notificationMapper.updateNotiAmount(notificationDTO.getNotiNo());
+
+        HistoryDTO historyDTO = new HistoryDTO();
+        historyDTO.setUserId(user.getUserId());
+        historyDTO.setSongNo(user.getSongNo());
+        historyDTO.setKrwNo(user.getKrwNo());
+        historyDTO.setTypeCode(8);
+        historyDTO.setStateCode(1);
+        historyDTO.setHistoryContent("입금");
+        historyDTO.setAmount(Double.valueOf(notificationDTO.getAmount()));
+        historyDTO.setExchangeRate((double) -1);
+        historyService.saveHistory(historyDTO);
+
+        return mapper.updateKrwAccount(dto);
+    }
 }

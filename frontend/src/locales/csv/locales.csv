@@ -101,7 +101,7 @@ myAccount--wonE-afterTransferBalance,송금 후 잔액,Balance after remittance,
 myAccount--wonE-currentExchangeRate,현재 환율,Current exchange rate,Nilai tukar saat ini,Tỷ giá hiện tại
 myAccount--wonE-refundSendingAmount,보내는 금액,Amount of money sent,Jumlah uang yang dikirim,Số tiền gửi
 myAccount--wonE-refundReceivedAmount,받는 금액,Amount received,Jumlah yang diterima,Số tiền nhận
-myAccount--input-placeholder,할 금액을 입력하세요.,Please enter the amount,Silakan masukkan jumlahnya,Vui lòng nhập số tiền
+myAccount--input-placeholder,금액을 입력하세요.,Please enter the amount,Silakan masukkan jumlahnya,Vui lòng nhập số tiền
 myAccount--header-exchangeRate,실시간 환율 ,Real-time exchange rates,Nilai tukar waktu nyata,Tỷ giá hối đoái theo thời gian thực
 myAccount--autoExchange-title,자동 환전 설정 내역,Auto Exchange Settings,Pengaturan Tukar Otomatis,Cài đặt đổi tiền tự động
 myAccount--autoExchange-noReservationAuto,자동 환전 예약 내역이 없습니다.,No auto exchange reservations.,Tidak ada reservasi tukar otomatis.,Không có lịch đổi tiền tự động.

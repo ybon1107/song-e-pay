@@ -108,20 +108,32 @@ const formattedCountdown = computed(() => {
 
 const req = {
   amount: 1000,
-  userDTO: user.value,
+  userId: user.value.userId,
+  krwNo: user.value.krwNo,
+  songNo: user.value.songNo,
+  historyContent: "SongSong Restaurant"
+  // userDTO: user.value
 };
 
 // QR 스캔 후 처리
 const handleQRScan = async () => {
   try {
     const response = await paymentApi.scanQRCode(req);
-    Swal.fire({
-      title: t("swal--title-success"),
-      text: t("payment--swal-success-text"),
-      icon: "success",
-    });
-    router.push("/my-page");
+
+    console.log(response);
+    if (response.status === 200) {
+      Swal.fire({
+        title: t("swal--title-success"),
+        text: t("payment--swal-success-text"),
+        icon: "success",
+      });
+      router.push("/my-page"); // 홈으로 이동
+    }
+    console.log(response);
+
+
   } catch (error) {
+    console.log(error);
     Swal.fire({
       title: t("swal--title-fail"),
       text: t("payment--swal-fail-text"),

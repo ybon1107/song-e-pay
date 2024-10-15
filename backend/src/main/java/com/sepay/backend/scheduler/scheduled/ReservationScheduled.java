@@ -131,9 +131,9 @@ public class ReservationScheduled {
                     .build();
 
 
-            String result = myAccountService.exchange(songAccountDTO, krwAccountDTO, historyDTO, songAmount, latestExchangeRate.getExchangeRate());
+            boolean result = myAccountService.exchange(songAccountDTO, krwAccountDTO, historyDTO, songAmount, latestExchangeRate.getExchangeRate());
 
-            if ("success".equals(result)) {
+            if (result) {
                 log.info("자동 환전 성공. 예약 ID: {}, 현재 환율: {}, 송이 차감액: {}, 원화 입금액: {}",
                         reservation.getResNo(), latestExchangeRate.getExchangeRate(), songAmount, krwAmount);
                 exchangeReservationService.removeExchangeReservation(reservation.getResNo());

@@ -26,8 +26,30 @@ const getRoute = () => {
           <template v-slot:icon>
             <i class="ni ni-tv-2 text-dark text-sm opacity-10"></i>
           </template>
+</sidenav-item>
+</li> -->
+
+            <!-- <li class="nav-item">
+        <sidenav-item to="/my-accounts" :class="getRoute() === 'my-accounts' ? 'active' : ''"
+          :navText="isRTL ? 'الجداول' : 'sidenavList--myPage'">
+          <template v-slot:icon>
+            <i class="ni ni-money-coins text-dark text-sm opacity-10"></i>
+          </template>
         </sidenav-item>
       </li> -->
+            <li class="nav-item">
+                <sidenav-item
+                    to="/my-page"
+                    :class="getRoute() === 'my-page' ? 'active' : ''"
+                    :navText="isRTL ? 'الجداول' : 'sidenavList--myPage'"
+                >
+                    <template v-slot:icon>
+                        <i
+                            class="ni ni-money-coins text-dark text-sm opacity-10"
+                        ></i>
+                    </template>
+                </sidenav-item>
+            </li>
 
             <li class="nav-item">
                 <sidenav-item
@@ -61,7 +83,9 @@ const getRoute = () => {
                 <sidenav-item
                     to="/payment"
                     :class="getRoute() === 'payment' ? 'active' : ''"
-                    :navText="isRTL ? 'الواقع الافتراضي' : 'sidenavList--payment'"
+                    :navText="
+                        isRTL ? 'الواقع الافتراضي' : 'sidenavList--payment'
+                    "
                 >
                     <template v-slot:icon>
                         <i
@@ -75,7 +99,9 @@ const getRoute = () => {
                 <sidenav-item
                     to="/histories"
                     :class="getRoute() === 'histories' ? 'active' : ''"
-                    :navText="isRTL ? 'الواقع الافتراضي' : 'sidenavList--history'"
+                    :navText="
+                        isRTL ? 'الواقع الافتراضي' : 'sidenavList--history'
+                    "
                 >
                     <template v-slot:icon>
                         <i
@@ -101,7 +127,25 @@ const getRoute = () => {
                 <sidenav-item
                     to="/schedule"
                     :class="getRoute() === 'schedule' ? 'active' : ''"
-                    :navText="isRTL ? 'الواقع الافتراضي' : 'sidenavList--schedule'"
+                    :navText="
+                        isRTL ? 'الواقع الافتراضي' : 'sidenavList--schedule'
+                    "
+                >
+                    <template v-slot:icon>
+                        <i
+                            class="ni ni-calendar-grid-58 text-dark text-sm opacity-10"
+                        ></i>
+                    </template>
+                </sidenav-item>
+            </li>
+
+            <li class="nav-item">
+                <sidenav-item
+                    to="/reservation"
+                    :class="getRoute() === 'reservation' ? 'active' : ''"
+                    :navText="
+                        isRTL ? 'الواقع الافتراضي' : 'sidenavList--reservation'
+                    "
                 >
                     <template v-slot:icon>
                         <i
@@ -167,25 +211,24 @@ const getRoute = () => {
     </div>
 
     <!-- <div class="pt-3 mx-3 mt-3 sidenav-footer">
-    <sidenav-card
-      :card="{
-        title: 'Need Help?',
-        description: 'Please check our docs',
-        links: [
-          {
-            label: 'Documentation',
-            route:
-              'https://www.creative-tim.com/learning-lab/vue/overview/argon-dashboard/',
-            color: 'dark',
-          },
-          {
-            label: 'Buy now',
-            route:
-              'https://www.creative-tim.com/product/vue-argon-dashboard-pro?ref=vadp',
-            color: 'success',
-          },
-        ],
-      }"
-    />
+    
+    <sidenav-card :card="{
+      title: 'Need Help?',
+      description: 'Please check our docs',
+      links: [
+        {
+          label: 'Documentation',
+          route:
+            'https://www.creative-tim.com/learning-lab/vue/overview/argon-dashboard/',
+          color: 'dark',
+        },
+        {
+          label: 'Buy now',
+          route:
+            'https://www.creative-tim.com/product/vue-argon-dashboard-pro?ref=vadp',
+          color: 'success',
+        },
+      ],
+    }" />
   </div> -->
 </template>

@@ -389,6 +389,7 @@ const fetchExchangeRates = async () => {
         console.error('환율 데이터를 가져오는 중 오류 발생:', error);
     }
 };
+
 const fetchBalances = () => {
     myaccountApi.fetchkrwAccountBalance(user.value.krwNo).then((balance) => {
         wonEMoneyBalance.value = balance;
