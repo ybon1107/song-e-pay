@@ -51,8 +51,12 @@ public class SettingController {
 
     // 계좌 등록
     @PatchMapping("/register-account")
-    public ResponseEntity<?> registerAccount(String accountNo, String userId) {
-        return ResponseEntity.ok(settingService.addAccount(accountNo, userId));
+    public ResponseEntity<?> registerAccount(@RequestBody Map<String, String> requestData) {
+        String accountNo = requestData.get("accountNo");
+        String accountPwd = requestData.get("accountPwd");
+        String userId = requestData.get("userId");
+
+        return ResponseEntity.ok(settingService.addAccount(accountNo, accountPwd, userId));
     }
 
     // 계좌 해지

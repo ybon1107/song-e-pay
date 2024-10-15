@@ -33,9 +33,10 @@ public class SettingServiceImpl implements SettingService {
 
     // 계좌 등록
     @Override
-    public int addAccount(String accountNo, String userId) {
+    public int addAccount(String accountNo, String accountPwd, String userId) {
         HashMap map = new HashMap();
         map.put("accountNo", accountNo);
+        map.put("accountPwd", accountPwd);
         map.put("userId", userId);
         return mapper.updateAccount(map);
     }

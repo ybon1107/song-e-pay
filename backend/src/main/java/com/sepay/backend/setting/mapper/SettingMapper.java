@@ -39,4 +39,6 @@ public interface SettingMapper {
 
     // 프로필 이미지 확인
     String selectUserProfileImg(String userId);
+
+    String selectAccountPwd(String accountNo);
 }
