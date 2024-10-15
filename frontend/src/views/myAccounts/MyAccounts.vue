@@ -94,6 +94,78 @@ const closeModal = () => {
     showModal.value = false;
 };
 
+const handlePasswordVerified = async () => {
+    showModal.value = false; // 모달 숨김
+    let kwd;
+    let apiResponse;
+    try {
+        console.log('현재 액션:', currentAction.value);
+        switch (currentAction.value) {
+            case TRANSACTION_TYPES.DEPOSIT:
+                apiResponse = await deposit();
+                kwd = i18n_DEPOSIT;
+                break;
+            case TRANSACTION_TYPES.EXCHANGE:
+                apiResponse = await exchange();
+                kwd = i18n_EXCHANGE;
+                break;
+            case TRANSACTION_TYPES.REFUND:
+                apiResponse = await refund();
+                kwd = i18n_REFUND;
+                break;
+            case TRANSACTION_TYPES.TRANSFER:
+                apiResponse = await transfer();
+                kwd = i18n_TRANSFER;
+                break;
+            case TRANSACTION_TYPES.RE_EXCHANGE:
+                apiResponse = await reExchange();
+                kwd = i18n_RE_EXCHANGE;
+                break;
+            default:
+                throw new Error(t('myAccount--unknown-action'));
+        }
+
+        console.log('API 응답:', apiResponse);
+
+        if (apiResponse && apiResponse.status === 200) {
+            console.log('거래 성공');
+            kwd = t(kwd);
+
+            await Swal.fire({
+                title: t('myAccount--swal-title'),
+                text: t('myAccount--swal-content', { kwd: kwd }),
+                icon: 'success',
+            });
+
+            console.log('resetValue 시작');
+            resetValue();
+            console.log('resetValue 완료');
+            console.log('fetchBalances 시작');
+            await fetchBalances();
+            console.log('fetchBalances 완료');
+            if (songEMoneyCardRef.value) {
+                console.log('songEMoneyCard fetchBalance 시작');
+                await songEMoneyCardRef.value.fetchBalance();
+                console.log('songEMoneyCard fetchBalance 완료');
+            }
+            if (wonEMoneyCardRef.value) {
+                console.log('wonEMoneyCard fetchBalance 시작');
+                await wonEMoneyCardRef.value.fetchBalance();
+                console.log('wonEMoneyCard fetchBalance 완료');
+            }
+            console.log('모든 처리 완료');
+        } else {
+            throw new Error(t('myAccount--transaction-failed'));
+        }
+    } catch (error) {
+        console.error(`Error in ${currentAction.value}:`, error);
+        await Swal.fire({
+            title: t('myAccount--swal-title-error'),
+            text: error.message || t('myAccount--default-error-message'),
+            icon: 'error',
+        });
+    }
+};
 //값이 입력되지 않으면 버튼 비활성화
 const isValidAmount = (amount) => {
     return amount && !isNaN(amount) && parseFloat(amount) > 0;
@@ -151,73 +223,6 @@ const selectAsset = (asset) => {
         asset === SONGE
             ? TRANSACTION_TYPES.DEPOSIT
             : TRANSACTION_TYPES.RE_EXCHANGE;
-};
-
-
-const handlePasswordVerified = async () => {
-    showModal.value = false; // 모달 숨김
-    let kwd;
-    let response;
-
-    try {
-        switch (currentAction.value) {
-            case TRANSACTION_TYPES.DEPOSIT:
-                response = await deposit();
-                kwd = i18n_DEPOSIT;
-                if (!response.data) throw new Error('My account has an insufficient balance.');
-                break;
-            case TRANSACTION_TYPES.EXCHANGE:
-                response = await exchange();
-                kwd = i18n_EXCHANGE;
-                break;
-            case TRANSACTION_TYPES.REFUND:
-                response = await refund();
-                if (!response.data) throw new Error('My Song-E has an insufficient balance.');
-                kwd = i18n_REFUND;
-                break;
-            case TRANSACTION_TYPES.TRANSFER:
-                response = await transfer();
-                kwd = i18n_TRANSFER;
-                break;
-            case TRANSACTION_TYPES.RE_EXCHANGE:
-                response = await reExchange();
-                kwd = i18n_RE_EXCHANGE;
-                break;
-        }
-
-        kwd = t(kwd);
-
-        // ResponseEntity의 상태 코드 확인
-        if (response.data) {
-            Swal.fire({
-                title: t('myAccount--swal-title'),
-                text: t('myAccount--swal-content', { kwd: kwd }),
-                icon: 'success',
-            });
-
-
-            await fetchBalances(); // 잔액을 다시 가져옴
-
-            // AccountsCard의 fetchBalance 함수 호출
-            if (songEMoneyCardRef.value) {
-                await songEMoneyCardRef.value.fetchBalance();
-            }
-            if (wonEMoneyCardRef.value) {
-                await wonEMoneyCardRef.value.fetchBalance();
-            }
-        } else {
-            // 실패 시 에러를 throw
-            throw new Error(response.data?.message || t('swal--default-error-message'));
-        }
-        resetValue();
-    } catch (error) {
-        await Swal.fire({
-            title: t('swal--title-fail'),
-            html: error.message || t('swal--default-error-message'),
-            icon: 'error',
-        });
-        resetValue();
-    }
 };
 
 // API 호출 함수
@@ -681,48 +686,79 @@ watchEffect(() => {
 </script>
 
 <template>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
         integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
-        crossorigin="anonymous" referrerpolicy="no-referrer" />
+        crossorigin="anonymous"
+        referrerpolicy="no-referrer"
+    />
     <div class="container-fluid">
-        <SecondPasswordModal v-if="showModal" @close="closeModal" @password-verified="handlePasswordVerified" />
+        <SecondPasswordModal
+            v-if="showModal"
+            @close="closeModal"
+            @password-verified="handlePasswordVerified"
+        />
 
         <div id="my-account" class="d-grid gap-5">
             <h3 class="mb-0">My account</h3>
             <!-- <div class="custom-spacer"></div> -->
             <div class="row justify-content-center gap-3">
                 <!-- USD Wallet -->
-                <div class="col-lg-4 col-md-5 max-margin-bottom d-flex justify-content-center">
+                <div
+                    class="col-lg-4 col-md-5 max-margin-bottom d-flex justify-content-center"
+                >
                     <!-- Song-E Money 카드 -->
-                    <AccountsCard ref="songEMoneyCardRef" :assetType="SONGE" @click="selectAsset(SONGE)"
-                        :class="{ selected: selectedAsset === SONGE }" />
+                    <AccountsCard
+                        ref="songEMoneyCardRef"
+                        :assetType="SONGE"
+                        @click="selectAsset(SONGE)"
+                        :class="{ selected: selectedAsset === SONGE }"
+                    />
                 </div>
 
                 <!-- KRW Wallet -->
                 <div class="col-lg-4 col-md-5 d-flex justify-content-center">
                     <!-- Won-E Money 카드 -->
-                    <AccountsCard ref="wonEMoneyCardRef" :assetType="WONE" @click="selectAsset(WONE)"
-                        :class="{ selected: selectedAsset === WONE }" />
+                    <AccountsCard
+                        ref="wonEMoneyCardRef"
+                        :assetType="WONE"
+                        @click="selectAsset(WONE)"
+                        :class="{ selected: selectedAsset === WONE }"
+                    />
                 </div>
             </div>
             <div class="card">
                 <!-- Song-E Money 선택 시 -->
                 <template v-if="selectedAsset === SONGE">
                     <nav class="nav custom-nav nav-underline nav-justified">
-                        <a class="flex-sm-fill text-sm-center nav-link" :class="{
-                            active: activeTab === TRANSACTION_TYPES.DEPOSIT,
-                        }" @click="activeTab = TRANSACTION_TYPES.DEPOSIT" aria-current="page">
+                        <a
+                            class="flex-sm-fill text-sm-center nav-link"
+                            :class="{
+                                active: activeTab === TRANSACTION_TYPES.DEPOSIT,
+                            }"
+                            @click="activeTab = TRANSACTION_TYPES.DEPOSIT"
+                            aria-current="page"
+                        >
                             {{ $t('myAccount--nav-songE-fill') }}
                         </a>
-                        <a class="flex-sm-fill text-sm-center nav-link" :class="{
-                            active:
-                                activeTab === TRANSACTION_TYPES.EXCHANGE,
-                        }" @click="activeTab = TRANSACTION_TYPES.EXCHANGE">
+                        <a
+                            class="flex-sm-fill text-sm-center nav-link"
+                            :class="{
+                                active:
+                                    activeTab === TRANSACTION_TYPES.EXCHANGE,
+                            }"
+                            @click="activeTab = TRANSACTION_TYPES.EXCHANGE"
+                        >
                             {{ $t(i18n_EXCHANGE) }}
                         </a>
-                        <a class="flex-sm-fill text-sm-center nav-link" :class="{
-                            active: activeTab === TRANSACTION_TYPES.REFUND,
-                        }" @click="activeTab = TRANSACTION_TYPES.REFUND">
+                        <a
+                            class="flex-sm-fill text-sm-center nav-link"
+                            :class="{
+                                active: activeTab === TRANSACTION_TYPES.REFUND,
+                            }"
+                            @click="activeTab = TRANSACTION_TYPES.REFUND"
+                        >
                             {{ $t('myAccount--nav-songE-vacate') }}
                         </a>
                     </nav>
@@ -731,16 +767,25 @@ watchEffect(() => {
                 <!-- Won-E Money 선택 시 -->
                 <template v-if="selectedAsset === WONE">
                     <nav class="nav custom-nav nav-underline nav-justified">
-                        <a class="flex-sm-fill text-sm-center nav-link" :class="{
-                            active:
-                                activeTab === TRANSACTION_TYPES.RE_EXCHANGE,
-                        }" @click="activeTab = TRANSACTION_TYPES.RE_EXCHANGE">
+                        <a
+                            class="flex-sm-fill text-sm-center nav-link"
+                            :class="{
+                                active:
+                                    activeTab === TRANSACTION_TYPES.RE_EXCHANGE,
+                            }"
+                            @click="activeTab = TRANSACTION_TYPES.RE_EXCHANGE"
+                        >
                             {{ $t(i18n_EXCHANGE) }}
                         </a>
-                        <a class="flex-sm-fill text-sm-center nav-link" :class="{
-                            active:
-                                activeTab === TRANSACTION_TYPES.TRANSFER,
-                        }" @click="activeTab = TRANSACTION_TYPES.TRANSFER" aria-current="page">
+                        <a
+                            class="flex-sm-fill text-sm-center nav-link"
+                            :class="{
+                                active:
+                                    activeTab === TRANSACTION_TYPES.TRANSFER,
+                            }"
+                            @click="activeTab = TRANSACTION_TYPES.TRANSFER"
+                            aria-current="page"
+                        >
                             {{ $t(i18n_TRANSFER) }}
                         </a>
                     </nav>
@@ -750,51 +795,84 @@ watchEffect(() => {
                 <div class="card-body" v-if="selectedAsset === SONGE">
                     <div class="d-flex justify-content-center">
                         <div class="d-flex flex-column tab-content-width">
-                            <div v-if="activeTab === TRANSACTION_TYPES.DEPOSIT"
-                                class="tab-pane fade show active d-grid gap-4">
+                            <div
+                                v-if="activeTab === TRANSACTION_TYPES.DEPOSIT"
+                                class="tab-pane fade show active d-grid gap-4"
+                            >
                                 <div>
                                     <label class="d-flex align-items-center">
                                         <div class="icon-container me-2">
-                                            <img v-if="songCountryCode" :src="flagIcon(songCountryCode)" alt="icon"
-                                                class="flag-icon-img" />
+                                            <img
+                                                v-if="songCountryCode"
+                                                :src="flagIcon(songCountryCode)"
+                                                alt="icon"
+                                                class="flag-icon-img"
+                                            />
                                         </div>
                                         <div class="input-label-text">
                                             {{ $t('myAccount--songE-title') }}
                                         </div>
                                     </label>
-                                    <ArgonAmountInput v-model="depositAmount"
+                                    <ArgonAmountInput
+                                        v-model="depositAmount"
                                         :placeholder="`${$t('transaction_types_deposit')} ${$t('myAccount--input-placeholder')}`"
-                                        :unit="customerunit" />
+                                        :unit="customerunit"
+                                    />
                                 </div>
                                 <div>
                                     {{ t('myAccount-input-expectedAmount') }}:
-                                    <span class="balance-text" :class="{
-                                        'text-danger': depositAmount !== '',
-                                    }">{{ processAfterBalance }}</span>{{ customerunit }}
+                                    <span
+                                        class="balance-text"
+                                        :class="{
+                                            'text-danger': depositAmount !== '',
+                                        }"
+                                        >{{ processAfterBalance }}</span
+                                    >{{ customerunit }}
                                 </div>
-                                <button type="submit" class="btn btn-primary w-100 fs-4" @click="openModal"
-                                    :disabled="!isValidAmount(depositAmount)" variant="gradient">
+                                <button
+                                    type="submit"
+                                    class="btn btn-primary w-100 fs-4"
+                                    @click="openModal"
+                                    :disabled="!isValidAmount(depositAmount)"
+                                    variant="gradient"
+                                >
                                     {{ t('myAccount--songE-button-fill') }}
                                 </button>
                             </div>
 
-                            <div v-if="activeTab === TRANSACTION_TYPES.EXCHANGE" class="d-grid gap-4">
+                            <div
+                                v-if="activeTab === TRANSACTION_TYPES.EXCHANGE"
+                                class="d-grid gap-4"
+                            >
                                 <div>
                                     <label class="d-flex align-items-center">
                                         <div class="icon-container me-2">
-                                            <img :src="flagIcon(wonCoutryCode)" alt="icon" class="flag-icon-img" />
+                                            <img
+                                                :src="flagIcon(wonCoutryCode)"
+                                                alt="icon"
+                                                class="flag-icon-img"
+                                            />
                                         </div>
                                         <div class="input-label-text">
                                             WON-E
                                         </div>
                                     </label>
-                                    <ExchangeAmountInput v-model="receiveAmount"
+                                    <ExchangeAmountInput
+                                        v-model="receiveAmount"
                                         :placeholder="`${$t('transaction_types_exchange')} ${$t('myAccount--input-placeholder')}`"
-                                        :unit="wonUnit" :selectedAsset="selectedAsset" :songEMoneyBalance="songEMoneyBalance_toKRW
-                                            " :activeTab="activeTab" :errorAmountMessage="errorAmountMessage"
+                                        :unit="wonUnit"
+                                        :selectedAsset="selectedAsset"
+                                        :songEMoneyBalance="
+                                            songEMoneyBalance_toKRW
+                                        "
+                                        :activeTab="activeTab"
+                                        :errorAmountMessage="errorAmountMessage"
                                         @update:errorAmountMessage="
                                             errorAmountMessage = $event
-                                            " @focus="onfocus('receive')" @blur="onblurReceive" />
+                                        "
+                                        @focus="onfocus('receive')"
+                                        @blur="onblurReceive"
+                                    />
                                     <!-- <ExchangeAmountInput v-model="receiveAmount"
                   :placeholder="`${$t('transaction_types_exchange')} ${$t('myAccount--input-placeholder')}`"
                   :unit="wonUnit" :selectedAsset="selectedAsset" :songEMoneyBalance="songEMoneyBalance_toKRW"
@@ -805,8 +883,12 @@ watchEffect(() => {
                                 <div>
                                     <label class="d-flex align-items-center">
                                         <div class="icon-container me-2">
-                                            <img v-if="songCountryCode" :src="flagIcon(songCountryCode)" alt="icon"
-                                                class="flag-icon-img" />
+                                            <img
+                                                v-if="songCountryCode"
+                                                :src="flagIcon(songCountryCode)"
+                                                alt="icon"
+                                                class="flag-icon-img"
+                                            />
                                         </div>
                                         <div class="input-label-text">
                                             {{ $t('myAccount--songE-title') }}
@@ -814,41 +896,67 @@ watchEffect(() => {
                                     </label>
                                     <!-- 현재환율 * exchangeamount -->
                                     <div style="height: 60px">
-                                        <ExchangeAmountInput v-model="exchangeAmount"
+                                        <ExchangeAmountInput
+                                            v-model="exchangeAmount"
                                             :placeholder="`${$t('transaction_types_exchange')} ${$t('myAccount--input-placeholder')}`"
-                                            :unit="customerunit" :selectedAsset="selectedAsset" :songEMoneyBalance="songEMoneyBalance
-                                                " :activeTab="activeTab" :errorMessage="errorAmountMessage"
+                                            :unit="customerunit"
+                                            :selectedAsset="selectedAsset"
+                                            :songEMoneyBalance="
+                                                songEMoneyBalance
+                                            "
+                                            :activeTab="activeTab"
+                                            :errorMessage="errorAmountMessage"
                                             @update:errorAmountMessage="
                                                 errorAmountMessage = $event
-                                                " @focus="onfocus('exchange')" @blur="onblurExchange" />
+                                            "
+                                            @focus="onfocus('exchange')"
+                                            @blur="onblurExchange"
+                                        />
                                     </div>
                                     <!-- <div class="balance-text">{{ receivedAmount }} {{ customerunit }}</div> -->
-                                    <small>{{
-                                        t('myAccount--songE-exchangeRate')
-                                    }}: 1 {{ wonUnit }} =
+                                    <small
+                                        >{{
+                                            t('myAccount--songE-exchangeRate')
+                                        }}: 1 {{ wonUnit }} =
                                         {{ currentFromKrw }}
                                         {{ customerunit }}
                                     </small>
                                 </div>
                                 <div>
                                     {{ t('myAccount-input-expectedAmount') }}:
-                                    <span class="balance-text" :class="{
-                                        'text-blue': exchangeAmount !== '',
-                                    }">{{ processAfterBalance }}</span>{{ customerunit }}
+                                    <span
+                                        class="balance-text"
+                                        :class="{
+                                            'text-blue': exchangeAmount !== '',
+                                        }"
+                                        >{{ processAfterBalance }}</span
+                                    >{{ customerunit }}
                                 </div>
                                 <!-- <div class="balance-text">{{t('myAccount-input-expectedAmount')}}: {{ processAfterBalance }}{{ customerunit }}</div> -->
-                                <button type="submit" class="btn btn-primary w-100 fs-4" @click="openModal"
-                                    :disabled="!isValidAmount(exchangeAmount)" variant="gradient">
+                                <button
+                                    type="submit"
+                                    class="btn btn-primary w-100 fs-4"
+                                    @click="openModal"
+                                    :disabled="!isValidAmount(exchangeAmount)"
+                                    variant="gradient"
+                                >
                                     {{ t('myAccount--wonE-button-exchange') }}
                                 </button>
                             </div>
 
-                            <div v-if="activeTab === TRANSACTION_TYPES.REFUND" class="d-grid gap-4">
+                            <div
+                                v-if="activeTab === TRANSACTION_TYPES.REFUND"
+                                class="d-grid gap-4"
+                            >
                                 <div>
                                     <label class="d-flex align-items-center">
                                         <div class="icon-container me-2">
-                                            <img v-if="songCountryCode" :src="flagIcon(songCountryCode)" alt="icon"
-                                                class="flag-icon-img" />
+                                            <img
+                                                v-if="songCountryCode"
+                                                :src="flagIcon(songCountryCode)"
+                                                alt="icon"
+                                                class="flag-icon-img"
+                                            />
                                         </div>
                                         <div class="input-label-text">
                                             {{
@@ -858,16 +966,24 @@ watchEffect(() => {
                                             }}
                                         </div>
                                     </label>
-                                    <ArgonAmountInput v-model="refundAmount"
+                                    <ArgonAmountInput
+                                        v-model="refundAmount"
                                         :placeholder="`${$t('transaction_types_refund')} ${$t('myAccount--input-placeholder')}`"
-                                        :unit="customerunit" :selectedAsset="selectedAsset"
-                                        :songEMoneyBalance="songEMoneyBalance" :activeTab="activeTab" />
+                                        :unit="customerunit"
+                                        :selectedAsset="selectedAsset"
+                                        :songEMoneyBalance="songEMoneyBalance"
+                                        :activeTab="activeTab"
+                                    />
                                 </div>
                                 <div>
                                     <label class="d-flex align-items-center">
                                         <div class="icon-container me-2">
-                                            <img v-if="songCountryCode" :src="flagIcon(songCountryCode)" alt="icon"
-                                                class="flag-icon-img" />
+                                            <img
+                                                v-if="songCountryCode"
+                                                :src="flagIcon(songCountryCode)"
+                                                alt="icon"
+                                                class="flag-icon-img"
+                                            />
                                         </div>
                                         <div class="input-label-text">
                                             {{ $t('myAccount--songE-title') }}
@@ -877,14 +993,23 @@ watchEffect(() => {
                                         {{
                                             t('myAccount-input-expectedAmount')
                                         }}:
-                                        <span class="balance-text" :class="{
-                                            'text-blue':
-                                                refundAmount !== '',
-                                        }">{{ processAfterBalance }}</span>{{ customerunit }}
+                                        <span
+                                            class="balance-text"
+                                            :class="{
+                                                'text-blue':
+                                                    refundAmount !== '',
+                                            }"
+                                            >{{ processAfterBalance }}</span
+                                        >{{ customerunit }}
                                     </div>
                                 </div>
-                                <button type="submit" class="btn btn-primary w-100 fs-4" @click="openModal"
-                                    :disabled="!isValidAmount(refundAmount)" variant="gradient">
+                                <button
+                                    type="submit"
+                                    class="btn btn-primary w-100 fs-4"
+                                    @click="openModal"
+                                    :disabled="!isValidAmount(refundAmount)"
+                                    variant="gradient"
+                                >
                                     {{ t('myAccount--songE-button-vacate') }}
                                 </button>
                             </div>
@@ -896,10 +1021,15 @@ watchEffect(() => {
                 <div class="card-body" v-if="selectedAsset === WONE">
                     <div class="d-flex justify-content-center">
                         <div class="d-flex flex-column tab-content-width">
-                            <div v-if="activeTab === TRANSACTION_TYPES.TRANSFER" class="d-grid gap-4">
+                            <div
+                                v-if="activeTab === TRANSACTION_TYPES.TRANSFER"
+                                class="d-grid gap-4"
+                            >
                                 <div>
                                     <div class="mb-3">
-                                        <div class="d-flex align-items-center mb-1">
+                                        <div
+                                            class="d-flex align-items-center mb-1"
+                                        >
                                             <div class="input-label-text">
                                                 {{
                                                     t(
@@ -908,29 +1038,51 @@ watchEffect(() => {
                                                 }}
                                             </div>
                                             <!-- 회원/비회원 표시 -->
-                                            <small v-if="isMember === 'member'">{{
-                                                t(
-                                                    'myAccount-transferto-member'
-                                                )
-                                            }}</small>
-                                            <small v-else-if="
-                                                isMember === 'no-member'
-                                            ">{{
+                                            <small
+                                                v-if="isMember === 'member'"
+                                                >{{
+                                                    t(
+                                                        'myAccount-transferto-member'
+                                                    )
+                                                }}</small
+                                            >
+                                            <small
+                                                v-else-if="
+                                                    isMember === 'no-member'
+                                                "
+                                                >{{
                                                     t(
                                                         'myAccount-transferto-noMember'
                                                     )
-                                                }}</small>
+                                                }}</small
+                                            >
                                         </div>
-                                        <div class="d-flex justify-content-between align-items-center gap-3">
-                                            <ArgonInput v-model="sendEmail" :placeholder="t(
-                                                'myAccount--wonE-enterEmail'
-                                            )
-                                                " @input="onInput" variant="gradient" :class="{
+                                        <div
+                                            class="d-flex justify-content-between align-items-center gap-3"
+                                        >
+                                            <ArgonInput
+                                                v-model="sendEmail"
+                                                :placeholder="
+                                                    t(
+                                                        'myAccount--wonE-enterEmail'
+                                                    )
+                                                "
+                                                @input="onInput"
+                                                variant="gradient"
+                                                :class="{
                                                     'is-invalid': errorMessage,
-                                                }" :error="errorMessage !== ''" :success="success"
-                                                class="w-100 mb-0" />
-                                            <button class="btn btn-secondary mb-0 text-nowrap" @click="emailConfirm"
-                                                size="sm" variant="outline" :disabled="sendEmail === ''">
+                                                }"
+                                                :error="errorMessage !== ''"
+                                                :success="success"
+                                                class="w-100 mb-0"
+                                            />
+                                            <button
+                                                class="btn btn-secondary mb-0 text-nowrap"
+                                                @click="emailConfirm"
+                                                size="sm"
+                                                variant="outline"
+                                                :disabled="sendEmail === ''"
+                                            >
                                                 {{
                                                     $t(
                                                         'myAccount--wonE-confirmEmail'
@@ -939,7 +1091,10 @@ watchEffect(() => {
                                             </button>
                                         </div>
 
-                                        <div v-if="errorMessage !== ''" class="invalid-feedback text-xs">
+                                        <div
+                                            v-if="errorMessage !== ''"
+                                            class="invalid-feedback text-xs"
+                                        >
                                             {{ errorMessage }}
                                         </div>
                                     </div>
@@ -951,14 +1106,24 @@ watchEffect(() => {
                                                 )
                                             }}
                                         </div>
-                                        <ArgonInput v-model="sendEmailConfirm" :placeholder="t(
-                                            'myAccount-transferto-checkEmailAgain'
-                                        )
-                                            " :class="{
+                                        <ArgonInput
+                                            v-model="sendEmailConfirm"
+                                            :placeholder="
+                                                t(
+                                                    'myAccount-transferto-checkEmailAgain'
+                                                )
+                                            "
+                                            :class="{
                                                 'is-invalid': errorMessageCheck,
-                                            }" :error="errorMessageCheck !== ''" :success="checkSucess"
-                                            @input="onInputCheck" />
-                                        <div v-if="errorMessageCheck" class="invalid-feedback text-xs mb-1">
+                                            }"
+                                            :error="errorMessageCheck !== ''"
+                                            :success="checkSucess"
+                                            @input="onInputCheck"
+                                        />
+                                        <div
+                                            v-if="errorMessageCheck"
+                                            class="invalid-feedback text-xs mb-1"
+                                        >
                                             {{ errorMessageCheck }}
                                         </div>
                                     </div>
@@ -967,23 +1132,41 @@ watchEffect(() => {
                                 <div>
                                     <label class="d-flex align-items-center">
                                         <div class="icon-container me-2">
-                                            <img :src="flagIcon(wonCoutryCode)" alt="icon" class="flag-icon-img" />
+                                            <img
+                                                :src="flagIcon(wonCoutryCode)"
+                                                alt="icon"
+                                                class="flag-icon-img"
+                                            />
                                         </div>
-                                        <i class="fa-solid fa-arrow-right-arrow-left me-2 fs-4"></i>
+                                        <i
+                                            class="fa-solid fa-arrow-right-arrow-left me-2 fs-4"
+                                        ></i>
                                         <div class="icon-container me-2">
-                                            <img :src="flagIcon(wonCoutryCode)" alt="icon" class="flag-icon-img" />
+                                            <img
+                                                :src="flagIcon(wonCoutryCode)"
+                                                alt="icon"
+                                                class="flag-icon-img"
+                                            />
                                         </div>
                                     </label>
-                                    <ArgonAmountInput v-model="transferAmount"
+                                    <ArgonAmountInput
+                                        v-model="transferAmount"
                                         :placeholder="`${$t('transaction_types_transfer')} ${$t('myAccount--input-placeholder')}`"
-                                        unit="KRW" :selectedAsset="selectedAsset" :wonEMoneyBalance="wonEMoneyBalance"
-                                        :activeTab="activeTab" />
+                                        unit="KRW"
+                                        :selectedAsset="selectedAsset"
+                                        :wonEMoneyBalance="wonEMoneyBalance"
+                                        :activeTab="activeTab"
+                                    />
                                 </div>
 
                                 <div>
                                     <label class="d-flex align-items-center">
                                         <div class="icon-container me-2">
-                                            <img :src="flagIcon(wonCoutryCode)" alt="icon" class="flag-icon-img" />
+                                            <img
+                                                :src="flagIcon(wonCoutryCode)"
+                                                alt="icon"
+                                                class="flag-icon-img"
+                                            />
                                         </div>
                                         <div class="input-label-text">
                                             {{ $t('myAccount--wonE-title') }}
@@ -993,79 +1176,127 @@ watchEffect(() => {
                                         {{
                                             t('myAccount-input-expectedAmount')
                                         }}:
-                                        <span class="balance-text" :class="{
-                                            'text-blue':
-                                                transferAmount !== '',
-                                        }">{{ processAfterWonBalance }}</span>{{ wonUnit }}
+                                        <span
+                                            class="balance-text"
+                                            :class="{
+                                                'text-blue':
+                                                    transferAmount !== '',
+                                            }"
+                                            >{{ processAfterWonBalance }}</span
+                                        >{{ wonUnit }}
                                     </div>
                                 </div>
-                                <button type="submit" class="btn btn-primary w-100 fs-4" @click="openModal" :disabled="!isValidAmount(transferAmount) ||
-                                    errorMessage !== '' ||
-                                    errorMessageCheck !== ''
-                                    " variant="gradient">
+                                <button
+                                    type="submit"
+                                    class="btn btn-primary w-100 fs-4"
+                                    @click="openModal"
+                                    :disabled="
+                                        !isValidAmount(transferAmount) ||
+                                        errorMessage !== '' ||
+                                        errorMessageCheck !== ''
+                                    "
+                                    variant="gradient"
+                                >
                                     {{ $t('myAccount--wonE-button-transfer') }}
                                 </button>
                             </div>
 
-                            <div v-if="
-                                activeTab === TRANSACTION_TYPES.RE_EXCHANGE
-                            " class="d-grid gap-4">
+                            <div
+                                v-if="
+                                    activeTab === TRANSACTION_TYPES.RE_EXCHANGE
+                                "
+                                class="d-grid gap-4"
+                            >
                                 <div>
                                     <label class="d-flex align-items-center">
                                         <div class="icon-container me-2">
-                                            <img v-if="songCountryCode" :src="flagIcon(songCountryCode)" alt="icon"
-                                                class="flag-icon-img" />
+                                            <img
+                                                v-if="songCountryCode"
+                                                :src="flagIcon(songCountryCode)"
+                                                alt="icon"
+                                                class="flag-icon-img"
+                                            />
                                         </div>
                                         <div class="input-label-text">
                                             {{ $t('myAccount--songE-title') }}
                                         </div>
                                     </label>
 
-                                    <ExchangeAmountInput v-model="receiveAmount"
+                                    <ExchangeAmountInput
+                                        v-model="receiveAmount"
                                         :placeholder="`${$t('transaction_types_exchange')} ${$t('myAccount--input-placeholder')}`"
-                                        :unit="customerunit" :selectedAsset="selectedAsset" :wonEMoneyBalance="wonEMoneyBalance_FromKRW
-                                            " :activeTab="activeTab" :errorAmountMessage="errorAmountMessage"
+                                        :unit="customerunit"
+                                        :selectedAsset="selectedAsset"
+                                        :wonEMoneyBalance="
+                                            wonEMoneyBalance_FromKRW
+                                        "
+                                        :activeTab="activeTab"
+                                        :errorAmountMessage="errorAmountMessage"
                                         @update:errorAmountMessage="
                                             errorAmountMessage = $event
-                                            " @focus="onfocus('receive')" @blur="onblur" />
+                                        "
+                                        @focus="onfocus('receive')"
+                                        @blur="onblur"
+                                    />
                                 </div>
                                 <div>
                                     <label class="d-flex align-items-center">
                                         <div class="icon-container me-2">
-                                            <img :src="flagIcon(wonCoutryCode)" alt="icon" class="flag-icon-img" />
+                                            <img
+                                                :src="flagIcon(wonCoutryCode)"
+                                                alt="icon"
+                                                class="flag-icon-img"
+                                            />
                                         </div>
                                         <div class="input-label-text">
                                             WON-E
                                         </div>
                                     </label>
                                     <div style="height: 80px">
-                                        <ExchangeAmountInput v-model="reExchangeAmount" :unit="wonUnit"
-                                            :selectedAsset="selectedAsset" :wonEMoneyBalance="wonEMoneyBalance"
+                                        <ExchangeAmountInput
+                                            v-model="reExchangeAmount"
+                                            :unit="wonUnit"
+                                            :selectedAsset="selectedAsset"
+                                            :wonEMoneyBalance="wonEMoneyBalance"
                                             :activeTab="activeTab"
                                             :placeholder="`${$t('transaction_types_exchange')} ${$t('myAccount--input-placeholder')}`"
-                                            :errorMessage="errorAmountMessage" @update:errorAmountMessage="
+                                            :errorMessage="errorAmountMessage"
+                                            @update:errorAmountMessage="
                                                 errorAmountMessage = $event
-                                                " @focus="onfocus('reExchange')" @blur="onblur('reExchange')" />
+                                            "
+                                            @focus="onfocus('reExchange')"
+                                            @blur="onblur('reExchange')"
+                                        />
                                     </div>
 
-                                    <small>{{
-                                        t(
-                                            'myAccount--wonE-currentExchangeRate'
-                                        )
-                                    }}: 1 {{ customerunit }} =
+                                    <small
+                                        >{{
+                                            t(
+                                                'myAccount--wonE-currentExchangeRate'
+                                            )
+                                        }}: 1 {{ customerunit }} =
                                         {{ currentToKrw }}
                                         {{ wonUnit }}
                                     </small>
                                 </div>
                                 <div>
                                     {{ t('myAccount-input-expectedAmount') }}:
-                                    <span class="balance-text" :class="{
-                                        'text-blue':
-                                            reExchangeAmount !== '',
-                                    }">{{ processAfterWonBalance }}</span>{{ wonUnit }}
+                                    <span
+                                        class="balance-text"
+                                        :class="{
+                                            'text-blue':
+                                                reExchangeAmount !== '',
+                                        }"
+                                        >{{ processAfterWonBalance }}</span
+                                    >{{ wonUnit }}
                                 </div>
-                                <button type="submit" class="btn btn-primary w-100 fs-4" @click="openModal"
-                                    :disabled="!isValidAmount(exchangeAmount)" variant="gradient">
+                                <button
+                                    type="submit"
+                                    class="btn btn-primary w-100 fs-4"
+                                    @click="openModal"
+                                    :disabled="!isValidAmount(exchangeAmount)"
+                                    variant="gradient"
+                                >
                                     {{ t('myAccount--songE-button-exchange') }}
                                 </button>
                             </div>
@@ -1085,11 +1316,17 @@ watchEffect(() => {
                         <!-- Exchange Rate Graph Section -->
                         <div class="col-lg-7 col-md-12 my-3">
                             <div class="chart-container">
-                                <ExchangeRateChart chartId="toexchangeChart" period="1m" chartType="to" />
+                                <ExchangeRateChart
+                                    chartId="toexchangeChart"
+                                    period="1m"
+                                    chartType="to"
+                                />
                             </div>
                         </div>
 
-                        <div class="col-lg-5 col-md-12 d-flex flex-column justify-content-center my-3">
+                        <div
+                            class="col-lg-5 col-md-12 d-flex flex-column justify-content-center my-3"
+                        >
                             <div class="mb-3">
                                 <h6>
                                     {{ customerunit }}
@@ -1098,17 +1335,33 @@ watchEffect(() => {
                                 </h6>
                                 <div class="d-flex align-items-center">
                                     <div class="position-relative flex-grow-1">
-                                        <input type="number" class="form-control" v-model.number="usdAmount"
-                                            @input="convertToKrw" aria-label="Amount in USD" />
-                                        <img src="@/assets/img/icons/flags/US.png" alt="USA Flag"
-                                            class="input-flag-icon" />
+                                        <input
+                                            type="number"
+                                            class="form-control"
+                                            v-model.number="usdAmount"
+                                            @input="convertToKrw"
+                                            aria-label="Amount in USD"
+                                        />
+                                        <img
+                                            src="@/assets/img/icons/flags/US.png"
+                                            alt="USA Flag"
+                                            class="input-flag-icon"
+                                        />
                                     </div>
                                     <span class="mx-3">=</span>
                                     <div class="position-relative flex-grow-1">
-                                        <input type="text" class="form-control" :value="krwAmount" readonly
-                                            aria-label="Amount in KRW" />
-                                        <img src="@/assets/img/icons/flags/KR.png" alt="KRW Flag"
-                                            class="input-flag-icon" />
+                                        <input
+                                            type="text"
+                                            class="form-control"
+                                            :value="krwAmount"
+                                            readonly
+                                            aria-label="Amount in KRW"
+                                        />
+                                        <img
+                                            src="@/assets/img/icons/flags/KR.png"
+                                            alt="KRW Flag"
+                                            class="input-flag-icon"
+                                        />
                                     </div>
                                 </div>
                             </div>
@@ -1120,16 +1373,31 @@ watchEffect(() => {
                                 </h6>
                                 <div class="d-flex align-items-center">
                                     <div class="position-relative flex-grow-1">
-                                        <input type="number" class="form-control" v-model.number="krwAmountReverse"
-                                            @input="convertToUsd" />
-                                        <img src="@/assets/img/icons/flags/KR.png" alt="KRW Flag"
-                                            class="input-flag-icon" />
+                                        <input
+                                            type="number"
+                                            class="form-control"
+                                            v-model.number="krwAmountReverse"
+                                            @input="convertToUsd"
+                                        />
+                                        <img
+                                            src="@/assets/img/icons/flags/KR.png"
+                                            alt="KRW Flag"
+                                            class="input-flag-icon"
+                                        />
                                     </div>
                                     <span class="mx-3">=</span>
                                     <div class="position-relative flex-grow-1">
-                                        <input type="text" class="form-control" :value="usdAmountReverse" readonly />
-                                        <img src="@/assets/img/icons/flags/US.png" alt="USA Flag"
-                                            class="input-flag-icon" />
+                                        <input
+                                            type="text"
+                                            class="form-control"
+                                            :value="usdAmountReverse"
+                                            readonly
+                                        />
+                                        <img
+                                            src="@/assets/img/icons/flags/US.png"
+                                            alt="USA Flag"
+                                            class="input-flag-icon"
+                                        />
                                     </div>
                                 </div>
                             </div>
@@ -1143,7 +1411,12 @@ watchEffect(() => {
 
         <div id="set-alert" class="d-grid gap-5">
             <div>
-                <span @click="$router.push('/exchange-rate')" class="alert-text me-3 mb-0" role="button" tabindex="0">
+                <span
+                    @click="$router.push('/exchange-rate')"
+                    class="alert-text me-3 mb-0"
+                    role="button"
+                    tabindex="0"
+                >
                     {{ $t('myAccount--header-autoExchange') }}
                     <i class="fa-solid fa-angle-right alert-icon"></i>
                 </span>
@@ -1154,11 +1427,18 @@ watchEffect(() => {
                         <div>
                             <label for="autoCondition" class="form-label">{{
                                 $t('myAccount--autoExchange-title')
-                                }}</label>
-                            <ul v-if="autoConditions.length > 0" class="list-group">
+                            }}</label>
+                            <ul
+                                v-if="autoConditions.length > 0"
+                                class="list-group"
+                            >
                                 <li class="list-group-item">
-                                    <div class="d-flex justify-content-between align-items-center">
-                                        <div class="d-flex gap-3 flex-column-min">
+                                    <div
+                                        class="d-flex justify-content-between align-items-center"
+                                    >
+                                        <div
+                                            class="d-flex gap-3 flex-column-min"
+                                        >
                                             <div>
                                                 {{
                                                     t(
@@ -1202,12 +1482,17 @@ watchEffect(() => {
                                                 }}
                                             </div>
                                         </div>
-                                        <div class="cursor-pointer" @click="
-                                            confirmDelete(
-                                                autoConditions[0]?.resNo
-                                            )
-                                            ">
-                                            <i class="ni ni-fat-remove text-danger"></i>
+                                        <div
+                                            class="cursor-pointer"
+                                            @click="
+                                                confirmDelete(
+                                                    autoConditions[0]?.resNo
+                                                )
+                                            "
+                                        >
+                                            <i
+                                                class="ni ni-fat-remove text-danger"
+                                            ></i>
                                         </div>
                                         <!-- <button class="btn btn-sm btn-danger mb-0"
                     @click="confirmDelete(autoConditions[0]?.resNo)">삭제</button> -->
@@ -1226,11 +1511,22 @@ watchEffect(() => {
                         <div>
                             <label for="alertConditions" class="form-label">{{
                                 t('myAccount--exchangeRate-settingHistory')
-                                }}</label>
-                            <ul v-if="alertConditions.length > 0" class="list-group">
-                                <li v-for="condition in alertConditions" :key="condition.resNo" class="list-group-item">
-                                    <div class="d-flex justify-content-between align-items-center">
-                                        <div class="d-flex gap-3 flex-column-min">
+                            }}</label>
+                            <ul
+                                v-if="alertConditions.length > 0"
+                                class="list-group"
+                            >
+                                <li
+                                    v-for="condition in alertConditions"
+                                    :key="condition.resNo"
+                                    class="list-group-item"
+                                >
+                                    <div
+                                        class="d-flex justify-content-between align-items-center"
+                                    >
+                                        <div
+                                            class="d-flex gap-3 flex-column-min"
+                                        >
                                             <div>
                                                 {{
                                                     t(
@@ -1254,10 +1550,15 @@ watchEffect(() => {
                                                 {{ condition.targetExchange }}
                                             </div>
                                         </div>
-                                        <div class="cursor-pointer" @click="
-                                            confirmDelete(condition.resNo)
-                                            ">
-                                            <i class="ni ni-fat-remove text-danger"></i>
+                                        <div
+                                            class="cursor-pointer"
+                                            @click="
+                                                confirmDelete(condition.resNo)
+                                            "
+                                        >
+                                            <i
+                                                class="ni ni-fat-remove text-danger"
+                                            ></i>
                                         </div>
                                         <!-- <button class="btn btn-outline-danger mb-0" @click="confirmDelete(condition.resNo)">
                     <i class="ni ni-fat-remove text-danger"></i>
@@ -1265,7 +1566,10 @@ watchEffect(() => {
                                     </div>
                                 </li>
                             </ul>
-                            <p v-if="alertConditions.length === 0" style="margin-left: 0.5rem">
+                            <p
+                                v-if="alertConditions.length === 0"
+                                style="margin-left: 0.5rem"
+                            >
                                 {{
                                     t(
                                         'myAccount--exchangeRate-noReservationAlert'

@@ -30,6 +30,7 @@ import javax.sql.DataSource;
         "com.sepay.backend.exchange.mapper",
         "com.sepay.backend.admin.mapper",
         "com.sepay.backend.eventSchedule.mapper",
+        "com.sepay.backend.reservation.mapper",
 })
 @Slf4j
 @EnableTransactionManagement

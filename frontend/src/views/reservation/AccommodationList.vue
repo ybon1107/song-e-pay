@@ -16,7 +16,11 @@ const props = defineProps({
     description: {
         type: String,
         required: true
-    }
+    },
+    thumbnail: {
+        type: String,
+        required: true
+    },
 });
 
 const goToAccommodationDetail = () => {
@@ -26,8 +30,7 @@ const goToAccommodationDetail = () => {
 
 <template>
     <div class="card">
-        <!-- <img :src="imageUrl" class="card-img-top" :alt="name"> -->
-        <img src="https://img.freepik.com/premium-vector/house-flat-icon-houses-vector-illustration-little-house-colourful-house-flat-houses-illustration_734654-1327.jpg" class="card-img-top" :alt="name">
+        <img :src="thumbnail" class="card-img-top" :alt="name">
         <div class="card-body" @click="goToAccommodationDetail">
             <div class="card-title">
                 <h5>{{ name }}</h5>

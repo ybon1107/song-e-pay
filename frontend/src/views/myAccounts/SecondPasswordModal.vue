@@ -1,14 +1,26 @@
 <template>
-  <div class="modal-body">
-    <Modal :isVisible="showModal" :showFooter="false" :title="$t('myAccount--SecondPassword--modal-header')"
-      @close="closeModal" v-if="showPasswordInput">
-      <p class="warning-text">{{ $t('myAccount--SecondPassword--modal-header-title') }}</p>
-      <h3 class="password-title">{{ $t('myAccount--SecondPassword--modal-warning') }}</h3>
-      <!-- 비밀번호 도트 -->
-      <div class="password-dots">
-        <span v-for="(digit, index) in 6" :key="index"
-          :class="{ dot: true, filled: password.length >= index + 1 }"></span>
-      </div>
+    <div class="modal-body">
+        <Modal
+            :isVisible="showModal"
+            :showFooter="false"
+            :title="$t('myAccount--SecondPassword--modal-header')"
+            @close="closeModal"
+            v-if="showPasswordInput"
+        >
+            <p class="warning-text">
+                {{ $t('myAccount--SecondPassword--modal-header-title') }}
+            </p>
+            <h3 class="password-title">
+                {{ $t('myAccount--SecondPassword--modal-warning') }}
+            </h3>
+            <!-- 비밀번호 도트 -->
+            <div class="password-dots">
+                <span
+                    v-for="(digit, index) in 6"
+                    :key="index"
+                    :class="{ dot: true, filled: password.length >= index + 1 }"
+                ></span>
+            </div>
 
             <!-- 숫자 키패드 -->
             <div class="keypad">
@@ -40,7 +52,7 @@ const auth = useAuthStore();
 const userId = computed(() => auth.user.userId);
 
 //i18n
-import { useI18n } from "vue-i18n";
+import { useI18n } from 'vue-i18n';
 const { t } = useI18n();
 
 // 이벤트 설정
@@ -96,26 +108,26 @@ const verifyPassword = async (userId) => {
         secPwd: password.value,
     };
 
-  try {
-    const response = await settingApi.submitSecPwd(formData);
-    if (response.data === true) {
-      emit('password-verified');
-      closeModal();
-    } else {
-      showPasswordInput.value = false;
-      Swal.fire({
-        title: t('myAccount--SecondPassword--modal-enterAgain'),
-        text: t('myAccount--SecondPassword--modal-wrongPassword'),
-        icon: 'error',
-      }).then(() => {
-        password.value = '';
-        showPasswordInput.value = true;
-      });
-      throw new Error();
+    try {
+        const response = await settingApi.submitSecPwd(formData);
+        if (response.data === true) {
+            emit('password-verified');
+            closeModal();
+        } else {
+            showPasswordInput.value = false;
+            Swal.fire({
+                title: t('myAccount--SecondPassword--modal-enterAgain'),
+                text: t('myAccount--SecondPassword--modal-wrongPassword'),
+                icon: 'error',
+            }).then(() => {
+                password.value = '';
+                showPasswordInput.value = true;
+            });
+            throw new Error();
+        }
+    } catch (error) {
+        console.error('비밀번호 검증 중 오류 발생:', error);
     }
-  } catch (error) {
-    console.error('비밀번호 검증 중 오류 발생:', error);
-  }
 };
 
 const closeModal = () => {
@@ -169,21 +181,21 @@ const closeModal = () => {
 }
 
 .keypad button {
-  width: 70px;
-  height: 70px;
-  font-size: 24px;
-  font-weight: bold;
-  background-color: white;
-  border: 1px solid #e0e0e0;
-  border-radius: 50%;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: 0 auto;
-  /* 버튼을 그리드 셀 내에서 가운데 정렬 */
+    width: 70px;
+    height: 70px;
+    font-size: 24px;
+    font-weight: bold;
+    background-color: white;
+    border: 1px solid #e0e0e0;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
+    /* 버튼을 그리드 셀 내에서 가운데 정렬 */
 }
 
 .keypad button:hover {
@@ -203,16 +215,16 @@ const closeModal = () => {
 }
 
 .warning-text {
-  margin-bottom: 5px;
-  /* 경고 텍스트 아래 간격 줄임 */
-  color: #ff6b6b;
-  /* 경고 텍스트 색상 변경 (선택사항) */
+    margin-bottom: 5px;
+    /* 경고 텍스트 아래 간격 줄임 */
+    color: #ff6b6b;
+    /* 경고 텍스트 색상 변경 (선택사항) */
 }
 
 .password-title {
-  margin-top: 0;
-  /* 제목 위 간격 제거 */
-  margin-bottom: 20px;
-  /* 제목 아래 간격 추가 */
+    margin-top: 0;
+    /* 제목 위 간격 제거 */
+    margin-bottom: 20px;
+    /* 제목 아래 간격 추가 */
 }
 </style>
