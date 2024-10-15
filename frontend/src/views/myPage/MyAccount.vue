@@ -479,6 +479,11 @@ function handleSongInput(event) {
     reSongAmount.value = newValue;
 }
 
+const onSlideChange = (swiper) => {
+    const asset = swiper.activeIndex === 0 ? SONGE : WONE;
+    selectAsset(asset);
+};
+
 watchEffect(() => {
     if (user.value) {
         songCountryCode.value = user.value.countryCode;
@@ -488,27 +493,72 @@ watchEffect(() => {
     }
 });
 
+// Import Swiper Vue.js components
+import { Swiper, SwiperSlide } from 'swiper/vue';
+
+// Import Swiper styles
+import 'swiper/css';
+import 'swiper/css/effect-coverflow';
+import 'swiper/css/pagination';
+
+// import required modules
+import { EffectCoverflow, Pagination } from 'swiper/modules';
+
+// Define the modules to be used
+const modules = [EffectCoverflow, Pagination];
+
 </script>
 <template>
     <SecondPasswordModal v-if="showModal" @close="closeModal" @password-verified="handlePasswordVerified" />
 
+
     <h3 class="mb-0">My account</h3>
+
+    <swiper
+    :effect="'coverflow'"
+    :grabCursor="true"
+    :centeredSlides="true"
+    :slidesPerView="'auto'"
+    :coverflowEffect="{
+      rotate: 50,
+      stretch: 0,
+      depth: 100,
+      modifier: 1,
+      slideShadows: true,
+    }"
+    :pagination="true"
+    :modules="modules"
+    class="mySwiper"
+    @slideChange="onSlideChange"
+  >
+  <swiper-slide>
+      <accounts-card
+        ref="songEMoneyCardRef"
+        :assetType="SONGE"
+        :class="{ selected: selectedAsset === SONGE }"
+      />
+    </swiper-slide>
+    <swiper-slide>
+      <accounts-card
+        ref="wonEMoneyCardRef"
+        :assetType="WONE"
+        :class="{ selected: selectedAsset === WONE }"
+      />
+    </swiper-slide>
+  </swiper>
+
     <!-- <div class="custom-spacer"></div> -->
-    <div class="row justify-content-center gap-3">
-        <!-- USD Wallet -->
+    <!-- <div class="row justify-content-center gap-3">
         <div class="col-lg-4 col-md-6 max-margin-bottom d-flex justify-content-center">
-            <!-- Song-E Money 카드 -->
             <accounts-card ref="songEMoneyCardRef" :assetType="SONGE" @click="selectAsset(SONGE)"
                 :class="{ selected: selectedAsset === SONGE }" />
         </div>
 
-        <!-- KRW Wallet -->
         <div class="col-lg-4 col-md-6 d-flex justify-content-center">
-            <!-- Won-E Money 카드 -->
             <accounts-card ref="wonEMoneyCardRef" :assetType="WONE" @click="selectAsset(WONE)"
                 :class="{ selected: selectedAsset === WONE }" />
         </div>
-    </div>
+    </div> -->
     <div class="card">
         <!-- Song-E Money 선택 시 -->
         <template v-if="selectedAsset === SONGE">
@@ -815,5 +865,23 @@ watchEffect(() => {
 .balance-text {
     font-size: 1.75rem;
     font-weight: 600;
+}
+
+.swiper {
+    width: 100%;
+    /* padding-top: 50px; */
+    /* padding-bottom: 50px; */
+}
+
+.swiper-slide {
+    background-position: center;
+    background-size: cover;
+    width: auto;
+    height: auto;
+}
+
+.swiper-slide img {
+    display: block;
+    width: 100%;
 }
 </style>
