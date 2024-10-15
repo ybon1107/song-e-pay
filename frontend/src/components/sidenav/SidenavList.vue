@@ -18,22 +18,6 @@ const getRoute = () => {
 <template>
   <div class="collapse navbar-collapse w-auto h-auto h-100" id="sidenav-collapse-main">
     <ul class="navbar-nav">
-      <!-- <li class="nav-item">
-        <sidenav-item to="/home" :class="getRoute() === 'home' ? 'active' : ''" :navText="isRTL ? 'لوحة القيادة' : '홈'">
-          <template v-slot:icon>
-            <i class="ni ni-tv-2 text-dark text-sm opacity-10"></i>
-          </template>
-</sidenav-item>
-</li> -->
-
-      <!-- <li class="nav-item">
-        <sidenav-item to="/my-accounts" :class="getRoute() === 'my-accounts' ? 'active' : ''"
-          :navText="isRTL ? 'الجداول' : 'sidenavList--myPage'">
-          <template v-slot:icon>
-            <i class="ni ni-money-coins text-dark text-sm opacity-10"></i>
-          </template>
-        </sidenav-item>
-      </li> -->
       <li class="nav-item">
         <sidenav-item to="/my-page" :class="getRoute() === 'my-page' ? 'active' : ''"
           :navText="isRTL ? 'الجداول' : 'sidenavList--myPage'">
@@ -79,7 +63,6 @@ const getRoute = () => {
         </sidenav-item>
       </li>
 
-
       <li class="nav-item">
         <sidenav-item to="/reservation" :class="getRoute() === 'reservation' ? 'active' : ''"
           :navText="isRTL ? 'الواقع الافتراضي' : 'sidenavList--reservation'">
@@ -92,15 +75,6 @@ const getRoute = () => {
       <li class="nav-item">
         <sidenav-item to="/schedule" :class="getRoute() === 'schedule' ? 'active' : ''"
           :navText="isRTL ? 'الواقع الافتراضي' : 'sidenavList--schedule'">
-          <template v-slot:icon>
-            <i class="ni ni-calendar-grid-58 text-dark text-sm opacity-10"></i>
-          </template>
-        </sidenav-item>
-      </li>
-
-      <li class="nav-item">
-        <sidenav-item to="/reservation" :class="getRoute() === 'reservation' ? 'active' : ''"
-          :navText="isRTL ? 'الواقع الافتراضي' : 'sidenavList--reservation'">
           <template v-slot:icon>
             <i class="ni ni-calendar-grid-58 text-dark text-sm opacity-10"></i>
           </template>
