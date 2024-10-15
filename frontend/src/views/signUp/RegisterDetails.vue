@@ -10,6 +10,7 @@ import flatPickr from "vue-flatpickr-component";
 import "flatpickr/dist/flatpickr.css";
 import { parsePhoneNumberFromString } from "libphonenumber-js";
 import { useI18n } from "vue-i18n";
+import Swal from "sweetalert2";
 
 const { t } = useI18n();
 
@@ -103,16 +104,36 @@ const sendEmailCode = async () => {
         }
       );
 
-      // 이메일 코드 전송 성공 시 타이머 시작
+      console.log("Response data:", response);
+
       if (response.data) {
-        startTimer();
         // 인증 코드 전송 성공
-        alert("Verification code sent successfully.");
+        console.log("Verification code sent successfully.");
+        Swal.fire({
+          title: t("signUp--alertTitle-codeSendSuccess"),
+          // text: "",
+          icon: "success",
+          confirmButtonText: "OK",
+        }).then(() => {
+          startTimer(); // 이메일 코드 전송 성공 시 타이머 시작
+        });
       } else {
         // 이미 등록된 이메일일 경우
-        alert("Already registered email. Please use another email.");
+        console.log("Already registered email. Please use another email.");
+        Swal.fire({
+          title: t("signUp--alertTitle-alreadyRegistered"),
+          text: t("signUp--alertText-alreadyRegistered"),
+          icon: "warning",
+          confirmButtonText: "Close",
+        });
       }
     } catch (error) {
+      Swal.fire({
+        title: t("signUp--alertTitle-codeSendFailed"),
+        // text: "Please use another email.",
+        icon: "error",
+        confirmButtonText: "Close",
+      });
       console.error("Email code sending error:", error);
       if (error.response) {
         // 서버가 응답했지만 상태 코드가 2xx 범위에 있지 않음
@@ -161,10 +182,22 @@ const verifyCode = async () => {
       if (response.data) {
         // 인증 코드 검증 성공
         isVerified.value = true;
-        alert("Email verification successful.");
+        console.log("Email verification successful.");
+        Swal.fire({
+          title: t("signUp--alertTitle-verifySuccess"),
+          // text: "",
+          icon: "success",
+          confirmButtonText: "OK",
+        });
       } else {
         // 인증 코드 검증 실패
-        alert("Invalid verification code. Please try again.");
+        console.log("Invalid verification code. Please try again.");
+        Swal.fire({
+          title: t("signUp--alertTitle-verifyFailed"),
+          text: t("signUp--alertText-tryAgain"),
+          icon: "error",
+          confirmButtonText: "Close",
+        });
       }
     } catch (error) {
       console.error("Email code verification error:", error);
@@ -270,7 +303,13 @@ const handleSubmit = async () => {
     phoneNumberError.value
   ) {
     // 필수 입력값이 비어있을 경우
-    alert("Please fill out all required fields.");
+    console.log("Please fill out all required fields.");
+    Swal.fire({
+      title: t("signUp--alertTitle-submitFailed"),
+      // text: "",
+      icon: "error",
+      confirmButtonText: "Close",
+    });
     return;
   }
 
@@ -307,12 +346,24 @@ const handleSubmit = async () => {
         router.push("/register/success");
       } else {
         // 등록 실패
-        alert("Registration failed. Please try again.");
+        console.log("Registration failed. Please try again.");
+        Swal.fire({
+          title: t("signUp--alertTitle-registerFailed"),
+          text: t("signUp--alertText-tryAgain"),
+          icon: "error",
+          confirmButtonText: "Close",
+        });
       }
     } catch (error) {
       console.error("Registration error:", error);
       // 등록 중 에러 발생
-      alert("An error occurred during registration. Please try again.");
+      console.log("An error occurred during registration. Please try again.");
+      Swal.fire({
+        title: t("signUp--alertTitle-registerError"),
+        text: t("signUp--alertText-tryAgain"),
+        icon: "error",
+        confirmButtonText: "Close",
+      });
     }
   }
 };

@@ -1,6 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import MyPage from '../views/myPage/MyPage.vue';
-import MyAccounts from '../views/myAccounts/MyAccounts.vue';
 import Payment from '../views/payment/Payment.vue';
 import PassWordInputPage from '../views/payment/PasswordInputPage.vue';
 import QrScanPage from '../views/payment/QrScanPage.vue';
@@ -17,7 +16,10 @@ import ExchangeRate from '../views/exchangeRate/ExchangeRate.vue';
 import MainPage from '../views/main/Main.vue';
 import ErrorPage from '../views/error/ErrorPage.vue';
 import SchedulePage from '../views/Schedule/Schedule.vue';
-import Admin from '../views/admin/Admin.vue';
+import Reservation from '../views/reservation/Reservation.vue';
+import Accommodation from '../views/reservation/Accommodation.vue';
+import ReservationPayment from '../views/reservation/ReservationPayment.vue';
+import AdminPage from '../views/admin/Admin.vue';
 
 const routes = [
   {
@@ -32,14 +34,6 @@ const routes = [
       requiresAuth: true,
     },
     component: MyPage,
-  },
-  {
-    path: '/my-accounts',
-    name: 'MyAccounts',
-    meta: {
-      requiresAuth: true,
-    },
-    component: MyAccounts,
   },
   {
     path: '/exchange-rate',
@@ -140,12 +134,36 @@ const routes = [
     component: SchedulePage,
   },
   {
-    path: '/admin',
-    name: 'Admin',
+    path: '/reservation',
+    name: 'Reservation',
     meta: {
       requiresAuth: true,
     },
-    component: Admin,
+    component: Reservation,
+  },
+  {
+    path: '/accommodation/:no',
+    name: 'Accommodation',
+    meta: {
+      requiresAuth: true,
+    },
+    component: Accommodation,
+  },
+  {
+    path: '/reservationpayment',
+    name: 'ReservationPayment',
+    meta: {
+      requiresAuth: true,
+    },
+    component: ReservationPayment,
+  },
+  {
+    path: '/admin',
+    name: 'AdminPage',
+    meta: {
+      requiresAuth: true,
+    },
+    component: AdminPage,
   },
 ];
 
@@ -167,7 +185,13 @@ router.beforeEach((to, from, next) => {
     });
   }
 
-  if ((to.name === 'Password') && from.name !== 'Payment') {
+  if (to.name === 'Password' && from.name !== 'Payment') {
+    return next({
+      name: 'Payment',
+    });
+  }
+
+  if ((to.name === 'Qr') && from.name !== 'Password') {
     return next({
       name: 'Payment',
     });
@@ -181,7 +205,7 @@ router.beforeEach((to, from, next) => {
 
   if (to.name === 'Login' && token) {
     return next({
-      name: 'MyAccounts',
+      name: 'MyPage',
     });
   }
 

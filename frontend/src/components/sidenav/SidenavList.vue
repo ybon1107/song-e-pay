@@ -1,22 +1,19 @@
 <script setup>
-import { computed } from 'vue';
-import { useRoute } from 'vue-router';
-import { useStore } from 'vuex';
+import { computed } from "vue";
+import { useRoute } from "vue-router";
+import { useStore } from "vuex";
 
-import SidenavItem from './SidenavItem.vue';
-import SidenavCard from './SidenavCard.vue';
+import SidenavItem from "./SidenavItem.vue";
+import SidenavCard from "./SidenavCard.vue";
 
 const store = useStore();
 const isRTL = computed(() => store.state.isRTL);
 
 const getRoute = () => {
   const route = useRoute();
-  const routeArr = route.path.split('/');
+  const routeArr = route.path.split("/");
   return routeArr[1];
 };
-
-
-
 </script>
 <template>
   <div class="collapse navbar-collapse w-auto h-auto h-100" id="sidenav-collapse-main">
@@ -55,6 +52,14 @@ const getRoute = () => {
         </sidenav-item>
       </li>
 
+      <li class="nav-item">
+        <sidenav-item to="/payment" :class="getRoute() === 'payment' ? 'active' : ''"
+          :navText="isRTL ? 'الواقع الافتراضي' : 'sidenavList--payment'">
+          <template v-slot:icon>
+            <i class="ni ni-credit-card text-dark text-sm opacity-10"></i>
+          </template>
+        </sidenav-item>
+      </li>
 
       <li class="nav-item">
         <sidenav-item to="/histories" :class="getRoute() === 'histories' ? 'active' : ''"
@@ -74,7 +79,7 @@ const getRoute = () => {
         </sidenav-item>
       </li>
 
-      
+
       <li class="nav-item">
         <sidenav-item to="/reservation" :class="getRoute() === 'reservation' ? 'active' : ''"
           :navText="isRTL ? 'الواقع الافتراضي' : 'sidenavList--reservation'">
@@ -93,8 +98,14 @@ const getRoute = () => {
         </sidenav-item>
       </li>
 
-      
-
+      <li class="nav-item">
+        <sidenav-item to="/reservation" :class="getRoute() === 'reservation' ? 'active' : ''"
+          :navText="isRTL ? 'الواقع الافتراضي' : 'sidenavList--reservation'">
+          <template v-slot:icon>
+            <i class="ni ni-calendar-grid-58 text-dark text-sm opacity-10"></i>
+          </template>
+        </sidenav-item>
+      </li>
       <!-- <li class="mt-3 nav-item">
         <h6
           v-if="isRTL"
