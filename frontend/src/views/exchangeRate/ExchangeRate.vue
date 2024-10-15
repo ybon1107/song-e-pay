@@ -237,7 +237,7 @@ import Swal from 'sweetalert2';
 import { useAuthStore } from '@/stores/auth';
 import { useI18n } from 'vue-i18n';
 const { t } = useI18n(); // t 함수 정의
-
+import exchangeApi from '../../api/exchangeApi';
 const auth = useAuthStore();
 const user = computed(() => auth.user);
 
@@ -326,8 +326,8 @@ const setFromPeriod = (period) => {
 const handleExchange = async () => {
     try {
         const userId = Id; // 실제 사용자 번호로 대체해야 합니다
-        const krwNo = '1234'; // 실제 KRW 계좌 번호로 대체해야 합니다
-        const songNo = '1234'; // 실제 송이 페이 계좌 번호로 대체해야 합니다
+        const krwNo = user.value.krwNo; // 실제 KRW 계좌 번호로 대체해야 합니다
+        const songNo = user.value.songNo; // 실제 송이 페이 계좌 번호로 대체해야 합니다
         const exchangeRate = currentToKrw.value;
         const amount = usdAmount.value;
 
@@ -376,8 +376,8 @@ const handleExchange = async () => {
 const reExchange = async () => {
     try {
         const userId = Id; // 실제 사용자 번호로 대체해야 합니다
-        const krwNo = '1234'; // 실제 KRW 계좌 번호로 대체해야 합니다
-        const songNo = '1234'; // 실제 송이 페이 계좌 번호로 대체해야 합니다
+        const krwNo = user.value.krwNo; // 실제 KRW 계좌 번호로 대체해야 합니다
+        const songNo = user.value.songNo; // 실제 송이 페이 계좌 번호로 대체해야 합니다
         const exchangeRate = currentFromKrw.value;
         const amount = krwAmountReverse.value;
 
@@ -460,12 +460,13 @@ const saveAlertRate = async (baseCode, targetCode, targetExchange) => {
 
     try {
         // 서버에 POST 요청 보내기
-        const response = await axios.post('/api/exchange-reservation', {
+        const req = {
             userId: Id.value,
             baseCode: baseCode,
             targetCode: targetCode,
             targetExchange: targetExchange,
-        });
+        }
+        const response = await exchangeApi.setReservation(req);
 
         if (response.status === 200) {
             Swal.fire({
@@ -547,16 +548,14 @@ const confirmAutoExchange = async (
 
     try {
         // 서버에 POST 요청 보내기
-        const response = await axios.post(
-            '/api/exchange-reservation/setalert',
-            {
-                userId: Id.value,
-                baseCode: baseCode,
-                targetCode: targetCode,
-                targetExchange: targetExchange,
-                targetKrw: targetKrw,
-            }
-        );
+        const req = {
+            userId: Id.value,
+            baseCode: baseCode,
+            targetCode: targetCode,
+            targetExchange: targetExchange,
+            targetKrw: targetKrw,
+        }
+        const response = await exchangeApi.setConditions(req);
 
         if (response.status === 200) {
             Swal.fire({
