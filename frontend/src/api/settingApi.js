@@ -48,7 +48,17 @@ export default {
       const response = await api.post(`${BASE_URL}/check-secpwd`, formData);
       return response;
     } catch (error) {
-      console.error('비밀번호 제출 오류:', error.response.data);
+      console.error('2차 비밀번호 제출 오류:', error.response.data);
+      throw error;
+    }
+  },
+  async changeSecPwd(formData) {
+    try {
+      console.log(formData);
+      const response = await api.patch(`${BASE_URL}/change-secpwd`, formData);
+      return response;
+    } catch (error) {
+      console.error('2차 비밀번호 제출 오류:', error.response.data);
       throw error;
     }
   },

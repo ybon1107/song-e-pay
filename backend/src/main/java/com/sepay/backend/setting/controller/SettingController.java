@@ -82,7 +82,10 @@ public class SettingController {
 
     // 2차 비밀번호 변경
     @PatchMapping("/change-secpwd")
-    public ResponseEntity<?> modifySecondPassword(String secondPwd, String userId) {
+    public ResponseEntity<?> modifySecondPassword(@RequestBody Map<String, String> requestData) {
+        String userId = requestData.get("userId");
+        String secondPwd = requestData.get("secPwd");
+
         return ResponseEntity.ok(settingService.modifySecondPassword(secondPwd, userId));
     }
 
