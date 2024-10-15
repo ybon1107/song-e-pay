@@ -164,6 +164,7 @@ const handlePasswordVerified = async () => {
                 break;
             case TRANSACTION_TYPES.TRANSFER:
                 response = await transfer();
+                console.log(response);
                 kwd = i18n_TRANSFER;
                 break;
             case TRANSACTION_TYPES.RE_EXCHANGE:
@@ -212,6 +213,7 @@ const handlePasswordVerified = async () => {
 const callAccountApi = async (apiFunction, params) => {
     try {
         const response = await apiFunction(params);
+        console.log("rerer" + response);
         return response;
     } catch (error) {
         throw error;
@@ -305,6 +307,7 @@ const transfer = async () => {
     } else {
         target_krwNo = await myaccountApi.getKrwNo(sendEmail.value);
     }
+    // console.log("tar" + target_krwNo);
     // 송이 페이머니 충전 요청
     const response = await myaccountApi.transfer({
         targetHistoryContent,
@@ -326,7 +329,8 @@ const transfer = async () => {
     });
 
     if (response != '') {
-        console.log(response);
+        console.log("?????" + response);
+        return response;
     }
 };
 
@@ -386,12 +390,15 @@ const emailConfirm = async () => {
     const userId = sendEmail.value;
     const response = await myaccountApi.confirmEmail(userId);
     if (response) {
-        if (userId === 'test@gmail.com') {
+        // console.log("???fsdd");
+        if (userId === user.value.userId) {
+            console.log("???dfeeeee");
             //userId 세션에서 가져오기(로그인할때 사용된 이메일)
             isMember.value = 'self';
             success = false;
             errorMessage.value = t('myAccount-transferto-notificationInput');
         } else {
+            console.log("???");
             isMember.value = 'member'; // 회원 이메일로 표시
             success = true;
             errorMessage.value = '';
@@ -710,18 +717,24 @@ watchEffect(() => {
                         <div>
                             <div class="mb-3">
                                 <div class="d-flex align-items-center mb-1">
-                                    <div class="input-label-text">받는 사람</div>
+                                    <div class="input-label-text me-3">{{ $t("myAccount-transferto-sendtoEmail") }}
+                                    </div>
                                     <!-- 회원/비회원 표시 -->
-                                    <small v-if="isMember === 'member'">{{ t('myAccount-transferto-member') }}</small>
-                                    <small v-else-if="isMember === 'no-member'">{{ t('myAccount-transferto-noMember')
-                                        }}</small>
+                                    <span v-if="isMember === 'member'" class="badge badge-sm bg-gradient-success">{{
+                                        t('myAccount-transferto-member') }}</span>
+                                    <span v-else-if="isMember === 'no-member'"
+                                        class="badge badge-sm bg-gradient-success">{{
+                                            t('myAccount-transferto-noMember')
+                                        }}</span>
                                 </div>
                                 <div class="d-flex justify-content-between align-items-center gap-3">
-                                    <ArgonInput v-model="sendEmail" placeholder="받는 분의 이메일을 입력하세요" @input="onInput"
-                                        variant="gradient" :class="{ 'is-invalid': errorMessage }"
+                                    <ArgonInput v-model="sendEmail" :placeholder="$t('myAccount--wonE-enterEmail')"
+                                        @input="onInput" variant="gradient" :class="{ 'is-invalid': errorMessage }"
                                         :error="errorMessage !== ''" :success="success" class="w-100 mb-0" />
                                     <button class="btn btn-secondary mb-0 text-nowrap " @click="emailConfirm" size="sm"
-                                        variant="outline" :disabled="sendEmail === ''">이메일 확인</button>
+                                        variant="outline" :disabled="sendEmail === ''">{{
+                                            $t('myAccount--wonE-confirmEmail')
+                                        }}</button>
                                 </div>
 
                                 <div v-if="errorMessage !== ''" class="invalid-feedback text-xs">
@@ -729,8 +742,9 @@ watchEffect(() => {
                                 </div>
                             </div>
                             <div class="mb-3">
-                                <div class="input-label-text">이메일 확인</div>
-                                <ArgonInput v-model="sendEmailConfirm" placeholder="이메일을 다시 입력하세요"
+                                <div class="input-label-text">{{ $t('myAccount--wonE-confirmEmail') }}</div>
+                                <ArgonInput v-model="sendEmailConfirm"
+                                    :placeholder="$t('myAccount-transferto-checkEmailAgain')"
                                     :class="{ 'is-invalid': errorMessageCheck }" :error="errorMessageCheck !== ''"
                                     :success="checkSucess" @input="onInputCheck" />
                                 <div v-if="errorMessageCheck" class="invalid-feedback text-xs mb-1">

@@ -5,7 +5,7 @@ import router from '@/router';
 import Swal from 'sweetalert2';
 
 const api = axios.create({
-    timeout: 10000,
+    timeout: 50000,
     withCredentials: true,
     headers: {
         'Content-Type': 'application/json',
@@ -38,6 +38,7 @@ api.interceptors.request.use(
 api.interceptors.response.use(
     (response) => {
         if (response.status === 200) {
+            // console.log(response);
             return response;
         }
         if (response.status === 404) {
