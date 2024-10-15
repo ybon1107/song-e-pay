@@ -2,6 +2,7 @@ import axios from 'axios';
 
 import { useAuthStore } from '@/stores/auth';
 import router from '@/router';
+import Swal from 'sweetalert2';
 
 const api = axios.create({
     timeout: 10000,
@@ -53,20 +54,17 @@ api.interceptors.response.use(
             const contentType = error.response.headers['content-type'];
 
             if (contentType && contentType.includes('text/html')) {
-                const userConfirmed = confirm(
-                    '세션이 만료되었습니다. 다시 로그인하시겠습니까?'
-                );
-
-                if (userConfirmed) {
-                    authStore.logout();
-                    router.push('/login');
-                } else {
-                    authStore.logout();
-                    router.push('/main');
-                }
+              Swal.fire({
+                title: "Sessioin Expired",
+                text: "Please login again.",
+                icon: "info",
+              }).then(() => {
+                authStore.logout();
+                router.push('/login');
+              });
             } else if (error.response?.status === 403) {
-                // 권한 오류인 경우 메인 페이지로 이동
-                router.push('/');
+              // 권한 오류인 경우 메인 페이지로 이동
+              router.push('/');
             }
             return Promise.reject(error);
         }

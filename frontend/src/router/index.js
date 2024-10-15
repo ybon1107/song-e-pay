@@ -20,6 +20,7 @@ import SchedulePage from '../views/Schedule/Schedule.vue';
 import Reservation from '../views/reservation/Reservation.vue';
 import Accommodation from '../views/reservation/Accommodation.vue';
 import ReservationPayment from '../views/reservation/ReservationPayment.vue';
+import AdminPage from '../views/admin/Admin.vue';
 
 const routes = [
     {
@@ -165,12 +166,20 @@ const routes = [
         },
         component: ReservationPayment,
     },
+    {
+      path: '/admin',
+      name: 'AdminPage',
+      meta: {
+        requiresAuth: true,
+      },
+      component: AdminPage,
+    },
 ];
 
 const router = createRouter({
-    history: createWebHistory(process.env.BASE_URL),
-    routes,
-    linkActiveClass: 'active',
+  history: createWebHistory(process.env.BASE_URL),
+  routes,
+  linkActiveClass: 'active',
 });
 
 router.beforeEach((to, from, next) => {
@@ -191,11 +200,17 @@ router.beforeEach((to, from, next) => {
         });
     }
 
-    if (to.name === 'change-password' && from.name !== 'Profile') {
-        return next({
-            name: 'Profile',
-        });
-    }
+  if ((to.name === 'Qr') && from.name !== 'Password') {
+    return next({
+      name: 'Payment',
+    });
+  }
+
+  if ((to.name === 'change-password') && from.name !== 'Profile') {
+    return next({
+      name: 'Profile',
+    });
+  }
 
     if (to.name === 'Login' && token) {
         return next({
