@@ -14,10 +14,10 @@ import SecondPasswordModal from '@/components/modal/SecondPasswordModal.vue';
 // import Set2nd from './Set2nd.vue';
 import Modal from '../../components/modal/Modal.vue';
 import Set2ndModal from './Set2ndModal.vue';
-
-  //i18n
-  import { useI18n } from "vue-i18n";
-  const { t } = useI18n();
+import SetAccountModal from './SetAccountModal.vue';
+//i18n
+import { useI18n } from "vue-i18n";
+const { t } = useI18n();
 
 const auth = useAuthStore();
 const isLogin = computed(() => auth.isLogin);
@@ -28,7 +28,7 @@ const isAccountSet = ref(false);
 
 const profilePic = ref(null);
 
-const emit = defineEmits(['password-verified','password-changed','close']);
+const emit = defineEmits(['password-verified', 'password-changed', 'close']);
 
 //2차 비밀번호 관련 기능
 const showSet2ndModal = ref(false);
@@ -38,28 +38,38 @@ const openSet2ndModal = () => {
 const closeSet2ndModal = () => {
     showSet2ndModal.value = false;
 };
-const handlePasswordChanged = async() => {
+const handlePasswordChanged = async () => {
     showSet2ndModal.value = false;
     Swal.fire({
-          title: t('swal--title-success'),
-          text: t('Secondary password change was successful.'),
-          icon: 'success',
-        }).then(() => {
-          window.location.reload();
-        });
+        title: t('swal--title-success'),
+        text: t('Secondary password change was successful.'),
+        icon: 'success',
+    }).then(() => {
+        window.location.reload();
+    });
 };
 
 const showModal = ref(false);
 const openModal = () => {
     showModal.value = true;
-    currentAction.value = activeTab.value;
 };
-const closeModal = () => {` `
-    showModal.value = false;``
+const closeModal = () => {
+    showModal.value = false;
 };
 const handlePasswordVerified = () => {
     showModal.value = false;
     openSet2ndModal();
+}
+
+const showAcntModal = ref(false);
+const openAcntModal = () => {
+    showAcntModal.value = true;
+};
+const closeAcntModal = () => {
+    showAcntModal.value = false;
+};
+const handleAcntVerified = () => {
+    showAcntModal.value = false;
 }
 
 const userInfo = reactive({
@@ -67,7 +77,7 @@ const userInfo = reactive({
     address: '',
     postCode: '',
     countryCode: '',
-    accountNo:'',
+    accountNo: '',
     secondPwd: '',
     profilePic: null,
 });
@@ -348,14 +358,15 @@ onBeforeUnmount(() => {
                             </p>
                             <ul class="navbar-nav nav-fill">
                                 <li class="pvt-item">
-                                    <a v-if="userInfo.accountNo === null" class="pvt-link">
+                                    <a v-if="userInfo.accountNo === null" class="pvt-link" @click="openAcntModal">
                                         <div class="pvt-icon">
                                             <i class="fa-solid fa-money-check-dollar"></i>
                                         </div>
                                         <span>{{
                                             $t('profile--accountLabel')
                                         }}</span>
-                                        <span class="text-danger ms-3"><i class="fas fa-exclamation"></i> Requires a one-time initial setup.</span>
+                                        <span class="text-danger ms-3"><i class="fas fa-exclamation"></i> Requires a
+                                            one-time initial setup.</span>
 
                                         <i class="fa-solid fa-angle-right"></i>
                                     </a>
@@ -381,7 +392,8 @@ onBeforeUnmount(() => {
                                     </a>
                                 </li>
                                 <li class="pvt-item">
-                                    <a v-if="userInfo.secondPwd === null || userInfo.secondPwd === ''" class="pvt-link" @click="openSet2ndModal">
+                                    <a v-if="userInfo.secondPwd === null || userInfo.secondPwd === ''" class="pvt-link"
+                                        @click="openSet2ndModal">
                                         <div class="pvt-icon">
                                             <i class="fa-solid fa-user-lock"></i>
                                         </div>
@@ -390,7 +402,8 @@ onBeforeUnmount(() => {
                                                 'profile--secondaryPasswordLabel'
                                             )
                                         }}</span>
-                                        <span class="text-danger ms-3"><i class="fas fa-exclamation"></i> Requires a one-time initial setup.</span>
+                                        <span class="text-danger ms-3"><i class="fas fa-exclamation"></i> Requires a
+                                            one-time initial setup.</span>
 
                                         <i class="fa-solid fa-angle-right"></i>
                                     </a>
@@ -403,7 +416,7 @@ onBeforeUnmount(() => {
                                                 'profile--secondaryPasswordLabel'
                                             )
                                         }}</span>
-                                        
+
                                         <i class="fa-solid fa-angle-right"></i>
                                     </a>
                                 </li>
@@ -444,8 +457,12 @@ onBeforeUnmount(() => {
             </div>
         </div>
         <SecondPasswordModal v-if="showModal" @close="closeModal" @password-verified="handlePasswordVerified" />
-        <Set2ndModal v-if="showSet2ndModal" @close="closeSet2ndModal" @password-changed="handlePasswordChanged"
-            :secondPwd="user?.secondPwd" />
+        <Set2ndModal v-if="showSet2ndModal" @close="closeSet2ndModal" @password-changed="handlePasswordChanged" />
+        <!-- <SetAccountModal v-if="showAcntModal" @close="closeAcntModal" @account-changed="handleAcntVerified" />
+        <SetAccountModal /> -->
+        <SetAccountModal v-if="showAcntModal" @close="closeAcntModal" @account-changed="handleAcntVerified" />
+        <SetAccountModal @close="closeAcntModal" @account-changed="handleAcntVerified" />
+
     </main>
 
 
