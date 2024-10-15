@@ -166,7 +166,7 @@ body {
 // }
 
 .card-img-bg {
-  width: 8.56cm;
+  width: 10.56cm;
   aspect-ratio: 1.585;
   /* 비율 8.56 / 5.398 */
   background-size: cover;
@@ -277,5 +277,9 @@ body {
   //flex세로 정렬
   .flex-column-min {
     flex-direction: column;
+  }
+
+  .card-img-bg {
+    width: 7.56cm;
   }
 }

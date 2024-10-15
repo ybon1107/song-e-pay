@@ -25,6 +25,19 @@ const user = computed(() => auth.user);
 import currencyFormatter from '../../js/currencyFormatter';
 const { formatNumber, exchangeCurrency } = currencyFormatter;
 
+
+// Import Swiper Vue.js components
+import { Swiper, SwiperSlide } from 'swiper/vue';
+
+// Import Swiper styles
+import 'swiper/css';
+import 'swiper/css/effect-coverflow';
+import 'swiper/css/pagination';
+// import required modules
+import { EffectCoverflow, Pagination } from 'swiper/modules';
+// Define the modules to be used
+const modules = [EffectCoverflow, Pagination];
+
 const emit = defineEmits(['password-verified', 'close']);
 const store = useExchangeStore();
 
@@ -493,19 +506,7 @@ watchEffect(() => {
     }
 });
 
-// Import Swiper Vue.js components
-import { Swiper, SwiperSlide } from 'swiper/vue';
 
-// Import Swiper styles
-import 'swiper/css';
-import 'swiper/css/effect-coverflow';
-import 'swiper/css/pagination';
-
-// import required modules
-import { EffectCoverflow, Pagination } from 'swiper/modules';
-
-// Define the modules to be used
-const modules = [EffectCoverflow, Pagination];
 
 </script>
 <template>
@@ -513,39 +514,23 @@ const modules = [EffectCoverflow, Pagination];
 
 
     <h3 class="mb-0">My account</h3>
-
-    <swiper
-    :effect="'coverflow'"
-    :grabCursor="true"
-    :centeredSlides="true"
-    :slidesPerView="'auto'"
-    :coverflowEffect="{
-      rotate: 50,
-      stretch: 0,
-      depth: 100,
-      modifier: 1,
-      slideShadows: true,
-    }"
-    :pagination="true"
-    :modules="modules"
-    class="mySwiper"
-    @slideChange="onSlideChange"
-  >
-  <swiper-slide>
-      <accounts-card
-        ref="songEMoneyCardRef"
-        :assetType="SONGE"
-        :class="{ selected: selectedAsset === SONGE }"
-      />
-    </swiper-slide>
-    <swiper-slide>
-      <accounts-card
-        ref="wonEMoneyCardRef"
-        :assetType="WONE"
-        :class="{ selected: selectedAsset === WONE }"
-      />
-    </swiper-slide>
-  </swiper>
+    <swiper :effect="'coverflow'" :grabCursor="true" :centeredSlides="true" :slidesPerView="'auto'"
+                :coverflowEffect="{
+                    rotate: 50,
+                    stretch: 0,
+                    depth: 100,
+                    modifier: 1,
+                    slideShadows: true,
+                }" :pagination="true" :modules="modules" class="mySwiper" @slideChange="onSlideChange">
+                <swiper-slide>
+                    <accounts-card ref="songEMoneyCardRef" :assetType="SONGE"
+                        :class="{ selected: selectedAsset === SONGE }" />
+                </swiper-slide>
+                <swiper-slide>
+                    <accounts-card ref="wonEMoneyCardRef" :assetType="WONE"
+                        :class="{ selected: selectedAsset === WONE }" />
+                </swiper-slide>
+            </swiper>
 
     <!-- <div class="custom-spacer"></div> -->
     <!-- <div class="row justify-content-center gap-3">
@@ -869,8 +854,8 @@ const modules = [EffectCoverflow, Pagination];
 
 .swiper {
     width: 100%;
-    /* padding-top: 50px; */
-    /* padding-bottom: 50px; */
+    padding-top: 50px;
+    padding-bottom: 50px;
 }
 
 .swiper-slide {
