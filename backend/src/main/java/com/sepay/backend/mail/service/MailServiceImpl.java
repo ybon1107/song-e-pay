@@ -34,20 +34,8 @@ public class MailServiceImpl implements MailService {
     public String createVerificationCode() {
         StringBuilder code = new StringBuilder();
 
-        for (int i = 0; i < 10; i++) {
-            int random = (int) (Math.random() * 3); // 0: 숫자, 1,2: 알파벳
-
-            if (random == 0) {
-                code.append((int) (Math.random() * 10));
-            } else {
-                char alphabet = (char) ((int) (Math.random() * 26) + 65);
-                int upperOrLower = (int) (Math.random() * 2); // 0: 대문자, 1: 소문자
-                if (upperOrLower == 0) {
-                    code.append(alphabet);
-                } else {
-                    code.append(Character.toLowerCase(alphabet));
-                }
-            }
+        for (int i = 0; i < 6; i++) {
+            code.append((int) (Math.random() * 10));
         }
         return code.toString();
     }

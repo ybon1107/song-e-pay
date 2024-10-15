@@ -1,12 +1,19 @@
 <script setup>
 import { ref, computed } from "vue";
 import { useRouter } from "vue-router";
-import paymentApi from "../../api/paymentApi";
+import settingApi from "../../api/settingApi";
+
 import Swal from "sweetalert2";
 
 //i18n
 import { useI18n } from 'vue-i18n';
 const { t } = useI18n();
+
+//user
+import { useAuthStore } from '@/stores/auth';
+const auth = useAuthStore();
+// const user = computed(() => auth.user);
+const userId = computed(() => auth.user.userId);
 
 const router = useRouter();
 
@@ -56,9 +63,14 @@ const onSubmit = async () => {
     isLoading.value = true;
 
     try {
+      const formData = {
+        userId: userId.value,
+        secPwd: passwordString
+      };
       // 비밀번호 제출
-      const response = await paymentApi.submitPassword(passwordString);
+      const response = await settingApi.submitSecPwd(formData);
       if (response.data === true) {
+        console.log(response);
         router.push("/payment/qr");
       } else {
         Swal.fire({
@@ -67,10 +79,11 @@ const onSubmit = async () => {
           icon: "error",
         });
         resetPassword(); // 비밀번호 초기화 함수 호출
+        // throw new Error();
       }
     } catch (error) {
       // 에러 처리
-      console.error("Error submitting password:", error);
+      console.error("Error submitting password:", error.response.data);
       errorMessage.value = "비밀번호 제출 중 오류가 발생했습니다.";
       resetPassword(); // 오류 발생 시에도 비밀번호 초기화
     } finally {
@@ -89,7 +102,7 @@ const resetPassword = () => {
 
 <template>
   <div class="password-input-page">
-    <h1 class="title">{{$t('payment--passwordInput--title')}}</h1>
+    <h1 class="title">{{ $t('payment--passwordInput--title') }}</h1>
     <p class="instruction">{{ $t('payment--passwordInput--instruction') }}</p>
 
     <form @submit.prevent="onSubmit" class="text-center">

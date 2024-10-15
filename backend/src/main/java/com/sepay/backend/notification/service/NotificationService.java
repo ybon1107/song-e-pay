@@ -10,4 +10,13 @@ public interface NotificationService {
 
     // 알림 가져오기
     List<NotificationDTO> getNotification(String userId);
+
+    // 알림 삭제
+    int deleteNotification(Integer notiNo);
+
+    // 알림 확인
+    int readNotification(Integer notiNo);
+
+    // 송금 받고 알림 잔액 초기화
+    int updateNotification(Integer noriNo);
 }

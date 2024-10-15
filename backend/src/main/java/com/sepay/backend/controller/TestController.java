@@ -29,7 +29,7 @@ public class TestController {
         messagingTemplate.convertAndSendToUser(
                 request.getUserId(),
                 "/topic/notifications",
-                request.getMessWebSocketConfig
+                request.getMessage()
         );
         return ResponseEntity.ok("Success");
     }

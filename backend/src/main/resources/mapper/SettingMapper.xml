@@ -55,7 +55,7 @@
 
     <!-- 2차 비밀번호 확인 -->
     <select id="selectSecondPassword" parameterType="String" resultType="String">
-        select secondPwd
+        select second_pwd
         from user
         WHERE user_id = #{userId}
     </select>

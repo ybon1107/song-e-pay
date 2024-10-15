@@ -4,10 +4,7 @@ import com.sepay.backend.notification.service.NotificationService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @Slf4j
 @RestController
@@ -17,8 +14,18 @@ public class NotificationController {
 
     private final NotificationService notificationService;
 
-    @GetMapping("{userId}")
+    @GetMapping("/{userId}")
     public ResponseEntity<?> getNotification(@PathVariable String userId) {
         return ResponseEntity.ok(notificationService.getNotification(userId));
+    }
+
+    @DeleteMapping("/{notiNo}")
+    public ResponseEntity<?> deleteNotification(@PathVariable Integer notiNo) {
+        return ResponseEntity.ok(notificationService.deleteNotification(notiNo));
+    }
+
+    @PatchMapping("/{notiNo}")
+    public ResponseEntity<?> readNotification(@PathVariable Integer notiNo) {
+        return ResponseEntity.ok(notificationService.readNotification(notiNo));
     }
 }

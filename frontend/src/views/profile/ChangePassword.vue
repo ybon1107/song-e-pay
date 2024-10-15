@@ -70,6 +70,7 @@ const changePassword = async () => {
 
 <template>
   <div class="container">
+    <div class="custom-spacer"></div>
     <div class="row justify-content-center">
       <div class="mx-auto mx-lg-0 col-lg-7 d-flex flex-column">
         <div class="card">

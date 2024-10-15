@@ -14,8 +14,8 @@ import java.util.Date;
 public class ScheduleDTO {
     private String userId;
     private Integer eventNo;
-    private String beginDate;  // 시작 날짜 (형식: "yyyy-MM-dd HH:mm:ss")
-    private String endDate;    // 종료 날짜 (형식: "yyyy-MM-dd HH:mm:ss")
+    private Date beginDate;  // 시작 날짜 (형식: "yyyy-MM-dd HH:mm:ss")
+    private Date endDate;    // 종료 날짜 (형식: "yyyy-MM-dd HH:mm:ss")
     private String title;      // 일정 제목
     private String todo;       // 일정 설명
     private String color;

@@ -1,6 +1,7 @@
 <script setup>
-import { ref, onMounted, computed } from 'vue';
+import { ref, onMounted, computed, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
+import accommodationApi from '../../api/accommodationApi';
 
 const route = useRoute();
 const router = useRouter();
@@ -10,22 +11,23 @@ const checkOutDate = ref('');
 const guestCount = ref(1);
 
 const formatDate = (daysToAdd = 0) => {
-  const date = new Date();
-  date.setDate(date.getDate() + daysToAdd);
-  return date.toISOString().split('T')[0];
+    const date = new Date();
+    date.setDate(date.getDate() + daysToAdd);
+    return date.toISOString().split('T')[0];
 };
 
+const maxCapacity = computed(() => accommodation.value?.capacity || 1);
+
+watch(guestCount, (newCount) => {
+    if (newCount > maxCapacity.value) {
+        guestCount.value = maxCapacity.value;
+    }
+});
+
 onMounted(async () => {
-    const id = parseInt(route.params.id);
+    const no = parseInt(route.params.no);
     // API 호출 로직...
-    accommodation.value = {
-        id: 1,
-        name: '해변 별장',
-        description: '아름다운 해변가의 별장입니다.',
-        amenities: ['와이파이', '에어컨', '주방'],
-        price: 150000,
-        imageUrl: 'https://img.freepik.com/premium-photo/modern-villa-sun-beach_674594-29706.jpg',
-    };
+    accommodation.value = await accommodationApi.getAccommodation(no);
 
     // 체크인 날짜를 오늘 날짜로 설정
     checkInDate.value = formatDate();
@@ -44,12 +46,12 @@ const totalNights = computed(() => {
 });
 
 const totalPrice = computed(() => {
-    return totalNights.value * accommodation.value?.price || 0;
+    return totalNights.value * accommodation.value.pricePerNight || 0;
 });
 
 const handleReservation = () => {
     const reservationData = {
-        accommodationId: accommodation.value.id,
+        accommodationName: accommodation.value.name,
         checkInDate: checkInDate.value,
         checkOutDate: checkOutDate.value,
         guestCount: guestCount.value,
@@ -68,43 +70,49 @@ const handleReservation = () => {
 <template>
     <div class="container-fluid" v-if="accommodation">
         <div class="accommodation-image">
-            <img :src="accommodation.imageUrl" :alt="accommodation.name" class="img-fluid">
+            <img :src="accommodation.img" :alt="accommodation.name" class="img-fluid">
         </div>
         <div class="row mt-4">
             <div class="col-md-8">
                 <h2>{{ accommodation.name }}</h2>
                 <p>{{ accommodation.description }}</p>
-                <h3>편의 시설</h3>
+                <h3>Amenities</h3>
                 <ul>
-                    <li v-for="amenity in accommodation.amenities" :key="amenity">{{ amenity }}</li>
+                    <li v-for="amenity in accommodation.amenities" :key="amenity.amenitiesNo">{{ amenity.amenitiesName
+                        }}</li>
                 </ul>
             </div>
             <div class="col-md-4">
                 <div class="reservation-form">
-                    <h3>예약하기</h3>
-                    <p>₩{{ accommodation.price.toLocaleString() }} /박</p>
+                    <h3>Reservation</h3>
+                    <p>₩{{ accommodation.pricePerNight.toLocaleString() }} /night</p>
                     <div class="form-group">
-                        <label for="checkIn">체크인 날짜</label>
+                        <label for="checkIn">Check-in Date</label>
                         <div class="date-input-wrapper" @click="$refs.checkIn.showPicker()">
                             <input type="date" id="checkIn" v-model="checkInDate" class="form-control"
                                 :min="formatDate()" ref="checkIn">
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="checkOut">체크아웃 날짜</label>
+                        <label for="checkOut">Check-out Date</label>
                         <div class="date-input-wrapper" @click="$refs.checkOut.showPicker()">
-                            <input type="date" id="checkOut" v-model="checkOutDate" class="form-control" 
+                            <input type="date" id="checkOut" v-model="checkOutDate" class="form-control"
                                 :min="checkInDate" ref="checkOut">
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="guestCount">인원 수</label>
-                        <input type="number" id="guestCount" v-model="guestCount" min="1" class="form-control">
+                        <label for="guestCount">{{ accommodation.capacity }} guests</label>
+                            <input type="number" id="guestCount" v-model="guestCount" min="1" :max="maxCapacity"
+                            class="form-control">
                     </div>
-                    <button @click="handleReservation" class="btn btn-primary mt-3">예약하기</button>
+                    <div class="form-group">
+                        <label for="address">Address</label>
+                        <p>{{ accommodation.address }}</p>
+                    </div>
+                    <button @click="handleReservation" class="btn btn-primary mt-3">Reserve</button>
                     <hr />
                     <p v-if="totalNights > 0" class="mt-3">
-                        총 {{ totalNights }}박: {{ totalPrice.toLocaleString() }}원
+                        Total {{ totalNights }} nights: ₩{{ totalPrice.toLocaleString() }}
                     </p>
                 </div>
             </div>
@@ -121,6 +129,7 @@ const handleReservation = () => {
     width: 100%;
     height: 400px;
     overflow: hidden;
+    border-radius: 10px;
 }
 
 .accommodation-image img {

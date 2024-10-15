@@ -6,7 +6,10 @@ import com.sepay.backend.myaccount.dto.AccountDTO;
 import com.sepay.backend.myaccount.dto.KrwAccountDTO;
 import com.sepay.backend.myaccount.dto.SongAccountDTO;
 import com.sepay.backend.myaccount.mapper.MyAccountMapper;
+import com.sepay.backend.notification.dto.NotificationDTO;
+import com.sepay.backend.notification.mapper.NotificationMapper;
 import com.sepay.backend.user.dto.UserDTO;
+import com.sepay.backend.user.mapper.UserMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -20,6 +23,8 @@ import java.util.Date;
 public class MyAccountServiceImpl implements MyAccountService {
     private final MyAccountMapper mapper;
     private final HistoryMapper historyMapper;
+    private final NotificationMapper notificationMapper;
+    private final UserMapper userMapper;
 
     @Override
     public Double selectKrwBalance(String krwNo) {
@@ -55,6 +60,7 @@ public class MyAccountServiceImpl implements MyAccountService {
 
             // 송이 계좌 증가
             songAccountDTO.setBalance(mapper.selectSongBalance(songAccountDTO.getSongNo()) + amount);
+            songAccountDTO.setUpdatedAt(new Date());
             mapper.updateSongAccount(songAccountDTO);
 
             historyDTO.setTypeCode(3); // 환전 타입 코드
@@ -80,6 +86,7 @@ public class MyAccountServiceImpl implements MyAccountService {
         if(mapper.selectSongBalance(songAccountDTO.getSongNo()) >= amount) {
             // 송이 계좌 감소
             songAccountDTO.setBalance(mapper.selectSongBalance(songAccountDTO.getSongNo()) - amount);
+            songAccountDTO.setUpdatedAt(new Date());
             mapper.updateSongAccount(songAccountDTO);
 
             // 계좌 증가
@@ -139,12 +146,14 @@ public class MyAccountServiceImpl implements MyAccountService {
         // 원화 계좌에 환급 금액보다 많을 때
         if(mapper.selectKrwBalance(krwAccountDTO.getKrwNo()) >= amount) {
             // 원화 계좌 감소
-            krwAccountDTO.setBalance(mapper.selectKrwBalance(krwAccountDTO.getKrwNo()) - amount);
+            double krwAmount = amount * exchangeRate;
+            krwAccountDTO.setBalance(mapper.selectKrwBalance(krwAccountDTO.getKrwNo()) - krwAmount);
+            krwAccountDTO.setUpdatedAt(new Date());
             mapper.updateKrwAccount(krwAccountDTO);
 
             // 송이 계좌 증가
-            double songAmount = amount * exchangeRate;
-            songAccountDTO.setBalance(mapper.selectSongBalance(songAccountDTO.getSongNo()) + songAmount);
+            songAccountDTO.setBalance(mapper.selectSongBalance(songAccountDTO.getSongNo()) + amount);
+            songAccountDTO.setUpdatedAt(new Date());
             mapper.updateSongAccount(songAccountDTO);
 
             // history insert
@@ -200,7 +209,23 @@ public class MyAccountServiceImpl implements MyAccountService {
         }
         return message;
     }
+
     @Override
+    @Transactional
     public String getKrwno(String userId) { return mapper.selectKrwNo(userId);}
 
+    // 송금 받기
+    @Override
+    @Transactional
+    public int receiveSongE(NotificationDTO notificationDTO) {
+        UserDTO user = userMapper.selectUserByEmail(notificationDTO.getUserId());
+        KrwAccountDTO dto = new KrwAccountDTO();
+        dto.setKrwNo(user.getKrwNo());
+        Double balance = mapper.selectKrwBalance(dto.getKrwNo()) + notificationDTO.getAmount();
+        dto.setBalance(balance);
+
+        notificationMapper.updateNotiAmount(notificationDTO.getNotiNo());
+
+        return mapper.updateKrwAccount(dto);
+    }
 }

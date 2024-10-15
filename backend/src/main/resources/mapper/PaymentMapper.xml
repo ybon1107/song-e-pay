@@ -5,4 +5,11 @@
 
 <mapper namespace="com.sepay.backend.payment.mapper.PaymentMapper">
 
+    <!-- 숙소 결제 -->
+    <insert id="insertPayAccommodation" parameterType="paymentDTO">
+        INSERT INTO payment
+            (user_id, name, amount, history)
+        VALUES (#{userId}, #{name}, #{amount}, #{history})
+    </insert>
+
 </mapper>

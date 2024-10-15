@@ -8,6 +8,8 @@ import com.sepay.backend.history.dto.HistoryDTO;
 import com.sepay.backend.myaccount.dto.KrwAccountDTO;
 import com.sepay.backend.myaccount.dto.SongAccountDTO;
 import com.sepay.backend.myaccount.service.MyAccountService;
+import com.sepay.backend.notification.dto.NotificationDTO;
+import com.sepay.backend.notification.service.NotificationService;
 import com.sepay.backend.user.dto.UserDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -35,6 +37,9 @@ public class ReservationScheduled {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private NotificationService notificationService;
 
     @Scheduled(fixedRate = 30000) // 30초마다 실행
     public void checkAndExecuteAutoExchangeReservations() {
@@ -125,12 +130,14 @@ public class ReservationScheduled {
                     .memo("자동 환전 예약 실행")
                     .build();
 
+
             String result = myAccountService.exchange(songAccountDTO, krwAccountDTO, historyDTO, songAmount, latestExchangeRate.getExchangeRate());
 
             if ("success".equals(result)) {
                 log.info("자동 환전 성공. 예약 ID: {}, 현재 환율: {}, 송이 차감액: {}, 원화 입금액: {}",
                         reservation.getResNo(), latestExchangeRate.getExchangeRate(), songAmount, krwAmount);
                 exchangeReservationService.removeExchangeReservation(reservation.getResNo());
+                saveAlert(reservation, userId);
             } else {
                 log.warn("자동 환전 실패. 예약 ID: {}, 현재 환율: {}, 오류 메시지: {}",
                         reservation.getResNo(), latestExchangeRate.getExchangeRate(), result);
@@ -138,5 +145,17 @@ public class ReservationScheduled {
         } catch (Exception e) {
             log.error("자동 환전 실행 중 오류 발생. 예약 ID: " + reservation.getResNo(), e);
         }
+    }
+
+    private void saveAlert(ExchangeReservationDTO reservation, String userId) {
+        String message = String.format("자동 환전이 완료되었습니다.");
+
+        NotificationDTO notificationDTO = new NotificationDTO();
+        notificationDTO.setUserId(userId);
+        notificationDTO.setResNo(reservation.getResNo());
+        notificationDTO.setContent(message);
+
+        notificationService.saveNotification(notificationDTO); // 알림 저장 호출
+
     }
 }

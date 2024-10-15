@@ -112,8 +112,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .authorizeRequests()
                 .antMatchers(HttpMethod.OPTIONS).permitAll()
-                .antMatchers(HttpMethod.POST, "/api/users/login", "/api/register/**").permitAll()
-                .anyRequest().permitAll(); // 모든 요청을 인증 없이 허용
+                .antMatchers(HttpMethod.POST, "/api/auth/login", "/api/register/**").permitAll()
+                .anyRequest().authenticated();
 
         http
                 .cors().and() // CORS 설정

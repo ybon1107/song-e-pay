@@ -17,6 +17,8 @@
         <package name="com.sepay.backend.security.account.domain"/>
         <package name="com.sepay.backend.exchange.dto"/>
         <package name="com.sepay.backend.eventSchedule.dto"/>
+        <package name="com.sepay.backend.reservation.dto"/>
+        <package name="com.sepay.backend.payment.dto"/>
 
     </typeAliases>
 
@@ -32,6 +34,8 @@
         <mapper resource="mapper/UserDetailsMapper.xml"/>
         <mapper resource="mapper/AdminMapper.xml"/>
         <mapper resource="mapper/ScheduleMapper.xml"/>
+        <mapper resource="mapper/AccommodationMapper.xml"/>
+        <mapper resource="mapper/PaymentMapper.xml"/>
     </mappers>
 
 </configuration>

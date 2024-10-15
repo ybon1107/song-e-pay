@@ -2,7 +2,7 @@
 import { computed } from 'vue';
 import { useStore } from 'vuex';
 import SidenavList from './SidenavList.vue';
-import songelogo from '@/assets/img/logos/SongE_pay.svg';
+import songelogo from '@/assets/img/logos/SongE_pay.png';
 
 const store = useStore();
 const isRTL = computed(() => store.state.isRTL);
@@ -28,7 +28,7 @@ const darkMode = computed(() => store.state.darkMode);
       <i class="top-0 p-3 cursor-pointer fas fa-times text-secondary opacity-5 position-absolute end-0 d-none d-xl-none"
         aria-hidden="true" id="iconSidenav"></i>
 
-      <router-link class="m-0 navbar-brand custom-font" to="/">
+      <router-link class="m-0 navbar-brand" to="/my-accounts">
         <!-- <img :src="darkMode || sidebarType === 'bg-default' ? logoWhite : logo" class="navbar-brand-img h-100"
           alt="main_logo" /> -->
         <!-- <span class="ms-2 font-weight-bold me-2">song-E-pay</span> -->
@@ -39,7 +39,7 @@ const darkMode = computed(() => store.state.darkMode);
               alt="Illustration"
               style="height: 40px; width: auto"
             /> -->
-        <img class="ld-none d-md-block" :src="songelogo" alt="Illustration" style="height: 40px; width: auto" />
+        <img class="ld-none d-md-block" :src="songelogo" alt="Illustration" style="height: 70px; width: auto" />
       </router-link>
     </div>
 
@@ -57,19 +57,18 @@ const darkMode = computed(() => store.state.darkMode);
   background-color: #f8f9fa !important;
 } */
 
-@font-face {
+/* @font-face {
   font-family: 'Paperlogy-8ExtraBold';
   src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/2408-3@1.0/Paperlogy-8ExtraBold.woff2') format('woff2');
   font-weight: 800;
   font-style: normal;
-}
+} */
 
 /* custom-font 클래스를 통해 폰트 적용 */
-.custom-font h3 {
+/* .custom-font h3 {
   color: black;
   font-style: italic;
   font-family: 'Paperlogy-8ExtraBold', sans-serif;
   font-size: 25px;
-  /* 글씨 크기를 16px로 작게 설정 */
-}
+} */
 </style>
