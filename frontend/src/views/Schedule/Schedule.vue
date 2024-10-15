@@ -309,49 +309,50 @@ b {
         Helvetica,
         sans-serif;
     font-size: 1rem;
-    background: #F5F5F7 !important;
+    background: #f8f8ff !important;
 }
 .demo-app-sidebar {
     line-height: 1.5;
-    background: #EDDFE0 !important;
-    border-right: 2px solid #B7B7B7 !important;
+    background: #FDF4BB !important;
+    border-right: 2px solid #FFEB69 !important;
     border-radius: 1rem;
 }
 .demo-app-sidebar-section {
-  padding: 1em;
-  margin-top: 1rem;
+    padding: 1em;
+    margin-top: 1rem;
 }
 .demo-app-main {
-  flex-grow: 1;
-  padding: 1em;
+    flex-grow: 1;
+    padding: 1em;
 }
 .fc {
-  max-width: 1100px;
-  margin: 0 auto;
+    max-width: 1100px;
+    margin: 0 auto;
 }
 .fc-toolbar .fc-button {
-    background-color: #705C53 !important;
+    background-color: #FFEB69 !important;
     color: white;
     border: 0px !important;
 }
 .fc-toolbar .fc-button:hover {
-    background-color: #69574f !important;
+    background-color: #FFEB69 !important;
+    color: black !important;
 }
 .fc-day-sun a,
 .fc-day-sat a {
-  color: rgb(253, 150, 150) !important;
+    color: rgb(253, 150, 150) !important;
 }
 .fc .fc-toolbar.fc-header-toolbar {
     margin-bottom: 1.5em !important;
-    background: #EDDFE0 !important;
+    background: #FDF4BB !important;
     padding: 1rem !important;
     border-radius: 1rem !important;
 }
 .color-picker-btn {
-  border: none;
-  cursor: pointer;
+    border: none;
+    cursor: pointer;
 }
 .color-picker-btn:focus {
-  outline: none;
+    outline: none;
 }
 </style>
