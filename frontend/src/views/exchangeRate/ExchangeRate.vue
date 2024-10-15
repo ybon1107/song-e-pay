@@ -178,7 +178,7 @@ watchEffect(() => {
   }
 });
 
-import SecondPasswordModal from "@/views/MyAccounts/SecondPasswordModal.vue";
+import SecondPasswordModal from "@/components/modal/SecondPasswordModal.vue";
 
 // Data variables
 const usdAmount = ref(1);

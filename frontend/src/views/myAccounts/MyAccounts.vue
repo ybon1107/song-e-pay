@@ -6,7 +6,7 @@ import ExchangeAmountInput from '@/components/yb_templates/ExchangeAmountInput.v
 import { ref, onMounted, computed, watchEffect } from 'vue';
 import myaccountApi from '../../api/myaccountApi';
 import { useExchangeStore } from '@/stores/exchangeStore';
-import SecondPasswordModal from '@/views/MyAccounts/SecondPasswordModal.vue';
+import SecondPasswordModal from '@/components/modal/SecondPasswordModal.vue';
 import axios from 'axios';
 import ExchangeRateChart from '@/views/Chart/ExchangeRateChart.vue';
 import Swal from 'sweetalert2';

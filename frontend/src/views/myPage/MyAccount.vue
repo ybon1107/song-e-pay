@@ -6,7 +6,7 @@ import ArgonAmountInput from '@/components/yb_templates/ArgonAmountInput.vue';
 import { ref, onMounted, computed, watchEffect } from 'vue';
 import myaccountApi from '../../api/myaccountApi';
 import { useExchangeStore } from '@/stores/exchangeStore';
-import SecondPasswordModal from '@/views/MyAccounts/SecondPasswordModal.vue';
+import SecondPasswordModal from '@/components/modal/SecondPasswordModal.vue';
 import Swal from 'sweetalert2';
 import { TRANSACTION_TYPES, TRANSACTION_TYPES_KEY } from '@/constants/transactionType';
 import { COUNTRY_CODE, COUNTRY_KEY, CURRENCY_NAME } from '@/constants/countryCode';
