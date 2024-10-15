@@ -17,6 +17,7 @@ import ExchangeRate from '../views/exchangeRate/ExchangeRate.vue';
 import MainPage from '../views/main/Main.vue';
 import ErrorPage from '../views/error/ErrorPage.vue';
 import SchedulePage from '../views/Schedule/Schedule.vue';
+import Admin from '../views/admin/Admin.vue';
 
 const routes = [
   {
@@ -137,6 +138,14 @@ const routes = [
       requiresAuth: true,
     },
     component: SchedulePage,
+  },
+  {
+    path: '/admin',
+    name: 'Admin',
+    meta: {
+      requiresAuth: true,
+    },
+    component: Admin,
   },
 ];
 
