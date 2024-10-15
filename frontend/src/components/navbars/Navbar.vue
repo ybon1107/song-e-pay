@@ -1,24 +1,13 @@
 <template>
-    <nav
-        class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl"
-        :class="isRTL ? 'top-0 position-sticky z-index-sticky' : ''"
-        v-bind="$attrs"
-        id="navbarBlur"
-        data-scroll="true"
-    >
+    <nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl"
+        :class="isRTL ? 'top-0 position-sticky z-index-sticky' : ''" v-bind="$attrs" id="navbarBlur" data-scroll="true">
         <div class="px-3 pyb-1 pt-4 container-fluid">
             <!-- 추후에 로고 이미지 추가 -->
             <!-- <img src="@/assets/img/songepay_logo.png" /> -->
             <!-- <h1>Song-E-Pay</h1> -->
-            <div
-                class="mt-2 collapse navbar-collapse mt-sm-0 me-md-0 me-sm-4"
-                :class="isRTL ? 'px-0' : 'me-sm-4'"
-                id="navbar"
-            >
-                <div
-                    class="pe-md-3 d-flex align-items-center"
-                    :class="isRTL ? 'me-md-auto' : 'ms-md-auto'"
-                ></div>
+            <div class="mt-2 collapse navbar-collapse mt-sm-0 me-md-0 me-sm-4" :class="isRTL ? 'px-0' : 'me-sm-4'"
+                id="navbar">
+                <div class="pe-md-3 d-flex align-items-center" :class="isRTL ? 'me-md-auto' : 'ms-md-auto'"></div>
                 <ul class="navbar-nav justify-content-end">
                     <!-- <li class="nav-item d-flex align-items-center">
             <router-link
@@ -31,15 +20,8 @@
               <span v-else class="d-sm-inline d-none">Sign In</span>
             </router-link>
           </li> -->
-                    <li
-                        class="nav-item d-xl-none ps-3 d-flex align-items-center me-3"
-                    >
-                        <a
-                            href="#"
-                            @click="minimizeSidebar"
-                            class="p-0 nav-link"
-                            id="iconNavbarSidenav"
-                        >
+                    <li class="nav-item d-xl-none ps-3 d-flex align-items-center me-3">
+                        <a href="#" @click="minimizeSidebar" class="p-0 nav-link" id="iconNavbarSidenav">
                             <div class="sidenav-toggler-inner">
                                 <i class="sidenav-toggler-line fixed-width"></i>
                                 <i class="sidenav-toggler-line"></i>
@@ -49,39 +31,17 @@
                     </li>
 
                     <!-- 언어 선택 -->
-                    <li
-                        class="nav-item dropdown language-dropdown border rounded"
-                    >
-                        <a
-                            class="nav-link dropdown-toggle d-flex align-items-center"
-                            href="#"
-                            id="languageDropdown"
-                            role="button"
-                            data-bs-toggle="dropdown"
-                            aria-expanded="false"
-                        >
-                            <img
-                                :src="getFlagSrc(currentLanguage)"
-                                alt="Flag"
-                                class="me-2 flag-icon"
-                            />
+                    <li class="nav-item dropdown language-dropdown border rounded">
+                        <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="languageDropdown"
+                            role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <img :src="getFlagSrc(currentLanguage)" alt="Flag" class="me-2 flag-icon" />
                             {{ $t(currentLanguage) }}
                         </a>
-                        <ul
-                            class="dropdown-menu"
-                            aria-labelledby="languageDropdown"
-                        >
+                        <ul class="dropdown-menu" aria-labelledby="languageDropdown">
                             <li v-for="lang in languages" :key="lang.code">
-                                <a
-                                    class="dropdown-item d-flex align-items-center"
-                                    href="#"
-                                    @click="changeLanguage(lang.code)"
-                                >
-                                    <img
-                                        :src="lang.flag"
-                                        :alt="`${lang.name} Flag`"
-                                        class="me-2 flag-icon"
-                                    />
+                                <a class="dropdown-item d-flex align-items-center" href="#"
+                                    @click="changeLanguage(lang.code)">
+                                    <img :src="lang.flag" :alt="`${lang.name} Flag`" class="me-2 flag-icon" />
                                     {{ $t(lang.name) }}
                                 </a>
                             </li>
@@ -89,46 +49,22 @@
                     </li>
 
                     <!-- 알림 -->
-                    <li
-                        class="px-3 nav-item dropdown d-flex align-items-center notification-dropdown"
-                    >
-                        <a
-                            href="#"
-                            class="p-0 nav-link"
-                            :class="[showMenu ? 'show' : '']"
-                            id="dropdownMenuButton"
-                            data-bs-toggle="dropdown"
-                            aria-expanded="false"
-                            @click="showMenu = !showMenu"
-                            @blur="closeMenu"
-                        >
+                    <li class="px-3 nav-item dropdown d-flex align-items-center notification-dropdown">
+                        <a href="#" class="p-0 nav-link" :class="[showMenu ? 'show' : '']" id="dropdownMenuButton"
+                            data-bs-toggle="dropdown" aria-expanded="false" @click="showMenu = !showMenu"
+                            @blur="closeMenu">
                             <div class="icon-div">
                                 <i class="cursor-pointer fa fa-bell"></i>
-                                <span
-                                    v-if="unreadCount > 0"
-                                    class="badge bg-danger"
-                                    >{{ unreadCount }}</span
-                                >
+                                <span v-if="unreadCount > 0" class="badge bg-danger">{{ unreadCount }}</span>
                             </div>
                         </a>
 
-                        <ul
-                            class="px-2 py-3 dropdown-menu dropdown-menu-end me-sm-n4 noti-ul"
-                            :class="showMenu ? 'show' : ''"
-                            aria-labelledby="dropdownMenuButton"
-                        >
+                        <ul class="px-2 py-3 dropdown-menu dropdown-menu-end me-sm-n4 noti-ul"
+                            :class="showMenu ? 'show' : ''" aria-labelledby="dropdownMenuButton">
                             <div class="notifications-container">
-                                <li
-                                    v-if="!noti || noti.length === 0"
-                                    class="mb-2"
-                                >
-                                    <a
-                                        class="dropdown-item border-radius-md"
-                                        href="javascript:;"
-                                    >
-                                        <div
-                                            class="py-1 d-flex justify-content-center"
-                                        >
+                                <li v-if="!noti || noti.length === 0" class="mb-2">
+                                    <a class="dropdown-item border-radius-md" href="javascript:;">
+                                        <div class="py-1 d-flex justify-content-center">
                                             <p class="mb-0 text-sm">
                                                 알림이 없습니다.
                                             </p>
@@ -136,64 +72,39 @@
                                     </a>
                                 </li>
 
-                                <li
-                                    v-for="(notification, index) in noti"
-                                    :key="notification.id"
-                                    class="mb-2 position-relative"
-                                    style="
+                                <li v-for="(notification, index) in noti" :key="notification.id"
+                                    class="mb-2 position-relative" style="
                                         background-color: white;
                                         border-radius: 10px;
-                                    "
-                                >
-                                    <a
-                                        class="dropdown-item border-radius-md"
-                                        href="javascript:;"
-                                        :class="{
-                                            'read-notification':
-                                                notification.check === '1',
-                                        }"
-                                        @click.stop="
+                                    ">
+                                    <a class="dropdown-item border-radius-md" href="javascript:;" :class="{
+                                        'read-notification':
+                                            notification.check === '1',
+                                    }" @click.stop="
                                             readNotification(
                                                 notification.notiNo
                                             )
-                                        "
-                                    >
+                                            ">
                                         <div class="py-1 d-flex">
                                             <div class="my-auto">
-                                                <img
-                                                    :src="
-                                                        notification.senderProfilePic ||
-                                                        'https://song-e-pay.s3.ap-northeast-2.amazonaws.com/img/download.png'
-                                                    "
-                                                    class="avatar avatar-sm me-3"
-                                                    alt="user image"
-                                                />
+                                                <img :src="notification.senderProfilePic ||
+                                                    alertImg
+                                                    " class="avatar avatar-sm me-3" alt="user image" />
                                             </div>
-                                            <div
-                                                class="d-flex flex-column justify-content-center flex-grow-1"
-                                            >
-                                                <h6
-                                                    class="mb-1 text-sm"
-                                                    :class="{
-                                                        'text-muted':
-                                                            notification.check ===
-                                                            '1',
-                                                    }"
-                                                >
+                                            <div class="d-flex flex-column justify-content-center flex-grow-1">
+                                                <h6 class="mb-1 text-sm" :class="{
+                                                    'text-muted':
+                                                        notification.check ===
+                                                        '1',
+                                                }">
                                                     {{ notification.content }}
                                                 </h6>
-                                                <p
-                                                    class="mb-0 text-xs"
-                                                    :class="
-                                                        notification.check ===
+                                                <p class="mb-0 text-xs" :class="notification.check ===
                                                         '1'
-                                                            ? 'text-muted'
-                                                            : ''
-                                                    "
-                                                >
-                                                    <i
-                                                        class="fa fa-clock me-1"
-                                                    ></i>
+                                                        ? 'text-muted'
+                                                        : ''
+                                                    ">
+                                                    <i class="fa fa-clock me-1"></i>
                                                     {{
                                                         formatDate(
                                                             notification.createdAt
@@ -201,31 +112,24 @@
                                                     }}
                                                 </p>
                                                 <!-- 송금받기 버튼 추가 -->
-                                                <button
-                                                    v-if="
-                                                        notification.amount > 0
-                                                    "
-                                                    @click.stop="
+                                                <button v-if="
+                                                    notification.amount > 0
+                                                " @click.stop="
                                                         receiveTransfer(
                                                             notification.notiNo,
                                                             notification.amount
                                                         )
-                                                    "
-                                                    class="btn btn-primary mt-2"
-                                                >
+                                                        " class="btn btn-primary mt-2">
                                                     송금받기
                                                 </button>
                                             </div>
                                         </div>
                                     </a>
-                                    <button
-                                        @click.stop="
-                                            deleteNotification(
-                                                notification.notiNo
-                                            )
-                                        "
-                                        class="btn-close-custom position-absolute top-0 end-0 mt-2 me-2"
-                                    >
+                                    <button @click.stop="
+                                        deleteNotification(
+                                            notification.notiNo
+                                        )
+                                        " class="btn-close-custom position-absolute top-0 end-0 mt-2 me-2">
                                         <i class="fas fa-times"></i>
                                     </button>
                                 </li>
@@ -267,6 +171,7 @@ import { languages } from '@/constants/languages';
 import notiApi from '@/api/notificationApi';
 import { useWebSocket } from '@/utils/websocket';
 import myaccountApi from '@/api/myaccountApi';
+import alertImg from "@/assets/img/alert_img.png"
 
 const auth = useAuthStore();
 const user = computed(() => auth.user);
@@ -548,8 +453,7 @@ onUnmounted(() => {
 
 @font-face {
     font-family: 'HakgyoansimDunggeunmisoTTF-B';
-    src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/2408-5@1.0/HakgyoansimDunggeunmisoTTF-B.woff2')
-        format('woff2');
+    src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/2408-5@1.0/HakgyoansimDunggeunmisoTTF-B.woff2') format('woff2');
     font-weight: 700;
     font-style: normal;
 }
