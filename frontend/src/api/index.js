@@ -54,19 +54,26 @@ api.interceptors.response.use(
             const contentType = error.response.headers['content-type'];
 
             if (contentType && contentType.includes('text/html')) {
-              Swal.fire({
-                title: "Sessioin Expired",
-                text: "Please login again.",
-                icon: "info",
-              }).then(() => {
-                authStore.logout();
-                router.push('/login');
-              });
+                Swal.fire({
+                    title: "Sessioin Expired",
+                    text: "Please login again.",
+                    icon: "info",
+                }).then(() => {
+                    authStore.logout();
+                    router.push('/login');
+                });
             } else if (error.response?.status === 403) {
-              // 권한 오류인 경우 메인 페이지로 이동
-              router.push('/');
+                // 권한 오류인 경우 메인 페이지로 이동
+                router.push('/');
             }
             return Promise.reject(error);
+        } else if (error.response?.status === 400) {
+            console.log("??");
+            Swal.fire({
+                title: "Fail",
+                text: error.response?.data,
+                icon: 'error',
+            })
         }
     }
 );
