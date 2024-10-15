@@ -1,6 +1,7 @@
 package com.sepay.backend.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -17,7 +18,7 @@ public class TestController {
     }
 
     @PostMapping("/api/test/send-notification")
-    public void sendTestNotification(@RequestBody TestNotificationRequest request) {
+    public ResponseEntity<String> sendTestNotification(@RequestBody TestNotificationRequest request) {
         System.out.println("Received userId: " + request.getUserId());
         System.out.println("Received message: " + request.getMessage());
 
@@ -30,6 +31,7 @@ public class TestController {
                 "/topic/notifications",
                 request.getMessage()
         );
+        return ResponseEntity.ok("Success");
     }
 }
 

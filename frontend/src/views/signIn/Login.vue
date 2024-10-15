@@ -88,7 +88,11 @@ const handleSubmit = async () => {
   if (isFormValid.value) {
     try {
       await auth.login(member);
-      if (localStorage.getItem("auth") != " ") {
+
+      const loginState = JSON.parse(localStorage.getItem("auth"));
+      const token = loginState ? loginState.token : null;
+      if (token) {
+        console.log("Token after login: ", token);
         window.location.href = "/my-accounts";
       }
     } catch (e) {

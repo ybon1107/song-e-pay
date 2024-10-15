@@ -16,14 +16,14 @@ export const useAuthStore = defineStore("auth", () => {
   const state = ref({ ...initState });
   const user = ref(null);
 
-  const isLogin = computed(() => !!state.value.user.username);
+  const isLogin = computed(() => !!state.value.user.userId);
   const userId = computed(() => state.value.user.userId);
 
   const fetchUser = async (userId) => {
     try {
       const userData = await userApi.getUser(userId);
       user.value = userData;
-      console.log("fetch user : ", user.value);
+      console.log("================================fetch user : ", user.value);
     } catch (error) {
       console.error("사용자 정보를 가져오는 데 실패했습니다:", error);
     }
@@ -33,41 +33,45 @@ export const useAuthStore = defineStore("auth", () => {
     const auth = localStorage.getItem("auth");
     if (auth != null) {
       state.value = JSON.parse(auth);
-      if (state.value.token && state.value.userId) {
+      console.log("load auth : ", state.value);
+      if (state.value.token && state.value.user.userId) {
         await fetchUser(state.value.user.userId);
-        console.log("load user : ", user.value);
+        console.log("================================load user : ", user.value);
       }
     }
   };
 
   const login = async (member) => {
     try {
-      const response = await axios.post("/api/auth/login", member.value);
-      console.log("response : ", response);
-      console.log("response.data : ", response.data);
+      // const response = await axios.post("/api/auth/login", member.value);
+      // console.log("response : ", response);
+      // console.log("response.data : ", response.data);
 
-      state.value = { ...response.data };
+      // state.value = { ...response.data };
+
+      const { data } = await axios.post("/api/auth/login", member.value);
+      console.log("data : ", data);
+
+      state.value = { ...data };
+
+      await fetchUser(state.value.user.userId);
 
       switch (state.value.user.countryCode) {
         case 0:
-          state.value.user.country = "한국";
-          state.value.user.language = "ko";
+          localStorage.setItem("Language", "ko");
           break;
         case 1:
-          state.value.user.country = "미국";
-          state.value.user.language = "en";
+          localStorage.setItem("Language", "en");
           break;
         case 2:
-          state.value.user.country = "인도네시아";
-          state.value.user.language = "id";
+          localStorage.setItem("Language", "id");
           break;
         case 3:
-          state.value.user.country = "베트남";
-          state.value.user.language = "vi";
+          localStorage.setItem("Language", "vi");
           break;
       }
       localStorage.setItem("auth", JSON.stringify(state.value));
-      await fetchUser(state.value.user.userId);
+      // await fetchUser(state.value.user.userId);
     } catch (error) {
       console.error(error);
       throw error;
@@ -79,26 +83,6 @@ export const useAuthStore = defineStore("auth", () => {
     Object.assign(state.value.user, updatedData);
     console.log("updateProfileState : ", updatedData);
 
-    // countryCode에 따른 국가와 언어 설정
-    switch (state.value.user.countryCode) {
-      case 0:
-        state.value.user.country = "한국";
-        state.value.user.language = "ko";
-        break;
-      case 1:
-        state.value.user.country = "미국";
-        state.value.user.language = "en";
-        break;
-      case 2:
-        state.value.user.country = "인도네시아";
-        state.value.user.language = "id";
-        break;
-      case 3:
-        state.value.user.country = "베트남";
-        state.value.user.language = "vi";
-        break;
-    }
-
     // localStorage에 업데이트된 사용자 정보 저장
     localStorage.setItem("auth", JSON.stringify(state.value));
   };
@@ -109,7 +93,12 @@ export const useAuthStore = defineStore("auth", () => {
     user.value = null;
   };
 
-  //const getToken = () => state.value.token;
+  const getToken = () => {
+    const auth = JSON.parse(localStorage.getItem("auth"));
+    const token = auth ? auth.token : null;
+    console.log("getToken : ", token);
+    return token;
+  }
 
   const changeProfile = (member) => {
     state.value.user.userId = member.email;
@@ -135,5 +124,6 @@ export const useAuthStore = defineStore("auth", () => {
     logout,
     updateProfileState,
     fetchUser,
+    getToken,
   };
 });

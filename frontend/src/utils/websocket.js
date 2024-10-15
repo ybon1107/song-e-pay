@@ -8,7 +8,7 @@ const isConnected = ref(false);
 export function useWebSocket() {
     const authStore = useAuthStore();
     const connect = (onMessageReceived) => {
-        const wsUrl = import.meta.env.VITE_WEBSOCKET_URL;
+        const wsUrl = '/ws';
 
         stompClient.value = new Client({
             brokerURL: wsUrl,

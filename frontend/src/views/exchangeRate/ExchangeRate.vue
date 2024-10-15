@@ -14,7 +14,7 @@
           <div class="row px-3">
             <div class="col-md-7 max-margin-bottom">
               <h4 class="mt-3">
-                1 {{ customerunit }} = {{ currentToKrw.toFixed(2) }} KRW
+                1 {{ customerunit }} = {{ currentToKrw.toFixed(5) }} KRW
               </h4>
               <ExchangeRateChart
                 chartId="toexchangeChart"
@@ -105,7 +105,7 @@
           <div class="row px-3">
             <div class="col-md-7 max-margin-bottom">
               <h4 class="mt-3">
-                1000 KRW = {{ (currentFromKrw * 1000).toFixed(2) }}
+                1 KRW = {{ currentFromKrw.toFixed(5) }}
                 {{ customerunit }}
               </h4>
               <ExchangeRateChart
@@ -168,7 +168,7 @@
                 <div
                   class="d-flex justify-content-between align-items-center gap-3"
                 >
-                  <span class="text-nowrap">1000 KRW = </span>
+                  <span class="text-nowrap">1 KRW = </span>
                   <input
                     type="number"
                     v-model="alertRateKrwToUsd"
@@ -194,9 +194,9 @@
       <!-- 자동 환전 설정 섹션 -->
       <h3 class="mb-0">{{ $t("exchangeRate--header-autoExchange") }}</h3>
       <div class="card">
-        <div class="card-body">
+        <div class="card-body py-6">
           <div class="d-flex justify-content-center">
-            <div class="d-flex flex-column tab-content-width gap-3">
+            <div class="d-flex flex-column w-70 gap-4 align-items-center">
               <div class="input-group">
                 <span class="input-group-text">1 {{ customerunit }} =</span>
                 <input
@@ -222,9 +222,8 @@
                 />
                 <span class="input-group-text">KRW</span>
               </div>
-
               <button
-                class="btn btn-primary w-100 mb-0"
+                class="btn btn-primary w-50 mb-0"
                 @click="
                   confirmAutoExchange(countryCode, 0, targetExchange, targetKrw)
                 "
@@ -250,6 +249,8 @@ import myaccountApi from "../../api/myaccountApi";
 import { useRouter } from "vue-router";
 import Swal from "sweetalert2";
 import { useAuthStore } from "@/stores/auth";
+import { useI18n } from "vue-i18n";
+const { t } = useI18n(); // t 함수 정의
 
 const auth = useAuthStore();
 const user = computed(() => auth.user);
@@ -271,11 +272,11 @@ import SecondPasswordModal from "@/views/MyAccounts/SecondPasswordModal.vue";
 // Data variables
 const usdAmount = ref(1);
 const krwAmount = computed(() => {
-  return (usdAmount.value * store.currentToKrw).toFixed(2);
+  return (usdAmount.value * store.currentToKrw).toFixed(5);
 });
-const krwAmountReverse = ref(1000);
+const krwAmountReverse = ref(1);
 const usdAmountReverse = computed(() => {
-  return (krwAmountReverse.value * store.currentFromKrw).toFixed(2);
+  return (krwAmountReverse.value * store.currentFromKrw).toFixed(5);
 });
 
 const store = useExchangeStore();
@@ -313,13 +314,13 @@ const currentFromKrw = computed(() => store.currentFromKrw);
 
 // Conversion functions
 const convertToKrw = () => {
-  krwAmount.value = (usdAmount.value * currentToKrw.value).toFixed(2);
+  krwAmount.value = (usdAmount.value * currentToKrw.value).toFixed(5);
 };
 
 const convertToUsd = () => {
   usdAmountReverse.value = (
     krwAmountReverse.value * currentFromKrw.value
-  ).toFixed(2);
+  ).toFixed(5);
 };
 
 // Period state
@@ -354,12 +355,12 @@ const handleExchange = async () => {
         krwNo,
       },
       historyDTO: {
-        userId,
+        userId: Id.value,
         songNo,
         krwNo,
         typeCode: 5, // 환전 코드
         stateCode: 1, // 상태 코드 (성공)
-        historyContent: "USD → KRW 환전",
+        historyContent: `${customerunit.value} → KRW ${t("transaction_types_Exchange")}`,
         amount,
         exchangeRate,
       },
@@ -368,19 +369,19 @@ const handleExchange = async () => {
     if (response && response.data) {
       console.log("환전 성공:", response.data);
       Swal.fire({
-        title: "성공!",
-        text: "환전이 성공적으로 완료되었습니다.",
+        title: t("exchangeRate-alert-success"),
+        text: t("exchangeRate-alert-exchange-success"),
         icon: "success",
-        confirmButtonText: "확인",
+        confirmButtonText: t("exchangeRate-alert-confirm"),
       });
     }
   } catch (error) {
     console.error("환전 중 오류 발생:", error);
     Swal.fire({
-      title: "실패",
-      text: "환전 중 오류가 발생했습니다. 다시 시도해 주세요.",
+      title: t("exchangeRate-alert-fail"),
+      text: t("exchangeRate-alert-exchange-error"),
       icon: "error",
-      confirmButtonText: "확인",
+      confirmButtonText: t("exchangeRate-alert-confirm"),
     });
   }
 };
@@ -391,7 +392,7 @@ const reExchange = async () => {
     const userId = Id; // 실제 사용자 번호로 대체해야 합니다
     const krwNo = "1234"; // 실제 KRW 계좌 번호로 대체해야 합니다
     const songNo = "1234"; // 실제 송이 페이 계좌 번호로 대체해야 합니다
-    const exchangeRate = currentFromKrw.value * 1000; // 1000 KRW 기준
+    const exchangeRate = currentFromKrw.value;
     const amount = krwAmountReverse.value;
 
     const response = await myaccountApi.reExchange({
@@ -404,12 +405,12 @@ const reExchange = async () => {
         songNo,
       },
       historyDTO: {
-        userId,
+        userId: Id.value,
         songNo,
         krwNo,
         typeCode: 6, // 환급 코드
         stateCode: 1, // 상태 코드 (성공)
-        historyContent: "KRW → USD 환급",
+        historyContent: `KRW → ${customerunit.value} ${t("transaction_types_reExchange")}`,
         amount,
         exchangeRate,
       },
@@ -418,19 +419,19 @@ const reExchange = async () => {
     if (response && response.data) {
       console.log("환급 성공:", response.data);
       Swal.fire({
-        title: "성공!",
-        text: "환급이 성공적으로 완료되었습니다.",
+        title: t("exchangeRate-alert-success"),
+        text: t("exchangeRate-alert-refund-success"),
         icon: "success",
-        confirmButtonText: "확인",
+        confirmButtonText: t("exchangeRate-alert-confirm"),
       });
     }
   } catch (error) {
     console.error("환급 중 오류 발생:", error);
     Swal.fire({
-      title: "실패",
-      text: "환급 중 오류가 발생했습니다. 다시 시도해 주세요.",
+      title: t("exchangeRate-alert-fail"),
+      text: t("exchangeRate-alert-refund-error"),
       icon: "error",
-      confirmButtonText: "확인",
+      confirmButtonText: t("exchangeRate-alert-confirm"),
     });
   }
 };
@@ -443,73 +444,59 @@ const saveAlertRate = async (baseCode, targetCode, targetExchange) => {
   // 검증 로직
   if (!targetExchange || isNaN(targetExchange)) {
     Swal.fire({
-      title: "경고",
-      text: "유효한 목표 환율을 입력해주세요.",
+      title: t("exchangeRate-alert-warning"),
+      text: t("exchangeRate-alert-valid-rate"),
       icon: "warning",
-      confirmButtonText: "확인",
+      confirmButtonText: t("exchangeRate-alert-confirm"),
     });
     return;
   }
 
   if (baseCode === 1 && parseFloat(targetExchange) > currentToKrw.value) {
     Swal.fire({
-      title: "경고",
-      text: "현재 환율보다 높은 값입니다.",
+      title: t("exchangeRate-alert-warning"),
+      text: t("exchangeRate-alert-higher-than-current"),
       icon: "warning",
-      confirmButtonText: "확인",
+      confirmButtonText: t("exchangeRate-alert-confirm"),
     });
     return;
   }
 
-  if (
-    baseCode === 0 &&
-    parseFloat(targetExchange) < currentFromKrw.value * 1000
-  ) {
+  if (baseCode === 0 && parseFloat(targetExchange) < currentFromKrw.value) {
     Swal.fire({
-      title: "경고",
-      text: "현재 환율보다 낮은 값입니다.",
+      title: t("exchangeRate-alert-warning"),
+      text: t("exchangeRate-alert-lower-than-current"),
       icon: "warning",
-      confirmButtonText: "확인",
+      confirmButtonText: t("exchangeRate-alert-confirm"),
     });
     return;
   }
 
   try {
-    // const token = localStorage.getItem("jwt_token"); // JWT 토큰 가져오기
-    const userId = Id; // userNo를 추가(임시)
-    console.log(userId, baseCode, targetCode, targetExchange);
     // 서버에 POST 요청 보내기
-    const response = await axios.post(
-      "/api/exchange-reservation",
-      {
-        userId: userId,
-        baseCode: baseCode,
-        targetCode: targetCode,
-        targetExchange: targetExchange,
-      }
-      // {
-      //   headers: {
-      //     Authorization: `Bearer ${token}`, // 인증 헤더에 토큰 추가
-      //   },
-      // }
-    );
+    const response = await axios.post("/api/exchange-reservation", {
+      userId: Id.value,
+      baseCode: baseCode,
+      targetCode: targetCode,
+      targetExchange: targetExchange,
+    });
 
     if (response.status === 200) {
       Swal.fire({
-        title: "성공!",
-        text: "환율 알림이 성공적으로 저장되었습니다.",
+        title: t("exchangeRate-alert-success"),
+        text: t("exchangeRate-alert-notification-success"),
         icon: "success",
-        confirmButtonText: "확인",
+        confirmButtonText: t("exchangeRate-alert-confirm"),
       });
       router.push("/my-accounts");
     }
   } catch (error) {
     console.error("환율 알림 저장 중 오류 발생:", error);
     Swal.fire({
-      title: "실패",
-      html: `환율 알림 저장에 실패했습니다.<br>이유 : ${error.response?.data || "알 수 없는 오류"}`,
+      title: t("exchangeRate-alert-fail"),
+      text: t("exchangeRate-alert-notification-error"),
       icon: "error",
-      confirmButtonText: "확인",
+      confirmButtonText: t("exchangeRate-alert-confirm"),
     });
   }
 };
@@ -544,71 +531,60 @@ const confirmAutoExchange = async (
     isNaN(targetKrw)
   ) {
     Swal.fire({
-      title: "경고",
-      text: "유효한 목표 환율과 목표 금액을 입력해주세요.",
+      title: t("exchangeRate-alert-warning"),
+      text: t("exchangeRate-alert-valid-rate-amount"),
       icon: "warning",
-      confirmButtonText: "확인",
+      confirmButtonText: t("exchangeRate-alert-confirm"),
     });
     return;
   }
 
   if (parseFloat(targetExchange) > currentToKrw.value) {
     Swal.fire({
-      title: "경고",
-      text: "현재 환율보다 높은 값입니다.",
+      title: t("exchangeRate-alert-warning"),
+      text: t("exchangeRate-alert-higher-than-current"),
       icon: "warning",
-      confirmButtonText: "확인",
+      confirmButtonText: t("exchangeRate-alert-confirm"),
     });
     return;
   }
 
   if (parseFloat(targetKrw) < 1000) {
     Swal.fire({
-      title: "경고",
-      text: "목표 금액은 1000 KRW 이상이어야 합니다.",
+      title: t("exchangeRate-alert-warning"),
+      text: t("exchangeRate-alert-minimum-amount"),
       icon: "warning",
-      confirmButtonText: "확인",
+      confirmButtonText: t("exchangeRate-alert-confirm"),
     });
     return;
   }
 
   try {
-    // const token = localStorage.getItem("jwt_token"); // JWT 토큰 가져오기
-    const userId = Id; // userNo를 추가(임시)
-    console.log(userId, baseCode, targetCode, targetExchange, targetKrw);
     // 서버에 POST 요청 보내기
-    const response = await axios.post(
-      "/api/exchange-reservation/setalert",
-      {
-        userId: userId,
-        baseCode: baseCode,
-        targetCode: targetCode,
-        targetExchange: targetExchange,
-        targetKrw: targetKrw,
-      }
-      // {
-      //   headers: {
-      //     Authorization: `Bearer ${token}`, // 인증 헤더에 토큰 추가
-      //   },
-      // }
-    );
+    const response = await axios.post("/api/exchange-reservation/setalert", {
+      userId: Id.value,
+      baseCode: baseCode,
+      targetCode: targetCode,
+      targetExchange: targetExchange,
+      targetKrw: targetKrw,
+    });
 
     if (response.status === 200) {
       Swal.fire({
-        title: "성공!",
-        text: "자동 환전 예약이 성공적으로 저장되었습니다.",
+        title: t("exchangeRate-alert-success"),
+        text: t("exchangeRate-alert-auto-exchange-success"),
         icon: "success",
-        confirmButtonText: "확인",
+        confirmButtonText: t("exchangeRate-alert-confirm"),
       });
       router.push("/my-accounts");
     }
   } catch (error) {
     console.error("자동 환전 예약 중 오류 발생:", error);
     Swal.fire({
-      title: "실패",
-      html: `자동 환전 예약에 실패했습니다.<br>이유 : ${error.response?.data || "알 수 없는 오류"}`,
+      title: t("exchangeRate-alert-fail"),
+      text: t("exchangeRate-alert-auto-exchange-error"),
       icon: "error",
-      confirmButtonText: "확인",
+      confirmButtonText: t("exchangeRate-alert-confirm"),
     });
   }
 };

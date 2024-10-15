@@ -35,13 +35,13 @@
             <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="languageDropdown" role="button"
               data-bs-toggle="dropdown" aria-expanded="false">
               <img :src="getFlagSrc(currentLanguage)" alt="Flag" class="me-2 flag-icon" />
-              {{ currentLanguage }}
+              {{ $t(currentLanguage) }}
             </a>
             <ul class="dropdown-menu" aria-labelledby="languageDropdown">
               <li v-for="lang in languages" :key="lang.code">
                 <a class="dropdown-item d-flex align-items-center" href="#" @click="changeLanguage(lang.code)">
                   <img :src="lang.flag" :alt="`${lang.name} Flag`" class="me-2 flag-icon" />
-                  {{ lang.name }}
+                  {{ $t(lang.name) }}
                 </a>
               </li>
             </ul>
@@ -53,11 +53,13 @@
               data-bs-toggle="dropdown" aria-expanded="false" @click="showMenu = !showMenu" @blur="closeMenu">
               <div class="icon-div">
                 <i class="cursor-pointer fa fa-bell"></i>
-                <span v-if="unreadCount > 0" class="badge bg-danger">{{ unreadCount }}</span>
+                <span v-if="unreadCount > 0" class="badge bg-danger">{{
+                  unreadCount
+                }}</span>
               </div>
             </a>
 
-            <ul class="px-2 py-3 dropdown-menu dropdown-menu-end me-sm-n4" :class="showMenu ? 'show' : ''"
+            <ul class="px-2 py-3 dropdown-menu dropdown-menu-end me-sm-n4 noti-ul" :class="showMenu ? 'show' : ''"
               aria-labelledby="dropdownMenuButton">
               <div class="notifications-container">
                 <li v-if="!noti || noti.length === 0" class="mb-2">
@@ -68,24 +70,29 @@
                   </a>
                 </li>
 
-                <li v-for="(notification, index) in noti" :key="notification.id" class="mb-2 position-relative">
+                <li v-for="(notification, index) in noti" :key="notification.id" class="mb-2 position-relative" style="background-color: white; border-radius: 10px;">
                   <a class="dropdown-item border-radius-md" href="javascript:;"
                     :class="{ 'read-notification': notification.check === '1' }"
                     @click.stop="readNotification(notification.notiNo)">
                     <div class="py-1 d-flex">
                       <div class="my-auto">
-                        <img
-                          :src="notification.senderProfilePic || 'https://song-e-pay.s3.ap-northeast-2.amazonaws.com/img/download.png'"
-                          class="avatar avatar-sm me-3" alt="user image" />
+                        <img :src="notification.senderProfilePic ||
+                          'https://song-e-pay.s3.ap-northeast-2.amazonaws.com/img/download.png'
+                          " class="avatar avatar-sm me-3" alt="user image" />
                       </div>
                       <div class="d-flex flex-column justify-content-center flex-grow-1">
                         <h6 class="mb-1 text-sm" :class="{ 'text-muted': notification.check === '1' }">
                           {{ notification.content }}
                         </h6>
-                        <p class="mb-0 text-xs" :class="notification.check === '1' ? 'text-muted' : ''">
+                        <p class="mb-0 text-xs" :class="notification.check === '1' ? 'text-muted' : ''
+                          ">
                           <i class="fa fa-clock me-1"></i>
                           {{ formatDate(notification.createdAt) }}
                         </p>
+                        <!-- 송금받기 버튼 추가 -->
+                        <button v-if="notification.amount > 0" @click.stop="receiveTransfer(notification.notiNo, notification.amount)" class="btn btn-primary mt-2">
+                          송금받기
+                        </button>
                       </div>
                     </div>
                   </a>
@@ -93,8 +100,6 @@
                     class="btn-close-custom position-absolute top-0 end-0 mt-2 me-2">
                     <i class="fas fa-times"></i>
                   </button>
-                  <!-- 마지막 항목이 아닌 경우에만 구분선 추가 -->
-                  <hr v-if="index !== noti.length - 1" class="my-2 dropdown-divider">
                 </li>
               </div>
             </ul>
@@ -108,7 +113,7 @@
               </div>
             </a>
           </li>
-          <button @click="sendTestNotification" class="btn btn-primary">테스트 알림 보내기</button>
+          <!-- <button @click="sendTestNotification" class="btn btn-primary">테스트 알림 보내기</button> -->
         </ul>
       </div>
     </div>
@@ -116,7 +121,14 @@
 </template>
 
 <script setup>
-import { computed, ref, onMounted, watchEffect, reactive, onUnmounted } from "vue";
+import {
+  computed,
+  ref,
+  onMounted,
+  watchEffect,
+  reactive,
+  onUnmounted,
+} from "vue";
 import axios from "axios";
 import { useStore } from "vuex";
 import { useExchangeStore } from "@/stores/exchangeStore";
@@ -125,7 +137,8 @@ import { useAuthStore } from "@/stores/auth";
 import { useI18n } from "vue-i18n";
 import { languages } from "@/constants/languages";
 import notiApi from "@/api/notificationApi";
-import { useWebSocket } from '@/utils/websocket';
+import { useWebSocket } from "@/utils/websocket";
+import myaccountApi from "@/api/myaccountApi";
 
 const auth = useAuthStore();
 const user = computed(() => auth.user);
@@ -165,6 +178,7 @@ const currentLanguage = computed(() => {
 
 const changeLanguage = (langCode) => {
   locale.value = langCode;
+  localStorage.setItem('Language', langCode);
 };
 
 const getFlagSrc = (languageName) => {
@@ -243,14 +257,16 @@ const formatDate = (dateString) => {
   const now = new Date();
   const diffInSeconds = Math.floor((now - date) / 1000);
 
-  if (diffInSeconds < 60) return '방금 전';
+  if (diffInSeconds < 60) return "방금 전";
   if (diffInSeconds < 3600) return `${Math.floor(diffInSeconds / 60)}분 전`;
-  if (diffInSeconds < 86400) return `${Math.floor(diffInSeconds / 3600)}시간 전`;
-  if (diffInSeconds < 604800) return `${Math.floor(diffInSeconds / 86400)}일 전`;
+  if (diffInSeconds < 86400)
+    return `${Math.floor(diffInSeconds / 3600)}시간 전`;
+  if (diffInSeconds < 604800)
+    return `${Math.floor(diffInSeconds / 86400)}일 전`;
 
   const year = date.getFullYear();
-  const month = String(date.getMonth() + 1).padStart(2, '0');
-  const day = String(date.getDate()).padStart(2, '0');
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
   return `${year}-${month}-${day}`;
 };
 
@@ -258,12 +274,17 @@ const formatDate = (dateString) => {
 const readNotification = async (notiNo) => {
   try {
     await notiApi.readNotification(notiNo);
-    const notificationIndex = noti.findIndex(item => item.notiNo === notiNo);
+    const notificationIndex = noti.findIndex((item) => item.notiNo === notiNo);
     if (notificationIndex !== -1) {
-      noti[notificationIndex].check = '1';
+      noti[notificationIndex].check = "1";
+      // 읽지 않은 알림 수 업데이트
+      unreadCount.value = noti.filter((n) => n.check === "0").length;
     }
+    // 변경 사항을 Vue에 알림
+    noti.push({});
+    noti.pop();
   } catch (error) {
-    console.error('알림 읽기 실패:', error);
+    console.error("알림 읽기 실패:", error);
   }
 };
 
@@ -275,13 +296,50 @@ const deleteNotification = async (notiNo) => {
     console.log("알림이 성공적으로 삭제되었습니다.");
 
     // 화면에서 해당 알림 제거
-    const index = noti.findIndex(item => item.notiNo === notiNo);
+    const index = noti.findIndex((item) => item.notiNo === notiNo);
     if (index !== -1) {
       noti.splice(index, 1);
     }
+
+    // 읽지 않은 알림 수 업데이트
+    unreadCount.value = noti.filter((n) => n.check === "0").length;
+
+    // 변경 사항을 Vue에 알림
+    noti.push({});
+    noti.pop();
   } catch (error) {
     console.error("알림 삭제 중 오류 발생:", error);
     alert("알림 삭제 중 오류가 발생했습니다. 다시 시도해 주세요.");
+  }
+};
+
+// 송금받기
+const receiveTransfer = async (notiNo, amount) => {
+  const transferData = {
+    userId: user.value.userId,
+    notiNo: notiNo,
+    amount: amount
+  };
+
+  if (confirm("송금받기를 하시겠습니까?")) {
+    try {
+      await myaccountApi.receiveTransfer(transferData);
+      alert("송금받기가 성공적으로 완료되었습니다.");
+
+      // 송금 후 amount를 0으로 설정
+      const notificationIndex = noti.findIndex((item) => item.notiNo === notiNo);
+      if (notificationIndex !== -1) {
+        noti[notificationIndex].amount = 0;
+        // 변경 사항을 Vue에 알림
+        noti.push({});
+        noti.pop();
+      }
+    } catch (error) {
+      console.error("송금받기 중 오류 발생:", error);
+      alert("송금받기 중 오류가 발생했습니다. 다시 시도해 주세요.");
+    }
+  } else {
+    alert("송금받기가 취소되었습니다.");
   }
 };
 
@@ -294,29 +352,35 @@ const handleNewNotification = (newNotification) => {
 // 웹소켓 테스트
 const sendTestNotification = async () => {
   try {
-    const response = await axios.post('/api/test/send-notification', {
+    const response = await axios.post("/api/test/send-notification", {
       userId: auth.userId,
-      message: '이것은 테스트 알림입니다.'
+      message: "이것은 테스트 알림입니다.",
     });
-    console.log('테스트 알림 전송 성공:', response.data);
+    console.log("테스트 알림 전송 성공:", response.data);
   } catch (error) {
-    console.error('테스트 알림 전송 실패:', error);
+    console.error("테스트 알림 전송 실패:", error);
   }
 };
 
 onMounted(async () => {
-  fetchExchangeRates();
+  // 언어 설정
+  const savedLanguage = localStorage.getItem('Language');
+  if (savedLanguage) {
+    locale.value = savedLanguage;
+  }
+
+  // 유정 정보 설정
   if (auth.userId) {
     await auth.fetchUser(auth.userId);
     userImg.value = user.value?.profilePic;
     fetchExchangeRates();
     connect(auth.userId, handleNewNotification);
 
+    // 알림
     try {
       const notifications = await notiApi.getNotification(auth.userId);
       noti.splice(0, noti.length, ...notifications); // 기존 배열을 비우고 새로운 알림으로 채움
-      unreadCount.value = notifications.filter(n => n.check === '0').length;
-
+      unreadCount.value = notifications.filter((n) => n.check === "0").length;
     } catch (error) {
       console.error("알림 데이터를 가져오는 중 오류 발생:", error);
     }
@@ -331,6 +395,10 @@ onUnmounted(() => {
 </script>
 
 <style scoped>
+.noti-ul {
+  background-color: #dadada;
+}
+
 .img-div {
   width: 20px;
   height: 20px;
@@ -392,12 +460,12 @@ onUnmounted(() => {
   align-items: center;
 }
 
-.read-notification {
-  background-color: #efefef;
+.read-notification{
+  background-color: #f0f0f0 !important;
 }
 
 .text-muted {
-  color: #6c757d !important;
+  color: rgb(157, 159, 161) !important;
 }
 
 .notifications-container {
@@ -442,7 +510,9 @@ onUnmounted(() => {
   color: #6c757d;
   opacity: 0.5;
   cursor: pointer;
-  transition: opacity 0.2s ease-in-out, background-color 0.2s ease-in-out;
+  transition:
+    opacity 0.2s ease-in-out,
+    background-color 0.2s ease-in-out;
   /* 배경색 전환 효과 추가 */
   z-index: 10;
   position: relative;
@@ -454,7 +524,7 @@ onUnmounted(() => {
 .btn-close-custom:hover {
   opacity: 1;
   background-color: #f8f9fa;
-  /* 호버 시 배경색 변경 */
+  /* 호버 시 배경��� 변경 */
 }
 
 /* 새로운 스타일 추가 */
@@ -478,5 +548,4 @@ onUnmounted(() => {
   right: -5px;
   font-size: 0.7rem;
 }
-
 </style>

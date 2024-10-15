@@ -1,6 +1,7 @@
 package com.sepay.backend.mail.service;
 
 import com.sepay.backend.history.dto.HistoryDTO;
+import com.sepay.backend.history.mapper.HistoryMapper;
 import com.sepay.backend.history.service.HistoryService;
 import com.sepay.backend.user.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -23,7 +24,7 @@ public class MailServiceImpl implements MailService {
     private final MyAccountMapper mapper;
     private final JavaMailSender emailSender;
     private final UserService userService;
-    private final HistoryService historyService;
+    private final HistoryMapper historyMapper;
 
     private String verificationCode; // 인증 코드를 저장할 필드
     private LocalDateTime codeGeneratedTime; // 인증 코드 생성 시간을 저장할 필드
@@ -33,20 +34,8 @@ public class MailServiceImpl implements MailService {
     public String createVerificationCode() {
         StringBuilder code = new StringBuilder();
 
-        for (int i = 0; i < 10; i++) {
-            int random = (int) (Math.random() * 3); // 0: 숫자, 1,2: 알파벳
-
-            if (random == 0) {
-                code.append((int) (Math.random() * 10));
-            } else {
-                char alphabet = (char) ((int) (Math.random() * 26) + 65);
-                int upperOrLower = (int) (Math.random() * 2); // 0: 대문자, 1: 소문자
-                if (upperOrLower == 0) {
-                    code.append(alphabet);
-                } else {
-                    code.append(Character.toLowerCase(alphabet));
-                }
-            }
+        for (int i = 0; i < 6; i++) {
+            code.append((int) (Math.random() * 10));
         }
         return code.toString();
     }
@@ -105,10 +94,13 @@ public class MailServiceImpl implements MailService {
         }
         return false;
     }
+
     @Override
     public boolean transferTo (String userId, HistoryDTO historyDTO){
         try {
-            historyService.saveHistory(historyDTO);
+            // 보내는 사람
+            historyMapper.insertHistory(historyDTO);
+
             String transferFromUserId = historyDTO.getUserId();
             Double transferAmount = historyDTO.getAmount();
             MimeMessage message = emailSender.createMimeMessage();

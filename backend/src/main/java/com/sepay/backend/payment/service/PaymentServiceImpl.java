@@ -5,12 +5,17 @@ import com.google.zxing.WriterException;
 import com.google.zxing.client.j2se.MatrixToImageWriter;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.QRCodeWriter;
+import com.sepay.backend.eventSchedule.dto.ScheduleDTO;
+import com.sepay.backend.eventSchedule.service.ScheduleService;
 import com.sepay.backend.history.dto.HistoryDTO;
 import com.sepay.backend.history.service.HistoryService;
 import com.sepay.backend.myaccount.dto.KrwAccountDTO;
 import com.sepay.backend.myaccount.mapper.MyAccountMapper;
-import com.sepay.backend.myaccount.service.MyAccountService;
+import com.sepay.backend.payment.dto.PaymentDTO;
+import com.sepay.backend.payment.mapper.PaymentMapper;
+import com.sepay.backend.reservation.dto.AccommodationPaymentDTO;
 import com.sepay.backend.user.dto.UserDTO;
+import com.sepay.backend.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -23,9 +28,12 @@ import java.io.IOException;
 @Service
 @RequiredArgsConstructor
 public class PaymentServiceImpl implements PaymentService {
-//    private final PaymentMapper mapper;
+    private final PaymentMapper paymentMapper;
     private final MyAccountMapper mapper;
     private final HistoryService historyService;
+    private final ScheduleService scheduleService;
+    private final UserService userService;
+    private final MyAccountMapper myAccountMapper;
 
     @Override
     public byte[] createQR(String url) throws WriterException, IOException {
@@ -94,5 +102,47 @@ public class PaymentServiceImpl implements PaymentService {
         }
     }
 
+    // 카카오 숙소 결제
+    @Override
+    public int accommodationPaymentKakao(AccommodationPaymentDTO dto) {
+
+        PaymentDTO paymentDTO = new PaymentDTO();
+        paymentDTO.setUserId(dto.getBuyer_email());
+        paymentDTO.setName(dto.getName());
+        paymentDTO.setAmount(dto.getPaid_amount());
+        paymentDTO.setHistory("숙소예약");
+
+        ScheduleDTO scheduleDTO = new ScheduleDTO();
+        scheduleDTO.setUserId(dto.getBuyer_email());
+        scheduleDTO.setTitle(dto.getName());
+        scheduleDTO.setBeginDate(dto.getCustom_data().getBegin_date());
+        scheduleDTO.setEndDate(dto.getCustom_data().getEnd_date());
+        scheduleDTO.setTodo("숙소");
+        scheduleDTO.setColor("000000");
+        scheduleService.saveSchedule(scheduleDTO);
+        return paymentMapper.insertPayAccommodation(paymentDTO);
+    }
+
+    @Override
+    public int accommodationPayment(PaymentDTO dto) {
+        UserDTO userDTO = userService.getUserByEmail(dto.getUserId());
+
+        if(dto.getAmount() > myAccountMapper.selectKrwBalance(userDTO.getKrwNo())) {
+            throw new Error("Insufficient KRW balance");
+        }
+
+        dto.setHistory("숙소예약");
+
+        ScheduleDTO scheduleDTO = new ScheduleDTO();
+        scheduleDTO.setUserId(dto.getUserId());
+        scheduleDTO.setTitle(dto.getName());
+        scheduleDTO.setBeginDate(dto.getCheckInDate());
+        scheduleDTO.setEndDate(dto.getCheckOutDate());
+        scheduleDTO.setTodo("숙소");
+        scheduleDTO.setColor("000000");
+        scheduleService.saveSchedule(scheduleDTO);
+
+        return paymentMapper.insertPayAccommodation(dto);
+    }
 
 }

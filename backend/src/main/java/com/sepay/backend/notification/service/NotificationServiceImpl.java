@@ -43,11 +43,16 @@ public class NotificationServiceImpl implements NotificationService {
         return mapper.updateNoti(notiNo);
     }
 
-    // 웹소켓
-    public void notifyUser(int userId) {
-        // 특정 사용자에게 알림 전송
-        String destination = "/topic/alerts/" + userId;
-        messagingTemplate.convertAndSend(destination);
+    // 송금 받고 알림 잔액 초기화
+    @Override
+    public int updateNotification(Integer notiNo) {
+        return mapper.updateNotiAmount(notiNo);
     }
 
+    // 웹소켓
+   public void notifyUser(int userId) {
+       // 특정 사용자에게 알림 전송
+       String destination = "/topic/alerts/" + userId;
+       messagingTemplate.convertAndSend(destination);
+   }
 }

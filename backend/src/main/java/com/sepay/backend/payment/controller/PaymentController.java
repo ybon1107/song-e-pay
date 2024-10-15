@@ -1,10 +1,9 @@
 package com.sepay.backend.payment.controller;
 
 import com.google.zxing.WriterException;
-import com.sepay.backend.payment.dto.PasswordDTO;
 import com.sepay.backend.payment.dto.PaymentDTO;
 import com.sepay.backend.payment.service.PaymentService;
-import com.sepay.backend.user.dto.UserDTO;
+import com.sepay.backend.reservation.dto.AccommodationPaymentDTO;
 import com.sepay.backend.user.service.UserService;
 
 import lombok.RequiredArgsConstructor;
@@ -12,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -23,12 +23,6 @@ import java.io.OutputStream;
 public class PaymentController {
     private final PaymentService paymentService;
     private final UserService userService;
-
-    @PostMapping("/check-password")
-    public boolean checkSecondaryPassword(@RequestBody PasswordDTO passwordDTO){
-        //2차 비밀번호 확인
-        return userService.checkSecondaryPassword(passwordDTO);
-    }
 
     @GetMapping("/qr")
     public void createQR(@RequestParam String url, HttpServletResponse response) throws WriterException, IOException, IOException {
@@ -47,11 +41,6 @@ public class PaymentController {
         outputStream.close();
     }
 
-//    @PostMapping("/qr-scan")
-//    public boolean handleQRScan(@RequestBody Double amount, UserDTO user){
-//        return paymentService.payment(amount,user);
-//    }
-
     @PostMapping("/qr-scan")
     public ResponseEntity<?> handleQRScan(@RequestBody PaymentDTO dto) {
         try {
@@ -62,9 +51,18 @@ public class PaymentController {
         }
     }
 
-//    public boolean handleQRScan(@RequestBody DTORequest req){
-//        return paymentService.payment(req.getKrwAccountDTO(),req.getAmount());
-////        결제 로직 구현
-////        System.out.println("입력");
-//    }
+    // 숙소 카카오페이 결제
+    @PostMapping("/accommodation/kakao")
+    public ResponseEntity<?> kakaoAccommodation(@RequestBody AccommodationPaymentDTO dto) {
+        log.info("paymentDTO : {}", dto);
+        return ResponseEntity.ok(paymentService.accommodationPaymentKakao(dto));
+    }
+
+    // 숙소 결제
+    @PostMapping("/accommodation")
+    public ResponseEntity<?> handleAccommodation(@RequestBody PaymentDTO dto) {
+        log.info("paymentDTO : {}", dto);
+
+        return ResponseEntity.ok(paymentService.accommodationPayment(dto));
+    }
 }

@@ -34,7 +34,8 @@
 <script setup>
 import { computed } from 'vue';
 import { defineProps, defineEmits } from 'vue';
-
+import { useI18n } from 'vue-i18n';
+const { t } = useI18n();
 // Props와 Emit 정의
 const props = defineProps({
   size: {
@@ -134,7 +135,7 @@ const onInput = (event) => {
   event.target.value = event.target.value.replace(/[^\d.]/g, '');
   let rawValue = event.target.value.replace(/[^\d.]/g, ''); // 숫자만 추출
   if (rawValue.startsWith('0')) {
-    emit('update:errorAmountMessage', '0이 아닌 값을 입력하세요'); // Emit error message
+    emit('update:errorAmountMessage', t('myAccount--error-notZero')); // Emit error message
     rawValue = ''; // input 필드 값을 빈 문자열로 초기화
     event.target.value = ''; // 실제 입력 필드의 값도 초기화
   } else if (
@@ -144,7 +145,7 @@ const onInput = (event) => {
     (Number(rawValue) > getBalance() && props.activeTab == 6)
   ) {
     // If the input value exceeds the balance, show error and prevent further input
-    emit('update:errorAmountMessage', '잔액을 초과합니다'); // Emit error message
+    emit('update:errorAmountMessage', t('myAccount--error-overAmount')); // Emit error message
     rawValue = rawValue.slice(0, -1); // Reset the input field value
     event.target.value = event.target.value.slice(0, -1); // Clear the input field
   } else {

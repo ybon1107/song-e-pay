@@ -1,19 +1,14 @@
 package com.sepay.backend.myaccount.controller;
 
 import com.sepay.backend.mail.service.MailService;
-import com.sepay.backend.myaccount.dto.AccountDTO;
 import com.sepay.backend.myaccount.dto.DTORequest;
-import com.sepay.backend.myaccount.dto.KrwAccountDTO;
-import com.sepay.backend.myaccount.dto.SongAccountDTO;
 import com.sepay.backend.myaccount.service.MyAccountService;
-import com.sepay.backend.payment.dto.PasswordDTO;
+import com.sepay.backend.notification.dto.NotificationDTO;
 import com.sepay.backend.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Map;
 
 @Slf4j
 @RestController
@@ -43,10 +38,10 @@ public class MyAccountController {
     }
 
     //2차 비밀번호 확인
-    @PostMapping("/check")
-    public ResponseEntity<?> checkAccount(@RequestParam String userId) {
-        return ResponseEntity.ok(userService.selectSecondPwd(userId));
-    }
+//    @PostMapping("/check")
+//    public ResponseEntity<?> checkAccount(@RequestParam String userId) {
+//        return ResponseEntity.ok(userService.selectSecondPwd(userId));
+//    }
 
     // 충전
     @PostMapping("/deposit")
@@ -91,6 +86,13 @@ public class MyAccountController {
     @PostMapping("/krwno")
     public ResponseEntity<?> getKrwNo(@RequestParam String userId) {
         return ResponseEntity.ok(myAccountService.getKrwno(userId));
+    }
+
+    // 송금 받기
+    @PostMapping("/receive-transfer")
+    public ResponseEntity<?> receiveTransfer(@RequestBody NotificationDTO dto) {
+        log.info("dto {}", dto);
+        return ResponseEntity.ok(myAccountService.receiveSongE(dto));
     }
 
 }

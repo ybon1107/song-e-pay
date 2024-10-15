@@ -1,5 +1,6 @@
 package com.sepay.backend.setting.controller;
 
+
 import com.sepay.backend.S3.service.S3Service;
 import com.sepay.backend.setting.service.SettingService;
 import com.sepay.backend.user.dto.UserDTO;
@@ -7,14 +8,11 @@ import com.sepay.backend.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Map;
 
@@ -88,8 +86,18 @@ public class SettingController {
         return ResponseEntity.ok(settingService.modifySecondPassword(secondPwd, userId));
     }
 
+    // 2차 비밀번호 확인
+    @PostMapping("/check-secpwd")
+    public ResponseEntity<?> checkSecondaryPassword(@RequestBody Map<String, String> requestData){
+        String userId = requestData.get("userId");
+        String secPwd = requestData.get("secPwd");
+
+        //2차 비밀번호 확인
+        return ResponseEntity.ok(settingService.checkSecondPassword(userId, secPwd));
+    }
+
     // 회원 탈퇴
-    @DeleteMapping("/bye/{userNo}")
+    @DeleteMapping("/bye/{userId}")
     public ResponseEntity<?> bye(@PathVariable String userId) {
         log.info("userId : ", userId);
         return ResponseEntity.ok(settingService.deleteUser(userId));
