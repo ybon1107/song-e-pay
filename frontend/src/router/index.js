@@ -133,9 +133,9 @@ const routes = [
 ];
 
 const router = createRouter({
-    history: createWebHistory(process.env.BASE_URL),
-    routes,
-    linkActiveClass: 'active',
+  history: createWebHistory(process.env.BASE_URL),
+  routes,
+  linkActiveClass: 'active',
 });
 
 router.beforeEach((to, from, next) => {
@@ -151,6 +151,12 @@ router.beforeEach((to, from, next) => {
   }
 
   if ((to.name === 'Password') && from.name !== 'Payment') {
+    return next({
+      name: 'Payment',
+    });
+  }
+
+  if ((to.name === 'Qr') && from.name !== 'Password') {
     return next({
       name: 'Payment',
     });
