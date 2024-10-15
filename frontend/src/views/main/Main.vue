@@ -152,7 +152,7 @@
       </div>
     </div>
     <div class="row justify-content-center">
-      <div class="col-md-10 color-beige">
+      <div class="col-md-10">
         <p>Make travel finance easier, smarter in Korea</p>
         <p style="text-align: justify;">
           Simplify your finances Song-E Pay provides foreigners traveling to Korea with
@@ -268,7 +268,7 @@
 
   <!-- 세 번째 섹션 -->
   <section class="section-container-brown">
-    <h3 class="font_2 color-green mb-4">
+    <h3 class="font_2 color-light-beige mb-4">
       Pay Money account & Send money <br />
       between Korean won-only accounts
     </h3>
@@ -372,7 +372,7 @@ onBeforeMount(() => {
 }
 
 .section-container-green {
-  background-color: #536438;
+  background-color: #fae55f;
   padding-top: 6rem;
   padding-left: 9rem;
   padding-right: 9rem;
@@ -389,7 +389,7 @@ onBeforeMount(() => {
 }
 
 .curved-section {
-  background-color: #536438;
+  background-color: #fae55f;
   padding: 0;
   margin-top: -20px;
   /* 섹션 사이에 자연스럽게 연결되도록 설정 */
