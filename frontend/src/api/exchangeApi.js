@@ -1,75 +1,16 @@
-import axios from 'axios';
-import { useAuthStore } from '@/stores/auth';
+import api from '@/api';
 
-const api = axios.create({
-    baseURL: '/api/exchange-reservation',
-    headers: { 'Content-Type': 'application/json' }
-});
-
-api.interceptors.request.use((config) => {
-    const authStore = useAuthStore();
-    const token = authStore.getToken();
-
-    if (token) {
-        config.headers.Authorization = `Bearer ${token}`;
-    }
-
-    return config;
-}, (error) => {
-    return Promise.reject(error);
-});
+const BASE_URL = '/api/exchange';
 
 export default {
-    // 알림 설정
-    async autoExchange(userId) {
+    async setExchange(rates) {
         try {
-            const response = await api.get(`/setalert/${userId}`);
-            return response;
-
+            const response = await api.post(
+                `${BASE_URL}/rates`, rates
+            ); // 쿼리 파라미터로 전달
+            return response.data;
         } catch (error) {
-            console.error('알림 설정 오류:', error.response.data);
-            throw error;
-        }
-    },
-    async setReservation(req) {
-        try {
-            const response = await api.post('', req);
-            return response;
-
-        } catch (error) {
-            console.error('알림 설정 오류:', error.response.data);
-            throw error;
-        }
-    },
-    async setConditions(req) {
-        try {
-            const response = await api.post(`/setalert`, req);
-            return response;
-
-        } catch (error) {
-            console.error('알림 설정 오류:', error.response.data);
-            throw error;
-        }
-    },
-
-    async alertConditions(userId) {
-        try {
-            const response = await api.get(`/${userId}`);
-            return response;
-
-        } catch (error) {
-            console.error('알림 설정 오류:', error.response.data);
-            throw error;
-        }
-    },
-
-    async deleteConditions(resNo) {
-        try {
-            const response = await api.delete(`/${resNo}`);
-            return response;
-
-        } catch (error) {
-            console.error('알림 설정 오류:', error.response.data);
+            console.error('KRW 계좌 잔액 조회 오류:', error);
             throw error;
         }
     }

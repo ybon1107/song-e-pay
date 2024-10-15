@@ -172,7 +172,7 @@ import notiApi from '@/api/notificationApi';
 import { useWebSocket } from '@/utils/websocket';
 import myaccountApi from '@/api/myaccountApi';
 import alertImg from "@/assets/img/alert_img.png"
-
+import exchangeApi from '../../api/exchangeApi';
 const auth = useAuthStore();
 const user = computed(() => auth.user);
 
@@ -277,7 +277,7 @@ const fetchExchangeRates = async () => {
 
 const saveExchangeRates = async (rates) => {
     try {
-        const response = await axios.post('/api/exchange/rates', rates);
+        const response = await exchangeApi.setExchange(rates);
         console.log('환율 데이터가 성공적으로 저장되었습니다:', response.data);
     } catch (error) {
         console.error(

@@ -1,6 +1,6 @@
 <script setup>
 import { ref, onMounted, computed, watchEffect } from 'vue';
-import exchangeApi from '../../api/exchangeApi';
+import exchangeReservationApi from '../../api/exchangeReservationApi';
 import Swal from 'sweetalert2';
 //user
 import { useAuthStore } from '@/stores/auth';
@@ -22,7 +22,7 @@ const alertConditions = ref([]);
 // 자동 환전 예약 데이터를 가져오는 함수
 const fetchAutoExchange = async () => {
     try {
-        const response = await exchangeApi.autoExchange(userId.value);
+        const response = await exchangeReservationApi.autoExchange(userId.value);
         if (response.status === 200) {
             // 응답 데이터가 존재하면 autoConditions에 저장
             const reservations = response.data;
@@ -36,7 +36,7 @@ const fetchAutoExchange = async () => {
 // 환율 알림 데이터를 가져오는 함수
 const fetchAlertConditions = async () => {
     try {
-        const response = await exchangeApi.alertConditions(userId.value);
+        const response = await exchangeReservationApi.alertConditions(userId.value);
         if (response.status === 200) {
             // 응답 데이터가 존재하면 alertConditions에 최대 2개 저장
             const alerts = response.data.slice(0, 2); // 최대 2개만 가져옴
@@ -53,7 +53,7 @@ const deleteAlertCondition = async (resNo) => {
     try {
         console.log('삭제할 예약 번호:', resNo);
         if (resNo) {
-            const response = await exchangeApi.deleteConditions(resNo);
+            const response = await exchangeReservationApi.deleteConditions(resNo);
             if (response.status === 200) {
                 Swal.fire({
                     title: t('myAccount--Alert-swal-suceess'),
@@ -121,12 +121,12 @@ watchEffect(() => {
                                 <div class="d-flex gap-3 flex-column-min">
                                     <div>{{ $t('myAccount--exchangeRate-baseCurrency') }}: {{
                                         autoConditions[0]?.baseCode
-                                    }}</div>
+                                        }}</div>
                                     <div>{{ $t('myAccount--exchangeRate-targetCurrency') }}: {{
                                         autoConditions[0]?.targetCode }}</div>
                                     <div>{{ $t('myAccount--exchangeRate-targetExchangeRate') }}: {{
                                         autoConditions[0]?.targetExchange
-                                    }}
+                                        }}
                                     </div>
                                     <div>{{ $t('myAccount--exchangeRate-targetKrw') }}: {{ autoConditions[0]?.targetKrw
                                         }}</div>
