@@ -119,52 +119,60 @@
   <div class="section-container-green">
 
     <!-- 두 번째 섹션 -->
-    <div class="row mb-4">
-      <div class="col-12 mobile-btn">
-        <div class="d-flex flex-column align-items-center text-center">
-          <div class="small-img-container me-2">
-            <img src="/images/quote.png" class="small-img">
+    <div class="row align-items-center">
+      <div class="col-md-7">
+        <div class="row mb-4">
+          <div class="col-12 mobile-btn">
+            <div class="d-flex flex-column align-items-center text-center">
+              <div class="small-img-container me-2">
+                <img src="/images/quote.png" class="small-img">
+              </div>
+              <h3>
+                Your essential travel partner be your essential travel partner
+              </h3>
+              <div class="small-img-container">
+                <img src="/images/quote-right.png" class="small-img">
+              </div>
+            </div>
           </div>
-          <h3>
-            Your essential travel partner be your essential travel partner
-          </h3>
-          <div class="small-img-container">
-            <img src="/images/quote-right.png" class="small-img">
-          </div>
-        </div>
-      </div>
 
-      <div class="col-md-9 web-btn">
-        <div class="d-flex">
-          <div class="small-img-container me-2">
-            <img src="/images/quote.png" class="small-img">
+          <div class="col-10 web-btn">
+            <div class="d-flex">
+              <div class="small-img-container me-2">
+                <img src="/images/quote.png" class="small-img">
+              </div>
+              <h3 class="mt-3">
+                Your essential travel partner
+              </h3>
+            </div>
+            <div class="d-flex justify-content-end">
+              <h3 class="text-end">be your essential travel partner</h3>
+              <div class="small-img-container ms-2 mt-2">
+                <img src="/images/quote-right.png" class="small-img">
+              </div>
+            </div>
           </div>
-          <h3>
-            Your essential travel partner
-          </h3>
         </div>
-        <div class="d-flex justify-content-end">
-          <h3 class="text-end">be your essential travel partner</h3>
-          <div class="small-img-container ms-2">
-            <img src="/images/quote-right.png" class="small-img">
+      </div>
+      <div class="col-md-5">
+        <div class="row justify-content-center">
+          <div class="col">
+            <p>Make travel finance easier, smarter in Korea</p>
+            <p style="text-align: justify;">
+              Simplify your finances Song-E Pay provides foreigners traveling to Korea with
+              real-time exchange rates, automatic currency conversion, automatic
+              currency conversion, and easy money transfer. Exchange money and make
+              payments easily Manage your Pay Money account and bank map service to
+              make your local financial Make your life easier with automatic trip
+              logs based on your payment history Calendar makes it easy to organize
+              your memories.
+            </p>
           </div>
         </div>
       </div>
     </div>
-    <div class="row justify-content-center">
-      <div class="col-md-10">
-        <p>Make travel finance easier, smarter in Korea</p>
-        <p style="text-align: justify;">
-          Simplify your finances Song-E Pay provides foreigners traveling to Korea with
-          real-time exchange rates, automatic currency conversion, automatic
-          currency conversion, and easy money transfer. Exchange money and make
-          payments easily Manage your Pay Money account and bank map service to
-          make your local financial Make your life easier with automatic trip
-          logs based on your payment history Calendar makes it easy to organize
-          your memories.
-        </p>
-      </div>
-    </div>
+
+
   </div>
 
 
@@ -268,10 +276,16 @@
 
   <!-- 세 번째 섹션 -->
   <section class="section-container-brown">
-    <h3 class="font_2 color-light-beige mb-4">
-      Pay Money account & Send money <br />
-      between Korean won-only accounts
+    <div class="web-btn">
+      <h3 class="font_2 color-light-beige">
+      Pay Money account & Send money
     </h3>
+    <h3 class="font_2 color-light-beige ms-5">between Korean won-only accounts</h3>
+    </div>
+    <div class="mobile-btn">
+      <h3 class="font_2 color-light-beige text-center mb-4">Pay Money account & Send money between Korean won-only accounts</h3>
+    </div>
+
     <div class="d-flex justify-content-between align-items-center flex-column flex-md-row mb-3 color-beige">
       <div class="mesh-left col-md-7 d-flex flex-column px-3">
         <p class="fw-bold fs-5 mb-1">Manage your money in one place!</p>
@@ -297,7 +311,7 @@
       </div>
       <div class="mesh-right col-md-5 col-12 d-flex justify-content-end align-items-center">
         <img src="../../../images/Coin.png" alt="송금 이미지" class="img-fluid"
-          style="max-width: 90%; height: auto; object-fit: cover" />
+          style="max-width: 80%; height: auto; object-fit: cover" />
       </div>
     </div>
   </section>
@@ -340,7 +354,7 @@
           <img src="/images/quote-right.png" class="small-img">
         </div>
       </div>
-      <a href="/home" class="btn">get started</a>
+      <a href="/login" class="btn">get started</a>
     </div>
   </section>
 </template>
@@ -384,7 +398,7 @@ onBeforeMount(() => {
   color: #f4f2f2;
   padding-top: 9rem;
   padding-left: 9rem;
-  padding-right: 8rem;
+  padding-right: 9rem;
   padding-bottom: 6rem;
 }
 
