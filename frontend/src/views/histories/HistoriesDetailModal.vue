@@ -27,7 +27,7 @@
     <div class="d-flex justify-content-between align-items-center mb-3">
       <strong>{{ $t("histories--modal-memo") }}</strong>
       <button @click="updateMemo" class="btn btn-secondary btn-sm mb-0">
-        {{ $t("common-btn-save") }}
+        {{ $t("common--btn-save") }}
       </button>
     </div>
     <argon-alert v-if="showAlert" class="mt-3" :color="alertColor">
