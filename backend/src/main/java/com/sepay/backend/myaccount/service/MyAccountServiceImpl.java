@@ -108,7 +108,7 @@ public class MyAccountServiceImpl implements MyAccountService {
     @Transactional
     public boolean exchange(SongAccountDTO songAccountDTO, KrwAccountDTO krwAccountDTO, HistoryDTO historyDTO , Double amount, Double exchangeRate) {
         // 송이 계좌에 환전 금액보다 많을 때
-        double songToKrw = Math.round(amount * exchangeRate);
+        double songToKrw = Math.round((amount / exchangeRate) * 100.0) / 100.0;
 
         if(mapper.selectSongBalance(songAccountDTO.getSongNo()) >= songToKrw) {
             // 송이 계좌 감소
