@@ -86,10 +86,27 @@ public class ExchangeRateAlertScheduler {
         return (isFromForeignToKRW && currentRate <= targetRate) || (!isFromForeignToKRW && currentRate >= targetRate);
     }
 
+//    private void saveAlert(ExchangeReservationDTO reservation, double currentRate, String userId) {
+//
+//        String direction = reservation.getBaseCode() != 0 ? "하락" : "상승";
+//        String message = String.format("현재 환율(%s)이 목표 환율(%s) 에 도달했습니다.",
+//                currentRate, reservation.getTargetExchange());
+//
+//        NotificationDTO notificationDTO = new NotificationDTO();
+//        notificationDTO.setUserId(userId);
+//        notificationDTO.setResNo(reservation.getResNo());
+//        notificationDTO.setContent(message);
+//
+//        notificationService.saveNotification(notificationDTO);
+//
+//        log.info("환율 {} 알림 저장. 예약 ID: {}, 사용자 번호: {}, 현재 환율: {}, 목표 환율: {}",
+//                direction, reservation.getResNo(), reservation.getUserId(), currentRate, reservation.getTargetExchange());
+//        exchangeReservationService.removeExchangeReservation(reservation.getResNo());
+//    }
     private void saveAlert(ExchangeReservationDTO reservation, double currentRate, String userId) {
 
-        String direction = reservation.getBaseCode() != 0 ? "하락" : "상승";
-        String message = String.format("현재 환율(%s)이 목표 환율(%s) 에 도달했습니다.",
+        String direction = reservation.getBaseCode() != 0 ? "Down" : "Up";
+        String message = String.format("The current exchange rate(%s) has reached the target exchange rate(%s).",
                 currentRate, reservation.getTargetExchange());
 
         NotificationDTO notificationDTO = new NotificationDTO();
@@ -99,7 +116,7 @@ public class ExchangeRateAlertScheduler {
 
         notificationService.saveNotification(notificationDTO);
 
-        log.info("환율 {} 알림 저장. 예약 ID: {}, 사용자 번호: {}, 현재 환율: {}, 목표 환율: {}",
+        log.info("Exchange rates {} Save notification. Booking ID: {}, User number: {}, Current exchange rate: {}, Target exchange rate: {}",
                 direction, reservation.getResNo(), reservation.getUserId(), currentRate, reservation.getTargetExchange());
         exchangeReservationService.removeExchangeReservation(reservation.getResNo());
     }
