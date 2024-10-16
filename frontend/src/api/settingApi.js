@@ -1,8 +1,8 @@
 import api from '@/api';
+import mulApi from '@/api/multipartApi';
 import { useAuthStore } from '@/stores/auth';
 
 const BASE_URL = '/api/setting';
-const headers = { 'Content-Type': 'multipart/form-data' };
 
 export default {
   async updateProfile(userInfo) {
@@ -20,7 +20,7 @@ export default {
       console.log('profilePic: ', userInfo.profilePic);
     }
 
-    const { data } = await api.post(`${BASE_URL}/`, formData, headers);
+    const { data } = await mulApi.post(`${BASE_URL}/`, formData);
     console.log('updateProfile: ', data);
 
     const auth = useAuthStore();
