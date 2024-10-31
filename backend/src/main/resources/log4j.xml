@@ -33,6 +33,13 @@
         <level value="info"/>
     </logger>
 
+    <logger name="org.springframework.web.socket">
+        <level value="debug"/>
+    </logger>
+
+    <logger name="org.springframework.messaging">
+        <level value="debug"/>
+    </logger>
 
     <logger name="jdbc.audit">
         <level value="warn"/>

@@ -13,7 +13,7 @@ Coded by www.creative-tim.com
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 -->
 <script setup>
-import { computed } from "vue";
+import { computed, ref, onMounted } from "vue";
 import { useStore } from "vuex";
 import Sidenav from "./components/sidenav";
 // import Configurator from "./views/Configurator.vue";
@@ -42,18 +42,38 @@ const navClasses = computed(() => {
     "px-0 mx-4": !isAbsolute.value,
   };
 });
+
+const deviceInfo = ref(false);
+
+const isMobile = () => {
+  const info = navigator.userAgent;
+  let flag = false;
+
+  if (
+    info.indexOf("iPhone") > -1 ||
+    info.indexOf("Android") > -1 ||
+    info.indexOf("iPad") > -1 ||
+    info.indexOf("iPod") > -1
+  ) {
+    flag = true;
+  }
+  deviceInfo.value = flag;
+};
+
+const init = () => {
+  isMobile();
+};
+
+onMounted(() => {
+  init();
+});
 </script>
 <template>
-  <div
-    v-show="layout === 'landing'"
-    class="landing-bg h-100 bg-gradient-primary position-fixed w-100"
-  ></div>
+  <div v-show="layout === 'landing'" class="landing-bg h-100 bg-gradient-primary position-fixed w-100"></div>
 
   <sidenav v-if="showSidenav" />
 
-  <main
-    class="main-content position-relative max-height-vh-100 h-100 border-radius-lg"
-  >
+  <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg">
     <!-- nav -->
 
     <navbar :class="[navClasses]" v-if="showNavbar" />
@@ -66,6 +86,16 @@ const navClasses = computed(() => {
       :toggle="toggleConfigurator"
       :class="[showConfig ? 'show' : '', hideConfigButton ? 'd-none' : '']"
     /> -->
+
+    <div v-if="deviceInfo" class="fixed-plugin">
+      <router-link to="/payment" class="px-3 py-2 fixed-plugin-button position-fixed">
+        <div>
+          <img src="@/assets/img/card_3D.png" class="img-div">
+        </div>
+        <!-- <i class="py-2 fa fa-cog"></i> -->
+      </router-link>
+    </div>
+
     <!-- 모달을 여기로 이동 -->
     <teleport to="body">
       <div id="modal-container"></div>

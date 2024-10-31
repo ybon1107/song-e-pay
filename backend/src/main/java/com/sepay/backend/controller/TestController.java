@@ -26,12 +26,29 @@ public class TestController {
             throw new IllegalArgumentException("userId cannot be null or empty");
         }
 
-        messagingTemplate.convertAndSendToUser(
-                request.getUserId(),
-                "/topic/notifications",
-                request.getMessage()
+        // JSON 형식으로 메시지를 전송
+        String messageJson = "{" +
+                "\"notiNo\": 1," +
+                "\"check\": \"0\"," +
+                "\"content\": \"테스트\"," +
+                "\"createdAt\": 1728707766000," +
+                "\"amount\": \"0\"" +
+                "}";
+
+        messagingTemplate.convertAndSend(
+                "/queue/notifications/user/" + request.getUserId(),
+                messageJson
         );
         return ResponseEntity.ok("Success");
+    }
+
+    @PostMapping("/api/test/send-notification2")
+    public void sendNotification(@RequestBody TestNotificationRequest request) {
+        messagingTemplate.convertAndSendToUser(
+                request.getUserId(),
+                "/topic/alerts",
+                request.getMessage()
+        );
     }
 }
 

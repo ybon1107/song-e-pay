@@ -6,14 +6,14 @@
 <mapper namespace="com.sepay.backend.exchange.mapper.ExchangeMapper">
 
     <!-- 환율 조회 -->
-    <select id="selectExchange" resultType="com.sepay.backend.exchange.dto.ExchangeDTO">
+    <select id="selectExchange" resultType="ExchangeDTO">
         select base_code, target_code, exchange_rate
         from exchange_rate
         where base_code = #{baseCode} and target_code = #{targetCode}
     </select>
 
     <!-- 환율 업데이트 -->
-    <update id="updateExchange" parameterType="com.sepay.backend.exchange.dto.ExchangeDTO">
+    <update id="updateExchange" parameterType="ExchangeDTO">
         update exchange_rate
         set exchange_rate = #{exchangeRate}, updated_at = now()
         where base_code = #{baseCode} and target_code = #{targetCode}

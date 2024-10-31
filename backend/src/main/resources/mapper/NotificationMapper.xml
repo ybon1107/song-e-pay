@@ -6,13 +6,20 @@
 <mapper namespace="com.sepay.backend.notification.mapper.NotificationMapper">
 
     <!-- 알림 등록 -->
-    <insert id="insertNotification" parameterType="notificationDTO">
+    <insert id="insertNotification" parameterType="notificationDTO" useGeneratedKeys="true" keyProperty="notiNo" keyColumn="noti_no">
         INSERT INTO notification
             (res_no, history_no, user_id, content, amount)
         VALUES(#{resNo}, #{historyNo}, #{userId}, #{content}, #{amount});
     </insert>
 
-    <!-- 알림 불러오기 -->
+    <!-- 알림 번호로 가져오기 -->
+    <select id="selectByNo" parameterType="Integer" resultType="notificationDTO">
+        SELECT *
+        FROM notification
+        WHERE noti_no = #{notiNo}
+    </select>
+
+    <!-- 유저 알림 불러오기 -->
     <select id="selectByUserId" parameterType="String" resultType="notificationDTO">
         SELECT *
         FROM notification

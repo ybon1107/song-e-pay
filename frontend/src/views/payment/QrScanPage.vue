@@ -1,19 +1,23 @@
 <template>
   <div class="container">
     <div class="row justify-content-center">
-      <div class="mx-auto col-xl-4 col-lg-5 col-md-7 d-flex flex-column mx-lg-0">
+      <div
+        class="mx-auto col-xl-4 col-lg-5 col-md-7 d-flex flex-column mx-lg-0"
+      >
         <div class="d-xl-none">
           <div class="text-center mb-3">
             <form @submit.prevent="handleQRScan">
               <button type="submit" class="btn btn-primary me-3">확인</button>
             </form>
 
-            <img :src="qrCodeUrl" alt="QR Code" />
+            <img v-if="qrCodeUrl" :src="qrCodeUrl" alt="QR Code" />
             <p>{{ formattedCountdown }}</p>
           </div>
 
-          <div class="btn btn-sm btn-warning mb-0 mx-4 d-flex justify-content-between">
-            <p class="mb-0">{{$t('payment--qrScan--balanceLabel')}}</p>
+          <div
+            class="btn btn-sm btn-warning mb-0 mx-4 d-flex justify-content-between"
+          >
+            <p class="mb-0">{{ $t("payment--qrScan--balanceLabel") }}</p>
             <p class="mb-0">{{ woneMoneyBalance }} KRW</p>
           </div>
         </div>
@@ -25,17 +29,18 @@
 <script setup>
 import { ref, computed, onMounted, onBeforeUnmount } from "vue";
 import { useRouter } from "vue-router";
+import api from "../../api";
 import paymentApi from "../../api/paymentApi";
 import Swal from "sweetalert2";
 
-import myaccountApi from '../../api/myaccountApi';
+import myaccountApi from "../../api/myaccountApi";
 
-import { useAuthStore } from '@/stores/auth';
+import { useAuthStore } from "@/stores/auth";
 const auth = useAuthStore();
 const user = computed(() => auth.user);
 
 //i18n
-import { useI18n } from 'vue-i18n';
+import { useI18n } from "vue-i18n";
 const { t } = useI18n();
 
 const router = useRouter(); // Router 사용
@@ -53,13 +58,32 @@ const fetchKrwBalance = async () => {
     const balance = await myaccountApi.fetchkrwAccountBalance(user.value.krwNo);
     woneMoneyBalance.value = balance;
   } catch (error) {
-    console.error('KRW 계좌 잔액 조회 중 오류 발생:', error);
+    console.error("KRW 계좌 잔액 조회 중 오류 발생:", error);
   }
 };
 
-const generateQRCode = () => {
-  const url = encodeURIComponent(`/api/payment/qr-scan`);
-  qrCodeUrl.value = `/api/payment/qr?url=${url}&_=${new Date().getTime()}`;
+const generateQRCode = async () => {
+  try {
+    const dynamicUrl = encodeURIComponent(`/api/payment/qr-scan`);
+    const response = await api.get("/api/payment/qr", {
+      params: { url: dynamicUrl, _: new Date().getTime() },
+      responseType: "blob",
+    });
+
+    // console.log("QR Code response: ", response);
+
+    if (response && response.data) {
+      // Blob 데이터를 URL로 변환
+      const qrCodeBlob = response.data;
+      const qrCodeObjUrl = URL.createObjectURL(qrCodeBlob);
+      qrCodeUrl.value = qrCodeObjUrl;
+      // console.log("QR Code URL: ", qrCodeUrl);
+    } else {
+      console.error("QR Code response data is invalid", response);
+    }
+  } catch (error) {
+    console.error("QR 코드 생성 중 오류 발생:", error);
+  }
 };
 
 const startCountdown = () => {
@@ -84,20 +108,38 @@ const formattedCountdown = computed(() => {
 
 const req = {
   amount: 1000,
-  userDTO: user.value
+  userId: user.value.userId,
+  krwNo: user.value.krwNo,
+  songNo: user.value.songNo,
+  historyContent: "SongSong Restaurant",
+  // userDTO: user.value
+};
+
+// 새로고침시 /payment로 이동
+const handleUnload = (event) => {
+  event.preventDefault();
+  router.push("/payment");
 };
 
 // QR 스캔 후 처리
 const handleQRScan = async () => {
   try {
     const response = await paymentApi.scanQRCode(req);
-    Swal.fire({
-      title: t("swal--title-success"),
-      text: t("payment--swal-success-text"),
-      icon: "success",
-    });
-    router.push("/"); // 홈으로 이동
+
+    console.log(response);
+    if (response.status === 200) {
+      window.addEventListener("beforeunload", handleUnload);
+      Swal.fire({
+        title: t("swal--title-success"),
+        text: t("payment--swal-success-text"),
+        icon: "success",
+      }).then(() => {
+        router.push("/my-page");
+      });
+    }
+    console.log(response);
   } catch (error) {
+    console.log(error);
     Swal.fire({
       title: t("swal--title-fail"),
       text: t("payment--swal-fail-text"),
@@ -105,7 +147,6 @@ const handleQRScan = async () => {
     });
   }
 };
-
 
 onMounted(() => {
   // KRW 계좌 잔액 조회
@@ -116,6 +157,8 @@ onMounted(() => {
 
   // QR 코드 갱신을 위한 카운트다운 시작
   startCountdown();
+
+  // window.addEventListener("beforeunload", handleUnload);
 });
 
 onBeforeUnmount(() => {
@@ -123,5 +166,7 @@ onBeforeUnmount(() => {
   if (countdownInterval) {
     clearInterval(countdownInterval);
   }
+
+  window.removeEventListener("beforeunload", handleUnload);
 });
 </script>

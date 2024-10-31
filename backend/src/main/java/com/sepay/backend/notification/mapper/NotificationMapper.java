@@ -9,6 +9,9 @@ public interface NotificationMapper {
     void insertNotification(NotificationDTO notificationDTO);
 
     // 알림 가져오기
+    NotificationDTO selectByNo(Integer notiNo);
+
+    // 유저 알림 가져오기
     List<NotificationDTO> selectByUserId(String userId);
 
     // 알림 삭제

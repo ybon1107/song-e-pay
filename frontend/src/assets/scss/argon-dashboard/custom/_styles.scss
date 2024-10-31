@@ -1,3 +1,39 @@
+@font-face {
+  font-family: 'LINESeedSans_Rg';
+  src: url('../../../fonts/LINE_Seed_Sans/LINESeedSans_Rg.otf') format('otf');
+  font-weight: normal;
+}
+
+@font-face {
+  font-family: 'LINESeedSans_Bd';
+  src: url('../../../fonts/LINE_Seed_Sans/LINESeedSans_Bd.otf') format('otf');
+  font-weight: bold;
+}
+
+@font-face {
+  font-family: 'LINESeedSans_He';
+  src: url('../../../fonts/LINE_Seed_Sans/LINESeedSans_He.otf') format('otf');
+  font-weight: 900;
+}
+
+@font-face {
+  font-family: 'LINESeedSans_Th';
+  src: url('../../../fonts/LINE_Seed_Sans/LINESeedSans_Th.otf') format('otf');
+  font-weight: 100;
+}
+
+@font-face {
+  font-family: 'LINESeedSans_XBd';
+  src: url('../../../fonts/LINE_Seed_Sans/LINESeedSans_XBd.otf') format('otf');
+  font-weight: 800;
+}
+
+
+
+body {
+  font-family: 'LINESeedSans_Rg', 'LINESeedSans_Bd', 'LINESeedSans_He', 'LINESeedSans_Th', 'LINESeedSans_XBd', sans-serif !important;
+}
+
 .container-fluid {
   max-width: 1200px;
 }
@@ -9,6 +45,24 @@
 .text-blue {
   color: blue;
 }
+
+.text-red {
+  color: red;
+}
+
+.img-div {
+  width: 2.5rem;
+  height: auto;
+  position: relative;
+}
+
+.user-profile-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
 
 .modal-backdrop {
   z-index: 1060 !important;
@@ -96,8 +150,23 @@
 }
 
 //acountscard 배경 이미지
+// .card-img-bg {
+//   cursor: pointer;
+//   // background-color: $primary-yellow;
+//   background-size: cover;
+//   background-position: center;
+//   width: 100%;
+//   max-width: 407px;
+//   min-width: 200px;
+//   height: auto;
+//   aspect-ratio: 407 / 271;
+//   display: flex;
+//   justify-content: center;
+//   align-items: center;
+// }
+
 .card-img-bg {
-  width: 8.56cm;
+  width: 10.56cm;
   aspect-ratio: 1.585;
   /* 비율 8.56 / 5.398 */
   background-size: cover;
@@ -208,5 +277,9 @@
   //flex세로 정렬
   .flex-column-min {
     flex-direction: column;
+  }
+
+  .card-img-bg {
+    width: 7.56cm;
   }
 }

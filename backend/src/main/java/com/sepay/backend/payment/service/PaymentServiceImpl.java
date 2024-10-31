@@ -23,6 +23,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.Date;
 
 @Slf4j
 @Service
@@ -54,26 +55,26 @@ public class PaymentServiceImpl implements PaymentService {
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void payment(Double amount, UserDTO user) {
-        if (amount <= 0) {
+    public void payment(PaymentDTO dto) {
+        if (dto.getAmount() <= 0) {
             throw new IllegalArgumentException("Amount must be positive");
         }
-        if (user == null || user.getKrwNo() == null) {
+        if (dto.getUserId() == null || dto.getKrwNo() == null) {
             throw new IllegalArgumentException("Invalid user information");
         }
 
-        String krwNo = user.getKrwNo();
-        double krwBalance = mapper.selectKrwBalance(krwNo);
+        double krwBalance = mapper.selectKrwBalance(dto.getKrwNo());
 
-        if (krwBalance < amount) {
+        if (krwBalance < dto.getAmount()) {
             throw new Error("Insufficient KRW balance");
         }
 
         try {
             // 원화 금액 감소
             KrwAccountDTO krwDTO = KrwAccountDTO.builder()
-                    .krwNo(krwNo)
-                    .balance(krwBalance - amount)
+                    .krwNo(dto.getKrwNo())
+                    .balance(krwBalance - dto.getAmount())
+                    .updatedAt(new Date())
                     .build();
             int resKrw = mapper.updateKrwAccount(krwDTO);
 
@@ -83,13 +84,14 @@ public class PaymentServiceImpl implements PaymentService {
 
             // 내역 추가
             HistoryDTO historyDTO = HistoryDTO.builder()
-                    .userId(user.getUserId())
-                    .songNo(user.getSongNo())
-                    .krwNo(user.getKrwNo())
+                    .userId(dto.getUserId())
+                    .songNo(dto.getSongNo())
+                    .krwNo(dto.getKrwNo())
                     .typeCode(1)
                     .stateCode(1)
-                    .historyContent("USD → KRW 환전")
-                    .amount(amount)
+                    .historyContent(dto.getHistoryContent())
+                    .amount(dto.getAmount())
+                    .historyDate(new Date())
                     .build();
             int resHistory = historyService.saveHistory(historyDTO);
 

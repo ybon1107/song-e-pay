@@ -23,5 +23,7 @@ public class PaymentDTO {
     private Date createdAt;
     private Date updatedAt;
 
-    private UserDTO userDTO;
+    private String krwNo;
+    private String songNo;
+    private String historyContent;
 }

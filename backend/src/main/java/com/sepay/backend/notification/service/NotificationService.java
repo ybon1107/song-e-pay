@@ -8,7 +8,10 @@ public interface NotificationService {
     // 알림 등록
     void saveNotification(NotificationDTO notificationDTO);
 
-    // 알림 가져오기
+    // 알림 번호로 가져오기
+    NotificationDTO getNotification(Integer notiNo);
+
+    // 유저 알림 가져오기
     List<NotificationDTO> getNotification(String userId);
 
     // 알림 삭제
@@ -19,4 +22,5 @@ public interface NotificationService {
 
     // 송금 받고 알림 잔액 초기화
     int updateNotification(Integer noriNo);
+
 }

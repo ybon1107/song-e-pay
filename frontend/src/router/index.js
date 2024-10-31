@@ -1,6 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import MyPage from '../views/myPage/MyPage.vue';
-import MyAccounts from '../views/myAccounts/MyAccounts.vue';
 import Payment from '../views/payment/Payment.vue';
 import PassWordInputPage from '../views/payment/PasswordInputPage.vue';
 import QrScanPage from '../views/payment/QrScanPage.vue';
@@ -20,7 +19,7 @@ import SchedulePage from '../views/Schedule/Schedule.vue';
 import Reservation from '../views/reservation/Reservation.vue';
 import Accommodation from '../views/reservation/Accommodation.vue';
 import ReservationPayment from '../views/reservation/ReservationPayment.vue';
-
+import AdminPage from '../views/admin/Admin.vue';
 
 const routes = [
   {
@@ -29,12 +28,12 @@ const routes = [
     component: MainPage,
   },
   {
-    path: '/my-accounts',
-    name: 'MyAccounts',
+    path: '/my-page',
+    name: 'MyPage',
     meta: {
       requiresAuth: true,
     },
-    component: MyAccounts,
+    component: MyPage,
   },
   {
     path: '/exchange-rate',
@@ -158,12 +157,20 @@ const routes = [
     },
     component: ReservationPayment,
   },
+  {
+    path: '/admin',
+    name: 'AdminPage',
+    meta: {
+      requiresAuth: true,
+    },
+    component: AdminPage,
+  },
 ];
 
 const router = createRouter({
-    history: createWebHistory(process.env.BASE_URL),
-    routes,
-    linkActiveClass: 'active',
+  history: createWebHistory(process.env.BASE_URL),
+  routes,
+  linkActiveClass: 'active',
 });
 
 router.beforeEach((to, from, next) => {
@@ -178,7 +185,13 @@ router.beforeEach((to, from, next) => {
     });
   }
 
-  if ((to.name === 'Password') && from.name !== 'Payment') {
+  if (to.name === 'Password' && from.name !== 'Payment') {
+    return next({
+      name: 'Payment',
+    });
+  }
+
+  if ((to.name === 'Qr') && from.name !== 'Password') {
     return next({
       name: 'Payment',
     });
@@ -192,7 +205,7 @@ router.beforeEach((to, from, next) => {
 
   if (to.name === 'Login' && token) {
     return next({
-      name: 'MyAccounts',
+      name: 'MyPage',
     });
   }
 

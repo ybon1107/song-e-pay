@@ -131,9 +131,9 @@ public class ReservationScheduled {
                     .build();
 
 
-            String result = myAccountService.exchange(songAccountDTO, krwAccountDTO, historyDTO, songAmount, latestExchangeRate.getExchangeRate());
+            boolean result = myAccountService.exchange(songAccountDTO, krwAccountDTO, historyDTO, krwAmount, latestExchangeRate.getExchangeRate());
 
-            if ("success".equals(result)) {
+            if (result) {
                 log.info("자동 환전 성공. 예약 ID: {}, 현재 환율: {}, 송이 차감액: {}, 원화 입금액: {}",
                         reservation.getResNo(), latestExchangeRate.getExchangeRate(), songAmount, krwAmount);
                 exchangeReservationService.removeExchangeReservation(reservation.getResNo());
@@ -148,12 +148,13 @@ public class ReservationScheduled {
     }
 
     private void saveAlert(ExchangeReservationDTO reservation, String userId) {
-        String message = String.format("자동 환전이 완료되었습니다.");
+        String message = String.format("Automatic currency exchange has been completed.");
 
         NotificationDTO notificationDTO = new NotificationDTO();
         notificationDTO.setUserId(userId);
         notificationDTO.setResNo(reservation.getResNo());
         notificationDTO.setContent(message);
+        notificationDTO.setAmount(0);
 
         notificationService.saveNotification(notificationDTO); // 알림 저장 호출
 

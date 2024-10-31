@@ -12,11 +12,18 @@ export function useWebSocket() {
 
         stompClient.value = new Client({
             brokerURL: wsUrl,
+            connectHeaders: {
+                Authorization: `Bearer ${authStore.getToken()}`
+            },
+
             onConnect: () => {
                 console.log('WebSocket 연결 성공');
+                console.log('현재 사용자 ID:', authStore.userId);
                 isConnected.value = true;
-                stompClient.value.subscribe(`/user/${authStore.userId}/topic/notifications`, (message) => {
+
+                stompClient.value.subscribe(`/queue/notifications/user/${authStore.userId}`, (message) => {
                     const newNotification = JSON.parse(message.body);
+                    console.log('---------Received message:', newNotification);
                     onMessageReceived(newNotification);
                 });
             },
@@ -24,6 +31,11 @@ export function useWebSocket() {
                 console.log('WebSocket 연결 해제');
                 isConnected.value = false;
             },
+
+            onError: (error) => {
+                console.error('WebSocket 연결 오류:', error);
+            },
+            
         });
 
         stompClient.value.activate();

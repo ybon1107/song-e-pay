@@ -1,27 +1,43 @@
 <template>
-  <nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl"
-    :class="isRTL ? 'top-0 position-sticky z-index-sticky' : ''" v-bind="$attrs" id="navbarBlur" data-scroll="true">
+  <nav
+    class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl"
+    :class="isRTL ? 'top-0 position-sticky z-index-sticky' : ''"
+    v-bind="$attrs"
+    id="navbarBlur"
+    data-scroll="true"
+  >
     <div class="px-3 pyb-1 pt-4 container-fluid">
       <!-- 추후에 로고 이미지 추가 -->
       <!-- <img src="@/assets/img/songepay_logo.png" /> -->
       <!-- <h1>Song-E-Pay</h1> -->
-      <div class="mt-2 collapse navbar-collapse mt-sm-0 me-md-0 me-sm-4" :class="isRTL ? 'px-0' : 'me-sm-4'"
-        id="navbar">
-        <div class="pe-md-3 d-flex align-items-center" :class="isRTL ? 'me-md-auto' : 'ms-md-auto'"></div>
+      <div
+        class="mt-2 collapse navbar-collapse mt-sm-0 me-md-0 me-sm-4"
+        :class="isRTL ? 'px-0' : 'me-sm-4'"
+        id="navbar"
+      >
+        <div
+          class="pe-md-3 d-flex align-items-center"
+          :class="isRTL ? 'me-md-auto' : 'ms-md-auto'"
+        ></div>
         <ul class="navbar-nav justify-content-end">
           <!-- <li class="nav-item d-flex align-items-center">
-            <router-link
-              :to="{ name: 'Signin' }"
-              class="px-0 nav-link font-weight-bold"
-              target="_blank"
-            >
-              <i class="fa fa-user" :class="isRTL ? 'ms-sm-2' : 'me-sm-2'"></i>
-              <span v-if="isRTL" class="d-sm-inline d-none">يسجل دخول</span>
-              <span v-else class="d-sm-inline d-none">Sign In</span>
-            </router-link>
-          </li> -->
+          <router-link
+            :to="{ name: 'Signin' }"
+            class="px-0 nav-link font-weight-bold"
+            target="_blank"
+          >
+            <i class="fa fa-user" :class="isRTL ? 'ms-sm-2' : 'me-sm-2'"></i>
+            <span v-if="isRTL" class="d-sm-inline d-none">يسجل دخول</span>
+            <span v-else class="d-sm-inline d-none">Sign In</span>
+          </router-link>
+        </li> -->
           <li class="nav-item d-xl-none ps-3 d-flex align-items-center me-3">
-            <a href="#" @click="minimizeSidebar" class="p-0 nav-link" id="iconNavbarSidenav">
+            <a
+              href="#"
+              @click="minimizeSidebar"
+              class="p-0 nav-link"
+              id="iconNavbarSidenav"
+            >
               <div class="sidenav-toggler-inner">
                 <i class="sidenav-toggler-line fixed-width"></i>
                 <i class="sidenav-toggler-line"></i>
@@ -32,15 +48,33 @@
 
           <!-- 언어 선택 -->
           <li class="nav-item dropdown language-dropdown border rounded">
-            <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="languageDropdown" role="button"
-              data-bs-toggle="dropdown" aria-expanded="false">
-              <img :src="getFlagSrc(currentLanguage)" alt="Flag" class="me-2 flag-icon" />
+            <a
+              class="nav-link dropdown-toggle d-flex align-items-center"
+              href="#"
+              id="languageDropdown"
+              role="button"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            >
+              <img
+                :src="getFlagSrc(currentLanguage)"
+                alt="Flag"
+                class="me-2 flag-icon"
+              />
               {{ $t(currentLanguage) }}
             </a>
             <ul class="dropdown-menu" aria-labelledby="languageDropdown">
               <li v-for="lang in languages" :key="lang.code">
-                <a class="dropdown-item d-flex align-items-center" href="#" @click="changeLanguage(lang.code)">
-                  <img :src="lang.flag" :alt="`${lang.name} Flag`" class="me-2 flag-icon" />
+                <a
+                  class="dropdown-item d-flex align-items-center"
+                  href="#"
+                  @click="changeLanguage(lang.code)"
+                >
+                  <img
+                    :src="lang.flag"
+                    :alt="`${lang.name} Flag`"
+                    class="me-2 flag-icon"
+                  />
                   {{ $t(lang.name) }}
                 </a>
               </li>
@@ -48,9 +82,19 @@
           </li>
 
           <!-- 알림 -->
-          <li class="px-3 nav-item dropdown d-flex align-items-center notification-dropdown">
-            <a href="#" class="p-0 nav-link" :class="[showMenu ? 'show' : '']" id="dropdownMenuButton"
-              data-bs-toggle="dropdown" aria-expanded="false" @click="showMenu = !showMenu" @blur="closeMenu">
+          <li
+            class="px-3 nav-item dropdown d-flex align-items-center notification-dropdown"
+          >
+            <a
+              href="#"
+              class="p-0 nav-link"
+              :class="[showMenu ? 'show' : '']"
+              id="dropdownMenuButton"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+              @click="showMenu = !showMenu"
+              @blur="closeMenu"
+            >
               <div class="icon-div">
                 <i class="cursor-pointer fa fa-bell"></i>
                 <span v-if="unreadCount > 0" class="badge bg-danger">{{
@@ -59,8 +103,11 @@
               </div>
             </a>
 
-            <ul class="px-2 py-3 dropdown-menu dropdown-menu-end me-sm-n4 noti-ul" :class="showMenu ? 'show' : ''"
-              aria-labelledby="dropdownMenuButton">
+            <ul
+              class="px-2 py-3 dropdown-menu dropdown-menu-end me-sm-n4 noti-ul"
+              :class="showMenu ? 'show' : ''"
+              aria-labelledby="dropdownMenuButton"
+            >
               <div class="notifications-container">
                 <li v-if="!noti || noti.length === 0" class="mb-2">
                   <a class="dropdown-item border-radius-md" href="javascript:;">
@@ -70,34 +117,68 @@
                   </a>
                 </li>
 
-                <li v-for="(notification, index) in noti" :key="notification.id" class="mb-2 position-relative" style="background-color: white; border-radius: 10px;">
-                  <a class="dropdown-item border-radius-md" href="javascript:;"
-                    :class="{ 'read-notification': notification.check === '1' }"
-                    @click.stop="readNotification(notification.notiNo)">
+                <li
+                  v-for="(notification) in noti"
+                  :key="notification.notiNo"
+                  class="mb-2 position-relative"
+                  style="background-color: white; border-radius: 10px"
+                >
+                  <a
+                    class="dropdown-item border-radius-md"
+                    href="javascript:;"
+                    :class="{
+                      'read-notification': notification.check === '1',
+                    }"
+                    @click.stop="readNotification(notification.notiNo)"
+                  >
                     <div class="py-1 d-flex">
                       <div class="my-auto">
-                        <img :src="notification.senderProfilePic ||
-                          'https://song-e-pay.s3.ap-northeast-2.amazonaws.com/img/download.png'
-                          " class="avatar avatar-sm me-3" alt="user image" />
+                        <img
+                          :src="notification.senderProfilePic || alertImg"
+                          class="avatar avatar-sm me-3"
+                          alt="user image"
+                        />
                       </div>
-                      <div class="d-flex flex-column justify-content-center flex-grow-1">
-                        <h6 class="mb-1 text-sm" :class="{ 'text-muted': notification.check === '1' }">
+                      <div
+                        class="d-flex flex-column justify-content-center flex-grow-1"
+                      >
+                        <h6
+                          class="mb-1 text-sm"
+                          :class="{
+                            'text-muted': notification.check === '1',
+                          }"
+                        >
                           {{ notification.content }}
                         </h6>
-                        <p class="mb-0 text-xs" :class="notification.check === '1' ? 'text-muted' : ''
-                          ">
+                        <p
+                          class="mb-0 text-xs"
+                          :class="
+                            notification.check === '1' ? 'text-muted' : ''
+                          "
+                        >
                           <i class="fa fa-clock me-1"></i>
                           {{ formatDate(notification.createdAt) }}
                         </p>
                         <!-- 송금받기 버튼 추가 -->
-                        <button v-if="notification.amount > 0" @click.stop="receiveTransfer(notification.notiNo, notification.amount)" class="btn btn-primary mt-2">
+                        <button
+                          v-if="notification.amount > 0"
+                          @click.stop="
+                            receiveTransfer(
+                              notification.notiNo,
+                              notification.amount
+                            )
+                          "
+                          class="btn btn-primary mt-2"
+                        >
                           송금받기
                         </button>
                       </div>
                     </div>
                   </a>
-                  <button @click.stop="deleteNotification(notification.notiNo)"
-                    class="btn-close-custom position-absolute top-0 end-0 mt-2 me-2">
+                  <button
+                    @click.stop="deleteNotification(notification.notiNo)"
+                    class="btn-close-custom position-absolute top-0 end-0 mt-2 me-2"
+                  >
                     <i class="fas fa-times"></i>
                   </button>
                 </li>
@@ -113,7 +194,6 @@
               </div>
             </a>
           </li>
-          <!-- <button @click="sendTestNotification" class="btn btn-primary">테스트 알림 보내기</button> -->
         </ul>
       </div>
     </div>
@@ -139,7 +219,8 @@ import { languages } from "@/constants/languages";
 import notiApi from "@/api/notificationApi";
 import { useWebSocket } from "@/utils/websocket";
 import myaccountApi from "@/api/myaccountApi";
-
+import alertImg from "@/assets/img/alert_img.png";
+import exchangeApi from "../../api/exchangeApi";
 const auth = useAuthStore();
 const user = computed(() => auth.user);
 
@@ -178,7 +259,7 @@ const currentLanguage = computed(() => {
 
 const changeLanguage = (langCode) => {
   locale.value = langCode;
-  localStorage.setItem('Language', langCode);
+  localStorage.setItem("Language", langCode);
 };
 
 const getFlagSrc = (languageName) => {
@@ -213,8 +294,10 @@ const fetchExchangeRates = async () => {
       krwToUsdResponse.json(),
     ]);
 
-    const currentToKrw = usdToKrwData.conversion_rate;
-    const currentFromKrw = krwToUsdData.conversion_rate;
+    // const currentToKrw = usdToKrwData.conversion_rate;
+    // const currentFromKrw = krwToUsdData.conversion_rate;
+    const currentToKrw = parseFloat(usdToKrwData.conversion_rate.toFixed(5)); //json에서 환율 값만 추출
+    const currentFromKrw = parseFloat(krwToUsdData.conversion_rate.toFixed(5));
 
     exchangeStore.setCurrentToKrw(currentToKrw);
     exchangeStore.setCurrentFromKrw(currentFromKrw);
@@ -222,18 +305,18 @@ const fetchExchangeRates = async () => {
     console.log("환율 데이터가 성공적으로 로드되었습니다.");
 
     // 백엔드로 환율 데이터 전송
-    await saveExchangeRates([
-      {
-        baseCode: countryCode.value, // 외화 코드
-        targetCode: 0, // KRW 코드
-        exchangeRate: currentToKrw,
-      },
-      {
-        baseCode: 0, // KRW 코드
-        targetCode: countryCode.value, // 외와 코드
-        exchangeRate: currentFromKrw * 1000,
-      },
-    ]);
+    // await saveExchangeRates([
+    //     {
+    //         baseCode: countryCode.value, // 외화 코드
+    //         targetCode: 0, // KRW 코드
+    //         exchangeRate: currentToKrw,
+    //     },
+    //     {
+    //         baseCode: 0, // KRW 코드
+    //         targetCode: countryCode.value, // 외와 코드
+    //         exchangeRate: currentFromKrw,
+    //     },
+    // ]);
   } catch (error) {
     console.error("Error fetching exchange rate data", error);
   }
@@ -241,7 +324,7 @@ const fetchExchangeRates = async () => {
 
 const saveExchangeRates = async (rates) => {
   try {
-    const response = await axios.post("/api/exchange/rates", rates);
+    const response = await exchangeApi.setExchange(rates);
     console.log("환율 데이터가 성공적으로 저장되었습니다:", response.data);
   } catch (error) {
     console.error(
@@ -256,7 +339,7 @@ const formatDate = (dateString) => {
   const date = new Date(dateString);
   const now = new Date();
   const diffInSeconds = Math.floor((now - date) / 1000);
-
+  
   if (diffInSeconds < 60) return "방금 전";
   if (diffInSeconds < 3600) return `${Math.floor(diffInSeconds / 60)}분 전`;
   if (diffInSeconds < 86400)
@@ -313,12 +396,23 @@ const deleteNotification = async (notiNo) => {
   }
 };
 
+
+const fetchNotifications = async () => {
+  try {
+    const notifications = await notiApi.getNotification(auth.userId);
+    noti.splice(0, noti.length, ...notifications);
+    unreadCount.value = notifications.filter((n) => n.check === "0").length;
+  } catch (error) {
+    console.error("알림 데이터를 가져오는 중 오류 발생:", error);
+  }
+};
+
 // 송금받기
 const receiveTransfer = async (notiNo, amount) => {
   const transferData = {
     userId: user.value.userId,
     notiNo: notiNo,
-    amount: amount
+    amount: amount,
   };
 
   if (confirm("송금받기를 하시겠습니까?")) {
@@ -327,7 +421,9 @@ const receiveTransfer = async (notiNo, amount) => {
       alert("송금받기가 성공적으로 완료되었습니다.");
 
       // 송금 후 amount를 0으로 설정
-      const notificationIndex = noti.findIndex((item) => item.notiNo === notiNo);
+      const notificationIndex = noti.findIndex(
+        (item) => item.notiNo === notiNo
+      );
       if (notificationIndex !== -1) {
         noti[notificationIndex].amount = 0;
         // 변경 사항을 Vue에 알림
@@ -345,26 +441,16 @@ const receiveTransfer = async (notiNo, amount) => {
 
 // 웹소켓
 const handleNewNotification = (newNotification) => {
+  // newNotification의 구조를 확인
+  console.log('New Notification:', newNotification);
+
   noti.unshift(newNotification);
   unreadCount.value++;
 };
 
-// 웹소켓 테스트
-const sendTestNotification = async () => {
-  try {
-    const response = await axios.post("/api/test/send-notification", {
-      userId: auth.userId,
-      message: "이것은 테스트 알림입니다.",
-    });
-    console.log("테스트 알림 전송 성공:", response.data);
-  } catch (error) {
-    console.error("테스트 알림 전송 실패:", error);
-  }
-};
-
 onMounted(async () => {
   // 언어 설정
-  const savedLanguage = localStorage.getItem('Language');
+  const savedLanguage = localStorage.getItem("Language");
   if (savedLanguage) {
     locale.value = savedLanguage;
   }
@@ -374,16 +460,11 @@ onMounted(async () => {
     await auth.fetchUser(auth.userId);
     userImg.value = user.value?.profilePic;
     fetchExchangeRates();
-    connect(auth.userId, handleNewNotification);
+    connect(handleNewNotification);
 
-    // 알림
-    try {
-      const notifications = await notiApi.getNotification(auth.userId);
-      noti.splice(0, noti.length, ...notifications); // 기존 배열을 비우고 새로운 알림으로 채움
-      unreadCount.value = notifications.filter((n) => n.check === "0").length;
-    } catch (error) {
-      console.error("알림 데이터를 가져오는 중 오류 발생:", error);
-    }
+    // 초기 알림 가져오기
+    await fetchNotifications();
+
   } else {
     console.error("사용자 ID를 찾을 수 없습니다.");
   }
@@ -391,6 +472,7 @@ onMounted(async () => {
 
 onUnmounted(() => {
   disconnect();
+
 });
 </script>
 
@@ -414,7 +496,8 @@ onUnmounted(() => {
 
 @font-face {
   font-family: "HakgyoansimDunggeunmisoTTF-B";
-  src: url("https://fastly.jsdelivr.net/gh/projectnoonnu/2408-5@1.0/HakgyoansimDunggeunmisoTTF-B.woff2") format("woff2");
+  src: url("https://fastly.jsdelivr.net/gh/projectnoonnu/2408-5@1.0/HakgyoansimDunggeunmisoTTF-B.woff2")
+    format("woff2");
   font-weight: 700;
   font-style: normal;
 }
@@ -460,7 +543,7 @@ onUnmounted(() => {
   align-items: center;
 }
 
-.read-notification{
+.read-notification {
   background-color: #f0f0f0 !important;
 }
 
@@ -524,7 +607,7 @@ onUnmounted(() => {
 .btn-close-custom:hover {
   opacity: 1;
   background-color: #f8f9fa;
-  /* 호버 시 배경��� 변경 */
+  /* 호버 시 배경    변경 */
 }
 
 /* 새로운 스타일 추가 */

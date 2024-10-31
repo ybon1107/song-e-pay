@@ -23,9 +23,29 @@ public class NotificationServiceImpl implements NotificationService {
     @Override
     public void saveNotification(NotificationDTO notificationDTO) {
         mapper.insertNotification(notificationDTO);
+        notificationDTO = mapper.selectByNo(notificationDTO.getNotiNo());
+
+
+
+        // 웹소켓으로 알림 보내기
+        // JSON 형식으로 메시지를 전송
+        String messageJson = "{" +
+                "\"notiNo\": "+notificationDTO.getNotiNo()+"," +
+                "\"check\": \""+notificationDTO.getCheck()+"\"," +
+                "\"content\": \""+notificationDTO.getContent()+"\"," +
+                "\"createdAt\": "+new java.sql.Timestamp(notificationDTO.getCreatedAt().getTime()).getTime()+"," + // TIMESTAMP로 변환
+                "\"amount\": "+notificationDTO.getAmount()+
+                "}";
+        System.out.println("---------------------------messageJson : " +messageJson);
+        messagingTemplate.convertAndSend("/queue/notifications/user/" + notificationDTO.getUserId(), messageJson);
     }
 
-    // 알림 가져오기
+    @Override
+    public NotificationDTO getNotification(Integer notiNo) {
+        return mapper.selectByNo(notiNo);
+    }
+
+    // 유저 알림 가져오기
     @Override
     public List<NotificationDTO> getNotification(String userId) {
         return mapper.selectByUserId(userId);
@@ -49,10 +69,4 @@ public class NotificationServiceImpl implements NotificationService {
         return mapper.updateNotiAmount(notiNo);
     }
 
-    // 웹소켓
-   public void notifyUser(int userId) {
-       // 특정 사용자에게 알림 전송
-       String destination = "/topic/alerts/" + userId;
-       messagingTemplate.convertAndSend(destination);
-   }
 }

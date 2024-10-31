@@ -10,28 +10,85 @@ import settingApi from '@/api/settingApi';
 import { useAuthStore } from '@/stores/auth';
 
 import Swal from 'sweetalert2';
+import SecondPasswordModal from '@/components/modal/SecondPasswordModal.vue';
+// import Set2nd from './Set2nd.vue';
+import Modal from '../../components/modal/Modal.vue';
+import Set2ndModal from './Set2ndModal.vue';
+import SetAccountModal from './SetAccountModal.vue';
+import { useWebSocket } from "@/utils/websocket";
+
+//i18n
+import { useI18n } from "vue-i18n";
+const { t } = useI18n();
 
 const auth = useAuthStore();
 const isLogin = computed(() => auth.isLogin);
 const user = computed(() => auth.user);
 
+const isSecondarySet = ref(false);
+const isAccountSet = ref(false);
+
 const profilePic = ref(null);
 
-const showSet2ndModal = ref(false);
+const emit = defineEmits(['password-verified', 'password-changed', 'account-changed', 'close']);
 
+const { disconnect } = useWebSocket();
+
+//2차 비밀번호 관련 기능
+const showSet2ndModal = ref(false);
 const openSet2ndModal = () => {
     showSet2ndModal.value = true;
 };
-
 const closeSet2ndModal = () => {
     showSet2ndModal.value = false;
 };
+const handlePasswordChanged = async () => {
+    showSet2ndModal.value = false;
+    Swal.fire({
+        title: t('swal--title-success'),
+        text: t('Secondary password change was successful.'),
+        icon: 'success',
+    }).then(() => {
+        window.location.reload();
+    });
+};
+
+const showModal = ref(false);
+const openModal = () => {
+    showModal.value = true;
+};
+const closeModal = () => {
+    showModal.value = false;
+};
+const handlePasswordVerified = () => {
+    showModal.value = false;
+    openSet2ndModal();
+}
+
+const showAcntModal = ref(false);
+const openAcntModal = () => {
+    showAcntModal.value = true;
+};
+const closeAcntModal = () => {
+    showAcntModal.value = false;
+};
+const handleAcntVerified = async () => {
+    showAcntModal.value = false;
+    Swal.fire({
+        title: t('swal--title-success'),
+        text: t('Account registration was successful.'),
+        icon: 'success',
+    }).then(() => {
+        window.location.reload();
+    });
+}
 
 const userInfo = reactive({
     userId: '',
     address: '',
     postCode: '',
     countryCode: '',
+    accountNo: '',
     secondPwd: '',
     profilePic: null,
 });
@@ -43,6 +100,7 @@ watchEffect(() => {
         userInfo.postCode = user.value.postCode;
         userInfo.countryCode = user.value.countryCode;
         userInfo.secondPwd = user.value.secondPwd;
+        userInfo.accountNo = user.value.accountNo;
     }
 });
 
@@ -114,6 +172,7 @@ const updateProfile = async () => {
 const logout = (e) => {
     // 로그아웃
     auth.logout();
+    disconnect();
     window.location.href = '/main';
 };
 
@@ -178,18 +237,9 @@ onBeforeUnmount(() => {
 </script>
 <template>
     <main>
-        <link
-            rel="stylesheet"
-            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
-            integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
-            crossorigin="anonymous"
-            referrerpolicy="no-referrer"
-        />
+
         <div class="container-fluid">
-            <div
-                class="page-header min-height-300 bg-yellow"
-                style="margin-right: -34%; margin-left: -34%"
-            >
+            <div class="page-header min-height-300 bg-yellow" style="margin-right: -34%; margin-left: -34%">
                 <!-- <span class="mask bg-gradient-success opacity-6"></span> -->
             </div>
             <div class="card shadow-lg mt-n6 page-size">
@@ -198,25 +248,11 @@ onBeforeUnmount(() => {
                         <div class="col-auto">
                             <!-- 유저 프로필 이미지 -->
                             <div class="avatar avatar-xl position-relative">
-                                <img
-                                    :src="user?.profilePic"
-                                    alt="profile_image"
-                                    class="profile-img shadow-sm w-100 border-radius-lg"
-                                    @click="triggerFileInput"
-                                />
-                                <input
-                                    type="file"
-                                    class="form-control visually-hidden"
-                                    ref="profilePic"
-                                    id="avatar"
-                                    accept="image/png, image/jpeg"
-                                    @change="handleFileChange"
-                                />
-                                <button
-                                    v-if="userInfo.profilePic"
-                                    @click="cancelProfilePic"
-                                    class="btn cancel-btn"
-                                >
+                                <img :src="user?.profilePic" alt="profile_image"
+                                    class="profile-img shadow-sm w-100 border-radius-lg" @click="triggerFileInput" />
+                                <input type="file" class="form-control visually-hidden" ref="profilePic" id="avatar"
+                                    accept="image/png, image/jpeg" @change="handleFileChange" />
+                                <button v-if="userInfo.profilePic" @click="cancelProfilePic" class="btn cancel-btn">
                                     <i class="fa-solid fa-x"></i>
                                 </button>
                             </div>
@@ -227,27 +263,16 @@ onBeforeUnmount(() => {
                                 <h5 class="mb-1">{{ user?.userId }}</h5>
                             </div>
                         </div>
-                        <div
-                            class="mx-auto mt-3 col-lg-4 col-md-6 my-sm-auto ms-sm-auto me-sm-0 btn-logout"
-                            style="margin-right: 40px !important"
-                        >
+                        <div class="mx-auto mt-3 col-lg-4 col-md-6 my-sm-auto ms-sm-auto me-sm-0 btn-logout"
+                            style="margin-right: 40px !important">
                             <div class="nav-wrapper position-relative end-0">
-                                <a
-                                    class="px-0 py-1 mb-0 nav-link"
-                                    data-bs-toggle="tab"
-                                    href="javascript:;"
-                                    role="tab"
-                                    aria-selected="false"
-                                    @click.prevent="logout"
-                                >
+                                <a class="px-0 py-1 mb-0" data-bs-toggle="tab" href="javascript:;" role="tab"
+                                    aria-selected="false" @click.prevent="logout">
                                     <span class="ms-1">{{
                                         $t('profile--button-logout')
-                                    }}</span>
+                                        }}</span>
                                     <!-- <i class="fa-solid fa-right-from-bracket" style="margin-left: 5px;"></i> -->
-                                    <i
-                                        class="fa-solid fa-angles-right"
-                                        style="margin-left: 5px"
-                                    ></i>
+                                    <i class="fa-solid fa-angles-right" style="margin-left: 5px"></i>
                                 </a>
                             </div>
                         </div>
@@ -265,62 +290,30 @@ onBeforeUnmount(() => {
                             </p>
                             <div class="row">
                                 <div class="col-md-6">
-                                    <label
-                                        for="last-name"
-                                        class="form-control-label"
-                                        >{{
-                                            $t('profile--lastNameLabel')
-                                        }}</label
-                                    >
-                                    <input
-                                        class="form-control info-input"
-                                        id="last-name"
-                                        :value="user?.firstName"
-                                        disabled
-                                    />
+                                    <label for="last-name" class="form-control-label">{{
+                                        $t('profile--lastNameLabel')
+                                    }}</label>
+                                    <input class="form-control info-input" id="last-name" :value="user?.firstName"
+                                        disabled />
                                 </div>
                                 <div class="col-md-6">
-                                    <label
-                                        for="first-name"
-                                        class="form-control-label"
-                                        >{{
-                                            $t('profile--firstNameLabel')
-                                        }}</label
-                                    >
-                                    <input
-                                        class="form-control info-input"
-                                        id="first-name"
-                                        :value="user?.lastName"
-                                        disabled
-                                    />
+                                    <label for="first-name" class="form-control-label">{{
+                                        $t('profile--firstNameLabel')
+                                    }}</label>
+                                    <input class="form-control info-input" id="first-name" :value="user?.lastName"
+                                        disabled />
                                 </div>
                                 <div class="col-md-6">
-                                    <label
-                                        for="birthday"
-                                        class="form-control-label"
-                                        >{{
-                                            $t('profile--birthdayLabel')
-                                        }}</label
-                                    >
-                                    <input
-                                        class="form-control info-input"
-                                        id="birthday"
-                                        :value="user?.birthday"
-                                        disabled
-                                    />
+                                    <label for="birthday" class="form-control-label">{{
+                                        $t('profile--birthdayLabel')
+                                    }}</label>
+                                    <input class="form-control info-input" id="birthday" :value="user?.birthday"
+                                        disabled />
                                 </div>
                                 <div class="col-md-6">
-                                    <label
-                                        for="phone"
-                                        class="form-control-label"
-                                        >{{ $t('profile--phoneLabel') }}</label
-                                    >
-                                    <input
-                                        class="form-control info-input"
-                                        id="phone"
-                                        :value="user?.phoneNo"
-                                        disabled
-                                    />
+                                    <label for="phone" class="form-control-label">{{ $t('profile--phoneLabel')
+                                        }}</label>
+                                    <input class="form-control info-input" id="phone" :value="user?.phoneNo" disabled />
                                 </div>
                             </div>
                             <br />
@@ -330,47 +323,23 @@ onBeforeUnmount(() => {
                             <form @submit.prevent="updateProfile">
                                 <div class="row">
                                     <div class="col-md-6 input-address">
-                                        <label
-                                            for="address"
-                                            class="form-control-label"
-                                            >{{
-                                                $t('profile--addressLabel')
-                                            }}</label
-                                        >
-                                        <input
-                                            class="form-control"
-                                            id="address"
-                                            v-model="userInfo.address"
-                                        />
+                                        <label for="address" class="form-control-label">{{
+                                            $t('profile--addressLabel')
+                                        }}</label>
+                                        <input class="form-control" id="address" v-model="userInfo.address" />
                                     </div>
                                     <div class="col-md-6">
-                                        <label
-                                            for="postal-code"
-                                            class="form-control-label"
-                                            >{{
-                                                $t('profile--postalCodeLabel')
-                                            }}</label
-                                        >
-                                        <input
-                                            class="form-control"
-                                            id="postal-code"
-                                            v-model="userInfo.postCode"
-                                        />
+                                        <label for="postal-code" class="form-control-label">{{
+                                            $t('profile--postalCodeLabel')
+                                        }}</label>
+                                        <input class="form-control" id="postal-code" v-model="userInfo.postCode" />
                                     </div>
                                     <div class="col-md-6">
-                                        <label
-                                            for="country"
-                                            class="form-control-label"
-                                            >{{
-                                                $t('profile--countryLabel')
-                                            }}</label
-                                        >
-                                        <select
-                                            id="country"
-                                            class="form-select no-arrow"
-                                            v-model="userInfo.countryCode"
-                                            disabled
-                                        >
+                                        <label for="country" class="form-control-label">{{
+                                            $t('profile--countryLabel')
+                                        }}</label>
+                                        <select id="country" class="form-select no-arrow" v-model="userInfo.countryCode"
+                                            disabled>
                                             <option value="0">
                                                 {{ $t('country_kr') }}
                                             </option>
@@ -386,19 +355,11 @@ onBeforeUnmount(() => {
                                         </select>
                                     </div>
                                 </div>
-                                <div
-                                    class="card-header pb-0"
-                                    style="padding-right: 0"
-                                >
+                                <div class="card-header pb-0" style="padding-right: 0">
                                     <div class="d-flex align-items-center">
-                                        <argon-button
-                                            color="success"
-                                            size="sm"
-                                            class="ms-auto"
-                                            >{{
-                                                $t('profile--button-settings')
-                                            }}</argon-button
-                                        >
+                                        <argon-button color="success" size="sm" class="ms-auto">{{
+                                            $t('profile--button-settings')
+                                        }}</argon-button>
                                     </div>
                                 </div>
                             </form>
@@ -409,39 +370,67 @@ onBeforeUnmount(() => {
                             </p>
                             <ul class="navbar-nav nav-fill">
                                 <li class="pvt-item">
-                                    <a class="pvt-link">
+                                    <a v-if="userInfo.accountNo === null || userInfo.accountNo === ''" class="pvt-link"
+                                        @click="openAcntModal">
                                         <div class="pvt-icon">
-                                            <i
-                                                class="fa-solid fa-file-invoice"
-                                            ></i>
+                                            <i class="fa-solid fa-money-check-dollar"></i>
                                         </div>
                                         <span>{{
                                             $t('profile--accountLabel')
-                                        }}</span>
+                                            }}</span>
+                                        <span class="text-danger ms-3"><i class="fas fa-exclamation"></i> Requires a
+                                            one-time initial setup.</span>
+
                                         <i class="fa-solid fa-angle-right"></i>
                                     </a>
+                                    <div v-else class="d-flex">
+                                        <div class="pvt-icon">
+                                            <i class="fa-solid fa-money-check-dollar"></i>
+                                        </div>
+                                        <div>{{
+                                            $t('profile--accountLabel')
+                                        }}</div>
+                                        <strong class="ms-3">{{ userInfo.accountNo }}</strong>
+
+                                    </div>
                                 </li>
                                 <li class="pvt-item">
                                     <a class="pvt-link" href="/change-password">
                                         <div class="pvt-icon">
-                                            <i class="fa-solid fa-lock"></i>
+                                            <i class="ni ni-lock-circle-open"></i>
                                         </div>
                                         <span>{{
                                             $t('profile--changePasswordLabel')
-                                        }}</span>
+                                            }}</span>
                                         <i class="fa-solid fa-angle-right"></i>
                                     </a>
                                 </li>
                                 <li class="pvt-item">
-                                    <a class="pvt-link">
+                                    <a v-if="userInfo.secondPwd === null || userInfo.secondPwd === ''" class="pvt-link"
+                                        @click="openSet2ndModal">
                                         <div class="pvt-icon">
-                                            <i class="fa-solid fa-lock"></i>
+                                            <i class="fa-solid fa-user-lock"></i>
                                         </div>
                                         <span>{{
                                             $t(
                                                 'profile--secondaryPasswordLabel'
                                             )
                                         }}</span>
+                                        <span class="text-danger ms-3"><i class="fas fa-exclamation"></i> Requires a
+                                            one-time initial setup.</span>
+
+                                        <i class="fa-solid fa-angle-right"></i>
+                                    </a>
+                                    <a v-else class="pvt-link" @click="openModal">
+                                        <div class="pvt-icon">
+                                            <i class="fa-solid fa-user-lock"></i>
+                                        </div>
+                                        <span>{{
+                                            $t(
+                                                'profile--secondaryPasswordLabel'
+                                            )
+                                        }}</span>
+
                                         <i class="fa-solid fa-angle-right"></i>
                                     </a>
                                 </li>
@@ -464,13 +453,11 @@ onBeforeUnmount(() => {
                                 <li class="pvt-item" @click="handleWithdraw">
                                     <a class="pvt-link">
                                         <div class="pvt-icon">
-                                            <i
-                                                class="fa-regular fa-circle-xmark fa-lg"
-                                            ></i>
+                                            <i class="fa-regular fa-circle-xmark fa-lg"></i>
                                         </div>
                                         <span>{{
                                             $t('profile--deleteAccountLabel')
-                                        }}</span>
+                                            }}</span>
                                         <i class="fa-solid fa-angle-right"></i>
                                     </a>
                                 </li>
@@ -483,14 +470,17 @@ onBeforeUnmount(() => {
         </div> -->
             </div>
         </div>
+        <SecondPasswordModal v-if="showModal" @close="closeModal" @password-verified="handlePasswordVerified" />
+        <Set2ndModal v-if="showSet2ndModal" @close="closeSet2ndModal" @password-changed="handlePasswordChanged" />
+        <!-- <SetAccountModal v-if="showAcntModal" @close="closeAcntModal" @account-changed="handleAcntVerified" />
+        <SetAccountModal /> -->
+        <!-- <SetAccountModal v-if="showAcntModal" @close="closeAcntModal" @account-changed="handleAcntVerified" /> -->
+        <SetAccountModal v-if="showAcntModal" :userId="userInfo.userId" @close="closeAcntModal"
+            @account-changed="handleAcntVerified" />
+
     </main>
 
-    <Set2nd
-        v-if="showSet2ndModal"
-        @close="closeSet2ndModal"
-        @password-verified="closeSet2ndModal"
-        :secondPwd="user?.secondPwd"
-    />
+
 </template>
 <style scoped>
 .no-arrow {
@@ -540,7 +530,7 @@ onBeforeUnmount(() => {
     color: black;
 }
 
-.pvt-link > i:last-child {
+.pvt-link>i:last-child {
     margin-left: auto;
 }
 
@@ -555,7 +545,7 @@ onBeforeUnmount(() => {
     margin-right: 10px;
 }
 
-.pvt-icon > i {
+.pvt-icon>i {
     font-size: 20px;
     color: black;
 }
@@ -583,11 +573,11 @@ onBeforeUnmount(() => {
     background: black;
 }
 
-#toggle:checked ~ .toggleSwitch {
+#toggle:checked~.toggleSwitch {
     background: black;
 }
 
-#toggle:checked ~ .toggleSwitch .toggleButton {
+#toggle:checked~.toggleSwitch .toggleButton {
     left: calc(100% - 25px);
     background: #fff;
 }

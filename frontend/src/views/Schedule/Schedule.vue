@@ -121,7 +121,10 @@ async function updateEvent(updatedEvent) {
     };
 
     try {
-        const response = await scheduleApi.updateEvent(maintenance.value.id, scheduleData);
+        const response = await scheduleApi.updateEvent(
+            maintenance.value.id,
+            scheduleData
+        );
         const calendarApi = calendarRef.value?.getApi();
         if (calendarApi) {
             const event = calendarApi.getEventById(maintenance.value.id);
