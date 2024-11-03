@@ -11,53 +11,53 @@
         <if test="profilePic != null">
             profile_pic = #{profilePic},
         </if>
-            address = #{address},
-            post_code = #{postCode},
-            country_code = #{countryCode},
-            updated_at = now()
-        WHERE user_no = #{userNo}
+        address = #{address},
+        post_code = #{postCode},
+        country_code = #{countryCode},
+        updated_at = now()
+        WHERE user_id = #{userId}
     </update>
 
     <!-- 계좌 등록 -->
     <update id="updateAccount" parameterType="map">
         UPDATE user SET
             account_no = #{accountNo}
-        WHERE user_no = #{userNo}
+        WHERE user_id = #{userId}
     </update>
 
     <!-- 계좌 해지 -->
     <update id="deleteAccount">
         UPDATE user SET
             account_no = " "
-        WHERE user_no = #{userNo}
+        WHERE user_id = #{userId}
     </update>
 
     <!-- 비밀번호 변경 -->
     <update id="updatePassword" parameterType="map">
         UPDATE user SET
-            password = #{newPw}
-        WHERE user_no = #{userNo}
+            password = #{newPw},
+        WHERE user_id = #{userId}
     </update>
 
     <!-- 비밀번호 확인 -->
-    <select id="selectPassword" parameterType="int" resultType="String">
+    <select id="selectPassword" parameterType="String" resultType="String">
         select password
         from user
-        where user_no = #{userNo}
+        WHERE user_id = #{userId}
     </select>
 
     <!-- 2차 비밀번호 변경 -->
     <update id="updateSecondPassword" parameterType="map">
         UPDATE user SET
             second_pwd = #{secondPwd}
-        WHERE user_no = #{userNo}
+        WHERE user_id = #{userId}
     </update>
 
     <!-- 2차 비밀번호 확인 -->
-    <select id="selectSecondPassword" parameterType="int" resultType="String">
-        select secondPwd
+    <select id="selectSecondPassword" parameterType="String" resultType="String">
+        select second_pwd
         from user
-        where user_no = #{userNo}
+        WHERE user_id = #{userId}
     </select>
 
     <!-- 송이 계좌 삭제 -->
@@ -73,15 +73,22 @@
     </delete>
 
     <!-- 유저 삭제 -->
-    <update id="deleteUser" parameterType="int">
+    <update id="deleteUser" parameterType="String">
         UPDATE user SET
-            stateCode = '10'
-        WHERE user_no = #{userNo}
+            state_code = '10'
+        WHERE user_id = #{userId}
     </update>
 
-    <select id="selectUserProfileImg" parameterType="Integer" resultType="String">
+    <!-- 유저 프로필 이미지 확인 -->
+    <select id="selectUserProfileImg" parameterType="String" resultType="String">
         SELECT profile_pic
         FROM user
-        WHERE user_no = #{userNo}
+        WHERE user_id = #{userId}
+    </select>
+
+    <select id="selectAccountPwd" parameterType="String" resultType="String">
+        SELECT account_pwd
+        FROM account
+        WHERE account_no = #{accountNo}
     </select>
 </mapper>

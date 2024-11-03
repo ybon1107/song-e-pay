@@ -10,15 +10,15 @@
               <button type="submit" class="btn btn-primary me-3">확인</button>
             </form>
 
-            <img :src="qrCodeUrl" alt="QR Code" />
+            <img v-if="qrCodeUrl" :src="qrCodeUrl" alt="QR Code" />
             <p>{{ formattedCountdown }}</p>
           </div>
 
           <div
             class="btn btn-sm btn-warning mb-0 mx-4 d-flex justify-content-between"
           >
-            <p class="mb-0">보유잔액</p>
-            <p class="mb-0">10,000원</p>
+            <p class="mb-0">{{ $t("payment--qrScan--balanceLabel") }}</p>
+            <p class="mb-0">{{ woneMoneyBalance }} KRW</p>
           </div>
         </div>
       </div>
@@ -29,20 +29,61 @@
 <script setup>
 import { ref, computed, onMounted, onBeforeUnmount } from "vue";
 import { useRouter } from "vue-router";
+import api from "../../api";
 import paymentApi from "../../api/paymentApi";
 import Swal from "sweetalert2";
-import "sweetalert2/dist/sweetalert2.min.css";
+
+import myaccountApi from "../../api/myaccountApi";
+
+import { useAuthStore } from "@/stores/auth";
+const auth = useAuthStore();
+const user = computed(() => auth.user);
+
+//i18n
+import { useI18n } from "vue-i18n";
+const { t } = useI18n();
 
 const router = useRouter(); // Router 사용
 
 const REFRESH_INTERVAL = 60; // 갱신 기간 60초
 const qrCodeUrl = ref(""); // QR 코드 이미지의 URL
 const countdown = ref(REFRESH_INTERVAL); // QR 코드 갱신까지 남은 시간을 저장하는 변수
+
+const woneMoneyBalance = ref(0);
+
 let countdownInterval = null; // 인터벌을 저장할 변수
 
-const generateQRCode = () => {
-  const url = encodeURIComponent(`/api/payment/qr-scan`);
-  qrCodeUrl.value = `/api/payment/qr?url=${url}&_=${new Date().getTime()}`;
+const fetchKrwBalance = async () => {
+  try {
+    const balance = await myaccountApi.fetchkrwAccountBalance(user.value.krwNo);
+    woneMoneyBalance.value = balance;
+  } catch (error) {
+    console.error("KRW 계좌 잔액 조회 중 오류 발생:", error);
+  }
+};
+
+const generateQRCode = async () => {
+  try {
+    const dynamicUrl = encodeURIComponent(`/api/payment/qr-scan`);
+    const response = await api.get("/api/payment/qr", {
+      params: { url: dynamicUrl, _: new Date().getTime() },
+      responseType: "blob",
+    });
+
+    // console.log("QR Code response: ", response);
+
+    if (response && response.data) {
+      // Blob 데이터를 URL로 변환
+      const qrCodeBlob = response.data;
+      const qrCodeObjUrl = URL.createObjectURL(qrCodeBlob);
+      qrCodeUrl.value = qrCodeObjUrl;
+      // console.log("QR Code URL: ", qrCodeUrl);
+    } else {
+      console.error("QR Code response data is invalid", response);
+    }
+  } catch (error) {
+    console.error("QR 코드 생성 중 오류 발생:", error);
+  }
 };
 
 const startCountdown = () => {
@@ -65,33 +106,59 @@ const formattedCountdown = computed(() => {
   return `${minutes}:${seconds.toString().padStart(2, "0")}`;
 });
 
+const req = {
+  amount: 1000,
+  userId: user.value.userId,
+  krwNo: user.value.krwNo,
+  songNo: user.value.songNo,
+  historyContent: "SongSong Restaurant",
+  // userDTO: user.value
+};
+
+// 새로고침시 /payment로 이동
+const handleUnload = (event) => {
+  event.preventDefault();
+  router.push("/payment");
+};
+
 // QR 스캔 후 처리
 const handleQRScan = async () => {
   try {
-    const response = await paymentApi.scanQRCode();
-    Swal.fire({
-      title: "성공!",
-      text: response.data.message || "결제가 완료되었습니다.",
-      icon: "success",
-    });
-    router.push("/"); // 홈으로 이동
+    const response = await paymentApi.scanQRCode(req);
+
+    console.log(response);
+    if (response.status === 200) {
+      window.addEventListener("beforeunload", handleUnload);
+      Swal.fire({
+        title: t("swal--title-success"),
+        text: t("payment--swal-success-text"),
+        icon: "success",
+      }).then(() => {
+        router.push("/my-page");
+      });
+    }
+    console.log(response);
   } catch (error) {
+    console.log(error);
     Swal.fire({
-      title: "실패",
-      text:
-        "오류가 발생했습니다: " +
-        (error.response?.data?.message || error.message),
+      title: t("swal--title-fail"),
+      text: t("payment--swal-fail-text"),
       icon: "error",
     });
   }
 };
 
 onMounted(() => {
-  // 컴포넌트가 마운트되면 초기 QR 코드 생성
+  // KRW 계좌 잔액 조회
+  fetchKrwBalance();
+
+  // 초기 QR 코드 생성
   generateQRCode();
 
   // QR 코드 갱신을 위한 카운트다운 시작
   startCountdown();
+
+  // window.addEventListener("beforeunload", handleUnload);
 });
 
 onBeforeUnmount(() => {
@@ -99,5 +166,7 @@ onBeforeUnmount(() => {
   if (countdownInterval) {
     clearInterval(countdownInterval);
   }
+
+  window.removeEventListener("beforeunload", handleUnload);
 });
 </script>

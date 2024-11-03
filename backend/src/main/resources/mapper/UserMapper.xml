@@ -4,17 +4,51 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.sepay.backend.user.mapper.UserMapper">
-    <select id="selectUserByUserNo" parameterType="int" resultType="userDTO">
-        select *
-        from user
-        where user_no = #{userNo}
+
+    <resultMap id="authMap" type="com.sepay.backend.security.account.domain.AuthVO">
+        <result property="username" column="user_id"/>
+        <result property="auth" column="auth"/>
+    </resultMap>
+
+    <!-- 사용자 정보 매핑 -->
+    <resultMap id="userMap" type="com.sepay.backend.security.account.domain.UserVO">
+        <id property="userNo" column="user_no"/>
+        <result property="accountNo" column="account_no"/>
+        <result property="songNo" column="song_no"/>
+        <result property="krwNo" column="krw_no"/>
+        <result property="countryCode" column="country_code"/>
+        <result property="username" column="user_id"/>
+        <result property="password" column="password"/>
+        <result property="firstName" column="first_name"/>
+        <result property="lastName" column="last_name"/>
+        <result property="birthday" column="birthday"/>
+        <result property="gender" column="gender"/>
+        <result property="phoneNo" column="phone_no"/>
+        <result property="secondPwd" column="second_pwd"/>
+        <result property="profilePic" column="profile_pic"/>
+        <collection property="authList" resultMap="authMap"/>
+    </resultMap>
+
+    <!-- 특정 사용자 정보 조회 -->
+    <select id="get" resultMap="userMap">
+        SELECT u.user_id, country_code, ua.auth
+        FROM user u
+                 LEFT OUTER JOIN user_auth ua ON u.user_id = ua.user_id
+        where u.user_id = #{username}
     </select>
 
-    <select id="getSecondaryPassword" parameterType="int" resultType="String">
-        select second_pwd
-        from user
-        where user_no = #{userNo}
+    <!-- 사용자 비밀번호 조회 -->
+    <select id="getPassword" parameterType="String" resultType="String">
+        SELECT password
+        FROM user
+        WHERE user_id = #{username}
     </select>
+
+    <!-- 권한 부여 -->
+    <insert id="insertAuth">
+        INSERT INTO user_auth(user_id, auth)
+        VALUES(#{username}, #{auth})
+    </insert>
 
     <!-- 로그인 -->
     <select id="selectUser" parameterType="map" resultType="userDTO">
@@ -23,9 +57,40 @@
         where user_id = #{userId} and password = #{password}
     </select>
 
-    <!-- 회원가입 정보 DB에 INSERT -->
-    <insert id="insertUser" parameterType="userDTO">
-        INSERT INTO user(user_id, password, country_code, first_name, last_name, birthday, gender, phone_no)
-        VALUES(#{userId}, #{password}, #{countryCode}, #{firstName}, #{lastName}, #{birthday}, #{gender}, #{phoneNo})
+    <!-- 계좌번호 중복 확인 -->
+    <select id="checkNumberExists" parameterType="String" resultType="int">
+        SELECT COUNT(*) FROM user
+        WHERE account_no = #{number} OR song_no = #{number} OR krw_no = #{number}
+    </select>
+
+    <!-- 회원가입 -->
+    <!-- 회원가입 시 계좌번호도 추가 -->
+    <insert id="insertUser">
+        INSERT INTO user(user_id, password, country_code, first_name, last_name, birthday, gender, phone_no, account_no, song_no, krw_no)
+        VALUES(#{username}, #{password}, #{countryCode}, #{firstName}, #{lastName}, #{birthday}, #{gender}, #{phoneNo}, #{accountNo}, #{songNo}, #{krwNo})
     </insert>
+
+    <insert id="insertSongAccount">
+        INSERT INTO song_account(song_no, country_code)
+        VALUES(#{songNo}, #{countryCode})
+    </insert>
+
+    <insert id="insertKrwAccount">
+        INSERT INTO krw_account(krw_no)
+        VALUES(#{krwNo})
+    </insert>
+    
+    <!-- 이메일로 유저 조회 -->
+    <select id="selectUserByEmail" parameterType="String" resultType="userDTO">
+        select *
+        from user
+        where user_id = #{userId}
+    </select>
+
+    <!-- 이메일 중복 체크 -->
+    <select id="checkEmail" parameterType="String" resultType="int">
+        select count(*)
+        from user
+        where user_id = #{userId}
+    </select>
 </mapper>

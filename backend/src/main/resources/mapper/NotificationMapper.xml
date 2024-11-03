@@ -4,10 +4,46 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.sepay.backend.notification.mapper.NotificationMapper">
-    <select id="selectByUserNo" parameterType="int" resultType="notificationDTO">
-        select noti_no, resve_no, noti_content, exchange_rate, create_at
-        from notification
-        where user_no = #{userNo}
+
+    <!-- 알림 등록 -->
+    <insert id="insertNotification" parameterType="notificationDTO" useGeneratedKeys="true" keyProperty="notiNo" keyColumn="noti_no">
+        INSERT INTO notification
+            (res_no, history_no, user_id, content, amount)
+        VALUES(#{resNo}, #{historyNo}, #{userId}, #{content}, #{amount});
+    </insert>
+
+    <!-- 알림 번호로 가져오기 -->
+    <select id="selectByNo" parameterType="Integer" resultType="notificationDTO">
+        SELECT *
+        FROM notification
+        WHERE noti_no = #{notiNo}
     </select>
 
+    <!-- 유저 알림 불러오기 -->
+    <select id="selectByUserId" parameterType="String" resultType="notificationDTO">
+        SELECT *
+        FROM notification
+        WHERE user_id = #{userId}
+        ORDER BY `check`, noti_no desc
+    </select>
+
+    <!-- 알림 삭제 -->
+    <delete id="deleteNoti" parameterType="int">
+        DELETE FROM notification
+        WHERE noti_no = #{notiNo}
+    </delete>
+
+    <!-- 알림 확인 -->
+    <update id="updateNoti" parameterType="int">
+        UPDATE notification
+        SET `check`='1'
+        WHERE noti_no = #{notiNo};
+    </update>
+
+    <!-- 송금 받고 잔액 초기화 -->
+    <update id="updateNotiAmount" parameterType="int">
+        UPDATE notification
+        SET amount = 0
+        WHERE noti_no = #{notiNo};
+    </update>
 </mapper>

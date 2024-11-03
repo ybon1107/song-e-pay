@@ -54,6 +54,13 @@ watch(
   }
 );
 
+watch(
+  () => props.error,
+  (newValue) => {
+    internalError.value = newValue;
+  }
+);
+
 // 숫자만 입력되도록 설정하는 함수
 const handleInput = (event) => {
   event.target.value = event.target.value.replace(/\D/g, "");
@@ -86,12 +93,12 @@ const handleKeyPress = (event) => {
       <argon-input
         id="phoneNumber"
         type="tel"
-        placeholder="Phone number"
+        :placeholder="$t('signUp--phonePlaceholder')"
         aria-label="Phone number"
         v-model="internalPhoneNumber"
         :disabled="disabled"
-        :error="!internalError"
-        errorText="Please enter a valid phone number."
+        :error="internalError"
+        :errorText="$t('signUp--errorText-phone')"
         @input="handleInput"
         @keypress="handleKeyPress"
       />

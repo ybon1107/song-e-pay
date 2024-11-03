@@ -21,7 +21,7 @@ public class ExchangeReservationServiceImpl implements ExchangeReservationServic
     @Override
     public void saveExchangeReservation(ExchangeReservationDTO exchangeReservationDTO) {
         HashMap map = new HashMap();
-        map.put("userNo", exchangeReservationDTO.getUserNo());
+        map.put("userId", exchangeReservationDTO.getUserId());
         map.put("targetKrw", 0);
 
         Integer reservationCount = mapper.countReservation(map);
@@ -37,9 +37,9 @@ public class ExchangeReservationServiceImpl implements ExchangeReservationServic
     }
 
     @Override
-    public List<ExchangeReservationDTO> getExchangeReservation (Integer userNo) {
-        log.info("알림 내역을 조회합니다. userNo: {}", userNo);
-        return mapper.selectReservation(userNo);
+    public List<ExchangeReservationDTO> getExchangeReservation (String userId) {
+        log.info("알림 내역을 조회합니다. userNo: {}", userId);
+        return mapper.selectReservation(userId);
     }
 
     @Override
@@ -49,9 +49,9 @@ public class ExchangeReservationServiceImpl implements ExchangeReservationServic
     }
 
     @Override
-    public int countExchangeReservations(Integer userNo, Integer targetKrw) {
+    public int countExchangeReservations(String userId, Integer targetKrw) {
         HashMap map = new HashMap();
-        map.put("userNo", userNo);
+        map.put("userId", userId);
         map.put("targetKrw", targetKrw);
         return mapper.countReservation(map);
     }
@@ -59,7 +59,7 @@ public class ExchangeReservationServiceImpl implements ExchangeReservationServic
     @Override
     public void saveAutoExchange(ExchangeReservationDTO exchangeReservationDTO) {
         HashMap map = new HashMap();
-        map.put("userNo", exchangeReservationDTO.getUserNo());
+        map.put("userId", exchangeReservationDTO.getUserId());
         map.put("targetKrw", 0);
 
         Integer exchangeCount = mapper.countAutoexchange(map);
@@ -75,17 +75,29 @@ public class ExchangeReservationServiceImpl implements ExchangeReservationServic
     }
 
     @Override
-    public List<ExchangeReservationDTO> getAutoExchange (Integer userNo) {
-        log.info("자동 환전 예약을 조회합니다. userNo: {}", userNo);
-        return mapper.selectAutoexchange(userNo);
+    public List<ExchangeReservationDTO> getAutoExchange (String userId) {
+        log.info("자동 환전 예약을 조회합니다. userId: {}", userId);
+        return mapper.selectAutoexchange(userId);
     }
 
     @Override
-    public int countAutoExchange(Integer userNo, Integer targetKrw) {
+    public int countAutoExchange(String userId, Integer targetKrw) {
         HashMap map = new HashMap();
-        map.put("userNo", userNo);
+        map.put("userId", userId);
         map.put("targetKrw", targetKrw);
         return mapper.countAutoexchange(map);
+    }
+
+    // 모든 알림 내역 가지고 오기
+    @Override
+    public List<ExchangeReservationDTO> getAllExchangeReservation() {
+        return mapper.selectAllReservation();
+    }
+
+    // 모든 자동 환전 내역 가지고오기
+    @Override
+    public List<ExchangeReservationDTO> getAllAutoExchange() {
+        return mapper.selectAllAutoExchange();
     }
 }
 

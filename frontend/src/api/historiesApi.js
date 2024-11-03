@@ -1,9 +1,7 @@
-import axios from 'axios';
+import api from '@/api';
 
-const api = axios.create({
-    baseURL: '/api/histories', // 기본 경로 설정
-    headers: { 'Content-Type': 'application/json' }, // 기본 헤더
-});
+const BASE_URL = '/api/histories'; // 기본 경로 설정
+// const headers = { "Content-Type": "multipart/form-data" }; // 기본 헤더
 
 export default {
     async applyFilters(filters, pageRequest) {
@@ -15,7 +13,7 @@ export default {
         console.log(requestBody);
 
         // pageRequest를 쿼리 파라미터로 전달
-        const response = await api.post('/filter', requestBody, {
+        const response = await api.post(`${BASE_URL}/filter`, requestBody, {
             params: {
                 page: pageRequest.page, // 페이지 번호를 쿼리 파라미터로 전달
                 amount: pageRequest.amount, // 페이지당 항목 수를 쿼리 파라미터로 전달
@@ -45,7 +43,10 @@ export default {
         formData.append('historyNo', historyNo);
         formData.append('memo', memo);
 
-        const { data } = await api.put(`/updateMemo/${historyNo}`, formData);
+        const { data } = await api.put(
+            `${BASE_URL}/updateMemo/${historyNo}`,
+            formData
+        );
         console.log('MEMO UPDATE:', data);
         return data;
     },

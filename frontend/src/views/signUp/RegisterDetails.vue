@@ -2,7 +2,6 @@
 import { ref, computed, onBeforeUnmount, onBeforeMount } from "vue";
 import { useStore } from "vuex";
 import { useRouter } from "vue-router";
-// import { useSignupStore } from "@/stores/signupStore";
 import axios from "axios";
 import ArgonInput from "@/components/templates/ArgonInput.vue";
 import ArgonButton from "@/components/templates/ArgonButton.vue";
@@ -10,10 +9,13 @@ import PhoneInput from "@/components/signUp/PhoneInput.vue";
 import flatPickr from "vue-flatpickr-component";
 import "flatpickr/dist/flatpickr.css";
 import { parsePhoneNumberFromString } from "libphonenumber-js";
+import { useI18n } from "vue-i18n";
+import Swal from "sweetalert2";
+
+const { t } = useI18n();
 
 const body = document.getElementsByTagName("body")[0];
 const store = useStore();
-// const signupStore = useSignupStore();
 const router = useRouter();
 
 // 에러 상태
@@ -28,10 +30,9 @@ const countryError = ref(false);
 const genderError = ref(false);
 const phoneNumberError = ref(false);
 
-const TIMER_VALUE = 5;
+const TIMER_VALUE = 60;
 const isButtonEnabled = ref(true); // 버튼 활성화 상태
-// const timer = ref(TIMER_VALUE); // 1분 카운트다운
-const timer = ref(TIMER_VALUE); // 5초 카운트다운
+const timer = ref(TIMER_VALUE); // 1분 카운트다운
 let interval = null;
 
 const startTimer = () => {
@@ -103,26 +104,47 @@ const sendEmailCode = async () => {
         }
       );
 
-      // 이메일 코드 전송 성공 시 타이머 시작
+      console.log("Response data:", response);
+
       if (response.data) {
-        startTimer();
-        alert("Verification code sent successfully.");
+        // 인증 코드 전송 성공
+        console.log("Verification code sent successfully.");
+        Swal.fire({
+          title: t("signUp--alertTitle-codeSendSuccess"),
+          // text: "",
+          icon: "success",
+          confirmButtonText: "OK",
+        }).then(() => {
+          startTimer(); // 이메일 코드 전송 성공 시 타이머 시작
+        });
+      } else {
+        // 이미 등록된 이메일일 경우
+        console.log("Already registered email. Please use another email.");
+        Swal.fire({
+          title: t("signUp--alertTitle-alreadyRegistered"),
+          text: t("signUp--alertText-alreadyRegistered"),
+          icon: "warning",
+          confirmButtonText: "Close",
+        });
       }
     } catch (error) {
+      Swal.fire({
+        title: t("signUp--alertTitle-codeSendFailed"),
+        // text: "Please use another email.",
+        icon: "error",
+        confirmButtonText: "Close",
+      });
       console.error("Email code sending error:", error);
       if (error.response) {
         // 서버가 응답했지만 상태 코드가 2xx 범위에 있지 않음
         console.error("Server responded with status:", error.response.status);
         console.error("Response data:", error.response.data);
-        alert(`Server error: ${error.response.status}`);
       } else if (error.request) {
         // 요청이 만들어졌으나 응답을 받지 못함
         console.error("No response received:", error.request);
-        alert("No response from server. Please try again.");
       } else {
         // 요청을 설정하는 중에 에러가 발생함
         console.error("Error setting up request:", error.message);
-        alert("Error setting up request. Please try again.");
       }
     }
   } else {
@@ -132,6 +154,11 @@ const sendEmailCode = async () => {
 
 // 이메일 인증 코드 입력 필드 상태
 const emailCode = ref("");
+
+// 인증 코드 입력 숫자만 허용(최대 6자리)
+const handleEmailCode = (event) => {
+  emailCode.value = event.target.value.replace(/\D/g, "").slice(0, 6);
+};
 
 // 인증 코드 검증 상태
 const isVerified = ref(false);
@@ -153,10 +180,24 @@ const verifyCode = async () => {
       );
 
       if (response.data) {
+        // 인증 코드 검증 성공
         isVerified.value = true;
-        alert("Email verification successful.");
+        console.log("Email verification successful.");
+        Swal.fire({
+          title: t("signUp--alertTitle-verifySuccess"),
+          // text: "",
+          icon: "success",
+          confirmButtonText: "OK",
+        });
       } else {
-        alert("Invalid verification code. Please try again.");
+        // 인증 코드 검증 실패
+        console.log("Invalid verification code. Please try again.");
+        Swal.fire({
+          title: t("signUp--alertTitle-verifyFailed"),
+          text: t("signUp--alertText-tryAgain"),
+          icon: "error",
+          confirmButtonText: "Close",
+        });
       }
     } catch (error) {
       console.error("Email code verification error:", error);
@@ -164,15 +205,12 @@ const verifyCode = async () => {
         // 서버가 응답했지만 상태 코드가 2xx 범위에 있지 않음
         console.error("Server responded with status:", error.response.status);
         console.error("Response data:", error.response.data);
-        alert(`Server error: ${error.response.status}`);
       } else if (error.request) {
         // 요청이 만들어졌으나 응답을 받지 못함
         console.error("No response received:", error.request);
-        alert("No response from server. Please try again.");
       } else {
         // 요청을 설정하는 중에 에러가 발생함
         console.error("Error setting up request:", error.message);
-        alert("Error setting up request. Please try again.");
       }
     }
   }
@@ -197,7 +235,7 @@ const isPasswordMatch = computed(() => {
 });
 
 // 거주 국가 상태
-const country = ref("Country");
+const country = ref(t("signUp--countryCodeLabel"));
 
 // 성 및 이름 입력 필드 상태
 const firstName = ref("");
@@ -214,7 +252,7 @@ function calculateDateYearsAgo(years) {
 }
 
 // 성별 상태
-const gender = ref("Gender");
+const gender = ref(t("signUp--genderLabel"));
 
 // 전화번호와 국가 코드 상태
 const countryCallingCode = ref("+1");
@@ -252,13 +290,36 @@ const handleSubmit = async () => {
   genderError.value = gender.value === "Gender";
   phoneNumberError.value = phoneNumber.value === "";
 
+  if (
+    emailError.value ||
+    emailCodeError.value ||
+    passwordError.value ||
+    confirmPasswordError.value ||
+    countryError.value ||
+    firstNameError.value ||
+    lastNameError.value ||
+    birthError.value ||
+    genderError.value ||
+    phoneNumberError.value
+  ) {
+    // 필수 입력값이 비어있을 경우
+    console.log("Please fill out all required fields.");
+    Swal.fire({
+      title: t("signUp--alertTitle-submitFailed"),
+      // text: "",
+      icon: "error",
+      confirmButtonText: "Close",
+    });
+    return;
+  }
+
   if (isFormValid.value) {
     try {
       const phoneNumberE164 = parsePhoneNumberFromString(
         `${countryCallingCode.value}${phoneNumber.value}`
       ).format("E.164");
 
-      const response = await axios.post("/api/users/register", {
+      const requestData = {
         userId: email.value,
         password: password.value,
         countryCode: country.value,
@@ -267,17 +328,42 @@ const handleSubmit = async () => {
         birthday: birth.value,
         gender: gender.value,
         phoneNo: phoneNumberE164,
+      };
+
+      console.log(requestData);
+
+      const response = await axios.post("/api/users/register", requestData, {
+        headers: {
+          "Content-Type": "application/json",
+        },
       });
 
+      console.log(response);
+
+      console.log(response.data);
+
       if (response.data === "success") {
-        router.push("/login");
+        router.push("/register/success");
       } else {
         // 등록 실패
-        alert("Registration failed. Please try again.");
+        console.log("Registration failed. Please try again.");
+        Swal.fire({
+          title: t("signUp--alertTitle-registerFailed"),
+          text: t("signUp--alertText-tryAgain"),
+          icon: "error",
+          confirmButtonText: "Close",
+        });
       }
     } catch (error) {
       console.error("Registration error:", error);
-      alert("An error occurred during registration. Please try again.");
+      // 등록 중 에러 발생
+      console.log("An error occurred during registration. Please try again.");
+      Swal.fire({
+        title: t("signUp--alertTitle-registerError"),
+        text: t("signUp--alertText-tryAgain"),
+        icon: "error",
+        confirmButtonText: "Close",
+      });
     }
   }
 };
@@ -296,42 +382,49 @@ const handleSubmit = async () => {
             <div class="card card-plain">
               <!-- 카드 헤더: 제목 -->
               <div class="pb-0 card-header text-center">
-                <h4 class="font-weight-bolder">Tell us about yourself</h4>
+                <h4 class="font-weight-bolder">
+                  {{ $t("signUp--Title-page") }}
+                </h4>
               </div>
               <!-- 카드 본문 -->
               <div class="card-body container-fluid">
                 <form @submit.prevent="handleSubmit">
                   <!-- 사용자 이메일 필드 -->
                   <div class="col-md-12">
-                    <label for="email" class="form-control-label"
-                      >Your email address</label
-                    >
+                    <label for="email" class="form-control-label">{{
+                      $t("signUp--email")
+                    }}</label>
                     <div class="row mb-0">
                       <argon-input
+                        isRequired
                         id="email"
                         type="email"
                         class="col-xl col-md col-sm"
-                        placeholder="Email"
+                        :placeholder="$t('signUp--emailPlaceholder')"
                         aria-label="Email"
                         v-model="email"
                         :class="{ 'is-invalid': emailError }"
                         :error="emailError"
-                        errorText="Please provide a valid email address."
+                        :errorText="$t('signUp--errorText-email')"
+                        :disabled="isVerified"
                       />
                       <!-- 인증 메일 전송/재전송 버튼 -->
                       <div class="col-xl-4 col-md-5">
                         <argon-button
                           fullWidth
-                          :disabled="!isButtonEnabled"
+                          :disabled="isVerified"
                           color="info"
                           variant="gradient"
                           class="mb-3"
                           type="button"
                           @click="sendEmailCode"
                         >
-                          <span v-if="isButtonEnabled">Send code</span>
+                          <span v-if="isButtonEnabled">{{
+                            $t("signUp--button-sendCode")
+                          }}</span>
                           <span v-else
-                            >Resend {{ Math.floor(timer / 60) }}:{{
+                            >{{ $t("signUp--button-emailResend") }}
+                            {{ Math.floor(timer / 60) }}:{{
                               (timer % 60).toString().padStart(2, "0")
                             }}</span
                           >
@@ -341,21 +434,24 @@ const handleSubmit = async () => {
                   </div>
                   <!-- 인증 코드 입력 -->
                   <div class="col-md-12">
-                    <label for="emailCode" class="form-label"
-                      >Email verification code</label
-                    >
+                    <label for="emailCode" class="form-label">{{
+                      $t("signUp--emailCode")
+                    }}</label>
                     <div class="row mb-0">
                       <argon-input
                         isRequired
                         id="emailCode"
                         type="text"
                         class="col-xl col-md col-sm"
-                        placeholder="Verification code"
+                        :placeholder="$t('signUp--emailCodePlaceholder')"
                         v-model="emailCode"
+                        @input="handleEmailCode"
                         :class="{ 'is-invalid': emailCodeError }"
                         :success="!emailCodeError && isVerified"
-                        :error="emailCodeError"
-                        errorText="Please enter the verification code."
+                        :error="
+                          emailCode === '' && emailCodeError && !isVerified
+                        "
+                        :errorText="$t('signUp--errorText-emailCode')"
                       ></argon-input>
                       <!-- 인증코드 확인 버튼 -->
                       <div class="col-xl-4 col-md-4">
@@ -363,41 +459,41 @@ const handleSubmit = async () => {
                           fullWidth
                           color="info"
                           variant="gradient"
-                          class="btn"
+                          class="mb-3"
                           type="button"
                           @click="verifyCode"
-                          >Verify
+                          >{{ $t("signUp--verify") }}
                         </argon-button>
                       </div>
                     </div>
                   </div>
                   <!-- 비밀번호 입력 필드 -->
                   <div class="col-md-12">
-                    <label for="password" class="form-control-label"
-                      >Your password</label
-                    >
+                    <label for="password" class="form-control-label">{{
+                      $t("signUp--pw")
+                    }}</label>
                     <argon-input
                       isRequired
                       id="password"
                       type="password"
-                      placeholder="Password"
+                      :placeholder="$t('signUp--pwPlaceholder')"
                       v-model="password"
                       @input="handlePasswordInput"
                       :class="{
                         'is-invalid': passwordError && password.length < 8,
                       }"
                       :error="passwordError && password.length < 8"
-                      errorText="Please provide a password with at least 8 characters."
+                      :errorText="$t('signUp--errorText-pw')"
                     ></argon-input>
                     <!-- 비밀번호 입력 확인 필드 -->
-                    <label for="confirm-password" class="form-control-label"
-                      >Confirm your password</label
-                    >
+                    <label for="confirm-password" class="form-control-label">{{
+                      $t("signUp--confirmPw")
+                    }}</label>
                     <argon-input
                       isRequired
                       id="confirm-password"
                       type="password"
-                      placeholder="Confirm password"
+                      :placeholder="$t('signUp--confirmPwPlaceholder')"
                       v-model="confirmPassword"
                       @input="handleConfirmPasswordInput"
                       :class="{
@@ -408,43 +504,45 @@ const handleSubmit = async () => {
                       }"
                       :success="isPasswordMatch"
                       :error="
-                        confirmPasswordError &&
-                        confirmPassword.length < 8 &&
-                        !isPasswordMatch
-                      "
-                      errorText="Passwords do not match or are less than 8 characters."
-                    />
-                    <!-- <p
-                      v-if="
                         confirmPasswordError ||
-                        (confirmPassword !== '' && !isPasswordMatch)
+                        (confirmPassword !== '' &&
+                          confirmPassword.length < 8 &&
+                          !isPasswordMatch)
                       "
-                      class="invalid-feedback text-xs"
-                    >
-                      Passwords do not match or are less than 8 characters.
-                    </p> -->
+                      :errorText="$t('signUp--errorText-confirmPw')"
+                    />
                   </div>
                   <!-- 거주 국가 입력 필드 -->
                   <div class="col-md-12">
-                    <label for="country" class="form-control-label"
-                      >Country of residence</label
-                    >
+                    <label for="country" class="form-control-label">{{
+                      $t("signUp--country")
+                    }}</label>
                     <div class="form-group">
                       <select
                         id="country"
                         class="form-select"
                         v-model="country"
                         :class="{
-                          'is-invalid': country === 'Country' && countryError,
+                          'is-invalid':
+                            country === $t('signUp--countryCodeLabel') &&
+                            countryError,
                         }"
                       >
-                        <option disabled hidden>Country</option>
-                        <option value="1">🇺🇸 United States</option>
-                        <option value="2">🇮🇩 Indonesia</option>
-                        <option value="3">🇻🇳 Vietnam</option>
+                        <option disabled hidden>
+                          {{ $t("signUp--countryCodeLabel") }}
+                        </option>
+                        <option value="1">
+                          🇺🇸 {{ $t("signUp--countryUS") }}
+                        </option>
+                        <option value="2">
+                          🇮🇩 {{ $t("signUp--countryID") }}
+                        </option>
+                        <option value="3">
+                          🇻🇳 {{ $t("signUp--countryVI") }}
+                        </option>
                       </select>
                       <p
-                        v-if="country === 'Country'"
+                        v-if="country === $t('signUp--countryCodeLabel')"
                         class="invalid-feedback text-xs"
                       >
                         Please select a country.
@@ -453,51 +551,45 @@ const handleSubmit = async () => {
                   </div>
                   <!-- 이름 입력 필드 -->
                   <div class="col-md-12">
-                    <label for="first-name" class="form-control-label"
-                      >Full legal first and middle name(s)</label
-                    >
+                    <label for="first-name" class="form-control-label">{{
+                      $t("signUp--firstName")
+                    }}</label>
                     <argon-input
                       isRequired
                       id="first-name"
                       type="text"
-                      placeholder="First name and middle name(s)"
+                      :placeholder="$t('signUp--firstNamePlaceholder')"
                       v-model="firstName"
                       :class="{
                         'is-invalid': firstNameError && firstName === '',
                       }"
                       :error="firstNameError && firstName === ''"
-                      errorText="Please provide your full legal first and middle name(s)."
+                      :errorText="$t('signUp--errorText-firstName')"
                     />
-                    <!-- <p v-if="firstNameError" class="invalid-feedback text-xs">
-                      Please provide your full legal first and middle name(s).
-                    </p> -->
                   </div>
                   <!-- 성 입력 필드 -->
                   <div class="col-md-12">
-                    <label for="last-name" class="form-control-label"
-                      >Full legal last name(s)</label
-                    >
+                    <label for="last-name" class="form-control-label">{{
+                      $t("signUp--lastName")
+                    }}</label>
                     <argon-input
                       isRequired
                       id="last-name"
                       type="text"
-                      placeholder="Last name"
+                      :placeholder="$t('signUp--lastNamePlaceholder')"
                       v-model="lastName"
                       :class="{
                         'is-invalid': lastNameError && lastName === '',
                       }"
                       :error="lastNameError && lastName === ''"
-                      errorText="Please provide your full legal last name(s)."
+                      :errorText="$t('signUp--errorText-lastName')"
                     />
-                    <!-- <p v-if="lastNameError" class="invalid-feedback text-xs">
-                      Please provide your full legal last name(s).
-                    </p> -->
                   </div>
                   <!-- 생년월일 입력 필드 -->
                   <div class="col-md-12 form-group">
-                    <label for="birth" class="form-control-label"
-                      >Date of birth</label
-                    >
+                    <label for="birth" class="form-control-label">{{
+                      $t("signUp--birthday")
+                    }}</label>
                     <flat-pickr
                       id="birth"
                       v-model="birth"
@@ -513,50 +605,52 @@ const handleSubmit = async () => {
                       }"
                     />
                     <p v-if="birthError" class="invalid-feedback text-xs">
-                      Please provide a valid date of birth.
+                      {{ $t("signUp--errorText-birth") }}
                     </p>
                   </div>
                   <!-- 성별 입력 필드 -->
                   <div class="col-md-12">
-                    <label for="gender" class="form-control-label"
-                      >Gender</label
-                    >
+                    <label for="gender" class="form-control-label">{{
+                      $t("signUp--gender")
+                    }}</label>
                     <div class="form-group">
                       <select
+                        required
                         id="gender"
                         class="form-select"
                         v-model="gender"
                         :class="{
-                          'is-invalid': gender === 'Gender' && genderError,
+                          'is-invalid':
+                            gender === $t('signUp--genderLabel') && genderError,
                         }"
                       >
-                        <option disabled hidden>Gender</option>
-                        <option value="1">Male</option>
-                        <option value="2">Female</option>
+                        <option disabled hidden>
+                          {{ $t("signUp--genderLabel") }}
+                        </option>
+                        <option value="1">
+                          {{ $t("signUp--genderMale") }}
+                        </option>
+                        <option value="2">
+                          {{ $t("signUp--genderFemale") }}
+                        </option>
                       </select>
                       <p
-                        v-if="gender === 'Gender'"
+                        v-if="gender === $t('signUp--genderLabel')"
                         class="invalid-feedback text-xs"
                       >
-                        Please select a gender.
+                        {{ $t("signUp--errorText-gender") }}
                       </p>
                     </div>
                     <!-- 전화번호 입력 필드 -->
                     <div class="col-md-12">
-                      <label for="name" class="form-control-label"
-                        >Your phone number</label
-                      >
+                      <label for="name" class="form-control-label">{{
+                        $t("signUp--phone")
+                      }}</label>
                       <PhoneInput
                         v-model="phoneNumber"
                         :error="phoneNumberError"
                         :countryCallingCode="countryCallingCode"
                       />
-                      <p
-                        v-if="!phoneNumberError"
-                        class="invalid-feedback text-xs"
-                      >
-                        Please provide a valid phone number.
-                      </p>
                     </div>
                     <!-- 다음 버튼 -->
                     <div class="text-center">
@@ -566,7 +660,7 @@ const handleSubmit = async () => {
                         variant="gradient"
                         class="my-4 mb-2"
                         type="submit"
-                        >Continue</argon-button
+                        >{{ $t("signUp--button-submit") }}</argon-button
                       >
                     </div>
                   </div>

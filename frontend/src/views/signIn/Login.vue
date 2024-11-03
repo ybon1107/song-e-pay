@@ -1,23 +1,22 @@
 <script setup>
 import { ref, computed, onBeforeUnmount, onBeforeMount, onMounted } from "vue";
 import { useStore } from "vuex";
-import { useRouter } from "vue-router";
 import { useAuthStore } from "@/stores/auth";
-import axios from "axios";
 import ArgonInput from "@/components/templates/ArgonInput.vue";
 import ArgonSwitch from "@/components/templates/ArgonSwitch.vue";
 import ArgonButton from "@/components/templates/ArgonButton.vue";
+import { useI18n } from "vue-i18n";
+import Swal from "sweetalert2";
+
+const { t } = useI18n();
 
 const body = document.getElementsByTagName("body")[0];
 const store = useStore();
-const router = useRouter();
 const auth = useAuthStore();
 
 const member = ref({
-  user: {
-    email: "",
-    password: "",
-  },
+  username: "",
+  password: "",
 });
 
 const error = ref("");
@@ -57,13 +56,13 @@ onMounted(() => {
 });
 
 // 이메일과 비밀번호 입력 필드 상태
-const email = ref("");
+const username = ref("");
 const password = ref("");
 
 // 이메일 유효성 검사
 const isEmailValid = computed(() => {
   const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  return emailPattern.test(email.value);
+  return emailPattern.test(username.value);
 });
 
 // 비밀번호 유효성 검사
@@ -83,41 +82,32 @@ const isFormValid = computed(() => {
 // 폼 제출 처리
 const handleSubmit = async () => {
   // member 객체에 이메일과 비밀번호 할당
-  member.value.user.email = email.value;
-  member.value.user.password = password.value;
+  member.value.username = username.value;
+  member.value.password = password.value;
 
-  console.log("try login: ", member.value);
+  console.log("try login: ", member);
   emailError.value = !isEmailValid.value;
   passwordError.value = !isPasswordValid.value;
 
-  // if (isFormValid.value) {
-  //   try {
-  //     const response = await axios.post("http://localhost:8080/login", {
-  //       email: email.value,
-  //       password: password.value,
-  //     });
-
-  //     if (response.data.success) {
-  //       router.push("/login/phone");
-  //     } else {
-  //       // 로그인 실패 처리
-  //       alert("Invalid email or password");
-  //     }
-  //   } catch (error) {
-  //     console.error("Login error:", error);
-  //     alert("An error occurred during login. Please try again.");
-  //   }
-  // }
   if (isFormValid.value) {
     try {
-      await auth.login(member.value);
-      if (localStorage.getItem("auth") != " ") {
-        window.location.href = "/";
+      await auth.login(member);
+
+      const loginState = JSON.parse(localStorage.getItem("auth"));
+      const token = loginState ? loginState.token : null;
+      if (token) {
+        console.log("Token after login: ", token);
+        window.location.href = "/my-page";
       }
     } catch (e) {
+      Swal.fire({
+        title: t("signIn--alertTitle-loginError"),
+        text: t("signIn--alertText-loginError"),
+        icon: "error",
+        confirmButtonText: "Close",
+      });
       // 로그인 에러
       console.log("에러=======", e);
-      error.value = e.response.data;
     }
   }
 };
@@ -137,16 +127,18 @@ const handleSubmit = async () => {
               <div class="card card-plain">
                 <!-- 카드 헤더: 제목 -->
                 <div class="pb-0 card-header text-center">
-                  <h4 class="font-weight-bolder">Welcome back!</h4>
+                  <h4 class="font-weight-bolder">
+                    {{ $t("signIn--header-welcome") }}
+                  </h4>
                 </div>
                 <!-- 카드 푸터: 회원가입 링크 -->
                 <div class="pt-0 text-center card-footer">
                   <p class="mx-auto text-sm">
-                    Don't have Song-E Pay account?
+                    {{ $t("signIn--footer-signUpLink") }}
                     <router-link
                       to="/register/legal"
                       class="text-success text-gradient font-weight-bold"
-                      >Sign up</router-link
+                      >{{ $t("signIn--footer-signUp") }}</router-link
                     >
                   </p>
                 </div>
@@ -157,61 +149,58 @@ const handleSubmit = async () => {
                     class="needs-validation"
                     novalidate
                   >
-                    <!-- <form action="http://localhost:8080/login" method="post"> -->
                     <!-- 이메일 입력 필드 -->
                     <div class="mb-3">
-                      <label key="email" for="email" class="form-label"
-                        >Your email address</label
-                      >
+                      <label key="email" for="email" class="form-label">{{
+                        $t("signIn--form-emailLabel")
+                      }}</label>
                       <argon-input
                         isRequired
                         id="email"
                         type="email"
-                        placeholder="Email"
-                        name="email"
+                        :placeholder="$t('signIn--form-emailPlaceholder')"
+                        name="username"
                         size="lg"
-                        v-model="email"
-                        :class="{ 'is-invalid': emailError }"
-                        :error="(email !== '' || emailError) && !isEmailValid"
-                        errorText="Please provide a valid email."
+                        v-model="username"
+                        :class="{
+                          'is-invalid': emailError,
+                        }"
+                        :error="
+                          (username !== '' || emailError) && !isEmailValid
+                        "
+                        :errorText="$t('signIn--errorText-email')"
                       />
-                      <!-- <div v-if="emailError" class="invalid-feedback text-xs">
-                        Please provide a valid email.
-                      </div> -->
                     </div>
                     <!-- 비밀번호 입력 필드 -->
                     <div class="mb-3">
-                      <label key="password" for="password" class="form-label"
-                        >Your password</label
-                      >
+                      <label key="password" for="password" class="form-label">{{
+                        $t("signIn--form-passwordLabel")
+                      }}</label>
                       <argon-input
                         isRequired
                         id="password"
                         type="password"
-                        placeholder="Password"
+                        :placeholder="$t('signIn--form-passwordPlaceholder')"
                         name="password"
                         size="lg"
                         v-model="password"
-                        :class="{ 'is-invalid': passwordError }"
+                        :class="{
+                          'is-invalid': passwordError,
+                        }"
                         :error="
                           (password !== '' || passwordError) && !isPasswordValid
                         "
-                        errorText="Please fill in the password field with at least 8 characters."
+                        :errorText="$t('signIn--errorText-pw')"
                       />
-                      <!-- <div
-                        v-if="passwordError"
-                        class="invalid-feedback text-xs"
-                      >
-                        Please fill in the password field with at least 8
-                        characters.
-                      </div> -->
                     </div>
                     <!-- "Remember me" 토글 스위치 (일단 주석 처리 해둠) -->
                     <!-- <argon-switch id="rememberMe" name="remember-me"
                       >Remember me</argon-switch
                     > -->
                     <!-- 로그인 버튼 -->
-                    <div v-if="error" class="text-xs">{{ error }}</div>
+                    <div v-if="error" class="text-xs">
+                      {{ error }}
+                    </div>
                     <div class="text-center">
                       <argon-button
                         class="mt-4"
@@ -220,7 +209,7 @@ const handleSubmit = async () => {
                         fullWidth
                         size="lg"
                         type="submit"
-                        >Sign in</argon-button
+                        >{{ $t("common--text-login") }}</argon-button
                       >
                     </div>
                   </form>
@@ -229,7 +218,7 @@ const handleSubmit = async () => {
                     <router-link
                       to="/login/issue-info"
                       class="text-success text-gradient font-weight-bold"
-                      >Trouble logging in?</router-link
+                      >{{ $t("signIn--link-troubleLoggingIn") }}</router-link
                     >
                   </p>
                 </div>

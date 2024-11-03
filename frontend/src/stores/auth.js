@@ -1,134 +1,135 @@
 import { ref, computed } from 'vue';
 import { defineStore } from 'pinia';
 import axios from 'axios';
+import userApi from '@/api/userApi';
 
 const initState = {
-  token: '',
-  user: {
-    userNo: '',
-    accountNo: '',
-    songNo: '',
-    krwNo: '',
-    countryCode: '',
-    userId: '',
-    firstName: '',
-    lastName: '',
-    birthday: '',
-    gender: '',
-    phoneNo: '',
-    secondPwd: '',
-    profilePic: '',
-    address: '',
-    country: '',
-    language: '',
-    createAt: '',
-    updateAt: '',
-  },
+    token: '',
+    user: {
+        userId: '',
+        countryCode: '',
+        roles: [],
+    },
 };
 
 export const useAuthStore = defineStore('auth', () => {
-  const state = ref({ ...initState });
+    const state = ref({ ...initState });
+    const user = ref(null);
 
-  const isLogin = computed(() => !!state.value.user.userNo);
+    const isLogin = computed(() => !!state.value.user.userId);
+    const userId = computed(() => state.value.user.userId);
 
-  const userNo = computed(() => state.value.user.userNo);
+    const fetchUser = async (userId) => {
+        try {
+            const userData = await userApi.getUser(userId);
+            user.value = userData;
+            console.log(
+                '================================fetch user : ',
+                user.value
+            );
+        } catch (error) {
+            console.error('사용자 정보를 가져오는 데 실패했습니다:', error);
+        }
+    };
 
-  const user = computed(() => state.value.user);
+    const load = async () => {
+        const auth = localStorage.getItem('auth');
+        if (auth != null) {
+            state.value = JSON.parse(auth);
+            console.log('load auth : ', state.value);
+            if (state.value.token && state.value.user.userId) {
+                await fetchUser(state.value.user.userId);
+                console.log(
+                    '================================load user : ',
+                    user.value
+                );
+            }
+        }
+    };
 
-  // 이메일 가져오기 (여기서는 userId가 이메일 역할)
-  const email = computed(() => state.value.user.userId);
+    const login = async (member) => {
+        try {
+            // const response = await axios.post("/api/auth/login", member.value);
+            // console.log("response : ", response);
+            // console.log("response.data : ", response.data);
 
-  const load = () => {
-    const auth = localStorage.getItem('auth');
-    if (auth != null) {
-      // Object.assign을 사용해 로컬 스토리지의 데이터를 state.value에 병합
-      Object.assign(state.value, JSON.parse(auth)); // 전체 객체를 reactive에 적용할 때는 Object.assign이 필요
-    }
-  };
+            // state.value = { ...response.data };
 
-  const login = async (member) => {
-    // state.value.token = 'test token';
-    // state.value.user = { username: member.username, email: member.username + '@test.com' }   ;
-    const formData = new FormData();
-    formData.append('userId', member.user.email); // 이메일을 userId로 전송
-    formData.append('password', member.user.password); // 비밀번호 추가
+            const { data } = await axios.post('/api/auth/login', member.value);
+            console.log('data : ', data);
 
-    try {
-      const response = await axios.post('/api/users/login', formData);
-      Object.assign(state.value.user, { ...response.data });
-      switch (state.value.user.countryCode) {
-        case 0:
-          state.value.user.country = '한국';
-          state.value.user.language = 'ko';
-          break;
-        case 1:
-          state.value.user.country = '미국';
-          state.value.user.language = 'en';
-          break;
-        case 2:
-          state.value.user.country = '인도네시아';
-          state.value.user.language = 'id';
-          break;
-        case 3:
-          state.value.user.country = '베트남';
-          state.value.user.language = 'vi';
-          break;
-      }
-      localStorage.setItem('auth', JSON.stringify(state.value));
-    } catch (error) {
-      console.error(error);
-      throw error
-    }
-  };
+            state.value = { ...data };
 
-  // 프로필 변경 시 state 업데이트 및 localStorage 저장
-  const updateProfileState = (updatedData) => {
-    Object.assign(state.value.user, updatedData);
-    console.log("updateProfileState : ", updatedData)
+            await fetchUser(state.value.user.userId);
 
-    // countryCode에 따른 국가와 언어 설정
-    switch (state.value.user.countryCode) {
-      case 0:
-        state.value.user.country = '한국';
-        state.value.user.language = 'ko';
-        break;
-      case 1:
-        state.value.user.country = '미국';
-        state.value.user.language = 'en';
-        break;
-      case 2:
-        state.value.user.country = '인도네시아';
-        state.value.user.language = 'id';
-        break;
-      case 3:
-        state.value.user.country = '베트남';
-        state.value.user.language = 'vi';
-        break;
-    }
+            switch (state.value.user.countryCode) {
+                case 0:
+                    localStorage.setItem('Language', 'ko');
+                    break;
+                case 1:
+                    localStorage.setItem('Language', 'en');
+                    break;
+                case 2:
+                    localStorage.setItem('Language', 'id');
+                    break;
+                case 3:
+                    localStorage.setItem('Language', 'vi');
+                    break;
+            }
+            localStorage.setItem('auth', JSON.stringify(state.value));
+            // await fetchUser(state.value.user.userId);
+        } catch (error) {
+            console.error(error);
+            throw error;
+        }
+    };
 
-    // localStorage에 업데이트된 사용자 정보 저장
-    localStorage.setItem('auth', JSON.stringify(state.value));
-  };
+    // 프로필 변경 시 state 업데이트 및 localStorage 저장
+    const updateProfileState = (updatedData) => {
+        Object.assign(state.value.user, updatedData);
+        console.log('updateProfileState : ', updatedData);
 
-  const logout = () => {
-    localStorage.clear();
-    Object.assign(state.value, initState);
-  };
+        // localStorage에 업데이트된 사용자 정보 저장
+        localStorage.setItem('auth', JSON.stringify(state.value));
+    };
 
-  //const getToken = () => state.value.token;
+    const logout = () => {
+        localStorage.removeItem('auth');
+        state.value = { ...initState };
+        user.value = null;
+    };
 
-  const changeProfile = (member) => {
-    state.value.user.userId = member.email;
-    localStorage.setItem('auth', JSON.stringify(state.value));
-  };
+    const getToken = () => {
+        const auth = JSON.parse(localStorage.getItem('auth'));
+        const token = auth ? auth.token : null;
+        console.log('getToken : ', token);
+        return token;
+    };
 
-  load();
+    const changeProfile = (member) => {
+        state.value.user.userId = member.email;
+        localStorage.setItem('auth', JSON.stringify(state.value));
+    };
 
-  // 토큰을 가져오고, 사용자의 이메일을 업데이트하며, 초기 상태를 불러오는 기능을 수행
-  // getToken(): 현재 상태(state.value)에서 token 값을 반환합니다.
-  // changeProfile(member): 사용자의 이메일을 주어진 member.email로 변경하고, 변경된 상태를 localStorage에 저장합니다.
-  // load(): 페이지가 로드될 때 localStorage에서 저장된 인증 정보를 불러와 state에 설정
+    load();
 
-  //   return { state, username, email, isLogin, changeProfile, login, logout, getToken };
-  return { state, userNo, user, email, isLogin, changeProfile, login, logout, updateProfileState };
+    // 토큰을 가져오고, 사용자의 이메일을 업데이트하며, 초기 상태를 불러오는 기능을 수행
+    // getToken(): 현재 상태(state.value)에서 token 값을 반환합니다.
+    // changeProfile(member): 사용자의 이메일을 주어진 member.email로 변경하고, 변경된 상태를 localStorage에 저장합니다.
+    // load(): 페이지가 로드될 때 localStorage에서 저장된 인증 정보를 불러와 state에 설정
+
+    //   return { state, username, email, isLogin, changeProfile, login, logout, getToken };
+
+    return {
+        state,
+        userId,
+        user,
+        isLogin,
+        changeProfile,
+        login,
+        logout,
+        updateProfileState,
+        fetchUser,
+        getToken,
+    };
 });

@@ -5,6 +5,9 @@ import { ref } from 'vue';
 const props = defineProps({
     isVisible: Boolean,
     filters: Object,
+    periods: Array,
+    types: Array,
+    sorts: Array,
 });
 
 // 이벤트 emit 정의
@@ -16,7 +19,7 @@ const isCustomDateSelected = ref(false);
 // 직접설정 버튼을 클릭하면 기간 선택 필드를 보여주는 함수
 const selectCustomDate = () => {
     isCustomDateSelected.value = true;
-    props.filters.selectedPeriod = '직접설정'; // 직접설정 선택 시 값 설정
+    props.filters.selectedPeriod = "$t('histories--filters-period-custom')"; // 직접설정 선택 시 값 설정
 };
 
 // 기간 선택 시 호출되는 함수
@@ -51,39 +54,74 @@ const applyFilters = () => {
     >
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
-                <h4 class="modal-title" id="filterModalLabel">필터링 옵션</h4>
+                <h4 class="modal-title" id="filterModalLabel">
+                    {{ $t('histories--filter-modal-title') }}
+                </h4>
                 <div class="modal-body">
                     <div class="filter-options">
                         <!-- 조회기간 선택 -->
                         <div class="row mb-3">
-                            <label class="form-label">조회기간</label>
+                            <label class="form-label">{{
+                                $t('histories--filter-modal-title-period')
+                            }}</label>
                             <div class="btn-group">
                                 <button
-                                    class="btn btn-outline-primary"
-                                    @click="selectPeriod('Today')"
+                                    class="btn btn-outline-info"
+                                    :class="{
+                                        active:
+                                            props.filters.selectedPeriod ===
+                                            periods[0],
+                                    }"
+                                    @click="selectPeriod(periods[0])"
                                 >
-                                    오늘
+                                    {{ $t(periods[0]) }}
                                 </button>
                                 <button
-                                    class="btn btn-outline-primary"
-                                    @click="selectPeriod('Last 3 Month')"
+                                    class="btn btn-outline-info"
+                                    :class="{
+                                        active:
+                                            props.filters.selectedPeriod ===
+                                            periods[1],
+                                    }"
+                                    @click="selectPeriod(periods[1])"
                                 >
-                                    3개월
+                                    {{ $t(periods[1]) }}
                                 </button>
                                 <button
-                                    class="btn btn-outline-primary"
-                                    @click="selectPeriod('Last Month')"
+                                    class="btn btn-outline-info"
+                                    :class="{
+                                        active:
+                                            props.filters.selectedPeriod ===
+                                            periods[2],
+                                    }"
+                                    @click="selectPeriod(periods[2])"
                                 >
-                                    1개월
+                                    {{ $t(periods[2]) }}
                                 </button>
                                 <button
-                                    class="btn btn-outline-primary"
+                                    class="btn btn-outline-info"
+                                    :class="{
+                                        active:
+                                            props.filters.selectedPeriod ===
+                                            '직접설정',
+                                    }"
                                     @click="selectCustomDate"
                                 >
-                                    직접설정
+                                    {{ $t(periods[3]) }}
                                 </button>
                             </div>
                         </div>
+                        <!-- <div class="row mb-3">
+                            <label class="form-label">{{$t('histories--filter-modal-title-period')}}</label>
+                            <div class="btn-group">
+                                <button class="btn btn-outline-info" v-for="period in periods" :key="period" @click="selectPeriod(period)">
+                                    {{$t(period)}}
+                                </button>
+                                <button class="btn btn-outline-info" @click="selectCustomDate">
+                                    {{$t('histories--filters-period-custom')}}
+                                </button>
+                            </div>
+                        </div> -->
 
                         <!-- 직접설정 기간 선택 탭 -->
                         <div class="row mb-3" v-if="isCustomDateSelected">
@@ -92,7 +130,7 @@ const applyFilters = () => {
                                     type="date"
                                     v-model="filters.startDate"
                                     class="form-control"
-                                    placeholder="시작 날짜"
+                                    :placeholder="$t('histories--startDate')"
                                 />
                             </div>
                             <div class="col-6">
@@ -100,53 +138,49 @@ const applyFilters = () => {
                                     type="date"
                                     v-model="filters.endDate"
                                     class="form-control"
-                                    placeholder="종료 날짜"
+                                    :placeholder="$t('histories--endDate')"
                                 />
                             </div>
                         </div>
 
                         <!-- 유형 선택 -->
                         <div class="row mb-3">
-                            <label class="form-label">유형선택</label>
+                            <label class="form-label">{{
+                                $t('histories--filter-modal-title-type')
+                            }}</label>
                             <div class="btn-group">
                                 <button
                                     class="btn btn-outline-secondary"
-                                    @click="filters.selectedType = 'All'"
+                                    :class="{
+                                        active:
+                                            props.filters.selectedType === type,
+                                    }"
+                                    v-for="type in types"
+                                    :key="type"
+                                    @click="filters.selectedType = type"
                                 >
-                                    전체
-                                </button>
-                                <button
-                                    class="btn btn-outline-secondary"
-                                    @click="
-                                        filters.selectedType = 'SongEaccount'
-                                    "
-                                >
-                                    송이계좌
-                                </button>
-                                <button
-                                    class="btn btn-outline-secondary"
-                                    @click="filters.selectedType = 'KRaccount'"
-                                >
-                                    원화계좌
+                                    {{ $t(type) }}
                                 </button>
                             </div>
                         </div>
 
                         <!-- 정렬 선택 -->
                         <div class="row mb-3">
-                            <label class="form-label">정렬선택</label>
+                            <label class="form-label">{{
+                                $t('histories--filter-modal-title-sort')
+                            }}</label>
                             <div class="btn-group">
                                 <button
                                     class="btn btn-outline-secondary"
-                                    @click="filters.selectedSort = 'Newest'"
+                                    :class="{
+                                        active:
+                                            props.filters.selectedSort === sort,
+                                    }"
+                                    v-for="sort in sorts"
+                                    :key="sort"
+                                    @click="filters.selectedSort = sort"
                                 >
-                                    최신순
-                                </button>
-                                <button
-                                    class="btn btn-outline-secondary"
-                                    @click="filters.selectedSort = 'Oldest'"
-                                >
-                                    과거순
+                                    {{ $t(sort) }}
                                 </button>
                             </div>
                         </div>
@@ -158,14 +192,14 @@ const applyFilters = () => {
                         type="button"
                         @click="applyFilters"
                     >
-                        확인
+                        {{ $t('common--btn-confirm') }}
                     </button>
                     <button
                         type="button"
                         class="btn btn-secondary"
                         @click="closeModal"
                     >
-                        닫기
+                        {{ $t('common--btn-close') }}
                     </button>
                 </div>
             </div>

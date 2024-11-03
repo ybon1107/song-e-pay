@@ -6,25 +6,25 @@ import org.springframework.web.multipart.MultipartFile;
 public interface SettingService {
     int modifyUser(UserDTO user);
 
-    int addAccount(String accountNo, Integer userNo);
+    int addAccount(String accountNo,String accountPwd, String userId);
 
-    int cancelAccount(Integer userNo);
+    int cancelAccount(String userId);
 
-    int changePassword(String newPw, Integer userNo);
+    int changePassword(String newPw, String userId);
 
-    boolean checkPassword(int useNo, String currentPw);
+    String checkPassword(String userId);
 
-    int modifySecondPassword(String secondPwd, Integer userNo);
+    int modifySecondPassword(String secondPwd, String userId);
 
-    boolean checkSecondPassword(int useNo, String secondPwd);
+    boolean checkSecondPassword(String userId, String secondPwd);
 
     int deleteSonge(String songNo);
 
     int deleteKrw(String krwNo);
 
-    int deleteUser(Integer userNo);
+    int deleteUser(String userId);
 
-    String updateProfileImage(Integer userNo, MultipartFile profileImg);
+    String updateProfileImage(String userId, MultipartFile profileImg);
 
-    String getProfileImage(Integer userNo);
+    String getProfileImage(String userId);
 }

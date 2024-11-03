@@ -9,10 +9,12 @@
           <h4 class="text-center">Our payment system is only available in a mobile environment.</h4>
         </div>
         <div class="d-xl-none">
-          <div class="d-flex justify-content-center">
+          <div class="d-flex flex-column justify-content-center align-items-center gap-5 py-5">
+            <div class="card card-img-bg bg-info" :style="{ backgroundImage: 'url(/images/won-e-money.png)' }">
+            </div>
             <router-link to="/payment/password">
-              <button class="btn btn-sm btn-warning mb-0">
-                결제하기
+              <button class="btn btn-warning mb-0">
+                {{ $t('payment--button-pay') }}
               </button>
             </router-link>
           </div>
@@ -22,12 +24,8 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { useRouter } from 'vue-router';
 
-export default {
-  setup() {
-    const router = useRouter();    // Router 사용
-  }
-};
+const router = useRouter();
 </script>

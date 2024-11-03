@@ -4,6 +4,9 @@ import { useStore } from "vuex";
 import { useRouter } from "vue-router";
 import ArgonCheckbox from "@/components/templates/ArgonCheckbox.vue";
 import ArgonButton from "@/components/templates/ArgonButton.vue";
+import { useI18n } from "vue-i18n";
+
+const { t } = useI18n();
 
 const body = document.getElementsByTagName("body")[0];
 const store = useStore();
@@ -53,11 +56,9 @@ const handleNext = () => {
   }
 };
 
-const terms =
-  "이용 약관 내용이 들어갑니다. 이용 약관 내용이 들어갑니다. 이용 약관 내용이 들어갑니다. 이용 약관 내용이 들어갑니다. 이용 약관 내용이 들어갑니다. 이용 약관 내용이 들어갑니다. 이용 약관 내용이 들어갑니다. 이용 약관 내용이 들어갑니다.";
-
-const privacy =
-  "개인정보 보호정책 내용이 들어갑니다. 개인정보 보호정책 내용이 들어갑니다. 개인정보 보호정책 내용이 들어갑니다. 개인정보 보호정책 내용이 들어갑니다. 개인정보 보호정책 내용이 들어갑니다. 개인정보 보호정책 내용이 들어갑니다. 개인정보 보호정책 내용이 들어갑니다.";
+// 이용 약관과 개인정보 보호정책(다국어 지원)
+const termsOfService = t("signUp--termsOfService");
+const privacyPolicy = t("signUp--privacyPolicy");
 </script>
 <template>
   <!-- 메인 콘텐츠 섹션 -->
@@ -74,46 +75,59 @@ const privacy =
               <div class="card card-plain">
                 <!-- 카드 헤더: 제목 -->
                 <div class="pb-0 card-header text-center">
-                  <h4 class="font-weight-bolder">Our agreements with you</h4>
+                  <h4 class="font-weight-bolder">
+                    {{ $t("signUp--Title-agreements") }}
+                  </h4>
+                </div>
+                <!-- 카드 푸터: 로그인 링크 -->
+                <div class="py-0 text-center card-footer">
+                  <p class="mx-auto text-sm">
+                    {{ $t("signUp--loginPrompt") }}
+                    <router-link
+                      to="/register/legal"
+                      class="text-success text-gradient font-weight-bold"
+                      >{{ $t("common--text-login") }}</router-link
+                    >
+                  </p>
                 </div>
                 <!-- 카드 본문: 이용 약관 동의 폼 -->
                 <div class="card-body">
                   <form role="form">
                     <!-- 전체 동의 체크박스 -->
                     <argon-checkbox v-model="agreeAll" id="agreeAll"
-                      ><strong>Agree with all terms and conditions</strong>
+                      ><strong>{{ $t("signUp--agreeAllTermsLabel") }}</strong>
                     </argon-checkbox>
                     <!-- 이용약관 동의 -->
                     <div class="form-group">
                       <argon-checkbox v-model="agreeTerms" id="agreeTerms"
                         ><strong
-                          ><span class="text-success">[Required]</span> I agree
-                          the Terms of Service</strong
+                          ><span class="text-success"
+                            >[{{ $t("signUp--requireText") }}]</span
+                          >
+                          {{ $t("signUp--agreeTermsOfServiceLabel") }}</strong
                         ></argon-checkbox
                       >
-                      <textarea
-                        readonly
-                        disabled
+                      <div
                         class="form-control bg-white"
-                        rows="3"
-                        v-model="terms"
-                      ></textarea>
+                        style="height: 72px; overflow-y: auto"
+                        v-html="termsOfService"
+                      ></div>
                     </div>
                     <!-- 개인정보 보호정책 동의 -->
                     <div class="form-group">
                       <argon-checkbox v-model="agreePrivacy" id="agreePrivacy"
                         ><strong>
-                          <span class="text-success">[Required]</span> I agree
-                          the Privacy Policy</strong
+                          <span class="text-success"
+                            >[{{ $t("signUp--requireText") }}]</span
+                          >
+                          {{ $t("signUp--agreePrivacyPolicyLabel") }}</strong
                         ></argon-checkbox
                       >
-                      <textarea
-                        readonly
-                        disabled
+                      <div
                         class="form-control bg-white"
-                        rows="3"
-                        v-model="privacy"
-                      ></textarea>
+                        style="height: 72px; overflow-y: auto"
+                        v-html="privacyPolicy"
+                      ></div>
                     </div>
                     <!-- 다음 버튼 -->
                     <div class="text-center">
@@ -124,7 +138,7 @@ const privacy =
                         variant="gradient"
                         class="my-4 mb-2"
                         @click="handleNext"
-                        >Next</argon-button
+                        >{{ $t("common--text-next") }}</argon-button
                       >
                     </div>
                   </form>

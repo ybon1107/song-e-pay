@@ -12,7 +12,7 @@ public interface ExchangeReservationMapper {
     int insertReservation(ExchangeReservationDTO exchangeReservationDTO);
 
     // 알람 내역 화면에 보여주기
-    List<ExchangeReservationDTO> selectReservation(Integer userNo);
+    List<ExchangeReservationDTO> selectReservation(String userId);
 
     // 알람 내역 삭제
     int deleteReservation(Integer resNo);
@@ -24,8 +24,15 @@ public interface ExchangeReservationMapper {
     int insertAutoexchange(ExchangeReservationDTO exchangeReservationDTO);
 
     // 자동 환전 예약 화면에 보여주기
-    List<ExchangeReservationDTO> selectAutoexchange(Integer userNo);
+    List<ExchangeReservationDTO> selectAutoexchange(String userId);
 
     // 자동 환전 예약 카운트
     int countAutoexchange(Map map);
+
+    // 모든 알림 내역 가지고 오기
+    List<ExchangeReservationDTO> selectAllReservation();
+
+    // 모든 환전 내역 가지고 오기
+    List<ExchangeReservationDTO> selectAllAutoExchange();
+
 }

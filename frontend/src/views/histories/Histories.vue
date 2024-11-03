@@ -6,15 +6,57 @@ import HistoriesDetailModal from './HistoriesDetailModal.vue';
 import ArgonPagination from '@/components/templates/ArgonPagination.vue';
 import ArgonPaginationItem from '@/components/templates/ArgonPaginationItem.vue';
 import FilterModal from './FilterModal.vue'; // FilterModal.vue 가져오기
+import { CURRENCY_NAME } from '@/constants/countryCode';
+import {
+    TRANSACTION_TYPES,
+    TRANSACTION_TYPES_KEY,
+    TRANSACTION_STATES_KEY,
+} from '@/constants/transactionType';
+import Swal from 'sweetalert2'; // Swal 임포트 추가
+// 유저 권한
+import { useAuthStore } from '@/stores/auth';
+const auth = useAuthStore();
+const user = computed(() => auth.user);
 
 // 필터 모달 가시성 상태 관리
 const isFilterModalVisible = ref(false);
 const searchQuery = ref('');
 // 실제 필터가 저장될 변수 (확인 버튼 누르면 적용됨)
+
+const songCurrencyUnit = computed(() => CURRENCY_NAME[user.value.countryCode]);
+
+const i18n_PERIOD = [
+    'histories--filters-period-today',
+    'histories--filters-period-oneMonth',
+    'histories--filters-period-threeMonth',
+    'histories--filters-period-custom',
+];
+const i18n_TYPE = [
+    'histories--filters-type-all',
+    'histories--filters-type-wone',
+    'histories--filters-type-songe',
+];
+const i18n_SORT = [
+    'histories--filters-sort-newest',
+    'histories--filters-sort-oldest',
+];
+
+const songTransactionType = [
+    TRANSACTION_TYPES.DEPOSIT,
+    TRANSACTION_TYPES.REFUND,
+    TRANSACTION_TYPES.RE_EXCHANGE,
+];
+const wonTransactionType = [
+    TRANSACTION_TYPES.PAYMENT,
+    TRANSACTION_TYPES.TRANSFER,
+    TRANSACTION_TYPES.EXCHANGE,
+    TRANSACTION_TYPES.AUTO_EXCHANGE,
+];
+
 const filters = ref({
-    selectedPeriod: 'Last 3 Month',
-    selectedType: 'All',
-    selectedSort: 'Newest',
+    selectedPeriod: i18n_PERIOD[2],
+    selectedType: i18n_TYPE[0],
+    selectedSort: i18n_SORT[0],
     startDate: '',
     endDate: '',
     historyContent: '',
@@ -36,7 +78,7 @@ const applyTransactionFilters = async (resetPage = false) => {
 
     // 정렬 조건 변환
     let sortOrder = 'DESC'; // 기본값을 최신순으로 설정 (내림차순)
-    if (filters.value.selectedSort === 'Oldest') {
+    if (filters.value.selectedSort === i18n_SORT[1]) {
         sortOrder = 'ASC'; // 과거순일 경우 오름차순으로 설정
     }
 
@@ -45,15 +87,15 @@ const applyTransactionFilters = async (resetPage = false) => {
     let endDate = moment().format('YYYY-MM-DD'); // 기본적으로 오늘로 설정
 
     // 필터에서 선택한 기간에 따라 시작일과 종료일 설정
-    if (filters.value.selectedPeriod === 'Today') {
+    if (filters.value.selectedPeriod === i18n_PERIOD[0]) {
         startDate = endDate; // 오늘이 시작일과 종료일 모두가 됨
-    } else if (filters.value.selectedPeriod === 'Last Month') {
+    } else if (filters.value.selectedPeriod === i18n_PERIOD[1]) {
         startDate = moment().subtract(1, 'months').startOf('day').toISOString();
         endDate = moment().endOf('day').toISOString(); // 23:59:59로 설정
-    } else if (filters.value.selectedPeriod === 'Last 3 Month') {
+    } else if (filters.value.selectedPeriod === i18n_PERIOD[2]) {
         startDate = moment().subtract(3, 'months').startOf('day').toISOString();
         endDate = moment().endOf('day').toISOString(); // 23:59:59로 설정
-    } else if (filters.value.selectedPeriod === '직접설정') {
+    } else if (filters.value.selectedPeriod === i18n_PERIOD[3]) {
         startDate = filters.value.startDate;
         endDate = filters.value.endDate
             ? moment(filters.value.endDate).endOf('day').toISOString()
@@ -63,15 +105,16 @@ const applyTransactionFilters = async (resetPage = false) => {
     }
     // 선택된 유형에 따라 거래 유형 코드를 설정
     let typeCodesToSend = [];
-    if (filters.value.selectedType === 'KRaccount') {
-        typeCodesToSend = [1, 2, 5, 6]; // 원화 계좌
-    } else if (filters.value.selectedType === 'SongEaccount') {
-        typeCodesToSend = [3, 4, 5, 6]; // 송이 계좌
+    if (filters.value.selectedType === i18n_TYPE[1]) {
+        typeCodesToSend = wonTransactionType; // 원화 계좌
+    } else if (filters.value.selectedType === i18n_TYPE[2]) {
+        typeCodesToSend = songTransactionType; // 송이 계좌
     } else {
         typeCodesToSend = null;
     }
     const filterOptions = {
-        userNo: 1, // 로그인 구현시 바꿔줄것 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        // userNo: 1, // 나중에 바꿀것
+        userId: auth.userId, // 로그인 구현시 바꿔줄것 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         typeCode: typeCodesToSend,
         beginDate: startDate, // 이 부분이 null이 아닌 올바른 날짜로 설정되어야 함
         endDate: endDate, // 이 부분도 마찬가지로 제대로 설정되어야 함
@@ -90,8 +133,10 @@ const applyTransactionFilters = async (resetPage = false) => {
             transactions.value = response.list.map((transaction) => ({
                 ...transaction,
                 historyDate: formatUnixTimestamp(transaction.historyDate),
-                typeCode: convertTransactionType(transaction.typeCode),
-                stateCode: convertTransactionStatus(transaction.stateCode),
+                i18nType: TRANSACTION_TYPES_KEY[transaction.typeCode],
+                i18nState: TRANSACTION_STATES_KEY[transaction.stateCode],
+                // typeCode: convertTransactionType(transaction.typeCode),
+                // stateCode: convertTransactionStatus(transaction.stateCode),
             }));
         }
     } catch (error) {
@@ -106,6 +151,14 @@ const handleFilterApply = async (filters) => {
     isFilterModalVisible.value = false; // 모달 닫기
 
     await applyTransactionFilters(true); // 필터 적용 후 거래 내역 필터링
+
+    // Swal.fire를 사용하여 필터 적용 알림 표시
+    Swal.fire({
+        title: t('histories--filter-applied'),
+        text: t('histories--filter-applied-message'),
+        icon: 'success',
+        confirmButtonText: t('histories--confirm'),
+    });
 };
 
 // 거래 내역 관련 기본 코드
@@ -118,6 +171,7 @@ const pageRequest = ref({
 
 // 페이지 로드 시 거래 내역 가져오기
 onMounted(async () => {
+    await auth.fetchUser(auth.userId);
     await applyTransactionFilters();
 });
 
@@ -129,54 +183,6 @@ const handleMemoUpdate = (updatedMemo) => {
     if (transaction) {
         transaction.memo = updatedMemo.memo;
     }
-};
-
-// const getTransactionList = async () => {
-//     try {
-//         const filterOptions = {
-//             userNo: filters.value.userNo, // userNo 전달
-//             pageRequest: {
-//                 page: pageRequest.value.page,
-//                 amount: pageRequest.value.amount,
-//             },
-//         };
-
-//         const response = await historyApi.getTransactionList(pageRequest.value);
-//         if (response && Array.isArray(response.list)) {
-//             totalItems.value = response.totalCount;
-//             transactions.value = response.list.map((transaction) => ({
-//                 ...transaction,
-//                 historyDate: formatUnixTimestamp(transaction.historyDate),
-//                 typeCode: convertTransactionType(transaction.typeCode),
-//                 stateCode: convertTransactionStatus(transaction.stateCode),
-//             }));
-//         }
-//     } catch (error) {
-//         console.error('Error fetching transaction list:', error);
-//     }
-// };
-
-// 거래 유형 및 상태 코드 변환
-const convertTransactionType = (code) => {
-    const types = {
-        1: '결제',
-        2: '송금',
-        3: '충전',
-        4: '환불',
-        5: '환전',
-        6: '환급',
-    };
-    return types[code] || '알 수 없는 거래 유형';
-};
-
-const convertTransactionStatus = (code) => {
-    const statuses = {
-        1: '성공',
-        2: '실패',
-        3: '취소',
-        4: '처리중',
-    };
-    return statuses[code] || '알 수 없는 상태';
 };
 
 // 페이지네이션 관련 함수
@@ -227,11 +233,33 @@ const openModal = (transaction) => {
 const closeModal = () => {
     isModalVisible.value = false;
 };
+
+const getBadgeClass = (typeCode) => {
+    const baseClasses = 'badge rounded-pill';
+    if ([TRANSACTION_TYPES.DEPOSIT].includes(typeCode)) {
+        return `${baseClasses} bg-primary`;
+    } else if (
+        [TRANSACTION_TYPES.REFUND, TRANSACTION_TYPES.RE_EXCHANGE].includes(
+            typeCode
+        )
+    ) {
+        return `${baseClasses} bg-danger`;
+    } else if (
+        [
+            TRANSACTION_TYPES.PAYMENT,
+            TRANSACTION_TYPES.TRANSFER,
+            TRANSACTION_TYPES.RECEIVE,
+        ].includes(typeCode)
+    ) {
+        return `${baseClasses} bg-success`;
+    }
+    return `${baseClasses} bg-secondary`;
+};
 </script>
 
 <template>
     <div class="container-fluid">
-        <h3>이용 내역</h3>
+        <h3>{{ $t('histories--transactionHistory') }}</h3>
         <!-- 검색 필터와 정렬 드롭다운을 포함한 상단 -->
         <div class="d-flex justify-content-between align-items-center mb-3">
             <div class="input-group" style="width: 60%">
@@ -241,7 +269,7 @@ const closeModal = () => {
                 <input
                     type="text"
                     class="form-control"
-                    placeholder="검색어를 입력하세요"
+                    :placeholder="$t('histories--searchQuery')"
                     v-model="searchQuery"
                     @keyup.enter="applyTransactionFilters(true)"
                 />
@@ -252,27 +280,42 @@ const closeModal = () => {
                 @click="toggleFilterModal"
                 style="padding: 4px 8px; font-size: 0.875rem"
             >
-                {{ filters.selectedPeriod }} · {{ filters.selectedType }} ·{{
-                    filters.selectedSort
-                }}
+                {{ $t(filters.selectedPeriod) }} ·
+                {{ $t(filters.selectedType) }} ·
+                {{ $t(filters.selectedSort) }}
                 <i class="fas fa-chevron-down"></i>
             </button>
         </div>
         <!-- 테이블 부분 -->
-        <div class="card p-5 mt-3">
-            <div class="table-responsive">
-                <table class="table table-bordered align-middle">
+        <div class="card p-5">
+            <div class="table-responsive p-0">
+                <table class="table align-items-center">
                     <thead>
                         <tr>
-                            <th style="width: 10%">날짜/시간</th>
-                            <th style="width: 20%">거래 유형</th>
                             <th
-                                class="text-center d-none d-md-table-cell"
-                                style="width: 50%"
+                                style="width: 40%"
+                                class="text-secondary text-xxs font-weight-bolder opacity-7"
                             >
-                                거래 내역
+                                {{ $t('histories--header-transactionDetail') }}
                             </th>
-                            <th style="width: 20%">거래 금액</th>
+                            <th
+                                style="width: 30%"
+                                class="text-secondary text-xxs font-weight-bolder opacity-7 text-center"
+                            >
+                                {{ $t('histories--header-transactionType') }}
+                            </th>
+                            <th
+                                style="width: 20%"
+                                class="text-secondary text-xxs font-weight-bolder opacity-7"
+                            >
+                                {{ $t('histories--header-transactionAmount') }}
+                            </th>
+                            <th
+                                style="width: 10%"
+                                class="text-secondary text-xxs font-weight-bolder opacity-7"
+                            >
+                                {{ $t('histories--header-dateTime') }}
+                            </th>
                         </tr>
                     </thead>
                     <tbody>
@@ -282,35 +325,60 @@ const closeModal = () => {
                             @click="openModal(transaction)"
                             style="cursor: pointer"
                         >
-                            <td class="text-center">
-                                {{ transaction.historyDate }}
+                            <td>
+                                {{ $t(transaction.historyContent) }}
                             </td>
                             <td class="text-center">
-                                {{ transaction.typeCode }}
+                                <span
+                                    :class="
+                                        getBadgeClass(transaction?.typeCode)
+                                    "
+                                    >{{ $t(transaction.i18nType) }}</span
+                                >
                             </td>
-                            <td class="text-center">
-                                {{ transaction.historyContent }}
-                            </td>
-                            <td class="text-end">
-                                {{ transaction.amount.toLocaleString() }}
+                            <td class="d-flex align-items-center">
                                 <span
                                     v-if="
-                                        ['충전', '환전', '환불'].includes(
-                                            transaction.typeCode
-                                        )
+                                        transaction.typeCode ===
+                                        TRANSACTION_TYPES.DEPOSIT
                                     "
                                 >
-                                    USD
+                                    <i class="ni ni-fat-add text-secondary"></i>
                                 </span>
                                 <span
                                     v-else-if="
-                                        ['환급', '송금'].includes(
+                                        transaction.typeCode ===
+                                        TRANSACTION_TYPES.REFUND
+                                    "
+                                >
+                                    <i
+                                        class="ni ni-fat-delete text-secondary"
+                                    ></i>
+                                </span>
+                                {{ transaction.amount.toLocaleString() }}
+                                <small
+                                    v-if="
+                                        songTransactionType.includes(
                                             transaction.typeCode
                                         )
                                     "
+                                    class="ms-1"
+                                >
+                                    {{ songCurrencyUnit }}
+                                </small>
+                                <small
+                                    v-else-if="
+                                        wonTransactionType.includes(
+                                            transaction.typeCode
+                                        )
+                                    "
+                                    class="ms-1"
                                 >
                                     KRW
-                                </span>
+                                </small>
+                            </td>
+                            <td>
+                                {{ transaction.historyDate }}
                             </td>
                         </tr>
                     </tbody>
@@ -319,7 +387,7 @@ const closeModal = () => {
 
             <!-- 페이지네이션 컨트롤 -->
             <div class="d-flex justify-content-center">
-                <argon-pagination class="mb-0">
+                <argon-pagination class="mb-0" :color="'secondary'">
                     <argon-pagination-item
                         prev
                         @click="goToPage(pageRequest.page - 1)"
@@ -345,6 +413,9 @@ const closeModal = () => {
         <FilterModal
             :isVisible="isFilterModalVisible"
             :filters="filters"
+            :periods="i18n_PERIOD"
+            :types="i18n_TYPE"
+            :sorts="i18n_SORT"
             @closeModal="toggleFilterModal"
             @applyFilters="handleFilterApply"
         />
@@ -353,6 +424,8 @@ const closeModal = () => {
         <HistoriesDetailModal
             :transaction="selectedTransaction"
             :isVisible="isModalVisible"
+            :songTransactionType="songTransactionType"
+            :wonTransactionType="wonTransactionType"
             @updateMemo="handleMemoUpdate"
             @close="closeModal"
         />
@@ -360,14 +433,18 @@ const closeModal = () => {
 </template>
 
 <style scoped>
-thead {
+/* thead {
     background-color: #f4f4f4;
     text-align: center;
-}
+} */
 
 @media (max-width: 767px) {
+    th:nth-child(0),
+    td:nth-child(1),
+    th:nth-child(2),
+    td:nth-child(3),
     th:nth-child(3),
-    td:nth-child(3) {
+    td:nth-child(4) {
         display: none;
     }
 }

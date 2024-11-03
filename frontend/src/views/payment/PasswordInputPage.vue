@@ -1,9 +1,19 @@
 <script setup>
 import { ref, computed } from "vue";
 import { useRouter } from "vue-router";
-import paymentApi from "../../api/paymentApi";
+import settingApi from "../../api/settingApi";
+
 import Swal from "sweetalert2";
-import "sweetalert2/dist/sweetalert2.min.css";
+
+//i18n
+import { useI18n } from 'vue-i18n';
+const { t } = useI18n();
+
+//user
+import { useAuthStore } from '@/stores/auth';
+const auth = useAuthStore();
+// const user = computed(() => auth.user);
+const userId = computed(() => auth.user.userId);
 
 const router = useRouter();
 
@@ -53,21 +63,27 @@ const onSubmit = async () => {
     isLoading.value = true;
 
     try {
+      const formData = {
+        userId: userId.value,
+        secPwd: passwordString
+      };
       // 비밀번호 제출
-      const response = await paymentApi.submitPassword(passwordString);
+      const response = await settingApi.submitSecPwd(formData);
       if (response.data === true) {
+        console.log(response);
         router.push("/payment/qr");
       } else {
         Swal.fire({
-          title: "다시 입력하세요",
-          text: response.data.message || "비밀번호가 틀렸습니다.",
+          title: t("payment--swal-password-wrong-title"),
+          text: t("payment--swal-password-wrong-text"),
           icon: "error",
         });
         resetPassword(); // 비밀번호 초기화 함수 호출
+        // throw new Error();
       }
     } catch (error) {
       // 에러 처리
-      console.error("Error submitting password:", error);
+      console.error("Error submitting password:", error.response.data);
       errorMessage.value = "비밀번호 제출 중 오류가 발생했습니다.";
       resetPassword(); // 오류 발생 시에도 비밀번호 초기화
     } finally {
@@ -86,29 +102,17 @@ const resetPassword = () => {
 
 <template>
   <div class="password-input-page">
-    <h1 class="title">비밀번호 입력</h1>
-    <p class="instruction">6자리 비밀번호를 입력해주세요</p>
+    <h1 class="title">{{ $t('payment--passwordInput--title') }}</h1>
+    <p class="instruction">{{ $t('payment--passwordInput--instruction') }}</p>
 
     <form @submit.prevent="onSubmit" class="text-center">
       <div class="password-input-container">
-        <input
-          v-for="(digit, index) in password"
-          :key="index"
-          :ref="(el) => (inputRefs[index] = el)"
-          v-model="password[index]"
-          type="tel"
-          maxlength="1"
-          @input="onInput(index)"
-          @keydown="onKeyDown($event, index)"
-          class="password-digit"
-        />
+        <input v-for="(digit, index) in password" :key="index" :ref="(el) => (inputRefs[index] = el)"
+          v-model="password[index]" type="tel" maxlength="1" @input="onInput(index)" @keydown="onKeyDown($event, index)"
+          class="password-digit" />
       </div>
-      <button
-        type="submit"
-        :disabled="!isPasswordComplete"
-        class="btn btn-primary"
-      >
-        제출
+      <button type="submit" :disabled="!isPasswordComplete" class="btn btn-primary">
+        {{ $t('common-btn--submit') }}
       </button>
     </form>
   </div>
@@ -120,7 +124,7 @@ const resetPassword = () => {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  min-height: 100vh;
+  min-height: 80vh;
   padding: 20px;
   background-color: #f5f5f5;
 }
